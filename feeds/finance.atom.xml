@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Finance</title><link href="http/" rel="alternate"></link><link href="http/feeds/finance.atom.xml" rel="self"></link><id>http/</id><updated>2019-12-09T16:14:00-08:00</updated><entry><title>Universal limiting mean return of CPPI investment portfolios</title><link href="http/universal-mean-return-formula-of-the-cppi-investment-strategy.html" rel="alternate"></link><published>2019-12-09T16:14:00-08:00</published><updated>2019-12-09T16:14:00-08:00</updated><author><name>jslandy</name></author><id>tag:None,2019-12-09:http/universal-mean-return-formula-of-the-cppi-investment-strategy.html</id><summary type="html">&lt;p&gt;CPPI&lt;span class="math"&gt;\(^{\dagger}\)&lt;/span&gt; is a risk management tactic that can be applied to
+any investment portfolio. The approach entails banking a percentage of
+profits whenever a new all time high wealth is achieved, thereby
+ensuring that a portfolio's drawdown never goes below some maximum
+percentage. Here, I review CPPI and then consider the mean growth rate
+of a CPPI portfolio. I find that in a certain, common limit, this mean
+growth is given by a universal formula,
+(\ref{cppi_asymptotic_growth}) below. This …&lt;/p&gt;</summary><content type="html">&lt;p&gt;CPPI&lt;span class="math"&gt;\(^{\dagger}\)&lt;/span&gt; is a risk management tactic that can be applied to
+any investment portfolio. The approach entails banking a percentage of
+profits whenever a new all time high wealth is achieved, thereby
+ensuring that a portfolio's drawdown never goes below some maximum
+percentage. Here, I review CPPI and then consider the mean growth rate
+of a CPPI portfolio. I find that in a certain, common limit, this mean
+growth is given by a universal formula,
+(\ref{cppi_asymptotic_growth}) below. This universal result does not
+depend in detail on the statistics of the investment in question, but
+instead only on its mean return and standard deviation. I illustrate
+the formula's accuracy with a simulation in python.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\dagger\)&lt;/span&gt; CPPI = "Constant Proportion Portfolio Insurance"  &lt;/p&gt;
+&lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow @efavdb&lt;/a&gt;&lt;br&gt;
+Follow us on twitter for new submission alerts!&lt;/p&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;The drawdown of an investment portfolio at a given date is equal to
+the amount of money lost relative to its maximum held capital up to
+that date. This is illustrated in the figure at right -- a portfolio
+that once held $100 now holds only $90, so the drawdown is currently
+$10. &lt;a href="http://efavdb.com/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="http://efavdb.com/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt;
+CPPI is a method that can be applied to guarantee that the maximum
+fractional drawdown is never more than some predetermined value -- the
+idea is to simply squirrel away an appropriate portion of earnings
+whenever we hit a new maximum account value, and only risk what's left
+over from that point on. For example, to cap the max loss at 50%, one
+should only risk 50% of the initial capital and then continue to bank
+50% of any additional earnings whenever a new all time high is
+reached.&lt;/p&gt;
+&lt;p&gt;According to Wikipedia, the first person to study CPPI was Perold, who derived the statistical properties of a CPPI portfolio's value at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, assuming the underlying stochastic investment follows a Wiener process. I was introduced to the CPPI concept by the book "Algorithmic Trading" by Ernest Chan. This book implicitly poses the question of what the mean return is for general, discrete investment strategies. Here, I show that a universal formula applies in this case, valid at low to modest leverages and small unit investment Sharpe ratios -- this result is given in equation (\ref{cppi_asymptotic_growth}) below.&lt;/p&gt;
+&lt;p&gt;The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my &lt;a href="http://efavdb.com/universal-drawdown-statistics-in-investing/"&gt;prior post&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;CPPI formulation and universal mean growth rate&lt;/h2&gt;
+&lt;p&gt;In this section, I review the CPPI strategy and give the limiting mean return result. Consider a portfolio that at time &lt;span class="math"&gt;\(t\)&lt;/span&gt; has value,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$
+\begin{eqnarray}\tag{1}  
+W_t = S_t + \Gamma_t
+\end{eqnarray}
+$$&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(W\)&lt;/span&gt; is our total wealth, &lt;span class="math"&gt;\(S\)&lt;/span&gt; is the banked (safe) portion, and &lt;span class="math"&gt;\(\\Gamma\)&lt;/span&gt; is the portion we are willing to bet or gamble. The savings is set so that each time we reach a new all time high wealth, &lt;span class="math"&gt;\(S\)&lt;/span&gt; is adjusted to be equal to a fraction &lt;span class="math"&gt;\(\Pi\)&lt;/span&gt; of the net wealth. When this is done, the value of &lt;span class="math"&gt;\(\Gamma\)&lt;/span&gt; must also be adjusted downwards -- some of the investment money is moved to savings. Before adjustment, the result of a bet moves &lt;span class="math"&gt;\(\Gamma\)&lt;/span&gt; to&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{gamble_eom_cppi} \tag{2}
+\tilde{\Gamma}_{t+1} \equiv \left (1 + f (g_{t} - 1)\right) \Gamma_t.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here, the tilde at left indicates this is the value before any reallocation is applied -- in case we have reached a new high, &lt;span class="math"&gt;\(g_t\)&lt;/span&gt; is a stochastic investment outcome variable, and &lt;span class="math"&gt;\(f\)&lt;/span&gt; is our "leverage" -- a constant that encodes how heavily we bet on the game. I will assume all &lt;span class="math"&gt;\(g_i\)&lt;/span&gt; are independent random variables that are identically distributed with distribution &lt;span class="math"&gt;\(p(g)\)&lt;/span&gt;. I will assume that &lt;span class="math"&gt;\(f\)&lt;/span&gt; is a fixed value throughout time, and will write&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}  
+f = \frac{1}{\phi} \frac{ \langle g -1 \rangle }{ \text{var}(g)}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+This re-parameterization helps to make the math work out more nicely below. It is also motivated by the Kelly formula, which specifies the gambling leverage that maximizes wealth at long times (here, setting &lt;span class="math"&gt;\(\phi \to 1\)&lt;/span&gt; gives the Kelly exposure).&lt;/p&gt;
+&lt;p&gt;The equations above define the CPPI scheme. The main result of this post is that in the limit where the leverage is not too high, and the stochastic &lt;span class="math"&gt;\(g\)&lt;/span&gt; has small Sharpe ratio (mean return over standard deviation), the mean log wealth at time &lt;span class="math"&gt;\(t\)&lt;/span&gt; satisfies&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{cppi_asymptotic_growth} \tag{4}  
+\frac{1}{t}\langle \log W_{t} - \log W_{0} \rangle \sim \frac{ \langle g -1 \rangle^2 }{ \text{var}(g)} (1-\Pi) \frac{(2 \phi -1)}{2 \phi ^2}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This result can be used to estimate the mean growth of a portfolio to which CPPI is applied. Before illustrating its accuracy via a simulation below, I highlight a few points about the result:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The fact that (\ref{cppi_asymptotic_growth}) is universal makes it very practical to apply to a real world investment: Rather than having to estimate the full distribution for &lt;span class="math"&gt;\(g\)&lt;/span&gt;, we need only estimate its mean and variance to get an estimate for the portfolio's long-time mean return.&lt;/li&gt;
+&lt;li&gt;The mean return (\ref{cppi_asymptotic_growth}) is equivalent to that found by Perold for Gaussian processes -- as expected, since the result is "universal".&lt;/li&gt;
+&lt;li&gt;The maximum return at fixed &lt;span class="math"&gt;\(\Pi\)&lt;/span&gt; is again obtained at &lt;span class="math"&gt;\(\phi = 1\)&lt;/span&gt;, the Kelly maximum.&lt;/li&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(\phi = 1/2\)&lt;/span&gt;, we are at twice Kelly exposure and the mean return is zero -- this a well known result. At &lt;span class="math"&gt;\(\phi &amp;lt; 1/2\)&lt;/span&gt;, we are above twice Kelly and the return is negative.&lt;/li&gt;
+&lt;li&gt;The mean return is reduced by a factor &lt;span class="math"&gt;\((1-\Pi)\)&lt;/span&gt; -- the fraction of new high wealths we are exposing to loss. It is interesting that the result is not suppressed faster than this as we hold out more wealth, given that we have lower exposure after a loss than we would otherwise.&lt;/li&gt;
+&lt;li&gt;One can ask what &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; gives us the same mean return using CPPI as we would obtain at full exposure using &lt;span class="math"&gt;\(\phi_0\)&lt;/span&gt;. E.g., consider the case of &lt;span class="math"&gt;\(\Pi = 1/2\)&lt;/span&gt;, which corresponds to insuring that half of our wealth is protected from loss. Equating the mean gains of these two gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    \frac{1}{2} \frac{(2 \phi -1)}{2 \phi ^2} = \frac{(2 (2)-1)}{2 (2)^2} = \frac{3}{8}.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    The two roots for &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; are plotted versus &lt;span class="math"&gt;\(\phi_0\)&lt;/span&gt; below. &lt;a href="http/wp-content/uploads/2019/12/solution_half_safe.png"&gt;&lt;img alt="solution_half_safe" src="http/wp-content/uploads/2019/12/solution_half_safe.png"&gt;&lt;/a&gt; Notice that we can't find solutions for all &lt;span class="math"&gt;\(\phi_0\)&lt;/span&gt; -- it's not possible to match the mean return for high leverages at full exposure when we force protection of some of our assets.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;We now turn to a simulation example.&lt;/p&gt;
+&lt;h2&gt;Python CPPI simulation&lt;/h2&gt;
+&lt;p&gt;In the code below, we consider a system where in each step we either "win" or "lose": If we win, the money we risk grows by a factor of &lt;span class="math"&gt;\(f \times 1.02\)&lt;/span&gt;, and if we lose, it goes down by a factor of &lt;span class="math"&gt;\(f \times 1 / 1.02\)&lt;/span&gt;. We take the probability of winning to be &lt;span class="math"&gt;\(0.65\)&lt;/span&gt;. This game has a Sharpe ratio of &lt;span class="math"&gt;\(0.32\)&lt;/span&gt;, small enough that our approximation should work well. The code below carries out a simulated repeated investment game over 100 trials -- we hope that it is clear what is happening at each step.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="c1"&gt;# investment definitions -- a random walk  &lt;/span&gt;
+&lt;span class="n"&gt;LIFT_ON_WIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.02&lt;/span&gt;  
+&lt;span class="n"&gt;LIFT_ON_LOSS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;LIFT_ON_WIN&lt;/span&gt;
+
+&lt;span class="n"&gt;P_WIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.65&lt;/span&gt;  
+&lt;span class="n"&gt;P_LOSS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;P_WIN&lt;/span&gt;
+
+&lt;span class="n"&gt;g_minus_1_bar&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;P_WIN&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LIFT_ON_WIN&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;P_LOSS&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LIFT_ON_LOSS&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;var_g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;P_WIN&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LIFT_ON_WIN&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;P_LOSS&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LIFT_ON_LOSS&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;g_minus_1_bar&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;  
+&lt;span class="n"&gt;full_kelly&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;g_minus_1_bar&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;var_g&lt;/span&gt;
+
+&lt;span class="n"&gt;sharpe&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;g_minus_1_bar&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;var_g&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Sharpe ratio of g unit bet: &lt;/span&gt;&lt;span class="si"&gt;%.4f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;sharpe&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;simulate_once&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="n"&gt;initial_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;  
+    &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;full_kelly&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;phi&lt;/span&gt;
+
+    &lt;span class="n"&gt;current_nav&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;initial_value&lt;/span&gt;  
+    &lt;span class="n"&gt;current_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;current_nav&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+        &lt;span class="c1"&gt;# update current max  &lt;/span&gt;
+        &lt;span class="n"&gt;current_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;current_nav&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;current_max&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# calculate current effective nav  &lt;/span&gt;
+        &lt;span class="n"&gt;current_drawdown&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;current_max&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;current_nav&lt;/span&gt;  
+        &lt;span class="n"&gt;gamma&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;current_max&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;pi&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;current_drawdown&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# play round of investment game  &lt;/span&gt;
+        &lt;span class="n"&gt;dice_roll&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+        &lt;span class="n"&gt;win&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dice_roll&lt;/span&gt; \&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;P_WIN&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+        &lt;span class="n"&gt;loss&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt;  
+        &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;LIFT_ON_WIN&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;win&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;LIFT_ON_LOSS&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;loss&lt;/span&gt;  
+        &lt;span class="n"&gt;nav_change&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gamma&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+        &lt;span class="c1"&gt;# update wealth  &lt;/span&gt;
+        &lt;span class="n"&gt;current_nav&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;nav_change&lt;/span&gt;
+
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;current_nav&lt;/span&gt;
+
+&lt;span class="n"&gt;end_results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+&lt;span class="c1"&gt;# kelly and cppi properties  &lt;/span&gt;
+&lt;span class="n"&gt;PHI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;10.0&lt;/span&gt;  
+&lt;span class="n"&gt;PI&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;75&lt;/span&gt;  
+&lt;span class="n"&gt;STEPS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;  
+&lt;span class="n"&gt;TRIALS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;
+
+&lt;span class="c1"&gt;# simulation loop  &lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;trial&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TRIALS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+&lt;span class="n"&gt;end_nav&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;simulate_once&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;phi&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PHI&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pi&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PI&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;STEPS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;end_results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;end_nav&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;theory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;g_minus_1_bar&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;var_g&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;PI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;PHI&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;PHI&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Experiment: &lt;/span&gt;&lt;span class="si"&gt;%2.5f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;end_results&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;STEPS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Theory: &lt;/span&gt;&lt;span class="si"&gt;%2.5f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;theory&lt;/span&gt;
+
+&lt;span class="c1"&gt;# OUTPUT:  &lt;/span&gt;
+&lt;span class="c1"&gt;# Sharpe ratio of g unit bet: 0.3249  &lt;/span&gt;
+&lt;span class="c1"&gt;# Experiment: 0.00251  &lt;/span&gt;
+&lt;span class="c1"&gt;# Theory: 0.00251  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The last lines above show the output of our print statements. In particular, the last two lines show the mean growth rate observed over the 100 trials and the theoretical value (\ref{cppi_asymptotic_growth}) -- these agree to three decimal places.&lt;/p&gt;
+&lt;p&gt;Using a loop over &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; values, I used the code above to obtain the plot below of mean returns vs &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;. This shows that the limiting result works quite well over most &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; -- though there is some systematic, modest discrepancy at small &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;. This is expected as the quadratic expansion for log wealth used below starts to break down at high exposures. Nevertheless, the fit is qualitatively quite good at all &lt;span class="math"&gt;\(\phi\)&lt;/span&gt;. This suggests that our result (\ref{cppi_asymptotic_growth}) can be used for quick mean return forecasts for most practical, applied cases of CPPI.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2019/12/mean_cppi_growth_rate.png"&gt;&lt;img alt="mean_cppi_growth_rate" src="http/wp-content/uploads/2019/12/mean_cppi_growth_rate.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Appendix: Derivation of mean return&lt;/h2&gt;
+&lt;p&gt;We give a rough sketch here of a proof of (\ref{cppi_asymptotic_growth}). Our aim is to quickly get the universal form in a relatively clean way. Note that these results may be new, or perhaps well known to finance theorists -- I'm not sure.&lt;/p&gt;
+&lt;p&gt;To begin let us define&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+\Gamma^*_t = \max_{t^{\prime} \leq t} \Gamma_t.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+This is the maximum &lt;span class="math"&gt;\(\Gamma\)&lt;/span&gt; seen to date at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;. Necessarily, this is the value of &lt;span class="math"&gt;\(\Gamma\)&lt;/span&gt; as of the most recent all time high preceeding &lt;span class="math"&gt;\(t\)&lt;/span&gt;. If &lt;span class="math"&gt;\(\Gamma_t &amp;lt; \Gamma^*_t\)&lt;/span&gt;, we say that we are in drawdown by value &lt;span class="math"&gt;\(\Gamma^*_t - \Gamma_t\)&lt;/span&gt;. At all times, we have&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+S_t &amp;amp;=&amp;amp; \frac{\Pi}{1 - \Pi} \Gamma^*_t \\  
+&amp;amp;\equiv &amp;amp; \rho \Gamma^*_t.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+This result holds because the saved portion is &lt;span class="math"&gt;\(\Pi\)&lt;/span&gt; times the net wealth when we reach a new high and &lt;span class="math"&gt;\(\Gamma^*\)&lt;/span&gt; is what's left over, &lt;span class="math"&gt;\((1 - \Pi)\)&lt;/span&gt; times the net wealth at that time.&lt;/p&gt;
+&lt;p&gt;From the above definitions, our net wealth after a step is given by&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+W_{t+1} &amp;amp;=&amp;amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{W_{t}} \right ) \\ \nonumber  
+&amp;amp;=&amp;amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{S_t + \Gamma_t} \right ) \\  
+&amp;amp;=&amp;amp; W_{t} \left ( 1 + f(g_t -1) \frac{\frac{\Gamma_t}{\Gamma^*_t}}{\rho+ \frac{\Gamma_t}{\Gamma^*_t}} \right )  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Iterating and taking the logarithm we obtain&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{A1} \label{A1}  
+\log W_{t} &amp;amp;=&amp;amp; \log W_{0} + \sum_{i=0}^{t-1} \log \left ( 1 + f(g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right ) \\  
+&amp;amp;\approx &amp;amp; \log W_{0} + \sum_{i=0}^{t-1} f (g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} - \frac{f^2}{2} \left ((g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}}\right)^2 + \ldots  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The series expansion in the second line can be shown to converge quickly provided we have selected a leverage &lt;span class="math"&gt;\(f\)&lt;/span&gt; that always results in a small percentage change in our net wealth each step. Note that it is the breakdown of this expansion that causes the slight divergence at low &lt;span class="math"&gt;\(\phi\)&lt;/span&gt; in our last plot above.   &lt;/p&gt;
+&lt;p&gt;Our aim is to evaluate the average of the last equation. The first key point needed to do this is to note that at step &lt;span class="math"&gt;\(i\)&lt;/span&gt;, we have &lt;span class="math"&gt;\(g_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(\Gamma_i / \Gamma_i^*\)&lt;/span&gt; independent (the outcome of the unit bet doesn't depend on how much we have to wager at this time). This allows us to factor the averages above into one over &lt;span class="math"&gt;\(g\)&lt;/span&gt; and over the &lt;span class="math"&gt;\(\Gamma_i / \Gamma_i^*\)&lt;/span&gt; distribution. The former is relatively easy to write down if we assume some properties for &lt;span class="math"&gt;\(f\)&lt;/span&gt; and &lt;span class="math"&gt;\(g\)&lt;/span&gt;. To proceed on the latter, we note that&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+\log \frac{\Gamma_i}{\Gamma^*_i} = \log \Gamma_i - \log \Gamma^*_i  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+is the drawdown of a random walk, with steps defined by (\ref{gamble_eom_cppi}). We have argued in our last post that the tail of the distribution of this drawdown distribution is such that&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+p( \log \Gamma_i - \log \Gamma^*_i = -k) \propto \exp(\alpha k).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is given in that post as an implicit function of the statistics of &lt;span class="math"&gt;\(g\)&lt;/span&gt;. This tail form will hold almost everywhere when the Sharpe ratio is small. We will assume this here.  &lt;/p&gt;
+&lt;p&gt;Using the change of variables rule, we get&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+p\left(\frac{\Gamma_i}{\Gamma^*_i} = k\right) \sim \begin{cases}  
+\alpha k^{\alpha - 1} &amp;amp; \text{if } x \in (0, 1) \\  
+0 &amp;amp; \text{else}  
+\end{cases}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Again, this is an approximation that assumes we spend relatively little time within one jump from the current all time high -- a result that will hold in the small Sharpe ratio limit. With this result, we obtain&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{A2} \label{A2}  
+\left \langle \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right \rangle &amp;amp;\equiv &amp;amp; \int_0^1 \frac{x}{\rho + x} \alpha x^{\alpha - 1} dx \\  
+&amp;amp;=&amp;amp;\frac{\alpha \, _2F_1\left(1,\alpha +1;\alpha +2;-\frac{1}{\rho }\right)}{\rho (\alpha +1) }  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here, &lt;span class="math"&gt;\(_2F_1\)&lt;/span&gt; is the hypergeometric function. Similarly,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{A3} \label{A3}  
+\left \langle \left( \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right)^2 \right \rangle &amp;amp;\equiv &amp;amp; \int_0^1 \left( \frac{x}{\rho + x} \right)^2 \alpha x^{\alpha - 1} dx \\  
+&amp;amp;=&amp;amp; \frac{\alpha \left(\frac{\rho }{\rho +1}-\frac{(\alpha +1) \, _2F_1\left(1,\alpha  
++2;\alpha +3;-\frac{1}{\rho }\right)}{\alpha +2}\right)}{\rho ^2}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Note that both of the last two lines go to one as &lt;span class="math"&gt;\(\rho \to 0\)&lt;/span&gt;, the limit where we invest our entire net worth and protect nothing. In this case, the growth equations are just those for a fully invested account. If you plug the last two results into the second line of (\ref{A1}), you get an expression for the mean return.   &lt;/p&gt;
+&lt;p&gt;To get the above results, we assumed a small Sharpe ratio. Therefore, to simplify things, we can use the value of &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; that we derived in our last post that is valid in this limit. This was given by &lt;span class="math"&gt;\(\alpha \sim 2 \mu / \sigma^2\)&lt;/span&gt;, where &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; and mean and standard deviation of the random walk. We now evaluate these to get an expression for &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; in terms of the statistics of &lt;span class="math"&gt;\(g\)&lt;/span&gt;. First, we note that the mean drift of &lt;span class="math"&gt;\(\log \Gamma\)&lt;/span&gt; is given by&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+\mu &amp;amp;\equiv &amp;amp; \langle \log(1 + f (g-1)) \rangle \\ \nonumber  
+&amp;amp;\sim &amp;amp; f \langle g -1 \rangle - \frac{f^2}{2} \langle (g-1)^2 \rangle \\  
+&amp;amp;\sim &amp;amp; f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The last line follows from the assumption that the Sharpe ratio for &lt;span class="math"&gt;\(g -1\)&lt;/span&gt; is small, so that&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+\langle (g-1)^2 \rangle &amp;amp;=&amp;amp; \left ( \langle (g-1)^2 \rangle - \langle (g-1) \rangle^2 \right) + \langle (g-1) \rangle^2 \\  
+&amp;amp;=&amp;amp; \text{var}(g) \left ( 1 + \frac{ \langle (g-1) \rangle^2}{\text{var}(g)} \right ).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Similarly, one can show that&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+\sigma^2 &amp;amp;\equiv&amp;amp; \text{var} \log(1 + f (g-1)) \\  
+&amp;amp;\sim &amp;amp; f^2 \text{var}(g).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+This gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+\alpha &amp;amp;\sim &amp;amp; 2 \frac{\mu}{\sigma^2} \\ \nonumber  
+&amp;amp;\sim &amp;amp; 2 \frac{ f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g)}{ f^2 \text{var}(g)} \\  
+&amp;amp;=&amp;amp; \frac{2}{f} \frac{ \langle g -1 \rangle }{ \text{var}(g)} - 1  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The second term in the first line can be neglected because we require the change in value to be a small fraction of our net wealth. We anticipate applying the algorithm to values of &lt;span class="math"&gt;\(f\)&lt;/span&gt; of order &lt;span class="math"&gt;\(f \sim O( \frac{ \langle g -1 \rangle }{ \text{var}(g)})\)&lt;/span&gt;, so the above is &lt;span class="math"&gt;\(O(1)\)&lt;/span&gt;. If we plug these results into the limiting form for &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; and use (\ref{3}) for &lt;span class="math"&gt;\(f\)&lt;/span&gt;, we get&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A4} \label{A4}  
+\alpha \sim 2 \phi -1.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+We won't show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\ref{A4}) into (\ref{A1}), this gives (\ref{cppi_asymptotic_growth}). To get there, you need to show that a big collapse of terms occurs in the two hypergeometric functions. This collapse can be derived using the series expansion for &lt;span class="math"&gt;\(_2F_1\)&lt;/span&gt; in about one page. The collapse of terms only occurs in the small Sharpe ratio limit, where &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is given as above. We note that for some walks, an exponential form holds everywhere. In this case, the more general expression using &lt;span class="math"&gt;\(_2F_1\)&lt;/span&gt; applies even at high Sharpe ratios -- though we still require &lt;span class="math"&gt;\(f\)&lt;/span&gt; small.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Finance"></category><category term="finance"></category></entry><entry><title>Universal drawdown statistics in investing</title><link href="http/universal-drawdown-statistics-in-investing.html" rel="alternate"></link><published>2019-12-05T15:46:00-08:00</published><updated>2019-12-05T15:46:00-08:00</updated><author><name>jslandy</name></author><id>tag:None,2019-12-05:http/universal-drawdown-statistics-in-investing.html</id><summary type="html">&lt;p&gt;We consider the equilibrium drawdown distribution for a biased random walk -- in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent that is universal in form, depending only on the mean and standard deviation of the step distribution. We give simulation …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We consider the equilibrium drawdown distribution for a biased random walk -- in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent that is universal in form, depending only on the mean and standard deviation of the step distribution. We give simulation examples in python consistent with the results.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow @efavdb&lt;/a&gt;&lt;br&gt;
+Follow us on twitter for new submission alerts!&lt;/p&gt;
+&lt;h2&gt;Introduction and main results&lt;/h2&gt;
+&lt;p&gt;In this post, we consider a topic of high interest to investors and gamblers alike -- the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. &lt;a href="http/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="http/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt; For example, if an investor once held &lt;span class="math"&gt;\(100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of \\)&lt;/span&gt;&lt;span class="math"&gt;\(k\)&lt;/span&gt;, given knowledge of the statistics of his bets.&lt;/p&gt;
+&lt;p&gt;We will take as our model system a biased random walk. The probability that at step &lt;span class="math"&gt;\(t\)&lt;/span&gt; the investment goes from &lt;span class="math"&gt;\(k^{\prime}\)&lt;/span&gt; to &lt;span class="math"&gt;\(k\)&lt;/span&gt; will be taken to be independent of time and given by&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{1} \label{step_distribution}  
+p(k^{\prime} \to k) = \tau(k - k^{\prime}).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+We will assume that this has a positive bias &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;, so that on average the investor makes money. With this assumption, we show below that for &lt;span class="math"&gt;\(\vert k \vert\)&lt;/span&gt; more than a few step sizes, the drawdown distribution has an exponential form,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{exponential}  
+p(k) \propto \exp\left( - \alpha \vert k \vert \right)  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where the decay constant &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; satisfies&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{3} \label{dd_decay_eqn}  
+1 = \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The form (\ref{exponential}) holds for general distributions and (\ref{dd_decay_eqn}) provides the formula for obtaining &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; in this case. However, in the limit where the mean drift &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; in &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; is small relative to its standard deviation, &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;, we show that the solution to (\ref{dd_decay_eqn}) has a universal form, giving&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{4} \label{exponential_universal}  
+p(k) \propto \exp\left( - 2 \frac{\mu}{\sigma^2} \vert k \vert \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Because it is difficult to find very high drift investments, this simple form should hold for most real world investments (under the assumption of a Markov process). It can be used to give one a sense of how much time they can expect to sit at a particular drawdown, given estimates for &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The results (\ref{exponential} - \ref{exponential_universal}) are the main results of this post. These may be new, but could also be well-known to finance theorists -- we are not sure. We illustrate their accuracy in the following section using a numerical example, and provide derivations in an appendix.&lt;/p&gt;
+&lt;h2&gt;Numerical examples in python&lt;/h2&gt;
+&lt;p&gt;Here, we will consider two different kinds of random walk -- one where the steps are always the same size, but there is bias in the forward direction, and the other where the steps are taken from a Gaussian or normal distribution. The code below carries out a simulated investing scenario over one million steps.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
+&lt;span class="sd"&gt;    Return either mu - 1 or mu + 1 with equal probability.  &lt;/span&gt;
+&lt;span class="sd"&gt;    Note unit std.  &lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;mu&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;normal_random_step&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
+&lt;span class="sd"&gt;    Return a random unit normal with unit std.  &lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;randn&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;mu&lt;/span&gt;
+
+&lt;span class="c1"&gt;# CONSTANTS  &lt;/span&gt;
+&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; \&lt;span class="o"&gt;*&lt;/span&gt;\&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;  
+&lt;span class="n"&gt;MU&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;
+
+&lt;span class="c1"&gt;# BINARY WALK  &lt;/span&gt;
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;drawdowns_binary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;  
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="n"&gt;drawdowns_binary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# GAUSSIAN / NORMAL WALK  &lt;/span&gt;
+&lt;span class="n"&gt;STEP_FUNC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;normal_random_step&lt;/span&gt;  
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;drawdowns_normal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;  
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+    &lt;span class="n"&gt;drawdowns_normal&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2019/12/dd_normal.png"&gt;&lt;img alt="dd_normal" src="http/wp-content/uploads/2019/12/dd_normal.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;You can see in the code that we have a loop over steps. At each step,
+we append to a list of observed drawdown values. A plot of the
+histogram of these values for the Normal case at &lt;span class="math"&gt;\(\mu = 0.1\)&lt;/span&gt; is
+shown at right.&lt;/p&gt;
+&lt;p&gt;To check whether our theoretical forms are accurate, it is useful to
+plot the cumulative distribution functions vs the theoretical forms --
+the latter will again be exponential with the same &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; values
+as the probability distribution functions. It turns out that the
+exponent &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; that solves (\ref{dd_decay_eqn}) is always
+given by the universal form for a Gaussian. However, for the binary
+walker, we need to solve for this numerically in general. The
+following code snippet does this.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.optimize&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;fsolve&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Solving numerically for binary case.&lt;/span&gt;
+&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; \&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; \&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cosh&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;alpha_solution&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fsolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;A plot of the function above and the solution when &lt;span class="math"&gt;\(\mu = 0.85\)&lt;/span&gt; is shown below. Note that there is always an unphysical solution at &lt;span class="math"&gt;\(\alpha =0\)&lt;/span&gt; -- this should be ignored.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2019/12/binary_sol.png"&gt;&lt;img alt="binary_sol" src="http/wp-content/uploads/2019/12/binary_sol.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Using the above results, I have plotted the empirical cdfs versus &lt;span class="math"&gt;\(k\)&lt;/span&gt; for both walk distributions. The values are shown below for &lt;span class="math"&gt;\(\mu = 0.1\)&lt;/span&gt; (left) and &lt;span class="math"&gt;\(\mu = 0.85\)&lt;/span&gt; (right). The slopes of the theoretical and numerical results are what should be compared as these give the value of &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;. Note that &lt;span class="math"&gt;\(\mu = 0.1\)&lt;/span&gt; is a small drift relative to the standard deviation (&lt;span class="math"&gt;\(\sigma = 1\)&lt;/span&gt;, here), but &lt;span class="math"&gt;\(\mu = 0.85\)&lt;/span&gt; is not. This is why at left the universal form gives us a good fit to the decay rates for both systems, but at right we need our numerical solution to (\ref{dd_decay_eqn}) to get the binary decay rate.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2019/12/results.png"&gt;&lt;img alt="results" src="http/wp-content/uploads/2019/12/results.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;In conclusion, we have found that the exponential form of drawdown works quite well in these examples, with the theoretical results (\ref{exponential} - \ref{exponential_universal}) providing methods for identifying the exponents. In particular, the plot at left above illustrates the universality of form (\ref{exponential_universal}) -- it holds for all walks, provided we are in the small bias limit.&lt;/p&gt;
+&lt;h2&gt;Appendix: Derivations&lt;/h2&gt;
+&lt;p&gt;To derive the exponential form, we consider an integral equation for the drawdown probability &lt;span class="math"&gt;\(p\)&lt;/span&gt;. At equilibrium, we have&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A1}  
+p(k) = \int_{-\infty}^{0} p(k^{\prime}) T(k^{\prime}, k) dk^{\prime}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where &lt;span class="math"&gt;\(T\)&lt;/span&gt; is the transition function for the drawdown process. In the tail, we can ignore the boundary at zero and this goes to&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A2}  
+p(k) = \int_{-\infty}^{\infty} p(k^{\prime}) \tau(k - k^{\prime}) dk^{\prime},  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where we have taken the upper limit to infinity, assuming that the transition function has a finite length so that this is acceptable. We can solve this by positing an exponential solution of form&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A3}  
+p(k) \equiv A \exp\left(\alpha k \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Plugging this into the above gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+A \exp\left(\alpha k \right) &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} A \exp\left(\alpha k^{\prime} \right) \tau(k - k^{\prime}) dk^{\prime}\ \tag{A4}  
+&amp;amp;=&amp;amp; A \exp\left(\alpha k \right) \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Simplifying this gives (\ref{exponential}).&lt;/p&gt;
+&lt;p&gt;Now, to get the universal form, we make use of the cumulant expansion, writing&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+1 &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \ 
+&amp;amp;\equiv &amp;amp; \exp \left ( - \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots \right) \tag{A5}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Provided the expansion converges quickly, we obtain&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+- \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots = 0 \tag{A6}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+giving&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}
+\alpha \sim 2 \frac{\mu}{\sigma^2}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+With this solution, the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th term in the cumulant expansion goes like
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A8}  
+\frac{2^k}{k!} \left( \frac{\mu}{\sigma^2} \right)^k O(\overline{x^k}) \sim \frac{2^k}{k!} \left( \frac{\mu}{\sigma} \right)^k  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+assuming the the jumps are constrained over some length scale proportional to &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;. We see that provided the drift to standard deviation is small, the series converges quickly and our approximation is universally good. Unless you're cursed with an unusually large drift ratio for a given move, this form should work well.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Finance"></category><category term="finance"></category></entry></feed>

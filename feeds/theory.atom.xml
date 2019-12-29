@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Theory</title><link href="http/" rel="alternate"></link><link href="http/feeds/theory.atom.xml" rel="self"></link><id>http/</id><updated>2019-07-18T23:35:00-07:00</updated><entry><title>Backpropagation in neural networks</title><link href="http/backpropagation-in-neural-networks.html" rel="alternate"></link><published>2019-07-18T23:35:00-07:00</published><updated>2019-07-18T23:35:00-07:00</updated><author><name>cyeh</name></author><id>tag:None,2019-07-18:http/backpropagation-in-neural-networks.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix multiplication.&lt;/p&gt;
+&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn't derive the …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix multiplication.&lt;/p&gt;
+&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn't derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same notation.&lt;/p&gt;
+&lt;h2&gt;Introduction: neural networks&lt;/h2&gt;
+&lt;h3&gt;A single neuron acting on a single training example&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="single neuron" src="http://efavdb.com/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;  &lt;/p&gt;
+&lt;p&gt;The basic building block of a neural network is the composition of a nonlinear function (like a &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;sigmoid&lt;/a&gt;, &lt;a href="http://mathworld.wolfram.com/HyperbolicTangent.html"&gt;tanh&lt;/a&gt;, or &lt;a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)"&gt;ReLU&lt;/a&gt;) \&lt;span class="math"&gt;\(g(z)\\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
+a\^{[l]} = g(z\^{[l]})  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, \&lt;span class="math"&gt;\(a\\)&lt;/span&gt;.&lt;br&gt;
+\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
+z\^{[l]} = w\^{[l]T} a\^{[l-1]} + b\^{[l]}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;These building blocks, i.e. "nodes" or "neurons" of the neural network, are arranged in layers, with the layer denoted by superscript square brackets, e.g. \&lt;span class="math"&gt;\([l]\\)&lt;/span&gt; for the \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;th layer. \&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt; denotes the number of neurons in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Forward propagation&lt;/h3&gt;
+&lt;p&gt;Forward propagation is the computation of the multiple linear and nonlinear transformations of the neural network on the input data. We can rewrite the above equations in vectorized form to handle multiple training examples and neurons per layer as&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\tag{1} \\label{1}  
+A\^{[l]} = g(Z\^{[l]})  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, \&lt;span class="math"&gt;\(A\\)&lt;/span&gt;.&lt;br&gt;
+\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\tag{2} \\label{2}  
+Z\^{[l]} = W\^{[l]} A\^{[l-1]} + b\^{[l]}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The outputs or activations, \&lt;span class="math"&gt;\(A\^{[l-1]}\\)&lt;/span&gt;, of the previous layer serve as inputs for the linear functions, \&lt;span class="math"&gt;\(z\^{[l]}\\)&lt;/span&gt;. If \&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt; denotes the number of neurons in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;, and \&lt;span class="math"&gt;\(m\\)&lt;/span&gt; denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices are:&lt;/p&gt;
+&lt;p&gt;Variable       Dimensions&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;\&lt;span class="math"&gt;\(A\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(m\\)&lt;/span&gt;)
+  \&lt;span class="math"&gt;\(Z\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(m\\)&lt;/span&gt;)
+  \&lt;span class="math"&gt;\(W\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(n\_{l-1}\\)&lt;/span&gt;)
+  \&lt;span class="math"&gt;\(b\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, 1)&lt;/p&gt;
+&lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer 1.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="neural network" src="http://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;  &lt;/p&gt;
+&lt;p&gt;The matrix \&lt;span class="math"&gt;\(W\^{[1]}\\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, \&lt;span class="math"&gt;\(\\vec{x} = (x\_1, x\_2)\\)&lt;/span&gt;). Each row of \&lt;span class="math"&gt;\(W\^{[1]}\\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer 1.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="weights matrix" src="http://efavdb.com/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;  &lt;/p&gt;
+&lt;p&gt;The final output of the neural network is a prediction in the last layer \&lt;span class="math"&gt;\(L\\)&lt;/span&gt;, and the closeness of the prediction \&lt;span class="math"&gt;\(A\^{[L](i)}\\)&lt;/span&gt; to the true label \&lt;span class="math"&gt;\(y\^{(i)}\\)&lt;/span&gt; for training example \&lt;span class="math"&gt;\(i\\)&lt;/span&gt; is quantified by a loss function \&lt;span class="math"&gt;\(\\mathcal{L}(y\^{(i)}, A\^{[L](i)})\\)&lt;/span&gt;, where superscript \&lt;span class="math"&gt;\((i)\\)&lt;/span&gt; denotes the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th training example. For classification, the typical choice for \&lt;span class="math"&gt;\(\\mathcal{L}\\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Cross_entropy"&gt;cross-entropy loss&lt;/a&gt; (log loss).&lt;/p&gt;
+&lt;p&gt;The cost \&lt;span class="math"&gt;\(J\\)&lt;/span&gt; is the average loss over all \&lt;span class="math"&gt;\(m\\)&lt;/span&gt; training examples in the dataset.&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\tag{3} \\label{3}  
+J = \\frac{1}{m} \\sum\_{i=1}\^m \\mathcal{L}(y\^{(i)}, A\^{[L](i)})  
+\\end{eqnarray}&lt;/div&gt;
+&lt;h3&gt;Minimizing the cost with gradient descent&lt;/h3&gt;
+&lt;p&gt;The task of training a neural network is to find the set of parameters \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; (with different \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; for different nodes in the network) that will give us the best predictions, i.e. minimize the cost (\ref{3}).&lt;/p&gt;
+&lt;p&gt;Gradient descent is the workhorse that we employ for this optimization problem. We randomly initialize the parameters \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; for each node, then iteratively update the parameters by moving them in the direction that is opposite to the gradient of the cost.&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
+W\_\\text{new} &amp;amp;=&amp;amp; W\_\\text{previous} - \\alpha \\frac{\\partial J}{\\partial W} \\\\  
+b\_\\text{new} &amp;amp;=&amp;amp; b\_\\text{previous} - \\alpha \\frac{\\partial J}{\\partial b}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+\&lt;span class="math"&gt;\(\\alpha\\)&lt;/span&gt; is the learning rate, a hyperparameter that needs to be tuned during the training process. The gradient of the cost is calculated by the backpropagation algorithm.&lt;/p&gt;
+&lt;h2&gt;Backpropagation equations&lt;/h2&gt;
+&lt;p&gt;These are the vectorized backpropagation (BP) equations which we wish to derive:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
+dW\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial W\^{[l]}} = \\frac{1}{m} dZ\^{[l]}A\^{[l-1]T} \\tag{BP1} \\label{BP1} \\\\  
+db\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial b\^{[l]}} = \\frac{1}{m} \\sum\_{i=1}\^m dZ\^{[l](i)} \\tag{BP2} \\label{BP2} \\\\  
+dA\^{[l-1]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l-1]}} = W\^{[l]T}dZ\^{[l]} \\tag{BP3} \\label{BP3} \\\\  
+dZ\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}} = dA\^{[l]} \* g'(Z\^{[l]}) \\tag{BP4} \\label{BP4}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The \&lt;span class="math"&gt;\(\*\\)&lt;/span&gt; in the last line denotes element-wise multiplication.&lt;/p&gt;
+&lt;p&gt;\&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; are the parameters we want to learn (update), but the BP equations include two additional expressions for the partial derivative of the loss in terms of linear and nonlinear activations per training example since they are intermediate terms that appear in the calculation of \&lt;span class="math"&gt;\(dW\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(db\\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Chain rule&lt;/h3&gt;
+&lt;p&gt;We'll need the chain rule for &lt;a href="https://en.wikipedia.org/wiki/Total_derivative"&gt;total derivatives&lt;/a&gt;, which describes how the change in a function \&lt;span class="math"&gt;\(f\\)&lt;/span&gt; with respect to a variable \&lt;span class="math"&gt;\(x\\)&lt;/span&gt; can be calculated as a sum over the contributions from intermediate functions \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; that depend on \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
+\\frac{\\partial f(u\_1, u\_2, ..., u\_k)}{\\partial x} = \\sum\_{i}\^k \\frac{\\partial f}{\\partial u\_i} \\frac{\\partial u\_i}{\\partial x}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where the \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; are functions of \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;. This expression reduces to the single variable chain rule when only one \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; is a function of \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The gradients for every node can be calculated in a single backward pass through the network, starting with the last layer and working backwards, towards the input layer. As we work backwards, we cache the values of \&lt;span class="math"&gt;\(dZ\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(dA\\)&lt;/span&gt; from previous calculations, which are then used to compute the derivative for variables that are further upstream in the computation graph. The dependency of the derivatives of upstream variables on downstream variables, i.e. cached derivatives, is manifested in the \&lt;span class="math"&gt;\(\\frac{\\partial f}{\\partial u\_i}\\)&lt;/span&gt; term in the chain rule. (Backpropagation is a dynamic programming algorithm!)&lt;/p&gt;
+&lt;h3&gt;The chain rule applied to backpropagation&lt;/h3&gt;
+&lt;p&gt;In this section, we apply the chain rule to derive the vectorized form of equations BP(1-4). Without loss of generality, we'll index an element of the matrix or vector on the left hand side of BP(1-4); the notation for applying the chain rule is therefore straightforward because the derivatives are just with respect to scalars.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;BP1&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the cost with respect to the \&lt;span class="math"&gt;\(s\\)&lt;/span&gt;th component (corresponding to the \&lt;span class="math"&gt;\(s\\)&lt;/span&gt;th input) of \&lt;span class="math"&gt;\(\\vec{w}\\)&lt;/span&gt; in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+dW\^{[l]}\_{rs} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial W\^{[l]}\_{rs}} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial W\^{[l]}\_{rs}} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial z\^{[l]}\_{ri}} \\frac{\\partial z\^{[l]}\_{ri}}{\\partial W\^{[l]}\_{rs}} \\tag{4} \\label{4}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The last line is due to the chain rule.&lt;/p&gt;
+&lt;p&gt;The first term in (\ref{4}) is \&lt;span class="math"&gt;\(dZ\^{[l]}\_{ri}\\)&lt;/span&gt; by definition (\ref{BP4}). We can simplify the second term of (\ref{4}) using the definition of the linear function (\ref{2}), which we rewrite below explicitly for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th training example in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in the \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;th layer in order to be able to more easily keep track of indices when we take derivatives of the linear function:&lt;br&gt;
+\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \\tag{5} \\label{5}  
+Z\^{[l]}\_{ri} = \\sum\_j\^{n\_{l-1}} W\^{[l]}\_{rj} A\^{[l-1]}\_{ji} + b\^{[l]}\_r  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where \&lt;span class="math"&gt;\(n\_{l-1}\\)&lt;/span&gt; denotes the number of nodes in layer \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Therefore,&lt;br&gt;
+\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+dW\^{[l]}\_{rs} &amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri} A\^{[l-1]}\_{si} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri} A\^{[l-1]T}\_{is} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\left( dZ\^{[l]} A\^{[l-1]T} \\right)\_{rs}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;BP2&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the cost with respect to \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+db\^{[l]}\_r &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial b\^{[l]}\_r} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial b\^{[l]}\_r} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial z\^{[l]}\_{ri}} \\frac{\\partial z\^{[l]}\_{ri}}{\\partial b\^{[l]}\_r} \\tag{6} \\label{6} \\\\  
+&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+(\ref{6}) is due to the chain rule. The first term in (\ref{6}) is \&lt;span class="math"&gt;\(dZ\^{[l]}\_{ri}\\)&lt;/span&gt; by definition (\ref{BP4}). The second term of (\ref{6}) simplifies to \&lt;span class="math"&gt;\(\\partial z\^{[l]}\_{ri} / \\partial b\^{[l]}\_r = 1\\)&lt;/span&gt; from (\ref{5}).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;BP3&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the loss for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th example with respect to the nonlinear activation in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt; is:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+dA\^{[l-1]}\_{ri} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l-1]}\_{ri}} \\\\  
+&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}\_{ki}} \\frac{\\partial Z\^{[l]}\_{ki}}{\\partial A\^{[l-1]}\_{ri}} \\tag{7} \\label{7} \\\\  
+&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} dZ\^{[l]}\_{ki} W\^{[l]}\_{kr} \\tag{8} \\label{8} \\\\  
+&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} W\^{[l]T}\_{rk} dZ\^{[l]}\_{ki} \\\\  
+&amp;amp;=&amp;amp; \\left( W\^{[l]T} dZ\^{[l]} \\right)\_{ri}  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The application of the chain rule (\ref{7}) includes a sum over the nodes in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; whose linear functions take \&lt;span class="math"&gt;\(A\^{[l-1]}\_{ri}\\)&lt;/span&gt; as an input, assuming the nodes between layers \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; are fully-connected. The first term in (\ref{8}) is by definition \&lt;span class="math"&gt;\(dZ\\)&lt;/span&gt; (\ref{BP4}); from (\ref{5}), the second term in (\ref{8}) evaluates to \&lt;span class="math"&gt;\(\\partial Z\^{[l]}\_{ki} / \\partial A\^{[l-1]}\_{ri} = W\^{[l]}\_{kr}\\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;BP4&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the loss for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th example with respect to the linear activation in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
+&lt;p&gt;\&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+dZ\^{[l]}\_{ri} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}\_{ri}} \\\\  
+&amp;amp;=&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l]}\_{ri}} \\frac{\\partial A\^{[l]}\_{ri}}{\\partial Z\^{[l]}\_{ri}} \\\\  
+&amp;amp;=&amp;amp; dA\^{[l]}\_{ri} \* g'(Z\^{[l]}\_{ri})  
+\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The second line is by the application of the chain rule (single variable since only a single nonlinear activation depends on directly on \&lt;span class="math"&gt;\(Z\^{[l]}\_{ri}\\)&lt;/span&gt;). \&lt;span class="math"&gt;\(g'(Z)\\)&lt;/span&gt; is the derivative of the nonlinear activation function with respect to its input, which depends on the nonlinear activation function that is assigned to that particular node, e.g. sigmoid vs. tanh vs. ReLU.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Backpropagation efficiently executes gradient descent for updating the parameters of a neural network by ordering and caching the calculations of the gradient of the cost with respect to the parameters in the nodes. This post is a little heavy on notation since the focus is on deriving the vectorized formulas for backpropagation, but we hope it complements the lectures in Week 3 of Andrew Ng's &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt; course as well as the excellent, but even more notation-heavy, resources on matrix calculus for backpropagation that are linked below.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;More resources on vectorized backpropagation&lt;/strong&gt;&lt;br&gt;
+&lt;a href="https://explained.ai/matrix-calculus/index.html"&gt;The matrix calculus you need for deep learning&lt;/a&gt; - from explained.ai&lt;br&gt;
+&lt;a href="http://neuralnetworksanddeeplearning.com/chap2.html"&gt;How the backpropagation algorithm works&lt;/a&gt; - Chapter 2 of the Neural Networks and Deep Learning free online text&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Theory"></category><category term="neural networks"></category><category term="deep learning"></category></entry></feed>

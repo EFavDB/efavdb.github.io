@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>linselect</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="http/pages/linselect.html" rel="canonical" />
+
+  <!-- Feed -->
+        <link href="http/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB Full Atom Feed" />
+
+  <link href="http/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="http/theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:type" content="blog"/>
+<meta property="og:title" content="EFAVDB"/>
+<meta property="og:description" content="View the blog."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="http/"/>
+<meta property="og:image" content="http/theme/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@efavdb">
+  <meta name="twitter:title" content="EFAVDB">
+  <meta name="twitter:description" content="View the blog.">
+  <meta name="twitter:url" content="http/">
+  <meta name="twitter:image:src" content="http/theme/images/home-bg.jpg">
+
+<script type="application/ld+json">
+{
+  "@context" : "http://schema.org",
+  "@type" : "Website",
+  "name": " EFAVDB ",
+  "url" : "http/",
+  "image": "http/theme/images/home-bg.jpg",
+  "description": "View the blog."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="http/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">linselect</h1>
+            <div class="post-cover cover" style="background-image: url('http/images/home_cover_santa_barbara.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+  <!-- Post content -->
+  <main class="content" role="main">
+      <article class="post">
+      <div class="inner">
+          <section class="post-content">
+              <p><em>A fast, flexible, and performant feature selection package for python.</em></p>
+<p>Welcome! This page contains an FAQ and links to a running list of tutorials for <code>linselect</code> -- a python feature selection package built on top of the <em>efficient stepwise linear regression algorithm</em>.</p>
+<h2>Tutorials</h2>
+<ul>
+<li><a href="http:/efavdb.com/linselect-demo/">linselect demo: a tech sector stock analysis</a><br>
+    In this post, we demonstrate <code>linselect</code>'s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the others.</li>
+</ul>
+<h2>FAQ</h2>
+<ul>
+<li><strong>Where can I download the package?</strong><br>
+<em>Answer</em>: Instructions can be found on our GitHub, <a href="https:/github.com/efavdb/linselect">here</a>. The <code>README.md</code> file contains some helpful background, and the <code>docs</code> folder contains doc-strings and some basic API examples.</li>
+<li><strong>What is a target, a feature, a predictor set?</strong><br>
+<em>Answer</em>: These are terms I use to refer to variables in a data set. For example, if we're trying to fit a variable <span class="math">\(y\)</span> using some components of a vector of variables <span class="math">\(\textbf{x}\)</span>, I'd refer to <span class="math">\(y\)</span> as the target and the components of <span class="math">\(\textbf{x}\)</span> as the features. If a feature is actually used in the model, I say it is in the "predictor set".</li>
+<li><strong>Why do we sometimes call a feature a column?</strong><br>
+<em>Answer</em>: The feature data we pass into <code>linselect</code> must take the form of an <span class="math">\(m \times n\)</span> array. The columns of this array correspond to the different features and the rows to different samples from their distribution.</li>
+<li><strong>What is feature selection?</strong><br>
+<em>Answer</em>: Roughly speaking, the typical goal of feature selection is to identify a minimal set of features in a given data set that retain all or most of the predictive power of the full data set. Removing the other features can help us be more memory efficient, and it can also improve model performance and training times. Identifying which features are most important in a given problem can also provide useful insight.</li>
+<li><strong>What is stepwise selection?</strong><br>
+<em>Answer</em>: This is one approach to feature selection wherein one tracks the performance of a model as features are added or removed from its predictor set. Typically, in a forward step one adds to the model that feature not currently used that best improves the model. In a reverse step, you do the opposite: Remove that feature from the predictor set that results in the least drop in performance. This process pushes us towards a feature set exhibiting maximal predictive power and minimal redundancy. You can take this approach using any kind of model, but linear models are special because the process can be made to run very fast.</li>
+<li>
+<p><strong>What if my problem is not linear?</strong><br>
+<em>Answer</em>: It depends. In my work, I often find that the linear selection methods used here are sufficient: I can use <code>linselect</code> to pick a good feature set, and then plug this into a production, non-linear model, e.g., a random forest -- with the end result being a more lean feature set that is as predictive as the original.</p>
+<p>However, there are certainly non-linear problems out there where a linear tool cannot be used to identify the most important features. In such cases, I'd try: (1) Building non-linear features ahead of time (e.g., polynomial features), then using <code>linselect</code> on these, or (2) using a non-linear method. The downside with non-linear methods is that they are usually much slower. The trick that allows linear fits to go so fast is really a fundamental miracle that we should all appreciate and take advantage of, IMHO.</p>
+</li>
+<li>
+<p><strong>Any gotchas?</strong><br>
+<em>Answer</em>: The algorithm requires <em>numerical</em> data! If there are any nans, strings, Boolean's etc., it will cause the fits to fail -- often after taking some time to attempt to evaluate the data correlation matrix. Pre-clean your data!</p>
+</li>
+</ul>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+          </section>
+      </div>
+      </article>
+  </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
+          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="http/theme/js/script.js"></script>
+
+</body>
+</html>
