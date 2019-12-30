@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Principal component analysis</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./principal-component-analysis.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="We review the two essentials of principal component analysis ("PCA"): 1) The principal components of a set of data points are the...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Principal component analysis"/>
+<meta property="og:description" content="We review the two essentials of principal component analysis ("PCA"): 1) The principal components of a set of data points are the..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./principal-component-analysis.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-12-05 22:22:00-08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Methods, Theory"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Principal component analysis">
+    <meta name="twitter:url" content="./principal-component-analysis.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="We review the two essentials of principal component analysis ("PCA"): 1) The principal components of a set of data points are the...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Principal component analysis",
+  "headline": "Principal component analysis",
+  "datePublished": "2015-12-05 22:22:00-08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./principal-component-analysis.html",
+  "description": "We review the two essentials of principal component analysis ("PCA"): 1) The principal components of a set of data points are the..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Principal component analysis</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sat 05 December 2015">Sat 05 December 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>We review the two essentials of principal component analysis ("PCA"): 1) The principal components of a set of data points are the eigenvectors of the correlation matrix of these points in feature space. 2) Projecting the data onto the subspace spanned by the first <span class="math">\(k\)</span> of these -- listed in descending eigenvalue order -- provides the best possible <span class="math">\(k\)</span>-dimensional approximation to the data, in the sense of captured variance.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction</h3>
+<p>One way to introduce principal component analysis is to consider the problem of least-squares fits: Consider, for example, the figure shown below. To fit a line to this data, one might attempt to minimize the squared <span class="math">\(y\)</span> residuals (actual minus fit <span class="math">\(y\)</span> values). However, if the <span class="math">\(x\)</span> and <span class="math">\(y\)</span> values are considered to be on an equal footing, this <span class="math">\(y\)</span>-centric approach is not quite appropriate. A natural alternative is to attempt instead to find the line that minimizes the <em>total squared projection error</em>: If <span class="math">\((x_i, y_i)\)</span> is a data point, and <span class="math">\((\hat{x}_i, \hat{y}_i)\)</span> is the point closest to it on the regression line (aka, its "projection" onto the line), we attempt to minimize<br>
+</p>
+<div class="math">$$\tag{1} \label{score}  
+J = \sum_i (x_i - \hat{x}_i)^2 + (y_i - \hat{y}_i)^2.  
+$$</div>
+<p><a href="./wp-content/uploads/2015/12/projection.png"><img alt="margin around decision boundary" src="./wp-content/uploads/2015/12/projection.png"></a></p>
+<p>The summands here are illustrated in the figure: The dotted lines shown are the projection errors for each data point relative to the red line. The minimizer of (\ref{score}) is the line that minimizes the sum of the squares of these values.</p>
+<p>Generalizing the above problem, one could ask which <span class="math">\(k\)</span>-dimensional hyperplane passes closest to a set of data points in <span class="math">\(N\)</span>-dimensions. Being able to identify the solution to this problem can be very helpful when <span class="math">\(N \gg 1\)</span>. The reason is that in high-dimensional, applied problems, many features are often highly-correlated. When this occurs, projection of the data onto a <span class="math">\(k\)</span>-dimensional subspace can often result in a great reduction in memory usage (one moves from needing to store <span class="math">\(N\)</span> values for each data point to <span class="math">\(k\)</span>) with minimal loss of information (if the points are all near the plane, replacing them by their projections causes little distortion). Projection onto subspaces can also be very helpful for visualization: For example, plots of <span class="math">\(N\)</span>-dimensional data projected onto a best two-dimensional subspace can allow one to get a feel for a dataset's shape.</p>
+<p>At first glance, the task of actually minimizing (\ref{score}) may appear daunting. However, it turns out this can be done easily using linear algebra. One need only carry out the following three steps:</p>
+<ul>
+<li>Preprocessing: If appropriate, shift features and normalize so that they all have mean <span class="math">\(\mu = 0\)</span> and variance <span class="math">\(\sigma^2 = 1\)</span>. The latter, scaling step is needed to account for differences in units, which may cause variations along one component to look artificially large or small relative to those along other components (eg, one raw component might be a measure in centimeters, and another in kilometers).</li>
+<li>Compute the covariance matrix. Assuming there are <span class="math">\(m\)</span> data points, the <span class="math">\(i\)</span>, <span class="math">\(j\)</span> component of this matrix is given by:<br>
+<div class="math">$$\tag{2} \label{2} \Sigma_{ij}^2 = \frac{1}{m}\sum_{l=1}^m \langle (f_{l,i} - \mu_i) (f_{l,j} - \mu_j) \rangle = \langle x_i \vert \left (\frac{1}{m} \sum_{l=1}^m \vert \delta f_l \rangle \langle \delta f_l \vert \right) \vert x_j \rangle.$$</div>
+<br>
+    Note that, at right, we are using bracket notation for vectors. We make further use of this below -- see footnote [1] at bottom for review. We've also written <span class="math">\(\vert \delta f_l \rangle\)</span> for the vector <span class="math">\(\vert f_l \rangle - \sum_{i = 1}^n \mu_i \vert x_i \rangle\)</span> -- the vector <span class="math">\(\vert f_l \rangle\)</span> with the dataset's centroid subtracted out.</li>
+<li>Project all feature vectors onto the <span class="math">\(k\)</span> eigenvectors <span class="math">\(\{\vert v_j \rangle\)</span>, <span class="math">\(j = 1 ,2 \ldots, k\}\)</span> of <span class="math">\(\Sigma^2\)</span> that have the largest eigenvalues <span class="math">\(\lambda_j\)</span>, writing<br>
+<div class="math">$$\tag{3} \label{3}  
+    \vert \delta f_i \rangle \approx \sum_{j = 1}^k \langle v_j \vert \delta f_i \rangle \times \vert v_j\rangle.  
+    $$</div>
+<br>
+    The term <span class="math">\(\langle v_j \vert \delta f_i \rangle\)</span> above is the coefficient of the vector <span class="math">\(\vert \delta f_i \rangle\)</span> along the <span class="math">\(j\)</span>-th principal component. If we set <span class="math">\(k = N\)</span> above, (\ref{3}) becomes an identity. However, when <span class="math">\(k &lt; N\)</span>, the expression represents an approximation only, with the vector <span class="math">\(\vert \delta f_i \rangle\)</span> approximated by its projection into the subspace spanned by the largest <span class="math">\(k\)</span> principal components.</li>
+</ul>
+<p>The steps above are all that are needed to carry out a PCA analysis/compression of any dataset. We show in the next section why this solution will indeed provide the <span class="math">\(k\)</span>-dimensional hyperplane resulting in minimal dataset projection error.</p>
+<h3>Mathematics of PCA</h3>
+<p>To understand PCA, we proceed in three steps.</p>
+<ol>
+<li>Significance of a partial trace: Let <span class="math">\(\{\textbf{u}_j \}\)</span> be some arbitrary orthonormal basis set that spans our full <span class="math">\(N\)</span>-dimensional space, and consider the sum<br>
+<div class="math">\begin{eqnarray}\tag{4} \label{4}  
+    \sum_{j = 1}^k \Sigma^2_{jj} = \frac{1}{m} \sum_{i,j} \langle u_j \vert \delta f_i \rangle \langle \delta f_i \vert u_j \rangle = \frac{1}{m} \sum_{i,j} \langle \delta f_i \vert u_j \rangle \langle u_j \vert \delta f_i \rangle \equiv \frac{1}{m} \sum_{i} \langle \delta f_i \vert P \vert \delta f_i \rangle.  
+    \end{eqnarray}</div>
+<br>
+    To obtain the first equality here, we have used <span class="math">\(\Sigma^2 = \frac{1}{m} \sum_{i} \vert \delta f_i \rangle \langle \delta f_i \vert\)</span>, which follows from (\ref{2}). To obtain the last, we have written <span class="math">\(P\)</span> for the projection operator onto the space spanned by the first <span class="math">\(k\)</span> <span class="math">\(\{\textbf{u}_j \}\)</span>. Note that this last equality implies that the partial trace is equal to the average squared length of the projected feature vectors -- that is, the variance of the projected data set.</li>
+<li>Notice that the projection error is simply given by the total trace of <span class="math">\(\Sigma^2\)</span>, minus the partial trace above. Thus, minimization of the projection error is equivalent to maximization of the projected variance, (\ref{4}).</li>
+<li>We now consider which basis maximizes (\ref{4}). To do that, we decompose the <span class="math">\(\{\textbf{u}_i \}\)</span> in terms of the eigenvectors <span class="math">\(\{\textbf{v}_j\}\)</span> of <span class="math">\(\Sigma^2\)</span>, writing<br>
+<div class="math">\begin{eqnarray} \tag{5} \label{5}  
+    \vert u_i \rangle = \sum_j \vert v_j \rangle \langle v_j \vert u_i \rangle \equiv \sum_j u_{ij} \vert v_j \rangle.  
+    \end{eqnarray}</div>
+<br>
+    Here, we've inserted the identity in the <span class="math">\(\{v_j\}\)</span> basis, and written <span class="math">\( \langle v_j \vert u_i \rangle \equiv u_{ij}\)</span>. With these definitions, the partial trace becomes<br>
+<div class="math">\begin{eqnarray}\tag{6} \label{6}  
+    \sum_{i=1}^k \langle u_i \vert \Sigma^2 \vert u_i \rangle = \sum_{i,j,l} u_{ij}u_{il} \langle v_j \vert \Sigma^2 \vert v_l \rangle = \sum_{i=1}^k\sum_{j} u_{ij}^2 \lambda_j.  
+    \end{eqnarray}</div>
+<br>
+    The last equality here follows from the fact that the <span class="math">\(\{\textbf{v}_i\}\)</span> are the eigenvectors of <span class="math">\(\Sigma^2\)</span> -- we have also used the fact that they are orthonormal, which follows from the fact that <span class="math">\(\Sigma^2\)</span> is a real, symmetric matrix. The sum (\ref{6}) is proportional to a weighted average of the eigenvalues of <span class="math">\(\Sigma^2\)</span>. We have a total mass of <span class="math">\(k\)</span> to spread out amongst the <span class="math">\(N\)</span> eigenvalues. The maximum mass that can sit on any one eigenvalue is one. This follows since <span class="math">\(\sum_{i = 1}^k u_{ij}^2 \leq \sum_{i = 1}^N u_{ij}^2 =1\)</span>, the latter equality following from the fact that <span class="math">\( \sum_{i = 1}^N u_{ij}^2\)</span> is an expression for the squared length of <span class="math">\(\vert v_j\rangle\)</span> in the <span class="math">\(\{u_i\}\)</span> basis. Under these constraints, the maximum possible average one can get in (\ref{6}) occurs when all the mass sits on the largest <span class="math">\(k\)</span> eigenvalues, with each of these eigenvalues weighted with mass one. This condition occurs if and only if the first <span class="math">\(k\)</span> <span class="math">\(\{\textbf{u}_i\}\)</span> span the same space as that spanned by the first <span class="math">\(k\)</span> <span class="math">\(\{\textbf{v}_j\}\)</span> -- those with the <span class="math">\(k\)</span> largest eigenvalues.</li>
+</ol>
+<p>That's it for the mathematics of PCA.</p>
+<h3>Footnotes</h3>
+<p>[1] <em>Review of bracket notation</em>: <span class="math">\(\vert x \rangle\)</span> represents a regular vector, <span class="math">\(\langle x \vert\)</span> is its transpose, and <span class="math">\(\langle y \vert x \rangle\)</span> represents the dot product of <span class="math">\(x\)</span> and <span class="math">\(y\)</span>. So, for example, when the term in parentheses at the right side of (\ref{2}) acts on the vector <span class="math">\(\vert x_j \rangle\)</span> to its right, you get <span class="math">\( \frac{1}{m} \sum_{k=1}^m \vert \delta f_k \rangle \left (\langle \delta f_k \vert x_j \rangle\right).\)</span> Here, <span class="math">\( \left (\langle \delta f_k \vert x_j \rangle\right)\)</span> is a dot product, a scalar, and <span class="math">\(\vert \delta f_k \rangle\)</span> is a vector. The result is thus a weighted sum of vectors. In other words, the bracketed term (\ref{2}) acts on a vector and returns a linear combination of other vectors. That means it is a matrix, as is any other object of form <span class="math">\(\sum_i \vert a_i \rangle \langle b_i \vert\)</span>. A special, important example is the identity matrix: Given any complete, orthonormal set of vectors <span class="math">\(\{x_j\}\)</span>, the identity matrix <span class="math">\(I\)</span> can be written as <span class="math">\(I = \sum_i \vert x_i \rangle \langle x_i \vert\)</span>. This identity is often used to make a change of basis.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Principal component analysis&amp;url=./principal-component-analysis.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./principal-component-analysis.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./principal-component-analysis.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./maximum-likelihood-asymptotics.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Maximum-likelihood asymptotics</h2>
+                            <p class="post-nav-excerpt">In this post, we review two facts about maximum-likelihood estimators: 1) They are...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./nba-2015-16.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">NBA 2015-16!!!</h2>
+                            <p class="post-nav-excerpt">NBA is back this Tuesday! The dashboard and weekly predictions are now live*, once...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

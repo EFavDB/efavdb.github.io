@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Start deep learning with Jupyter notebooks in the cloud</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./deep-learning-with-jupyter-on-aws.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) --...">
+
+    <meta name="author" content="cyeh">
+
+    <meta name="tags" content="AWS">
+    <meta name="tags" content="bash">
+    <meta name="tags" content="cloud-computing">
+    <meta name="tags" content="deep learning">
+    <meta name="tags" content="Jupyter">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Start deep learning with Jupyter notebooks in the cloud"/>
+<meta property="og:description" content="Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) --..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./deep-learning-with-jupyter-on-aws.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-03-10 20:41:00-08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/cyeh.html">
+<meta property="article:section" content="Tools"/>
+<meta property="article:tag" content="AWS"/>
+<meta property="article:tag" content="bash"/>
+<meta property="article:tag" content="cloud-computing"/>
+<meta property="article:tag" content="deep learning"/>
+<meta property="article:tag" content="Jupyter"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Start deep learning with Jupyter notebooks in the cloud">
+    <meta name="twitter:url" content="./deep-learning-with-jupyter-on-aws.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) --...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Start deep learning with Jupyter notebooks in the cloud",
+  "headline": "Start deep learning with Jupyter notebooks in the cloud",
+  "datePublished": "2016-03-10 20:41:00-08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cyeh",
+    "url": "./author/cyeh.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./deep-learning-with-jupyter-on-aws.html",
+  "description": "Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) --..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Start deep learning with Jupyter notebooks in the cloud</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/cyeh.html">Cyeh</a>
+            | <time datetime="Thu 10 March 2016">Thu 10 March 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) -- specifically, AWS Elastic Compute Cloud (EC2) -- no data scientist need be left behind.</p>
+<p>Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows how to set up a public Jupyter notebook server in EC2 and then access it remotely through your web browser, just as you would if you were using a notebook launched from your own laptop.  </p>
+<p>For a beginner, having to both set up deep learning libraries and navigate the AWS menagerie feels like getting thrown into the deep end when you just want to stick a toe in. You can skip the hassle of setting up deep learning frameworks from scratch by choosing an Amazon Machine Image (AMI) that comes pre-installed with the libraries and their dependencies. (Concerned about costs? -- see the note<a href="#note1">*</a> at the bottom of this post.)</p>
+<p>For example, the Stanford class, <a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networksfor Visual Recognition</a>, has provided a public AMI with these specs:</p>
+<ul>
+<li>cs231n_caffe_torch7_keras_lasagne_v2</li>
+<li>AMI ID: ami-125b2c72 in the us-west-1 region</li>
+<li>Use a g2.2xlarge instance.</li>
+<li>Caffe, Torch7, Theano, Keras and Lasagne are pre-installed. Python bindings of caffe are available. It has CUDA 7.5 and CuDNN v3.</li>
+</ul>
+<p>If you're new to AWS, CS231n provides a nice step-by-step <a href="http://cs231n.github.io/aws-tutorial/">AWS tutorial</a> with lots of screenshots. We're just going to tweak their procedure to enable access to Jupyter/IPython notebooks.</p>
+<p>After you're done, you'll be able to work through tutorials in notebook format like those provided by caffe in their examples folder, e.g. <a href="http://nbviewer.jupyter.org/github/BVLC/caffe/blob/master/examples/00-classification.ipynb">00-classification.ipynb</a>.</p>
+<p>We've written a little bash script <code>jupyter_userdata.sh</code> to execute Jupyter's <a href="http://jupyter-notebook.readthedocs.org/en/latest/public_server.html">instructions</a> for setting up a public notebook server, so you don't have to manually configure the notebook server every time you want to spin up a new AMI instance.</p>
+<p>For the script to work, Jupyter itself should already be installed -- which it is in the CS231n AMI.</p>
+<p>You just have to edit the password in the script. To generate a hashed password, use IPython:  </p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">notebook.auth</span> <span class="kn">import</span> <span class="n">passwd</span>  
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">passwd</span><span class="p">()</span>  
+<span class="n">Enter</span> <span class="n">password</span><span class="p">:</span>  
+<span class="n">Verify</span> <span class="n">password</span><span class="p">:</span>  
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>  
+</pre></div>
+
+
+<p>Replace the right hand side of line 24 in the script with the hashed password you just generated.</p>
+<hr>
+<p>Then, follow these steps to launch an EC2 instance.</p>
+<p><strong>1.</strong> First, follow the CS231n <a href="http://cs231n.github.io/aws-tutorial/">AWS tutorial</a> up until the step <em>"Choose the instance type <code>g2.2xlarge</code>, and click on "Review and Launch"</em>.</p>
+<p>Don't click on "Review and Launch" yet!</p>
+<p><strong>2.</strong> Here's where we add a couple extra steps to the tutorial.<a href="#note2">**</a></p>
+<p>We're going to supply the shell script as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">user-data</a>, a way to pass in scripts to automate configurations to your AMI. Instead of clicking on "Review and Launch", click on the gray button in the lower right "Next: Configure Instance Details".</p>
+<p>In the next page, click on the arrowhead next to "Advanced Details" to expand its options. Click on the radio button next to "As text", then copy and paste the text from <code>jupyter_userdata.sh</code> (modified with your password) into the field.</p>
+<p>Warning: if you click on "As file" instead and browse to wherever you saved <code>jupyter_userdata.sh</code>, the file must first be <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">base64-encoded</a>.</p>
+<p><a href="./wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="Step3_Configure-Instance-Details" src="http://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details-1024x426.png"></a></p>
+<p><strong>3.</strong> Next, (skipping steps 4. and 5.) click on the link to "6. Configure Security Group" near the top of the page. By default, SSH is enabled, but we need to enable access to the notebook server, whose port we've set as 8888 in the bash script.</p>
+<p>Click on the grey button "Add Rule", then for the new rule, choose Type: Custom TCP Rule; Protocol: TCP; Port Range: 8888; Source: Anywhere.</p>
+<p><a href="./wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="Step6_Configure-Security-Group" src="http://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group-1024x434.png"></a></p>
+<p><strong>4.</strong> Now, pick up where you left off in the CS231n tutorial ("<em>... click on "Review and Launch</em>".), which takes you to "Step 7. Review Instance Launch". Complete the tutorial.</p>
+<hr>
+<p>Check that the Jupyter notebook server was set up correctly:</p>
+<ol>
+<li>ssh into your instance (see CS231n instructions).</li>
+<li>Navigate to <code>~/caffe/examples</code>.</li>
+<li>Start the notebook server using the <code>jupyter notebook</code> command.</li>
+<li>
+<p>In your web browser, access the notebook server with https://PUBLIC_IP:8888, where PUBLIC_IP is the public IP of your instance, displayed from the instance description on your AWS dashboard. Your browser will warn that your self-signed certificate is insecure or unrecognized.</p>
+<p><a href="./wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="scary-browser-warning" src="http://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning-1024x556.png"></a></p>
+<p>That's ok -- click past the warnings, and you should get a sign-in page. Type in your password.</p>
+</li>
+<li>
+<p>Next, you should see the files and directories in <code>/home/ubuntu/caffe/examples</code></p>
+</li>
+<li>Open one of the example notebooks, e.g. <code>00-classification.ipynb</code>, and try running some cells to make sure everything is working.</li>
+</ol>
+<p>Voila! We hope this guide removes some obstacles to getting started. Happy learning!</p>
+<hr>
+<ul>
+<li>The cost of running a GPU instance is high compared to many other instance types, but still very reasonable if you're just tinkering for a few hours on a pre-trained model, not training a whole neural network from scratch.</li>
+</ul>
+<p>Check out the <a href="https://aws.amazon.com/ec2/pricing/">pricing</a> for an EC2 instance in the section "On-Demand Instance Prices" and selecting the region of your AMI. At the time of writing, the cost of an on-demand <code>g2.2xlarge</code> instance in the US West (Northern California) region was $0.7/hour, whereas the price of a <a href="https://aws.amazon.com/ec2/spot/pricing/">spot</a> instance (a cheaper alternative which will automatically terminate when the spot pricing exceeds your bid) was $0.3/hour.</p>
+<p><strong> If you followed the CS231n tutorial exactly and forgot to supply user data, you can still use this script. First modify the security configuration of your instance according to step </strong>3**. Then use the <code>scp</code> command to copy the script from your local computer to your instance, <code>ssh</code> into your instance, then execute the script: <code>source jupyter_userdata.sh</code>. If you need help with using <code>scp</code>, see "To use SCP to transfer a file" in this <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html">guide</a>.</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Start deep learning with Jupyter notebooks in the cloud&amp;url=./deep-learning-with-jupyter-on-aws.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./deep-learning-with-jupyter-on-aws.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./deep-learning-with-jupyter-on-aws.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="./tag/aws.html">AWS</a><a href="./tag/bash.html">bash</a><a href="./tag/cloud-computing.html">cloud-computing</a><a href="./tag/deep-learning.html">deep learning</a><a href="./tag/jupyter.html">Jupyter</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./caffe-virtualbox.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Try Caffe pre-installed on a VirtualBox image</h2>
+                            <p class="post-nav-excerpt">A previous post showed beginners how to try out deep learning libraries by using an...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./dotfiles.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Dotfiles for peace of mind</h2>
+                            <p class="post-nav-excerpt">Reinstalling software and configuring settings on a new computer is a pain. After my...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

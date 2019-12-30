@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Independent component analysis</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./independent-component-analysis.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Independent component analysis"/>
+<meta property="og:description" content="Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./independent-component-analysis.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-02-14 00:00:00-08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Methods, Theory"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Independent component analysis">
+    <meta name="twitter:url" content="./independent-component-analysis.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Independent component analysis",
+  "headline": "Independent component analysis",
+  "datePublished": "2016-02-14 00:00:00-08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./independent-component-analysis.html",
+  "description": "Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Independent component analysis</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sun 14 February 2016">Sun 14 February 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one "remix" them in some prescribed way to isolate the individual conversations? Yes! In this post, we review one simple approach to solving this type of problem, Independent Component Analysis (ICA). We share an ipython document implementing ICA and link to a youtube video illustrating its application to audio de-mixing.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction</h3>
+<p>To formalize the problem posed in the abstract, let two desired conversation signals be represented by <span class="math">\(c_1(t)\)</span> and <span class="math">\(c_2(t)\)</span>, and two mixed microphone recordings of these by <span class="math">\(m_1(t)\)</span> and <span class="math">\(m_2(t)\)</span>. We'll assume that the latter are both linear combinations of the former, with<br>
+</p>
+<div class="math">\begin{align}\label{mean}  
+m_1(t) &amp;= a_1 c_1(t) + a_2 c_2(t) \  
+m_2(t) &amp;= a_3 c_1(t) + a_4 c_2(t). \label{1} \tag{1}  
+\end{align}</div>
+<p><br>
+Here, we stress that the <span class="math">\(a_i\)</span> coefficients in (\ref{1}) are hidden from us: We only have access to the <span class="math">\(m_i\)</span>. Hypothetical illustrations are given in the figure below. Given only these mixed signals, we'd like to recover the underlying <span class="math">\(c_i\)</span> used to construct them (spoiler: a sine wave and a saw-tooth function were used for this figure).</p>
+<p><a href="./wp-content/uploads/2016/02/mixed2.jpg"><img alt="mixed" src="./wp-content/uploads/2016/02/mixed2.jpg"></a></p>
+<p>Amazingly, it turns out that with the introduction of a modest assumption, a simple solution to our problem can be obtained: We need only assume that the desired <span class="math">\(c_i\)</span> are mutually independent<span class="math">\(^1\)</span>. This assumption is helpful because it turns out that when two independent signals are added together, the resulting mixture is always "more Gaussian" than either of the individual, independent signals (a la the central limit theorem). Seeking linear combinations of the available <span class="math">\(m_i\)</span> that locally extremize their non-Gaussian character therefore provides a way to identify the pure, unmixed signals. This approach to solving the problem is called "Independent Component Analysis", or ICA.</p>
+<p>Here, we demonstrate the principle of ICA through consideration of the audio de-mixing problem. This is a really impressive application. However, one should strive to remember that the algorithm is not a one-trick-pony. ICA is an unsupervised machine learning algorithm of general applicability -- similar in nature, and complementary to, the more familiar <a href="http://efavdb.com/principal-component-analysis/">PCA</a> algorithm. Whereas in PCA we seek the feature-space directions that maximize captured variance, in ICA we seek those directions that maximize the "interestingness" of the distribution -- i.e., the non-Gaussian character of the resulting projections. It can be fruitfully applied in many contexts<span class="math">\(^2\)</span>.</p>
+<p>We turn now to the problem of audio de-mixing via ICA.</p>
+<h3>Audio de-mixing</h3>
+<p>In this post, we use the kurtosis of a signal to quantify its degree of "non-Gaussianess". For a given signal <span class="math">\(x(t)\)</span>, this is defined as<br>
+</p>
+<div class="math">$$  
+\kappa(x) \equiv \left \langle \left (x- \langle x \rangle \right)^4 \right \rangle - 3 \left \langle \left (x- \langle x \rangle \right)^2 \right \rangle^2, \label{2} \tag{2}  
+$$</div>
+<p><br>
+where brackets represent an average over time (or index). It turns out that the kurtosis is always zero for a Gaussian-distributed signal, so (\ref{2}) is a natural choice of score function for measuring deviation away from Gaussian behavior<span class="math">\(^3\)</span>. Essentially, it's a measure of how flat a distribution is -- with numbers greater (smaller) than 0 corresponding to distributions that are more (less) flat than a Gaussian.</p>
+<p>With (\ref{2}) chosen as our score function, we can now jump right into applying ICA. The code snippet below considers all possible mixtures of two mixed signals <span class="math">\(m_1\)</span> and <span class="math">\(m_2\)</span>, obtains the resulting signal kurtosis values, and plots the result.</p>
+<div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">kurtosis_of_mixture</span><span class="p">(</span><span class="n">c1</span><span class="p">):</span>  
+<span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>  
+<span class="n">s</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">m2</span>  
+<span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  
+<span class="n">k</span> <span class="o">=</span> <span class="n">mean</span><span class="p">([</span><span class="n">item</span> <span class="o">**</span> <span class="mi">4</span> <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">s</span><span class="p">])</span> <span class="o">-</span> <span class="mi">3</span>  
+<span class="k">return</span> <span class="n">k</span>
+
+<span class="n">c_array</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">.</span><span class="mi">001</span><span class="p">)</span>  
+<span class="n">k_array</span> <span class="o">=</span> <span class="p">[</span><span class="n">kurtosis_of_mixture</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="k">in</span> <span class="n">c_array</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c_array</span><span class="p">,</span> <span class="n">k_array</span><span class="p">)</span>  
+</pre></div>
+
+
+<p><a href="./wp-content/uploads/2016/02/k3.jpg"><img alt="k" src="./wp-content/uploads/2016/02/k3.jpg"></a></p>
+<p>In line <span class="math">\((3)\)</span> of the code here, we define the "remixed" signal <span class="math">\(s\)</span>, which is a linear combination of the two mixed signals <span class="math">\(m_1\)</span> and <span class="math">\(m_2\)</span>. Note that in line <span class="math">\((4)\)</span>, we normalize the signal so that it always has variance <span class="math">\(1\)</span> -- this simply eliminates an arbitrary scale factor from the analysis. Similarly in line <span class="math">\((2)\)</span>, we specify <span class="math">\(c_2\)</span> as a function of <span class="math">\(c_1\)</span>, requiring the sum of their squared values to equal one -- this fixes another arbitrary scale factor.</p>
+<p>When we applied the code above to the two signals shown in the introduction, we obtained the top plot at right. This shows the kurtosis of <span class="math">\(s\)</span> as a function of <span class="math">\(c_1\)</span>, the weight applied to signal <span class="math">\(m_1\)</span>. Notice that there are two internal extrema in this plot: a peak near <span class="math">\(-0.9\)</span> and a local minimum near <span class="math">\(-0.7\)</span>. These are the two <span class="math">\(c_1\)</span> weight choices that ICA suggests may relate to the pure, underlying signals we seek. To plot each of these signals, we used code similar to the following (the code shown is just for the maximum)</p>
+<div class="highlight"><pre><span></span><span class="n">index1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_array</span><span class="p">.</span><span class="k">index</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">k_array</span><span class="p">))</span><span class="w">  </span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c_array</span><span class="o">[</span><span class="n">index1</span><span class="o">]</span><span class="w">  </span>
+<span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w">  </span>
+<span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="o">[</span><span class="n">int16(item) for item in c1 * x1 + c2 * x2</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w">  </span>
+</pre></div>
+
+
+<p>This code finds the index where the kurtosis was maximized, generates the corresponding remix, and plots the result. Applying this, the bottom figure at right popped out. It worked! -- and with just a few lines of code, which makes it seem all the more amazing. In summary, we looked for linear combinations of the <span class="math">\(m_i\)</span> shown in the introduction that resulted in a stationary kurtosis -- plotting these combinations, we found that these were precisely the pure signals we sought<span class="math">\(^4\)</span>.</p>
+<p>A second application to actual audio clips is demoed in our youtube video linked below. The full ipython file utilized in the video can be downloaded on our github page, <a href="https://github.com/EFavDB/ICA">here</a><span class="math">\(^5\)</span>.</p>
+<h3>Conclusion</h3>
+<p>We hope this little post has you convinced that ICA is a powerful, yet straightforward algorithm<span class="math">\(^6\)</span>. Although we've only discussed one application here, many others can be found online: Analysis of financial data, an idea to use ICA to isolate a desired wifi signal from a crowded frequency band, and the analysis of brain waves -- see discussion in the article mentioned in reference 2 -- etc. In general, the potential application set of ICA may be as large as that for PCA. Next time you need to do some unsupervised learning or data compression, definitely keep it in mind.</p>
+<h3>Footnotes and references</h3>
+<p>[1] Formally, saying that two signals are independent means that the evolution of one conveys no information about that of the other.</p>
+<p>[2] For those interested in further reading on the theory and applications of ICA, we can recommend the review article by Hyvärinen and Oja -- "Independent Component Analysis: Algorithms and Applications" -- available for free online.</p>
+<p>[3] Other metrics can also be used in the application of ICA. The kurtosis is easy to evaluate and is also well-motivated because of the fact that it is zero for any Gaussian. However, there are non-Gaussian distributions that also have zero kurtosis. Further, as seen in our linked youtube video, peaks in the kurtosis plot need not always correspond to the pure signals. A much more rigorous approach is to use the mutual information of the signals as your score. This function is zero if and only if you've found a projection that results in a fully independent set of signals. Thus, it will always work. The problem with this choice is that it is much harder to evaluate -- thus, simpler scores are often used in practice, even though they aren't necessarily rigorously correct. The article mentioned in footnote 2 gives a good review of some other popular score function choices.</p>
+<p>[4] In general, symmetry arguments imply that the pure signals will correspond to local extrema in the kurtosis landscape. This works because the kurtosis of <span class="math">\(x_1 + a x_2\)</span> is the same as that of <span class="math">\(x_1 - a x_2\)</span>, when <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span> are independent. To complete the argument, you need to consider coefficient expansions in the mixed space. The fact that the pure signals can sometimes sit at kurtosis local minima doesn't really jive with the intuitive argument about mixtures being more Gaussian -- but that was a vague statement anyways. A rigorous, alternative introduction could be made via mutual information, as mentioned in the previous footnote.</p>
+<p>[5] To run the script, you'll need ipython installed, as well as the python packages: scipy, numpy, matplotlib, and pyaudio -- see instructions for the latter <a href="https://people.csail.mit.edu/hubert/pyaudio/">here</a>. The pip install command for pyaudio didn't work for me on my mac, but the following line did:<br>
+<code>pip install --global-option='build_ext' --global-option='-I/usr/local/include' --global-option='-L/usr/local/lib' pyaudio</code></p>
+<p>[6] Of course, things get a bit more complicated when you have a large number of signals. However, fast, simple algorithms have been found to carry this out even in high dimensions. See the reference in footnote 2 for discussion.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Independent component analysis&amp;url=./independent-component-analysis.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./independent-component-analysis.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./independent-component-analysis.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./dotfiles.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Dotfiles for peace of mind</h2>
+                            <p class="post-nav-excerpt">Reinstalling software and configuring settings on a new computer is a pain. After my...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./maximum-likelihood-asymptotics.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Maximum-likelihood asymptotics</h2>
+                            <p class="post-nav-excerpt">In this post, we review two facts about maximum-likelihood estimators: 1) They are...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

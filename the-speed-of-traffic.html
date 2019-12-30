@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>The speed of traffic</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./the-speed-of-traffic.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="The speed of traffic"/>
+<meta property="og:description" content="We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./the-speed-of-traffic.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2019-06-14 09:21:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Case studies, Theory, Traffic project"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="The speed of traffic">
+    <meta name="twitter:url" content="./the-speed-of-traffic.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "The speed of traffic",
+  "headline": "The speed of traffic",
+  "datePublished": "2019-06-14 09:21:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./the-speed-of-traffic.html",
+  "description": "We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">The speed of traffic</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Fri 14 June 2019">Fri 14 June 2019</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply calculate the maximum speed that traffic could go without supporting a growing traffic jam.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Jam dissipation argument</h3>
+<p>To estimate the speed of traffic as a function of density, we'll calculate an upper bound and argue that actual traffic speeds must be described by an equation similar to that obtained. To derive our upper bound, we'll consider what happens when a small traffic jam forms. If the speed of cars is such that the rate of exit from the jam is larger than the rate at which new cars enter the jam, then the jam will dissipate. On the other hand, if this doesn't hold, the jam will grow, causing the speed to drop until a speed is obtained that allows the jam to dissipate. This sets the bound. Although we consider a jam to make the argument simple, what we really have in mind is any other sort of modest slow-down that may occur.</p>
+<p>To begin, we introduce some definitions. (1) Let <span class="math">\(\lambda\)</span> be the density of cars in units of <span class="math">\([cars / mile]\)</span>. (2) Next we consider the rate of exit from a jam: Note that when traffic is stopped, a car cannot move until the car in front of it does. Because a human is driving the car, there is a slight delay between the time that one car moves and the car behind it moves. Let <span class="math">\(T\)</span> be this delay time in <span class="math">\([hours]\)</span>. (3) Let <span class="math">\(v\)</span> be the speed of traffic outside the jam in units of <span class="math">\([miles / hour]\)</span>.</p>
+<p>With the above definitions, we now consider the rate at which cars exit a jam. This is the number of cars that can exit the jam per hour, which is simply<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{1}  
+r_{out} = \frac{1}{T}.  
+\end{eqnarray}</div>
+<p><br>
+Next, the rate at which cars enter the jam is given by<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{2} \label{2}  
+r_{in} = \lambda v.  
+\end{eqnarray}</div>
+<p><br>
+Requiring that <span class="math">\(r_{out} &gt; r_{in}\)</span> we get<br>
+</p>
+<div class="math">\begin{eqnarray} \label{3} \tag{3}  
+v &lt; \frac{1}{\lambda T}.  
+\end{eqnarray}</div>
+<p><br>
+This is our bound and estimate for the speed of traffic. We note that this form for <span class="math">\(v\)</span> follows from dimensional analysis, so the actual rate of traffic must have the same algebraic form as our upper bound (\ref{3}) -- it can differ by a constant factor in front, but should have the same <span class="math">\(\lambda\)</span> and <span class="math">\(T\)</span> dependence.</p>
+<h3>Plugging in numbers</h3>
+<p>I estimate <span class="math">\(T\)</span>, the delay time between car movements to be about one second, which in hours is<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{4} \label{4}  
+T \approx 0.00028\ [hour].  
+\end{eqnarray}</div>
+<p><br>
+Next for <span class="math">\(\lambda\)</span>, note that a typical car is about 10 feet long and a mile is around 5000 feet, so the maximum for <span class="math">\(\lambda\)</span> is around <span class="math">\( \lambda \lesssim 500 [cars / mile]\)</span>. Consider a case where there is a car every 10 car lengths or so. In this case, the density will go down from the maximum by a factor of 10, or<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{5} \label{5}  
+\lambda \approx 50 \ [cars / mile].  
+\end{eqnarray}</div>
+<p><br>
+Plugging (\ref{4}) and (\ref{5}) into (\ref{3}), we obtain<br>
+</p>
+<div class="math">\begin{eqnarray}  
+v \lesssim \frac{1}{0.00028 * 50} \approx 70\ [mile / hour],  
+\end{eqnarray}</div>
+<p><br>
+quite close to our typical highway traffic speeds (and speed limits).</p>
+<h3>Final comments</h3>
+<p>The above bound clearly depends on what values you plug in -- I picked numbers that seemed reasonable, but admit I adjusted them a bit till I got the final number I wanted for <span class="math">\(v\)</span>. Anecdotally, I've found the result to work well at other densities: For example, when traffic is slow on the highway near my house, if I see that there is a car every 5 car lengths, the speed tends to be about <span class="math">\(30 [miles / hour]\)</span> -- so scaling rule seems to work. The last thing I should note is that wikipedia has an article outlining some of the extensive research literature that's been done on traffic flows -- you can see that <a href="https://en.wikipedia.org/wiki/Traffic_flow">here</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=The speed of traffic&amp;url=./the-speed-of-traffic.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./the-speed-of-traffic.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./the-speed-of-traffic.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./utility-functions-and-immigration.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Utility functions and immigration</h2>
+                            <p class="post-nav-excerpt">We consider how the GDP or utility output of a city depends on the number of people...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./unsupervised-feature-selection-in-python-with-linselect.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Linear compression in python: PCA vs unsupervised feature selection</h2>
+                            <p class="post-nav-excerpt">We illustrate the application of two linear compression algorithms in python:...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

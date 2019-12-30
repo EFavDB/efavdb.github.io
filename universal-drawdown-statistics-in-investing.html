@@ -40,7 +40,6 @@
 
     <meta name="author" content="jslandy">
 
-    <meta name="tags" content="finance">
 
 
 
@@ -56,7 +55,6 @@
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/jslandy.html">
 <meta property="article:section" content="Finance"/>
-<meta property="article:tag" content="finance"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
 <!-- Twitter Card -->
@@ -145,7 +143,7 @@
 <p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
 Follow us on twitter for new submission alerts!</p>
 <h2>Introduction and main results</h2>
-<p>In this post, we consider a topic of high interest to investors and gamblers alike -- the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. <a href="./wp-content/uploads/2019/12/dd.png"><img alt="dd" src="./wp-content/uploads/2019/12/dd.png"></a> For example, if an investor once held <span class="math">\(100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of \\)</span><span class="math">\(k\)</span>, given knowledge of the statistics of his bets.</p>
+<p>In this post, we consider a topic of high interest to investors and gamblers alike -- the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. <a href="./wp-content/uploads/2019/12/dd.png"><img alt="dd" src="./wp-content/uploads/2019/12/dd.png"></a> For example, if an investor once held <span class="math">\(100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of $\)</span>k$, given knowledge of the statistics of his bets.</p>
 <p>We will take as our model system a biased random walk. The probability that at step <span class="math">\(t\)</span> the investment goes from <span class="math">\(k^{\prime}\)</span> to <span class="math">\(k\)</span> will be taken to be independent of time and given by<br>
 </p>
 <div class="math">\begin{eqnarray}\tag{1} \label{step_distribution}  
@@ -177,20 +175,20 @@ Because it is difficult to find very high drift investments, this simple form sh
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">def</span> <span class="nf">binary</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>  
-    <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">    Return either mu - 1 or mu + 1 with equal probability.  </span>
-<span class="sd">    Note unit std.  </span>
-<span class="sd">    &quot;&quot;&quot;</span>  
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">mu</span>
+<span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">Return either mu - 1 or mu + 1 with equal probability.  </span>
+<span class="sd">Note unit std.  </span>
+<span class="sd">&quot;&quot;&quot;</span>  
+<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">mu</span>
 
 <span class="k">def</span> <span class="nf">normal_random_step</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>  
-    <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">    Return a random unit normal with unit std.  </span>
-<span class="sd">    &quot;&quot;&quot;</span>  
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">()</span> <span class="o">+</span> <span class="n">mu</span>
+<span class="sd">&quot;&quot;&quot;  </span>
+<span class="sd">Return a random unit normal with unit std.  </span>
+<span class="sd">&quot;&quot;&quot;</span>  
+<span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">()</span> <span class="o">+</span> <span class="n">mu</span>
 
 <span class="c1"># CONSTANTS  </span>
-<span class="n">TIME_STEPS</span> <span class="o">=</span> <span class="mi">10</span> \<span class="o">*</span>\<span class="o">*</span> <span class="mi">6</span>  
+<span class="n">TIME_STEPS</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span>  
 <span class="n">MU</span> <span class="o">=</span> <span class="mf">0.1</span>
 
 <span class="c1"># BINARY WALK  </span>
@@ -198,9 +196,9 @@ Because it is difficult to find very high drift investments, this simple form sh
 <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="mi">0</span>  
 <span class="n">drawdowns_binary</span> <span class="o">=</span> <span class="p">[]</span>  
 <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TIME_STEPS</span><span class="p">):</span>  
-    <span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>  
-    <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>  
-    <span class="n">drawdowns_binary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
+<span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>  
+<span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>  
+<span class="n">drawdowns_binary</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
 
 <span class="c1"># GAUSSIAN / NORMAL WALK  </span>
 <span class="n">STEP_FUNC</span> <span class="o">=</span> <span class="n">normal_random_step</span>  
@@ -208,31 +206,21 @@ Because it is difficult to find very high drift investments, this simple form sh
 <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="mi">0</span>  
 <span class="n">drawdowns_normal</span> <span class="o">=</span> <span class="p">[]</span>  
 <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">TIME_STEPS</span><span class="p">):</span>  
-    <span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>  
-    <span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>  
-    <span class="n">drawdowns_normal</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
+<span class="n">position</span> <span class="o">+=</span> <span class="n">STEP_FUNC</span><span class="p">(</span><span class="n">MU</span><span class="p">)</span>  
+<span class="n">max_position_to_date</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_position_to_date</span><span class="p">,</span> <span class="n">position</span><span class="p">)</span>  
+<span class="n">drawdowns_normal</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">max_position_to_date</span> <span class="o">-</span> <span class="n">position</span><span class="p">)</span>
 </pre></div>
 
 
 <p><a href="./wp-content/uploads/2019/12/dd_normal.png"><img alt="dd_normal" src="./wp-content/uploads/2019/12/dd_normal.png"></a></p>
-<p>You can see in the code that we have a loop over steps. At each step,
-we append to a list of observed drawdown values. A plot of the
-histogram of these values for the Normal case at <span class="math">\(\mu = 0.1\)</span> is
-shown at right.</p>
-<p>To check whether our theoretical forms are accurate, it is useful to
-plot the cumulative distribution functions vs the theoretical forms --
-the latter will again be exponential with the same <span class="math">\(\alpha\)</span> values
-as the probability distribution functions. It turns out that the
-exponent <span class="math">\(\alpha\)</span> that solves (\ref{dd_decay_eqn}) is always
-given by the universal form for a Gaussian. However, for the binary
-walker, we need to solve for this numerically in general. The
-following code snippet does this.</p>
+<p>You can see in the code that we have a loop over steps. At each step, we append to a list of observed drawdown values. A plot of the histogram of these values for the Normal case at <span class="math">\(\mu = 0.1\)</span> is shown at right.</p>
+<p>To check whether our theoretical forms are accurate, it is useful to plot the cumulative distribution functions vs the theoretical forms -- the latter will again be exponential with the same <span class="math">\(\alpha\)</span> values as the probability distribution functions. It turns out that the exponent <span class="math">\(\alpha\)</span> that solves (\ref{dd_decay_eqn}) is always given by the universal form for a Gaussian. However, for the binary walker, we need to solve for this numerically in general. The following code snippet does this.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fsolve</span>
 
-<span class="c1"># Solving numerically for binary case.</span>
-<span class="n">binary_alpha_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> \<span class="o">*</span> <span class="n">MU</span><span class="p">)</span> \<span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="n">alpha_initial_guess</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>
-<span class="n">alpha_solution</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">binary_alpha_func</span><span class="p">,</span> <span class="n">alpha_initial_guess</span><span class="p">)</span>
+<span class="c1"># Solving numerically for binary case.  </span>
+<span class="n">binary_alpha_func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">MU</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cosh</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  
+<span class="n">alpha_initial_guess</span> <span class="o">=</span> <span class="o">-</span><span class="mi">4</span>  
+<span class="n">alpha_solution</span> <span class="o">=</span> <span class="n">fsolve</span><span class="p">(</span><span class="n">binary_alpha_func</span><span class="p">,</span> <span class="n">alpha_initial_guess</span><span class="p">)</span>  
 </pre></div>
 
 
@@ -271,7 +259,7 @@ Simplifying this gives (\ref{exponential}).</p>
 <p>Now, to get the universal form, we make use of the cumulant expansion, writing<br>
 </p>
 <div class="math">\begin{eqnarray} \nonumber  
-1 &amp;=&amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \ 
+1 &amp;=&amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \  
 &amp;\equiv &amp; \exp \left ( - \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots \right) \tag{A5}  
 \end{eqnarray}</div>
 <p><br>
@@ -283,11 +271,11 @@ Provided the expansion converges quickly, we obtain<br>
 <p><br>
 giving<br>
 </p>
-<div class="math">\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}
+<div class="math">\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}  
 \alpha \sim 2 \frac{\mu}{\sigma^2}  
 \end{eqnarray}</div>
 <p><br>
-With this solution, the <span class="math">\(k\)</span>-th term in the cumulant expansion goes like
+With this solution, the <span class="math">\(k\)</span>-th term in the cumulant expansion goes like<br>
 </p>
 <div class="math">\begin{eqnarray} \tag{A8}  
 \frac{2^k}{k!} \left( \frac{\mu}{\sigma^2} \right)^k O(\overline{x^k}) \sim \frac{2^k}{k!} \left( \frac{\mu}{\sigma} \right)^k  
@@ -372,8 +360,6 @@ assuming the the jumps are constrained over some length scale proportional to <s
                     <div class="clear"></div>
                 </div>
 
-                <aside class="post-tags">
-<a href="./tag/finance.html">finance</a>                </aside>
 
                 <div class="clear"></div>
 
@@ -389,11 +375,11 @@ assuming the the jumps are constrained over some length scale proportional to <s
                             <p class="post-nav-excerpt">CPPI\(^{\dagger}\) is a risk management tactic that can be applied to any investment...</p>
                         </section>
                     </a>
-                    <a class="post-nav-prev" href="./backpropagation-in-neural-networks.html">
+                    <a class="post-nav-prev" href="./timemarker-class-for-python.html">
                         <section class="post-nav-teaser">
                             <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Backpropagation in neural networks</h2>
-                            <p class="post-nav-excerpt">Overview We give a short introduction to neural networks and the backpropagation...</p>
+                                <h2 class="post-nav-title">TimeMarker class for python</h2>
+                            <p class="post-nav-excerpt">We give a simple class for marking the time at different points in a code block and...</p>
                         </section>
                     </a>
                     <div class="clear"></div>

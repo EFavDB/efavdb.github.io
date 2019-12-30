@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Hyperparameter sample-size dependence</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./model-selection.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Hyperparameter sample-size dependence"/>
+<meta property="og:description" content="Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./model-selection.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-08-21 00:00:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Statistics"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Hyperparameter sample-size dependence">
+    <meta name="twitter:url" content="./model-selection.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Hyperparameter sample-size dependence",
+  "headline": "Hyperparameter sample-size dependence",
+  "datePublished": "2016-08-21 00:00:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./model-selection.html",
+  "description": "Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Hyperparameter sample-size dependence</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sun 21 August 2016">Sun 21 August 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a model can vary with training set size, <span class="math">\(N.\)</span> To illustrate this point, we derive expressions for the optimal strength for both <span class="math">\(L_1\)</span> and <span class="math">\(L_2\)</span> regularization in single-variable models. We find that the optimal <span class="math">\(L_2\)</span> approaches a finite constant as <span class="math">\(N\)</span> increases, but that the optimal <span class="math">\(L_1\)</span> decays exponentially fast with <span class="math">\(N.\)</span> Sensitive dependence on <span class="math">\(N\)</span> such as this should be carefully extrapolated out when optimizing mission-critical models.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction</h3>
+<p>There are two steps one must carry out to fit a machine-learning model. First, a specific model form and cost function must be selected, and second the model must be fit to the data. The first of these steps is often treated by making use of a training-test data split: One trains a set of candidate models to a fraction of the available data and then validates their performance using a hold-out, test set. The model that performs best on the latter is then selected for production.</p>
+<p>Our purpose here is to highlight a subtlety to watch out for when carrying out an optimization as above: the fact that the optimal model can depend sensitively on training set size <span class="math">\(N\)</span>. This observation suggests that the training-test split paradigm must sometimes be applied with care: Because a subsample is used for training in the first, selection step, the model identified as optimal there may not be best when training on the full data set.</p>
+<p>To illustrate the above points, our main effort here is to present some toy examples where the optimal hyperparameters can be characterized exactly: We derive the optimal <span class="math">\(L_1\)</span> and <span class="math">\(L_2\)</span> regularization strength for models having only a single variable. These examples illustrate two opposite limits: The latter approaches a finite constant as <span class="math">\(N\)</span> increases, but the former varies exponentially with <span class="math">\(N\)</span>. This shows that strong <span class="math">\(N\)</span>-dependence can sometimes occur, but is not necessarily always an issue. In practice, a simple way to check for sensitivity is to vary the size of your training set during model selection: If a strong dependence is observed, care should be taken during the final extrapolation.</p>
+<p>We now walk through our two examples.</p>
+<h3><span class="math">\(L_2\)</span> optimization</h3>
+<p>We start off by positing that we have a method for generating a Bayesian posterior for a parameter <span class="math">\(\theta\)</span> that is a function of a vector of <span class="math">\(N\)</span> random samples <span class="math">\(\textbf{x}\)</span>. To simplify our discussion, we assume that -- given a flat prior -- this is unbiased and normal with variance <span class="math">\(\sigma^2\)</span>. We write <span class="math">\(\theta_0 \equiv \theta_0(\textbf{x})\)</span> for the maximum a posteriori (MAP) value under the flat prior. With the introduction of an <span class="math">\(L_2\)</span> prior, the posterior for <span class="math">\(\theta\)</span> is then<br>
+</p>
+<div class="math">$$\tag{1}  
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \theta^2 \right).  
+$$</div>
+<p><br>
+Setting the derivative of the above to zero, the point-estimate, MAP is given by<br>
+</p>
+<div class="math">$$\tag{2}  
+\hat{\theta} = \frac{\theta_0}{1 + 2 \Lambda \sigma^2}.  
+$$</div>
+<p><br>
+The average squared error of this estimate is obtained by averaging over the possible <span class="math">\(\theta_0\)</span> values. Our assumptions above imply that <span class="math">\(\theta_0\)</span> is normal about the true parameter value, <span class="math">\(\theta_*\)</span>, so we have<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\langle (\hat{\theta} - \theta_*)^2 \rangle &amp;\equiv&amp; \int_{\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}}  
+\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \frac{\theta_0}{1 + 2 \Lambda \sigma^2} - \theta_* \right)^2 d \theta_0 \\  
+&amp;=&amp; \frac{ 4 \Lambda^2 \sigma^4 \theta_*^2 }{(1 + 2 \Lambda \sigma^2 )^2} + \frac{\sigma^2}{\left( 1 + 2 \Lambda \sigma^2 \right)^2}. \tag{3} \label{error}  
+\end{eqnarray}</div>
+<p><br>
+The optimal <span class="math">\(\Lambda\)</span> is readily obtained by minimizing this average error. This gives,<br>
+</p>
+<div class="math">$$ \label{result}  
+\Lambda = \frac{1}{2 \theta_*^2}, \tag{4}  
+$$</div>
+<p><br>
+a constant, independent of sample size. The mean squared error with this choice is obtained by plugging (\ref{result}) into (\ref{error}). This gives<br>
+</p>
+<div class="math">$$  
+\langle (\hat{\theta} - \theta_*)^2 \rangle = \frac{\sigma^2}{1 + \sigma^2 / \theta_*^2}. \tag{5}  
+$$</div>
+<p><br>
+Notice that this is strictly less than <span class="math">\(\sigma^2\)</span> -- the variance one would get without regularization -- and that the benefit is largest when <span class="math">\(\sigma^2 \gg \theta_*^2\)</span>. That is, <span class="math">\(L_2\)</span> regularization is most effective when <span class="math">\(\theta_*\)</span> is hard to differentiate from zero -- an intuitive result!</p>
+<h3><span class="math">\(L_1\)</span> optimization</h3>
+<p>The analysis for <span class="math">\(L_1\)</span> optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an <span class="math">\(L_1\)</span> prior is given by<br>
+</p>
+<div class="math">$$ \tag{6}  
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \vert \theta \vert \right).  
+$$</div>
+<p><br>
+Assuming for simplicity that <span class="math">\(\hat{\theta} &gt; 0\)</span>, the MAP value is now<br>
+</p>
+<div class="math">$$ \tag{7}  
+\hat{\theta} = \begin{cases}  
+\theta_0 - \Lambda \sigma^2 &amp; \text{if } \theta_0 - \Lambda \sigma^2 &gt; 0 \\  
+0 &amp; \text{else}.  
+\end{cases}  
+$$</div>
+<p><br>
+The mean squared error of the estimator is<br>
+</p>
+<div class="math">$$ \tag{8}  
+\langle (\hat{\theta} - \theta_*)^2 \rangle \equiv \int \frac{1}{\sqrt{2 \pi \sigma^2}}  
+\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \hat{\theta} - \theta_* \right)^2 d \theta_0.  
+$$</div>
+<p><br>
+This can be evaluated in terms of error functions. The optimal value of <span class="math">\(\Lambda\)</span> is obtained by differentiating the above. Doing this, one finds that it satisfies the equation<br>
+</p>
+<div class="math">$$ \tag{9}  
+\exp\left( - \frac{(\tilde{\Lambda}- \tilde{\theta_*})^2}{2} \right ) + \sqrt{\frac{\pi}{2}} \tilde{\Lambda} \ \text{erfc}\left( \frac{\tilde{\Lambda} - \tilde{\theta_*}}{\sqrt{2}} \right ) = 0,  
+$$</div>
+<p><br>
+where <span class="math">\(\tilde{\Lambda} \equiv \sigma \Lambda\)</span> and <span class="math">\(\tilde{\theta_*} \equiv \theta_* / \sigma\)</span>. In general, the equation above must be solved numerically. However, in the case where <span class="math">\(\theta_* \gg \sigma\)</span> -- relevant when <span class="math">\(N\)</span> is large -- we can obtain a clean asymptotic solution. In this case, we have <span class="math">\(\tilde{\theta_*} \gg 1\)</span> and we expect <span class="math">\(\Lambda\)</span> small. This implies that the above equation can be approximated as<br>
+</p>
+<div class="math">$$ \tag{10}  
+\exp\left( - \frac{\tilde{\theta_*}^2}{2} \right ) - \sqrt{2 \pi} \tilde{\Lambda} \sim 0.  
+$$</div>
+<p><br>
+Solving gives<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{11}  
+\Lambda \sim \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( - \frac{\theta_*^2}{2 \sigma^2} \right ) \sim \frac{\sqrt{N}}{\sqrt{2 \pi \sigma_1^2}} \exp\left( - \frac{N \theta_*^2}{2 \sigma_1^2} \right ).  
+\end{eqnarray}</div>
+<p><br>
+Here, in the last line we have made the <span class="math">\(N\)</span>-dependence explicit, writing <span class="math">\(\sigma^2 = \sigma_1^2 / N\)</span> -- a form that follows when our samples <span class="math">\(\textbf{x}\)</span> are independent. Whereas the optimal <span class="math">\(L_2\)</span> regularization strength approaches a constant, our result here shows that the optimal <span class="math">\(L_1\)</span> strength decays exponentially to zero as <span class="math">\(N\)</span> increases.</p>
+<h3>Summary</h3>
+<p>The subtlety that we have discussed here is likely already familiar to those with significant applied modeling experience: optimal model hyperparameters can vary with training set size. However, the two toy examples we have presented are interesting in that they allow for this <span class="math">\(N\)</span> dependence to be derived explicitly. Interestingly, we have found that the MSE-minimizing <span class="math">\(L_2\)</span> regularization remains finite, even at large training set size, but the optimal <span class="math">\(L_1\)</span> regularization goes to zero in this same limit. For small and medium <span class="math">\(N\)</span>, this exponential dependence represents a strong sensitivity to <span class="math">\(N\)</span> -- one that must be carefully taken into account when extrapolating to the full training set.</p>
+<p>One can imagine many other situations where hyperparameters vary strongly with <span class="math">\(N\)</span>. For example, very complex systems may allow for ever-increasing model complexity as more data becomes available. Again, in practice, the most straightforward method to check for this is to vary the size of the training set during model selection. If strong dependence is observed, this should be extrapolated out to obtain the truly optimal model for production.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Hyperparameter sample-size dependence&amp;url=./model-selection.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./model-selection.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./model-selection.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./gpu-accelerated-theano-keras-with-windows-10.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">GPU-accelerated Theano & Keras with Windows 10</h2>
+                            <p class="post-nav-excerpt">There are many tutorials with directions for how to use your Nvidia graphics card for...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./metropolis.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Bayesian Statistics: MCMC</h2>
+                            <p class="post-nav-excerpt">We review the Metropolis algorithm -- a simple Markov Chain Monte Carlo (MCMC)...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

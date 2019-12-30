@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Multivariate Cramer-Rao inequality</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./multivariate-cramer-rao-bound.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="The Cramer-Rao inequality addresses the question of how accurately one can estimate a set of parameters \(\vec{\theta} = \{\theta_1,...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Multivariate Cramer-Rao inequality"/>
+<meta property="og:description" content="The Cramer-Rao inequality addresses the question of how accurately one can estimate a set of parameters \(\vec{\theta} = \{\theta_1,..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./multivariate-cramer-rao-bound.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-06-20 09:00:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Statistics"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Multivariate Cramer-Rao inequality">
+    <meta name="twitter:url" content="./multivariate-cramer-rao-bound.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="The Cramer-Rao inequality addresses the question of how accurately one can estimate a set of parameters \(\vec{\theta} = \{\theta_1,...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Multivariate Cramer-Rao inequality",
+  "headline": "Multivariate Cramer-Rao inequality",
+  "datePublished": "2015-06-20 09:00:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./multivariate-cramer-rao-bound.html",
+  "description": "The Cramer-Rao inequality addresses the question of how accurately one can estimate a set of parameters \(\vec{\theta} = \{\theta_1,..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Multivariate Cramer-Rao inequality</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sat 20 June 2015">Sat 20 June 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>The Cramer-Rao inequality addresses the question of how accurately one can estimate a set of parameters <span class="math">\(\vec{\theta} = \{\theta_1, \theta_2, \ldots, \theta_m \}\)</span> characterizing a probability distribution <span class="math">\(P(x) \equiv P(x; \vec{\theta})\)</span>, given only some samples <span class="math">\(\{x_1, \ldots, x_n\}\)</span> taken from <span class="math">\(P\)</span>. Specifically, the inequality provides a rigorous lower bound on the covariance matrix of any unbiased set of estimators to these <span class="math">\(\{\theta_i\}\)</span> values. In this post, we review the general, multivariate form of the inequality, including its significance and proof.  </p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction and theorem statement</h3>
+<p>The analysis of data very frequently requires one to attempt to characterize a probability distribution. For instance, given some random, stationary process that generates samples <span class="math">\(\{x_i\}\)</span>, one might wish to estimate the mean <span class="math">\(\mu\)</span> of the probability distribution <span class="math">\(P\)</span> characterizing this process. To do this, one could construct an estimator function <span class="math">\(\hat{\mu}(\{x_i\})\)</span> -- a function of some samples taken from <span class="math">\(P\)</span> -- that is intended to provide an approximation to <span class="math">\(\mu\)</span>. Given <span class="math">\(n\)</span> samples, a natural choice is provided by<br>
+</p>
+<div class="math">$$  
+\hat{\mu}(\{x_i\}) = \frac{1}{n}\sum_{i = 1}^n x_i, \tag{1}  
+$$</div>
+<p><br>
+the mean of the samples. This particular choice of estimator will always be unbiased given a stationary <span class="math">\(P\)</span> -- meaning that it will return the correct result, on average. However, each particular sample set realization will return a slightly different mean estimate. This means that <span class="math">\(\hat{\mu}\)</span> is itself a random variable having its own distribution and width.</p>
+<p>More generally, one might be interested in a distribution characterized by a set of <span class="math">\(m\)</span> parameters <span class="math">\(\{\theta_i\}\)</span>. Consistently good estimates to these values require estimators with distributions that are tightly centered around the true <span class="math">\(\{\theta_i\}\)</span> values. The Cramer-Rao inequality tells us that there is a fundamental limit to how tightly centered such estimators can be, given only <span class="math">\(n\)</span> samples. We state the result below.</p>
+<p><strong>Theorem:</strong> <em>The multivariate Cramer-Rao inequality</em>.</p>
+<p>Let <span class="math">\(P\)</span> be a distribution characterized by a set of <span class="math">\(m\)</span> parameters <span class="math">\(\{\theta_i\}\)</span>, and let <span class="math">\(\{\hat{\theta_i}\equiv \hat{\theta_i}(\{x_i\})\}\)</span> be an unbiased set of estimator functions for these parameters. Then, the covariance matrix (see definition below) for the <span class="math">\(\hat{\{\theta_i\}}\)</span> satisfies,</p>
+<div class="math">$$ cov(\hat{\theta}, \hat{\theta}) \geq \frac{1}{n} \times \frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )}. \tag{2} \label{CR} $$</div>
+<p><br>
+Here, the inequality holds in the sense that left side of the above equation, minus the right, is positive semi-definite. We discuss the meaning and significance of this equation in the next section.</p>
+<h3>Interpretation of the result</h3>
+<p>To understand (\ref{CR}), we must first review a couple of definitions. These follow.</p>
+<p><strong>Definition 1</strong>. Let <span class="math">\(\vec{u}\)</span> and <span class="math">\(\vec{v}\)</span> be two jointly-distributed vectors of stationary random variables. The covariance matrix of <span class="math">\(\vec{u}\)</span> and <span class="math">\(\vec{v}\)</span> is defined by<br>
+</p>
+<div class="math">$$  
+cov(\vec{u}, \vec{v})_{ij} = \overline{(u_{i}- \overline{u_i})(v_{j}- \overline{v_j})} \equiv \overline{\delta u_{i} \delta v_{j}}\tag{3} \label{cov},  
+$$</div>
+<p><br>
+where we use overlines for averages. In words, (\ref{cov}) states that <span class="math">\(cov(\vec{u}, \vec{v})_{ij}\)</span> is the correlation function of the fluctuations of <span class="math">\(u_i\)</span> and <span class="math">\(v_j\)</span>.</p>
+<p><strong>Definition 2</strong>. A real, square matrix <span class="math">\(M\)</span> is said to be positive semi-definite if<br>
+</p>
+<div class="math">$$  
+\vec{a}^T\cdot M \cdot \vec{a} \geq 0 \tag{4} \label{pd}  
+$$</div>
+<p><br>
+for all real vectors <span class="math">\(\vec{a}\)</span>. It is positive definite if the ``<span class="math">\(\geq\)</span>" above can be replaced by a ``<span class="math">\(&gt;\)</span>".</p>
+<p>The interesting consequences of (\ref{CR}) follow from the following observation:</p>
+<p><strong>Observation</strong>. For any constant vectors <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span>, we have<br>
+</p>
+<div class="math">$$  
+cov(\vec{a}^T\cdot\vec{u}, \vec{b}^T \cdot \vec{v}) = \vec{a}^T \cdot cov(\vec{u}, \vec{v}) \cdot \vec{b}. \tag{5} \label{fact}  
+$$</div>
+<p><br>
+This follows from the definition (\ref{cov}).</p>
+<p>Taking <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span> to both be along <span class="math">\(\hat{i}\)</span> in (\ref{fact}), and combining with (\ref{pd}), we see that (\ref{CR}) implies that<br>
+</p>
+<div class="math">$$  
+\sigma^2(\hat{\theta}_i^2) \geq \frac{1}{n} \times \left (\frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )} \right)_{ii},\tag{6}\label{CRsimple}  
+$$</div>
+<p><br>
+where we use <span class="math">\(\sigma^2(x)\)</span> to represent the variance of <span class="math">\(x\)</span>. The left side of (\ref{CRsimple}) is the variance of the estimator function <span class="math">\(\hat{\theta}_i\)</span>, whereas the right side is a function of <span class="math">\(P\)</span> only. This tells us that there is fundamental -- distribution-dependent -- lower limit on the uncertainty one can achieve when attempting to estimate <em>any parameter characterizing a distribution</em>. In particular, (\ref{CRsimple}) states that the best variance one can achieve scales like <span class="math">\(O(1/n)\)</span>, where <span class="math">\(n\)</span> is the number of samples available<span class="math">\(^1\)</span> -- very interesting!</p>
+<p>Why is there a relationship between the left and right matrices in (\ref{CR})? Basically, the right side relates to the inverse rate at which the probability of a given <span class="math">\(x\)</span> changes with <span class="math">\(\theta\)</span>: If <span class="math">\(P(x \vert \theta)\)</span> is highly peaked, the gradient of <span class="math">\(P(x \vert \theta)\)</span> will take on large values. In this case, a typical observation <span class="math">\(x\)</span> will provide significant information relating to the true <span class="math">\(\theta\)</span> value, allowing for unbiased <span class="math">\(\hat{\theta}\)</span> estimates that have low variance. In the opposite limit, where typical observations are not very <span class="math">\(\theta\)</span>-informative, unbiased <span class="math">\(\hat{\theta}\)</span> estimates must have large variance<span class="math">\(^2\)</span>.</p>
+<p>We now turn to the proof of (\ref{CR}).</p>
+<h3>Theorem proof</h3>
+<p>Our discussion here expounds on that in the <a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/mvahtmlframe74.html">online text</a> of Cízek, Härdle, and Weron. We start by deriving a few simple lemmas. We state and derive these sequentially below.</p>
+<p><strong>Lemma 1</strong> Let <span class="math">\(T_j(\{x_i\}) \equiv \partial_{\theta_j} \log P(\{x_i\}; \vec{\theta})\)</span> be a function of a set of independent sample values <span class="math">\(\{x_i\}\)</span>. Then, the average of <span class="math">\(T_j(\{x_i\})\)</span> is zero.</p>
+<p><em>Proof:</em> We obtain the average of <span class="math">\(T_j(\{x_i\})\)</span> through integration over the <span class="math">\(\{x_i\}\)</span>, weighted by <span class="math">\(P\)</span>,<br>
+</p>
+<div class="math">$$  
+\int P(\{x_i\};\vec{\theta}) \partial_{\theta_j} \log P(\{x_i\}; \vec{\theta}) d\vec{x} = \int P \frac{\partial_{\theta_j} P}{P} d\vec{x} = \partial_{\theta_j} \int P d\vec{x} = \partial_{\theta_j} 1 = 0. \tag{7}  
+$$</div>
+<p><strong>Lemma 2</strong>. The covariance matrix of an unbiased <span class="math">\(\hat{\theta}\)</span> and <span class="math">\(\vec{T}\)</span> is the identity matrix.</p>
+<p><em>Proof:</em> Using (\ref{cov}), the assumed fact that <span class="math">\(\hat{\theta}\)</span> is unbiased, and Lemma 1, we have<br>
+</p>
+<div class="math">$$\begin{align}  
+cov \left (\hat{\theta}(\{x_i\}), \vec{T}(\{x_i\}) \right)_{jk} &amp;= \int P(\{x_i\}) (\hat{\theta}_j - \theta_j ) \partial_{\theta_k} \log P(\{x_i\}) d\vec{x}\\ &amp; = \int (\hat{\theta}_j - \theta_j ) \partial_{\theta_k} P d\vec{x} \\  
+&amp;= -\int P \partial_{\theta_k} (\hat{\theta}_j - \theta_j ) d \vec{x} \tag{8}  
+\end{align}  
+$$</div>
+<p><br>
+Here, we have integrated by parts in the last line. Now, <span class="math">\(\partial_{\theta_k} \theta_j = \delta_{jk}\)</span>. Further, <span class="math">\(\partial_{\theta_k} \hat{\theta}_j = 0\)</span>, since <span class="math">\(\hat{\theta}\)</span> is a function of the samples <span class="math">\(\{x_i\}\)</span> only. Plugging these results into the last line, we obtain<br>
+</p>
+<div class="math">$$  
+cov \left (\hat{\theta}, \vec{T} \right)_{jk} = \delta_{jk} \int P d\vec{x} = \delta_{jk}. \tag{9}  
+$$</div>
+<p><strong>Lemma 3</strong>. The covariance matrix of <span class="math">\(\vec{T}\)</span> is <span class="math">\(n\)</span> times the covariance matrix of <span class="math">\(\nabla_{\vec{\theta}} \log P(x_1 ; \vec{\theta})\)</span> -- a single-sample version of <span class="math">\(\vec{T}\)</span>.</p>
+<p><em>Proof:</em> From the definition of <span class="math">\(\vec{T}\)</span>, we have<br>
+</p>
+<div class="math">$$  
+T_j = \partial_{\theta_j} \log P(\{x_i\}, \vec{\theta}) = \sum_{i=1}^n \partial_{\theta_j} \log P(x_i, \vec{\theta}), \tag{10}  
+$$</div>
+<p><br>
+where the last line follows from the fact that the <span class="math">\(\{x_i\}\)</span> are independent, so that <span class="math">\(P(\{x_i\}, \vec{\theta}) = \prod P(x_i; \vec{\theta})\)</span>. The sum on the right side of the above equation is a sum of <span class="math">\(n\)</span> independent, identically-distributed random variables. If follows that their covariance matrix is <span class="math">\(n\)</span> times that for any individual.</p>
+<p><strong>Lemma 4</strong>. Let <span class="math">\(x\)</span> and <span class="math">\(y\)</span> be two scalar stationary random variables. Then, their correlation coefficient is defined to be <span class="math">\(\rho \equiv \frac{cov(x,y)}{\sigma(x) \sigma(y)}\)</span>. This satisfies<br>
+</p>
+<div class="math">$$  
+-1 \leq \rho \leq 1 \label{CC} \tag{11}  
+$$</div>
+<p><em>Proof:</em> Consider the variance of <span class="math">\(\frac{x}{\sigma(x)}+\frac{y}{\sigma(y)}\)</span>. This is<br>
+</p>
+<div class="math">$$  
+\begin{align}  
+var \left( \frac{x}{\sigma(x)}+\frac{y}{\sigma(y)} \right) &amp;= \frac{\sigma^2(x)}{\sigma^2(x)} + 2\frac{ cov(x,y)}{\sigma(x) \sigma(y)} + \frac{\sigma^2(y)}{\sigma^2(y)} \\  
+&amp;= 2 + 2 \frac{ cov(x,y)}{\sigma(x) \sigma(y)} \geq 0. \tag{12}  
+\end{align}  
+$$</div>
+<p><br>
+This gives the left side of (\ref{CC}). Similarly, considering the variance of <span class="math">\(\frac{x}{\sigma(x)}-\frac{y}{\sigma(y)}\)</span> gives the right side.</p>
+<p>We're now ready to prove the Cramer-Rao result.</p>
+<p><strong>Proof of Cramer-Rao inequality</strong>. Consider the correlation coefficient of the two scalars <span class="math">\(\vec{a} \cdot \hat{\theta}\)</span> and <span class="math">\( \vec{b} \cdot \vec{T}\)</span>, with <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span> some constant vectors. Using (\ref{fact}) and Lemma 2, this can be written as<br>
+</p>
+<div class="math">$$\begin{align}  
+\rho &amp; \equiv \frac{cov(\vec{a} \cdot \hat{\theta} ,\vec{b} \cdot \vec{T})}{\sqrt{var(\vec{a} \cdot \hat{\theta})var(\vec{b} \cdot \vec{T})}} \\  
+&amp;= \frac{\vec{a}^T \cdot \vec{b}}{\left(\vec{a}^T \cdot cov(\hat{\theta}, \hat{\theta}) \cdot \vec{a} \right)^{1/2} \left( \vec{b}^T \cdot cov(\vec{T},\vec{T}) \cdot \vec{b} \right)^{1/2}}\leq 1. \tag{13}  
+\end{align}  
+$$</div>
+<p><br>
+The last inequality here follows from Lemma 4. We can find the direction <span class="math">\(\hat{b}\)</span> where the bound above is most tight -- at fixed <span class="math">\(\vec{a}\)</span> -- by maximizing the numerator while holding the denominator fixed in value. Using a Lagrange multiplier to hold <span class="math">\(\left( \vec{b}^T \cdot cov(\vec{T},\vec{T}) \cdot \vec{b} \right) \equiv 1\)</span>, the numerator's extremum occurs where<br>
+</p>
+<div class="math">$$  
+\vec{a}^T + 2 \lambda \vec{b}^T \cdot cov(\vec{T},\vec{T}) = 0 \ \ \to \ \ \vec{b}^T = - \frac{1}{2 \lambda} \vec{a}^T \cdot cov(\vec{T}, \vec{T})^{-1}. \tag{14}  
+$$</div>
+<p><br>
+Plugging this form into the prior line, we obtain<br>
+</p>
+<div class="math">$$  
+- \frac{\vec{a}^T \cdot cov(\vec{T},\vec{T})^{-1} \cdot \vec{a}}{\left(\vec{a}^T \cdot cov(\hat{\theta}, \hat{\theta}) \cdot \vec{a} \right)^{1/2} \left(\vec{a}^T \cdot cov(\vec{T},\vec{T})^{-1} \cdot \vec{a} \right)^{1/2}}\leq 1. \tag{15}  
+$$</div>
+<p><br>
+Squaring and rearranging terms, we obtain<br>
+</p>
+<div class="math">$$  
+\vec{a}^T \cdot \left (cov(\hat{\theta},\hat{\theta}) - cov(\vec{T},\vec{T})^{-1} \right ) \cdot \vec{a} \geq 0. \tag{16}  
+$$</div>
+<p><br>
+This holds for any <span class="math">\(\vec{a}\)</span>, implying that <span class="math">\(cov(\hat{\theta}, \hat{\theta}) - cov(\vec{T},\vec{T})^{-1} $ is positive semi-definite -- see (\ref{pd}). Applying Lemma 3, we obtain the result\)</span>^3<span class="math">\(. $\blacksquare\)</span></p>
+<p>Thank you for reading -- we hope you enjoyed.</p>
+<p>[1] More generally, (\ref{fact}) tells us that an observation similar to (\ref{CRsimple}) holds for any linear combination of the <span class="math">\(\{\theta_i\}\)</span>. Notice also that the proof we provide here could also be applied to any individual <span class="math">\(\theta_i\)</span>, giving <span class="math">\(\sigma^2(\hat{\theta}_i) \geq 1/n \times 1/\langle(\partial_{\theta_i} \log P)^2\rangle\)</span>. This is easier to apply than (\ref{CR}), but is less stringent.</p>
+<p>[2] It might be challenging to intuit the exact function that appears on the right side of <span class="math">\((\ref{CR})\)</span>. However, the appearance of <span class="math">\(\log P\)</span>'s does make some intuitive sense, as it allows the derivatives involved to measure rates of change relative to typical values, <span class="math">\(\nabla_{\theta} P / P\)</span>.</p>
+<p>[3] The discussion here covers the ``standard proof" of the Cramer-Rao result. Its brilliance is that it allows one to work with scalars. In contrast, when attempting to find my own proof, I began with the fact that all covariance matrices are positive definite. Applying this result to the covariance matrix of a linear combination of <span class="math">\(\hat{\theta}\)</span> and <span class="math">\(\vec{T}\)</span>, one can quickly get to results similar in form to the Cramer-Rao bound, but not quite identical. After significant work, I was eventually able to show that <span class="math">\(\sqrt{cov(\hat{\theta},\hat{\theta})} - 1/\sqrt{cov(\vec{T},\vec{T}) } \geq 0\)</span>. However, I have yet to massage my way to the final result using this approach -- the difficulty being that the matrices involved don't commute. By working with scalars from the start, the proof here cleanly avoids all such issues.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Multivariate Cramer-Rao inequality&amp;url=./multivariate-cramer-rao-bound.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./multivariate-cramer-rao-bound.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./multivariate-cramer-rao-bound.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./review-intro-to-big-data-with-spark.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">A review of the online course “Introduction to Big Data with Apache Spark”</h2>
+                            <p class="post-nav-excerpt">This is a review of Introduction to Big Data with Apache Spark (CS100.1x), the first...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./reshaping-data-in-r.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Reshaping Data in R</h2>
+                            <p class="post-nav-excerpt">Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

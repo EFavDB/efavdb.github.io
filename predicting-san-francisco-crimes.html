@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Machine learning to predict San Francisco crime</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./predicting-san-francisco-crimes.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="In today's post, we document our submission to the recent Kaggle competition aimed at predicting the category of San Francisco crimes,...">
+
+    <meta name="author" content="damienrj">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Machine learning to predict San Francisco crime"/>
+<meta property="og:description" content="In today's post, we document our submission to the recent Kaggle competition aimed at predicting the category of San Francisco crimes,..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./predicting-san-francisco-crimes.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-07-20 03:01:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:section" content="Case studies"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Machine learning to predict San Francisco crime">
+    <meta name="twitter:url" content="./predicting-san-francisco-crimes.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="In today's post, we document our submission to the recent Kaggle competition aimed at predicting the category of San Francisco crimes,...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Machine learning to predict San Francisco crime",
+  "headline": "Machine learning to predict San Francisco crime",
+  "datePublished": "2015-07-20 03:01:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "damienrj",
+    "url": "./author/damienrj.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./predicting-san-francisco-crimes.html",
+  "description": "In today's post, we document our submission to the recent Kaggle competition aimed at predicting the category of San Francisco crimes,..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Machine learning to predict San Francisco crime</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/damienrj.html">Damienrj</a>
+            | <time datetime="Mon 20 July 2015">Mon 20 July 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>In today's post, we document our submission to the recent <a href="https://www.kaggle.com/c/sf-crime">Kaggle</a> competition aimed at predicting the category of San Francisco crimes, given only their time and location of occurrence. As a reminder, Kaggle is a site where one can compete with other data scientists on various data challenges.  We took this competition as an opportunity to explore the Naive Bayes algorithm. With the few steps discussed below, we were able to quickly move from the middle of the pack to the top 33% on the competition leader board, all the while continuing with this simple model!</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h2>Introduction</h2>
+<p>As in all cities, crime is a reality San Francisco: Everyone who lives in San Francisco seems to know someone whose car window has been smashed in, or whose bicycle was stolen within the past year or two. Even Prius' car batteries are apparently considered <a href="http://abc7news.com/news/exclusive-car-battery-thefts-from-hybrid-cars-on-the-rise-in-san-francisco-/725532/">fair game</a> by the city's diligent thieves.  The challenge we tackle today involves attempting to guess the class of a crime committed within the city, given the time and location it took place. Such studies are representative of efforts by many police forces today: Using machine learning approaches, one can get an improved understanding of which crimes occur where and when in a city -- this then allows for better, <a href="http://www.forbes.com/sites/emc/2014/06/03/data-analysis-helps-police-departments-fight-crime/">dynamic allocation of police resources</a>. To aid in the SF <a href="https://www.kaggle.com/c/sf-crime">challenge</a>, Kaggle has provided about 12 years of crime reports from all over the city -- a data set that is pretty interesting to comb through.</p>
+<p>Here, we outline our approach to tackling this problem, using the Naive Bayes classifier. This is one of the simplest classification algorithms, the essential ingredients of which include combining <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" title="Bayes' theorem">Bayes' theorem</a> with an independence assumption on the features (this is the "naive" part).  Although simple, it is still a popular method for text categorization. For example, using word frequencies as features, this approach can accurately classify emails as spam, or whether a particular a piece of text was written by a specific author.  In fact, with careful preprocessing, the algorithm is often <a href="http://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf">competitive</a> with more advanced methods, including support vector machines.</p>
+<h2><strong>Loading package and data</strong></h2>
+<p>Below, we show the relevant commands needed to load all the packages and training/test data we will be using. As in previous posts, we will work with <a href="http://pandas.pydata.org/">Pandas</a> for quick and easy data loading and wrangling. We will be having a post dedicated to Pandas in the near future, so stay tuned! We start off with using the parse_dates method to convert the Dates column of our provided data -- which can be downloaded <a href="https://www.kaggle.com/c/sf-crime/data">here</a>-- from string to datetime format.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>  
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>  
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">log_loss</span>  
+<span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="kn">import</span> <span class="n">BernoulliNB</span>  
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>  
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1">#Load Data with pandas, and parse the first column into datetime  </span>
+<span class="n">train</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;train.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dates&#39;</span><span class="p">])</span>  
+<span class="kp">test</span><span class="o">=</span><span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Dates&#39;</span><span class="p">])</span>  
+</pre></div>
+
+
+<p>The training data provided contains the following fields:</p>
+<p><strong><em>Date</em></strong> -  date + timestamp<br>
+<strong><em>Category</em></strong> - The type of crime, Larceny, etc.<br>
+<strong><em>Descript</em></strong> - A more detailed description of the crime.<br>
+<strong><em>DayOfWeek</em></strong> - Day of crime: Monday, Tuesday, etc.<br>
+<strong><em>PdDistrict </em></strong>- Police department district.<br>
+<strong><em>Resolution</em></strong>- What was the outcome, Arrest, Unfounded, None, etc.<br>
+<strong><em>Address</em></strong> - Street address of crime.<br>
+<strong><em>X and Y</em></strong> - GPS coordinates of crime.</p>
+<p>As we mentioned earlier, the provided data spans almost 12 years, and both the training data set and the testing data set each have about 900k records. At this point we have all the data in memory. However, the majority of this data is categorical in nature, and so will require some more preprocessing.</p>
+<h2>How to handle categorical data</h2>
+<p>Many machine learning algorithms -- including that which we apply below -- will not accept categorical, or text, features. What is the best way to convert such data into numerical values? A natural idea is to convert each unique string to a unique value.  For example, in our data set we might take the crime category value to correspond to one numerical feature, with Larceny set to 1, Homicide to 2, etc.  However, this scheme can cause problems for many algorithms, because they will incorrectly assume that nearby numerical values imply some sort of similarity between the underlying categorical values.</p>
+<p>To avoid the problem noted above, we will instead binarize our categorical data, using vectors of 1's and 0's. For example, we will write</p>
+<div class="highlight"><pre><span></span><span class="err">larceny = 1,0,0,0,...</span>
+<span class="err">homicide = 0,1,0,0,...</span>
+<span class="err">prostitution  = 0,0,1,0,...</span>
+<span class="err">...</span>
+</pre></div>
+
+
+<p>There are a variety of methods to do this encoding, but Pandas has a particularly nice method called <a href="http://pandas.pydata.org/pandas-docs/version/0.13.1/generated/pandas.get_dummies.html">get_dummies()</a> that can go straight from your column of text to a binarized array.  Below, we also convert the crime category labels to integer values using the method <a href="http://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.LabelEncoder.html">LabelEncoder</a>, and use Pandas to extract the hour from each time point. We then convert the districts, weekday, and hour into binarized arrays and combine them into a new dataframe. <strong> </strong> We then split up the train_data into a training and validation set so that we have a way of accessing the model performance while leaving the test data untouched.</p>
+<div class="highlight"><pre><span></span><span class="o">#</span><span class="k">Convert</span> <span class="n">crime</span> <span class="n">labels</span> <span class="k">to</span> <span class="n">numbers</span>  
+<span class="n">le_crime</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="p">.</span><span class="n">LabelEncoder</span><span class="p">()</span>  
+<span class="n">crime</span> <span class="o">=</span> <span class="n">le_crime</span><span class="p">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">train</span><span class="p">.</span><span class="n">Category</span><span class="p">)</span>
+
+<span class="o">#</span><span class="k">Get</span> <span class="n">binarized</span> <span class="n">weekdays</span><span class="p">,</span> <span class="n">districts</span><span class="p">,</span> <span class="k">and</span> <span class="n">hours</span><span class="p">.</span>  
+<span class="n">days</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">train</span><span class="p">.</span><span class="n">DayOfWeek</span><span class="p">)</span>  
+<span class="n">district</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">train</span><span class="p">.</span><span class="n">PdDistrict</span><span class="p">)</span>  
+<span class="n">hour</span> <span class="o">=</span> <span class="n">train</span><span class="p">.</span><span class="n">Dates</span><span class="p">.</span><span class="n">dt</span><span class="p">.</span><span class="n">hour</span>  
+<span class="n">hour</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span>
+
+<span class="o">#</span><span class="n">Build</span> <span class="k">new</span> <span class="nb">array</span>  
+<span class="n">train_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">hour</span><span class="p">,</span> <span class="n">days</span><span class="p">,</span> <span class="n">district</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  
+<span class="n">train_data</span><span class="p">[</span><span class="s1">&#39;crime&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">crime</span>
+
+<span class="o">#</span><span class="n">Repeat</span> <span class="k">for</span> <span class="n">test</span> <span class="k">data</span>  
+<span class="n">days</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">test</span><span class="p">.</span><span class="n">DayOfWeek</span><span class="p">)</span>  
+<span class="n">district</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">test</span><span class="p">.</span><span class="n">PdDistrict</span><span class="p">)</span>
+
+<span class="n">hour</span> <span class="o">=</span> <span class="n">test</span><span class="p">.</span><span class="n">Dates</span><span class="p">.</span><span class="n">dt</span><span class="p">.</span><span class="n">hour</span>  
+<span class="n">hour</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">hour</span><span class="p">)</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">hour</span><span class="p">,</span> <span class="n">days</span><span class="p">,</span> <span class="n">district</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">training</span><span class="p">,</span> <span class="n">validation</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span> <span class="n">train_size</span><span class="o">=</span><span class="p">.</span><span class="mi">60</span><span class="p">)</span>  
+</pre></div>
+
+
+<h2><strong>Model development</strong></h2>
+<p>For this competition the metric used to rate the performance of the model is the multi-class <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html">log_loss</a> -- smaller values of this loss correspond to improved performance.</p>
+<h4>First pass</h4>
+<p>For our first quick pass, we used just the day of the week and district for features in our classifier training. We also carried out a Logistic Regression (LR) on the data in order to get a feel for how the Naive Bayes (NB) model was performing. The results from the NB model gave us a log-loss of 2.62, while LR after tuning was able to give 2.62. However, LR took 60 seconds to run, while NB took only 1.5 seconds! As a reference, the current top score on the leader board is about 2.27, while the worst is around 35. Not bad performance!</p>
+<div class="highlight"><pre><span></span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;Friday&#39;, &#39;Monday&#39;, &#39;Saturday&#39;, &#39;Sunday&#39;, &#39;Thursday&#39;, &#39;Tuesday&#39;,  </span>
+<span class="n">&#39;Wednesday&#39;, &#39;BAYVIEW&#39;, &#39;CENTRAL&#39;, &#39;INGLESIDE&#39;, &#39;MISSION&#39;,  </span>
+<span class="n">&#39;NORTHERN&#39;, &#39;PARK&#39;, &#39;RICHMOND&#39;, &#39;SOUTHERN&#39;, &#39;TARAVAL&#39;, &#39;TENDERLOIN&#39;</span><span class="o">]</span><span class="w"></span>
+
+<span class="n">training</span><span class="p">,</span><span class="w"> </span><span class="n">validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train_test_split</span><span class="p">(</span><span class="n">train_data</span><span class="p">,</span><span class="w"> </span><span class="n">train_size</span><span class="o">=</span><span class="mf">.60</span><span class="p">)</span><span class="w">  </span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BernoulliNB</span><span class="p">()</span><span class="w">  </span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">predicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">))</span><span class="w">  </span>
+<span class="n">log_loss</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">predicted</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">#Logistic</span><span class="w"> </span><span class="n">Regression</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">comparison</span><span class="w">  </span>
+<span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">LogisticRegression</span><span class="p">(</span><span class="n">C</span><span class="o">=</span><span class="mf">.01</span><span class="p">)</span><span class="w">  </span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">predicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">))</span><span class="w">  </span>
+<span class="n">log_loss</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">predicted</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<h4>Submission code</h4>
+<div class="highlight"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BernoulliNB</span><span class="p">()</span><span class="w">  </span>
+<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">train_data</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">predicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test_data</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">#Write</span><span class="w"> </span><span class="n">results</span><span class="w">  </span>
+<span class="k">result</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=</span><span class="n">le_crime</span><span class="p">.</span><span class="n">classes_</span><span class="p">)</span><span class="w">  </span>
+<span class="k">result</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;testResult.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">True</span><span class="p">,</span><span class="w"> </span><span class="n">index_label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Id&#39;</span><span class="w"> </span><span class="p">)</span><span class="w">  </span>
+</pre></div>
+
+
+<p>With the above model performing well, we used our code to write out our predictions on the test set to csv format, and submitted this to Kaggle. It turns out we got a score of 2.61 which is slightly better than our validation set estimate. The was a good enough score to put us in the to 50%. Pretty good for a first try!</p>
+<h4>Second pass</h4>
+<p>To improve the model further, we next added the time to the feature list used in training. This clearly provides some relevant information, as some types of crime happen more during the day than the night. For example, we expect public drunkenness to probably go up in the late evening.  Adding this feature we were able to push our log-loss score down to 2.58 -- quick and easy progress!  As a side note, we also tried leaving the hours as a continuous variable, but this did not lead to any score improvements.  After training on the whole data set again, we also get 2.58 on the test date. This moved us up another 32 spots, giving a final placement of 76/226!</p>
+<div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Friday&#39;</span><span class="p">,</span> <span class="s1">&#39;Monday&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">,</span> <span class="s1">&#39;Thursday&#39;</span><span class="p">,</span> <span class="s1">&#39;Tuesday&#39;</span><span class="p">,</span>  
+<span class="s1">&#39;Wednesday&#39;</span><span class="p">,</span> <span class="s1">&#39;BAYVIEW&#39;</span><span class="p">,</span> <span class="s1">&#39;CENTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;INGLESIDE&#39;</span><span class="p">,</span> <span class="s1">&#39;MISSION&#39;</span><span class="p">,</span>  
+<span class="s1">&#39;NORTHERN&#39;</span><span class="p">,</span> <span class="s1">&#39;PARK&#39;</span><span class="p">,</span> <span class="s1">&#39;RICHMOND&#39;</span><span class="p">,</span> <span class="s1">&#39;SOUTHERN&#39;</span><span class="p">,</span> <span class="s1">&#39;TARAVAL&#39;</span><span class="p">,</span> <span class="s1">&#39;TENDERLOIN&#39;</span><span class="p">]</span>
+
+<span class="n">features2</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="k">in</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">24</span><span class="p">)]</span>  
+<span class="n">features</span> <span class="o">=</span> <span class="n">features</span> <span class="o">+</span> <span class="n">features2</span>  
+</pre></div>
+
+
+<h2>Discussion</h2>
+<p>Although Naive Bayes is a fairly simple model, properly wielded it can give great results.  In fact, in this competition our results were competitive with teams who were using much more complicated models, e.g. neural nets. We also learned a few other interesting things here: For example, Pandas' get_dummies() method looks like it will be a huge timesaver when dealing with categorical data. Till next time -- keep your Prius safe!<br>
+<a href="https://github.com/EFavDB/SF-Crime" title="GitHub Repo"><img alt="Open GitHub Repo" src="http://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"></a></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Machine learning to predict San Francisco crime&amp;url=./predicting-san-francisco-crimes.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./predicting-san-francisco-crimes.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./predicting-san-francisco-crimes.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./leave-one-out-cross-validation.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Leave-one-out cross-validation</h2>
+                            <p class="post-nav-excerpt">This will be the first of a series of short posts relating to subject matter discussed...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./ranking-revisited.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">How not to sort by average rating, revisited</h2>
+                            <p class="post-nav-excerpt">What is the best method for ranking items that have positive and negative reviews?...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

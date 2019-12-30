@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Obtaining and visualizing traffic data</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./obtaining-and-visualizing-traffic-data.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="In our first set of posts here, we explore the possibility of using historical traffic data to train a machine learning algorithm...">
+
+    <meta name="author" content="dmcintosh">
+
+    <meta name="tags" content="programming">
+    <meta name="tags" content="traffic">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Obtaining and visualizing traffic data"/>
+<meta property="og:description" content="In our first set of posts here, we explore the possibility of using historical traffic data to train a machine learning algorithm..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./obtaining-and-visualizing-traffic-data.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-10-16 22:07:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/dmcintosh.html">
+<meta property="article:section" content="Case studies"/>
+<meta property="article:tag" content="programming"/>
+<meta property="article:tag" content="traffic"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Obtaining and visualizing traffic data">
+    <meta name="twitter:url" content="./obtaining-and-visualizing-traffic-data.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="In our first set of posts here, we explore the possibility of using historical traffic data to train a machine learning algorithm...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Obtaining and visualizing traffic data",
+  "headline": "Obtaining and visualizing traffic data",
+  "datePublished": "2014-10-16 22:07:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "dmcintosh",
+    "url": "./author/dmcintosh.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./obtaining-and-visualizing-traffic-data.html",
+  "description": "In our first set of posts here, we explore the possibility of using historical traffic data to train a machine learning algorithm..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Obtaining and visualizing traffic data</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/dmcintosh.html">Dmcintosh</a>
+            | <time datetime="Thu 16 October 2014">Thu 16 October 2014</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>In our first set of posts here, we explore the possibility of using historical traffic data to train a machine learning algorithm capable of predicting near-term highway conditions — say, up to an hour into the future, at any given time.  To try our hand at this, we will be working with publicly available data provided by the <a href="http://pems.dot.ca.gov/">California Performance Measurement System (PEMS)</a>.</p>
+<p><a href="./wp-content/uploads/2014/10/Jan15_1730.png"><img alt="Jan15_1730" src="./wp-content/uploads/2014/10/Jan15_1730.png"></a></p>
+<p>The data provided by PEMS takes the form of time-averaged speed measurements for a large set of points throughout the California highway system (<span class="math">\(\gtrsim 2000\)</span>  in the Bay Area alone). These speeds are measured using devices called “inductive-loop detectors<span class="math">\(^1\)</span>” that are embedded just below the pavement at each site of interest. The same sort of devices are used at traffic lights to detect waiting vehicles: If you have ever noticed what looks like a circular or rectangular cut in the concrete at a traffic light, that’s what that is — <a href="https://www.youtube.com/watch?v=8GAacxGiV4A">informative youtube video on how bikers might more easily trigger these</a>.</p>
+<p>As we dissect the traffic data, we will require a visualization tool. We have developed a tool to do this from scratch in Python<span class="math">\(^2\)</span>. This tool plots by color the speed of traffic along each highway. The figure above provides an example (traffic conditions for Jan 15 2014 at 5:30 pm) on top of a silhouette background of the Bay Area (courtesy of <a href="http://www.lesterlee.org/">Lester Lee</a>).</p>
+<p>Stay tuned for updates on this and other related projects!</p>
+<p>[1] <em>Aside on inductive loop detectors</em>: Inductive detectors are essentially large wire loops (solenoids) that are constantly being driven by an alternating current source. When a large metallic object (car) is above the loop, the voltage needed to drive the current changes (see below).  This effect allows the loops to infer vehicle proximity.  In order to estimate speeds, average vehicle-loop crossing times are combined with predetermined average vehicle lengths.  [To see why the voltage across a loop changes as a car passes, you can play with these equations:  <span class="math">\( V  = L \partial_t I\)</span>, <span class="math">\(\Phi = L I\)</span>, <span class="math">\(\nabla \times \textbf{E} = - \partial_t \textbf{B}\)</span>, <span class="math">\(\nabla \times \textbf{H} = \textbf{J}_f\)</span>.  See also <a href="http://en.wikipedia.org/wiki/Electromagnet#Magnetic_core">link</a>.</p>
+<p>[2] <em>Aside on plotting algorithm</em>: Traffic data on the PEMS website is provided via downloadable text files (1 file per day). Each file provides average traffic speed data, for each five minute window period in a day, for each functioning detector. The detectors themselves are identified with a 6-digit ID number. The latitude and longitude of these detectors, as well as which highway they are on, the direction of the highway, and their absolute mile marker position, are located in separate meta data files. We simply plot a line between each adjacent pair of detectors on a given highway, with color determined by the average speed of the two. North-South / East-West highway counterparts are separated by a small space by shifting their position perpendicular to the local highway tangent vector at each point. Missing data is imputed via the value of the nearest functional detector.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Obtaining and visualizing traffic data&amp;url=./obtaining-and-visualizing-traffic-data.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./obtaining-and-visualizing-traffic-data.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./obtaining-and-visualizing-traffic-data.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="./tag/programming.html">programming</a><a href="./tag/traffic.html">traffic</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./traffic-patterns-of-the-year-2014-edition.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Traffic patterns of the year: 2014 edition</h2>
+                            <p class="post-nav-excerpt">As we mentioned in the last post, there are currently over 2000 active speed loop...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

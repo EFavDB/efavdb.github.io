@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Simple python to LaTeX parser</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./simple-python-to-latex-parser.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Simple python to LaTeX parser"/>
+<meta property="og:description" content="We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./simple-python-to-latex-parser.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2016-11-18 12:59:00-08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Programming"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Simple python to LaTeX parser">
+    <meta name="twitter:url" content="./simple-python-to-latex-parser.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Simple python to LaTeX parser",
+  "headline": "Simple python to LaTeX parser",
+  "datePublished": "2016-11-18 12:59:00-08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./simple-python-to-latex-parser.html",
+  "description": "We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Simple python to LaTeX parser</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Fri 18 November 2016">Fri 18 November 2016</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the result.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction</h3>
+<p>Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output follows:</p>
+<div class="highlight"><pre><span></span><span class="x">s = &#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&#39;  </span>
+<span class="x">print command_to_latex(s)</span>
+
+<span class="x">## output:  </span>
+<span class="x">\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt</span><span class="cp">{{</span><span class="m">2</span><span class="o">}</span><span class="err">^</span><span class="o">{</span><span class="nv">w</span><span class="cp">}}</span><span class="x"> \cdot \tanh \left (2 \cdot \pi \cdot x \right )  </span>
+</pre></div>
+
+
+<p>If the output shown here is plugged into a LaTeX editor, we get the following result:</p>
+<div class="math">$$\tag{1}  
+\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt{{2}^{w}} \cdot \tanh \left (2 \cdot \pi \cdot x \right )  
+$$</div>
+<p><br>
+Our Jupyter <a href="https://github.com/EFavDB/python_command_to_latex">notebook</a> automatically pretty prints to this form.</p>
+<p>We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python format.</p>
+<p>We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined -- we illustrate this issue in the notebook.</p>
+<p>As usual, our code can be downloaded from our github page <a href="https://github.com/EFavDB/python_command_to_latex">here</a>.</p>
+<h3>Code</h3>
+<p>The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines below.</p>
+<div class="highlight"><pre><span></span><span class="x">def parse_simple_eqn(q):  </span>
+<span class="x">&quot;&quot;&quot; Return TeX equivalent of a command  </span>
+<span class="x">without parentheses. &quot;&quot;&quot;  </span>
+<span class="x"># Define replacement rules.  </span>
+<span class="x">simple_replacements = [[&#39; &#39;, &#39;&#39;],  </span>
+<span class="x">[&#39;**&#39;, &#39;^&#39;], [&#39;*&#39;, &#39; \cdot &#39;],  </span>
+<span class="x">[&#39;math.&#39;, &#39;&#39;], [&#39;np.&#39;, &#39;&#39;],  </span>
+<span class="x">[&#39;pi&#39;, &#39;\pi&#39;] , [&#39;tan&#39;, &#39;\tan&#39;],  </span>
+<span class="x">[&#39;cos&#39;, &#39;\cos&#39;], [&#39;sin&#39;, &#39;\sin&#39;],  </span>
+<span class="x">[&#39;sec&#39;, &#39;\sec&#39;], [&#39;csc&#39;, &#39;\csc&#39;]]  </span>
+<span class="x">complex_replacements = [[&#39;^&#39;, &#39;</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}^</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
+<span class="x">[&#39;_&#39;, &#39;</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}_</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
+<span class="x">[&#39;/&#39;, &#39;\frac</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
+<span class="x">[&#39;sqrt&#39;,&#39;\sqrt</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;]]  </span>
+<span class="x"># Carry out simple replacements  </span>
+<span class="x">for pair in simple_replacements:  </span>
+<span class="x">q = q.replace(pair[0], pair[1])  </span>
+<span class="x"># Now complex replacements  </span>
+<span class="x">for item in [&#39;*&#39;, &#39;/&#39;, &#39;+&#39;, &#39;-&#39;, &#39;^&#39;, &#39;_&#39;, &#39;,&#39;, &#39;sqrt&#39;]:  </span>
+<span class="x">q = q.replace(item, &#39; &#39; + item + &#39; &#39;)  </span>
+<span class="x">q_split = q.split()  </span>
+<span class="x">for index, item in enumerate(q_split):  </span>
+<span class="x">for pair in complex_replacements:  </span>
+<span class="x">if item == pair[0]:  </span>
+<span class="x">if item == &#39;sqrt&#39;:  </span>
+<span class="x">match_str = &quot; &quot;.join(q_split[index:index+2])  </span>
+<span class="x">else:  </span>
+<span class="x">match_str = &quot; &quot;.join(q_split[index-1:index+2])  </span>
+<span class="x">q = q.replace(match_str, pair[1].format(  </span>
+<span class="x">i1=q_split[index-1], i2=q_split[index+1]))  </span>
+<span class="x">return q</span>
+
+<span class="x">def command_to_latex(q, index=0):  </span>
+<span class="x">&quot;&quot;&quot; Recursively eliminate parentheses. Once  </span>
+<span class="x">removed, apply parse_simple_eqn. &quot;&quot;&quot;  </span>
+<span class="x">open_index, close_index = -1, -1  </span>
+<span class="x">for q_index, i in enumerate(q):  </span>
+<span class="x">if i == &#39;(&#39;:  </span>
+<span class="x">open_index = q_index  </span>
+<span class="x">elif i == &#39;)&#39;:  </span>
+<span class="x">close_index = q_index  </span>
+<span class="x">break  </span>
+<span class="x">if open_index != -1:  </span>
+<span class="x">o = q[:open_index] + &#39;@&#39; + str(index) + q[close_index + 1:]  </span>
+<span class="x">m = q[open_index + 1:close_index]  </span>
+<span class="x">o_tex = command_to_latex(o, index + 1)  </span>
+<span class="x">m_tex = command_to_latex(m, index + 1)  </span>
+<span class="x"># Clean up redundant parentheses at recombination  </span>
+<span class="x">r_index = o_tex.find(&#39;@&#39; + str(index))  </span>
+<span class="x">if o_tex[r_index - 1] == &#39;{&#39;:  </span>
+<span class="x">return o_tex.replace(&#39;@&#39;+str(index), m_tex)  </span>
+<span class="x">else:  </span>
+<span class="x">return o_tex.replace(&#39;@&#39;+str(index),  </span>
+<span class="x">&#39; \left (&#39; + m_tex + &#39; \right )&#39;)  </span>
+<span class="x">else:  </span>
+<span class="x">return parse_simple_eqn(q)  </span>
+</pre></div>
+
+
+<p>That's it!</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Simple python to LaTeX parser&amp;url=./simple-python-to-latex-parser.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./simple-python-to-latex-parser.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./simple-python-to-latex-parser.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./model-auc-depends-on-test-set-difficulty.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Model AUC depends on test set difficulty</h2>
+                            <p class="post-nav-excerpt">The AUC score is a popular summary statistic that is often used to communicate the...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./battleship.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Deep reinforcement learning, battleship</h2>
+                            <p class="post-nav-excerpt">Here, we provide a brief introduction to reinforcement learning (RL) -- a general...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

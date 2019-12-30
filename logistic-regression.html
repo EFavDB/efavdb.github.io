@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Logistic Regression</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./logistic-regression.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Logistic Regression"/>
+<meta property="og:description" content="We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./logistic-regression.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-07-29 19:10:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Methods, Statistics, Theory"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Logistic Regression">
+    <meta name="twitter:url" content="./logistic-regression.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Logistic Regression",
+  "headline": "Logistic Regression",
+  "datePublished": "2017-07-29 19:10:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./logistic-regression.html",
+  "description": "We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Logistic Regression</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sat 29 July 2017">Sat 29 July 2017</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the maximum likelihood fit's asymptotic coefficient covariance matrix, and c) expressions for model test point class membership probability confidence intervals. We also provide python code implementing a minimal "LogisticRegressionWithError" class whose "predict_proba" method returns prediction confidence intervals alongside its point estimates.</p>
+<p>Our python code can be downloaded from our github page, <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a>. Its use requires the jupyter, numpy, sklearn, and matplotlib packages.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Introduction</h3>
+<p>The logistic regression model is a linear classification model that can be used to fit binary data -- data where the label one wishes to predict can take on one of two values -- e.g., <span class="math">\(0\)</span> or <span class="math">\(1\)</span>. Its linear form makes it a convenient choice of model for fits that are required to be interpretable. Another of its virtues is that it can -- with relative ease -- be set up to return both point estimates and also confidence intervals for test point class membership probabilities. The availability of confidence intervals allows one to flag test points where the model prediction is not precise, which can be useful for some applications -- eg fraud detection.</p>
+<p>In this note, we derive the expressions needed to fit the logistic model to a training data set. We assume the training data consists of a set of <span class="math">\(n\)</span> feature vector- label pairs, <span class="math">\(\{(\vec{x}_i, y_i)\)</span>, for <span class="math">\(i = 1, 2, \ldots, n\}\)</span>, where the feature vectors <span class="math">\(\vec{x}_i\)</span> belong to some <span class="math">\(m\)</span>-dimensional space and the labels are binary, <span class="math">\(y_i \in \{0, 1\}.\)</span> The logistic model states that the probability of belonging to class <span class="math">\(1\)</span> is given by<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{1} \label{model1}  
+p(y=1 \vert \vec{x}) \equiv \frac{1}{1 + e^{- \vec{\beta} \cdot \vec{x} } },  
+\end{eqnarray}</div>
+<p><br>
+where <span class="math">\(\vec{\beta}\)</span> is a coefficient vector characterizing the model. Note that with this choice of sign in the exponent, predictor vectors <span class="math">\(\vec{x}\)</span> having a large, positive component along <span class="math">\(\vec{\beta}\)</span> will be predicted to have a large probability of being in class <span class="math">\(1\)</span>. The probability of class <span class="math">\(0\)</span> is given by the complement,<br>
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{model2}  
+p(y=0 \vert \vec{x}) \equiv 1 - p(y=1 \vert \vec{x}) = \frac{1}{1 + e^{ \vec{\beta} \cdot \vec{x} } }.  
+\end{eqnarray}</div>
+<p><br>
+The latter equality above follows from simplifying algebra, after plugging in (\ref{model1}) for <span class="math">\(p(y=1 \vert \vec{x}).\)</span></p>
+<p>To fit the Logistic model to a training set -- i.e., to find a good choice for the fit parameter vector <span class="math">\(\vec{\beta}\)</span> -- we consider here only the maximum-likelihood solution. This is that <span class="math">\(\vec{\beta}^*\)</span> that maximizes the conditional probability of observing the training data. The essential results we review below are 1) a proof that the maximum likelihood solution can be found by gradient descent, and 2) a derivation for the asymptotic covariance matrix of <span class="math">\(\vec{\beta}\)</span>. This latter result provides the basis for returning point estimate confidence intervals.</p>
+<p><a href="./wp-content/uploads/2017/07/errorbar.png"><img alt="errorbar" src="./wp-content/uploads/2017/07/errorbar.png"></a></p>
+<p>On our GitHub <a href="https://github.com/EFavDB/logistic-regression-with-error">page</a>, we provide a Jupyter notebook that contains some minimal code extending the SKLearn LogisticRegression class. This extension makes use of the results presented here and allows for class probability confidence intervals to be returned for individual test points. In the notebook, we apply the algorithm to the SKLearn Iris dataset. The figure at right illustrates the output of the algorithm along a particular cut through the Iris data set parameter space. The y-axis represents the probability of a given test point belong to Iris class <span class="math">\(1\)</span>. The error bars in the plot provide insight that is completely missed when considering the point estimates only. For example, notice that the error bars are quite large for each of the far right points, despite the fact that the point estimates there are each near <span class="math">\(1\)</span>. Without the error bars, the high probability of these point estimates might easily be misinterpreted as implying high model confidence.</p>
+<p>Our derivations below rely on some prerequisites: Properties of covariance matrices, the multivariate Cramer-Rao theorem, and properties of maximum likelihood estimators. These concepts are covered in two of our prior posts [<span class="math">\(1\)</span>, <span class="math">\(2\)</span>].</p>
+<h3>Optimization by gradient descent</h3>
+<p>In this section, we derive expressions for the gradient of the negative-log likelihood loss function and also demonstrate that this loss is everywhere convex. The latter result is important because it implies that gradient descent can be used to find the maximum likelihood solution.</p>
+<p>Again, to fit the logistic model to a training set, our aim is to find -- and also to set the parameter vector to -- the maximum likelihood value. Assuming the training set samples are independent, the likelihood of observing the training set labels is given by<br>
+</p>
+<div class="math">\begin{eqnarray}  
+L &amp;\equiv&amp; \prod_i p(y_i \vert \vec{x}_i) \  
+&amp;=&amp; \prod_{i: y_i = 1} \frac{1}{1 + e^{-\vec{\beta} \cdot \vec{x}_i}} \prod_{i: y_i = 0} \frac{1}{1 + e^{\vec{\beta} \cdot \vec{x}_i}}.  
+\tag{3} \label{likelihood}  
+\end{eqnarray}</div>
+<p><br>
+Maximizing this is equivalent to minimizing its negative logarithm -- a cost function that is somewhat easier to work with,<br>
+</p>
+<div class="math">\begin{eqnarray}  
+J &amp;\equiv &amp; -\log L \  
+&amp;=&amp; \sum_{\{i: y_i = 1 \}} \log \left (1 + e^{- \vec{\beta} \cdot \vec{x}_i } \right ) + \sum_{\{i: y_i = 0 \}} \log \left (1 + e^{\vec{\beta} \cdot \vec{x}_i } \right ).  
+\tag{4} \label{costfunction}  
+\end{eqnarray}</div>
+<p><br>
+The maximum-likelihood solution, <span class="math">\(\vec{\beta}^*\)</span>, is that coefficient vector that minimizes the above. Note that <span class="math">\(\vec{\beta}^*\)</span> will be a function of the random sample, and so will itself be a random variable -- characterized by a distribution having some mean value, covariance, etc. Given enough samples, a theorem on maximum-likelihood asymptotics (Cramer-Rao) guarantees that this distribution will be unbiased -- i.e., it will have mean value given by the correct parameter values -- and will also be of minimal covariance [<span class="math">\(1\)</span>]. This theorem is one of the main results motivating use of the maximum-likelihood solution.</p>
+<p>Because <span class="math">\(J\)</span> is convex (demonstrated below), the logistic regression maximum-likelihood solution can always be found by gradient descent. That is, one need only iteratively update <span class="math">\(\vec{\beta}\)</span> in the direction of the negative <span class="math">\(\vec{\beta}\)</span>-gradient of <span class="math">\(J\)</span>, which is<br>
+</p>
+<div class="math">\begin{eqnarray}  
+- \nabla_{\vec{\beta}} J &amp;=&amp; \sum_{\{i: y_i = 1 \}}\vec{x}_i \frac{ e^{- \vec{\beta} \cdot \vec{x}_i } }{1 + e^{- \vec{\beta} \cdot \vec{x}_i }}  
+- \sum_{\{i: y_i = 0 \}} \vec{x}_i \frac{ e^{\vec{\beta} \cdot \vec{x}_i }}{1 + e^{\vec{\beta} \cdot \vec{x}_i } } \  
+&amp;\equiv&amp; \sum_{\{i: y_i = 1 \}}\vec{x}_i p(y=0 \vert \vec{x}_i)  
+-\sum_{\{i: y_i = 0 \}} \vec{x}_i p(y= 1 \vert \vec{x}_i). \tag{5} \label{gradient}  
+\end{eqnarray}</div>
+<p><br>
+Notice that the terms that contribute the most here are those that are most strongly misclassified -- i.e., those where the model's predicted probability for the observed class is very low. For example, a point with true label <span class="math">\(y=1\)</span> but large model <span class="math">\(p(y=0 \vert \vec{x})\)</span> will contribute a significant push on <span class="math">\(\vec{\beta}\)</span> in the direction of <span class="math">\(\vec{x}\)</span> -- so that the model will be more likely to predict <span class="math">\(y=1\)</span> at this point going forward. Notice that the contribution of a term above is also proportional to the length of its feature vector -- training points further from the origin have a stronger impact on the optimization process than those near the origin (at fixed classification difficulty).</p>
+<p>The Hessian (second partial derivative) matrix of the cost function follows from taking a second gradient of the above. With a little algebra, one can show that this has <span class="math">\(i-j\)</span> component given by,<br>
+</p>
+<div class="math">\begin{eqnarray}  
+H(J)_{ij} &amp;\equiv&amp; -\partial_{\beta_j} \partial_{\beta_i} \log L \  
+&amp;=&amp; \sum_k x_{k; i} x_{k; j} p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k). \tag{6} \label{Hessian}  
+\end{eqnarray}</div>
+<p><br>
+We can prove that this is positive semi-definite using the fact that a matrix <span class="math">\(M\)</span> is necessarily positive semi-definite if <span class="math">\(\vec{s}^T \cdot M \cdot \vec{s} \geq 0\)</span> for all real <span class="math">\(\vec{s}\)</span> [<span class="math">\(2\)</span>]. Dotting our Hessian above on both sides by an arbitrary vector <span class="math">\(\vec{s}\)</span>, we obtain<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\vec{s}^T \cdot H \cdot \vec{s} &amp;\equiv &amp; \sum_k \sum_{ij} s_i x_{k; i} x_{k; j} s_j p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \  
+&amp;=&amp; \sum_k \vert \vec{s} \cdot \vec{x}_k \vert^2 p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \geq 0.  
+\tag{7} \label{convex}  
+\end{eqnarray}</div>
+<p><br>
+The last form follows from the fact that both <span class="math">\( p(y= 0 \vert \vec{x}_k) $ and $ p(y= 1 \vert \vec{x}_k) $ are non-negative. This holds for any $\vec{\beta}\)</span> and any <span class="math">\(\vec{s}\)</span>, which implies that our Hessian is everywhere positive semi-definite. Because of this, convex optimization strategies -- e.g., gradient descent -- can always be applied to find the global maximum-likelihood solution.</p>
+<h3>Coefficient uncertainty and significance tests</h3>
+<p>The solution <span class="math">\(\vec{\beta}^*\)</span> that minimizes <span class="math">\(J\)</span> -- which can be found by gradient descent -- is a maximum likelihood estimate. In the asymptotic limit of a large number of samples, maximum-likelihood parameter estimates satisfy the Cramer-Rao lower bound [<span class="math">\(2\)</span>]. That is, the parameter covariance matrix satisfies [<span class="math">\(3\)</span>],<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\text{cov}(\vec{\beta}^*, \vec{\beta}^*) &amp;\sim&amp; H(J)^{-1} \  
+&amp;\approx &amp; \frac{1}{\sum_k \vec{x}_{k} \vec{x}_{k}^T p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k)}.  
+\tag{8} \label{covariance}  
+\end{eqnarray}</div>
+<p><br>
+Notice that the covariance matrix will be small if the denominator above is large. Along a given direction, this requires that the training set contains samples over a wide range of values in that direction (we discuss this at some length in the analogous section of our post on Linear Regression [<span class="math">\(4\)</span>]). For a term to contribute in the denominator, the model must also have some confusion about its values: If there are no difficult-to-classify training examples, this means that there are no examples near the decision boundary. When this occurs, there will necessarily be a lot of flexibility in where the decision boundary is placed, resulting in large parameter variances.</p>
+<p>Although the form above only holds in the asymptotic limit, we can always use it to approximate the true covariance matrix -- keeping in mind that the accuracy of the approximation will degrade when working with small training sets. For example, using (\ref{covariance}), the asymptotic variance for a single parameter can be approximated by<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\tag{9} \label{single_cov}  
+\sigma^2_{\beta^*_i} = \text{cov}(\vec{\beta}^*, \vec{\beta}^*)_{ii}.  
+\end{eqnarray}</div>
+<p><br>
+In the asymptotic limit, the maximum-likelihood parameters will be Normally-distributed [<span class="math">\(1\)</span>], so we can provide confidence intervals for the parameters as<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\tag{10} \label{parameter_interval}  
+\beta_i \in \left ( \beta^*_i - z \sigma_{\beta^*_i}, \beta_i^* + z \sigma_{\beta^*_i} \right),  
+\end{eqnarray}</div>
+<p><br>
+where the value of <span class="math">\(z\)</span> sets the size of the interval. For example, choosing <span class="math">\(z = 2\)</span> gives an interval construction procedure that will cover the true value approximately <span class="math">\(95%\)</span> of the time -- a result of Normal statistics [<span class="math">\(5\)</span>]. Checking which intervals do not cross zero provides a method for identifying which features contribute significantly to a given fit.</p>
+<h3>Prediction confidence intervals</h3>
+<p>The probability of class <span class="math">\(1\)</span> for a test point <span class="math">\(\vec{x}\)</span> is given by (\ref{model1}). Notice that this depends on <span class="math">\(\vec{x}\)</span> and <span class="math">\(\vec{\beta}\)</span> only through the dot product <span class="math">\(\vec{x} \cdot \vec{\beta}\)</span>. At fixed <span class="math">\(\vec{x}\)</span>, the variance (uncertainty) in this dot product follows from the coefficient covariance matrix above: We have [<span class="math">\(2\)</span>],<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\tag{11} \label{logit_var}  
+\sigma^2_{\vec{x} \cdot \vec{\beta}} \equiv \vec{x}^T \cdot \text{cov}(\vec{\beta}^*, \vec{\beta}^*) \cdot \vec{x}.  
+\end{eqnarray}</div>
+<p><br>
+With this result, we can obtain an expression for the confidence interval for the dot product, or equivalently a confidence interval for the class probability. For example, the asymptotic interval for class <span class="math">\(1\)</span> probability is given by<br>
+</p>
+<div class="math">\begin{eqnarray}  
+\tag{12} \label{prob_interval}  
+p(y=1 \vert \vec{x}) \in \left ( \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* + z \sigma_{\vec{x} \cdot \vec{\beta}^*}}}, \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* - z \sigma_{\vec{x} \cdot \vec{\beta}^*}}} \right),  
+\end{eqnarray}</div>
+<p><br>
+where <span class="math">\(z\)</span> again sets the size of the interval as above (<span class="math">\(z=2\)</span> gives a <span class="math">\(95%\)</span> confidence interval, etc. [<span class="math">\(5\)</span>]), and <span class="math">\(\sigma_{\vec{x} \cdot \vec{\beta}^*}\)</span> is obtained from (\ref{covariance}) and (\ref{logit_var}).</p>
+<p>The results (\ref{covariance}), (\ref{logit_var}), and (\ref{prob_interval}) are used in our Jupyter notebook. There we provide code for a minimal Logistic Regression class implementation that returns both point estimates and prediction confidence intervals for each test point. We used this code to generate the plot shown in the post introduction. Again, the code can be downloaded <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a> if you are interested in trying it out.</p>
+<h3>Summary</h3>
+<p>In this note, we have 1) reviewed how to fit a logistic regression model to a binary data set for classification purposes, and 2) have derived the expressions needed to return class membership probability confidence intervals for test points.</p>
+<p>Confidence intervals are typically not available for many out-of-the-box machine learning models, despite the fact that intervals can often provide significant utility. The fact that logistic regression allows for meaningful error bars to be returned with relative ease is therefore a notable, advantageous property.</p>
+<h3>Footnotes</h3>
+<p>[<span class="math">\(1\)</span>] Our notes on the maximum-likelihood estimators can be found <a href="http://efavdb.com/maximum-likelihood-asymptotics/">here</a>.</p>
+<p>[<span class="math">\(2\)</span>] Our notes on covariance matrices and the multivariate Cramer-Rao theorem can be found <a href="http://efavdb.com/multivariate-cramer-rao-bound/">here</a>.</p>
+<p>[<span class="math">\(3\)</span>] The Cramer-Rao identity [<span class="math">\(2\)</span>] states that covariance matrix of the maximum-likelihood estimators approaches the Hessian matrix of the log-likelihood, evaluated at their true values. Here, we approximate this by evaluating the Hessian at the maximum-likelihood point estimate.</p>
+<p>[<span class="math">\(4\)</span>] Our notes on linear regression can be found <a href="http://efavdb.com/linear-regression/">here</a>.</p>
+<p>[<span class="math">\(5\)</span>] Our notes on Normal distributions can be found <a href="http://efavdb.com/normal-distributions/">here</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Logistic Regression&amp;url=./logistic-regression.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./logistic-regression.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./logistic-regression.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./martingales.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Martingales</h2>
+                            <p class="post-nav-excerpt">Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./normal-distributions.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Normal Distributions</h2>
+                            <p class="post-nav-excerpt">I review -- and provide derivations for -- some basic properties of Normal...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

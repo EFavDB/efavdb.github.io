@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Martingales</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./martingales.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific...">
+
+    <meta name="author" content="jslandy">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Martingales"/>
+<meta property="og:description" content="Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./martingales.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2017-10-20 07:44:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Finance, Theory"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Martingales">
+    <meta name="twitter:url" content="./martingales.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Martingales",
+  "headline": "Martingales",
+  "datePublished": "2017-10-20 07:44:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./martingales.html",
+  "description": "Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Martingales</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Fri 20 October 2017">Fri 20 October 2017</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific expectation conservation law. If one can identify a Martingale relating to some other sequence of random variables, its use can sometimes make quick work of certain expectation value evaluations.</p>
+<p>This note is adapted from Chapter 2 of Stochastic Calculus and Financial Applications, by Steele.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h3>Definition</h3>
+<p>Often in random processes, one is interested in characterizing a sequence of random variables <span class="math">\(\{X_i\}\)</span>. The example we will keep in mind is a set of variables <span class="math">\(X_i \in \{-1, 1\}\)</span> corresponding to the steps of an unbiased random walk in one-dimension. A Martingale process <span class="math">\(M_i = f(X_1, X_2, \ldots X_i)\)</span> is a derived random variable on top of the <span class="math">\(X_i\)</span> variables satisfying the following conservation law<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{1}  
+E(M_i | X_1, \ldots X_{i-1}) = M_{i-1}.  
+\end{eqnarray}</div>
+<p><br>
+For example, in the unbiased random walk example, if we take <span class="math">\(S_n = \sum_{i=1}^n X_i\)</span>, then <span class="math">\(E(S_n) = S_{n-1}\)</span>, so <span class="math">\(S_n\)</span> is a Martingale. If we can develop or identify a Martingale for a given <span class="math">\(\{X_i\}\)</span> process, it can often help us to quickly evaluate certain expectation values relating to the underlying process. Three useful Martingales follow.</p>
+<ol>
+<li>Again, the sum <span class="math">\(S_n = \sum_{i=1}^n X_i\)</span> is a Martingale, provided <span class="math">\(E(X_i) = 0\)</span> for all <span class="math">\(i\)</span>.</li>
+<li>The expression <span class="math">\(S_n^2 - n \sigma^2\)</span> is a Martingale, provided <span class="math">\(E(X_i) = 0\)</span> and <span class="math">\(E(X_i^2) = \sigma^2\)</span> for all <span class="math">\(i\)</span>. Proof: <div class="math">\begin{eqnarray} \tag{2}  
+    E(S_n^2 | X_1, \ldots X_{n-1}) &amp;=&amp; \sigma^2 + 2 E(X_n) S_{n-1} + S_{n-1}^2 - n \sigma^2\  
+    &amp; =&amp; S_{n-1}^2 - (n-1) \sigma^2.  
+    \end{eqnarray}</div>
+</li>
+<li>The product <span class="math">\(P_n = \prod_{i=1}^n X_i\)</span> is a Martingale, provided <span class="math">\(E(X_i) = 1\)</span> for all <span class="math">\(i\)</span>. One example of interest is<br>
+<div class="math">\begin{eqnarray} \tag{3}  
+    P_n = \frac{\exp \left ( \lambda \sum_{i=1}^n X_i\right)}{E(\exp \left ( \lambda X \right))^n}.  
+    \end{eqnarray}</div>
+<br>
+    Here, <span class="math">\(\lambda\)</span> is a free tuning parameter. If we choose a <span class="math">\(\lambda\)</span> such that <span class="math">\(E(\exp(\lambda X)) = 1\)</span> for our process, we can get a particularly simple form.</li>
+</ol>
+<h3>Stopped processes</h3>
+<p>In some games, we may want to setup rules that say we will stop the game at time <span class="math">\(\tau\)</span> if some condition is met at index <span class="math">\(\tau\)</span>. For example, we may stop a random walk (initialized at zero) if the walker gets to either position <span class="math">\(A\)</span> or <span class="math">\(-B\)</span> (wins <span class="math">\(A\)</span> or loses <span class="math">\(B\)</span>). This motivates defining the stopped Martingale as,<br>
+</p>
+<div class="math">\begin{eqnarray}  
+M_{n \wedge \tau} = \begin{cases}  
+M_n &amp; \text{if } \tau \geq n \  
+M_{\tau} &amp; \text{else}. \tag{4}  
+\end{cases}  
+\end{eqnarray}</div>
+<p><br>
+Here, we prove that if <span class="math">\(M_n\)</span> is a Martingale, then so is $M_{n \wedge \tau} $. This is useful because it will tell us that the stopped Martingale has the same conservation law as the unstopped version.</p>
+<p>First, we note that if <span class="math">\(A_i \equiv f_2(X_1, \ldots X_{i-1})\)</span> is some function of the observations so far, then the transformed process<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{5}  
+\tilde{M}_n \equiv M_0 + \sum_{i=1}^n A_i (M_i - M_{i-1})  
+\end{eqnarray}</div>
+<p><br>
+is also a Martingale. Proof:<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{6}  
+E(\tilde{M}_n | X_1, \ldots X_{n-1}) = A_n \left ( E(M_n) - M_{n-1} \right) + \tilde{M}_{n-1} = \tilde{M}_{n-1}.  
+\end{eqnarray}</div>
+<p>With this result we can prove the stopped Martingale is also a Martingale. We can do that by writing <span class="math">\(A_i = 1(\tau \geq i)\)</span> -- where <span class="math">\(1\)</span> is the indicator function. Plugging this into the above, we get the transformed Martingale,<br>
+</p>
+<div class="math">\begin{eqnarray} \nonumber \tag{7}  
+\tilde{M}_n &amp;=&amp; M_0 + \sum_{i=1}^n 1(\tau \geq i) (M_i - M_{i-1}) \  
+&amp;=&amp; \begin{cases}  
+M_n &amp; \text{if } \tau \geq n \  
+M_{\tau} &amp; \text{else}.  
+\end{cases}  
+\end{eqnarray}</div>
+<p><br>
+This is the stopped Martingale -- indeed a Martingale, by the above.</p>
+<h3>Example applications</h3>
+<h3></h3>
+<h4>Problem 1</h4>
+<p>Consider an unbiased random walker that takes steps of size <span class="math">\(1\)</span>. If we stop the walk as soon as he reaches either <span class="math">\(A\)</span> or <span class="math">\(-B\)</span>, what is the probability that he is at <span class="math">\(A\)</span> when the game stops?</p>
+<p>Solution: Let <span class="math">\(\tau\)</span> be the stopping time and let <span class="math">\(S_n = \sum_{i=1}^n X_i\)</span> be the walker's position at time <span class="math">\(n\)</span>. We know that <span class="math">\(S_n\)</span> is a Martingale. By the above, so then is <span class="math">\(S_{n \wedge \tau}\)</span>, the stopped process Martingale. By the Martingale property<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{8}  
+E(S_{n \wedge \tau}) = E(S_{i \wedge \tau})  
+\end{eqnarray}</div>
+<p><br>
+for all <span class="math">\(i\)</span>. In particular, plugging in <span class="math">\(i = 0\)</span> gives <span class="math">\(E(S_{n \wedge \tau}) = 0\)</span>. If we take <span class="math">\(n \to \infty\)</span>, then<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{9}  
+\lim_{n \to \infty} E(S_{n \wedge \tau}) \to E(S_{\tau}) = 0.  
+\end{eqnarray}</div>
+<p><br>
+But we also have<br>
+</p>
+<div class="math">\begin{eqnarray} \tag{10}  
+E(S_{\tau}) = P(A) * A - (1 - P(A)) B.  
+\end{eqnarray}</div>
+<p><br>
+Equating (9) and (10) gives<br>
+</p>
+<div class="math">\begin{equation} \tag{11}  
+P(A) = \frac{B}{A + B}  
+\end{equation}</div>
+<h5>Problem 2</h5>
+<p>In the game above, what is the expected stopping time? Solution: Use the stopped version of the Martingale <span class="math">\(S_n^2 - n \sigma^2\)</span>.</p>
+<h5>Problem 3</h5>
+<p>In a biased version of the random walk game, what is the probability of stopping at <span class="math">\(A\)</span>? Solution: Use the stopped Martingale of form <span class="math">\(P_n = \frac{\exp \left ( \lambda \sum_{i=1}^n X_i\right)}{E(\exp \left ( \lambda X \right))^n}\)</span>, with <span class="math">\(\exp[\lambda] = q/p\)</span>, where <span class="math">\(p = 1-q\)</span> is the probability of step to the right.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Martingales&amp;url=./martingales.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./martingales.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./martingales.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./gaussian-processes.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">Gaussian Processes</h2>
+                            <p class="post-nav-excerpt">We review the math and code needed to fit a Gaussian Process (GP) regressor to data....</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./logistic-regression.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">Logistic Regression</h2>
+                            <p class="post-nav-excerpt">We review binary logistic regression. In particular, we derive a) the equations needed...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

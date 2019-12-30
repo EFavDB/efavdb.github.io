@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Forecasting Bike Sharing Demand</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./bike-share-forecasting.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed...">
+
+    <meta name="author" content="damienrj">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Forecasting Bike Sharing Demand"/>
+<meta property="og:description" content="In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./bike-share-forecasting.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-03-26 09:20:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:section" content="Case studies"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Forecasting Bike Sharing Demand">
+    <meta name="twitter:url" content="./bike-share-forecasting.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Forecasting Bike Sharing Demand",
+  "headline": "Forecasting Bike Sharing Demand",
+  "datePublished": "2015-03-26 09:20:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "damienrj",
+    "url": "./author/damienrj.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./bike-share-forecasting.html",
+  "description": "In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Forecasting Bike Sharing Demand</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/damienrj.html">Damienrj</a>
+            | <time datetime="Thu 26 March 2015">Thu 26 March 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed in a recent <a href="https://www.kaggle.com/c/bike-sharing-demand">Kaggle</a>competition. For those not familiar, Kaggle is a site where one can compete with other data scientists on various data challenges. Top scorers often win prize money, but the site more generally serves as a great place to grab interesting datasets to explore and play with. With the simple optimization steps discussed below, we managed to quickly move from the bottom 10% of the competition -- our first-pass attempt's score -- to the top 10%: no sweat!</p>
+<p>Our work here was inspired by a <a href="http://blog.dato.com/using-gradient-boosted-trees-to-predict-bike-sharing-demand">post</a> by the people at <a href="http://blog.dato.com/">Dato.com</a>, who used the bike sharing competition as an opportunity to demonstrate their software. Here, we go through a similar, but more detailed discussion using the python package <a href="http://scikit-learn.org/stable/">SKlearn</a>.</p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
+Follow us on twitter for new submission alerts!</p>
+<h2>Introduction</h2>
+<p>Bike sharing systems are gaining popularity around the world -- there are over 500 different programs currently operating in various cities, and counting!  These programs are generally funded through rider membership fees, or through pay-to-ride one time rental fees. Key to the convenience of these programs is the fact that riders who pick up a bicycle from one station can return the bicycle to any other in the network.  These systems generate a great deal of data relating to various ride details, including travel time, departure location, arrival location, and so on.  This data has the potential to be very useful for studying city mobility. The data we look at today comes from Washington D. C.'s <a href="https://www.capitalbikeshare.com/">Capital Bikeshare</a> program. The goal of the Kaggle competition is to leverage the historical data provided in order to forecast future bike rental demand within the city.</p>
+<p>As we detailed in an earlier <a href="http://efavdb.com/notes-on-trees/#boosting">post</a>, boosting provides a general method for increasing a machine learning algorithm's performance. Here, in order to model the Capital Bikeshare program's demand curves, we'll be applying a gradient boosted trees model (GBM).  Simply put, GBM's are constructed by iteratively fitting a series of simple trees to a training set, where each new tree attempts to fit the residuals, or errors, of the trees that came before it. With the addition of each new tree the training error is further reduced, typically asymptoting to a reasonably accurate model -- but one must watch out for overfitting -- see below!</p>
+<h2><strong>Loading package and data</strong></h2>
+<p>Below, we show the relevant commands needed to load all the packages and training/test data we will be using. We work with the package <a href="http://pandas.pydata.org/">Pandas</a>, whose DataFrame data structure enables quick and easy data loading and wrangling. We take advantage of this package immediately below, where in the last lines we use its parse_dates method to convert the first column of our provided data -- which can be downloaded <a href="https://www.kaggle.com/c/bike-sharing-demand">here</a> -- from string to datetime format.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  
+<span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">ensemble</span>  
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>  
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_absolute_error</span>  
+<span class="kn">from</span> <span class="nn">sklearn.grid_search</span> <span class="kn">import</span> <span class="n">GridSearchCV</span>  
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="c1">#Load Data with pandas, and parse the  </span>
+<span class="c1">#first column into datetime  </span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;train.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  
+<span class="kp">test</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;test.csv&#39;</span><span class="p">,</span> <span class="n">parse_dates</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  
+</pre></div>
+
+
+<p>The training data provided contains the following fields:</p>
+<p><strong><em>datetime</em></strong> - hourly date + timestamp<br>
+<strong><em>season</em></strong> -  1 = spring, 2 = summer, 3 = fall, 4 = winter<br>
+<strong><em>holiday</em></strong> - whether the day is considered a holiday<br>
+<strong><em>workingday</em></strong> - whether the day is neither a weekend nor holiday<br>
+<strong><em>weather</em></strong>:</p>
+<ol>
+<li>Clear, Few clouds, Partly cloudy, Partly cloudy</li>
+<li>Mist + Cloudy, Mist + Broken clouds, Mist + Few clouds, Mist</li>
+<li>Light Snow, Light Rain + Thunderstorm + Scattered clouds, Light Rain + Scattered clouds</li>
+<li>Heavy Rain + Ice Pallets + Thunderstorm + Mist, Snow + Fog</li>
+</ol>
+<p><strong><em>temp</em></strong> - temperature in Celsius<br>
+<strong><em>atemp</em></strong> - "feels like" temperature in Celsius<br>
+<strong><em>humidity</em></strong> - relative humidity<br>
+<strong><em>windspeed</em></strong> - wind speed<br>
+<strong><em>casual</em></strong> - number of non-registered user rentals initiated<br>
+<strong><em>registered</em></strong> - number of registered user rentals initiated<br>
+<strong><em>count</em></strong> - number of total rentals</p>
+<p>The data provided spans two years. The training set contains the first 19 days of each month considered, while the test set data corresponds to the remaining days in each month.</p>
+<p>Looking ahead, we anticipate that the year, month, day of week, and hour will serve as important features for characterizing the bike demand at any given moment.  These features are easily extracted from the datetime formatted-values loaded above. In the following lines, we add these features to our DataFrames.</p>
+<div class="highlight"><pre><span></span><span class="o">#</span><span class="n">Feature</span> <span class="n">engineering</span>  
+<span class="n">temp</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>  
+<span class="n">train</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="k">year</span>  
+<span class="n">train</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="k">month</span>  
+<span class="n">train</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">hour</span>  
+<span class="n">train</span><span class="p">[</span><span class="s1">&#39;weekday&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">weekday</span>
+
+<span class="n">temp</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>  
+<span class="n">test</span><span class="p">[</span><span class="s1">&#39;year&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="k">year</span>  
+<span class="n">test</span><span class="p">[</span><span class="s1">&#39;month&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="k">month</span>  
+<span class="n">test</span><span class="p">[</span><span class="s1">&#39;hour&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">hour</span>  
+<span class="n">test</span><span class="p">[</span><span class="s1">&#39;weekday&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">temp</span><span class="p">.</span><span class="n">weekday</span>
+
+<span class="o">#</span><span class="n">Define</span> <span class="n">features</span> <span class="n">vector</span>  
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;season&#39;</span><span class="p">,</span> <span class="s1">&#39;holiday&#39;</span><span class="p">,</span> <span class="s1">&#39;workingday&#39;</span><span class="p">,</span> <span class="s1">&#39;weather&#39;</span><span class="p">,</span>  
+<span class="s1">&#39;temp&#39;</span><span class="p">,</span> <span class="s1">&#39;atemp&#39;</span><span class="p">,</span> <span class="s1">&#39;humidity&#39;</span><span class="p">,</span> <span class="s1">&#39;windspeed&#39;</span><span class="p">,</span> <span class="s1">&#39;year&#39;</span><span class="p">,</span>  
+<span class="s1">&#39;month&#39;</span><span class="p">,</span> <span class="s1">&#39;weekday&#39;</span><span class="p">,</span> <span class="s1">&#39;hour&#39;</span><span class="p">]</span>
+</pre></div>
+
+
+<h2><strong>Evaluation metric</strong></h2>
+<p>The evaluation metric that Kaggle uses to rank competing algorithms is the Root Mean Squared Logarithmic Error (RMSLE).</p>
+<div class="math">\begin{eqnarray}  
+J = \sqrt{\frac{1}{n} \sum_{i=1}^n [\ln(p_i + 1) - \ln(a_i+1)]^2 }  
+\end{eqnarray}</div>
+<p><br>
+Here,</p>
+<ul>
+<li><span class="math">\(n\)</span> is the number of hours in the test set</li>
+<li><span class="math">\(p_i\)</span> is the predicted number of bikes rented in a given hour</li>
+<li><span class="math">\(a_i\)</span> is the actual rent count</li>
+<li><span class="math">\(ln(x)\)</span> is the natural logarithm</li>
+</ul>
+<p>With ranking determined as above, our aim becomes to accurately guess the natural logarithm of bike demand at different times (actually demand count plus one, in order to avoid infinities associated with times where demand is nil). To facilitate this, we add the logarithm of the casual, registered, and total counts to our training DataFrame below.</p>
+<div class="highlight"><pre><span></span><span class="n">#the</span><span class="w"> </span><span class="n">evaluation</span><span class="w"> </span><span class="n">metric</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">RMSE</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="k">domain</span><span class="p">,</span><span class="w">  </span>
+<span class="n">#so</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="n">transform</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">target</span><span class="w"> </span><span class="n">columns</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="k">domain</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">well</span><span class="p">.</span><span class="w">  </span>
+<span class="k">for</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;casual&#39;, &#39;registered&#39;, &#39;count&#39;</span><span class="o">]</span><span class="err">:</span><span class="w">  </span>
+<span class="n">train</span><span class="o">[</span><span class="n">&#39;log-&#39; + col</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">col</span><span class="o">]</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="n">lambda</span><span class="w"> </span><span class="nl">x</span><span class="p">:</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"></span>
+</pre></div>
+
+
+<p>Notice that in the code above we use the <span class="math">\(log1p()\)</span> function instead of the more familiar <span class="math">\(log(1+x)\)</span>. For large values of <span class="math">\(x\)</span>, these two functions are actually equivalent. However, at very small values of <span class="math">\(x\)</span>, the two can disagree. The source of the discrepancy is floating point error: For very small <span class="math">\(x\)</span>, python will send <span class="math">\(1+x \to 1\)</span>, which when supplied as an argument to <span class="math">\(log(1+x)\)</span> will return <span class="math">\(log(1)=0\)</span>. The function <span class="math">\(log1p(x) \sim x\)</span> in this limit. The difference is not very important when the result is being added to other numbers, but can be very important in a multiplicative operation. We use this function instead for this reason. The inverse of <span class="math">\(log(x+1)\)</span> is <span class="math">\(e^{x} -1\)</span> -- an operation we will also need to make use of later, in order to return linear-scale demand values. We'll use an analog of the <span class="math">\(log1p()\)</span> function, numpy's <span class="math">\(expm1()\)</span> function, to carry out this inversion.</p>
+<h2><strong>Model development</strong></h2>
+<h4><strong>A first pass</strong></h4>
+<p>The Gradient Boosting Machine (GBM) we will be using has some associated hyperparameters that will eventually need to be optimized. These include:</p>
+<ul>
+<li>n_estimators = the number of boosting stages, or trees, to use.</li>
+<li>max_depth = maximum depth of the individual regression trees.</li>
+<li>learning_rate = shrinks the contribution of each tree by the learning rate.</li>
+<li>in_samples_leaf = the minimum number of samples required to be at a leaf node</li>
+</ul>
+<p>However, in order to get our feet wet, we'll begin by just picking some ad hoc values for these parameters. The code below fits a GBM to the log-demand training data, and then converts predicted log-demand into the competition's required format -- in particular, the demand is output in linear scale.</p>
+<div class="highlight"><pre><span></span><span class="n">clf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="w">  </span>
+<span class="n">n_estimators</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="w">  </span>
+<span class="n">clf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clf</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">expm1</span><span class="p">(</span><span class="k">result</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="err">{</span><span class="s1">&#39;datetime&#39;</span><span class="err">:</span><span class="n">test</span><span class="o">[</span><span class="n">&#39;datetime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;count&#39;</span><span class="err">:</span><span class="k">result</span><span class="err">}</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;results1.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">False</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=[</span><span class="n">&#39;datetime&#39;,&#39;count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<p>In the last lines above, we have used the DataFrames to_csv() method in order to output results for competition submission. Example output is shown below. Without a hitch, we successfully submitted the results of this preliminary analysis to Kaggle. The only bad news was that our model scored in the bottom 10%. Fortunately, some simple optimizations that follow led to significant improvements in our standing.</p>
+<hr>
+<p>datetime              count
+  2011-01-20 00:00:00   0
+  2011-01-20 01:00:00   0
+  2011-01-20 02:00:00   0
+  ...                   </p>
+<hr>
+<h4><strong>Hyperparameter tuning</strong></h4>
+<p>We now turn to the challenge of tuning our GBM's hyperparameters. In order to carry this out, we segmented our training data into a training set and a validation set. The validation set allowed us to check the accuracy of our model locally, without having to submit to Kaggle. This also helped us to avoid overfitting issues.</p>
+<p>As mentioned earlier, the training data provided covers the first 19 days of each month. In segmenting this data, we opted to use days 17-19 for validation. We then used this validation set to optimize the model's hyperparameters. As a first-pass at this, we again chose an ad hoc value for n_estimators, but optimized over the remaining degrees of freedom. The code follows, where we make use of GridSearchCV() to perform our parameter sweep.</p>
+<div class="highlight"><pre><span></span><span class="n">#Split</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="k">into</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">validation</span><span class="w"> </span><span class="k">sets</span><span class="w">  </span>
+<span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pd</span><span class="p">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">train</span><span class="o">[</span><span class="n">&#39;datetime&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">training</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">temp.day &lt;= 16</span><span class="o">]</span><span class="w">  </span>
+<span class="n">validation</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">temp.day &gt; 16</span><span class="o">]</span><span class="w"></span>
+
+<span class="n">param_grid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">0.1, 0.05, 0.01</span><span class="o">]</span><span class="p">,</span><span class="w">  </span>
+<span class="s1">&#39;max_depth&#39;</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">10, 15, 20</span><span class="o">]</span><span class="p">,</span><span class="w">  </span>
+<span class="s1">&#39;min_samples_leaf&#39;</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">3, 5, 10, 20</span><span class="o">]</span><span class="p">,</span><span class="w">  </span>
+<span class="err">}</span><span class="w"></span>
+
+<span class="n">est</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="n">may</span><span class="w"> </span><span class="n">take</span><span class="w"> </span><span class="n">awhile</span><span class="w">  </span>
+<span class="n">gs_cv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GridSearchCV</span><span class="p">(</span><span class="w">  </span>
+<span class="n">est</span><span class="p">,</span><span class="w"> </span><span class="n">param_grid</span><span class="p">,</span><span class="w"> </span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="w">  </span>
+<span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+
+<span class="err">#</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="n">hyperparameter</span><span class="w"> </span><span class="n">setting</span><span class="w">  </span>
+<span class="n">gs_cv</span><span class="p">.</span><span class="n">best_params_</span><span class="w"></span>
+
+<span class="n">#Baseline</span><span class="w"> </span><span class="n">error</span><span class="w">  </span>
+<span class="n">error_count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mean_absolute_error</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">gs_cv</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">))</span><span class="w"></span>
+
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gs_cv</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">expm1</span><span class="p">(</span><span class="k">result</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="err">{</span><span class="s1">&#39;datetime&#39;</span><span class="err">:</span><span class="n">test</span><span class="o">[</span><span class="n">&#39;datetime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;count&#39;</span><span class="err">:</span><span class="k">result</span><span class="err">}</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;results2.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">False</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=[</span><span class="n">&#39;datetime&#39;,&#39;count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+</pre></div>
+
+
+<ul>
+<li>Note: If you want to run n_jobs &gt; 1 on a Windows machine, the script needs to be in an "if <strong>name</strong> == '<strong>main</strong>':" block. Otherwise the script will fail.</li>
+</ul>
+<hr>
+<p>Best Parameters      Value
+  learning_rate       0.05
+  max_depth           10
+  min_samples_leaf   20</p>
+<hr>
+<p>The optimized parameters are shown above. Submitting the resulting model to Kaggle, we found that we had moved from the bottom 10% of models to the top 20%!  An awesome improvement, but we still have one final hyperparameter to optimize.</p>
+<h4><strong>Tuning the number of estimators</strong></h4>
+<p>In boosted models, training set performance will always improve as the number of estimators is increased. However, at large estimator number, overfitting can start to become an issue. Learning curves provide a method for optimization. These are constructed by plotting the error on both the training and validation sets as a function of the number of estimators used. The code below generates such a curve for our model.</p>
+<div class="highlight"><pre><span></span><span class="n">error_train</span><span class="o">=</span><span class="err">[]</span><span class="w">  </span>
+<span class="n">error_validation</span><span class="o">=</span><span class="err">[]</span><span class="w">  </span>
+<span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">501</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
+<span class="n">clf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="w">  </span>
+<span class="n">n_estimators</span><span class="o">=</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">.05</span><span class="p">,</span><span class="w"> </span><span class="n">max_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">  </span>
+<span class="n">min_samples_leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">clf</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clf</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">error_train</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="w">  </span>
+<span class="n">mean_absolute_error</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">))</span><span class="w"></span>
+
+<span class="k">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">clf</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">validation</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">error_validation</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="w">  </span>
+<span class="n">mean_absolute_error</span><span class="p">(</span><span class="k">result</span><span class="p">,</span><span class="w"> </span><span class="n">validation</span><span class="o">[</span><span class="n">&#39;log-count&#39;</span><span class="o">]</span><span class="p">))</span><span class="w"></span>
+
+<span class="n">#Plot</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">data</span><span class="w">  </span>
+<span class="n">x</span><span class="o">=</span><span class="k">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">501</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="k">use</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">error_train</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;k&#39;</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">error_validation</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;b&#39;</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Estimators&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Error&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;Train&#39;, &#39;Validation&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">)</span><span class="w">  </span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Error vs. Number of Estimators&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span><span class="w">  </span>
+</pre></div>
+
+
+<p><img alt="Error vs Number of Estimators" src="http://efavdb.com/wp-content/uploads/2015/03/figure_1-e1427234375629-1024x845.png"></p>
+<p>Notice in the plot that by the time the number estimators in our GBM reaches about 80, the error of our model as applied to the validation set starts to slowly increase, though the error on the training set continues to decrease steadily. The diagnosis is that the model begins to overfit at this point. Moving forward, we will set n_estimators to 80, rather than 500, the value we were using above. Reducing the number of estimators reduced the calculated error and moved us to a higher position on the leaderboard.</p>
+<h2><strong>Separate models for registered and casual users</strong></h2>
+<p>Reviewing the data, we see that we have info regarding two types of riders: casual and registered riders. It is plausible that each group's behavior differs, and that we might be able to improve our performance by modeling each separately. Below, we carry this out, and then also merge the two group's predicted values to obtain a net predicted demand. We also repeat the hyperparameter sweep steps covered above -- this returned similar values. Resubmitting the resulting model, we found we had increased our standing in the competition by a few percent.</p>
+<div class="highlight"><pre><span></span><span class="n">def</span><span class="w"> </span><span class="n">merge_predict</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span><span class="w"> </span><span class="n">model2</span><span class="p">,</span><span class="w"> </span><span class="n">test_data</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="n">Combine</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">predictions</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">two</span><span class="w"> </span><span class="n">separately</span><span class="w"> </span><span class="n">trained</span><span class="w"> </span><span class="n">models</span><span class="p">.</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="k">input</span><span class="w"> </span><span class="n">models</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="nf">log</span><span class="w"> </span><span class="k">domain</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="k">returns</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">predictions</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">original</span><span class="w"> </span><span class="k">domain</span><span class="p">.</span><span class="w">  </span>
+<span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">model1</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">))</span><span class="w">  </span>
+<span class="n">p2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">expm1</span><span class="p">(</span><span class="n">model2</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_data</span><span class="p">))</span><span class="w">  </span>
+<span class="n">p_total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">p1</span><span class="o">+</span><span class="n">p2</span><span class="p">)</span><span class="w">  </span>
+<span class="k">return</span><span class="p">(</span><span class="n">p_total</span><span class="p">)</span><span class="w">  </span>
+<span class="n">est_casual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">.05</span><span class="p">)</span><span class="w">  </span>
+<span class="n">est_registered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">.05</span><span class="p">)</span><span class="w">  </span>
+<span class="n">param_grid2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="s1">&#39;max_depth&#39;</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">10, 15, 20</span><span class="o">]</span><span class="p">,</span><span class="w">  </span>
+<span class="s1">&#39;min_samples_leaf&#39;</span><span class="err">:</span><span class="w"> </span><span class="o">[</span><span class="n">3, 5, 10, 20</span><span class="o">]</span><span class="p">,</span><span class="w">  </span>
+<span class="err">}</span><span class="w"></span>
+
+<span class="n">gs_casual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">est_casual</span><span class="p">,</span><span class="w"> </span><span class="n">param_grid2</span><span class="p">,</span><span class="w"> </span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;log-casual&#39;</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">gs_registered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GridSearchCV</span><span class="p">(</span><span class="n">est_registered</span><span class="p">,</span><span class="w"> </span><span class="n">param_grid2</span><span class="p">,</span><span class="w"> </span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">).</span><span class="n">fit</span><span class="p">(</span><span class="n">training</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">training</span><span class="o">[</span><span class="n">&#39;log-registered&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">result3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">merge_predict</span><span class="p">(</span><span class="n">gs_casual</span><span class="p">,</span><span class="w"> </span><span class="n">gs_registered</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="err">{</span><span class="s1">&#39;datetime&#39;</span><span class="err">:</span><span class="n">test</span><span class="o">[</span><span class="n">&#39;datetime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;count&#39;</span><span class="err">:</span><span class="n">result3</span><span class="err">}</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;results3.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">False</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=[</span><span class="n">&#39;datetime&#39;,&#39;count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<p>The last step is to submit a final set of model predictions, this time training on the full labeled dataset provided. With these simple steps, we ended up in the top 11% on the competition's leaderboard with a rank of 280/2467!</p>
+<p><a href="./wp-content/uploads/2015/03/score.png"><img alt="score" src="./wp-content/uploads/2015/03/score.png"></a></p>
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span><span class="w">  </span>
+<span class="n">est_casual</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="w">  </span>
+<span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">.05</span><span class="p">,</span><span class="w"> </span><span class="n">max_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="n">min_samples_leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w">  </span>
+<span class="n">est_registered</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ensemble</span><span class="p">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="w">  </span>
+<span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="n">learning_rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">.05</span><span class="p">,</span><span class="w"> </span><span class="n">max_depth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="n">min_samples_leaf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">est_casual</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="p">,</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">&#39;log-casual&#39;</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="p">)</span><span class="w">  </span>
+<span class="n">est_registered</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="p">,</span><span class="w"> </span><span class="n">train</span><span class="o">[</span><span class="n">&#39;log-registered&#39;</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="p">)</span><span class="w">  </span>
+<span class="n">result4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">merge_predict</span><span class="p">(</span><span class="n">est_casual</span><span class="p">,</span><span class="w"> </span><span class="n">est_registered</span><span class="p">,</span><span class="w"> </span><span class="n">test</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+
+<span class="n">df</span><span class="o">=</span><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="err">{</span><span class="s1">&#39;datetime&#39;</span><span class="err">:</span><span class="n">test</span><span class="o">[</span><span class="n">&#39;datetime&#39;</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;count&#39;</span><span class="err">:</span><span class="n">result4</span><span class="err">}</span><span class="p">)</span><span class="w">  </span>
+<span class="n">df</span><span class="p">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;results4.csv&#39;</span><span class="p">,</span><span class="w"> </span><span class="k">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">False</span><span class="p">,</span><span class="w"> </span><span class="n">columns</span><span class="o">=[</span><span class="n">&#39;datetime&#39;,&#39;count&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+</pre></div>
+
+
+<p><strong>DISCUSSION</strong></p>
+<p>By iteratively tuning a GBM, we were able to quickly climb the leaderboard for this particular Kaggle competition. With further feature extraction work, we believe further improvements could readily be made. However, our goal here was only to practice our rapid development skills, so we won't be spending much time on further fine-tuning. At any rate, our results have convinced us that simple boosted models can often provide excellent results.</p>
+<p>[caption id="attachment_1522" align="alignleft" width="96"]<a href="https://github.com/EFavDB/bike-forecast" title="GitHub Repo"><img alt="Open GitHub Repo" src="./wp-content/uploads/2015/03/GitHub_Logo.png"></a> Open GitHub Repo[/caption]</p>
+<p>Note: With this post, we have begun to post our python scripts and data at GitHub. Clicking on the icon at left will take you to our repository. Feel free to stop by and take a look!</p>
+<p>featured image credit: <a href="http://commons.wikimedia.org/wiki/User:Siren-Com">Siren-Com</a></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Forecasting Bike Sharing Demand&amp;url=./bike-share-forecasting.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./bike-share-forecasting.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./bike-share-forecasting.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./nba-week-19-summary-week-20-predictions.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">NBA week 19 summary, week 20 predictions</h2>
+                            <p class="post-nav-excerpt">Sadly lackluster week: 28 for 54, or 51.9% accuracy. The new predictions are now...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./nba-week-18-summary-week-19-predictions.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">NBA week 18 summary, week 19 predictions</h2>
+                            <p class="post-nav-excerpt">Excellent week: 39 for 53, or 73.6% accuracy! New predictions are up. This week, the...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

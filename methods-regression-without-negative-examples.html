@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Machine Learning Methods: Classification without negative examples</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./methods-regression-without-negative-examples.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="Here, we discuss some methods for carrying out classification when only positive examples are available. The latter half of our...">
+
+    <meta name="author" content="jslandy">
+
+    <meta name="tags" content="methods">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Machine Learning Methods: Classification without negative examples"/>
+<meta property="og:description" content="Here, we discuss some methods for carrying out classification when only positive examples are available. The latter half of our..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./methods-regression-without-negative-examples.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2014-12-20 09:58:00-08:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:section" content="Methods, Theory"/>
+<meta property="article:tag" content="methods"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Machine Learning Methods: Classification without negative examples">
+    <meta name="twitter:url" content="./methods-regression-without-negative-examples.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="Here, we discuss some methods for carrying out classification when only positive examples are available. The latter half of our...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Machine Learning Methods: Classification without negative examples",
+  "headline": "Machine Learning Methods: Classification without negative examples",
+  "datePublished": "2014-12-20 09:58:00-08:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "jslandy",
+    "url": "./author/jslandy.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./methods-regression-without-negative-examples.html",
+  "description": "Here, we discuss some methods for carrying out classification when only positive examples are available. The latter half of our..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Machine Learning Methods: Classification without negative examples</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/jslandy.html">Jslandy</a>
+            | <time datetime="Sat 20 December 2014">Sat 20 December 2014</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Here, we discuss some methods for carrying out classification when only positive examples are available. The latter half of our discussion borrows heavily from W.S. Lee and B. Liu, Proc. ICML-2003 (2003), which we supplement somewhat.  </p>
+<p><a href="http://twitter.com/efavdb">Follow @efavdb</a>  </p>
+<p>Follow us on twitter for new submission alerts!</p>
+<p><strong>I. Generic logistic regression.</strong><br>
+<a href="http://en.wikipedia.org/wiki/Logistic_regression">Logistic regression</a> is a commonly used tool for estimating the level sets of a Boolean function <span class="math">\(y\)</span> on a set of feature vectors <span class="math">\(\textbf{F}\)</span>: In a sense, you can think of it as a method for playing the game ``Battleship" on whatever data set you're interested in. Its application requires knowledge of the <span class="math">\(\{(\textbf{f}_i,y_i)\}\)</span> pairs on a training set <span class="math">\(\textbf{E} \subseteq \textbf{F}\)</span>, with label <span class="math">\(y_i = 0,1\)</span> for negative and positive examples, respectively. Given these training examples, logistic regression estimates for arbitrary feature vector <span class="math">\(\textbf{f}\)</span>,<br>
+</p>
+<div class="math">$$ h(\textbf{f}) = \frac{1}{1 + \exp \left [ - \textbf{T} \cdot \textbf{f} \right]} \approx y, $$</div>
+<p>where the coefficient vector <span class="math">\(\textbf{T}\)</span> is taken to be that vector that minimizes<br>
+</p>
+<div class="math">$$ J(h) \equiv -\frac{1}{\vert \textbf{E} \vert}\sum_{i=1}^{\vert \textbf{E} \vert} y_i \log(h_i) + (1-y_i) \log(1- h_i) + \frac{\Lambda}{2}\sum_j T_j^2, $$</div>
+<p> a convex cost function that strongly penalizes poor estimates on the training set.</p>
+<p><strong>II. Problem statement: no negative examples.</strong><br>
+Consider now a situation where all training examples given are positive -- i.e., no negative examples are available. One realistic realization of this scenario might involve a simple data set of movies already viewed by some Netflix customer. From this information, one would like to estimate the full subset of the available movies that the customer would watch, given time. We'll assign value <span class="math">\(y = 1\)</span> to such movies and <span class="math">\(y=0\)</span> to movies he wouldn't watch. Notice that the generic logistic regression approach outlined above would return a default-positive result if applied to this problem: Assigning <span class="math">\(h = 1\)</span> to all of <span class="math">\(\textbf{F}\)</span> minimizes <span class="math">\(J\)</span>. This means that no information contained in <span class="math">\(\textbf{E}\)</span> is actually utilized in the logistic learning process -- a counterintuitive choice for structured <span class="math">\(\textbf{E}\)</span> (e.g., the case where all movies watched thus far have been in a single category -- martial arts films, say).</p>
+<p><strong>III. Noisy labeling.</strong><br>
+Some reasonable, alternative approaches do not return the default-positive response in the situation above. To see this, we first review here noisy labeling problems. Suppose we are given a training set with noisy labeling <span class="math">\(y^{\prime}\)</span>: Truly-positive examples <span class="math">\((y = 1)\)</span> are stochastically mislabeled in this set with frequency <span class="math">\(\alpha\)</span> as negative <span class="math">\((y^{\prime} = 0)\)</span>, and truly-negative examples <span class="math">\((y=0)\)</span> are mislabeled with frequency <span class="math">\(\beta\)</span> as positive <span class="math">\((y^{\prime} = 1)\)</span>. For hypothesis <span class="math">\(h\)</span>, let </p>
+<div class="math">$$C(h) = Pr[h = 0 \vert y = 1]+ Pr[h = 1 \vert y= 0],$$</div>
+<p> the rate at which <span class="math">\(h\)</span> mislabels positive examples in the training set added to the rate at which it mislabels negative examples. Similarly, we define <span class="math">\(C^{\prime}(h)\)</span> as above, but with <span class="math">\(y\)</span> replaced by <span class="math">\(y^{\prime}\)</span>. Because <span class="math">\(y^{\prime}\)</span> is stochastic, we also average it in this case, giving </p>
+<div class="math">$$C^{\prime}(h) = \left \langle Pr[h = 0 \vert y^{\prime} = 1]+ Pr[h = 1 \vert y^{\prime}= 0] \right \rangle_{y^{\prime}}.$$</div>
+<p> With these definitions, we have [see Blum and Michael (1998) or derive yourself] </p>
+<div class="math">$$ C(h) \propto C^{\prime}(h),$$</div>
+<p> with <span class="math">\(\text{sign}(C) = \text{sign}(1 - \alpha - \beta) \times \text{sign}(C^{\prime})\)</span>. This result is very useful whenever we take <span class="math">\(C(h)\)</span> as our cost function<span class="math">\(^1\)</span>: Provided the total noise rate <span class="math">\(\alpha + \beta &lt;1\)</span>, it implies that we can find the ``<span class="math">\(C\)</span>-optimizing" <span class="math">\(h\)</span> within any class of hypotheses by optimizing instead <span class="math">\(C^{\prime}\)</span> -- a quantity that we can estimate given any particular noisy labeling realization <span class="math">\(y^{\prime}_0\)</span> as </p>
+<div class="math">$$C^{\prime}(h) \approx \left (Pr[h = 0 \vert y^{\prime} = 1]+ Pr[h = 1 \vert y^{\prime}= 0] \right ) \vert_{y^{\prime} =y^{\prime}_0}.$$</div>
+<p><strong>IV. Application to no-negatives problem.</strong><br>
+To make connection between the no-negatives and noisy-labeling problems, one can remodel the former as one where all unlabeled examples are considered to actually be negative examples (<span class="math">\(y^{\prime}_0 = 0\)</span>). This relabeling gives a correct label to all examples in the original training set <span class="math">\(\textbf{E}\)</span> (where <span class="math">\(y = y^{\prime}_0 = 1\)</span>) as well as to all truly-negative examples (where <span class="math">\(y = y^{\prime}_0 = 0\)</span>). However, all positive examples not in <span class="math">\(\textbf{E}\)</span> are now incorrectly labeled (they are assigned <span class="math">\(y^{\prime}_0 = 0\)</span>): This new labeling <span class="math">\(y^{\prime}_0\)</span> is noisy, with <span class="math">\(\alpha = Pr(y^{\prime}_0 =0 \vert y =1)\)</span> and <span class="math">\(\beta = Pr(y^{\prime}_0 =1 \vert y = 0 ) = 0\)</span>. We can now apply the Blum and Michael approach: We first approximate <span class="math">\(C^{\prime}\)</span> as above, making use of the particular noisy label we have access to. Second, we minimize the approximated <span class="math">\(C^{\prime}\)</span> over some class of hypotheses <span class="math">\(\{h\}\)</span>. This will in general return a non-uniform hypothesis (i.e., one that now makes use of the information contained in <span class="math">\(\textbf{E}\)</span>).</p>
+<p><strong>V. Hybrid noisy-logistic approach of Lee and Liu (plus a tweak).</strong><br>
+The <span class="math">\(C \propto C^{\prime}\)</span> result is slick and provides a rigorous method for attacking the no-negatives problem. Unfortunately, <span class="math">\(C^{\prime}\)</span> is not convex, and as a consequence it can be difficult to minimize for large <span class="math">\(\vert \textbf{F} \vert\)</span> -- in fact, its minimization is NP-hard. To mitigate this issue, Lee and Liu combine the noisy relabeling idea -- now well-motivated by the Blum and Michael analysis -- with logistic regression. They also suggest a particular re-weighting of the observed samples. However, we think that their particular choice of weighting is not very well-motivated, and we suggest here that one should instead pick an optimal weighting through consideration of a cross-validation set. With this approach, the method becomes:</p>
+<p>​1) As above, assign examples in <span class="math">\(\textbf{E}\)</span> label <span class="math">\(y^{\prime} = 1\)</span> and examples in <span class="math">\(\textbf{F} - \textbf{E}\)</span> label <span class="math">\(y^{\prime} = 0\)</span>.<br>
+2) Construct the weighted logistic cost function </p>
+<div class="math">$$ J(h; \rho) \equiv -\frac{1}{\vert \textbf{E} \vert}\sum_{i=1}^{\vert \textbf{E} \vert}  
+\rho y^{\prime}_i \log(h_i) + (1-\rho) (1-y^{\prime}_i) \log(1- h_i) + \frac{\Lambda}{2}\sum_j T_j^2, $$</div>
+<p> with <span class="math">\(\rho \in [0,1]\)</span>, a re-weighting factor. (Lee and Liu suggest<span class="math">\(^2\)</span> using <span class="math">\(\rho = 1-\frac{\vert \textbf{E} \vert}{\vert \textbf{F} \vert}\)</span>).<br>
+3) Minimize <span class="math">\(J\)</span>. By evaluating performance on a cross-validation set using your favorite criteria, optimize <span class="math">\(\rho\)</span> and <span class="math">\(\Lambda\)</span>.</p>
+<p><strong>V. Toy example.</strong><br>
+Here, we provide a toy system that allows for a sense of how the latter method discussed above works in practice. Given is a set of <span class="math">\(60\)</span> grid points in the plane, which can be added/subtracted individually to the positive training set (<span class="math">\(\textbf{E}\)</span>, green fill) by mouse click (a few are selected by default). The remaining points are considered to not be in the training set, but are relabeled as negative examples -- this introduces noise, as described above. Clicking compute returns the <span class="math">\(h\)</span> values for each grid point, determined by minimizing the weighted cost function <span class="math">\(J\)</span> above: Here, we use the features <span class="math">\(\{1,x,y,x^2,xy,\)</span> <span class="math">\(y^2,x^3, x^2 y,\)</span> <span class="math">\(x y^2, y^3\}\)</span> to characterize each point. Those points with <span class="math">\(h\)</span> values larger than <span class="math">\(0.5\)</span> (i.e., those the hypothesis estimates as positive) are outlined in black. We have found that by carefully choosing the <span class="math">\(\rho\)</span> and <span class="math">\(\Lambda\)</span> values (often to be large and small, respectively), one can get a good fit to most training sets. By eye, the optimal weighting seems to often be close -- but not necessarily equal to -- the value suggested by Lee and Liu.</p>
+<p>Your browser does not support the canvas tag.</p>
+<p></p><br>
+<p>JavaScript is required to view the contents of this page.</p><br>
+<p></p>
+<p><em>Fig. 1: Interactive weighted noisy-no-negatives solver. Click ``compute" to run logistic regression.</em></p>
+<p><strong>V. Discussion.</strong><br>
+In this note, we have discussed methods for tackling classification sans negative examples -- a problem that we found perplexing at first sight. It is interesting that standard logistic regression returns a default-positive result for such problems, while the two latter methods we discussed here are based on assuming that all points in <span class="math">\(\textbf{F} - \textbf{E}\)</span> are negatives. In fact, this assumption seems to be the essence of all the other methods referenced in Lee and Liu's paper. Ultimately, these methods will only work if the training set provides a good sampling of the truly-positive space. If this is the case, then ``defocusing" a bit, or blurring one's eyes, will give a good sense of where the positive space sits. In the noisy-logistic approach, a good choice of <span class="math">\(\rho\)</span> and <span class="math">\(\Lambda\)</span> should effect a good result. Of course, when the training set does not sample the full positive space well, one can still use this approach to get a good approximation for the outline of the subspace sampled.</p>
+<p><strong>Footnotes:</strong><br>
+<span class="math">\([1]\)</span>: The target function <span class="math">\(y\)</span> provides the unique minimum of <span class="math">\(C\)</span>. Therefore, choosing <span class="math">\(C\)</span> as our cost function and minimizing it over some class of hypotheses <span class="math">\(\{h\}\)</span> should return a reasonable estimate for <span class="math">\(y\)</span> (indeed, if <span class="math">\(y\)</span> is in the search class, we will find it).</p>
+<p><span class="math">\([2]\)</span>: Lee and Liu justify their weighting suggestion on the basis that it means that a randomly selected positive example contributes with expected weight <span class="math">\(&gt;0.5\)</span> (see their paper). Yet, other weighting choices give even larger expected weights to the positive examples, so this is a poor justification. Nevertheless, their weighting choice does have the nice feature that the positive and negative spaces are effectively sampled with equal frequency. If optimizing over <span class="math">\(\rho\)</span> is too resource-costly for some application, using their weighting suggestion may be reasonable for this reason.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Machine Learning Methods: Classification without negative examples&amp;url=./methods-regression-without-negative-examples.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./methods-regression-without-negative-examples.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./methods-regression-without-negative-examples.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="./tag/methods.html">methods</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./nba-week-7-results-week-8-predictions.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">NBA week 7 results, week 8 predictions</h2>
+                            <p class="post-nav-excerpt">The week that defeated the NBA predictor... \(24/49 = 49.0%\). That's right, worse...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./nba-week-6-predictions-week-7-predictions.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">NBA week 6 results, week 7 predictions, intro to dash</h2>
+                            <p class="post-nav-excerpt">\(37/55 = 67.2%\) accuracy this week. Summary by point spread is at right. This week,...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

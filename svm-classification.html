@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Support Vector Machines for classification</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="./svm-classification.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+
+    <meta name="description" content="To whet your appetite for support vector machines, here's a quote from machine learning researcher Andrew Ng: “SVMs are among the best...">
+
+    <meta name="author" content="cyeh">
+
+    <meta name="tags" content="kernel methods">
+    <meta name="tags" content="Machine Learning">
+    <meta name="tags" content="optimization problem">
+    <meta name="tags" content="Python">
+    <meta name="tags" content="quadratic programming">
+    <meta name="tags" content="SVM">
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="EFAVDB"/>
+<meta property="og:title" content="Support Vector Machines for classification"/>
+<meta property="og:description" content="To whet your appetite for support vector machines, here's a quote from machine learning researcher Andrew Ng: “SVMs are among the best..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="./svm-classification.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2015-10-22 14:24:00-07:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="./author/cyeh.html">
+<meta property="article:section" content="Theory"/>
+<meta property="article:tag" content="kernel methods"/>
+<meta property="article:tag" content="Machine Learning"/>
+<meta property="article:tag" content="optimization problem"/>
+<meta property="article:tag" content="Python"/>
+<meta property="article:tag" content="quadratic programming"/>
+<meta property="article:tag" content="SVM"/>
+<meta property="og:image" content="./theme/images/post-bg.jpg">
+
+<!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@efavdb">
+    <meta name="twitter:title" content="Support Vector Machines for classification">
+    <meta name="twitter:url" content="./svm-classification.html">
+
+        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
+
+      <meta name="twitter:description" content="To whet your appetite for support vector machines, here's a quote from machine learning researcher Andrew Ng: “SVMs are among the best...">
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Support Vector Machines for classification",
+  "headline": "Support Vector Machines for classification",
+  "datePublished": "2015-10-22 14:24:00-07:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "cyeh",
+    "url": "./author/cyeh.html"
+  },
+  "image": "./theme/images/post-bg.jpg",
+  "url": "./svm-classification.html",
+  "description": "To whet your appetite for support vector machines, here's a quote from machine learning researcher Andrew Ng: “SVMs are among the best..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
+          <li><a href="/archives.html" role="presentation">Archive</a></li>
+          <li><a href="/tags.html" role="presentation">Tags</a></li>
+          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+
+
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" >
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Support Vector Machines for classification</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="./author/cyeh.html">Cyeh</a>
+            | <time datetime="Thu 22 October 2015">Thu 22 October 2015</time>
+        </span>
+        <!-- TODO : Modified check -->
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>To whet your appetite for support vector machines, here's a quote from machine learning researcher Andrew Ng:</p>
+<blockquote>
+<p>“SVMs are among the best (and many believe are indeed the best) ‘off-the-shelf’ supervised learning algorithms.”</p>
+</blockquote>
+<p><a href="http://commons.wikimedia.org/wiki/File%3AAndrew_Ng.png" title="See page for author [CC BY 3.0 us (http://creativecommons.org/licenses/by/3.0/us/deed.en)], via Wikimedia Commons"><img alt="Andrew Ng" src="//upload.wikimedia.org/wikipedia/commons/5/5c/Andrew_Ng.png"></a></p>
+<p>Professor Ng covers SVMs in his excellent <a href="https://www.coursera.org/learn/machine-learning">Machine Learning MOOC</a>, a gateway for many into the realm of data science, but leaves out some details, motivating us to put together some notes here to answer the question:</p>
+<p>"What are the <em>support vectors</em> in support vector machines?"</p>
+<p>We also provide python ```(https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn's svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive <a href="#3dfig">plots</a> in Part 3.</p>
+<p>This post consists of three sections:</p>
+<ul>
+<li>Part 1 sets up the problem from a geometric point of view and then shows how it can be framed as an optimization problem.</li>
+<li>Part 2 transforms the optimization problem and uncovers the support vectors in the process.</li>
+<li>Part 3 discusses how kernels can be used to separate non-linearly separable data.</li>
+</ul>
+<hr>
+<h2>Part 1: Defining the margin</h2>
+<h3>Maximizing the margin</h3>
+<p>The figure below is a binary classification problem (points labeled <span class="math">\(y_i = \pm 1\)</span>) that is linearly separable.</p>
+<p><a href="./wp-content/uploads/2015/05/binaryclass_2d.png"><img alt="binary classes in 2d" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d-300x284.png"></a></p>
+<p>There are many possible decision boundaries that would perfectly separate the two classes, but an SVM will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the boundary.</p>
+<p>Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the boundary.<br>
+<br>
+</p>
+<h3>Formulating the margin with geometry</h3>
+<p>Any point <span class="math">\(\boldsymbol{x}\)</span> lying on the separating hyperplane satisfies:<br>
+<span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)</span><br>
+<span class="math">\(\boldsymbol{w}\)</span> is the vector normal to the plane, and <span class="math">\(b\)</span> is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is <span class="math">\(b / \| \boldsymbol{w} \|\)</span>.</p>
+<p><a href="./wp-content/uploads/2015/05/binaryclass_margin.png"><img alt="margin around decision boundary" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin-300x266.png"></a></p>
+<p>Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (<span class="math">\(d_+ + d_-\)</span>) and is restricted by the data points closest to the boundary, which lie on the gutters.</p>
+<p>The half-spaces bounded by the planes on the gutters are:</p>
+<p><span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b \geq +a\)</span>, for <span class="math">\(y_i = +1\)</span></p>
+<p><span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b \leq -a\)</span>, for <span class="math">\(y_i = -1\)</span></p>
+<p>These two conditions can be put more succinctly:</p>
+<p><span class="math">\(y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq a, \forall \; i\)</span></p>
+<p>Some arithmetic leads to the equation for the margin:</p>
+<p><span class="math">\(d_+ + d_- = 2a / \| \boldsymbol{w} \|\)</span></p>
+<p>Without loss of generality, we can set <span class="math">\(a=1\)</span>, since it only sets the scale (units) of <span class="math">\(b\)</span> and <span class="math">\(\boldsymbol{w}\)</span>.  So to maximize the margin, we have to maximize <span class="math">\(1 / \| \boldsymbol{w} \|\)</span>.  However, this is an unpleasant (non-convex) objective function.  Instead we minimize <span class="math">\(\| \boldsymbol{w}\|^2\)</span>, which is convex.</p>
+<h3>The optimization problem</h3>
+<p>Maximizing the margin boils down to a constrained optimization problem: minimize some quantity <span class="math">\(f(w)\)</span>, subject to constraints <span class="math">\(g(w,b)\)</span>.  This optimization problem is particularly nice because it is convex; the objective <span class="math">\(\| \boldsymbol{w}\|^2\)</span> is convex, as are the constraints, which are linear.</p>
+<p>In other words, we are faced with a <a href="http://en.wikipedia.org/wiki/Quadratic_programming">quadratic programming</a> problem.  The standard format of the optimization problem for the separable case is</p>
+<div class="math">$$\tag{1} \label{problem}  
+\begin{align}  
+\text{minimize} \quad &amp; f(w) \equiv (1/2) \| \boldsymbol{w}\|^2 \  
+\text{subject to} \quad &amp; g(w,b) \equiv -y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) + 1 \leq 0, \; i = 1 \ldots m  
+\end{align}  
+$$</div>
+<p>Before we address how to solve this optimization problem in Part 2, let's first consider the case when data is non-separable.</p>
+<h3>Soft margin SVM: the non-separable problem and regularization</h3>
+<p><a href="./wp-content/uploads/2015/05/softmargin.png"><img alt="softmargin" src="http://efavdb.com/wp-content/uploads/2015/05/softmargin-300x266.png"></a></p>
+<p>For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter <span class="math">\(C\)</span> and slack variables <span class="math">\(\xi_i\)</span> that define the amount by which data points are on the wrong side of the margin.</p>
+<div class="math">$$\tag{2} \label{regularization}  
+\begin{align}  
+\text{minimize} \quad &amp; (1/2) \| \boldsymbol{w}\|^2 + C \sum_i^m \xi_i \  
+\text{subject to} \quad &amp; y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq 1 - \xi_i, \; i = 1 \ldots m \  
+&amp; \xi_i \geq 0, \quad i = 1 \ldots m  
+\end{align}  
+$$</div>
+<p><br>
+A large penalty -- large <span class="math">\(C\)</span> -- for misclassifications will lead to learning a lower bias, higher variance SVM, and vice versa for small <span class="math">\(C\)</span>.</p>
+<p>The soft margin is used in practice; even in the separable case, it can be desirable to allow tradeoffs between the size of the margin and number of misclassifications. Outliers can skew the decision boundary learned by (\ref{problem}) towards a model with small margins + perfect classification, in contrast to a possibly more robust model learned by (\ref{regularization}) with large margins + some misclassified points.</p>
+<hr>
+<h2>Part 2: Solving the optimization problem</h2>
+<p>In Part 1, we showed how to set up SVMs as an optimization problem. In this section, we'll see how the eponymous support vectors emerge when we rephrase the minimization problem as an equivalent maximization problem.</p>
+<p>To recap: Given <span class="math">\(m\)</span> training points that are labeled <span class="math">\(y_i = \pm 1\)</span>, our goal is to maximize the margin of the hyperplane defined by <span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)</span>.</p>
+<p>We'll use the separable case (\ref{problem}) as our starting point, but the steps in the procedure and final result are similar for the non-separable case (also worked out in ref [<a href="#3">3</a>]).</p>
+<h3>The Lagrangian formulation</h3>
+<p>How do we solve this optimization problem? Minimizing a function without constraints is probably familiar: set the derivative of the function (the objective) to zero and solve.</p>
+<p>With constraints, the procedure is similar to setting the derivative of the objective equal to zero. Instead of taking the derivative of the objective itself, however, we'll operate on the Lagrangian <span class="math">\(\mathcal{L}\)</span>, which combines the objective and inequality constraints into one function:</p>
+<div class="math">$$\tag{3} \label{Lagrangian}  
+\mathcal{L}(w,b,\alpha) = f(w) + \sum_i^m \alpha_i g_i(w,b)  
+$$</div>
+<p>We've just introduced additional variables <span class="math">\(\alpha_i\)</span>, Lagrange multipliers, that make it easier to work with the constraints (see Wikipedia about the <a href="https://en.wikipedia.org/wiki/Lagrange_multiplier">method of Lagrange multipliers</a>). Note, a more general form for the Lagrangian would include another summation term in (\ref{Lagrangian}) to uphold equality constraints. Since there are only inequality constraints here, we'll omit the extra term.</p>
+<h3>Constructing the dual problem</h3>
+<p><em>Much of the following discussion is based off ref <a href="#2">[2]</a>, which has a nice introduction to duality in the context of SVMs.</em></p>
+<p>First, let's make the following observation:<br>
+</p>
+<div class="math">$$\tag{Obs. 1}  
+\max_{\alpha} \mathcal{L}(w,b,\alpha) =  
+\begin{cases}  
+f(w), &amp; \text{if } g_i(w) \leq 0, \; \text{(constraints satisfied)} \  
+\infty, &amp; \text{if } g_i(w) \gt 0, \; \text{(constraints violated)}  
+\end{cases}  
+$$</div>
+<p>Basically, if any constraint <span class="math">\(j\)</span> is violated, i.e. <span class="math">\(g_j(w) &gt; 0\)</span>, then the Lagrange multiplier <span class="math">\(\alpha_j\)</span> that is multiplying <span class="math">\(g_j(w)\)</span> can be made arbitrarily large (<span class="math">\(\rightarrow \infty\)</span>) in order to maximize <span class="math">\(\mathcal{L}\)</span>.</p>
+<p>On the other hand, if all the constraints are satisfied, <span class="math">\(g_i(w) \leq 0\)</span> <span class="math">\(\forall \; i\)</span>, then <span class="math">\(\mathcal{L}\)</span> is maximized by setting the <span class="math">\(\alpha_i\)</span>s that are multiplying negative quantities equal to zero. However, Lagrangian multipliers multiplying <span class="math">\(g_i(w)\)</span> that satisfy the constraints with equality, <span class="math">\(g_i(w) = 0\)</span>, can be non-zero without diminishing <span class="math">\(\mathcal{L}\)</span>.</p>
+<p>The last statement amounts to the property of "complementary slackness" in the <a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions">Karush-Kuhn-Tucker</a> conditions for the solution:<br>
+</p>
+<div class="math">$$\tag{4} \label{complementarity}  
+\alpha_i g_i(w) = 0  
+$$</div>
+<p>Recall from the original geometric picture: only a few points lie exactly on the margins, and those points are described by <span class="math">\(g_i(w) = 0\)</span> (and thus have non-zero Lagrange multipliers). <strong>The points on the margin are the support vectors.</strong></p>
+<p>Next, we make use of the Max-Min inequality:<br>
+</p>
+<div class="math">$$  
+\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha) \leq \min_{w,b} \max_{\alpha} \mathcal{L}(w,b,\alpha)  
+$$</div>
+<p>This inequality is an equality under certain conditions, which our problem satisfies (convex <span class="math">\(f\)</span> and <span class="math">\(g\)</span>). The left side of the inequality is called the dual problem, and the right side is the primal problem.</p>
+<p>Now we can put it all together: Observation 1 tells us that solving the right side (primal problem) of the Max-Min inequality is the same as solving the original problem. Because our problem is convex, solving the left side (dual) is equivalent to solving the primal problem by the Max-Min inequality.</p>
+<p>Thus we're set to approach the solution via the dual problem, which is useful for dealing with nonlinear decision boundaries.</p>
+<h3>Solving the dual problem</h3>
+<p>The dual problem to solve is <span class="math">\(\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha)\)</span>, subject to constraints<a href="#note1">*</a> on the Lagrange multipliers: <span class="math">\(\alpha_i \geq 0\)</span>.</p>
+<p>Let's work out the inner part of the expression explicitly. We obtain <span class="math">\(\min_{w,b} \mathcal{L}(w,b,\alpha)\)</span> by setting:<br>
+</p>
+<div class="math">$$  
+\nabla_\boldsymbol{w} \mathcal{L} = 0; \quad \partial_b \mathcal{L} = 0  
+$$</div>
+<p>These equations for the partial derivatives give us, respectively:<br>
+</p>
+<div class="math">$$  
+\boldsymbol{w} = \sum_i \alpha_i y_i \boldsymbol{x}_i; \quad \sum_i \alpha_i y_i = 0  
+$$</div>
+<p><span class="math">\(\boldsymbol{w}\)</span> is a linear combination of the coordinates of the training data. Only the support vectors, which have non-zero <span class="math">\(\alpha_i\)</span>, contribute to the sum. To predict the label for a new test point <span class="math">\(\boldsymbol{x_t}\)</span>, simply evaluate the sign of<br>
+</p>
+<div class="math">$$\tag{5} \label{testing}  
+\boldsymbol{w} \cdot \boldsymbol{x} + b = \sum_i \alpha_i y_i \boldsymbol{x}_i \cdot \boldsymbol{x_t} + b  
+$$</div>
+<p><br>
+where b can be computed from the KKT complementarity condition (\ref{complementarity}) by plugging in the values for any support vector. The equation for the separating hyperplane is entirely determined by the support vectors.</p>
+<p>Plugging the last two equations into <span class="math">\(\mathcal{L}\)</span> leads to the dual formulation of the problem <span class="math">\( \max_{\alpha} \mathcal{L}_D\)</span>:</p>
+<div class="math">$$\tag{6} \label{dual}  
+\begin{align}  
+\max_{\alpha} \quad &amp; \sum_i \alpha_i - (1/2) \sum_{i,j} \alpha_i \alpha_j y_i y_j \boldsymbol{x_i} \cdot \boldsymbol{x_j} \  
+\text{subject to} \quad &amp; \alpha_i \geq 0, \; i = 1 \ldots m \  
+&amp; \sum_i \alpha_i y_i = 0  
+\end{align}  
+$$</div>
+<p>The dual for the non-separable primal Lagrangian (\ref{regularization}) -- derived using the same procedure we just followed -- looks just like the dual for the separable case (\ref{dual}), except that the Lagrange multipliers are bounded from above by the regularization constant: <span class="math">\(0 \leq \alpha_i \leq C\)</span>. Notably, the slack variables <span class="math">\(\xi_i\)</span> do not appear in the dual of the soft margin SVM.</p>
+<p>The dual (called the Wolfe dual) is easier to solve because of the simpler form of its inequality constraints and is the form used in algorithms such as the <a href="http://research.microsoft.com/pubs/68391/smo-book.pdf">Sequential Minimal Optimization</a> algorithm, which is implemented in the popular SVM solver, <a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/">LIBSVM</a>. The key feature of the dual is that training vectors only appear as dot products <span class="math">\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)</span>. This property allows us to generalize to the nonlinear case via the "kernel trick" discussed in Part 3 of this post.</p>
+<ul>
+<li>Some of you may be familiar with using Lagrangian multipliers to optimize some function <span class="math">\(f(\boldsymbol{x})\)</span> subject to equality constraints <span class="math">\(g(\boldsymbol{x}) = 0\)</span>, in which case the Lagrangian multipliers are unconstrained. The <a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions">Karush-Kuhn-Tucker conditions</a> generalize the method to include inequality constraints <span class="math">\(g(\boldsymbol{x}) \leq 0\)</span>, which results in additional constraints on the associated Lagrangian multipliers (as we have here).</li>
+</ul>
+<hr>
+<h2>Part 3: Kernels</h2>
+<p>Data that is not linearly separable in the original input space may be separable if mapped to a different space. Consider the following example of nonlinearly separable, two-dimensional data:</p>
+<p>[iframe src="https://plot.ly/~frangipane/9" width="100%" height="575" scrolling="no"]</p>
+<p>However, if we map the 2-d input data <span class="math">\(\boldsymbol{x} = (x, y)\)</span> to 3-d feature space by a function <span class="math">\(\Phi(\boldsymbol{x}) = (x,\; y,\; x^2 + y^2)\)</span>, the blue and red points can be separated with a plane in the new (3-d) space. See the plot below of the decision boundary, the mapped points, as well as the the original data points in the x-y plane. Drag the figure to rotate it, or zoom in and out with your mouse wheel!</p>
+<p>Code to generate and fit the data in this example with scikit-learn's SVM module, as well as code to create the plot.ly interactive plots above, is available in IPython notebooks on <a href="https://github.com/EFavDB/svm-classification">github</a>.</p>
+<h3>From maps to kernels</h3>
+<p>So how do we incorporate mapping the data into the formulation of the problem?</p>
+<p>Recall that the data appears as a dot product in the dual Lagrangian (\ref{dual}). If we decide to train an SVM on the mapped data, then the dot product of the input data in (\ref{dual}) is replaced by the dot product of the mapped data: <span class="math">\(\boldsymbol{x_i} \cdot \boldsymbol{x_j} \rightarrow \Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j})\)</span></p>
+<p>The kernel is simply the dot product of the mapping functions. In the example above, the inner product of the mapping function is an instance of a polynomial kernel:<br>
+</p>
+<div class="math">$$  
+K(x_i, x_j) = \Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j}) = x_i x_j + y_i y_j + (x_i^2 + y_i^2)(x_j^2 + y_j^2)  
+$$</div>
+<p>In practice, we work directly with the kernel <span class="math">\(K(x_i, x_j)\)</span> rather than explicitly computing the map of the data points<a href="#note2">**</a>. Computing the kernel directly allows us to sidestep the computationally expensive operation of mapping data to a high dimensional space and then taking a dot product (see ref [<a href="#2">2</a>] for examples comparing computational times of the two methods).</p>
+<p>Using a kernel, the second term in the objective of the dual problem (\ref{dual}) becomes<br>
+</p>
+<div class="math">$$  
+\sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)  
+$$</div>
+<p><br>
+The kernel also appears in the evaluation of (\ref{testing}) to predict the classification of a test point <span class="math">\(\boldsymbol{x_t}\)</span>:<br>
+</p>
+<div class="math">$$\tag{8} \label{testingKernel}  
+sgn \left(\sum_i \alpha_i y_i K(x_i, x_t) + b \right)  
+$$</div>
+<p>Which functions are valid kernels to use in the kernel trick? i.e. given <span class="math">\(K(x_i, x_j)\)</span>, does some feature map <span class="math">\(\Phi\)</span> exist such that <span class="math">\(K(x_i, x_j)=\Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j})\)</span> for any <span class="math">\(i,\ j\)</span>? Mercer's condition states that a necessary and sufficient condition for <span class="math">\(K\)</span> to be a valid kernel is that it is symmetric and positive semi-definite<a href="#note3"><span class="math">\(^\dagger\)</span></a>.</p>
+<p>Some popular kernels are:<br>
+</p>
+<div class="math">$$  
+\begin{align}  
+\text{polynomial:} &amp; \quad (\boldsymbol{x_i} \cdot \boldsymbol{x_j} + c)^p \  
+\text{Gaussian radial basis function:} &amp; \quad \exp(-\|\boldsymbol{x_i} - \boldsymbol{x_j} \|^2/2\sigma^2)  
+\end{align}  
+$$</div>
+<p><br>
+The optimal parameters for the degree of the polynomial <span class="math">\(p\)</span> and spread of the Gaussian <span class="math">\(\sigma\)</span> (as well as the regularization parameter) are determined by cross-validation. Computing the above kernels takes <span class="math">\(\mathcal{O}(d)\)</span> time, where <span class="math">\(d\)</span> is the dimension of the input space, since we have to evaluate <span class="math">\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)</span> in the polynomial kernel and <span class="math">\(\boldsymbol{x_i} - \boldsymbol{x_j}\)</span> in the Gaussian kernel.</p>
+<h3>Comparing runtimes of linear and nonlinear kernels</h3>
+<p>The computational complexity for <strong>classification/prediction</strong>, i.e. at test time, can be obtained by eyeballing (\ref{testing}) and (\ref{testingKernel}). Let <span class="math">\(d\)</span> be the dimension of the input space and <span class="math">\(n\)</span> be the size of the training set, and assume the number of support vectors <span class="math">\(n_S\)</span> is some fraction of <span class="math">\(n\)</span>, <span class="math">\(n_S \sim \mathcal{O}(n)\)</span>.</p>
+<p>In the case of working with the linear kernel/original input space, <span class="math">\(\boldsymbol{w}\)</span> can be explicitly evaluated to obtain the separating hyperplane parameters, so that classification in (\ref{testing}) takes <span class="math">\(\mathcal{O}(d)\)</span> time. On the other hand, with the kernel trick, the hyperplane parameters are not explicitly evaluated. Assume calculating a kernel takes <span class="math">\(\mathcal{O}(d)\)</span> time, cf. the polynomial and Gaussian kernels; then test time for a nonlinear <span class="math">\(K\)</span> in (\ref{testingKernel}) takes <span class="math">\(\mathcal{O}(nd)\)</span> time.</p>
+<p>Estimating the computational complexity for <strong>training</strong> is complicated, so we defer the discussion to refs [<a href="#4a">4a</a>, <a href="#4b">4b</a>] and simply state the result: training for linear kernels is <span class="math">\(\mathcal{O}(nd)\)</span> while training for nonlinear kernels using the Sequential Minimal Optimization algorithm is <span class="math">\(\mathcal{O}(n^2)\)</span> to <span class="math">\(\mathcal{O}(n^3)\)</span> (dependent on the regularization parameter <span class="math">\(C\)</span>), making nonlinear kernel SVMs impractical for larger datasets (a couple of 10,000 samples according to <a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html">scikit-learn</a>).</p>
+<p>** More than one mapping and feature space (dimension) may exist for a particular kernel. See section 4 of ref [<a href="#1">1</a>] for examples.  </p>
+<p><span class="math">\(^\dagger\)</span> See ref [<a href="#2">2</a>] for a simple proof in terms of the Kernel (Gram) matrix, i.e. the kernel function evaluated on a finite set of points.</p>
+<hr>
+<h2>Discussion</h2>
+<p>We've glimpsed the elegant theory behind the construction of SVMs and seen how support vectors pop out of the mathematical machinery. Geometrically, the support vectors are the points lying on the margins of the decision boundary.</p>
+<p>How about using SVMs in practice?</p>
+<p>In his Coursera course, Professor Ng recommends linear and Gaussian kernels for most use cases. He also provides some rules of thumb (based on the current state of SVM algorithms) for different sample sizes <span class="math">\(n\)</span> and input data dimension/number of features <span class="math">\(d\)</span>, restated here:</p>
+<p>case                                               method                                                           <span class="math">\(n\)</span>         <span class="math">\(d\)</span></p>
+<hr>
+<p><span class="math">\(n \ll d\)</span>, e.g. genomics, bioinformatics data   linear kernel SVM or logistic regression                         10 - 1000     10,000
+  <span class="math">\(n\)</span> intermediate, <span class="math">\(d\)</span> small                    Gaussian kernel SVM                                              10 - 10,000   1 - 1000
+  <span class="math">\(n \gg d\)</span>                                       create features, then linear kernel SVM or logistic regression   50,000+       1 - 1000</p>
+<p>The creators of the LIBSVM and LIBLINEAR packages also provide a <a href="https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf">user's guide</a> for novices, which includes a study of when to use linear instead of radial basis function kernels. They recommend linear SVMs when <span class="math">\(d\)</span> and <span class="math">\(n\)</span> are both large, often encountered in document classification problems where bag-of-words approaches can generate huge numbers of features (in their example <span class="math">\(n =\)</span> 20,000, <span class="math">\(d =\)</span> 47,000).</p>
+<p>The idea is that if the input data is already high-dimensional, then it shouldn't be necessary to apply nonlinear transformations to it in order to obtain a separating hyperplane.</p>
+<p>Tip: LIBLINEAR is specifically optimized for linear kernels and should be used instead of LIBSVM in the linear case.</p>
+<h3>Further reading</h3>
+<p>In addition to the many excellent written tutorials on SVMs online, we highly recommend viewing lectures 14 and 15 of Yaser Abu-Mostafa's MOOC, <a href="https://work.caltech.edu/telecourse.html">Learning from Data</a>, which cover SVMs at about the same level as this post, with the considerable added benefit of Professor Abu-Mostafa's explanations. He also discusses the generalization performance of SVMs as a function of the number of support vectors using VC theory (also see [<a href="#1">1</a>]).</p>
+<p>There is a lot more theory on SVMs that we haven't touched upon. For example, SVMs can be framed as a penalization method [<a href="#3">3</a>] or <a href="http://cbcl.mit.edu/cbcl/publications/ps/evgeniou-reviewall.pdf">"regularization network"</a>, c.f. ridge regression, but with a hinge loss rather than squared error. Insights about the choice of a <a href="http://alex.smola.org/papers/1998/SmoSch98b.pdf">kernel</a> have also been developed in that framework.</p>
+<hr>
+<p>[<a href="http://research.microsoft.com/pubs/67119/svmtutorial.pdf">1</a>] Burges, C. J.C. (1998). A Tutorial on Support Vector Machines for Pattern Recognition. Knowledge Discovery and Data Mining 2 (2) 121-167.</p>
+<p>[<a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf">2</a>] Ng, A. Support Vector Machines [PDF document]. Retrieved from lecture notes online: http://cs229.stanford.edu/notes/cs229-notes3.pdf<br>
+<em>Lecture notes by Andrew Ng for a more advanced class (but still in his signature intuitive style).</em></p>
+<p>[<a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">3</a>] Hastie, T., Tibshirani, R., and Friedman, J. (2009). The Elements of Statistical Learning.<br>
+<em>See section 12.2.1, page 420, for derivation of the dual Lagrangian for the nonseparable case.</em></p>
+<p>[<a href="https://www.csie.ntu.edu.tw/~cjlin/papers/bottou_lin.pdf">4a</a>] Bottou, L. and Lin C-J., (2006). Support Vector Machine Solvers.<br>
+[<a href="http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf">4b</a>] Chang, C-C. and Lin C-J., (2013). LIBSVM: A Library for Support Vector Machines.</p>
+<p>[<a href="http://www.cs.colostate.edu/~asa/pdfs/howto.pdf">5</a>] Ben-Hur, A. and Weston, J. (2009). A User's Guide to Support Vector Machines. In Carugo, O. and Eisenhaber, F. (Eds.), Methods in Molecular Biology 609, 223-229.</p>
+<p>Andrew Ng photo credit: <a href="https://commons.wikimedia.org/wiki/User:InverseHypercube">InverseHypercube</a>, <a href="http://creativecommons.org/licenses/by/3.0/us/deed.en">creative commons license</a>.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Support Vector Machines for classification&amp;url=./svm-classification.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./svm-classification.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=./svm-classification.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+                <aside class="post-tags">
+<a href="./tag/kernel-methods.html">kernel methods</a><a href="./tag/machine-learning.html">Machine Learning</a><a href="./tag/optimization-problem.html">optimization problem</a><a href="./tag/python.html">Python</a><a href="./tag/quadratic-programming.html">quadratic programming</a><a href="./tag/svm.html">SVM</a>                </aside>
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <a class="post-nav-next" href="./nba-2015-16.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-left"></i>
+                                <h2 class="post-nav-title">NBA 2015-16!!!</h2>
+                            <p class="post-nav-excerpt">NBA is back this Tuesday! The dashboard and weekly predictions are now live*, once...</p>
+                        </section>
+                    </a>
+                    <a class="post-nav-prev" href="./bayesian-linear-regression.html">
+                        <section class="post-nav-teaser">
+                            <i class="ic ic-arrow-right"></i>
+                                <h2 class="post-nav-title">A review of parameter regularization and Bayesian regression</h2>
+                            <p class="post-nav-excerpt">Here, we review parameter regularization, which is a method for improving regression...</p>
+                        </section>
+                    </a>
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script type="text/javascript" src="./theme/js/script.js"></script>
+
+</body>
+</html>

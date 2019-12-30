@@ -40,7 +40,6 @@
 
     <meta name="author" content="jslandy">
 
-    <meta name="tags" content="finance">
 
 
 
@@ -56,7 +55,6 @@
 <meta property="article:modified_time" content=""/>
 <meta property="article:author" content="./author/jslandy.html">
 <meta property="article:section" content="Finance"/>
-<meta property="article:tag" content="finance"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
 <!-- Twitter Card -->
@@ -180,7 +178,7 @@ W_t = S_t + \Gamma_t
 \end{eqnarray}
 $$</div>
 <p>
-where <span class="math">\(W\)</span> is our total wealth, <span class="math">\(S\)</span> is the banked (safe) portion, and <span class="math">\(\\Gamma\)</span> is the portion we are willing to bet or gamble. The savings is set so that each time we reach a new all time high wealth, <span class="math">\(S\)</span> is adjusted to be equal to a fraction <span class="math">\(\Pi\)</span> of the net wealth. When this is done, the value of <span class="math">\(\Gamma\)</span> must also be adjusted downwards -- some of the investment money is moved to savings. Before adjustment, the result of a bet moves <span class="math">\(\Gamma\)</span> to<br>
+where <span class="math">\(W\)</span> is our total wealth, <span class="math">\(S\)</span> is the banked (safe) portion, and <span class="math">\(\Gamma\)</span> is the portion we are willing to bet or gamble. The savings is set so that each time we reach a new all time high wealth, <span class="math">\(S\)</span> is adjusted to be equal to a fraction <span class="math">\(\Pi\)</span> of the net wealth. When this is done, the value of <span class="math">\(\Gamma\)</span> must also be adjusted downwards -- some of the investment money is moved to savings. Before adjustment, the result of a bet moves <span class="math">\(\Gamma\)</span> to<br>
 </p>
 <div class="math">\begin{eqnarray}\label{gamble_eom_cppi} \tag{2}
 \tilde{\Gamma}_{t+1} \equiv \left (1 + f (g_{t} - 1)\right) \Gamma_t.
@@ -249,7 +247,7 @@ This result can be used to estimate the mean growth of a portfolio to which CPPI
 
         <span class="c1"># play round of investment game  </span>
         <span class="n">dice_roll</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>  
-        <span class="n">win</span> <span class="o">=</span> <span class="p">(</span><span class="n">dice_roll</span> \<span class="o">&lt;</span> <span class="n">P_WIN</span><span class="p">)</span>  
+        <span class="n">win</span> <span class="o">=</span> <span class="p">(</span><span class="n">dice_roll</span> <span class="o">&lt;</span> <span class="n">P_WIN</span><span class="p">)</span>  
         <span class="n">loss</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">win</span>  
         <span class="n">g</span> <span class="o">=</span> <span class="n">LIFT_ON_WIN</span> <span class="o">*</span> <span class="n">win</span> <span class="o">+</span> <span class="n">LIFT_ON_LOSS</span> <span class="o">*</span> <span class="n">loss</span>  
         <span class="n">nav_change</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">f</span> <span class="o">*</span> <span class="p">(</span><span class="n">g</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -297,7 +295,7 @@ This result can be used to estimate the mean growth of a portfolio to which CPPI
 This is the maximum <span class="math">\(\Gamma\)</span> seen to date at time <span class="math">\(t\)</span>. Necessarily, this is the value of <span class="math">\(\Gamma\)</span> as of the most recent all time high preceeding <span class="math">\(t\)</span>. If <span class="math">\(\Gamma_t &lt; \Gamma^*_t\)</span>, we say that we are in drawdown by value <span class="math">\(\Gamma^*_t - \Gamma_t\)</span>. At all times, we have<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-S_t &amp;=&amp; \frac{\Pi}{1 - \Pi} \Gamma^*_t \\  
+S_t &amp;=&amp; \frac{\Pi}{1 - \Pi} \Gamma^*_t \  
 &amp;\equiv &amp; \rho \Gamma^*_t.  
 \end{eqnarray}</div>
 <p><br>
@@ -305,15 +303,15 @@ This result holds because the saved portion is <span class="math">\(\Pi\)</span>
 <p>From the above definitions, our net wealth after a step is given by<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-W_{t+1} &amp;=&amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{W_{t}} \right ) \\ \nonumber  
-&amp;=&amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{S_t + \Gamma_t} \right ) \\  
+W_{t+1} &amp;=&amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{W_{t}} \right ) \ \nonumber  
+&amp;=&amp; W_{t} \left ( 1 + f(g_t -1) \frac{\Gamma_t}{S_t + \Gamma_t} \right ) \  
 &amp;=&amp; W_{t} \left ( 1 + f(g_t -1) \frac{\frac{\Gamma_t}{\Gamma^*_t}}{\rho+ \frac{\Gamma_t}{\Gamma^*_t}} \right )  
 \end{eqnarray}</div>
 <p><br>
 Iterating and taking the logarithm we obtain<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber \tag{A1} \label{A1}  
-\log W_{t} &amp;=&amp; \log W_{0} + \sum_{i=0}^{t-1} \log \left ( 1 + f(g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right ) \\  
+\log W_{t} &amp;=&amp; \log W_{0} + \sum_{i=0}^{t-1} \log \left ( 1 + f(g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right ) \  
 &amp;\approx &amp; \log W_{0} + \sum_{i=0}^{t-1} f (g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} - \frac{f^2}{2} \left ((g_i -1) \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}}\right)^2 + \ldots  
 \end{eqnarray}</div>
 <p><br>
@@ -335,7 +333,7 @@ where <span class="math">\(\alpha\)</span> is given in that post as an implicit 
 </p>
 <div class="math">\begin{eqnarray}  
 p\left(\frac{\Gamma_i}{\Gamma^*_i} = k\right) \sim \begin{cases}  
-\alpha k^{\alpha - 1} &amp; \text{if } x \in (0, 1) \\  
+\alpha k^{\alpha - 1} &amp; \text{if } x \in (0, 1) \  
 0 &amp; \text{else}  
 \end{cases}  
 \end{eqnarray}</div>
@@ -343,14 +341,14 @@ p\left(\frac{\Gamma_i}{\Gamma^*_i} = k\right) \sim \begin{cases}
 Again, this is an approximation that assumes we spend relatively little time within one jump from the current all time high -- a result that will hold in the small Sharpe ratio limit. With this result, we obtain<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber \tag{A2} \label{A2}  
-\left \langle \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right \rangle &amp;\equiv &amp; \int_0^1 \frac{x}{\rho + x} \alpha x^{\alpha - 1} dx \\  
+\left \langle \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right \rangle &amp;\equiv &amp; \int_0^1 \frac{x}{\rho + x} \alpha x^{\alpha - 1} dx \  
 &amp;=&amp;\frac{\alpha \, _2F_1\left(1,\alpha +1;\alpha +2;-\frac{1}{\rho }\right)}{\rho (\alpha +1) }  
 \end{eqnarray}</div>
 <p><br>
 Here, <span class="math">\(_2F_1\)</span> is the hypergeometric function. Similarly,<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber \tag{A3} \label{A3}  
-\left \langle \left( \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right)^2 \right \rangle &amp;\equiv &amp; \int_0^1 \left( \frac{x}{\rho + x} \right)^2 \alpha x^{\alpha - 1} dx \\  
+\left \langle \left( \frac{\frac{\Gamma_i}{\Gamma^*_i}}{\rho+ \frac{\Gamma_i}{\Gamma^*_i}} \right)^2 \right \rangle &amp;\equiv &amp; \int_0^1 \left( \frac{x}{\rho + x} \right)^2 \alpha x^{\alpha - 1} dx \  
 &amp;=&amp; \frac{\alpha \left(\frac{\rho }{\rho +1}-\frac{(\alpha +1) \, _2F_1\left(1,\alpha  
 +2;\alpha +3;-\frac{1}{\rho }\right)}{\alpha +2}\right)}{\rho ^2}  
 \end{eqnarray}</div>
@@ -359,30 +357,30 @@ Note that both of the last two lines go to one as <span class="math">\(\rho \to 
 <p>To get the above results, we assumed a small Sharpe ratio. Therefore, to simplify things, we can use the value of <span class="math">\(\alpha\)</span> that we derived in our last post that is valid in this limit. This was given by <span class="math">\(\alpha \sim 2 \mu / \sigma^2\)</span>, where <span class="math">\(\mu\)</span> and <span class="math">\(\sigma\)</span> and mean and standard deviation of the random walk. We now evaluate these to get an expression for <span class="math">\(\alpha\)</span> in terms of the statistics of <span class="math">\(g\)</span>. First, we note that the mean drift of <span class="math">\(\log \Gamma\)</span> is given by<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-\mu &amp;\equiv &amp; \langle \log(1 + f (g-1)) \rangle \\ \nonumber  
-&amp;\sim &amp; f \langle g -1 \rangle - \frac{f^2}{2} \langle (g-1)^2 \rangle \\  
+\mu &amp;\equiv &amp; \langle \log(1 + f (g-1)) \rangle \ \nonumber  
+&amp;\sim &amp; f \langle g -1 \rangle - \frac{f^2}{2} \langle (g-1)^2 \rangle \  
 &amp;\sim &amp; f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g).  
 \end{eqnarray}</div>
 <p><br>
 The last line follows from the assumption that the Sharpe ratio for <span class="math">\(g -1\)</span> is small, so that<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-\langle (g-1)^2 \rangle &amp;=&amp; \left ( \langle (g-1)^2 \rangle - \langle (g-1) \rangle^2 \right) + \langle (g-1) \rangle^2 \\  
+\langle (g-1)^2 \rangle &amp;=&amp; \left ( \langle (g-1)^2 \rangle - \langle (g-1) \rangle^2 \right) + \langle (g-1) \rangle^2 \  
 &amp;=&amp; \text{var}(g) \left ( 1 + \frac{ \langle (g-1) \rangle^2}{\text{var}(g)} \right ).  
 \end{eqnarray}</div>
 <p><br>
 Similarly, one can show that<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-\sigma^2 &amp;\equiv&amp; \text{var} \log(1 + f (g-1)) \\  
+\sigma^2 &amp;\equiv&amp; \text{var} \log(1 + f (g-1)) \  
 &amp;\sim &amp; f^2 \text{var}(g).  
 \end{eqnarray}</div>
 <p><br>
 This gives<br>
 </p>
 <div class="math">\begin{eqnarray}\nonumber  
-\alpha &amp;\sim &amp; 2 \frac{\mu}{\sigma^2} \\ \nonumber  
-&amp;\sim &amp; 2 \frac{ f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g)}{ f^2 \text{var}(g)} \\  
+\alpha &amp;\sim &amp; 2 \frac{\mu}{\sigma^2} \ \nonumber  
+&amp;\sim &amp; 2 \frac{ f \langle g -1 \rangle - \frac{f^2}{2} \text{var}(g)}{ f^2 \text{var}(g)} \  
 &amp;=&amp; \frac{2}{f} \frac{ \langle g -1 \rangle }{ \text{var}(g)} - 1  
 \end{eqnarray}</div>
 <p><br>
@@ -471,8 +469,6 @@ We won't show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\ref{A4}
                     <div class="clear"></div>
                 </div>
 
-                <aside class="post-tags">
-<a href="./tag/finance.html">finance</a>                </aside>
 
                 <div class="clear"></div>
 
