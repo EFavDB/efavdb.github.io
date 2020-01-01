@@ -38,7 +38,7 @@
 
     <meta name="description" content="Mean shift clustering Mean shift clustering is a general non-parametric cluster finding procedure -- introduced by Fukunaga and...">
 
-    <meta name="author" content="damienrj">
+    <meta name="author" content="Damien RJ">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-04-21 09:17:00-07:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:author" content="./author/damien-rj.html">
 <meta property="article:section" content="Methods, Theory"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "damienrj",
-    "url": "./author/damienrj.html"
+    "name": "Damien RJ",
+    "url": "./author/damien-rj.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./mean-shift.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">The mean shift clustering algorithm</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/damienrj.html">Damienrj</a>
+                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
             | <time datetime="Tue 21 April 2015">Tue 21 April 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -143,8 +143,6 @@
 <p>Mean shift clustering is a general non-parametric cluster finding procedure -- introduced by Fukunaga and Hostetler [<a href="#1">1</a>], and popular within the computer vision field. Nicely, and in contrast to the more-well-known K-means clustering algorithm, the output of mean shift does not depend on any explicit assumptions on the shape of the point distribution, the number of clusters, or any form of random initialization.  </p>
 <p>We describe the mean shift algorithm in some detail in the <a href="#Tech">technical background section</a> at the end of this post. However, its essence is readily explained in a few words: Essentially, mean shift treats the clustering problem by supposing that all points given represent samples from some underlying probability density function, with regions of high sample density corresponding to the local maxima of this distribution. To find these local maxima, the algorithm works by allowing the points to attract each other, via what might be considered a short-ranged ``gravitational" force. Allowing the points to gravitate towards areas of higher density, one can show that they will eventually coalesce at a series of points, close to the local maxima of the distribution. Those data points that converge to the same local maxima are considered to be members of the same cluster.</p>
 <p>In the next couple of sections, we illustrate application of the algorithm to a couple of problems. We make use of the python package <a href="http://scikit-learn.org/stable/">SkLearn</a>, which contains a mean shift implementation. Following this, we provide a quick discussion and an appendix on technical details.</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h3>Mean shift clustering in action</h3>
 <p>In today's post we will have two examples. First, we will show how to use mean shift clustering to identify clusters of data in a 2D data set. Second, we will use the algorithm to segment a picture based on the colors in the image. To do this we need a handful of libraries from sklearn, numpy, matplotlib, and the Python Imaging Library (PIL) to handle reading in a jpeg image.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
@@ -370,6 +368,19 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
+                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

@@ -38,7 +38,7 @@
 
     <meta name="description" content="This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some...">
 
-    <meta name="author" content="jslandy">
+    <meta name="author" content="Jonathan Landy">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2018-03-03 17:53:00-08:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:author" content="./author/jonathan-landy.html">
 <meta property="article:section" content="Methods, Statistics, Theory"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "jslandy",
-    "url": "./author/jslandy.html"
+    "name": "Jonathan Landy",
+    "url": "./author/jonathan-landy.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./integration-method-to-map-model-scores-to-conversion-rates-from-example-data.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">Integration method to map model scores to conversion rates from example data</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/jslandy.html">Jslandy</a>
+                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
             | <time datetime="Sat 03 March 2018">Sat 03 March 2018</time>
         </span>
         <!-- TODO : Modified check -->
@@ -140,8 +140,6 @@
         <div class="inner">
             <section class="post-content">
                 <p>This note addresses the typical applied problem of estimating from data how a target "conversion rate" function varies with some available scalar score function -- e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method is a variation on a standard technique for estimating pdfs via fits to empirical cdfs.</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h3>Problem definition and naive binning solution</h3>
 <p>Here, we are interested in estimating a rate function, <span class="math">\(p \equiv p(x)\)</span>, representing the probability of some "conversion" event as a function of <span class="math">\(x\)</span>, some scalar model score. To do this, we assume we have access to a finite set of score-outcome data of the form <span class="math">\(\{(x_i, n_i), i= 1, \ldots ,k\}\)</span>. Here, <span class="math">\(x_i\)</span> is the score for example <span class="math">\(i\)</span> and <span class="math">\(n_i \in \{0,1\}\)</span> is its conversion indicator.</p>
 <p>There are a number of standard methods for estimating rate functions. For example, if the score <span class="math">\(x\)</span> is a prior estimate for the conversion rate, a trivial mapping <span class="math">\(p(x) = x\)</span> may work. This won't work if the score function in question is not an estimate for <span class="math">\(p\)</span>. A more general approach is to bin together example data points that have similar scores: The observed conversion rate within each bin can then be used as an estimate for the true conversion rate in the bin's score range. An example output of this approach is shown in Fig. 1. Another option is to create a moving average, analogous to the binned solution.</p>
@@ -302,6 +300,19 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
+                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

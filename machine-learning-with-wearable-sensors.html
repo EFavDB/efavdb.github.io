@@ -36,9 +36,9 @@
 
 
 
-    <meta name="description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Follow @efavdb Follow us on twitter for new submission...">
+    <meta name="description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction Wearable sensors have become increasingly...">
 
-    <meta name="author" content="damienrj">
+    <meta name="author" content="Damien RJ">
 
     <meta name="tags" content="guest">
 
@@ -48,13 +48,13 @@
 <!-- Open Graph -->
 <meta property="og:site_name" content="EFAVDB"/>
 <meta property="og:title" content="Machine learning with wearable sensors"/>
-<meta property="og:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Follow @efavdb Follow us on twitter for new submission..."/>
+<meta property="og:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction Wearable sensors have become increasingly..."/>
 <meta property="og:locale" content="en_US"/>
 <meta property="og:url" content="./machine-learning-with-wearable-sensors.html"/>
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-01-09 12:34:00-08:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:author" content="./author/damien-rj.html">
 <meta property="article:section" content="Case studies, Guest posts"/>
 <meta property="article:tag" content="guest"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
@@ -67,7 +67,7 @@
 
         <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
 
-      <meta name="twitter:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Follow @efavdb Follow us on twitter for new submission...">
+      <meta name="twitter:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction Wearable sensors have become increasingly...">
 
 <script type="application/ld+json">
 {
@@ -79,12 +79,12 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "damienrj",
-    "url": "./author/damienrj.html"
+    "name": "Damien RJ",
+    "url": "./author/damien-rj.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./machine-learning-with-wearable-sensors.html",
-  "description": "A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Follow @efavdb Follow us on twitter for new submission..."
+  "description": "A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction Wearable sensors have become increasingly..."
 }
 </script>
 </head>
@@ -126,7 +126,7 @@
         <h1 class="post-title">Machine learning with wearable sensors</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/damienrj.html">Damienrj</a>
+                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
             | <time datetime="Fri 09 January 2015">Fri 09 January 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -142,8 +142,6 @@
         <div class="inner">
             <section class="post-content">
                 <p>A guest post, contributed by Damien Ramunno-Johnson (<a href="https://www.linkedin.com/profile/view?id=60223336&amp;authType=NAME_SEARCH&amp;authToken=LOV_&amp;locale=en_US&amp;trk=tyah2&amp;trkInfo=tarId%3A1420748440448%2Ctas%3Adamien%2Cidx%3A1-1-1">LinkedIn</a>, <a href="http://www.efavdb.com/about">bio-sketch</a>)</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a>  </p>
-<p>Follow us on twitter for new submission alerts!</p>
 <p><strong>Introduction</strong><br>
 Wearable sensors have become increasingly popular over the last few years with the success of smartphones, fitness trackers, and smart watches. All of these devices create a large amount of data that is ideal for machine learning. Two early examples are the FitBit and Jawbone's up band, both of which analyze sensor input to determine how many steps the user has taken, a metric which is helpful for measuring physical activity. There is no reason to stop there: With all of this data available it is also possible to extract more information. For example, fitness trackers coming out now can also analyze your sleep.</p>
 <p>In that spirit, I'm going to show here that it is pretty straightforward to make an algorithm that can differentiate between 6 different states.</p>
@@ -220,8 +218,8 @@ That's not too bad, but I think we can still optimize our results some more. We 
 
 <p><strong>Visualization</strong><br>
 Looks like we are getting pretty good accuracy for using only 20% of the features available to us. You may have also noticed that I am outputting the <a href="http://en.wikipedia.org/wiki/F1_score">F1-Score</a> which is another measure of the accuracy which takes into account the precision and the recall.</p>
-<p>Now let's plot some of these data points to see if we can visualize why this is all working. Here, I am using Plot.ly to make the plot. You can make the plots many different ways including converting matplotlib plots into these online plots. If you click on the "play with this data" link at the bottom of the figure (or click <a href="https://plot.ly/~damienrj/104">here</a>) you can see the code used to make the plot.</p>
-<p>[iframe src="https://plot.ly/~damienrj/104" width="100%" height="680"]</p>
+<p>Now let's plot some of these data points to see if we can visualize why this is all working. Here, I am using Plot.ly to make the plot. You can make the plots many different ways including converting matplotlib plots into these online plots. If you click on the "play with this data" link at the bottom of the figure (or click <a href="https://plot.ly/~Damien RJ/104">here</a>) you can see the code used to make the plot.</p>
+<p>[iframe src="https://plot.ly/~Damien RJ/104" width="100%" height="680"]</p>
 <p>I picked two of the features to plot, the z acceleration average, and the z acceleration standard deviation. Note, the gravity component of the acceleration was removed and placed into its own feature. Only 3/6 labels are being plotted to make it a little easier to see what is going on. For example, it is easy to see that the walking profile in the top graph differs significantly from those of standing and laying in the bottom two.</p>
 <p><strong>Discussion</strong><br>
 From the graphs above alone, it would be difficult to differentiate between laying and standing. We might be able to comb through different combinations of features to find a set that is more easily distinguishable, but we are limited by the simple fact that it is hard to visualize data in more than 3 dimensions. If it turns out that more than a handful of features need to be considered simultaneously to separate the different classes, this approach will fail. In contrast, we have seen in our SVM analysis above that it is actually pretty easy to use machine learning to pick out, with high accuracy, a variety of motions from the sensor data. This is a neat application that is currently being applied widely in industry. It illustrates why machine learning is so interesting in general: It allows us to automate data analysis, and apply it to problems where a by-hand, visual analysis is not possible.</p>
@@ -246,6 +244,19 @@ From the graphs above alone, it would be difficult to differentiate between layi
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
+                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

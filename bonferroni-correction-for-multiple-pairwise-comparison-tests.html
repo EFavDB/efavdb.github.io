@@ -38,7 +38,7 @@
 
     <meta name="description" content="A common task in applied statistics is the pairwise comparison of the responses of \(N\) treatment groups in some statistical test --...">
 
-    <meta name="author" content="jslandy">
+    <meta name="author" content="Jonathan Landy">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2016-04-10 07:58:00-07:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:author" content="./author/jonathan-landy.html">
 <meta property="article:section" content="Statistics"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "jslandy",
-    "url": "./author/jslandy.html"
+    "name": "Jonathan Landy",
+    "url": "./author/jonathan-landy.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./bonferroni-correction-for-multiple-pairwise-comparison-tests.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">Improved Bonferroni correction factors for multiple pairwise comparisons</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/jslandy.html">Jslandy</a>
+                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
             | <time datetime="Sun 10 April 2016">Sun 10 April 2016</time>
         </span>
         <!-- TODO : Modified check -->
@@ -142,8 +142,6 @@
                 <p>A common task in applied statistics is the pairwise comparison of the responses of <span class="math">\(N\)</span> treatment groups in some statistical test -- the goal being to decide which pairs exhibit differences that are statistically significant. Now, because there is one comparison being made for each pairing, a naive application of the Bonferroni correction analysis suggests that one should set the individual pairwise test sizes to <span class="math">\(\alpha_i \to \alpha_f/{N \choose 2}\)</span> in order to obtain a desired family-wise type 1 error rate of <span class="math">\(\alpha_f\)</span>. Indeed, this solution is suggested by many texts. However, implicit in the Bonferroni analysis is the assumption that the comparisons being made are each mutually independent. This is not the case here, and we show that as a consequence the naive approach often returns type 1 error rates far from those desired. We provide adjusted formulas that allow for error-free Bonferroni-like corrections to be made.</p>
 <p>[edit (7/4/2016): After posting this article, I've since found that the method we suggest here is related to / is a generalization of Tukey's range test -- see <a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test">here</a>.]</p>
 <p>[edit (6/11/2018): I've added the notebook used below to our Github, <a href="https://github.com/EFavDB/improved_bonferroni">here</a>]</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h3>Introduction</h3>
 <p>In this post, we consider a particular kind of statistical test where one examines <span class="math">\(N\)</span> different treatment groups, measures some particular response within each, and then decides which of the <span class="math">\({N \choose 2}\)</span> pairs appear to exhibit responses that differ significantly. This is called the pairwise comparison problem (or sometimes "posthoc analysis"). It comes up in many contexts, and in general it will be of interest whenever one is carrying out a multiple-treatment test.</p>
 <p>Our specific interest here is in identifying the appropriate individual measurement error bars needed to guarantee a given family-wise type 1 error rate, <span class="math">\(\alpha_f\)</span>. Briefly, <span class="math">\(\alpha_f\)</span> is the probability that we incorrectly make any assertion that two measurements differ significantly when the true effect sizes we're trying to measure are actually all the same. This can happen due to the nature of statistical fluctuations. For example, when measuring the heights of <span class="math">\(N\)</span> identical objects, measurement error can cause us to incorrectly think that some pair have slightly different heights, even though that's not the case. A classical approach to addressing this problem is given by the Bonferroni approximation: If we consider <span class="math">\(\mathcal{N}\)</span> independent comparisons, and each has an individual type 1 error rate of <span class="math">\(\alpha_i,\)</span> then the family-wise probability of not making any type 1 errors is simply the product of the probabilities that we don't make any individual type 1 errors,<br>
@@ -378,6 +376,19 @@ Although we've been a bit sloppy with coefficients here, (\ref{asym3_c}) gives t
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
+                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

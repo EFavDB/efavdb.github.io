@@ -38,7 +38,7 @@
 
     <meta name="description" content="In this post, we provide a quick overview of the data and science of measles spread. Making use of python (code provided) we extract...">
 
-    <meta name="author" content="damienrj">
+    <meta name="author" content="Damien RJ">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-02-25 13:40:00-08:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:author" content="./author/damien-rj.html">
 <meta property="article:section" content="Case studies"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "damienrj",
-    "url": "./author/damienrj.html"
+    "name": "Damien RJ",
+    "url": "./author/damien-rj.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./vaccination-rates.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">Measles vaccination rate by USA state and relation to mean outbreak size</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/damienrj.html">Damienrj</a>
+                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
             | <time datetime="Wed 25 February 2015">Wed 25 February 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -140,18 +140,16 @@
         <div class="inner">
             <section class="post-content">
                 <p>In this post, we provide a quick overview of the data and science of measles spread. Making use of python (code provided) we extract from a CDC data set the 2012 youth vaccination rate for each USA state -- see figure below. To aid in the interpretation of this data, we also review and describe the results of a generalized ``SIR" model for disease spread. The model -- analyzed in <a href="http://efavdb.com/math-of-measles/">our last post</a> -- predicts that measles outbreaks are supported only if the vaccination rate is below 94%. At higher rates, infection spread is suppressed, and outbreaks do not occur. As seen in the figure, the majority of the states sit just below this critical number, and so are predicted to support youth outbreaks.</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a>  </p>
-<p>Follow us on twitter for new submission alerts!</p>
-<p>[caption width="800" caption="Measles vaccination rate by USA state for youths under 36 months in age, 2012. Dashed line at 94% is estimated critical vaccination rate needed to suppress outbreaks. The mean USA youth rate is about 91%."][iframe src="https://plot.ly/~damienrj/179" width="90%" height="950"][/caption]</p>
+<p>[caption width="800" caption="Measles vaccination rate by USA state for youths under 36 months in age, 2012. Dashed line at 94% is estimated critical vaccination rate needed to suppress outbreaks. The mean USA youth rate is about 91%."][iframe src="https://plot.ly/~Damien RJ/179" width="90%" height="950"][/caption]</p>
 <h4><strong>Introduction: History of measles in America</strong></h4>
 <p>Measles is a highly-contagious, serious illness estimated to currently be contracted by about 20 million individuals each year, globally. Just prior to the arrival of the first measles vaccine in 1963 (developed by <a href="http://en.wikipedia.org/wiki/John_Franklin_Enders">John Enders</a> and his colleagues) approximately 500,000 Americans contracted the disease annually, approximately 50,000 of which required hospitalization -- a rate of 1/10. Among these individuals, approximately 500 would die each year, equating to a 1/1000 mortality rate. As yet, there is <a href="http://www.mayoclinic.org/diseases-conditions/measles/basics/treatment/con-20019675">no treatment</a> available to combat the measles virus, once contracted. Consequently, similar hospitalization and mortality rates <a href="http://en.wikipedia.org/wiki/Measles#Epidemiology">continue to hold today</a>. Sadly, the mortality rate among the malnourished can be as high as 1/10.</p>
 <p>[caption width="800" caption="Here, the vaccination rate shown is for youths, under 48 months in first brach (up to 1985), and under 36 months in the latter branch."]<br>
-[iframe src="https://plot.ly/~damienrj/262" width="90%" height="400" style="float: right;][/caption]</p>
+[iframe src="https://plot.ly/~Damien RJ/262" width="90%" height="400" style="float: right;][/caption]</p>
 <p>Contemporary contraction rates in the USA are now extremely low, on the order of <a href="http://www.cdc.gov/measles/cases-outbreaks.html">50-500 per year</a>. This is likely a consequence of the strong local adoption of measles vaccinations, with 91% of young children here now receiving the vaccine prior to their third birthday. The most recent large-scale USA outbreak of the disease happened between the years of 1989 and 1991, when the vaccination rates of children were significantly lower, hovering around 70%. This outbreak centered within poorer, urban areas where the vaccination rates were <a href="http://www.cdc.gov/vaccines/pubs/pinkbook/meas.html">substantially lower</a> than the national average. A summary plot of USA contraction counts and youth vaccination rates by year is shown above -- the two curves are highly anti-correlated. Note that this plot is <strong>click and drag zoomable</strong>, which is useful for setting the scale appropriately for recent years. Data <a href="http://jid.oxfordjournals.org/content/189/Supplement_1/S17.long">source 1</a>, <a href="http://www.cdc.gov/mmwr/preview/mmwrhtml/mm6316a4.htm">source 2</a>; no youth vaccination rate data available between 1985-1991. Full-population averages have been in the 90's <a href="http://www.nature.com/news/measles-by-the-numbers-a-race-to-eradication-1.16897">for some decades</a>, likely due to elementary school matriculation requirements.</p>
 <h4><strong>Modeling disease spread</strong></h4>
 <p>The striking USA historical data suggests a very strong relationship between the vaccination rate within a community and the frequency and size of the measles outbreaks that it supports. In fact, simple models for disease spread suggest a phase-transition-like (exhibiting abrupt changes) outbreak size dependence on vaccination rates. This is illustrated below, where we plot the predicted measles contraction rate against a population's vaccination rate -- as returned by a generalized <a href="http://en.wikipedia.org/wiki/Epidemic_model#The_SIR_model">SIR model for disease spread</a>: Notice that in the far left side of this plot, the model predicts that disease spread is completely suppressed. However, below a critical vaccination rate (the stated 94% mark -- a number consistent with <a href="http://jid.oxfordjournals.org/content/196/10/1433.full">published estimates for measles</a>), outbreaks begin to be supported, growing in size with further decrease of the vaccination rate.</p>
 <p>[caption width="800" caption="The generalized SIR model predicts that a measles outbreak size changes in a phase-transition-like manner with vaccination rate. Further, at about 85% vaccination, the outbreak population fraction and the unvaccinated fraction curves cross. At this point, the outbreak captures nearly all unvaccinated and also a finite fraction of the vaccinated, who begin to become infected due to frequent encounters with disease. "]<br>
-[iframe src="https://plot.ly/~damienrj/275" width="90%" height="400"][/caption]</p>
+[iframe src="https://plot.ly/~Damien RJ/275" width="90%" height="400"][/caption]</p>
 <p>A detailed study of the SIR model's <a href="http://efavdb.com/math-of-measles/">solution</a> is not necessary to understand why disease spread exhibits a phase-transition-like form. Qualitatively, this behavior is a consequence of a simple balance of rates: If the rate at which a disease spreads is greater than the rate at which the ill recover, outbreaks grow and expand. However, if patients recover more quickly than they can spread the disease, outbreak expansion is suppressed, and the number of infected individuals will decrease with time. The balance of these competing effects is tuned by the frequency of vaccination, which directly affects the first of these rates -- that at which the disease can spread. Because measles is <a href="http://www.cdc.gov/measles/about/transmission.html">highly contagious</a>, its balance point occurs around the relatively-high 94% mark seen in the figure -- this is the vaccination rate needed to have the average rate of disease spread just equal to the average rate of recovery. An info-graphic illustrating these points can be found <a href="http://www.vaccines.gov/basics/protection/">here</a>.</p>
 <h4><strong>Model implications for USA youth</strong></h4>
 <p>At the start of this post, we presented CDC estimates for the mean, by-state vaccination rates within the USA. Now that we have reviewed the results of the SIR model, we can begin to appreciate the significance of this data more deeply. First -- as we noted above -- we see that many states have youth vaccination rates that sit just below the critical 94% level, and thus on average should support small measles outbreaks. The graph of the previous section also allows us to estimate the mean size of a measles outbreak (once sparked) within any community below the critical vaccination rate: The further a state is from the 94% mark, the larger its mean outbreak size should be. Although all states are doing reasonably well, when considered on <a href="http://www.npr.org/blogs/goatsandsoda/2015/02/06/384068229/measles-vaccination-rates-tanzania-does-better-than-u-s">a global scale</a>, it is important to realize that many sit in a region of the plot where the response to a decrease in vaccination rate is most dramatic -- the curve's slope is largest just to the right of 94% vaccination. This means, e.g., that a 1% decrease in vaccination rate will result in a greater than 1% increase in the size of the average outbreak supported within that state. This observation is modestly worrisome, as the risk of contraction for all individuals -- even those vaccinated -- is always proportional to the number of cases present in any outbreak.</p>
@@ -347,6 +345,19 @@
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
+                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

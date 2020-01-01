@@ -38,7 +38,7 @@
 
     <meta name="description" content="In today's post, we document our submission to the recent Kaggle competition aimed at predicting the category of San Francisco crimes,...">
 
-    <meta name="author" content="damienrj">
+    <meta name="author" content="Damien RJ">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-07-20 03:01:00-07:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:author" content="./author/damien-rj.html">
 <meta property="article:section" content="Case studies"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "damienrj",
-    "url": "./author/damienrj.html"
+    "name": "Damien RJ",
+    "url": "./author/damien-rj.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./predicting-san-francisco-crimes.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">Machine learning to predict San Francisco crime</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/damienrj.html">Damienrj</a>
+                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
             | <time datetime="Mon 20 July 2015">Mon 20 July 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -140,8 +140,6 @@
         <div class="inner">
             <section class="post-content">
                 <p>In today's post, we document our submission to the recent <a href="https://www.kaggle.com/c/sf-crime">Kaggle</a> competition aimed at predicting the category of San Francisco crimes, given only their time and location of occurrence. As a reminder, Kaggle is a site where one can compete with other data scientists on various data challenges.  We took this competition as an opportunity to explore the Naive Bayes algorithm. With the few steps discussed below, we were able to quickly move from the middle of the pack to the top 33% on the competition leader board, all the while continuing with this simple model!</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h2>Introduction</h2>
 <p>As in all cities, crime is a reality San Francisco: Everyone who lives in San Francisco seems to know someone whose car window has been smashed in, or whose bicycle was stolen within the past year or two. Even Prius' car batteries are apparently considered <a href="http://abc7news.com/news/exclusive-car-battery-thefts-from-hybrid-cars-on-the-rise-in-san-francisco-/725532/">fair game</a> by the city's diligent thieves.  The challenge we tackle today involves attempting to guess the class of a crime committed within the city, given the time and location it took place. Such studies are representative of efforts by many police forces today: Using machine learning approaches, one can get an improved understanding of which crimes occur where and when in a city -- this then allows for better, <a href="http://www.forbes.com/sites/emc/2014/06/03/data-analysis-helps-police-departments-fight-crime/">dynamic allocation of police resources</a>. To aid in the SF <a href="https://www.kaggle.com/c/sf-crime">challenge</a>, Kaggle has provided about 12 years of crime reports from all over the city -- a data set that is pretty interesting to comb through.</p>
 <p>Here, we outline our approach to tackling this problem, using the Naive Bayes classifier. This is one of the simplest classification algorithms, the essential ingredients of which include combining <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" title="Bayes' theorem">Bayes' theorem</a> with an independence assumption on the features (this is the "naive" part).  Although simple, it is still a popular method for text categorization. For example, using word frequencies as features, this approach can accurately classify emails as spam, or whether a particular a piece of text was written by a specific author.  In fact, with careful preprocessing, the algorithm is often <a href="http://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf">competitive</a> with more advanced methods, including support vector machines.</p>
@@ -276,6 +274,19 @@ Follow us on twitter for new submission alerts!</p>
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
+                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

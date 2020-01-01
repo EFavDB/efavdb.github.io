@@ -38,7 +38,7 @@
 
     <meta name="description" content="In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed...">
 
-    <meta name="author" content="damienrj">
+    <meta name="author" content="Damien RJ">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-03-26 09:20:00-07:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damienrj.html">
+<meta property="article:author" content="./author/damien-rj.html">
 <meta property="article:section" content="Case studies"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "damienrj",
-    "url": "./author/damienrj.html"
+    "name": "Damien RJ",
+    "url": "./author/damien-rj.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./bike-share-forecasting.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">Forecasting Bike Sharing Demand</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/damienrj.html">Damienrj</a>
+                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
             | <time datetime="Thu 26 March 2015">Thu 26 March 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -141,8 +141,6 @@
             <section class="post-content">
                 <p>In today's post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand -- a problem posed in a recent <a href="https://www.kaggle.com/c/bike-sharing-demand">Kaggle</a>competition. For those not familiar, Kaggle is a site where one can compete with other data scientists on various data challenges. Top scorers often win prize money, but the site more generally serves as a great place to grab interesting datasets to explore and play with. With the simple optimization steps discussed below, we managed to quickly move from the bottom 10% of the competition -- our first-pass attempt's score -- to the top 10%: no sweat!</p>
 <p>Our work here was inspired by a <a href="http://blog.dato.com/using-gradient-boosted-trees-to-predict-bike-sharing-demand">post</a> by the people at <a href="http://blog.dato.com/">Dato.com</a>, who used the bike sharing competition as an opportunity to demonstrate their software. Here, we go through a similar, but more detailed discussion using the python package <a href="http://scikit-learn.org/stable/">SKlearn</a>.</p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h2>Introduction</h2>
 <p>Bike sharing systems are gaining popularity around the world -- there are over 500 different programs currently operating in various cities, and counting!  These programs are generally funded through rider membership fees, or through pay-to-ride one time rental fees. Key to the convenience of these programs is the fact that riders who pick up a bicycle from one station can return the bicycle to any other in the network.  These systems generate a great deal of data relating to various ride details, including travel time, departure location, arrival location, and so on.  This data has the potential to be very useful for studying city mobility. The data we look at today comes from Washington D. C.'s <a href="https://www.capitalbikeshare.com/">Capital Bikeshare</a> program. The goal of the Kaggle competition is to leverage the historical data provided in order to forecast future bike rental demand within the city.</p>
 <p>As we detailed in an earlier <a href="http://efavdb.com/notes-on-trees/#boosting">post</a>, boosting provides a general method for increasing a machine learning algorithm's performance. Here, in order to model the Capital Bikeshare program's demand curves, we'll be applying a gradient boosted trees model (GBM).  Simply put, GBM's are constructed by iteratively fitting a series of simple trees to a training set, where each new tree attempts to fit the residuals, or errors, of the trees that came before it. With the addition of each new tree the training error is further reduced, typically asymptoting to a reasonably accurate model -- but one must watch out for overfitting -- see below!</p>
@@ -460,6 +458,19 @@ Here,</p>
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
+                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 

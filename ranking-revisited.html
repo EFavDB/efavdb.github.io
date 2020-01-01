@@ -38,7 +38,7 @@
 
     <meta name="description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an...">
 
-    <meta name="author" content="jslandy">
+    <meta name="author" content="Jonathan Landy">
 
 
 
@@ -53,7 +53,7 @@
 <meta property="og:type" content="article"/>
 <meta property="article:published_time" content="2015-07-11 20:30:00-07:00"/>
 <meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jslandy.html">
+<meta property="article:author" content="./author/jonathan-landy.html">
 <meta property="article:section" content="Statistics"/>
 <meta property="og:image" content="./theme/images/post-bg.jpg">
 
@@ -77,8 +77,8 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "jslandy",
-    "url": "./author/jslandy.html"
+    "name": "Jonathan Landy",
+    "url": "./author/jonathan-landy.html"
   },
   "image": "./theme/images/post-bg.jpg",
   "url": "./ranking-revisited.html",
@@ -124,7 +124,7 @@
         <h1 class="post-title">How not to sort by average rating, revisited</h1>
         <!-- TODO : Proper class for headline -->
         <span class="post-meta">
-                <a href="./author/jslandy.html">Jslandy</a>
+                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
             | <time datetime="Sat 11 July 2015">Sat 11 July 2015</time>
         </span>
         <!-- TODO : Modified check -->
@@ -140,8 +140,6 @@
         <div class="inner">
             <section class="post-content">
                 <p>What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an algorithm suggested by <a href="http://www.evanmiller.org/">Evan Miller</a> to generate their item rankings. However, this algorithm can sometimes be unfairly pessimistic about new, good items. This is especially true of items whose first few votes are negative -- an issue that can be "gamed" by adversaries. In this post, we consider three alternative ranking methods that can enable high-quality items to more-easily bubble-up. The last is the simplest, but continues to give good results: One simply seeds each item's vote count with a suitable fixed number of hidden "starter" votes.  </p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a><br>
-Follow us on twitter for new submission alerts!</p>
 <h3>Introduction -- a review of Evan Miller's post</h3>
 <p>In an <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html">insightful prior post</a>, Evan Miller (EM) considered the problem of ranking items that had been reviewed as positive or negative (up-voted or down-voted, represented by a 1 or a 0, respectively) by a sample of users. He began by illustrating that two of the more readily-arrived at solutions to this problem are highly flawed. To review:</p>
 <p><strong>Bad method 1:</strong> Rank item <span class="math">\(i\)</span> by <span class="math">\(n_i(1) - n_i(0)\)</span>, its up-vote count minus its down-vote count.</p>
@@ -323,6 +321,19 @@ This form <span class="math">\(\tilde{p}\)</span> is interesting because it rese
 
                 <div class="clear"></div>
 
+                <aside class="post-author">
+
+
+                        <figure class="post-author-avatar">
+                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
+                        </figure>
+                    <div class="post-author-bio">
+                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
+                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
+                        <!-- Social linkes in alphabet order. -->
+                    </div>
+                    <div class="clear"></div>
+                </aside>
 
                 </section>
 
