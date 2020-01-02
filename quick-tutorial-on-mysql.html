@@ -1,181 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content=", Tools, " />
 
-  <title>Quick tutorial on MySQL</title>
+<meta property="og:title" content="Quick tutorial on MySQL "/>
+<meta property="og:url" content="./quick-tutorial-on-mysql.html" />
+<meta property="og:description" content="Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2015-01-16T16:07:00-08:00" />
+<meta name="twitter:title" content="Quick tutorial on MySQL ">
+<meta name="twitter:description" content="Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./quick-tutorial-on-mysql.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Quick tutorial on MySQL  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Here, we give a quick (< 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for...">
-
-    <meta name="author" content="Jonathan Landy">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Quick tutorial on MySQL"/>
-<meta property="og:description" content="Here, we give a quick (< 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./quick-tutorial-on-mysql.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-01-16 16:07:00-08:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="Tools"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Quick tutorial on MySQL">
-    <meta name="twitter:url" content="./quick-tutorial-on-mysql.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Here, we give a quick (< 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Quick tutorial on MySQL",
-  "headline": "Quick tutorial on MySQL",
-  "datePublished": "2015-01-16 16:07:00-08:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./quick-tutorial-on-mysql.html",
-  "description": "Here, we give a quick (< 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Quick tutorial on MySQL</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Fri 16 January 2015">Fri 16 January 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./quick-tutorial-on-mysql.html">
+                Quick tutorial on&nbsp;MySQL
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like us).  </p>
-<p><a href="http://twitter.com/efavdb">Follow @efavdb</a>  </p>
-<p>Follow us on twitter for new submission alerts!</p>
-<h4><strong>Getting started</strong></h4>
-<p>MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you're a beginner reading this, we suggest <a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html">installing</a> it on your personal computer or server, and following along by trying each of the commands we go through here. Once it's installed and you have its server running, you can often access MySQL from the command line by typing</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Here, we give a quick (&lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like&nbsp;us).  </p>
+<p><a href="http://twitter.com/efavdb">Follow&nbsp;@efavdb</a>  </p>
+<p>Follow us on twitter for new submission&nbsp;alerts!</p>
+<h4><strong>Getting&nbsp;started</strong></h4>
+<p>MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you&#8217;re a beginner reading this, we suggest <a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html">installing</a> it on your personal computer or server, and following along by trying each of the commands we go through here. Once it&#8217;s installed and you have its server running, you can often access MySQL from the command line by&nbsp;typing</p>
 <div class="highlight"><pre><span></span><span class="err">mysql  </span>
 </pre></div>
 
 
-<p>On a mac, you may need to use the following though</p>
+<p>On a mac, you may need to use the following&nbsp;though</p>
 <div class="highlight"><pre><span></span><span class="err">/usr/local/mysql/bin/mysql -uroot  </span>
 </pre></div>
 
 
-<p>Once mysql is loaded, you can see what databases are available by typing</p>
+<p>Once mysql is loaded, you can see what databases are available by&nbsp;typing</p>
 <div class="highlight"><pre><span></span><span class="err">SHOW DATABASES;  </span>
 </pre></div>
 
 
-<p>Notice that a semi-colon is used to terminate commands: In general, these can extend across multiple lines and the semi-colon tells the program where the command stops. Also, MySQL is case-insensitive, but it is considered good form to have all command calls capitalized for easier reading. If no databases yet exist, you can create one as follows:</p>
+<p>Notice that a semi-colon is used to terminate commands: In general, these can extend across multiple lines and the semi-colon tells the program where the command stops. Also, MySQL is case-insensitive, but it is considered good form to have all command calls capitalized for easier reading. If no databases yet exist, you can create one as&nbsp;follows:</p>
 <div class="highlight"><pre><span></span><span class="err">CREATE DATABASE animalDB;  </span>
 </pre></div>
 
 
 <p>Here, <code>animalDB</code> is the name of the database. From the list of available databases,<br>
-you can select one of interest with the <code>USE</code> command. For example,</p>
+you can select one of interest with the <code>USE</code> command. For&nbsp;example,</p>
 <div class="highlight"><pre><span></span><span class="err">USE animalDB;  </span>
 </pre></div>
 
 
-<p>Each database can contain many tables. To see the tables contained in a database, use the SHOW command,</p>
+<p>Each database can contain many tables. To see the tables contained in a database, use the <span class="caps">SHOW</span>&nbsp;command,</p>
 <div class="highlight"><pre><span></span><span class="err">SHOW tables;  </span>
 </pre></div>
 
 
-<h4><strong>Table creation and alteration</strong></h4>
-<p>SQL tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (<code>INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR</code>, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the command</p>
+<h4><strong>Table creation and&nbsp;alteration</strong></h4>
+<p><span class="caps">SQL</span> tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (<code>INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR</code>, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the&nbsp;command</p>
 <div class="highlight"><pre><span></span><span class="err">CREATE TABLE MyPets (name VARCHAR(10),  </span>
 <span class="err">species VARCHAR(10), age INT);  </span>
 </pre></div>
@@ -188,7 +126,7 @@ you can select one of interest with the <code>USE</code> command. For example,</
 </pre></div>
 
 
-<p>Here, we’ve illustrated two different methods to do insertion. In the first and third lines, we have values for all columns. However, in the second, no age is supplied, so we have to specify which columns the values we are supplying correspond to. The age column for this entry will read <code>NULL</code>, since no value was provided for it. To view the table, we write – with <code>SELECT</code> and <code>∗</code> meaning ``retrieve" and “all”, respectively –</p>
+<p>Here, we’ve illustrated two different methods to do insertion. In the first and third lines, we have values for all columns. However, in the second, no age is supplied, so we have to specify which columns the values we are supplying correspond to. The age column for this entry will read <code>NULL</code>, since no value was provided for it. To view the table, we write – with <code>SELECT</code> and <code>∗</code> meaning &#8220;retrieve&#8221; and “all”, respectively&nbsp;–</p>
 <div class="highlight"><pre><span></span><span class="err">SELECT * FROM MyPets;  </span>
 <span class="err">&gt;&gt;  </span>
 <span class="err">+---------+---------+------+  </span>
@@ -201,14 +139,14 @@ you can select one of interest with the <code>USE</code> command. For example,</
 </pre></div>
 
 
-<p>Additional <code>SELECT</code> queries are given below that illustrate how one can select and operate on subsets of the columns and rows. To add an age for Mac, we use the <code>UPDATE, SET</code>, and <code>WHERE</code> commands, writing</p>
+<p>Additional <code>SELECT</code> queries are given below that illustrate how one can select and operate on subsets of the columns and rows. To add an age for Mac, we use the <code>UPDATE, SET</code>, and <code>WHERE</code> commands,&nbsp;writing</p>
 <div class="highlight"><pre><span></span><span class="err">UPDATE MyPets  </span>
 <span class="err">SET age = 7  </span>
 <span class="err">WHERE name = &quot;Mac&quot;;  </span>
 </pre></div>
 
 
-<p>To see that this and the other commands that follow work as expected, try running the <code>SELECT</code> command above after each application. To delete a row from the table, we use the DELETE command,</p>
+<p>To see that this and the other commands that follow work as expected, try running the <code>SELECT</code> command above after each application. To delete a row from the table, we use the <span class="caps">DELETE</span>&nbsp;command,</p>
 <div class="highlight"><pre><span></span><span class="err">DELETE from MyPets  </span>
 <span class="err">WHERE name = &quot;Hector&quot;;  </span>
 </pre></div>
@@ -228,32 +166,32 @@ the <code>ALTER</code> and <code>ADD COLUMN</code> commands,</p>
 </pre></div>
 
 
-<p><em>Caveat:</em> While row addition and removal can always be carried out quickly, addition and removal of columns scales linearly with table size. The reason is that these operations are generally carried out by copying the original table into a second table having the desired new structure. For this reason, it is generally a good idea to plan ahead and make sure any new table has all the columns you foresee might be needed.</p>
-<h4><strong>SELECTION queries -- learn by example</strong></h4>
-<p>Example conditional commands:</p>
+<p><em>Caveat:</em> While row addition and removal can always be carried out quickly, addition and removal of columns scales linearly with table size. The reason is that these operations are generally carried out by copying the original table into a second table having the desired new structure. For this reason, it is generally a good idea to plan ahead and make sure any new table has all the columns you foresee might be&nbsp;needed.</p>
+<h4><strong><span class="caps">SELECTION</span> queries &#8212; learn by&nbsp;example</strong></h4>
+<p>Example conditional&nbsp;commands:</p>
 <ol>
 <li>
-<p>What is the name and age each of my pets?</p>
+<p>What is the name and age each of my&nbsp;pets?</p>
 <p><code>SELECT name, age FROM mypets;</code></p>
 </li>
 <li>
-<p>How many dogs have I got?</p>
+<p>How many dogs have I&nbsp;got?</p>
 <p><code>SELECT COUNT(*) FROM mypets WHERE species = "dog";</code></p>
 </li>
 <li>
-<p>Show me just the first two pets in my table.</p>
+<p>Show me just the first two pets in my&nbsp;table.</p>
 <p><code>SELECT * FROM mypets LIMIT 2;</code></p>
 </li>
 <li>
-<p>Show me my pets in age-descending order.</p>
+<p>Show me my pets in age-descending&nbsp;order.</p>
 <p><code>SELECT * FROM MyPets ORDER BY age;</code></p>
 </li>
 <li>
-<p>Which of my dogs are under 4 years old?</p>
+<p>Which of my dogs are under 4 years&nbsp;old?</p>
 <p><code>SELECT * FROM MyPets WHERE age &lt; 4 AND species = "dog";</code></p>
 </li>
 <li>
-<p>Which animals have names that start with the letter “M”?</p>
+<p>Which animals have names that start with the letter&nbsp;“M”?</p>
 <p><code>SELECT * FROM mypets WHERE name LIKE "M%";</code></p>
 </li>
 <li>
@@ -261,10 +199,10 @@ the <code>ALTER</code> and <code>ADD COLUMN</code> commands,</p>
     <code>SELECT * FROM mypets WHERE name LIKE "%E%";</code></p>
 </li>
 </ol>
-<p>Example GROUP BY commands (see also <code>MIN, MAX, SUM, STD</code>, etc.):</p>
+<p>Example <span class="caps">GROUP</span> <span class="caps">BY</span> commands (see also <code>MIN, MAX, SUM, STD</code>,&nbsp;etc.):</p>
 <ol>
 <li>
-<p>How many pets have I got of each species?</p>
+<p>How many pets have I got of each&nbsp;species?</p>
 <p><code>SELECT species, count(*) FROM mypets GROUP BY species;</code></p>
 </li>
 <li>
@@ -272,90 +210,89 @@ the <code>ALTER</code> and <code>ADD COLUMN</code> commands,</p>
     <code>SELECT species, AVG(age) FROM mypets GROUP BY species;</code></p>
 </li>
 </ol>
-<h4><strong>Actions on multiple tables</strong></h4>
+<h4><strong>Actions on multiple&nbsp;tables</strong></h4>
 <ol>
 <li>
-<p>To solidify what we've learned above, try to now create a second table, called <code>PetDetails</code>, like that above but with different age and species values. You can add other columns to it if you like. Once that's done, apply the <code>SHOW TABLES</code> command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands like</p>
+<p>To solidify what we&#8217;ve learned above, try to now create a second table, called <code>PetDetails</code>, like that above but with different age and species values. You can add other columns to it if you like. Once that&#8217;s done, apply the <code>SHOW TABLES</code> command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands&nbsp;like</p>
 <p><code>UPDATE MyPets, PetDetails  
 SET MyPets.age = PetDetails.age  
 WHERE MyPets.name = PetDetails.name;</code></p>
-<p>Note the use of the period here to specify from which table a certain column is to be selected from.</p>
+<p>Note the use of the period here to specify from which table a certain column is to be selected&nbsp;from.</p>
 </li>
 <li>
-<p><em>The</em> <code>JOIN/ON</code> <em>commands</em>. The <code>JOIN</code> command essentially creates something like a flattened outer product of two tables: If there are <span class="math">\(n\)</span> entries in the first table and <span class="math">\(m\)</span> in the second, the command returns a table with <span class="math">\(n \times m\)</span> rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The ON command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick pairs</p>
+<p><em>The</em> <code>JOIN/ON</code> <em>commands</em>. The <code>JOIN</code> command essentially creates something like a flattened outer product of two tables: If there are <span class="math">\(n\)</span> entries in the first table and <span class="math">\(m\)</span> in the second, the command returns a table with <span class="math">\(n \times m\)</span> rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The <span class="caps">ON</span> command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick&nbsp;pairs</p>
 <p><code>CREATE TABLE PetTricks (name VARCHAR(10), trick VARCHAR(10));  
 INSERT INTO PetTricks VALUES ("Bottles", "Shake");  
 INSERT INTO PetTricks VALUES ("Bottles", "Play dead");  
 INSERT INTO PetTricks VALUES ("Mac", "Shake");  
 INSERT INTO PetTricks VALUES ("Dogbert", "Consulting");</code></p>
-<p>With the following, we get the number of tricks each of my pets can do</p>
+<p>With the following, we get the number of tricks each of my pets can&nbsp;do</p>
 <p><code>SELECT MyPets.name AS name, count(*) AS num_tricks  
 FROM (MyPets JOIN PetTricks  
 ON MyPets.name = PetTricks.name)  
 GROUP BY MyPets.name;</code><br>
-Here, we see for the first time that it is possible to select values from a table created ``on the fly" (the table in parentheses, which you can print using the <code>SELECT</code> command). We also see for the first time the concept of aliasing, applied through use of the <code>AS</code> command.</p>
+Here, we see for the first time that it is possible to select values from a table created &#8220;on the fly&#8221; (the table in parentheses, which you can print using the <code>SELECT</code> command). We also see for the first time the concept of aliasing, applied through use of the <code>AS</code> command.</p>
 </li>
 <li>
-<p>Our last -- and most complicated -- example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you'll be pretty much set to construct your own complex SQL queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks table.</p>
-<p>```<br>
-ALTER TABLE MyPets<br>
-ADD COLUMN num_tricks INT<br>
-DEFAULT 0;</p>
-<p>UPDATE MyPets AS T1,<br>
-(Select name, count(*) AS tot<br>
-FROM PetTricks<br>
-GROUP BY name) AS T2<br>
-SET T1.num_tricks = T2.tot<br>
-WHERE T1.name = T2.name;</p>
-<p>SELECT * FROM MyPets;  </p>
+<p>Our last &#8212; and most complicated &#8212; example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you&#8217;ll be pretty much set to construct your own complex <span class="caps">SQL</span> queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks&nbsp;table.</p>
+<p><span class="dquo">&#8220;</span>`<br>
+<span class="caps">ALTER</span> <span class="caps">TABLE</span> MyPets<br>
+<span class="caps">ADD</span> <span class="caps">COLUMN</span> num_tricks <span class="caps">INT</span><br>
+<span class="caps">DEFAULT</span>&nbsp;0;</p>
+<p><span class="caps">UPDATE</span> MyPets <span class="caps">AS</span> T1,<br>
+(Select name, count(*) <span class="caps">AS</span> tot<br>
+<span class="caps">FROM</span> PetTricks<br>
+<span class="caps">GROUP</span> <span class="caps">BY</span> name) <span class="caps">AS</span> T2<br>
+<span class="caps">SET</span> T1.num_tricks = T2.tot<br>
+<span class="caps">WHERE</span> T1.name =&nbsp;T2.name;</p>
+<p><span class="caps">SELECT</span> * <span class="caps">FROM</span>&nbsp;MyPets;  </p>
 <blockquote>
 <blockquote>
-<p>+---------+---------+------+------------+<br>
+<p>+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
 | name | species | age | num_tricks |<br>
-+---------+---------+------+------------+<br>
++&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br>
 | Bottles | Dog | 3 | 2 |<br>
 | Mac | Dog | 7 | 1 |<br>
 | Hector | Cat | 1 | 0 |<br>
-+---------+---------+------+------------+<br>
-```</p>
++&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;&#8212;-+&#8212;&#8212;&#8212;+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;+<br>&nbsp;&#8220;`</p>
 </blockquote>
 </blockquote>
 </li>
 </ol>
-<h4><strong>Other tips</strong></h4>
-<p>Lastly, a few one-off tips that can be very helpful.</p>
+<h4><strong>Other&nbsp;tips</strong></h4>
+<p>Lastly, a few one-off tips that can be very&nbsp;helpful.</p>
 <ol>
 <li>
-<p><em>Creating a new table similar another.</em> The following command can come in handy when you’re dealing with tables that have many columns:</p>
+<p><em>Creating a new table similar another.</em> The following command can come in handy when you’re dealing with tables that have many&nbsp;columns:</p>
 <p><code>CREATE TABLE TNew LIKE T1;</code></p>
-<p>Here, the command creates <code>TNew</code>, a new table with column names and types like those of <code>T1</code>. The entries of <code>T1</code> are not copied over. If you want to copy some of them over, you can do that with a command like</p>
+<p>Here, the command creates <code>TNew</code>, a new table with column names and types like those of <code>T1</code>. The entries of <code>T1</code> are not copied over. If you want to copy some of them over, you can do that with a command&nbsp;like</p>
 <p><code>INSERT INTO TNew (SELECT * FROM T1 WHERE ...);</code></p>
 </li>
 <li>
-<p><em>Saving to a text file.</em> Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the following</p>
+<p><em>Saving to a text file.</em> Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the&nbsp;following</p>
 <p><code>cd /usr/local  
 mkdir MySQLOutput  
 sudo chmod -R 777 MySQLOutput</code></p>
-<p>This creates the directory <code>/usr/local/MYSQLOutput</code> with global read, write, and execute permissions. With this setup, we can write to a file from within MySQL with a command like</p>
+<p>This creates the directory <code>/usr/local/MYSQLOutput</code> with global read, write, and execute permissions. With this setup, we can write to a file from within MySQL with a command&nbsp;like</p>
 <p><code>SELECT * FROM MyPets  
 INTO OUTFILE "/usr/local/MySQLOutput/test.txt"</code></p>
 </li>
 <li>
-<p><em>Scripts.</em> For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the <code>SOURCE</code> command. To illustrate, suppose we have a text file called <code>/usr/local/MySQLOutput/test.txt</code> within which we have written the commands</p>
+<p><em>Scripts.</em> For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the <code>SOURCE</code> command. To illustrate, suppose we have a text file called <code>/usr/local/MySQLOutput/test.txt</code> within which we have written the&nbsp;commands</p>
 <p><code>CREATE table Bad_dogs (DogID BIGINT, Barks INT);  
 INSERT INTO Bad_dogs VALUES (1234567890, 666);</code></p>
-<p>We can run this from within MySQL using the command</p>
+<p>We can run this from within MySQL using the&nbsp;command</p>
 <p><code>SOURCE /usr/local/MySQLOutput/test.txt;</code></p>
-<p>This creates the table and inserts the example entry.</p>
+<p>This creates the table and inserts the example&nbsp;entry.</p>
 </li>
 <li>
-<p><em>Indexing.</em> By creating an index, one can speed up <code>SELECT</code> calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table, write</p>
+<p><em>Indexing.</em> By creating an index, one can speed up <code>SELECT</code> calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table,&nbsp;write</p>
 <p><code>ALTER TABLE MyPets  
 ADD PRIMARY KEY (name);</code><br>
-This selects the name column as our index, which will speed up all <code>SELECT</code> calls seeking entries with <code>name</code> values satisfying some condition -- specified using <code>WHERE name = ...</code>. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table creation.</p>
+This selects the name column as our index, which will speed up all <code>SELECT</code> calls seeking entries with <code>name</code> values satisfying some condition &#8212; specified using <code>WHERE name = ...</code>. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table&nbsp;creation.</p>
 </li>
 <li>
-<p><em>Further study.</em> At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both <a href="http://stackoverflow.com/">stackoverflow.com</a> -- which has tons of interesting discussions on the topic -- and the <a href="http://dev.mysql.com/doc/">MySQL documentation page</a>, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent resources.</p>
+<p><em>Further study.</em> At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both <a href="http://stackoverflow.com/">stackoverflow.com</a> &#8212; which has tons of interesting discussions on the topic &#8212; and the <a href="http://dev.mysql.com/doc/">MySQL documentation page</a>, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent&nbsp;resources.</p>
 </li>
 </ol>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -420,76 +357,114 @@ This selects the name column as our index, which will speed up all <code>SELECT<
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Quick tutorial on MySQL&amp;url=./quick-tutorial-on-mysql.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./quick-tutorial-on-mysql.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./quick-tutorial-on-mysql.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
 
 
-                <div class="clear"></div>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./machine-learning-for-facial-recognition-3.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Machine learning for facial recognition</h2>
-                            <p class="post-nav-excerpt">A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch)...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./nba-week-10-summary-week-11-predictions.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">NBA week 10 summary, week 11 predictions</h2>
-                            <p class="post-nav-excerpt">Fairly good accuracy this past week -- 33/49, or 67.8% overall. The breakdown by point...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./nba-week-10-summary-week-11-predictions.html" title="Previous: NBA week 10 summary, week 11 predictions">NBA week 10 summary, week 11 predictions</a></li>
+                <li class="next-article"><a href="./machine-learning-for-facial-recognition-3.html" title="Next: Machine learning for facial recognition">Machine learning for facial recognition</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-01-16T16:07:00-08:00">Jan 16, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#tools-ref">Tools</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

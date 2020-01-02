@@ -1,159 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content=", Methods, Theory, " />
 
-  <title>Deep reinforcement learning, battleship</title>
+<meta property="og:title" content="Deep reinforcement learning, battleship "/>
+<meta property="og:url" content="./battleship.html" />
+<meta property="og:description" content="Here, we provide a brief introduction to reinforcement learning (RL) — a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2016-10-15T13:52:00-07:00" />
+<meta name="twitter:title" content="Deep reinforcement learning, battleship ">
+<meta name="twitter:description" content="Here, we provide a brief introduction to reinforcement learning (RL) — a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./battleship.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Deep reinforcement learning, battleship  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Here, we provide a brief introduction to reinforcement learning (RL) -- a general technique for training programs to play games...">
-
-    <meta name="author" content="Jonathan Landy">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Deep reinforcement learning, battleship"/>
-<meta property="og:description" content="Here, we provide a brief introduction to reinforcement learning (RL) -- a general technique for training programs to play games..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./battleship.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2016-10-15 13:52:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="Methods, Theory"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Deep reinforcement learning, battleship">
-    <meta name="twitter:url" content="./battleship.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Here, we provide a brief introduction to reinforcement learning (RL) -- a general technique for training programs to play games...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Deep reinforcement learning, battleship",
-  "headline": "Deep reinforcement learning, battleship",
-  "datePublished": "2016-10-15 13:52:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./battleship.html",
-  "description": "Here, we provide a brief introduction to reinforcement learning (RL) -- a general technique for training programs to play games..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Deep reinforcement learning, battleship</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Sat 15 October 2016">Sat 15 October 2016</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./battleship.html">
+                Deep reinforcement learning,&nbsp;battleship
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Here, we provide a brief introduction to reinforcement learning (RL) -- a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game battleship.</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Here, we provide a brief introduction to reinforcement learning (<span class="caps">RL</span>) &#8212; a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game&nbsp;battleship.</p>
 <h3>Introduction</h3>
-<p>Reinforcement learning (RL) techniques are methods that can be used to teach algorithms to play games efficiently. Like supervised machine-learning (ML) methods, RL algorithms learn from data -- in this case, past game play data. However, whereas supervised-learning algorithms train only on data that is already available, RL addresses the challenge of performing well while still in the process of collecting data. In particular, we seek design principles that</p>
+<p>Reinforcement learning (<span class="caps">RL</span>) techniques are methods that can be used to teach algorithms to play games efficiently. Like supervised machine-learning (<span class="caps">ML</span>) methods, <span class="caps">RL</span> algorithms learn from data &#8212; in this case, past game play data. However, whereas supervised-learning algorithms train only on data that is already available, <span class="caps">RL</span> addresses the challenge of performing well while still in the process of collecting data. In particular, we seek design principles&nbsp;that</p>
 <ul>
-<li>Allow programs to identify good strategies from past examples,</li>
-<li>Enable fast learning of new strategies through continued game play.</li>
+<li>Allow programs to identify good strategies from past&nbsp;examples,</li>
+<li>Enable fast learning of new strategies through continued game&nbsp;play.</li>
 </ul>
-<p>The reason we particularly want our algorithms to learn fast here is that RL is most fruitfully applied in contexts where training data is limited -- or where the space of strategies is so large that it would be difficult to explore exhaustively. It is in these regimes that supervised techniques have trouble and RL methods shine.</p>
-<p>In this post, we review one general RL training procedure: The policy-gradient, deep-learning scheme. We review the theory behind this approach in the next section. Following that, we walk through a simple python implementation that trains a neural network to play the game battleship.</p>
-<p>Our python code can be downloaded from our github page, <a href="https://github.com/EFavDB/battleship">here</a>. It requires the jupyter, tensorflow, numpy, and matplotlib packages.</p>
-<h3>Policy-gradient, deep RL</h3>
-<p>Policy-gradient, deep RL algorithms consist of two main components: A policy network and a rewards function. We detail these two below and then describe how they work together to train good models.</p>
-<h4>The policy network</h4>
-<p>The policy for a given deep RL algorithm is a neural network that maps state values <span class="math">\(s\)</span> to probabilities for given game actions <span class="math">\(a\)</span>. In other words, the input layer of the network accepts a numerical encoding of the environment -- the state of the game at a particular moment. When this input is fed through the network, the values at the output layer correspond to the log probabilities that each of the actions available to us is optimal -- one output node is present for each possible action that we can choose. Note that if we knew with certainty which move we should take, only one output node would have a finite probability. However, if our network is uncertain which action is optimal, more than one output node will have finite weight.</p>
-<p>To illustrate the above, we present a diagram of the network used in our battleship program below. (For a review of the rules of battleship, see footnote [1].) For simplicity, we work with a 1-d battleship grid. We then encode our current knowledge of the environment using one input neuron for each of our opponent's grid positions. In particular, we use the following encoding for each neuron / index:</p>
+<p>The reason we particularly want our algorithms to learn fast here is that <span class="caps">RL</span> is most fruitfully applied in contexts where training data is limited &#8212; or where the space of strategies is so large that it would be difficult to explore exhaustively. It is in these regimes that supervised techniques have trouble and <span class="caps">RL</span> methods&nbsp;shine.</p>
+<p>In this post, we review one general <span class="caps">RL</span> training procedure: The policy-gradient, deep-learning scheme. We review the theory behind this approach in the next section. Following that, we walk through a simple python implementation that trains a neural network to play the game&nbsp;battleship.</p>
+<p>Our python code can be downloaded from our github page, <a href="https://github.com/EFavDB/battleship">here</a>. It requires the jupyter, tensorflow, numpy, and matplotlib&nbsp;packages.</p>
+<h3>Policy-gradient, deep <span class="caps">RL</span></h3>
+<p>Policy-gradient, deep <span class="caps">RL</span> algorithms consist of two main components: A policy network and a rewards function. We detail these two below and then describe how they work together to train good&nbsp;models.</p>
+<h4>The policy&nbsp;network</h4>
+<p>The policy for a given deep <span class="caps">RL</span> algorithm is a neural network that maps state values <span class="math">\(s\)</span> to probabilities for given game actions <span class="math">\(a\)</span>. In other words, the input layer of the network accepts a numerical encoding of the environment &#8212; the state of the game at a particular moment. When this input is fed through the network, the values at the output layer correspond to the log probabilities that each of the actions available to us is optimal &#8212; one output node is present for each possible action that we can choose. Note that if we knew with certainty which move we should take, only one output node would have a finite probability. However, if our network is uncertain which action is optimal, more than one output node will have finite&nbsp;weight.</p>
+<p>To illustrate the above, we present a diagram of the network used in our battleship program below. (For a review of the rules of battleship, see footnote [1].) For simplicity, we work with a 1-d battleship grid. We then encode our current knowledge of the environment using one input neuron for each of our opponent&#8217;s grid positions. In particular, we use the following encoding for each neuron /&nbsp;index:</p>
 <div class="math">\begin{eqnarray} \label{input} \tag{1}  
 x_{0,i} = \begin{cases}  
 -1 &amp; \text{Have not yet bombed $i$} \  
@@ -162,21 +100,21 @@ x_{0,i} = \begin{cases}
 \end{cases}  
 \end{eqnarray}</div>
 <p><br>
-In our example figure below, we have five input neurons, so the board is of size five. The first three neurons have value <span class="math">\(-1\)</span> implying we have not yet bombed those grid points. Finally, the last two are <span class="math">\(+1\)</span> and <span class="math">\(0\)</span>, respectively, implying that a ship does sit at the fourth site, but not at the fifth.</p>
-<p>[caption width="482" caption="Our policy network: A function that maps an encoding of our knowledge of our opponent's board to optimal next action (site bombing) probabilities."][iframe src="{static}/wp-content/uploads/2016/10/nn.jpg" width="90%" height="235"][/caption]  </p>
-<p>Note that in the output layer of the policy network shown, the first three values are labeled with log probabilities. These values correspond to the probabilities that we should next bomb each of these indices, respectively. We cannot re-bomb the fourth and fifth grid points, so although the network may output some values to these neurons, we'll ignore them.</p>
-<p>Before moving on, we note that the reason we use a neural network for our policy is to allow for efficient generalization: For games like Go that have a very large number of states, it is not feasible to collect data on every possible board position. This is exactly the context where ML algorithms excel -- generalizing from past observations to make good predictions for new situations. In order to keep our focus on RL, we won't review how ML algorithms work in this post (however, you can check out our <a href="http://efavdb.com/archives/">archives</a> section for relevant primers). Instead we simply note that -- utilizing these tools -- we can get good performance by training only on a <em>representative subset</em> of games -- allowing us to avoid study of the full set, which can be much larger.</p>
-<h4>The rewards function</h4>
-<p>To train an RL algorithm, we must carry out an iterative game play / scoring process: We play games according to our current policy, selecting moves with frequencies proportional to the probabilities output by the network. If the actions taken resulted in good outcomes, we want to strengthen the probability of those actions going forward.</p>
-<p>The rewards function is the tool we use to formally score our outcomes in past games -- we will encourage our algorithm to try to maximize this quantity during game play. In effect, it is a hyper-parameter for the RL algorithm: many different functions could be used, each resulting in different learning characteristics. For our battleship program, we have used the function<br>
+In our example figure below, we have five input neurons, so the board is of size five. The first three neurons have value <span class="math">\(-1\)</span> implying we have not yet bombed those grid points. Finally, the last two are <span class="math">\(+1\)</span> and <span class="math">\(0\)</span>, respectively, implying that a ship does sit at the fourth site, but not at the&nbsp;fifth.</p>
+<p>[caption width=&#8221;482&#8221; caption=&#8221;Our policy network: A function that maps an encoding of our knowledge of our opponent&#8217;s board to optimal next action (site bombing) probabilities.&#8221;][iframe src=&#8221;{static}/wp-content/uploads/2016/10/nn.jpg&#8221; width=&#8221;90%&#8221;&nbsp;height=&#8221;235&#8221;][/caption]  </p>
+<p>Note that in the output layer of the policy network shown, the first three values are labeled with log probabilities. These values correspond to the probabilities that we should next bomb each of these indices, respectively. We cannot re-bomb the fourth and fifth grid points, so although the network may output some values to these neurons, we&#8217;ll ignore&nbsp;them.</p>
+<p>Before moving on, we note that the reason we use a neural network for our policy is to allow for efficient generalization: For games like Go that have a very large number of states, it is not feasible to collect data on every possible board position. This is exactly the context where <span class="caps">ML</span> algorithms excel &#8212; generalizing from past observations to make good predictions for new situations. In order to keep our focus on <span class="caps">RL</span>, we won&#8217;t review how <span class="caps">ML</span> algorithms work in this post (however, you can check out our <a href="http://efavdb.com/archives/">archives</a> section for relevant primers). Instead we simply note that &#8212; utilizing these tools &#8212; we can get good performance by training only on a <em>representative subset</em> of games &#8212; allowing us to avoid study of the full set, which can be much&nbsp;larger.</p>
+<h4>The rewards&nbsp;function</h4>
+<p>To train an <span class="caps">RL</span> algorithm, we must carry out an iterative game play / scoring process: We play games according to our current policy, selecting moves with frequencies proportional to the probabilities output by the network. If the actions taken resulted in good outcomes, we want to strengthen the probability of those actions going&nbsp;forward.</p>
+<p>The rewards function is the tool we use to formally score our outcomes in past games &#8212; we will encourage our algorithm to try to maximize this quantity during game play. In effect, it is a hyper-parameter for the <span class="caps">RL</span> algorithm: many different functions could be used, each resulting in different learning characteristics. For our battleship program, we have used the function<br>
 </p>
 <div class="math">\begin{eqnarray} \label{rewards} \tag{2}  
 r(a;t_0) = \sum_{t \geq t_0} \left ( h(t) - \overline{h(t)} \right) (0.5)^{t-t0}  
 \end{eqnarray}</div>
 <p><br>
-Given a completed game log, this function looks at the action <span class="math">\(a\)</span> taken at time <span class="math">\(t_0\)</span> and returns a weighted sum of hit values <span class="math">\(h(t)\)</span> for this and all future steps in the game. Here, <span class="math">\(h(t)\)</span> is <span class="math">\(1\)</span> if we had a hit at step <span class="math">\(t\)</span> and is <span class="math">\(0\)</span> otherwise.</p>
-<p>In arriving at (\ref{rewards}), we admit that we did not carry out a careful search over the set of all possible rewards functions. However, we have confirmed that this choice results in good game play, and it is well-motivated: In particular, we note that the weighting term <span class="math">\((0.5)^{t-t0}\)</span> serves to strongly incentivize a hit on the current move (we get a reward of <span class="math">\(1\)</span> for a hit at <span class="math">\(t_0\)</span>), but a hit at <span class="math">\((t_0 + 1)\)</span> also rewards the action at <span class="math">\(t_0\)</span> -- with value <span class="math">\(0.5\)</span>. Similarly, a hit at <span class="math">\((t_0 + 2)\)</span> rewards <span class="math">\(0.25\)</span>, etc. This weighted look-ahead aspect of (\ref{rewards}) serves to encourage efficient exploration of the board: It forces the program to care about moves that will enable future hits. The other ingredient of note present in (\ref{rewards}) is the subtraction of <span class="math">\(\overline{h(t)}\)</span>. This is the expected rewards that a random network would obtain. By pulling this out, we only reward our network if it is outperforming random choices -- this results in a net speed-up of the learning process.</p>
-<h4>Stochastic gradient descent</h4>
+Given a completed game log, this function looks at the action <span class="math">\(a\)</span> taken at time <span class="math">\(t_0\)</span> and returns a weighted sum of hit values <span class="math">\(h(t)\)</span> for this and all future steps in the game. Here, <span class="math">\(h(t)\)</span> is <span class="math">\(1\)</span> if we had a hit at step <span class="math">\(t\)</span> and is <span class="math">\(0\)</span>&nbsp;otherwise.</p>
+<p>In arriving at (\ref{rewards}), we admit that we did not carry out a careful search over the set of all possible rewards functions. However, we have confirmed that this choice results in good game play, and it is well-motivated: In particular, we note that the weighting term <span class="math">\((0.5)^{t-t0}\)</span> serves to strongly incentivize a hit on the current move (we get a reward of <span class="math">\(1\)</span> for a hit at <span class="math">\(t_0\)</span>), but a hit at <span class="math">\((t_0 + 1)\)</span> also rewards the action at <span class="math">\(t_0\)</span> &#8212; with value <span class="math">\(0.5\)</span>. Similarly, a hit at <span class="math">\((t_0 + 2)\)</span> rewards <span class="math">\(0.25\)</span>, etc. This weighted look-ahead aspect of (\ref{rewards}) serves to encourage efficient exploration of the board: It forces the program to care about moves that will enable future hits. The other ingredient of note present in (\ref{rewards}) is the subtraction of <span class="math">\(\overline{h(t)}\)</span>. This is the expected rewards that a random network would obtain. By pulling this out, we only reward our network if it is outperforming random choices &#8212; this results in a net speed-up of the learning&nbsp;process.</p>
+<h4>Stochastic gradient&nbsp;descent</h4>
 <p>In order to train our algorithm to maximize captured rewards during game play, we apply gradient descent. To carry this out, we imagine allowing our network parameters <span class="math">\(\theta\)</span> to vary at some particular step in the game. Averaging over all possible actions, the gradient of the expected rewards is then formally,<br>
 </p>
 <div class="math">\begin{eqnarray} \nonumber  
@@ -185,20 +123,20 @@ Given a completed game log, this function looks at the action <span class="math"
 &amp;\equiv &amp; \langle r(a \vert s) \partial_{\theta} \log \left ( p(a \vert \theta, s) \right) \rangle. \tag{3} \label{formal_ev}  
 \end{eqnarray}</div>
 <p><br>
-Here, the <span class="math">\(p(a)\)</span> values are the action probability outputs of our network.</p>
-<p>Unfortunately, we usually can't evaluate the last line above. However, what we can do is approximate it using a sampled value: We simply play a game with our current network, then replace the expected value above by the reward actually captured on the <span class="math">\(i\)</span>-th move,<br>
+Here, the <span class="math">\(p(a)\)</span> values are the action probability outputs of our&nbsp;network.</p>
+<p>Unfortunately, we usually can&#8217;t evaluate the last line above. However, what we can do is approximate it using a sampled value: We simply play a game with our current network, then replace the expected value above by the reward actually captured on the <span class="math">\(i\)</span>-th move,<br>
 </p>
 <div class="math">\begin{eqnarray}  
 \hat{g}_i = r(a_i) \nabla_{\theta} \log p(a_i \vert s_i, \theta). \tag{4} \label{estimator}  
 \end{eqnarray}</div>
 <p><br>
-Here, <span class="math">\(a_i\)</span> is the action that was taken, <span class="math">\(r(a_i)\)</span> is reward that was captured, and the derivative of the logarithm shown can be evaluated via back-propagation (aside for those experienced with neural networks: this is the derivative of the cross-entropy loss function that would apply if you treated the event like a supervised-learning training example -- with the selected action <span class="math">\(a_i\)</span> taken as the label). The function <span class="math">\(\hat{g}_i\)</span> provides a noisy estimate of the desired gradient, but taking many steps will result in a "stochastic" gradient descent, on average pushing us towards correct rewards maximization.</p>
-<h4>Summary of the training process</h4>
-<p>In summary, then, RL training proceeds iteratively: To initialize an iterative step, we first play a game with our current policy network, selecting moves stochastically according to the network's output. After the game is complete, we then score our outcome by evaluating the rewards captured on each move -- for example, in the battleship game we use (\ref{rewards}). Once this is done, we then estimate the gradient of the rewards function using (\ref{estimator}). Finally, we update the network parameters, moving <span class="math">\(\theta \to \theta + \alpha \sum \hat{g}_i\)</span>, with <span class="math">\(\alpha\)</span> a small step size parameter. To continue, we then play a new game with the updated network, etc.</p>
-<p>To see that this process does, in fact, encourage actions that have resulted in good outcomes during training, note that (\ref{estimator}) is proportional to the rewards captured at the step <span class="math">\(i\)</span>. Consequently, when we adjust our parameters in the direction of (\ref{estimator}), we will strongly encourage those actions that have resulted in large rewards outcomes. Further, those moves with negative rewards are actually suppressed. In this way, over time, the network will learn to examine the system and suggest those moves that will likely produce the best outcomes.</p>
-<p>That's it for the basics of deep, policy-gradient RL. We now turn to our python example, battleship.</p>
-<h3>Python code walkthrough -- battleship RL</h3>
-<p>Load the needed packages.</p>
+Here, <span class="math">\(a_i\)</span> is the action that was taken, <span class="math">\(r(a_i)\)</span> is reward that was captured, and the derivative of the logarithm shown can be evaluated via back-propagation (aside for those experienced with neural networks: this is the derivative of the cross-entropy loss function that would apply if you treated the event like a supervised-learning training example &#8212; with the selected action <span class="math">\(a_i\)</span> taken as the label). The function <span class="math">\(\hat{g}_i\)</span> provides a noisy estimate of the desired gradient, but taking many steps will result in a &#8220;stochastic&#8221; gradient descent, on average pushing us towards correct rewards&nbsp;maximization.</p>
+<h4>Summary of the training&nbsp;process</h4>
+<p>In summary, then, <span class="caps">RL</span> training proceeds iteratively: To initialize an iterative step, we first play a game with our current policy network, selecting moves stochastically according to the network&#8217;s output. After the game is complete, we then score our outcome by evaluating the rewards captured on each move &#8212; for example, in the battleship game we use (\ref{rewards}). Once this is done, we then estimate the gradient of the rewards function using (\ref{estimator}). Finally, we update the network parameters, moving <span class="math">\(\theta \to \theta + \alpha \sum \hat{g}_i\)</span>, with <span class="math">\(\alpha\)</span> a small step size parameter. To continue, we then play a new game with the updated network,&nbsp;etc.</p>
+<p>To see that this process does, in fact, encourage actions that have resulted in good outcomes during training, note that (\ref{estimator}) is proportional to the rewards captured at the step <span class="math">\(i\)</span>. Consequently, when we adjust our parameters in the direction of (\ref{estimator}), we will strongly encourage those actions that have resulted in large rewards outcomes. Further, those moves with negative rewards are actually suppressed. In this way, over time, the network will learn to examine the system and suggest those moves that will likely produce the best&nbsp;outcomes.</p>
+<p>That&#8217;s it for the basics of deep, policy-gradient <span class="caps">RL</span>. We now turn to our python example,&nbsp;battleship.</p>
+<h3>Python code walkthrough &#8212; battleship <span class="caps">RL</span></h3>
+<p>Load the needed&nbsp;packages.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>  
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>  
@@ -206,7 +144,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Define our network -- a fully connected, three layer system. The code below is mostly tensorflow boilerplate that can be picked up by going through their first tutorials. The one unusual thing is that we have our learning rate in (26) set to the placeholder value (9). This will allow us to vary our step sizes with observed rewards captured below.  </p>
+<p>Define our network &#8212; a fully connected, three layer system. The code below is mostly tensorflow boilerplate that can be picked up by going through their first tutorials. The one unusual thing is that we have our learning rate in (26) set to the placeholder value (9). This will allow us to vary our step sizes with observed rewards captured&nbsp;below.  </p>
 <div class="highlight"><pre><span></span><span class="n">BOARD_SIZE</span> <span class="o">=</span> <span class="mi">10</span>  
 <span class="n">SHIP_SIZE</span> <span class="o">=</span> <span class="mi">3</span>
 
@@ -239,7 +177,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Next, we define a method that will allow us to play a game using our network. The TRAINING variable specifies whether or not to take the optimal moves or to select moves stochastically. Note that the method returns a set of logs that record the game proceedings. These are needed for training.</p>
+<p>Next, we define a method that will allow us to play a game using our network. The <span class="caps">TRAINING</span> variable specifies whether or not to take the optimal moves or to select moves stochastically. Note that the method returns a set of logs that record the game proceedings. These are needed for&nbsp;training.</p>
 <div class="highlight"><pre><span></span><span class="n">TRAINING</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">True</span><span class="w">  </span>
 <span class="n">def</span><span class="w"> </span><span class="n">play_game</span><span class="p">(</span><span class="n">training</span><span class="o">=</span><span class="n">TRAINING</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
 <span class="ss">&quot;&quot;&quot; Play game of battleship using network.&quot;&quot;&quot;</span><span class="w">  </span>
@@ -269,7 +207,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Our implementation of the rewards function (\ref{rewards}):</p>
+<p>Our implementation of the rewards function&nbsp;(\ref{rewards}):</p>
 <div class="highlight"><pre><span></span><span class="err">def rewards_calculator(hit_log, gamma=0.5):  </span>
 <span class="err">&quot;&quot;&quot; Discounted sum of future hits over trajectory&quot;&quot;&quot;  </span>
 <span class="err">hit_log_weighted = [(item -  </span>
@@ -279,7 +217,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Finally, our training loop. Here, we iteratively play through many games, scoring after each game, then adjusting parameters -- setting the placeholder learning rate equal to ALPHA times the rewards captured.</p>
+<p>Finally, our training loop. Here, we iteratively play through many games, scoring after each game, then adjusting parameters &#8212; setting the placeholder learning rate equal to <span class="caps">ALPHA</span> times the rewards&nbsp;captured.</p>
 <div class="highlight"><pre><span></span><span class="n">game_lengths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span><span class="w">  </span>
 <span class="n">TRAINING</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">True</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">Boolean</span><span class="w"> </span><span class="n">specifies</span><span class="w"> </span><span class="n">training</span><span class="w"> </span><span class="n">mode</span><span class="w">  </span>
 <span class="n">ALPHA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.06</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">step</span><span class="w"> </span><span class="k">size</span><span class="w"></span>
@@ -296,7 +234,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Running this last cell, we see that the training works! The following is an example trace from the play_game() method, with the variable TRAINING set to False. This illustrates an intelligent move selection process.  </p>
+<p>Running this last cell, we see that the training works! The following is an example trace from the play_game() method, with the variable <span class="caps">TRAINING</span> set to False. This illustrates an intelligent move selection&nbsp;process.  </p>
 <div class="highlight"><pre><span></span><span class="err"># Example game trace output  </span>
 <span class="err">([[[-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]],  </span>
 <span class="err">[[-1, -1, 0, -1, -1, -1, -1, -1, -1, -1]],  </span>
@@ -308,17 +246,17 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 </pre></div>
 
 
-<p>Here, the first five lines are the board encodings that the network was fed each step -- using (\ref{input}). The second to last row presents the sequential grid selections that were chosen. Finally, the last row is the hit log. Notice that the first two moves nicely sample different regions of the board. After this, a hit was recorded at <span class="math">\(6\)</span>. The algorithm then intelligently selects <span class="math">\(7\)</span> and <span class="math">\(8\)</span>, which it can infer must be the final locations of the ship.</p>
-<p>The plot below provides further characterization of the learning process. This shows the running average game length (steps required to fully bomb ship) versus training epoch. The program learns the basics quite quickly, then continues to gradually improve over time [2].</p>
+<p>Here, the first five lines are the board encodings that the network was fed each step &#8212; using (\ref{input}). The second to last row presents the sequential grid selections that were chosen. Finally, the last row is the hit log. Notice that the first two moves nicely sample different regions of the board. After this, a hit was recorded at <span class="math">\(6\)</span>. The algorithm then intelligently selects <span class="math">\(7\)</span> and <span class="math">\(8\)</span>, which it can infer must be the final locations of the&nbsp;ship.</p>
+<p>The plot below provides further characterization of the learning process. This shows the running average game length (steps required to fully bomb ship) versus training epoch. The program learns the basics quite quickly, then continues to gradually improve over time&nbsp;[2].</p>
 <p><a href="./wp-content/uploads/2016/10/trace.jpg"><img alt="trace" src="./wp-content/uploads/2016/10/trace.jpg"></a>  </p>
 <h3>Summary</h3>
-<p>In this post, we have covered a variant of RL -- namely, the policy-gradient, deep RL scheme. This is a method that typically defaults to the currently best-known strategy, but occasionally samples from other approaches, ultimately resulting in an iterative improvement in policy. The two main ingredients here are the policy network and the rewards function. Although network architecture design is usually the place where most of the thinking is involved in supervised learning, it is the rewards function that typically requires the most thought in the RL context. A good choice should be as local in time as possible, so as to facilitate training (distant forecast dependence will result in a slow learning process). However, the rewards function should also directly attack the ultimate end of the process ("winning" the game -- encouragement of side quests that aren't necessary can often occur if care is not taken). Balancing these two competing demands can be a challenge, and rewards function design is therefore something of an art form.</p>
-<p>Our brief introduction here was intended only to illustrate the gist of how RL is carried out in practice. For further details, we can recommend two resources: the text book by Sutton and Barto [3] and a recent talk by John Schulman [4].</p>
-<h3>Footnotes and references</h3>
-<p>[1] Game rules: Battleship is a two-player game. Both players begin with a finite regular grid of positions -- hidden from their opponent -- and a set of "ships". Each player receives the same quantity of each type of ship. At the start of the game, each player places the ships on their grid in whatever locations they like, subject to some constraints: A ship of length 2, say, must occupy two contiguous indices on the board, and no two ships can occupy the same grid location. Once placed, the ships are fixed in position for the remainder of the game. At this point, game play begins, with the goal being to sink the opponent ships. The locations of the enemy ships are initially unknown because we cannot see the opponent's grid. To find the ships, one "bombs" indices on the enemy grid -- with bombing occurs in turns. When an opponent index is bombed, the opponent must truthfully state whether or not a ship was located at the index bombed. Whoever succeeds in bombing all their opponent's occupied indices first wins the game. Therefore, the problem reduces to finding the enemy ship indices as quickly as possible.</p>
-<p>[2] One of my colleagues (HC) has suggested that the program likely begins to overfit at some point. However, the 1-d version of the game has so few possible ship locations that characterization of this effect via a training and test set split does not seem appropriate. However, this approach could work were we to move to higher dimensions and introduce multiple ships.</p>
-<p>[3] Sutton and Barto, (2016). "Reinforcement Learning: An Introduction". Text site, <a href="https://webdocs.cs.ualberta.ca/~sutton/book/the-book.html">here</a>.</p>
-<p>[4] John Schulman, (2016). "Bay Area Deep Learning School". Youtube recording of talk available <a href="https://www.youtube.com/watch?v=9dXiAecyJrY">here</a>.</p>
+<p>In this post, we have covered a variant of <span class="caps">RL</span> &#8212; namely, the policy-gradient, deep <span class="caps">RL</span> scheme. This is a method that typically defaults to the currently best-known strategy, but occasionally samples from other approaches, ultimately resulting in an iterative improvement in policy. The two main ingredients here are the policy network and the rewards function. Although network architecture design is usually the place where most of the thinking is involved in supervised learning, it is the rewards function that typically requires the most thought in the <span class="caps">RL</span> context. A good choice should be as local in time as possible, so as to facilitate training (distant forecast dependence will result in a slow learning process). However, the rewards function should also directly attack the ultimate end of the process (&#8220;winning&#8221; the game &#8212; encouragement of side quests that aren&#8217;t necessary can often occur if care is not taken). Balancing these two competing demands can be a challenge, and rewards function design is therefore something of an art&nbsp;form.</p>
+<p>Our brief introduction here was intended only to illustrate the gist of how <span class="caps">RL</span> is carried out in practice. For further details, we can recommend two resources: the text book by Sutton and Barto [3] and a recent talk by John Schulman&nbsp;[4].</p>
+<h3>Footnotes and&nbsp;references</h3>
+<p>[1] Game rules: Battleship is a two-player game. Both players begin with a finite regular grid of positions &#8212; hidden from their opponent &#8212; and a set of &#8220;ships&#8221;. Each player receives the same quantity of each type of ship. At the start of the game, each player places the ships on their grid in whatever locations they like, subject to some constraints: A ship of length 2, say, must occupy two contiguous indices on the board, and no two ships can occupy the same grid location. Once placed, the ships are fixed in position for the remainder of the game. At this point, game play begins, with the goal being to sink the opponent ships. The locations of the enemy ships are initially unknown because we cannot see the opponent&#8217;s grid. To find the ships, one &#8220;bombs&#8221; indices on the enemy grid &#8212; with bombing occurs in turns. When an opponent index is bombed, the opponent must truthfully state whether or not a ship was located at the index bombed. Whoever succeeds in bombing all their opponent&#8217;s occupied indices first wins the game. Therefore, the problem reduces to finding the enemy ship indices as quickly as&nbsp;possible.</p>
+<p>[2] One of my colleagues (<span class="caps">HC</span>) has suggested that the program likely begins to overfit at some point. However, the 1-d version of the game has so few possible ship locations that characterization of this effect via a training and test set split does not seem appropriate. However, this approach could work were we to move to higher dimensions and introduce multiple&nbsp;ships.</p>
+<p>[3] Sutton and Barto, (2016). &#8220;Reinforcement Learning: An Introduction&#8221;. Text site, <a href="https://webdocs.cs.ualberta.ca/~sutton/book/the-book.html">here</a>.</p>
+<p>[4] John Schulman, (2016). &#8220;Bay Area Deep Learning School&#8221;. Youtube recording of talk available <a href="https://www.youtube.com/watch?v=9dXiAecyJrY">here</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -381,76 +319,114 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Deep reinforcement learning, battleship&amp;url=./battleship.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./battleship.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./battleship.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
 
 
-                <div class="clear"></div>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./simple-python-to-latex-parser.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Simple python to LaTeX parser</h2>
-                            <p class="post-nav-excerpt">We demo a script that converts python numerical commands to LaTeX format. A notebook...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./gpu-accelerated-theano-keras-with-windows-10.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">GPU-accelerated Theano & Keras with Windows 10</h2>
-                            <p class="post-nav-excerpt">There are many tutorials with directions for how to use your Nvidia graphics card for...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./gpu-accelerated-theano-keras-with-windows-10.html" title="Previous: GPU-accelerated Theano &amp; Keras with Windows 10">GPU-accelerated Theano & Keras with Windows 10</a></li>
+                <li class="next-article"><a href="./simple-python-to-latex-parser.html" title="Next: Simple python to LaTeX parser">Simple python to LaTeX parser</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2016-10-15T13:52:00-07:00">Oct 15, 2016</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

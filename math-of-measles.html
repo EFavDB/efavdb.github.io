@@ -1,148 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content=", Statistics, " />
 
-  <title>Mathematics of measles</title>
+<meta property="og:title" content="Mathematics of measles "/>
+<meta property="og:url" content="./math-of-measles.html" />
+<meta property="og:description" content="Here, we introduce — and outline a solution to — a generalized SIR model for infectious disease. This is referenced in our following post on measles and vaccination rates. Our generalized SIR model differs from the original SIR model of Kermack and McKendrick in that we allow for two susceptible sub-populations, one …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2015-02-25T13:37:00-08:00" />
+<meta name="twitter:title" content="Mathematics of measles ">
+<meta name="twitter:description" content="Here, we introduce — and outline a solution to — a generalized SIR model for infectious disease. This is referenced in our following post on measles and vaccination rates. Our generalized SIR model differs from the original SIR model of Kermack and McKendrick in that we allow for two susceptible sub-populations, one …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./math-of-measles.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Mathematics of measles  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following...">
-
-    <meta name="author" content="Jonathan Landy">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Mathematics of measles"/>
-<meta property="og:description" content="Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./math-of-measles.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-02-25 13:37:00-08:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="Statistics"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Mathematics of measles">
-    <meta name="twitter:url" content="./math-of-measles.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Mathematics of measles",
-  "headline": "Mathematics of measles",
-  "datePublished": "2015-02-25 13:37:00-08:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./math-of-measles.html",
-  "description": "Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our following..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Mathematics of measles</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Wed 25 February 2015">Wed 25 February 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./math-of-measles.html">
+                Mathematics of&nbsp;measles
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Here, we introduce -- and outline a solution to -- a generalized SIR model for infectious disease. This is referenced in our <a href="http://efavdb.com/vaccination-rates/">following post</a> on measles and vaccination rates. Our generalized SIR model differs from the <a href="http://en.wikipedia.org/wiki/Epidemic_model#The_SIR_model">original SIR model</a> of Kermack and McKendrick in that we allow for two susceptible sub-populations, one vaccinated against disease and one not. We conclude by presenting some python code that integrates the equations numerically. An example solution obtained using this code is given below.  </p>
-<p>[caption width="800" caption="Solution shown corresponds to a 20% unvaccinated population, a condition supporting outbreak."][iframe src="https://plot.ly/~Jonathan Landy/58" width="90%" height="450"][/caption]</p>
-<h4><strong>The model</strong></h4>
-<p>The equations describing our generalized SIR model are<br>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Here, we introduce &#8212; and outline a solution to &#8212; a generalized <span class="caps">SIR</span> model for infectious disease. This is referenced in our <a href="http://efavdb.com/vaccination-rates/">following post</a> on measles and vaccination rates. Our generalized <span class="caps">SIR</span> model differs from the <a href="http://en.wikipedia.org/wiki/Epidemic_model#The_SIR_model">original <span class="caps">SIR</span> model</a> of Kermack and McKendrick in that we allow for two susceptible sub-populations, one vaccinated against disease and one not. We conclude by presenting some python code that integrates the equations numerically. An example solution obtained using this code is given&nbsp;below.  </p>
+<p>[caption width=&#8221;800&#8221; caption=&#8221;Solution shown corresponds to a 20% unvaccinated population, a condition supporting outbreak.&#8221;][iframe src=&#8221;https://plot.ly/~Jonathan Landy/58&#8221; width=&#8221;90%&#8221;&nbsp;height=&#8221;450&#8221;][/caption]</p>
+<h4><strong>The&nbsp;model</strong></h4>
+<p>The equations describing our generalized <span class="caps">SIR</span> model are<br>
 </p>
 <div class="math">\begin{eqnarray}\label{eq1}  
 \dot{S}_{U} &amp;=&amp; - b_{U} S_{U} I\\ \label{eq2}  
@@ -151,24 +89,24 @@
 1 &amp;=&amp; I + R + S_U + S_V \label{Ieq}  
 \end{eqnarray}</div>
 <p><br>
-Here, <span class="math">\(S_{U}\)</span>, <span class="math">\(S_{V}\)</span>, <span class="math">\(I\)</span>, and <span class="math">\(R\)</span> are population fractions corresponding to those unvaccinated and as yet uninfected, vaccinated and as yet uninfected, currently infected and contagious, and once contagious but no longer (recovered, perhaps), respectively. The first two equations above are instances of the <a href="http://en.wikipedia.org/wiki/Law_of_mass_action">law of mass action</a>. They approximate the infection rates as being proportional to the rates of susceptible-infected individual encounters. We refer to <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> here as the <em>infection rate parameters</em> of the two subpopulations. The third equation above approximates the dynamics of recovery: The form chosen supposes that an infected individual has a fixed probability of returning to health each day. We will refer to <span class="math">\(k\)</span> as the <em>recovery rate parameter</em>. The final equation above simply states that the subpopulation fractions have to always sum to one.</p>
-<h4><strong>Parameter estimation</strong></h4>
-<p>We can estimate the values <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> by introducing a close contact number (<span class="math">\(ccn\)</span>) variable, which is the average number of close contacts that individual infected, contagious people make per day. As a rough ball park, let us suppose that <span class="math">\(ccn \approx 3\)</span>. According to the CDC, an un-vaccinated person making close contact with someone with measles has a 90<span class="math">\(%\)</span> chance of contracting the illness. On the other hand, those who have been vaccinated a single time have a 95<span class="math">\(%\)</span> chance of being immune to the disease. Let's estimate that the combined population of individuals who have been vaccinated have a 1<span class="math">\(%\)</span> chance of contracting the illness upon close contact. These considerations suggest<br>
+Here, <span class="math">\(S_{U}\)</span>, <span class="math">\(S_{V}\)</span>, <span class="math">\(I\)</span>, and <span class="math">\(R\)</span> are population fractions corresponding to those unvaccinated and as yet uninfected, vaccinated and as yet uninfected, currently infected and contagious, and once contagious but no longer (recovered, perhaps), respectively. The first two equations above are instances of the <a href="http://en.wikipedia.org/wiki/Law_of_mass_action">law of mass action</a>. They approximate the infection rates as being proportional to the rates of susceptible-infected individual encounters. We refer to <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> here as the <em>infection rate parameters</em> of the two subpopulations. The third equation above approximates the dynamics of recovery: The form chosen supposes that an infected individual has a fixed probability of returning to health each day. We will refer to <span class="math">\(k\)</span> as the <em>recovery rate parameter</em>. The final equation above simply states that the subpopulation fractions have to always sum to&nbsp;one.</p>
+<h4><strong>Parameter&nbsp;estimation</strong></h4>
+<p>We can estimate the values <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> by introducing a close contact number (<span class="math">\(ccn\)</span>) variable, which is the average number of close contacts that individual infected, contagious people make per day. As a rough ball park, let us suppose that <span class="math">\(ccn \approx 3\)</span>. According to the <span class="caps">CDC</span>, an un-vaccinated person making close contact with someone with measles has a 90<span class="math">\(%\)</span> chance of contracting the illness. On the other hand, those who have been vaccinated a single time have a 95<span class="math">\(%\)</span> chance of being immune to the disease. Let&#8217;s estimate that the combined population of individuals who have been vaccinated have a 1<span class="math">\(%\)</span> chance of contracting the illness upon close contact. These considerations suggest<br>
 </p>
 <div class="math">\begin{eqnarray}  
 b_{U} \approx 3 \times 0.9 &amp;=&amp; 0.27, \ \  
 b_{V} \approx 3 \times 0.01 &amp;=&amp; 0.03  
 \end{eqnarray}</div>
 <p><br>
-The value of <span class="math">\(k\)</span> can be simply estimated using the fact that infected individuals are only contagious for about <span class="math">\(8\)</span> days, only four of which occur before rash appears. Assuming those who are showing symptoms quickly stop circulating, this suggests about five ``effectively contagious" days, or<br>
+The value of <span class="math">\(k\)</span> can be simply estimated using the fact that infected individuals are only contagious for about <span class="math">\(8\)</span> days, only four of which occur before rash appears. Assuming those who are showing symptoms quickly stop circulating, this suggests about five &#8220;effectively contagious&#8221; days, or<br>
 </p>
 <div class="math">\begin{eqnarray}  
 k \approx 1/5 = 0.2.  
 \end{eqnarray}</div>
 <p><br>
-Note that here and elsewhere, we measure time in units of days.</p>
-<p>It's important to note that, although the qualitative properties of the solutions to our model are insensitive to parameter value variations, this is not true for the numerical values that it predicts. We have chosen parameter values that seem reasonable to us. Further, with these choices, many of the model's key quantitative values line up with corresponding CDC estimates. Those interested can experiment to see what sort of flexibility is allowed through modest parameter variation.</p>
-<h4><strong>Solution by quadrature</strong></h4>
+Note that here and elsewhere, we measure time in units of&nbsp;days.</p>
+<p>It&#8217;s important to note that, although the qualitative properties of the solutions to our model are insensitive to parameter value variations, this is not true for the numerical values that it predicts. We have chosen parameter values that seem reasonable to us. Further, with these choices, many of the model&#8217;s key quantitative values line up with corresponding <span class="caps">CDC</span> estimates. Those interested can experiment to see what sort of flexibility is allowed through modest parameter&nbsp;variation.</p>
+<h4><strong>Solution by&nbsp;quadrature</strong></h4>
 <p>Equations (\ref{eq1}-\ref{eq3}) give<br>
 </p>
 <div class="math">\begin{eqnarray}\label{Svals}  
@@ -188,8 +126,8 @@ Integrating again,<br>
 kt = \int_{0}^R \frac{d R^{\prime}}{I_0 -S_{U0} \left [ e^{ - \frac{b_{U} R^{\prime}}{k}}- 1 \right ] - S_{V0} \left [e^{ - \frac{b_{V} R^{\prime}}{k}}- 1 \right ] - R^{\prime}} \label{solution}.  
 \end{eqnarray}</div>
 <p><br>
-This implicitly defines <span class="math">\(R\)</span> as function of time.</p>
-<h4><strong>Small time behavior</strong></h4>
+This implicitly defines <span class="math">\(R\)</span> as function of&nbsp;time.</p>
+<h4><strong>Small time&nbsp;behavior</strong></h4>
 <p>At small <span class="math">\(t\)</span>, <span class="math">\(R\)</span> is also small, so (\ref{solution}) can be approximated as<br>
 </p>
 <div class="math">\begin{eqnarray}  
@@ -203,8 +141,8 @@ R = \frac{k}{b_{U} S_{U0} + b_{V} S_{V0} - k} \left \{e^{ (b_{U} S_{U0} + b_{V} 
 I = I_0 e^{ (b_{U} S_{U0} + b_{V} S_{V0} - k )t}.  
 \end{eqnarray}</div>
 <p><br>
-Early disease spread is characterized by either exponential growth or decay, governed by the sign of the parameter combination <span class="math">\(b_{U} S_{U0} + b_{V} S_{V0} - k\)</span>: a phase transition!</p>
-<h4><strong>Total contractions</strong></h4>
+Early disease spread is characterized by either exponential growth or decay, governed by the sign of the parameter combination <span class="math">\(b_{U} S_{U0} + b_{V} S_{V0} - k\)</span>: a phase&nbsp;transition!</p>
+<h4><strong>Total&nbsp;contractions</strong></h4>
 <p>The total number of people infected in an outbreak can be obtained by evaluating <span class="math">\(R\)</span> at long times, where <span class="math">\(I = 0\)</span>. In this limit, using (\ref{Ieq}) and (\ref{Svals}), we have<br>
 </p>
 <div class="math">\begin{eqnarray}  
@@ -212,8 +150,8 @@ S_{U0} e^{- \frac{b_{U} R}{k}}+ S_{V0} e^{ - \frac{b_{V} R}{k}}+ R = 1.
 \end{eqnarray}</div>
 <p><br>
 This equation can be solved numerically to obtain the total contraction count as a function of the model parameters and initial conditions. A plot against <span class="math">\(S_{U0}\)</span> of such a solution for our measles-appropriate parameter estimates is given in our <a href="http://efavdb.com/vaccination-rates/">next post</a>.</p>
-<h4><strong>Numerical integration in python</strong></h4>
-<p>Below, we provide code that can be used to integrate (\ref{eq1}-\ref{Ieq}). The plot shown in our introduction provides one example solution. It's quite interesting to see how the solutions vary with parameter values, and we suggest that those interested try it out.</p>
+<h4><strong>Numerical integration in&nbsp;python</strong></h4>
+<p>Below, we provide code that can be used to integrate (\ref{eq1}-\ref{Ieq}). The plot shown in our introduction provides one example solution. It&#8217;s quite interesting to see how the solutions vary with parameter values, and we suggest that those interested try it&nbsp;out.</p>
 <div class="highlight"><pre><span></span><span class="c1">#Solving the SIR model for infectious disease. JSL 2/18/2015  </span>
 <span class="kn">import</span> <span class="nn">math</span>
 
@@ -334,76 +272,114 @@ This equation can be solved numerically to obtain the total contraction count as
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Mathematics of measles&amp;url=./math-of-measles.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./math-of-measles.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./math-of-measles.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
 
 
-                <div class="clear"></div>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./vaccination-rates.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Measles vaccination rate by USA state and relation to mean outbreak size</h2>
-                            <p class="post-nav-excerpt">In this post, we provide a quick overview of the data and science of measles spread....</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./nba-week-14-summary-week-15-predictions.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">NBA week 14 summary, week 15 predictions</h2>
-                            <p class="post-nav-excerpt">Our first ever 100% accuracy week! We will never beat this. Breakdown by point spread...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./nba-week-14-summary-week-15-predictions.html" title="Previous: NBA week 14 summary, week 15 predictions">NBA week 14 summary, week 15 predictions</a></li>
+                <li class="next-article"><a href="./vaccination-rates.html" title="Next: Measles vaccination rate by USA state and relation to mean outbreak size">Measles vaccination rate by USA state and relation to mean outbreak size</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-02-25T13:37:00-08:00">Feb 25, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#statistics-ref">Statistics</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

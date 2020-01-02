@@ -1,254 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Cathy Yeh" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="database, R, SQL, SQLite, web scraping, Methods, Programming, Tools, " />
 
-  <title>Build a web scraper for a literature search - from soup to nuts</title>
+<meta property="og:title" content="Build a web scraper for a literature search - from soup to nuts "/>
+<meta property="og:url" content="./build-a-web-scraper-lit-search.html" />
+<meta property="og:description" content="Code, references, and examples of this project are on Github. In this post, I’ll describe the soup to nuts process of automating a literature search in Pubmed Central using R. It feels deeply satisfying to sit back and let the code do the dirty work. Is it as satisfying …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2015-08-25T17:43:00-07:00" />
+<meta name="twitter:title" content="Build a web scraper for a literature search - from soup to nuts ">
+<meta name="twitter:description" content="Code, references, and examples of this project are on Github. In this post, I’ll describe the soup to nuts process of automating a literature search in Pubmed Central using R. It feels deeply satisfying to sit back and let the code do the dirty work. Is it as satisfying …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./build-a-web-scraper-lit-search.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Build a web scraper for a literature search - from soup to nuts  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Code, references, and examples of this project are on Github. In this post, I'll describe the soup to nuts process of automating a...">
-
-    <meta name="author" content="Cathy Yeh">
-
-    <meta name="tags" content="database">
-    <meta name="tags" content="R">
-    <meta name="tags" content="SQL">
-    <meta name="tags" content="SQLite">
-    <meta name="tags" content="web scraping">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Build a web scraper for a literature search - from soup to nuts"/>
-<meta property="og:description" content="Code, references, and examples of this project are on Github. In this post, I'll describe the soup to nuts process of automating a..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./build-a-web-scraper-lit-search.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-08-25 17:43:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/cathy-yeh.html">
-<meta property="article:section" content="Methods, Programming, Tools"/>
-<meta property="article:tag" content="database"/>
-<meta property="article:tag" content="R"/>
-<meta property="article:tag" content="SQL"/>
-<meta property="article:tag" content="SQLite"/>
-<meta property="article:tag" content="web scraping"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Build a web scraper for a literature search - from soup to nuts">
-    <meta name="twitter:url" content="./build-a-web-scraper-lit-search.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Code, references, and examples of this project are on Github. In this post, I'll describe the soup to nuts process of automating a...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Build a web scraper for a literature search - from soup to nuts",
-  "headline": "Build a web scraper for a literature search - from soup to nuts",
-  "datePublished": "2015-08-25 17:43:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Cathy Yeh",
-    "url": "./author/cathy-yeh.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./build-a-web-scraper-lit-search.html",
-  "description": "Code, references, and examples of this project are on Github. In this post, I'll describe the soup to nuts process of automating a..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Build a web scraper for a literature search - from soup to nuts</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/cathy-yeh.html">Cathy Yeh</a>
-            | <time datetime="Tue 25 August 2015">Tue 25 August 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./build-a-web-scraper-lit-search.html">
+                Build a web scraper for a literature search - from soup to&nbsp;nuts
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p><em>Code, references, and examples of this project are on <a href="https://github.com/EFavDB/PubmedCentral_Scraper">Github</a>.</em></p>
-<p>In this post, I'll describe the soup to nuts process of automating a literature search in <a href="http://www.ncbi.nlm.nih.gov/pmc/">Pubmed Central</a> using R.</p>
-<p>It feels deeply satisfying to sit back and let the code do the dirty work.</p>
-<p>Is it as satisfying as a bowl of red-braised beef noodle soup with melt-in-your-mouth tendons from Taipei's Yong Kang Restaurant (featured image)?</p>
-<p>If you have to do a lit search like this more than once, then I have to say the answer is yes -- unequivocally, yes.  </p>
-<p>The three components of the project are</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p><em>Code, references, and examples of this project are on <a href="https://github.com/EFavDB/PubmedCentral_Scraper">Github</a>.</em></p>
+<p>In this post, I&#8217;ll describe the soup to nuts process of automating a literature search in <a href="http://www.ncbi.nlm.nih.gov/pmc/">Pubmed Central</a> using&nbsp;R.</p>
+<p>It feels deeply satisfying to sit back and let the code do the dirty&nbsp;work.</p>
+<p>Is it as satisfying as a bowl of red-braised beef noodle soup with melt-in-your-mouth tendons from Taipei&#8217;s Yong Kang Restaurant (featured&nbsp;image)?</p>
+<p>If you have to do a lit search like this more than once, then I have to say the answer is yes &#8212; unequivocally,&nbsp;yes.  </p>
+<p>The three components of the project&nbsp;are</p>
 <p><a href="#Section1">I. Design a database to store the contents of a scraping session</a><br>
-<a href="#Section2">II. Extract information via an API and web scraper</a><br>
-<a href="#Section3">III. Generate summary reports</a></p>
-<p>If you want to skip the explanations and go straight to using the program, check out the quick-start HTML5 <a href="./wp-content/uploads/2015/08/PubmedCentralSlides.html">presentation</a> or <a href="./wp-content/uploads/2015/08/scraper_manual.html">manual</a> and an example of a <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md">report</a> generated by this project.</p>
+<a href="#Section2"><span class="caps">II</span>. Extract information via an <span class="caps">API</span> and web scraper</a><br>
+<a href="#Section3"><span class="caps">III</span>. Generate summary&nbsp;reports</a></p>
+<p>If you want to skip the explanations and go straight to using the program, check out the quick-start <span class="caps">HTML5</span> <a href="./wp-content/uploads/2015/08/PubmedCentralSlides.html">presentation</a> or <a href="./wp-content/uploads/2015/08/scraper_manual.html">manual</a> and an example of a <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md">report</a> generated by this&nbsp;project.</p>
 <hr>
-<p>The task is to capture plots of tumor growth inhibition (TGI), i.e. tumor growth as a function of time, in animals treated with a particular cancer drug, then aggregate all the plots in a summary report.</p>
-<p>An example of a TGI plot is provided below (source: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/" title="PMC3792566">Qi 2011</a>) for TGI in mice treated with the cancer drug, Docetaxel.</p>
-<p>[caption id="attachment_2047" align="alignnone" width="300" class="left"]<a href="http://efavdb.com/wp-content/uploads/2015/07/TGIplot.png"><img alt="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/figure/F5/" src="http://efavdb.com/wp-content/uploads/2015/07/TGIplot-300x217.png"></a> TGI plots for several drugs (image credit: Qi 2011)[/caption]</p>
-<p>Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform format.</p>
+<p>The task is to capture plots of tumor growth inhibition (<span class="caps">TGI</span>), i.e. tumor growth as a function of time, in animals treated with a particular cancer drug, then aggregate all the plots in a summary&nbsp;report.</p>
+<p>An example of a <span class="caps">TGI</span> plot is provided below (source: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/" title="PMC3792566">Qi 2011</a>) for <span class="caps">TGI</span> in mice treated with the cancer drug,&nbsp;Docetaxel.</p>
+<p>[caption id=&#8221;attachment_2047&#8221; align=&#8221;alignnone&#8221; width=&#8221;300&#8221; class=&#8221;left&#8221;]<a href="http://efavdb.com/wp-content/uploads/2015/07/TGIplot.png"><img alt="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/figure/F5/" src="http://efavdb.com/wp-content/uploads/2015/07/TGIplot-300x217.png"></a> <span class="caps">TGI</span> plots for several drugs (image credit: Qi&nbsp;2011)[/caption]</p>
+<p>Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform&nbsp;format.</p>
 <hr>
-<h2>I. Set up the the database</h2>
-<p>This project called for data storage beyond the scope of data frames and external flat files, e.g. Excel spreadsheets or csv files, since the following attributes were required of the data:</p>
+<h2>I. Set up the the&nbsp;database</h2>
+<p>This project called for data storage beyond the scope of data frames and external flat files, e.g. Excel spreadsheets or csv files, since the following attributes were required of the&nbsp;data:</p>
 <ul>
-<li>Persistence outside the R environment =&gt; data frames unsuitable</li>
-<li>Ease of access and manipulation =&gt; writing to and reading from text/csv files would be cumbersome</li>
-<li>The data would be structured =&gt; relational database</li>
+<li>Persistence outside the R environment =&gt; data frames&nbsp;unsuitable</li>
+<li>Ease of access and manipulation =&gt; writing to and reading from text/csv files would be&nbsp;cumbersome</li>
+<li>The data would be structured =&gt; relational&nbsp;database</li>
 </ul>
-<p>With a view towards expediency, we cover just enough to get things up and running and leave the finer details of relational database design to the experts.</p>
-<p><a href="http://www.sqlite.org/about.html" title="SQLite">SQLite</a> is well-suited for this small project; it's self-contained and doesn't require fussing with servers. To lower the barrier even further, the <a href="http://cran.r-project.org/web/packages/RSQLite/index.html" title="RSQLite">RSQLite</a> package embeds SQLite in R (no separate installation needed) and allows you to very easily interface with your database within the R environment. The database itself is stored in a single file on your hard disk and easily transferred.</p>
-<h3>What data will be collected?</h3>
-<p>The first step is to decide what data should be collected during the web scraping process. We want to aggregate images of plots in a (html) report.</p>
-<p>However, downloading the images themselves is inefficient; instead, we'll just grab the image URLs on Pubmed Central. (The image URLs are useful because they can be referred to by markdown code to embed the images in the html report.)</p>
-<p>The image urls should be captured, along with associated information below:</p>
+<p>With a view towards expediency, we cover just enough to get things up and running and leave the finer details of relational database design to the&nbsp;experts.</p>
+<p><a href="http://www.sqlite.org/about.html" title="SQLite">SQLite</a> is well-suited for this small project; it&#8217;s self-contained and doesn&#8217;t require fussing with servers. To lower the barrier even further, the <a href="http://cran.r-project.org/web/packages/RSQLite/index.html" title="RSQLite">RSQLite</a> package embeds SQLite in R (no separate installation needed) and allows you to very easily interface with your database within the R environment. The database itself is stored in a single file on your hard disk and easily&nbsp;transferred.</p>
+<h3>What data will be&nbsp;collected?</h3>
+<p>The first step is to decide what data should be collected during the web scraping process. We want to aggregate images of plots in a (html)&nbsp;report.</p>
+<p>However, downloading the images themselves is inefficient; instead, we&#8217;ll just grab the image URLs on Pubmed Central. (The image URLs are useful because they can be referred to by markdown code to embed the images in the html&nbsp;report.)</p>
+<p>The image urls should be captured, along with associated information&nbsp;below:</p>
 <hr>
 <p><strong>image data</strong>                         image url, figure name in the article, image caption
-  <strong>article metadata</strong>                   Pubmed Central id, DOI, title, journal, year of publication, authors, abstracts, keywords
-  <strong>search criteria met by the image</strong>   topic/drug, type of plot</p>
+  <strong>article metadata</strong>                   Pubmed Central id, <span class="caps">DOI</span>, title, journal, year of publication, authors, abstracts, keywords
+  <strong>search criteria met by the image</strong>   topic/drug, type of&nbsp;plot</p>
 <hr>
-<p>The last point addresses the foreseeable need to be able to modify the search parameters. In the next section, we allow for the possibility that the same image might show up for more than one kind of drug or plot type.</p>
-<h3>Decide on a layout for the database</h3>
-<p>After pinning down the content itself, the next step is to decide how it should be arranged in the database. Namely,</p>
+<p>The last point addresses the foreseeable need to be able to modify the search parameters. In the next section, we allow for the possibility that the same image might show up for more than one kind of drug or plot&nbsp;type.</p>
+<h3>Decide on a layout for the&nbsp;database</h3>
+<p>After pinning down the content itself, the next step is to decide how it should be arranged in the database.&nbsp;Namely,</p>
 <ul>
-<li>What tables are needed?</li>
-<li>Which fields go in which tables?</li>
-<li>How do the tables relate to one another?</li>
+<li>What tables are&nbsp;needed?</li>
+<li>Which fields go in which&nbsp;tables?</li>
+<li>How do the tables relate to one&nbsp;another?</li>
 </ul>
-<p>This particularly helpful <a href="http://db.grussell.org/section008.html" title="normalization">page</a> walks you through the concept of database normalization by providing lots of concrete examples, including "anomalies" that arise in poorly designed databases.</p>
-<p>Some ideas on normalization are intuitive. Let's take a look at how to restructure a table to satisfy first normal form (1NF). The table below is not in 1NF because it contains sets of values within single rows.</p>
+<p>This particularly helpful <a href="http://db.grussell.org/section008.html" title="normalization">page</a> walks you through the concept of database normalization by providing lots of concrete examples, including &#8220;anomalies&#8221; that arise in poorly designed&nbsp;databases.</p>
+<p>Some ideas on normalization are intuitive. Let&#8217;s take a look at how to restructure a table to satisfy first normal form (<span class="caps">1NF</span>). The table below is not in <span class="caps">1NF</span> because it contains sets of values within single&nbsp;rows.</p>
 <p>student_id</p>
 <p>name</p>
 <p>subjects</p>
 <p>grades</p>
 <p>1234</p>
 <p>Andrew</p>
-<p>machine learning</p>
-<p>linear algebra</p>
-<p>modern physics</p>
+<p>machine&nbsp;learning</p>
+<p>linear&nbsp;algebra</p>
+<p>modern&nbsp;physics</p>
 <p>A</p>
 <p>A</p>
 <p>B+</p>
 <p>5678</p>
 <p>Yaser</p>
-<p>statistical physics</p>
+<p>statistical&nbsp;physics</p>
 <p>algorithms</p>
 <p>A-</p>
 <p>A</p>
-<p>Instead, we can break it up into two tables:</p>
-<p>table: student</p>
+<p>Instead, we can break it up into two&nbsp;tables:</p>
+<p>table:&nbsp;student</p>
 <p>student_id</p>
 <p>name</p>
 <p>1234</p>
 <p>Andrew</p>
 <p>5678</p>
 <p>Yaser</p>
-<p>table: grades</p>
+<p>table:&nbsp;grades</p>
 <p>student_id</p>
 <p>subject</p>
 <p>grade</p>
 <p>1234</p>
-<p>machine learning</p>
+<p>machine&nbsp;learning</p>
 <p>A</p>
 <p>1234</p>
-<p>linear algebra</p>
+<p>linear&nbsp;algebra</p>
 <p>A</p>
 <p>1234</p>
-<p>modern physics</p>
+<p>modern&nbsp;physics</p>
 <p>B+</p>
 <p>5678</p>
-<p>statistical physics</p>
+<p>statistical&nbsp;physics</p>
 <p>A-</p>
 <p>5678</p>
 <p>algorithms</p>
 <p>A</p>
-<p>Column names that are primary keys are underlined. A primary key is a column, or combination of columns, whose values uniquely identify a row in a table (and accordingly guards against duplicate rows). In a first go at a schema, a table without a logical primary key reared its ugly head:</p>
+<p>Column names that are primary keys are underlined. A primary key is a column, or combination of columns, whose values uniquely identify a row in a table (and accordingly guards against duplicate rows). In a first go at a schema, a table without a logical primary key reared its ugly&nbsp;head:</p>
 <p>pmcid</p>
 <p>topic</p>
 <p>123456</p>
-<p>drug A</p>
+<p>drug&nbsp;A</p>
 <p>123456</p>
-<p>drug B</p>
+<p>drug&nbsp;B</p>
 <p>100000</p>
-<p>drug A</p>
-<p>Note that the <strong>pmcid</strong> value is not guaranteed to be unique in the above table because the same article may show up in searches for multiple drugs. This situation hinted at the need to restructure the tables. We finally settled on the three tables below, which all had natural primary keys (underlined):</p>
-<p>table: article</p>
+<p>drug&nbsp;A</p>
+<p>Note that the <strong>pmcid</strong> value is not guaranteed to be unique in the above table because the same article may show up in searches for multiple drugs. This situation hinted at the need to restructure the tables. We finally settled on the three tables below, which all had natural primary keys&nbsp;(underlined):</p>
+<p>table:&nbsp;article</p>
 <p>pmcid</p>
 <p>doi</p>
 <p>title</p>
@@ -257,25 +185,24 @@
 <p>authors</p>
 <p>abstract</p>
 <p>keywords</p>
-<p>table: figure</p>
+<p>table:&nbsp;figure</p>
 <p>topic</p>
 <p>plot_type</p>
 <p>img_url</p>
 <p>pmcid</p>
-<p>table: figure_text</p>
+<p>table:&nbsp;figure_text</p>
 <p>img_url</p>
 <p>fig_name</p>
 <p>caption</p>
-<p>[caption id="attachment_2041" align="alignright" width="263"]<a href="http://efavdb.com/wp-content/uploads/2015/07/a_hanging.jpg"><img alt="cartoon hanging" src="http://efavdb.com/wp-content/uploads/2015/07/a_hanging-263x300.jpg"></a> Their tables were not in 1NF.[/caption]</p>
-<p>The tables "figure" and "figure_text" are kept separate in order to minimize redundancies. For instance, the same img_url can appear in the table "figure" multiple times if it matches a number of different drugs or plot types, but its caption would only need to be stored once in the table "figure_text".</p>
-<p>The table "figure" is not in second normal form (2NF) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and img_url}.</p>
-<p>Although the normalization rules sound a bit intimidating, they are just guidelines--apparently, one can even get carried away with over-normalizing.</p>
-<p>The database has held up fine so far, but any suggestions on how to improve the design are very welcome!</p>
-<h3>Creating a SQLite database in R</h3>
-<p>With a schema in hand, creating the SQLite database in R is a matter of minutes. First, we load the packages for interfacing with the database.</p>
-<p>[code lang="r"]<br>
-library(DBI)<br>
-library(RSQLite)  </p>
+<p>[caption id=&#8221;attachment_2041&#8221; align=&#8221;alignright&#8221; width=&#8221;263&#8221;]<a href="http://efavdb.com/wp-content/uploads/2015/07/a_hanging.jpg"><img alt="cartoon hanging" src="http://efavdb.com/wp-content/uploads/2015/07/a_hanging-263x300.jpg"></a> Their tables were not in <span class="caps">1NF</span>.[/caption]</p>
+<p>The tables &#8220;figure&#8221; and &#8220;figure_text&#8221; are kept separate in order to minimize redundancies. For instance, the same img_url can appear in the table &#8220;figure&#8221; multiple times if it matches a number of different drugs or plot types, but its caption would only need to be stored once in the table&nbsp;&#8220;figure_text&#8221;.</p>
+<p>The table &#8220;figure&#8221; is not in second normal form (<span class="caps">2NF</span>) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and&nbsp;img_url}.</p>
+<p>Although the normalization rules sound a bit intimidating, they are just guidelines&#8212;apparently, one can even get carried away with&nbsp;over-normalizing.</p>
+<p>The database has held up fine so far, but any suggestions on how to improve the design are very&nbsp;welcome!</p>
+<h3>Creating a SQLite database in&nbsp;R</h3>
+<p>With a schema in hand, creating the SQLite database in R is a matter of minutes. First, we load the packages for interfacing with the&nbsp;database.</p>
+<p>[code lang=&#8221;r&#8221;]<br>
+library(<span class="caps">DBI</span>)<br>&nbsp;library(RSQLite)  </p>
 <div class="highlight"><pre><span></span><span class="k">Then</span> <span class="n">we</span> <span class="k">create</span> <span class="n">a</span> <span class="k">connection</span> <span class="k">to</span> <span class="n">the</span> <span class="k">database</span><span class="p">,</span> <span class="n">which</span> <span class="n">we</span><span class="err">&#39;</span><span class="n">ll</span> <span class="k">call</span> <span class="ss">&quot;myDb.sqlite&quot;</span><span class="p">.</span>
 
 <span class="p">[</span><span class="n">code</span> <span class="n">lang</span><span class="o">=</span><span class="ss">&quot;r&quot;</span><span class="p">]</span>  
@@ -283,17 +210,17 @@ library(RSQLite)  </p>
 </pre></div>
 
 
-<p>Next, we create the three tables "article", "figure", and "figure_text".</p>
-<p>[code language="r"]  </p>
-<h2>create TABLE figure_text</h2>
-<p>query = 'CREATE TABLE figure_text(img_url TEXT, fig_name TEXT, caption TEXT, PRIMARY KEY(img_url))'<br>
-dbGetQuery(con, query)</p>
-<h2>create TABLE figure</h2>
-<p>query = 'CREATE TABLE figure(topic TEXT, plot_type TEXT, img_url TEXT, pmcid INTEGER, PRIMARY KEY(topic, plot_type, img_url))'<br>
-dbGetQuery(con, query)</p>
-<h2>create TABLE article</h2>
-<p>query = 'CREATE TABLE article(pmcid INTEGER, doi TEXT, title TEXT, journal TEXT, year INTEGER, authors TEXT, abstract TEXT, keywords TEXT, PRIMARY KEY(pmcid))'<br>
-dbGetQuery(con, query)  </p>
+<p>Next, we create the three tables &#8220;article&#8221;, &#8220;figure&#8221;, and&nbsp;&#8220;figure_text&#8221;.</p>
+<p>[code&nbsp;language=&#8221;r&#8221;]  </p>
+<h2>create <span class="caps">TABLE</span>&nbsp;figure_text</h2>
+<p>query = &#8216;<span class="caps">CREATE</span> <span class="caps">TABLE</span> figure_text(img_url <span class="caps">TEXT</span>, fig_name <span class="caps">TEXT</span>, caption <span class="caps">TEXT</span>, <span class="caps">PRIMARY</span> <span class="caps">KEY</span>(img_url))&#8217;<br>
+dbGetQuery(con,&nbsp;query)</p>
+<h2>create <span class="caps">TABLE</span>&nbsp;figure</h2>
+<p>query = &#8216;<span class="caps">CREATE</span> <span class="caps">TABLE</span> figure(topic <span class="caps">TEXT</span>, plot_type <span class="caps">TEXT</span>, img_url <span class="caps">TEXT</span>, pmcid <span class="caps">INTEGER</span>, <span class="caps">PRIMARY</span> <span class="caps">KEY</span>(topic, plot_type, img_url))&#8217;<br>
+dbGetQuery(con,&nbsp;query)</p>
+<h2>create <span class="caps">TABLE</span>&nbsp;article</h2>
+<p>query = &#8216;<span class="caps">CREATE</span> <span class="caps">TABLE</span> article(pmcid <span class="caps">INTEGER</span>, doi <span class="caps">TEXT</span>, title <span class="caps">TEXT</span>, journal <span class="caps">TEXT</span>, year <span class="caps">INTEGER</span>, authors <span class="caps">TEXT</span>, abstract <span class="caps">TEXT</span>, keywords <span class="caps">TEXT</span>, <span class="caps">PRIMARY</span> <span class="caps">KEY</span>(pmcid))&#8217;<br>
+dbGetQuery(con,&nbsp;query)  </p>
 <div class="highlight"><pre><span></span><span class="k">Last</span><span class="p">,</span> <span class="n">we</span> <span class="k">close</span> <span class="n">the</span> <span class="k">connection</span> <span class="k">to</span> <span class="n">the</span> <span class="k">database</span><span class="p">.</span>
 
 <span class="p">[</span><span class="n">code</span> <span class="n">lang</span><span class="o">=</span><span class="ss">&quot;r&quot;</span><span class="p">]</span>  
@@ -303,24 +230,24 @@ dbGetQuery(con, query)  </p>
 
 <p>The SQLite database is now ready to be used! The script above is available on github as <code>createSQLiteDatabase.R</code></p>
 <hr>
-<h2>II. Scrape Pubmed Central articles</h2>
-<p>The script <code>pubmedcentral_scraper.R</code> is where the action happens. It takes input from the user to query the Pubmed Central Database, scrape articles, and load the extracted information into the database.</p>
-<h3>Input keywords for literature search and labels in database</h3>
-<p>The user input section is shown below.</p>
-<p>[code language="r"]  </p>
-<h2>&lt;---------USER INPUT STARTS HERE---------&gt;</h2>
-<h2>name of database where scraper results are stored</h2>
-<p>database.name = "myDb.sqlite"</p>
-<h2>maximum number of results to retrieve from query</h2>
-<p>retmax = 10</p>
-<h2>topic terms to be queried via the pubmed search engine</h2>
-<p>query.topic = c("Docetaxel", "Docetaxol")</p>
-<h2>keywords to identify plot type to be captured</h2>
-<h2>terms should be lower-case</h2>
-<p>query.plottype = c("tumor growth", "tumor volume",<br>
-"tumor size", "tumor inhibition",<br>
-"tumor growth inhibition", "tgi",<br>
-"tumor response", "tumor regression")  </p>
+<h2><span class="caps">II</span>. Scrape Pubmed Central&nbsp;articles</h2>
+<p>The script <code>pubmedcentral_scraper.R</code> is where the action happens. It takes input from the user to query the Pubmed Central Database, scrape articles, and load the extracted information into the&nbsp;database.</p>
+<h3>Input keywords for literature search and labels in&nbsp;database</h3>
+<p>The user input section is shown&nbsp;below.</p>
+<p>[code&nbsp;language=&#8221;r&#8221;]  </p>
+<h2>&lt;&#8212;&#8212;&#8212;&#8212;-<span class="caps">USER</span> <span class="caps">INPUT</span> <span class="caps">STARTS</span> <span class="caps">HERE</span>&#8212;&#8212;&#8212;&#8212;-&gt;</h2>
+<h2>name of database where scraper results are&nbsp;stored</h2>
+<p>database.name =&nbsp;&#8220;myDb.sqlite&#8221;</p>
+<h2>maximum number of results to retrieve from&nbsp;query</h2>
+<p>retmax =&nbsp;10</p>
+<h2>topic terms to be queried via the pubmed search&nbsp;engine</h2>
+<p>query.topic = c(&#8220;Docetaxel&#8221;,&nbsp;&#8220;Docetaxol&#8221;)</p>
+<h2>keywords to identify plot type to be&nbsp;captured</h2>
+<h2>terms should be&nbsp;lower-case</h2>
+<p>query.plottype = c(&#8220;tumor growth&#8221;, &#8220;tumor volume&#8221;,<br>
+&#8220;tumor size&#8221;, &#8220;tumor inhibition&#8221;,<br>
+&#8220;tumor growth inhibition&#8221;, &#8220;tgi&#8221;,<br>
+&#8220;tumor response&#8221;, &#8220;tumor&nbsp;regression&#8221;)  </p>
 <div class="highlight"><pre><span></span><span class="n">The</span> <span class="k">user</span> <span class="k">input</span> <span class="k">for</span> <span class="n">variables</span> <span class="o">`</span><span class="n">query</span><span class="p">.</span><span class="n">topic</span><span class="o">`</span> <span class="k">and</span> <span class="o">`</span><span class="n">query</span><span class="p">.</span><span class="n">plottype</span><span class="o">`</span> <span class="k">are</span> <span class="n">used</span> <span class="k">to</span> <span class="n">construct</span> <span class="n">the</span> <span class="n">query</span> <span class="k">to</span> <span class="n">Pubmed</span> <span class="n">Central</span> <span class="n">via</span> <span class="n">the</span> <span class="n">Entrez</span> <span class="n">Programming</span> <span class="n">Utilities</span> <span class="n">interface</span> <span class="p">(</span><span class="n">details</span> <span class="k">in</span> <span class="n">the</span> <span class="p">[</span><span class="n">E</span><span class="o">-</span><span class="n">utilities</span> <span class="n">guide</span><span class="p">](</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">ncbi</span><span class="p">.</span><span class="n">nlm</span><span class="p">.</span><span class="n">nih</span><span class="p">.</span><span class="n">gov</span><span class="o">/</span><span class="n">books</span><span class="o">/</span><span class="n">NBK25499</span><span class="o">/</span><span class="p">)),</span> <span class="n">made</span> <span class="n">available</span> <span class="n">through</span> <span class="n">the</span> <span class="p">[</span><span class="k">National</span> <span class="n">Center</span> <span class="k">for</span> <span class="n">Biotechnology</span><span class="p">](</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="p">.</span><span class="n">ncbi</span><span class="p">.</span><span class="n">nlm</span><span class="p">.</span><span class="n">nih</span><span class="p">.</span><span class="n">gov</span><span class="o">/</span><span class="p">)</span> <span class="p">(</span><span class="n">NCBI</span><span class="p">).</span> <span class="k">To</span> <span class="n">maximize</span> <span class="n">hits</span> <span class="k">to</span> <span class="n">the</span> <span class="n">query</span><span class="p">,</span> <span class="n">the</span> <span class="k">user</span> <span class="n">can</span> <span class="n">supply</span> <span class="n">multiple</span> <span class="n">terms</span> <span class="k">for</span> <span class="k">each</span> <span class="k">variable</span><span class="p">.</span>
 
 <span class="p">[</span><span class="n">code</span> <span class="k">language</span><span class="o">=</span><span class="ss">&quot;r&quot;</span><span class="p">]</span>  
@@ -334,13 +261,13 @@ dbGetQuery(con, query)  </p>
 </pre></div>
 
 
-<p>The variables <code>topic</code> and <code>plot_type</code> label the data in the SQLite database (the labels should be consistent between queries in order to simplify the information retrieval process, e.g. stick to one spelling convention for a particular drug, like "Docetaxel", in myDb.sqlite).</p>
-<p>The first E-utility we will use is ESearch, which returns the PMC ids of articles matching a query, along with other metadata. The E-utilities API is extremely easy to use. Simply string together the set of parameters (NCBI database name, utility name, etc.) and go to the URL.</p>
-<p>[code language="r"]  </p>
-<h2>compose url for eSearch</h2>
-<p>url.esearch = paste0(url.base, esearch, db, "&amp;", retmax,"&amp;", sortmethod, "&amp;", query)</p>
-<h2>get and parse xml data returned by eSearch</h2>
-<p>data.esearch = getURL(url.esearch)  </p>
+<p>The variables <code>topic</code> and <code>plot_type</code> label the data in the SQLite database (the labels should be consistent between queries in order to simplify the information retrieval process, e.g. stick to one spelling convention for a particular drug, like &#8220;Docetaxel&#8221;, in&nbsp;myDb.sqlite).</p>
+<p>The first E-utility we will use is ESearch, which returns the <span class="caps">PMC</span> ids of articles matching a query, along with other metadata. The E-utilities <span class="caps">API</span> is extremely easy to use. Simply string together the set of parameters (<span class="caps">NCBI</span> database name, utility name, etc.) and go to the <span class="caps">URL</span>.</p>
+<p>[code&nbsp;language=&#8221;r&#8221;]  </p>
+<h2>compose url for&nbsp;eSearch</h2>
+<p>url.esearch = paste0(url.base, esearch, db, &#8220;&amp;&#8221;, retmax,&#8221;&amp;&#8221;, sortmethod, &#8220;&amp;&#8221;,&nbsp;query)</p>
+<h2>get and parse xml data returned by&nbsp;eSearch</h2>
+<p>data.esearch =&nbsp;getURL(url.esearch)  </p>
 <div class="highlight"><pre><span></span><span class="n">The</span> <span class="n">explicit</span> <span class="n">URL</span> <span class="n">constructed</span> <span class="k">from</span> <span class="n">the</span> <span class="n">above</span> <span class="n">example</span> <span class="k">user</span> <span class="k">input</span> <span class="k">is</span><span class="p">:</span>  
 <span class="o">*</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">eutils</span><span class="p">.</span><span class="n">ncbi</span><span class="p">.</span><span class="n">nlm</span><span class="p">.</span><span class="n">nih</span><span class="p">.</span><span class="n">gov</span><span class="o">/</span><span class="n">entrez</span><span class="o">/</span><span class="n">eutils</span><span class="o">/</span><span class="n">esearch</span><span class="p">.</span><span class="n">fcgi</span><span class="o">?</span><span class="n">db</span><span class="o">=</span><span class="n">pmc</span><span class="o">&amp;</span><span class="n">retmax</span><span class="o">=</span><span class="mi">10</span><span class="o">&amp;</span><span class="n">sort</span><span class="o">=</span><span class="n">relevance</span><span class="o">&amp;</span><span class="n">term</span><span class="o">=</span><span class="p">(</span><span class="err">\</span><span class="ss">&quot;Docetaxel\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;Docetaxol\&quot;</span><span class="p">)</span><span class="o">+</span><span class="k">AND</span><span class="o">+</span><span class="p">(</span><span class="err">\</span><span class="ss">&quot;tumor+growth\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+volume\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+size\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+inhibition\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+growth+inhibition\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tgi\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+response\&quot;</span><span class="o">+</span><span class="k">OR</span><span class="o">+</span><span class="err">\</span><span class="ss">&quot;tumor+regression\&quot;</span><span class="p">)</span><span class="o">*</span>
 
@@ -357,23 +284,23 @@ dbGetQuery(con, query)  </p>
 </pre></div>
 
 
-<p><code>%&gt;%</code> is a pipe operator for chaining commands (from the <a href="https://cran.r-project.org/web/packages/magrittr/index.html">magrittr</a> package).</p>
-<p>The URLs of the html article can be simply constructed from their PMC ids. For example, the html version of the article with PMC id 3792566 is found at: http://www.ncbi.nlm.nih.gov/pmc/articles/3792566</p>
-<h3>Scrape HTML articles</h3>
-<p>The scraping of the HTML article is performed by <code>scrapeArticle.R</code>. Note, PMC ids returned by ESearch which have already been scraped for that particular combination of search terms are skipped.</p>
-<p>The html version of the PMC articles only show excerpts of captions, so we have to extract the individual figure URLs in order to scrape their full captions (and search for keyword matches). In order to extract a data element from an html document, we need to identify the tag associated with that element.</p>
-<p><a href="http://selectorgadget.com/">SelectorGadget</a> is a nifty tool to help you hone in on the CSS selectors of interest. Installation is ridiculously easy: just drag the link on the SelectorGadget page to your browser bookmark bar!</p>
-<p>For example, let's identify the CSS selector for figure URLs using SelectorGadget in 3 clicks of the mouse. We'll demo SelectorGadget on a PMC <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/">article</a> that is returned in a query on Docetaxel and TGI.</p>
-<p>In the screenshot below, I clicked on the "Figure 3" link as a starting point for selecting all such figure URLs. SelectorGadget identified the element as ".figpopup" in the gray toolbar at the bottom of the screenshot, highlighted the direct click in green, and highlighted all the other elements in yellow (total: 35 elements). Notice, however, that two links to Figure 4 have been automatically highlighted in the screenshot, one of which is a reference in the body of the text.</p>
-<p>[caption id="attachment_2250" align="aligncenter" width="381"]<a href="./wp-content/uploads/2015/08/selectorgadg1.png"><img alt="A click of the &quot;Figure 3&quot; link next to thumbnail highlights it in green, and similar elements are automatically highlighted in yellow." src="./wp-content/uploads/2015/08/selectorgadg1.png"></a> A click of the "Figure 3" link next to thumbnail highlights it in green. Similar elements are automatically highlighted in yellow.[/caption]</p>
-<p>To reduce the number of redundant figure URL links, I then clicked on the Figure 4 link in the body of the text in order to exclude it; it is accordingly highlighted in red to signify its exclusion.</p>
-<p>The pattern-matching is momentarily worsened since the link to Figure 4 (bottom) is no longer highlighted. SelectorGadget's guess for the CSS selector becomes "#lgnd_F3 .figpopup", of which there is only one element, highlighted in green.</p>
-<p>[caption id="attachment_2251" align="aligncenter" width="381"]<a href="./wp-content/uploads/2015/08/selectorgadg2.png"><img alt="Elements excluded from the pattern matching are highlighted in red." src="./wp-content/uploads/2015/08/selectorgadg2.png"></a> Elements excluded from the pattern matching are highlighted in red.[/caption]</p>
-<p>After making the pattern match more specific with an exclusion, we have to re-generalize by re-selecting the Figure 4 bottom link. This time, SelectorGadget gets the pattern right with the CSS selector ".icnblk_cntnt .figpopup", which describes 5 elements on the page.</p>
-<p>[caption id="attachment_2249" align="aligncenter" width="380"]<a href="./wp-content/uploads/2015/08/selectorgadg3.png"><img alt="Third time's the charm: SelectorGadget has honed in on the CSS selectors that match the desired figure URLs." src="./wp-content/uploads/2015/08/selectorgadg3.png"></a> Third time's the charm: SelectorGadget has honed in on the CSS selectors that match the desired figure URLs.[/caption]</p>
-<p>Using rvest's <code>xml_nodes</code> function, we extract components characterized by the CSS selector <code>.icnblk_cntnt .figpopup</code> -- namely, the URLs of tables and figures.</p>
-<p>[code language="r"]<br>
-popups.tags = article %&gt;% xml_nodes(".icnblk_cntnt .figpopup")  </p>
+<p><code>%&gt;%</code> is a pipe operator for chaining commands (from the <a href="https://cran.r-project.org/web/packages/magrittr/index.html">magrittr</a>&nbsp;package).</p>
+<p>The URLs of the html article can be simply constructed from their <span class="caps">PMC</span> ids. For example, the html version of the article with <span class="caps">PMC</span> id 3792566 is found at:&nbsp;http://www.ncbi.nlm.nih.gov/pmc/articles/3792566</p>
+<h3>Scrape <span class="caps">HTML</span>&nbsp;articles</h3>
+<p>The scraping of the <span class="caps">HTML</span> article is performed by <code>scrapeArticle.R</code>. Note, <span class="caps">PMC</span> ids returned by ESearch which have already been scraped for that particular combination of search terms are&nbsp;skipped.</p>
+<p>The html version of the <span class="caps">PMC</span> articles only show excerpts of captions, so we have to extract the individual figure URLs in order to scrape their full captions (and search for keyword matches). In order to extract a data element from an html document, we need to identify the tag associated with that&nbsp;element.</p>
+<p><a href="http://selectorgadget.com/">SelectorGadget</a> is a nifty tool to help you hone in on the <span class="caps">CSS</span> selectors of interest. Installation is ridiculously easy: just drag the link on the SelectorGadget page to your browser bookmark&nbsp;bar!</p>
+<p>For example, let&#8217;s identify the <span class="caps">CSS</span> selector for figure URLs using SelectorGadget in 3 clicks of the mouse. We&#8217;ll demo SelectorGadget on a <span class="caps">PMC</span> <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/">article</a> that is returned in a query on Docetaxel and <span class="caps">TGI</span>.</p>
+<p>In the screenshot below, I clicked on the &#8220;Figure 3&#8221; link as a starting point for selecting all such figure URLs. SelectorGadget identified the element as &#8220;.figpopup&#8221; in the gray toolbar at the bottom of the screenshot, highlighted the direct click in green, and highlighted all the other elements in yellow (total: 35 elements). Notice, however, that two links to Figure 4 have been automatically highlighted in the screenshot, one of which is a reference in the body of the&nbsp;text.</p>
+<p>[caption id=&#8221;attachment_2250&#8221; align=&#8221;aligncenter&#8221; width=&#8221;381&#8221;]<a href="./wp-content/uploads/2015/08/selectorgadg1.png"><img alt="A click of the &quot;Figure 3&quot; link next to thumbnail highlights it in green, and similar elements are automatically highlighted in yellow." src="./wp-content/uploads/2015/08/selectorgadg1.png"></a> A click of the &#8220;Figure 3&#8221; link next to thumbnail highlights it in green. Similar elements are automatically highlighted in&nbsp;yellow.[/caption]</p>
+<p>To reduce the number of redundant figure <span class="caps">URL</span> links, I then clicked on the Figure 4 link in the body of the text in order to exclude it; it is accordingly highlighted in red to signify its&nbsp;exclusion.</p>
+<p>The pattern-matching is momentarily worsened since the link to Figure 4 (bottom) is no longer highlighted. SelectorGadget&#8217;s guess for the <span class="caps">CSS</span> selector becomes &#8220;#lgnd_F3 .figpopup&#8221;, of which there is only one element, highlighted in&nbsp;green.</p>
+<p>[caption id=&#8221;attachment_2251&#8221; align=&#8221;aligncenter&#8221; width=&#8221;381&#8221;]<a href="./wp-content/uploads/2015/08/selectorgadg2.png"><img alt="Elements excluded from the pattern matching are highlighted in red." src="./wp-content/uploads/2015/08/selectorgadg2.png"></a> Elements excluded from the pattern matching are highlighted in&nbsp;red.[/caption]</p>
+<p>After making the pattern match more specific with an exclusion, we have to re-generalize by re-selecting the Figure 4 bottom link. This time, SelectorGadget gets the pattern right with the <span class="caps">CSS</span> selector &#8220;.icnblk_cntnt .figpopup&#8221;, which describes 5 elements on the&nbsp;page.</p>
+<p>[caption id=&#8221;attachment_2249&#8221; align=&#8221;aligncenter&#8221; width=&#8221;380&#8221;]<a href="./wp-content/uploads/2015/08/selectorgadg3.png"><img alt="Third time's the charm: SelectorGadget has honed in on the CSS selectors that match the desired figure URLs." src="./wp-content/uploads/2015/08/selectorgadg3.png"></a> Third time&#8217;s the charm: SelectorGadget has honed in on the <span class="caps">CSS</span> selectors that match the desired figure&nbsp;URLs.[/caption]</p>
+<p>Using rvest&#8217;s <code>xml_nodes</code> function, we extract components characterized by the <span class="caps">CSS</span> selector <code>.icnblk_cntnt .figpopup</code> &#8212; namely, the URLs of tables and&nbsp;figures.</p>
+<p>[code language=&#8221;r&#8221;]<br>
+popups.tags = article %&gt;% xml_nodes(&#8220;.icnblk_cntnt&nbsp;.figpopup&#8221;)  </p>
 <div class="highlight"><pre><span></span><span class="k">With</span> <span class="k">some</span> <span class="k">more</span> <span class="n">parsing</span> <span class="k">and</span> <span class="n">filtering</span> <span class="k">similar</span> <span class="k">to</span> <span class="n">the</span> <span class="n">above</span><span class="p">,</span> <span class="n">the</span> <span class="k">full</span> <span class="n">image</span> <span class="n">captions</span> <span class="n">can</span> <span class="n">be</span> <span class="n">grepped</span> <span class="k">for</span> <span class="n">keywords</span><span class="p">.</span> <span class="n">Caption</span> <span class="k">and</span> <span class="n">image</span> <span class="n">metadata</span> <span class="k">for</span> <span class="n">keyword</span> <span class="n">matches</span> <span class="k">are</span> <span class="n">stored</span> <span class="k">in</span> <span class="n">the</span> <span class="n">SQLite</span> <span class="k">database</span> <span class="k">by</span> <span class="o">`</span><span class="n">pubmedcentral_scraper</span><span class="p">.</span><span class="n">R</span><span class="o">`</span><span class="p">.</span>
 
 <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span>
@@ -401,12 +328,12 @@ popups.tags = article %&gt;% xml_nodes(".icnblk_cntnt .figpopup")  </p>
 
 
 <p><code>generate_markdown_code.R</code> then loops through the <em>i</em> images per article and, line by line, writes out markdown code of the image URLs and captions.<br>
-[code language="r"]<br>
-for(i in seq_along(img_links)) {  </p>
-<h2>...</h2>
-<p>img_md = paste0("<img alt="pmcid: &quot;,images$pmcid[i],&quot;" src="`r img_links[" title=",i,&quot;]`)"><br>
-cat(img_md, file=outfile, append=T, sep="\n")  </p>
-<h2>...</h2>
+[code language=&#8221;r&#8221;]<br>
+for(i in seq_along(img_links))&nbsp;{  </p>
+<h2>&#8230;</h2>
+<p>img_md = paste0(&#8220;<img alt="pmcid: &quot;,images$pmcid[i],&quot;" src="`r img_links[" title=",i,&quot;]`)"><br>
+cat(img_md, file=outfile, append=T,&nbsp;sep=&#8221;\n&#8221;)  </p>
+<h2>&#8230;</h2>
 <p>}  </p>
 <div class="highlight"><pre><span></span><span class="ss">`markdown_and_plot.R`</span> <span class="k">then</span> <span class="k">reads</span> <span class="k">in</span> <span class="n">the</span> <span class="n">markdown</span> <span class="n">file</span> <span class="k">and</span> <span class="n">renders</span> <span class="n">it</span> <span class="k">into</span> <span class="n">the</span> <span class="n">final</span> <span class="n">html</span> <span class="n">report</span><span class="p">,</span> <span class="n">containing</span> <span class="n">images</span> <span class="n">embedded</span> <span class="n">via</span> <span class="n">href</span> <span class="n">links</span><span class="p">,</span> <span class="k">using</span> <span class="n">the</span> <span class="ss">`knit2html`</span> <span class="n">function</span> <span class="k">in</span> <span class="n">the</span> <span class="n">knitr</span> <span class="n">package</span><span class="p">.</span>
 
@@ -416,82 +343,136 @@ cat(img_md, file=outfile, append=T, sep="\n")  </p>
 </pre></div>
 
 
-<p>For a sample report that was generated for topic = Trastuzumab and plot_type = TGI, see <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md">here</a>. Note, github automatically renders markdown files into html, whereas html files are displayed as source code. However, the file that is actually intended for human perusal outside Github is the <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.html">html</a> version, located in the same example subdirectory on Github.</p>
+<p>For a sample report that was generated for topic = Trastuzumab and plot_type = <span class="caps">TGI</span>, see <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md">here</a>. Note, github automatically renders markdown files into html, whereas html files are displayed as source code. However, the file that is actually intended for human perusal outside Github is the <a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.html">html</a> version, located in the same example subdirectory on&nbsp;Github.</p>
 <hr>
-<p>A look at the example report shows that there are a few false positives, i.e. images that don't actually correspond to plots of TGI, but the simplistic grep-keyword-method works well overall. There's plenty of room for improving the code, but as it stands, this code sure beats compiling reports by hand!</p>
-<p>We've talked about the thought process behind building the program, but to put it to use, check it out on <a href="https://github.com/EFavDB/PubmedCentral_Scraper">Github</a>.</p>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Build a web scraper for a literature search - from soup to nuts&amp;url=./build-a-web-scraper-lit-search.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./build-a-web-scraper-lit-search.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./build-a-web-scraper-lit-search.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/database.html">database</a><a href="./tag/r.html">R</a><a href="./tag/sql.html">SQL</a><a href="./tag/sqlite.html">SQLite</a><a href="./tag/web-scraping.html">web scraping</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
+<p>A look at the example report shows that there are a few false positives, i.e. images that don&#8217;t actually correspond to plots of <span class="caps">TGI</span>, but the simplistic grep-keyword-method works well overall. There&#8217;s plenty of room for improving the code, but as it stands, this code sure beats compiling reports by&nbsp;hand!</p>
+<p>We&#8217;ve talked about the thought process behind building the program, but to put it to use, check it out on <a href="https://github.com/EFavDB/PubmedCentral_Scraper">Github</a>.</p>
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/cathy_photo.jpg" alt="Cathy Yeh" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/cathy-yeh.html">Cathy Yeh</a></h4>
-                            <p class="post-author-about">Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/cathy_photo.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
+        </a>
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./stochastic-geometric-series.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Stochastic geometric series</h2>
-                            <p class="post-nav-excerpt">Let \(a_1, a_2, \ldots\) be an infinite set of non-negative samples taken from a...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./leave-one-out-cross-validation.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Leave-one-out cross-validation</h2>
-                            <p class="post-nav-excerpt">This will be the first of a series of short posts relating to subject matter discussed...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./leave-one-out-cross-validation.html" title="Previous: Leave-one-out cross-validation">Leave-one-out cross-validation</a></li>
+                <li class="next-article"><a href="./stochastic-geometric-series.html" title="Next: Stochastic geometric series">Stochastic geometric series</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-08-25T17:43:00-07:00">Aug 25, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#methods-programming-tools-ref">Methods, Programming, Tools</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#database-ref">database
+                    <span>1</span>
+</a></li>
+                <li><a href="./tags.html#r-ref">R
+                    <span>2</span>
+</a></li>
+                <li><a href="./tags.html#sql-ref">SQL
+                    <span>1</span>
+</a></li>
+                <li><a href="./tags.html#sqlite-ref">SQLite
+                    <span>1</span>
+</a></li>
+                <li><a href="./tags.html#web-scraping-ref">web scraping
+                    <span>1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

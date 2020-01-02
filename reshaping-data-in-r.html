@@ -1,152 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Cathy Yeh" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="programming, R, Programming, " />
 
-  <title>Reshaping Data in R</title>
+<meta property="og:title" content="Reshaping Data in R "/>
+<meta property="og:url" content="./reshaping-data-in-r.html" />
+<meta property="og:description" content="Today, we’ll talk about reshaping data in R. At the same time, we’ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a loop. The Task …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2015-06-06T19:17:00-07:00" />
+<meta name="twitter:title" content="Reshaping Data in R ">
+<meta name="twitter:description" content="Today, we’ll talk about reshaping data in R. At the same time, we’ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a loop. The Task …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./reshaping-data-in-r.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Reshaping Data in R  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops can be avoided by using R functionals (functions...">
-
-    <meta name="author" content="Cathy Yeh">
-
-    <meta name="tags" content="programming">
-    <meta name="tags" content="R">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Reshaping Data in R"/>
-<meta property="og:description" content="Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops can be avoided by using R functionals (functions..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./reshaping-data-in-r.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-06-06 19:17:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/cathy-yeh.html">
-<meta property="article:section" content="Programming"/>
-<meta property="article:tag" content="programming"/>
-<meta property="article:tag" content="R"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Reshaping Data in R">
-    <meta name="twitter:url" content="./reshaping-data-in-r.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops can be avoided by using R functionals (functions...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Reshaping Data in R",
-  "headline": "Reshaping Data in R",
-  "datePublished": "2015-06-06 19:17:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Cathy Yeh",
-    "url": "./author/cathy-yeh.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./reshaping-data-in-r.html",
-  "description": "Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops can be avoided by using R functionals (functions..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Reshaping Data in R</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/cathy-yeh.html">Cathy Yeh</a>
-            | <time datetime="Sat 06 June 2015">Sat 06 June 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./reshaping-data-in-r.html">
+                Reshaping Data in&nbsp;R
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Today, we'll talk about reshaping data in R. At the same time, we'll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a loop.  </p>
-<h3>The Task</h3>
-<p>Suppose you're given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its id.</p>
-<p>Day 1</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Today, we&#8217;ll talk about reshaping data in R. At the same time, we&#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&nbsp;loop.  </p>
+<h3>The&nbsp;Task</h3>
+<p>Suppose you&#8217;re given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its&nbsp;id.</p>
+<p>Day&nbsp;1</p>
 <p>day</p>
 <p>group</p>
 <p>id</p>
@@ -167,7 +101,7 @@
 <p>B</p>
 <p>B.2</p>
 <p>0.9</p>
-<p>Day 2</p>
+<p>Day&nbsp;2</p>
 <p>day</p>
 <p>group</p>
 <p>id</p>
@@ -188,8 +122,8 @@
 <p>B</p>
 <p>B.2</p>
 <p>1.9</p>
-<p>Your task is to split the data by treatment group rather than day. The desired output is one file per group, with day on the vertical of the new tables, plant id on the horizontal, and height as the value inside the table. For example, the new table for group A would be:</p>
-<p>Group A</p>
+<p>Your task is to split the data by treatment group rather than day. The desired output is one file per group, with day on the vertical of the new tables, plant id on the horizontal, and height as the value inside the table. For example, the new table for group A would&nbsp;be:</p>
+<p>Group&nbsp;A</p>
 <p>day</p>
 <p>A.1</p>
 <p>A.2</p>
@@ -199,48 +133,48 @@
 <p>2</p>
 <p>1.5</p>
 <p>1.5</p>
-<p>This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you're in first grade. So, we're going to take a little time to write a script now in order to save a lot of time in the future.</p>
-<h3>The code broken down</h3>
-<p>First, let's load some libraries that are useful for reshaping data.</p>
+<p>This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you&#8217;re in first grade. So, we&#8217;re going to take a little time to write a script now in order to save a lot of time in the&nbsp;future.</p>
+<h3>The code broken&nbsp;down</h3>
+<p>First, let&#8217;s load some libraries that are useful for reshaping&nbsp;data.</p>
 <div class="highlight"><pre><span></span><span class="err">library(&quot;plyr&quot;)  </span>
 <span class="err">library(&quot;reshape2&quot;)  </span>
 </pre></div>
 
 
-<p>(To install, e.g. the plyr package, simply type <code>install.packages("plyr")</code> in the R console.)</p>
-<p>Then store the full names, including directory path, of the files in a character vector. Here, the input .csv files are stored in the subdirectory "input".</p>
+<p>(To install, e.g. the plyr package, simply type <code>install.packages("plyr")</code> in the R&nbsp;console.)</p>
+<p>Then store the full names, including directory path, of the files in a character vector. Here, the input .csv files are stored in the subdirectory&nbsp;&#8220;input&#8221;.</p>
 <div class="highlight"><pre><span></span><span class="err">in_files = list.files(path = &quot;input&quot;, pattern=&quot;*.csv&quot;, full.names = T)  </span>
 </pre></div>
 
 
-<p>Now, we'll use <code>lapply(...)</code>, one of base R's functionals, to read the input files into a list of data frames, which we call list_dfperday.</p>
+<p>Now, we&#8217;ll use <code>lapply(...)</code>, one of base R&#8217;s functionals, to read the input files into a list of data frames, which we call&nbsp;list_dfperday.</p>
 <div class="highlight"><pre><span></span><span class="err">list_dfperday = lapply(in_files, read.csv)  </span>
 </pre></div>
 
 
 <p><code>lapply()</code> loops over the the names of the files in <code>in_files</code></p>
 <ul>
-<li>to each file, apply the function <code>read.csv()</code>, which reads the contents of the file into a data frame</li>
-<li>output the result into a list of data frames, called dfs, of the same length as the character vector containing the file names</li>
+<li>to each file, apply the function <code>read.csv()</code>, which reads the contents of the file into a data&nbsp;frame</li>
+<li>output the result into a list of data frames, called dfs, of the same length as the character vector containing the file&nbsp;names</li>
 </ul>
-<p>Bind together (rbind) the data frames in the list by rows into a single data frame, so we can more conveniently subset the data by group.</p>
+<p>Bind together (rbind) the data frames in the list by rows into a single data frame, so we can more conveniently subset the data by&nbsp;group.</p>
 <div class="highlight"><pre><span></span><span class="err">df = ldply(list_dfperday, rbind)  </span>
 </pre></div>
 
 
-<p>In the <code>plyr</code> package, the first two letters in the "--ply" functions indicate what type of object is being transformed into another. In this case, we are reshaping a list ('l') of data frames into a data frame ('d'), hence "ldply".</p>
-<p>Define a function to cast the data into a data frame with a shape specified by the formula <code>day ~ id</code>: per <em>day</em> (x-variable), output the corresponding height (value.var) of each plant <em>id</em> (y-variable).</p>
+<p>In the <code>plyr</code> package, the first two letters in the &#8220;&#8212;ply&#8221; functions indicate what type of object is being transformed into another. In this case, we are reshaping a list (&#8216;l&#8217;) of data frames into a data frame (&#8216;d&#8217;), hence&nbsp;&#8220;ldply&#8221;.</p>
+<p>Define a function to cast the data into a data frame with a shape specified by the formula <code>day ~ id</code>: per <em>day</em> (x-variable), output the corresponding height (value.var) of each plant <em>id</em>&nbsp;(y-variable).</p>
 <div class="highlight"><pre><span></span><span class="err">cast_short = function(mydata) dcast(mydata, day ~ id, value.var = height)  </span>
 </pre></div>
 
 
-<p>So the function "cast_short" takes as its argument a data frame "mydata" (containing columns "day" and "id") and returns a reshaped data frame with "day" on the rows and "id" on the columns.</p>
+<p>So the function &#8220;cast_short&#8221; takes as its argument a data frame &#8220;mydata&#8221; (containing columns &#8220;day&#8221; and &#8220;id&#8221;) and returns a reshaped data frame with &#8220;day&#8221; on the rows and &#8220;id&#8221; on the&nbsp;columns.</p>
 <p>Now apply the function we just defined to each treatment group. Store the outcome of each application of <code>cast_short</code> into a list. (Also compare to the earlier use of <code>ldply</code>.)</p>
 <div class="highlight"><pre><span></span><span class="err">list_dfpergroup = dlply(df, .(group), cast_short)  </span>
 </pre></div>
 
 
-<p>It's finally time to write the formatted data frames to .csv files. We'll output them in a new directory called "output" with the aid of another base R functional <code>mapply</code>.</p>
+<p>It&#8217;s finally time to write the formatted data frames to .csv files. We&#8217;ll output them in a new directory called &#8220;output&#8221; with the aid of another base R functional <code>mapply</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="ss">&quot;output&quot;</span>  
 <span class="n">outnames</span> <span class="o">=</span> <span class="n">paste0</span><span class="p">(</span><span class="k">names</span><span class="p">(</span><span class="n">list_dfpergroup</span><span class="p">),</span><span class="ss">&quot;.csv&quot;</span><span class="p">)</span>
 
@@ -251,9 +185,9 @@
 </pre></div>
 
 
-<p><code>mapply</code> allows functions with multiple arguments to be applied in a loop. Here, we've defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of <em>x</em> is given by list_dfpergroup, and <em>y</em> is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup<span class="math">\(_i\)</span> to a file named outnames<span class="math">\(_i\)</span>.</p>
-<h3>The code in one piece</h3>
-<p>Now here's the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing <code>ldply</code>.</p>
+<p><code>mapply</code> allows functions with multiple arguments to be applied in a loop. Here, we&#8217;ve defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of <em>x</em> is given by list_dfpergroup, and <em>y</em> is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup<span class="math">\(_i\)</span> to a file named outnames<span class="math">\(_i\)</span>.</p>
+<h3>The code in one&nbsp;piece</h3>
+<p>Now here&#8217;s the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing <code>ldply</code>.</p>
 <div class="highlight"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="ss">&quot;plyr&quot;</span><span class="p">)</span>  
 <span class="n">library</span><span class="p">(</span><span class="ss">&quot;reshape2&quot;</span><span class="p">)</span>
 
@@ -336,78 +270,123 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Reshaping Data in R&amp;url=./reshaping-data-in-r.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./reshaping-data-in-r.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./reshaping-data-in-r.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/programming.html">programming</a><a href="./tag/r.html">R</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/cathy_photo.jpg" alt="Cathy Yeh" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/cathy-yeh.html">Cathy Yeh</a></h4>
-                            <p class="post-author-about">Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/cathy_photo.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
+        </a>
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./multivariate-cramer-rao-bound.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Multivariate Cramer-Rao inequality</h2>
-                            <p class="post-nav-excerpt">The Cramer-Rao inequality addresses the question of how accurately one can estimate a...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./mlb-week-7-overview-week-8-posted.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">MLB week 7 overview, week 8 posted</h2>
-                            <p class="post-nav-excerpt">52/99 this past week, or 53% accuracy overall. Breakdown by point spread follows, and...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./mlb-week-7-overview-week-8-posted.html" title="Previous: MLB week 7 overview, week 8 posted">MLB week 7 overview, week 8 posted</a></li>
+                <li class="next-article"><a href="./multivariate-cramer-rao-bound.html" title="Next: Multivariate Cramer-Rao inequality">Multivariate Cramer-Rao inequality</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-06-06T19:17:00-07:00">Jun 6, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#programming-ref">Programming</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#programming-ref">programming
+                    <span>5</span>
+</a></li>
+                <li><a href="./tags.html#r-ref">R
+                    <span>2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

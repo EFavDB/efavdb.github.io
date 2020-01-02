@@ -1,156 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Dustin McIntosh" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="traffic, methods, " />
 
-  <title>Data reduction by PCA</title>
+<meta property="og:title" content="Data reduction by PCA "/>
+<meta property="og:url" content="./data-reduction-by-pca.html" />
+<meta property="og:description" content="Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance matrix. We address this compression from two different perspectives: First, we consider the partial traces of the covariance matrix, and second we present visual comparisons of the actual vs …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Dustin McIntosh" />
+<meta property="og:article:published_time" content="2014-10-23T23:52:00-07:00" />
+<meta name="twitter:title" content="Data reduction by PCA ">
+<meta name="twitter:description" content="Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance matrix. We address this compression from two different perspectives: First, we consider the partial traces of the covariance matrix, and second we present visual comparisons of the actual vs …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./data-reduction-by-pca.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Data reduction by PCA  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance...">
-
-    <meta name="author" content="Dustin McIntosh">
-
-    <meta name="tags" content="traffic">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Data reduction by PCA"/>
-<meta property="og:description" content="Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./data-reduction-by-pca.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2014-10-23 23:52:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/dustin-mcintosh.html">
-<meta property="article:section" content="methods"/>
-<meta property="article:tag" content="traffic"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Data reduction by PCA">
-    <meta name="twitter:url" content="./data-reduction-by-pca.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Data reduction by PCA",
-  "headline": "Data reduction by PCA",
-  "datePublished": "2014-10-23 23:52:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Dustin McIntosh",
-    "url": "./author/dustin-mcintosh.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./data-reduction-by-pca.html",
-  "description": "Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Data reduction by PCA</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/dustin-mcintosh.html">Dustin McIntosh</a>
-            | <time datetime="Thu 23 October 2014">Thu 23 October 2014</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./data-reduction-by-pca.html">
+                Data reduction by <span class="caps">PCA</span>
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p><a href="./wp-content/uploads/2014/10/evals.png"><img alt="evals" src="./wp-content/uploads/2014/10/evals.png"></a></p>
-<p>Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance matrix.  We address this compression from two different perspectives:  First, we consider the partial traces of the covariance matrix, and second we present visual comparisons of the actual vs. projected traffic plots.</p>
-<p>Partial traces:  From the footnote to our last post, we have <span class="math">\(\text{Tr}(H^{-1}) \equiv $ $\sum_i e_i $\)</span>= \sum_a \left (\delta v_a \right)^2<span class="math">\(. That is, the trace of the covariance matrix tells us the net variance in our traffic system’s speed, summed over all loops. More generally\)</span>^1<span class="math">\(, the fraction of system variance contained within some subset of the modes is given by the eigenvalue sum over these modes, all divided by $\text{Tr}(H^{-1})\)</span>.  The eigenvalues thus provide us with a simple method for quantifying the significance of any particular mode.  At right, is a log-log-plot of the fractional-variance-captured for each mode, ordered from largest to smallest (we also include analogous plots for the covariance matrix associated with just one week and one month<span class="math">\(^2\)</span>)  As shown, the eigenvalues decay like one over eigenvalue index at first, but eventually begin to decay much more quickly.   Only 5 modes are needed to capture 50% of the variance; 25 for 65%; 793 for 95%.</p>
-<p>Visualizations:  The above discussion suggests that the basic essence of a given set of traffic conditions is determined by only the first few modes, but that a large number might be needed to get correct all details.  We tested this conclusion by visually inspecting plots of projected traffic conditions (again, for Jan 15, at 5:30 pm), and comparing across number of modes retained.  The results are striking:  upon projecting the 2,000+ original features to only 25, minimal error appears to be introduced.  Further, the error that does occur tends to be highly localized to the particularly slow regions, where projected speeds are overestimates (<em>e.g.</em>, the traffic jams east/south-bound out of Oakland).  Increasing the mode count to 100 or greater, these problem spots are quickly ameliorated, and the error is no longer systematic in slow regions (see insets).</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p><a href="./wp-content/uploads/2014/10/evals.png"><img alt="evals" src="./wp-content/uploads/2014/10/evals.png"></a></p>
+<p>Here, we characterize the data compression benefits of projection onto a subset of the eigenvectors of our traffic system’s covariance matrix.  We address this compression from two different perspectives:  First, we consider the partial traces of the covariance matrix, and second we present visual comparisons of the actual vs. projected traffic&nbsp;plots.</p>
+<p>Partial traces:  From the footnote to our last post, we have <span class="math">\(\text{Tr}(H^{-1}) \equiv $ $\sum_i e_i $\)</span>= \sum_a \left (\delta v_a \right)^2<span class="math">\(. That is, the trace of the covariance matrix tells us the net variance in our traffic system’s speed, summed over all loops. More generally\)</span>^1<span class="math">\(, the fraction of system variance contained within some subset of the modes is given by the eigenvalue sum over these modes, all divided by $\text{Tr}(H^{-1})\)</span>.  The eigenvalues thus provide us with a simple method for quantifying the significance of any particular mode.  At right, is a log-log-plot of the fractional-variance-captured for each mode, ordered from largest to smallest (we also include analogous plots for the covariance matrix associated with just one week and one month<span class="math">\(^2\)</span>)  As shown, the eigenvalues decay like one over eigenvalue index at first, but eventually begin to decay much more quickly.   Only 5 modes are needed to capture 50% of the variance; 25 for 65%; 793 for&nbsp;95%.</p>
+<p>Visualizations:  The above discussion suggests that the basic essence of a given set of traffic conditions is determined by only the first few modes, but that a large number might be needed to get correct all details.  We tested this conclusion by visually inspecting plots of projected traffic conditions (again, for Jan 15, at 5:30 pm), and comparing across number of modes retained.  The results are striking:  upon projecting the 2,000+ original features to only 25, minimal error appears to be introduced.  Further, the error that does occur tends to be highly localized to the particularly slow regions, where projected speeds are overestimates (<em>e.g.</em>, the traffic jams east/south-bound out of Oakland).  Increasing the mode count to 100 or greater, these problem spots are quickly ameliorated, and the error is no longer systematic in slow regions (see&nbsp;insets).</p>
 <p><strong>See below for a slideshow of these results.</strong><br>
-[slideshow_deploy id='116']<br>
+[slideshow_deploy id=&#8216;116&#8217;]<br>
 //<br>
-Conclusions:   The data provided by the PEMS system is highly redundant — as anticipated — in the sense that traffic conditions can be determined from far fewer measurements than it provides.  If other states wanted to replicate this system, they could probably get away with reducing the number of measures by at least one order of magnitude per mile of highway.  For our part, we intend to project our data onto the top 10% of the modes, or fewer:  We anticipate that this will provide minimal loss, but substantial speedups.</p>
-<p>[1]  <em>Partial eigenvalue sums, physics perspective:  </em>Consider suppressing all modes that you don’t want to include in a projection.  This can be done by setting the energies of these modes to <span class="math">\(\infty\)</span>, which will result in their corresponding <span class="math">\(H^{-1}\)</span>  eigenvalues going to zero.  When this altered system is thermally driven, its variance will again be given its covariance trace.  This altered system trace is precisely equal to the retained mode partial sum of the original matrix.</p>
-<p>[2] <em>Sampling time dependence of covariance matrix:  </em>The first figure above shows the mode variance ratio for the first 1000 principal components over three time scales: 1 week, 1 month, and 2014 year to date (~9.5 months).   Notice that the plots become more shallow given a longer sampling period. This is because the larger data sets exhibit a more diverse class of fluctuations, and more modes are needed to capture these.</p>
+Conclusions:   The data provided by the <span class="caps">PEMS</span> system is highly redundant — as anticipated — in the sense that traffic conditions can be determined from far fewer measurements than it provides.  If other states wanted to replicate this system, they could probably get away with reducing the number of measures by at least one order of magnitude per mile of highway.  For our part, we intend to project our data onto the top 10% of the modes, or fewer:  We anticipate that this will provide minimal loss, but substantial&nbsp;speedups.</p>
+<p>[1]  <em>Partial eigenvalue sums, physics perspective:  </em>Consider suppressing all modes that you don’t want to include in a projection.  This can be done by setting the energies of these modes to <span class="math">\(\infty\)</span>, which will result in their corresponding <span class="math">\(H^{-1}\)</span>  eigenvalues going to zero.  When this altered system is thermally driven, its variance will again be given its covariance trace.  This altered system trace is precisely equal to the retained mode partial sum of the original&nbsp;matrix.</p>
+<p>[2] <em>Sampling time dependence of covariance matrix:  </em>The first figure above shows the mode variance ratio for the first 1000 principal components over three time scales: 1 week, 1 month, and 2014 year to date (~9.5 months).   Notice that the plots become more shallow given a longer sampling period. This is because the larger data sets exhibit a more diverse class of fluctuations, and more modes are needed to capture&nbsp;these.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -213,78 +149,120 @@ Conclusions:   The data provided by the PEMS system is highly redundant — as
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Data reduction by PCA&amp;url=./data-reduction-by-pca.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./data-reduction-by-pca.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./data-reduction-by-pca.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/traffic.html">traffic</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/DustinLinkedIn2.png" alt="Dustin McIntosh" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/dustin-mcintosh.html">Dustin McIntosh</a></h4>
-                            <p class="post-author-about">Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
+            <span class="author_name">Dustin McIntosh</span>
+        </a>
+        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./announcing-nba-learner-v0-1.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Announcing: NBA learner v0.1</h2>
-                            <p class="post-nav-excerpt">Tonight is the opening night of the 2014-15 NBA season. This year, we will be running...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./traffic-patterns-of-the-year-2014-edition.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Traffic patterns of the year: 2014 edition</h2>
-                            <p class="post-nav-excerpt">As we mentioned in the last post, there are currently over 2000 active speed loop...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./traffic-patterns-of-the-year-2014-edition.html" title="Previous: Traffic patterns of the year: 2014 edition">Traffic patterns of the year: 2014 edition</a></li>
+                <li class="next-article"><a href="./announcing-nba-learner-v0-1.html" title="Next: Announcing: NBA learner v0.1">Announcing: NBA learner v0.1</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-10-23T23:52:00-07:00">Oct 23, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#methods-ref">methods</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#traffic-ref">traffic
+                    <span>6</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

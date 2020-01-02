@@ -1,150 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Damien RJ" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content=", Case studies, Guest posts, " />
 
-  <title>Machine learning for facial recognition</title>
+<meta property="og:title" content="Machine learning for facial recognition "/>
+<meta property="og:url" content="./machine-learning-for-facial-recognition-3.html" />
+<meta property="og:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Damien RJ" />
+<meta property="og:article:published_time" content="2015-01-21T17:12:00-08:00" />
+<meta name="twitter:title" content="Machine learning for facial recognition ">
+<meta name="twitter:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./machine-learning-for-facial-recognition-3.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Machine learning for facial recognition  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that...">
-
-    <meta name="author" content="Damien RJ">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Machine learning for facial recognition"/>
-<meta property="og:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./machine-learning-for-facial-recognition-3.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-01-21 17:12:00-08:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/damien-rj.html">
-<meta property="article:section" content="Case studies, Guest posts"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Machine learning for facial recognition">
-    <meta name="twitter:url" content="./machine-learning-for-facial-recognition-3.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Machine learning for facial recognition",
-  "headline": "Machine learning for facial recognition",
-  "datePublished": "2015-01-21 17:12:00-08:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Damien RJ",
-    "url": "./author/damien-rj.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./machine-learning-for-facial-recognition-3.html",
-  "description": "A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Machine learning for facial recognition</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/damien-rj.html">Damien Ramunno-Johnson</a>
-            | <time datetime="Wed 21 January 2015">Wed 21 January 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./machine-learning-for-facial-recognition-3.html">
+                Machine learning for facial&nbsp;recognition
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>A guest post, contributed by Damien Ramunno-Johnson (<a href="https://www.linkedin.com/profile/view?id=60223336&amp;authType=NAME_SEARCH&amp;authToken=LOV_&amp;locale=en_US&amp;trk=tyah2&amp;trkInfo=tarId%3A1420748440448%2Ctas%3Adamien%2Cidx%3A1-1-1">LinkedIn</a>, <a href="http://www.efavdb.com/about">bio-sketch</a>)</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>A guest post, contributed by Damien Ramunno-Johnson (<a href="https://www.linkedin.com/profile/view?id=60223336&amp;authType=NAME_SEARCH&amp;authToken=LOV_&amp;locale=en_US&amp;trk=tyah2&amp;trkInfo=tarId%3A1420748440448%2Ctas%3Adamien%2Cidx%3A1-1-1">LinkedIn</a>, <a href="http://www.efavdb.com/about">bio-sketch</a>)</p>
 <h4><strong>Introduction</strong></h4>
-<p>The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can be a somewhat difficult problem for computers. Today, given a full frontal image of a face, computer facial recognition software works well. However, problems can arise given large camera angles, poor lighting, or exaggerated facial expressions: Computers have a ways to go before they catch up with us in this arena.</p>
-<p>Although facial recognition algorithms remain imperfect, the methods that exist now are already quite useful and are being applied by many different companies. Two examples, first up Facebook: When you upload pictures to their website, it will now automatically suggest names for the people in your photos. This application is well-suited for machine learning for two reasons. First, every tagged photo already uploaded to the site provides labeled examples on which to train an algorithm, and second, people often post full face images in decent lighting. A second example is provided by Google's Android phone OS, which has a face unlock mode. To get this to work, you first have to train your phone by taking images of your face in different lighting conditions and from different angles. After training, the phone can attempt to recognize you. This is another cool application that also often works well.</p>
-<p>In this post, we're going to develop our own basic facial learning algorithm. We'll find that it is actually pretty straightforward to set one up that is reasonably accurate. Our post follows and expands upon the tutorial found <a href="http://scikit-learn.org/stable/auto_examples/applications/face_recognition.html">here</a>.</p>
-<h4><strong>Loading packages and data</strong></h4>
+<p>The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can be a somewhat difficult problem for computers. Today, given a full frontal image of a face, computer facial recognition software works well. However, problems can arise given large camera angles, poor lighting, or exaggerated facial expressions: Computers have a ways to go before they catch up with us in this&nbsp;arena.</p>
+<p>Although facial recognition algorithms remain imperfect, the methods that exist now are already quite useful and are being applied by many different companies. Two examples, first up Facebook: When you upload pictures to their website, it will now automatically suggest names for the people in your photos. This application is well-suited for machine learning for two reasons. First, every tagged photo already uploaded to the site provides labeled examples on which to train an algorithm, and second, people often post full face images in decent lighting. A second example is provided by Google&#8217;s Android phone <span class="caps">OS</span>, which has a face unlock mode. To get this to work, you first have to train your phone by taking images of your face in different lighting conditions and from different angles. After training, the phone can attempt to recognize you. This is another cool application that also often works&nbsp;well.</p>
+<p>In this post, we&#8217;re going to develop our own basic facial learning algorithm. We&#8217;ll find that it is actually pretty straightforward to set one up that is reasonably accurate. Our post follows and expands upon the tutorial found <a href="http://scikit-learn.org/stable/auto_examples/applications/face_recognition.html">here</a>.</p>
+<h4><strong>Loading packages and&nbsp;data</strong></h4>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>  
@@ -162,11 +100,11 @@
 </pre></div>
 
 
-<p>The sklearn function <a href="http://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_lfw_people.html">fetch_lfw_people</a>, imported above, will download the data that we need, if not already present in the faces folder. The dataset we are downloading consists of a set of preprocessed images from <a href="http://vis-www.cs.umass.edu/lfw/">Labeled Faces in the Wild (LFW)</a>, a database designed for studying unconstrained face recognition. The data set contains more than 13,000 images of faces collected from the web, each labeled with the name of the person pictured. 1680 of the people pictured have two or more distinct photos in the data set.</p>
-<p>In our analysis here, we will impose two conditions.</p>
+<p>The sklearn function <a href="http://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_lfw_people.html">fetch_lfw_people</a>, imported above, will download the data that we need, if not already present in the faces folder. The dataset we are downloading consists of a set of preprocessed images from <a href="http://vis-www.cs.umass.edu/lfw/">Labeled Faces in the Wild (<span class="caps">LFW</span>)</a>, a database designed for studying unconstrained face recognition. The data set contains more than 13,000 images of faces collected from the web, each labeled with the name of the person pictured. 1680 of the people pictured have two or more distinct photos in the data&nbsp;set.</p>
+<p>In our analysis here, we will impose two&nbsp;conditions.</p>
 <ol>
-<li>First, we will only consider folks that have a minimum of 70 pictures in the data set.</li>
-<li>We will resize the images so that they each have a 0.4 aspect ratio.</li>
+<li>First, we will only consider folks that have a minimum of 70 pictures in the data&nbsp;set.</li>
+<li>We will resize the images so that they each have a 0.4 aspect&nbsp;ratio.</li>
 </ol>
 <div class="highlight"><pre><span></span><span class="err">print(&#39;Loading Data&#39;)  </span>
 <span class="err">people = fetch_lfw_people(  </span>
@@ -178,14 +116,14 @@
 </pre></div>
 
 
-<p>The object <strong>people</strong> contains the following data.</p>
+<p>The object <strong>people</strong> contains the following&nbsp;data.</p>
 <ol>
-<li>people.data: a numpy array with the shape(n_samples, h*w), each row corresponds to a unravelled face.</li>
-<li>people.images: a numpy array with the shape(n_samples, h, w), where each row corresponds to a face. The remaining indices here contain gray-scale values for the pixels of each image.</li>
-<li>people.target: a numpy array with the shape(n_samples), where each row is the label for the face.</li>
-<li>people.target_name: a numpy array with the shape(n_labels), where each row is the name for the label.</li>
+<li>people.data: a numpy array with the shape(n_samples, h*w), each row corresponds to a unravelled&nbsp;face.</li>
+<li>people.images: a numpy array with the shape(n_samples, h, w), where each row corresponds to a face. The remaining indices here contain gray-scale values for the pixels of each&nbsp;image.</li>
+<li>people.target: a numpy array with the shape(n_samples), where each row is the label for the&nbsp;face.</li>
+<li>people.target_name: a numpy array with the shape(n_labels), where each row is the name for the&nbsp;label.</li>
 </ol>
-<p>For the algorithm we will be using, we don't need the relative position data, so we will use the unraveled people.data.</p>
+<p>For the algorithm we will be using, we don&#8217;t need the relative position data, so we will use the unraveled&nbsp;people.data.</p>
 <div class="highlight"><pre><span></span><span class="p">#</span><span class="nn">Find</span> <span class="nt">out</span> <span class="nt">how</span> <span class="nt">many</span> <span class="nt">faces</span> <span class="nt">we</span> <span class="nt">have</span><span class="o">,</span> <span class="nt">and</span>  
 <span class="p">#</span><span class="nn">the</span> <span class="nt">size</span> <span class="nt">of</span> <span class="nt">each</span> <span class="nt">picture</span> <span class="nt">from</span><span class="o">.</span>  
 <span class="nt">n_samples</span><span class="o">,</span> <span class="nt">h</span><span class="o">,</span> <span class="nt">w</span> <span class="o">=</span> <span class="nt">people</span><span class="p">.</span><span class="nc">images</span><span class="p">.</span><span class="nc">shape</span>
@@ -209,10 +147,10 @@
 </pre></div>
 
 
-<p>Looking above we see that our dataset currently has 1288 images. Each image has 1850 pixels, or features. We also have 7 classes, meaning images of 7 different people.</p>
-<h4><strong>Data segmentation and dimensional reduction</strong></h4>
-<p>At this point we need to segment our data. We are going to use <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html">train_test_split</a>, which will take care of splitting our data into random training and testing data sets. Next, we note that we have a lot of features and that there are advantages to having fewer: First, the computational cost is reduced. Second, having fewer features reduces the data’s dimension which can also reduce the complexity of the model and help avoid overfitting. Instead of dropping individual pixels outright, we will carry out a dimensional reduction via a Principle Component Analysis <a href="http://en.wikipedia.org/wiki/Principal_component_analysis">PCA</a>. PCA works by attempting to represent the variance in the training data with as few dimensions as possible. So instead of dropping features, as we did in our <a href="http://efavdb.com/machine-learning-with-wearable-sensors/">wearable sensor example</a> analysis, here we will compress features together, and then use only the most important feature combinations. When this is done to images, the features returned by PCA are commonly called eigenfaces (some examples are given below).</p>
-<p>The function we are going to use to carry out our PCA is <a href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.RandomizedPCA.html">RandomizedPCA</a>. We'll keep the top 150 eigenfaces, and we'll also whiten the data -- ie normalize our new, principal component feature set. The goal of whitening is to make the input less redundant. Whitening is performed by rotating into the coordinate space of the principal components, dividing each dimension by square root of variance in that direction (giving the feature unit variance), and then rotating back to pixel space.</p>
+<p>Looking above we see that our dataset currently has 1288 images. Each image has 1850 pixels, or features. We also have 7 classes, meaning images of 7 different&nbsp;people.</p>
+<h4><strong>Data segmentation and dimensional&nbsp;reduction</strong></h4>
+<p>At this point we need to segment our data. We are going to use <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html">train_test_split</a>, which will take care of splitting our data into random training and testing data sets. Next, we note that we have a lot of features and that there are advantages to having fewer: First, the computational cost is reduced. Second, having fewer features reduces the data’s dimension which can also reduce the complexity of the model and help avoid overfitting. Instead of dropping individual pixels outright, we will carry out a dimensional reduction via a Principle Component Analysis <a href="http://en.wikipedia.org/wiki/Principal_component_analysis"><span class="caps">PCA</span></a>. <span class="caps">PCA</span> works by attempting to represent the variance in the training data with as few dimensions as possible. So instead of dropping features, as we did in our <a href="http://efavdb.com/machine-learning-with-wearable-sensors/">wearable sensor example</a> analysis, here we will compress features together, and then use only the most important feature combinations. When this is done to images, the features returned by <span class="caps">PCA</span> are commonly called eigenfaces (some examples are given&nbsp;below).</p>
+<p>The function we are going to use to carry out our <span class="caps">PCA</span> is <a href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.RandomizedPCA.html">RandomizedPCA</a>. We&#8217;ll keep the top 150 eigenfaces, and we&#8217;ll also whiten the data &#8212; ie normalize our new, principal component feature set. The goal of whitening is to make the input less redundant. Whitening is performed by rotating into the coordinate space of the principal components, dividing each dimension by square root of variance in that direction (giving the feature unit variance), and then rotating back to pixel&nbsp;space.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">split</span> <span class="k">into</span> <span class="n">a</span> <span class="n">training</span> <span class="k">and</span> <span class="n">testing</span> <span class="k">set</span>  
 <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>  
 <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mi">0</span><span class="p">.</span><span class="mi">25</span><span class="p">)</span>
@@ -228,8 +166,8 @@
 </pre></div>
 
 
-<h4><strong>Visualizing the eigenfaces</strong></h4>
-<p>Let's now take a moment to examine the dataset's principal eigenfaces: the set of images that we will project each example onto to obtain independent features. To do that we will use the following helper function to make life easier -- visual follows.  </p>
+<h4><strong>Visualizing the&nbsp;eigenfaces</strong></h4>
+<p>Let&#8217;s now take a moment to examine the dataset&#8217;s principal eigenfaces: the set of images that we will project each example onto to obtain independent features. To do that we will use the following helper function to make life easier &#8212; visual&nbsp;follows.  </p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">helper</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">plots</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">faces</span><span class="w">  </span>
 <span class="n">def</span><span class="w"> </span><span class="n">plot_gallery</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="w"> </span><span class="n">titles</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">n_row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">n_col</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
 <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">1.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_col</span><span class="p">,</span><span class="w"> </span><span class="mf">2.4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">n_row</span><span class="p">))</span><span class="w">  </span>
@@ -253,8 +191,8 @@
 
 
 <p><a href="http://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"><img alt="Screen Shot 2015-01-21 at 12.36.09 PM" src="http://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"></a></p>
-<h4><strong>Training a model</strong></h4>
-<p>Now that we have reduced the dimensionality of the data it is time to go ahead and train a model. I am going to use the same SVM and GridSearchCV method I explained in my previous <a href="http://efavdb.com/machine-learning-with-wearable-sensors/">post</a>. However, instead of using a linear kernel, as we did last time, I'll use instead a <a href="http://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html">radial basis function (RBF)</a> kernel. The RBF kernel is a good choice here since we'd like to have non-linear decision boundaries -- in general, it's a reasonable idea to try this out whenever the number of training examples outnumbers the number of features characterizing those examples. The parameter C here acts as a regularization term: Small C values give you smooth decision boundaries, while large C values give complicated boundaries that attempt to fit/accommodate all training data. The gamma parameter defines how far the influence of a single point example extends (the width of the RBF kernel).</p>
+<h4><strong>Training a&nbsp;model</strong></h4>
+<p>Now that we have reduced the dimensionality of the data it is time to go ahead and train a model. I am going to use the same <span class="caps">SVM</span> and GridSearchCV method I explained in my previous <a href="http://efavdb.com/machine-learning-with-wearable-sensors/">post</a>. However, instead of using a linear kernel, as we did last time, I&#8217;ll use instead a <a href="http://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html">radial basis function (<span class="caps">RBF</span>)</a> kernel. The <span class="caps">RBF</span> kernel is a good choice here since we&#8217;d like to have non-linear decision boundaries &#8212; in general, it&#8217;s a reasonable idea to try this out whenever the number of training examples outnumbers the number of features characterizing those examples. The parameter C here acts as a regularization term: Small C values give you smooth decision boundaries, while large C values give complicated boundaries that attempt to fit/accommodate all training data. The gamma parameter defines how far the influence of a single point example extends (the width of the <span class="caps">RBF</span>&nbsp;kernel).</p>
 <div class="highlight"><pre><span></span><span class="p">#</span><span class="nn">Train</span> <span class="nt">a</span> <span class="nt">SVM</span> <span class="nt">classification</span> <span class="nt">model</span>
 
 <span class="nt">print</span><span class="o">(&amp;</span><span class="nt">quot</span><span class="o">;</span><span class="nt">Fitting</span> <span class="nt">the</span> <span class="nt">classifier</span> <span class="nt">to</span> <span class="nt">the</span> <span class="nt">training</span> <span class="nt">set</span><span class="o">&amp;</span><span class="nt">quot</span><span class="o">;)</span>  
@@ -280,8 +218,8 @@
 </pre></div>
 
 
-<h4><strong>Model validation</strong></h4>
-<p>That's it for training! Next we'll validate our model on the testing data set. Below, we first use our PCA model to transform the testing data into our current feature space. Then, we apply our model to make predictions on this set. To get a feel for how well the model is doing, we print a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">classification_report</a> and a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html">confusion matrix</a>.</p>
+<h4><strong>Model&nbsp;validation</strong></h4>
+<p>That&#8217;s it for training! Next we&#8217;ll validate our model on the testing data set. Below, we first use our <span class="caps">PCA</span> model to transform the testing data into our current feature space. Then, we apply our model to make predictions on this set. To get a feel for how well the model is doing, we print a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">classification_report</a> and a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html">confusion matrix</a>.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span><span class="n">Quantitative</span> <span class="n">evaluation</span> <span class="k">of</span> <span class="n">the</span> <span class="n">model</span> <span class="n">quality</span> <span class="k">on</span> <span class="n">the</span> <span class="n">test</span> <span class="k">set</span>  
 <span class="o">#</span><span class="n">Validate</span> <span class="n">the</span> <span class="k">data</span>  
 <span class="n">X_test_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="p">.</span><span class="k">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>  
@@ -330,14 +268,14 @@
 </pre></div>
 
 
-<p>As a quick reminder, lets define what the terms above are:</p>
+<p>As a quick reminder, lets define what the terms above&nbsp;are:</p>
 <ol>
-<li>precision is the ratio Tp / (Tp + Fp) where Tp is the number of true positives and Fp the number of false positives.</li>
-<li>recall is the ration of Tp / (Tp + Fn) where Fn is the number of false negatives.</li>
-<li>f1-score is (precision * recall) / (precision + recall)</li>
-<li>support is the total number of occurrences of each face.</li>
+<li>precision is the ratio Tp / (Tp + Fp) where Tp is the number of true positives and Fp the number of false&nbsp;positives.</li>
+<li>recall is the ration of Tp / (Tp + Fn) where Fn is the number of false&nbsp;negatives.</li>
+<li>f1-score is (precision * recall) / (precision +&nbsp;recall)</li>
+<li>support is the total number of occurrences of each&nbsp;face.</li>
 </ol>
-<p>In our second table here, we have printed a confusion matrix, which provides a nice summary visualization of our results: Each row is the actual class, and the columns are the predicted class. For example, in row 1 there are 17 correct identifications of Arial Sharon, and 5 wrong ones. Using our previously defined helper plotting function, we show some examples of predicted vs true names below. Our simple algorithm's accuracy is imperfect, yet satisfying!</p>
+<p>In our second table here, we have printed a confusion matrix, which provides a nice summary visualization of our results: Each row is the actual class, and the columns are the predicted class. For example, in row 1 there are 17 correct identifications of Arial Sharon, and 5 wrong ones. Using our previously defined helper plotting function, we show some examples of predicted vs true names below. Our simple algorithm&#8217;s accuracy is imperfect, yet&nbsp;satisfying!</p>
 <div class="highlight"><pre><span></span><span class="n">#Plot</span><span class="w"> </span><span class="n">predictions</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">portion</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="k">set</span><span class="w">  </span>
 <span class="n">def</span><span class="w"> </span><span class="n">title</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span><span class="w"> </span><span class="n">y_test</span><span class="p">,</span><span class="w"> </span><span class="n">target_names</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
 <span class="n">pred_name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">target_names</span><span class="o">[</span><span class="n">y_pred[i</span><span class="o">]</span><span class="err">]</span><span class="p">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">[</span><span class="n">-1</span><span class="o">]</span><span class="w">  </span>
@@ -353,100 +291,138 @@
 
 <p><a href="http://efavdb.com/wp-content/uploads/2015/01/download.png"><img alt="download" src="http://efavdb.com/wp-content/uploads/2015/01/download.png"></a>  </p>
 <h4><strong>Discussion</strong></h4>
-<p>85% average accuracy shows that PCA (Eigenface analysis) can provide accurate face recognition results, given just a modest amount of training data. There are pros and cons to eigenfaces however:</p>
+<p>85% average accuracy shows that <span class="caps">PCA</span> (Eigenface analysis) can provide accurate face recognition results, given just a modest amount of training data. There are pros and cons to eigenfaces&nbsp;however:</p>
 <ul>
 <li>Pros<ol>
-<li>Training can be automated.</li>
-<li>Once the the eigenfaces are calculated, face recognition can be performed in real time.</li>
-<li>Eigenfaces can handle large databases.</li>
+<li>Training can be&nbsp;automated.</li>
+<li>Once the the eigenfaces are calculated, face recognition can be performed in real&nbsp;time.</li>
+<li>Eigenfaces can handle large&nbsp;databases.</li>
 </ol>
 </li>
 <li>Cons<ol>
-<li>Sensitive to lighting conditions.</li>
-<li>Expression changes are not handled well.</li>
-<li>Has trouble when the face angle changes.</li>
-<li>Difficult to interpret eigenfaces: Eg, one can't easily read off from these eye separation distance, etc.</li>
+<li>Sensitive to lighting&nbsp;conditions.</li>
+<li>Expression changes are not handled&nbsp;well.</li>
+<li>Has trouble when the face angle&nbsp;changes.</li>
+<li>Difficult to interpret eigenfaces: Eg, one can&#8217;t easily read off from these eye separation distance,&nbsp;etc.</li>
 </ol>
 </li>
 </ul>
-<p>There are more advanced facial recognition methods that take advantage of features special to faces. One example is provided by the <a href="http://en.wikipedia.org/wiki/Active_appearance_model">Active Appearance Model (AAM)</a>, which finds facial features (nose, mouth, etc.), and then identifies relationships between these to carry out identifications. Whatever the approach, the overall methodology is the same for all facial recognition algorithms:</p>
+<p>There are more advanced facial recognition methods that take advantage of features special to faces. One example is provided by the <a href="http://en.wikipedia.org/wiki/Active_appearance_model">Active Appearance Model (<span class="caps">AAM</span>)</a>, which finds facial features (nose, mouth, etc.), and then identifies relationships between these to carry out identifications. Whatever the approach, the overall methodology is the same for all facial recognition&nbsp;algorithms:</p>
 <ol>
-<li>Take a labeled set of faces.</li>
-<li>Extract features from those faces using some method of choice (eg eigenfaces).</li>
-<li>Train a machine learning model on those features.</li>
-<li>Extract features from a new face, and predict the identity.</li>
+<li>Take a labeled set of&nbsp;faces.</li>
+<li>Extract features from those faces using some method of choice (eg&nbsp;eigenfaces).</li>
+<li>Train a machine learning model on those&nbsp;features.</li>
+<li>Extract features from a new face, and predict the&nbsp;identity.</li>
 </ol>
-<p>The story doesn't end with finding faces in photos. Facial recognition is just a subset of machine vision, which is currently being applied widely in industry. For example, Intel and other semiconductor manufactures use machine vision to detect defects in the chips being produced -- one application where by-hand (human) analysis is not possible and computers have the upper hand.</p>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Machine learning for facial recognition&amp;url=./machine-learning-for-facial-recognition-3.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./machine-learning-for-facial-recognition-3.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./machine-learning-for-facial-recognition-3.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
+<p>The story doesn&#8217;t end with finding faces in photos. Facial recognition is just a subset of machine vision, which is currently being applied widely in industry. For example, Intel and other semiconductor manufactures use machine vision to detect defects in the chips being produced &#8212; one application where by-hand (human) analysis is not possible and computers have the upper&nbsp;hand.</p>
 
 
-                <div class="clear"></div>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/headshot.jpg alt="Damien RJ Avatar" title="Damien RJ">
+            <span class="author_name">Damien RJ</span>
+        </a>
+        Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.
+    </div>
 
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/headshot.jpg" alt="Damien Ramunno-Johnson" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/damien-rj.html">Damien Ramunno-Johnson</a></h4>
-                            <p class="post-author-about">Damien is a highly experienced researcher with a background in clinical and applied research. Like JSL, he got his PhD at UCLA. He has many years of experience working with imaging, and has a particularly strong background in image segmentation, registration, detection, data analysis, and more recently machine learning. He now works as a data-scientist at Square in San Francisco.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./nba-week-11-summary-week-12-predictions.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">NBA week 11 summary, week 12 predictions</h2>
-                            <p class="post-nav-excerpt">Again, reasonably good accuracy this past week -- 36/54, or 66.6% overall. The...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./quick-tutorial-on-mysql.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Quick tutorial on MySQL</h2>
-                            <p class="post-nav-excerpt">Here, we give a quick (< 30 mins) introduction to the open source database software...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./quick-tutorial-on-mysql.html" title="Previous: Quick tutorial on MySQL">Quick tutorial on MySQL</a></li>
+                <li class="next-article"><a href="./nba-week-11-summary-week-12-predictions.html" title="Next: NBA week 11 summary, week 12 predictions">NBA week 11 summary, week 12 predictions</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-01-21T17:12:00-08:00">Jan 21, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#case-studies-guest-posts-ref">Case studies, Guest posts</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

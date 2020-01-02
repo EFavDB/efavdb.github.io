@@ -1,162 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Cathy Yeh" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="bash, conda, dotfiles, emacs, Programming, Tools, " />
 
-  <title>Dotfiles for peace of mind</title>
+<meta property="og:title" content="Dotfiles for peace of mind "/>
+<meta property="og:url" content="./dotfiles.html" />
+<meta property="og:description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet another round of download-extract-install and configuration file twiddling, it was time to overhaul my approach. “Enough is enough!” This post walks through how to back up and …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2016-02-23T12:18:00-08:00" />
+<meta name="twitter:title" content="Dotfiles for peace of mind ">
+<meta name="twitter:description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet another round of download-extract-install and configuration file twiddling, it was time to overhaul my approach. “Enough is enough!” This post walks through how to back up and …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./dotfiles.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Dotfiles for peace of mind  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet...">
-
-    <meta name="author" content="Cathy Yeh">
-
-    <meta name="tags" content="bash">
-    <meta name="tags" content="conda">
-    <meta name="tags" content="dotfiles">
-    <meta name="tags" content="emacs">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Dotfiles for peace of mind"/>
-<meta property="og:description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./dotfiles.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2016-02-23 12:18:00-08:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/cathy-yeh.html">
-<meta property="article:section" content="Programming, Tools"/>
-<meta property="article:tag" content="bash"/>
-<meta property="article:tag" content="conda"/>
-<meta property="article:tag" content="dotfiles"/>
-<meta property="article:tag" content="emacs"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Dotfiles for peace of mind">
-    <meta name="twitter:url" content="./dotfiles.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Dotfiles for peace of mind",
-  "headline": "Dotfiles for peace of mind",
-  "datePublished": "2016-02-23 12:18:00-08:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Cathy Yeh",
-    "url": "./author/cathy-yeh.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./dotfiles.html",
-  "description": "Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Dotfiles for peace of mind</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/cathy-yeh.html">Cathy Yeh</a>
-            | <time datetime="Tue 23 February 2016">Tue 23 February 2016</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./dotfiles.html">
+                Dotfiles for peace of&nbsp;mind
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet another round of download-extract-install and configuration file twiddling, it was time to overhaul my approach. <em>"Enough is enough!"</em></p>
-<p>This post walks through</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet another round of download-extract-install and configuration file twiddling, it was time to overhaul my approach. <em>&#8220;Enough is&nbsp;enough!&#8221;</em></p>
+<p>This post walks&nbsp;through</p>
 <ol>
-<li>how to back up and automate the installation and configuration process</li>
-<li>how to set up a minimal framework for data science</li>
+<li>how to back up and automate the installation and configuration&nbsp;process</li>
+<li>how to set up a minimal framework for data&nbsp;science</li>
 </ol>
-<p>We'll use a <a href="https://github.com/EFavDB/dotfiles">dotfiles repository</a> on Github to illustrate both points in parallel.</p>
+<p>We&#8217;ll use a <a href="https://github.com/EFavDB/dotfiles">dotfiles repository</a> on Github to illustrate both points in&nbsp;parallel.</p>
 <hr>
-<p>Dotfiles are named after the configuration files that start with a dot in Unix-based systems. These files are hidden from view in your home directory, but visible with a <code>$ ls -a</code> command. Some examples are <code>.bashrc</code> (for configuring the bash shell), <code>.gitconfig</code> (for configuring git), and <code>.emacs</code> (for configuring the Emacs text editor).</p>
-<p>Let's provide a concrete example of a customization: suppose you have a hard time remembering the syntax to extract a file ("Is it tar -xvf, -jxvf, or -zxvf?"). If you're using a bash shell, you can define a function, <code>extract()</code> in your <code>.bashrc</code> file that makes life a little easier:</p>
+<p>Dotfiles are named after the configuration files that start with a dot in Unix-based systems. These files are hidden from view in your home directory, but visible with a <code>$ ls -a</code> command. Some examples are <code>.bashrc</code> (for configuring the bash shell), <code>.gitconfig</code> (for configuring git), and <code>.emacs</code> (for configuring the Emacs text&nbsp;editor).</p>
+<p>Let&#8217;s provide a concrete example of a customization: suppose you have a hard time remembering the syntax to extract a file (&#8220;Is it tar -xvf, -jxvf, or -zxvf?&#8221;). If you&#8217;re using a bash shell, you can define a function, <code>extract()</code> in your <code>.bashrc</code> file that makes life a little&nbsp;easier:</p>
 <div class="highlight"><pre><span></span><span class="err">extract() {  </span>
 <span class="err">if [ -f &quot;$1&quot; ]; then  </span>
 <span class="err">case &quot;$1&quot; in  </span>
@@ -183,26 +113,26 @@
 
 
 <p>So the next time you have to extract a file <code>some_file.tar.bz2</code>, just type <code>extract some_file.tar.bz2</code> in bash. (This example was found in this <a href="https://github.com/webpro/dotfiles/blob/master/system/.function_fs#L23">dotfiles repo</a>.)</p>
-<p>The structure of my dotfiles takes after the <a href="https://github.com/webpro/dotfiles">repo</a> described by Lars Kappert in the article <a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.eis4hwbff">"Getting Started With Dotfiles"</a>. However, my repo is pared down significantly, with minor modifications for my Linux Mint system (his is OS X) and a focus on packages for data science.</p>
+<p>The structure of my dotfiles takes after the <a href="https://github.com/webpro/dotfiles">repo</a> described by Lars Kappert in the article <a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.eis4hwbff">&#8220;Getting Started With Dotfiles&#8221;</a>. However, my repo is pared down significantly, with minor modifications for my Linux Mint system (his is <span class="caps">OS</span> X) and a focus on packages for data&nbsp;science.</p>
 <hr>
-<h2>A framework for data science</h2>
-<p>This starter environment only has a few parts. We need a text editor -- preferably one that can support multiple languages encountered in data science -- and a way to manage scientific/statistical software packages.</p>
+<h2>A framework for data&nbsp;science</h2>
+<p>This starter environment only has a few parts. We need a text editor &#8212; preferably one that can support multiple languages encountered in data science &#8212; and a way to manage scientific/statistical software&nbsp;packages.</p>
 <h3>Components</h3>
-<p>The setup consists of:</p>
+<p>The setup consists&nbsp;of:</p>
 <ul>
-<li><a href="https://www.gnu.org/software/emacs/">Emacs</a> -- a powerful text editor that can be customized to provide an IDE-like experience for both python and R, while providing syntax highlighting for other languages, e.g. markdown, LaTeX, shell, lisp, and so on. (More on customizing Emacs in a future post.)</li>
-<li><a href="http://conda.pydata.org/docs/">Conda</a> -- both a package manager and environment manager. Advantages:<ul>
+<li><a href="https://www.gnu.org/software/emacs/">Emacs</a> &#8212; a powerful text editor that can be customized to provide an <span class="caps">IDE</span>-like experience for both python and R, while providing syntax highlighting for other languages, e.g. markdown, LaTeX, shell, lisp, and so on. (More on customizing Emacs in a future&nbsp;post.)</li>
+<li><a href="http://conda.pydata.org/docs/">Conda</a> &#8212; both a package manager and environment manager. Advantages:<ul>
 <li>Packages are easy to install compared to pip, e.g. see a post by the <a href="http://technicaldiscovery.blogspot.com/2013/12/why-i-promote-conda.html">author of numpy</a>.</li>
-<li>Conda is language agnostic in terms of both managing packages and environments for different languages (as opposed to pip/virtualenv/venv). This feature is great if you use both python and R.</li>
-<li>Standard python scientific computing libraries like numpy, scipy, matplotlib, etc. are available in the conda repository.</li>
+<li>Conda is language agnostic in terms of both managing packages and environments for different languages (as opposed to pip/virtualenv/venv). This feature is great if you use both python and&nbsp;R.</li>
+<li>Standard python scientific computing libraries like numpy, scipy, matplotlib, etc. are available in the conda&nbsp;repository.</li>
 </ul>
 </li>
 </ul>
-<p>I use the system package manager (i.e. <code>apt-get install ...</code>) to install a few packages like git, but otherwise rely on Conda to install Python (multiple versions are okay!), R, and their libraries.</p>
-<p>I like how clean the conda installation feels. Any packages installed by Conda, as well as different versions of Python itself, are neatly organized under the <code>miniconda3</code> directory in my home directory. In contrast, my previous Linux setups were littered with software installations from various package managers, along with sometimes unsuccessful attempts to compile software from source.</p>
+<p>I use the system package manager (i.e. <code>apt-get install ...</code>) to install a few packages like git, but otherwise rely on Conda to install Python (multiple versions are okay!), R, and their&nbsp;libraries.</p>
+<p>I like how clean the conda installation feels. Any packages installed by Conda, as well as different versions of Python itself, are neatly organized under the <code>miniconda3</code> directory in my home directory. In contrast, my previous Linux setups were littered with software installations from various package managers, along with sometimes unsuccessful attempts to compile software from&nbsp;source.</p>
 <h3>Workflow</h3>
 <p>My workflow with Conda follows this helpful <a href="http://stiglerdiet.com/blog/2015/Nov/24/my-python-environment-workflow-with-conda/">post</a> by Tim Hopper. Each project gets its own directory and is associated with an environment whose dependencies are specified by an <code>environment.yml</code> file.</p>
-<p>For example, create a folder for a project, my_proj. Within the project folder, create a bare-bones <code>environment.yml</code> file to specify a dependency on python 3 and matplotlib:</p>
+<p>For example, create a folder for a project, my_proj. Within the project folder, create a bare-bones <code>environment.yml</code> file to specify a dependency on python 3 and&nbsp;matplotlib:</p>
 <div class="highlight"><pre><span></span><span class="n">name</span><span class="o">:</span> <span class="n">my_proj</span>
 <span class="n">dependencies</span><span class="o">:</span>
 <span class="o">-</span> <span class="n">python</span><span class="o">=</span><span class="mi">3</span>
@@ -211,18 +141,18 @@
 
 
 <p>Then, to create the conda environment named after that directory, run <code>$ conda env create</code> inside the my_proj directory. To activate the virtual environment, run <code>$ source activate my_proj</code>.</p>
-<p>Activating a conda environment can be further automated with <a href="https://github.com/kennethreitz/autoenv">autoenv</a>. Autoenv automatically activates the environment for you when you <code>$ cd</code> into a project directory. You just need to create a <code>.env</code> file that contains the command to activate your environment, e.g. <code>source activate my_proj</code>, under the project directory.</p>
-<p>Tim has written a convenient bash function, <code>conda-env-file</code> (see <a href="#conda-env-file">below</a>), for generating a basic <code>environment.yml</code> file and <code>.env</code> file, which I've incorporated into my own dotfiles, along with autoenv. The order of commands that I type in bash then follows:</p>
+<p>Activating a conda environment can be further automated with <a href="https://github.com/kennethreitz/autoenv">autoenv</a>. Autoenv automatically activates the environment for you when you <code>$ cd</code> into a project directory. You just need to create a <code>.env</code> file that contains the command to activate your environment, e.g. <code>source activate my_proj</code>, under the project&nbsp;directory.</p>
+<p>Tim has written a convenient bash function, <code>conda-env-file</code> (see <a href="#conda-env-file">below</a>), for generating a basic <code>environment.yml</code> file and <code>.env</code> file, which I&#8217;ve incorporated into my own dotfiles, along with autoenv. The order of commands that I type in bash then&nbsp;follows:</p>
 <ol>
-<li><code>mkdir my_proj</code> # create project folder</li>
-<li><code>cd my_proj</code> # enter project directory</li>
-<li><code>conda-env-file</code> # execute homemade function to create environment.yml and .env</li>
-<li><code>conda env create</code> # conda creates an environment "my_proj" that is named after the project directory (using environment.yml)</li>
+<li><code>mkdir my_proj</code> # create project&nbsp;folder</li>
+<li><code>cd my_proj</code> # enter project&nbsp;directory</li>
+<li><code>conda-env-file</code> # execute homemade function to create environment.yml and&nbsp;.env</li>
+<li><code>conda env create</code> # conda creates an environment &#8220;my_proj&#8221; that is named after the project directory (using&nbsp;environment.yml)</li>
 <li><code>cd ..</code></li>
-<li><code>cd my_proj</code> # autoenv automatically activates environment (using the file .env) when you re-enter the directory</li>
+<li><code>cd my_proj</code> # autoenv automatically activates environment (using the file .env) when you re-enter the&nbsp;directory</li>
 </ol>
 <hr>
-<h2>The dotfiles layout</h2>
+<h2>The dotfiles&nbsp;layout</h2>
 <p>Below is the layout of the directories and files (generated by the <code>tree</code> command) in the <a href="https://github.com/EFavDB/dotfiles">dotfiles repo</a>.</p>
 <div class="highlight"><pre><span></span><span class="err">.</span>
 <span class="err">├── install</span>
@@ -244,8 +174,8 @@
 
 
 <h3>Configuration</h3>
-<p>There any number of dotfiles that can be configured (for example, see the collection <a href="http://dotfiles.github.io/">here</a>), but this repo only provides customizations for the dotfiles <code>.profile</code>, <code>.bash_profile</code>, and <code>.bashrc</code> -- located in the directory, <code>runcom</code> (which stands for "run commands") -- that contain commands that are executed at login or during interactive non-login shell sessions. For details about the role of shell initialization dotfiles, see the <a href="#aside">end</a> of this post.</p>
-<p>Instead of putting all our customizations in one long, unwieldy dotfile, it's helpful to divide them into chunks, which we keep in the subfolder, <code>system</code>.</p>
+<p>There any number of dotfiles that can be configured (for example, see the collection <a href="http://dotfiles.github.io/">here</a>), but this repo only provides customizations for the dotfiles <code>.profile</code>, <code>.bash_profile</code>, and <code>.bashrc</code> &#8212; located in the directory, <code>runcom</code> (which stands for &#8220;run commands&#8221;) &#8212; that contain commands that are executed at login or during interactive non-login shell sessions. For details about the role of shell initialization dotfiles, see the <a href="#aside">end</a> of this&nbsp;post.</p>
+<p>Instead of putting all our customizations in one long, unwieldy dotfile, it&#8217;s helpful to divide them into chunks, which we keep in the subfolder, <code>system</code>.</p>
 <p>The files <code>env</code>, <code>functions</code>, <code>path</code> are sourced in a loop by the dotfiles in <code>runcom</code>. For example, <code>.bashrc</code> sources <code>functions</code> and <code>env</code>:</p>
 <div class="highlight"><pre><span></span><span class="err">for DOTFILE in &quot;$DOTFILES_DIR&quot;/system/{functions,env}; do  </span>
 <span class="err">[ -f &quot;$DOTFILE&quot; ] &amp;&amp; . &quot;$DOTFILE&quot;  </span>
@@ -253,14 +183,14 @@
 </pre></div>
 
 
-<p>Let's take a look at the configurations in each of these files:<br>
+<p>Let&#8217;s take a look at the configurations in each of these files:<br>
 </p>
-<p><strong>env</strong> - enables autoenv for activating virtual environments</p>
+<p><strong>env</strong> - enables autoenv for activating virtual&nbsp;environments</p>
 <div class="highlight"><pre><span></span><span class="err">[ -f /opt/autoenv/activate.sh ] &amp;&amp; . /opt/autoenv/activate.sh</span>
 </pre></div>
 
 
-<p><strong>functions</strong> - defines a custom function, <code>conda-env-file</code>, that generates an <code>environment.yml</code> that lists the dependencies for a conda virtual environment, and a one-line file <code>.env</code> (not to be confused with <code>env</code> in the previous bullet point) used by autoenv. (In addition to pip and python, I include the dependencies ipython, jedi, and flake8 needed by my Emacs python IDE setup.)  </p>
+<p><strong>functions</strong> - defines a custom function, <code>conda-env-file</code>, that generates an <code>environment.yml</code> that lists the dependencies for a conda virtual environment, and a one-line file <code>.env</code> (not to be confused with <code>env</code> in the previous bullet point) used by autoenv. (In addition to pip and python, I include the dependencies ipython, jedi, and flake8 needed by my Emacs python <span class="caps">IDE</span>&nbsp;setup.)  </p>
 <div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">conda</span><span class="o">-</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="err">{</span>  
 <span class="o">#</span> <span class="k">Create</span> <span class="n">conda</span> <span class="n">environment</span><span class="p">.</span><span class="n">yml</span> <span class="n">file</span> <span class="k">and</span> <span class="n">autoenv</span> <span class="n">activation</span> <span class="n">file</span>  
 <span class="o">#</span> <span class="n">based</span> <span class="k">on</span> <span class="n">directory</span> <span class="n">name</span><span class="p">.</span>  
@@ -285,12 +215,12 @@
 </pre></div>
 
 
-<p><strong>path</strong> - prepends the miniconda3 path to the PATH environment variable. For example, calls to python will default to the Miniconda3 version (3.5.1 in my case) rather than my system version (2.7).</p>
+<p><strong>path</strong> - prepends the miniconda3 path to the <span class="caps">PATH</span> environment variable. For example, calls to python will default to the Miniconda3 version (3.5.1 in my case) rather than my system version&nbsp;(2.7).</p>
 <div class="highlight"><pre><span></span><span class="err">export PATH=&quot;/home/$USER/miniconda3/bin:$PATH&quot;</span>
 </pre></div>
 
 
-<p>Now, we're done with configuring the dotfiles in this repo (apart from Emacs, which is treated separately). We just have to create symlinks in our home directory to the dotfiles in <code>runcom</code>, which is performed by the shell script, <code>install.sh</code>:</p>
+<p>Now, we&#8217;re done with configuring the dotfiles in this repo (apart from Emacs, which is treated separately). We just have to create symlinks in our home directory to the dotfiles in <code>runcom</code>, which is performed by the shell script, <code>install.sh</code>:</p>
 <div class="highlight"><pre><span></span><span class="o">##</span> <span class="p">...</span>
 
 <span class="n">ln</span> <span class="o">-</span><span class="n">sfv</span> <span class="ss">&quot;$DOTFILES_DIR/runcom/.bash_profile&quot;</span> <span class="o">~</span>  
@@ -302,111 +232,162 @@
 
 
 <h3>Installation</h3>
-<p>In addition to setting up dotfiles symlinks, <code>install.sh</code> automates the installation of all our data science tools via calls to each of the scripts in the <code>install</code> subfolder. Each script is named after the mechanism of installation (i.e. <code>apt-get</code>, <code>conda</code>, <code>git</code>) or purpose (to install Miniconda and Emacs).</p>
+<p>In addition to setting up dotfiles symlinks, <code>install.sh</code> automates the installation of all our data science tools via calls to each of the scripts in the <code>install</code> subfolder. Each script is named after the mechanism of installation (i.e. <code>apt-get</code>, <code>conda</code>, <code>git</code>) or purpose (to install Miniconda and&nbsp;Emacs).</p>
 <ul>
-<li><strong>apt-get.sh</strong> - installs a handful of programs using the system package manager, including <code>build-essentials</code>, which is needed to compile programs from source. Also enables source-code repositories (not enabled by default in Linux Mint 17), to be used for compiling emacs from source.</li>
-<li><strong>install-emacs.sh</strong> - build Emacs 24.4 from source, which is needed for compatibility with the Magit plug-in (git for Emacs). At the time of writing, only Emacs 24.3 was available on the system repo.</li>
-<li><strong>install-miniconda.sh</strong> - <a href="http://conda.pydata.org/docs/">miniconda</a> includes just conda, conda-build, and python. I prefer this lightweight version to the Anaconda version, which comes with more than 150 scientific packages by default. <em>A note from the Miniconda downloads page: "There are two variants of the installer: Miniconda is Python 2 based and Miniconda3 is Python 3 based... the choice of which Miniconda is installed only affects the root environment. Regardless of which version of Miniconda you install, you can still install both Python 2.x and Python 3.x environments. The other difference is that the Python 3 version of Miniconda will default to Python 3 when creating new environments and building packages." (I chose Miniconda3.)</em></li>
-<li><strong>conda.sh</strong> - Use conda to install popular scientific packages for python, R, some popular R packages, and packages for IDE support in Emacs.</li>
+<li><strong>apt-get.sh</strong> - installs a handful of programs using the system package manager, including <code>build-essentials</code>, which is needed to compile programs from source. Also enables source-code repositories (not enabled by default in Linux Mint 17), to be used for compiling emacs from&nbsp;source.</li>
+<li><strong>install-emacs.sh</strong> - build Emacs 24.4 from source, which is needed for compatibility with the Magit plug-in (git for Emacs). At the time of writing, only Emacs 24.3 was available on the system&nbsp;repo.</li>
+<li><strong>install-miniconda.sh</strong> - <a href="http://conda.pydata.org/docs/">miniconda</a> includes just conda, conda-build, and python. I prefer this lightweight version to the Anaconda version, which comes with more than 150 scientific packages by default. <em>A note from the Miniconda downloads page: &#8220;There are two variants of the installer: Miniconda is Python 2 based and Miniconda3 is Python 3 based&#8230; the choice of which Miniconda is installed only affects the root environment. Regardless of which version of Miniconda you install, you can still install both Python 2.x and Python 3.x environments. The other difference is that the Python 3 version of Miniconda will default to Python 3 when creating new environments and building packages.&#8221; (I chose&nbsp;Miniconda3.)</em></li>
+<li><strong>conda.sh</strong> - Use conda to install popular scientific packages for python, R, some popular R packages, and packages for <span class="caps">IDE</span> support in&nbsp;Emacs.</li>
 <li><strong>git.sh</strong> - Install <a href="https://github.com/kennethreitz/autoenv">autoenv</a> for working with virtual environment directories. Also clone the configurations from my <a href="https://github.com/frangipane/emacs">Emacs repo</a>.</li>
 </ul>
 <hr>
 <h3>Conclusion</h3>
-<p>The <a href="https://github.com/EFavDB/dotfiles">dotfiles repo</a> discussed in this post will remain in this minimal state on GitHub so that it can be easily parsed and built upon. It's the most straightforward to adopt if you are on a similar system (Linux Mint or Ubuntu 14.04), as I haven't put in checks for OSX. If you don't like Emacs, feel free to comment out the relevant lines in <code>install.sh</code> and <code>install/git.sh</code>, and replace with your editor of choice.</p>
-<p>Also take a look at other collections of <a href="https://github.com/webpro/awesome-dotfiles">awesome dotfiles</a> for nuggets (like the <code>extract()</code> function) to co-opt. And enjoy the peace of mind that comes with having dotfiles insurance!</p>
+<p>The <a href="https://github.com/EFavDB/dotfiles">dotfiles repo</a> discussed in this post will remain in this minimal state on GitHub so that it can be easily parsed and built upon. It&#8217;s the most straightforward to adopt if you are on a similar system (Linux Mint or Ubuntu 14.04), as I haven&#8217;t put in checks for <span class="caps">OSX</span>. If you don&#8217;t like Emacs, feel free to comment out the relevant lines in <code>install.sh</code> and <code>install/git.sh</code>, and replace with your editor of&nbsp;choice.</p>
+<p>Also take a look at other collections of <a href="https://github.com/webpro/awesome-dotfiles">awesome dotfiles</a> for nuggets (like the <code>extract()</code> function) to co-opt. And enjoy the peace of mind that comes with having dotfiles&nbsp;insurance!</p>
 <hr>
-<h3><em>Notes on shell initialization dotfiles</em></h3>
-<p>The handling of the dotfiles .profile, .bash_profile, and .bashrc is frequently a source of <a href="http://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile">confusion</a> that we'll try to clear up here.</p>
-<p>For example, .profile and .bash_profile are both recommended for setting environment variables, so what's the point of having both?</p>
+<h3><em>Notes on shell initialization&nbsp;dotfiles</em></h3>
+<p>The handling of the dotfiles .profile, .bash_profile, and .bashrc is frequently a source of <a href="http://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile">confusion</a> that we&#8217;ll try to clear up&nbsp;here.</p>
+<p>For example, .profile and .bash_profile are both recommended for setting environment variables, so what&#8217;s the point of having&nbsp;both?</p>
 <p><strong>.profile</strong><br>
-.profile is loaded upon login to a Unix system (for most distributions) and is where you should put customizations that apply to your whole session, e.g. environment variable assignments like <code>PATH</code> that are not specifically related to bash. .profile holds anything that should be (1) available to graphical applications -- like launching a program from a GUI by clicking on an icon or menu -- or (2) to <code>sh</code>, which is run by graphical <a href="https://wiki.archlinux.org/index.php/display_manager">display managers</a> like GDM/LightDM/MDM when your computer boots up in graphics mode (the most common scenario these days). Note, even though the default login shell is bash in Ubuntu, the default system shell that is used during the bootup process in Ubuntu is <a href="https://wiki.ubuntu.com/DashAsBinSh">dash, not bash</a>, (<code>readlink -f /bin/sh</code> outputs <code>/bin/dash</code>).</p>
-<p>Let's give a concrete example of case (1): the miniconda installer provides a default option to add the miniconda binaries to the search path in .bashrc: <code>export PATH="/home/$USER/miniconda3/bin:$PATH"</code>. Assuming you've used <code>conda</code> (not <code>apt-get</code>) to install python scientific computing libraries and have set the path in .bashrc, if Emacs is launched from an icon on the desktop, then Emacs plugins that depend on those libraries (e.g. <code>ein</code>, a plugin that integrates IPython with Emacs) will throw an error; since the graphical invocation only loads .profile, the miniconda binaries would not be in the search path. (On the other hand, there would be no problem launching Emacs from the terminal via <code>$ emacs</code>.) For this reason, it's preferable to add the miniconda path in .profile instead of .bashrc.</p>
-<p>For changes to .profile to take effect, you have to log out entirely and then log back in.</p>
+.profile is loaded upon login to a Unix system (for most distributions) and is where you should put customizations that apply to your whole session, e.g. environment variable assignments like <code>PATH</code> that are not specifically related to bash. .profile holds anything that should be (1) available to graphical applications &#8212; like launching a program from a <span class="caps">GUI</span> by clicking on an icon or menu &#8212; or (2) to <code>sh</code>, which is run by graphical <a href="https://wiki.archlinux.org/index.php/display_manager">display managers</a> like <span class="caps">GDM</span>/LightDM/<span class="caps">MDM</span> when your computer boots up in graphics mode (the most common scenario these days). Note, even though the default login shell is bash in Ubuntu, the default system shell that is used during the bootup process in Ubuntu is <a href="https://wiki.ubuntu.com/DashAsBinSh">dash, not bash</a>, (<code>readlink -f /bin/sh</code> outputs <code>/bin/dash</code>).</p>
+<p>Let&#8217;s give a concrete example of case (1): the miniconda installer provides a default option to add the miniconda binaries to the search path in .bashrc: <code>export PATH="/home/$USER/miniconda3/bin:$PATH"</code>. Assuming you&#8217;ve used <code>conda</code> (not <code>apt-get</code>) to install python scientific computing libraries and have set the path in .bashrc, if Emacs is launched from an icon on the desktop, then Emacs plugins that depend on those libraries (e.g. <code>ein</code>, a plugin that integrates IPython with Emacs) will throw an error; since the graphical invocation only loads .profile, the miniconda binaries would not be in the search path. (On the other hand, there would be no problem launching Emacs from the terminal via <code>$ emacs</code>.) For this reason, it&#8217;s preferable to add the miniconda path in .profile instead of&nbsp;.bashrc.</p>
+<p>For changes to .profile to take effect, you have to log out entirely and then log back&nbsp;in.</p>
 <p><strong>.bash_profile</strong><br>
-Like .profile, .bash_profile should contain environment variable definitions. I haven't yet encountered a situation where a configuration can be set in .bash_profile that can't be set in .profile or .bashrc.</p>
-<p>Therefore, my .bash_profile just loads .profile and .bashrc. Some choose to bypass .bash_profile entirely and only have .profile (which bash reads if .bash_profile or .bash_login don't exist) and .bashrc.</p>
+Like .profile, .bash_profile should contain environment variable definitions. I haven&#8217;t yet encountered a situation where a configuration can be set in .bash_profile that can&#8217;t be set in .profile or&nbsp;.bashrc.</p>
+<p>Therefore, my .bash_profile just loads .profile and .bashrc. Some choose to bypass .bash_profile entirely and only have .profile (which bash reads if .bash_profile or .bash_login don&#8217;t exist) and&nbsp;.bashrc.</p>
 <p><strong>.bashrc</strong><br>
-Definitions of alias, functions, and other settings you'd want in an interactive command line should be put in .bashrc. .bashrc is sourced by interactive, non-login shells.</p>
-<p><strong>login, non-login, interactive, and non-interactive shells</strong></p>
+Definitions of alias, functions, and other settings you&#8217;d want in an interactive command line should be put in .bashrc. .bashrc is sourced by interactive, non-login&nbsp;shells.</p>
+<p><strong>login, non-login, interactive, and non-interactive&nbsp;shells</strong></p>
 <ul>
-<li>To check if you're in a login shell, type on the command line <code>echo $0</code>. If the output is <code>-bash</code>, then you're in a login shell. If the output is <code>bash</code>, then it's not a login shell (see <code>man bash</code>).</li>
-<li>Usually, a shell started from a new terminal in a GUI will be an interactive, non-login shell. The notable exception is OSX, whose terminal defaults to starting login shells. Thus, an OSX user may blithely sweep customizations that would ordinarily be placed in .bashrc -- like aliases and functions -- into .bash_profile and not bother with creating a .bashrc at all. However, those settings would not be properly initialized if the terminal default is changed to non-login shells.</li>
-<li>If you ssh in or login on a text console, then you get an interactive, login shell.</li>
+<li>To check if you&#8217;re in a login shell, type on the command line <code>echo $0</code>. If the output is <code>-bash</code>, then you&#8217;re in a login shell. If the output is <code>bash</code>, then it&#8217;s not a login shell (see <code>man bash</code>).</li>
+<li>Usually, a shell started from a new terminal in a <span class="caps">GUI</span> will be an interactive, non-login shell. The notable exception is <span class="caps">OSX</span>, whose terminal defaults to starting login shells. Thus, an <span class="caps">OSX</span> user may blithely sweep customizations that would ordinarily be placed in .bashrc &#8212; like aliases and functions &#8212; into .bash_profile and not bother with creating a .bashrc at all. However, those settings would not be properly initialized if the terminal default is changed to non-login&nbsp;shells.</li>
+<li>If you ssh in or login on a text console, then you get an interactive, login&nbsp;shell.</li>
 <li>More examples in <a href="http://unix.stackexchange.com/questions/38175/difference-between-login-shell-and-non-login-shell/46856#46856">this StackExchange thread</a>.</li>
 </ul>
-<p>This discussion might seem pedantic since you can often get away with a less careful setup. In my experience, though, what can go wrong will probably go wrong, so best to be proactive.</p>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Dotfiles for peace of mind&amp;url=./dotfiles.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./dotfiles.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./dotfiles.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/bash.html">bash</a><a href="./tag/conda.html">conda</a><a href="./tag/dotfiles.html">dotfiles</a><a href="./tag/emacs.html">emacs</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
+<p>This discussion might seem pedantic since you can often get away with a less careful setup. In my experience, though, what can go wrong will probably go wrong, so best to be&nbsp;proactive.</p>
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/cathy_photo.jpg" alt="Cathy Yeh" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/cathy-yeh.html">Cathy Yeh</a></h4>
-                            <p class="post-author-about">Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/cathy_photo.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
+        </a>
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./deep-learning-with-jupyter-on-aws.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Start deep learning with Jupyter notebooks in the cloud</h2>
-                            <p class="post-nav-excerpt">Want a quick and easy way to play around with deep learning libraries? Puny GPU got...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./independent-component-analysis.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Independent component analysis</h2>
-                            <p class="post-nav-excerpt">Two microphones are placed in a room where two conversations are taking place...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./independent-component-analysis.html" title="Previous: Independent component analysis">Independent component analysis</a></li>
+                <li class="next-article"><a href="./deep-learning-with-jupyter-on-aws.html" title="Next: Start deep learning with Jupyter notebooks in the cloud">Start deep learning with Jupyter notebooks in the cloud</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2016-02-23T12:18:00-08:00">Feb 23, 2016</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#programming-tools-ref">Programming, Tools</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#bash-ref">bash
+                    <span>2</span>
+</a></li>
+                <li><a href="./tags.html#conda-ref">conda
+                    <span>1</span>
+</a></li>
+                <li><a href="./tags.html#dotfiles-ref">dotfiles
+                    <span>1</span>
+</a></li>
+                <li><a href="./tags.html#emacs-ref">emacs
+                    <span>1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

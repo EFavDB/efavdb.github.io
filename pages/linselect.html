@@ -1,139 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="jslandy" />
 
-<head>
-      <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
-
-  <title>linselect</title>
-
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="../pages/linselect.html" rel="canonical" />
-
-  <!-- Feed -->
-
-  <link href="../theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="../theme/css/code_blocks/github.css" rel="stylesheet">
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
 
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+<meta property="og:title" content="linselect "/>
+<meta property="og:url" content="../pages/linselect.html" />
+<meta property="og:description" content="A fast, flexible, and performant feature selection package for python. Welcome! This page contains an FAQ and links to a running list of tutorials for linselect — a python feature selection package built on top of the efficient stepwise linear regression algorithm. Tutorials linselect demo: a tech sector stock analysis In …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="jslandy" />
+<meta property="og:article:published_time" content="2018-04-28T07:59:00-07:00" />
+<meta name="twitter:title" content="linselect ">
+<meta name="twitter:description" content="A fast, flexible, and performant feature selection package for python. Welcome! This page contains an FAQ and links to a running list of tutorials for linselect — a python feature selection package built on top of the efficient stepwise linear regression algorithm. Tutorials linselect demo: a tech sector stock analysis In …">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:type" content="blog"/>
-<meta property="og:title" content="EFAVDB"/>
-<meta property="og:description" content="Everybody's Favorite Data Blog"/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="../"/>
-<meta property="og:image" content="../theme/images/home-bg.jpg">
-
-<!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@efavdb">
-  <meta name="twitter:title" content="EFAVDB">
-  <meta name="twitter:description" content="Everybody's Favorite Data Blog">
-  <meta name="twitter:url" content="../">
-  <meta name="twitter:image:src" content="../theme/images/home-bg.jpg">
-
-<script type="application/ld+json">
-{
-  "@context" : "http://schema.org",
-  "@type" : "Website",
-  "name": " EFAVDB ",
-  "url" : "../",
-  "image": "../theme/images/home-bg.jpg",
-  "description": "Everybody's Favorite Data Blog"
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
+        <title>linselect  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="../theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="../theme/css/custom.css" media="screen">
 
 
-    </ul>
-  </div>
-</nav>
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="../" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">linselect</h1>
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="../"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       ..
+                                    >Home</a>
+                                </li>
+                                <li ><a href="../pages/authors.html">Authors</a></li>
+                                <li ><a href="../categories.html">Categories</a></li>
+                                <li ><a href="../tags.html">Tags</a></li>
+                                <li ><a href="../archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="../search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+    <h1><a href="../pages/linselect.html"> linselect  </a></h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-  <!-- Post content -->
-  <main class="content" role="main">
-      <article class="post">
-      <div class="inner">
-          <section class="post-content">
-              <p><em>A fast, flexible, and performant feature selection package for python.</em></p>
-<p>Welcome! This page contains an FAQ and links to a running list of tutorials for <code>linselect</code> -- a python feature selection package built on top of the <em>efficient stepwise linear regression algorithm</em>.</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+
+            <p><em>A fast, flexible, and performant feature selection package for&nbsp;python.</em></p>
+<p>Welcome! This page contains an <span class="caps">FAQ</span> and links to a running list of tutorials for <code>linselect</code> &#8212; a python feature selection package built on top of the <em>efficient stepwise linear regression algorithm</em>.</p>
 <h2>Tutorials</h2>
 <ul>
 <li><a href="http:/efavdb.com/linselect-demo/">linselect demo: a tech sector stock analysis</a><br>
-    In this post, we demonstrate <code>linselect</code>'s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the others.</li>
+    In this post, we demonstrate <code>linselect</code><span class="quo">&#8216;</span>s basic <span class="caps">API</span> by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the&nbsp;others.</li>
 </ul>
-<h2>FAQ</h2>
+<h2><span class="caps">FAQ</span></h2>
 <ul>
 <li><strong>Where can I download the package?</strong><br>
-<em>Answer</em>: Instructions can be found on our GitHub, <a href="https:/github.com/efavdb/linselect">here</a>. The <code>README.md</code> file contains some helpful background, and the <code>docs</code> folder contains doc-strings and some basic API examples.</li>
+<em>Answer</em>: Instructions can be found on our GitHub, <a href="https:/github.com/efavdb/linselect">here</a>. The <code>README.md</code> file contains some helpful background, and the <code>docs</code> folder contains doc-strings and some basic <span class="caps">API</span>&nbsp;examples.</li>
 <li><strong>What is a target, a feature, a predictor set?</strong><br>
-<em>Answer</em>: These are terms I use to refer to variables in a data set. For example, if we're trying to fit a variable <span class="math">\(y\)</span> using some components of a vector of variables <span class="math">\(\textbf{x}\)</span>, I'd refer to <span class="math">\(y\)</span> as the target and the components of <span class="math">\(\textbf{x}\)</span> as the features. If a feature is actually used in the model, I say it is in the "predictor set".</li>
+<em>Answer</em>: These are terms I use to refer to variables in a data set. For example, if we&#8217;re trying to fit a variable <span class="math">\(y\)</span> using some components of a vector of variables <span class="math">\(\textbf{x}\)</span>, I&#8217;d refer to <span class="math">\(y\)</span> as the target and the components of <span class="math">\(\textbf{x}\)</span> as the features. If a feature is actually used in the model, I say it is in the &#8220;predictor&nbsp;set&#8221;.</li>
 <li><strong>Why do we sometimes call a feature a column?</strong><br>
-<em>Answer</em>: The feature data we pass into <code>linselect</code> must take the form of an <span class="math">\(m \times n\)</span> array. The columns of this array correspond to the different features and the rows to different samples from their distribution.</li>
+<em>Answer</em>: The feature data we pass into <code>linselect</code> must take the form of an <span class="math">\(m \times n\)</span> array. The columns of this array correspond to the different features and the rows to different samples from their&nbsp;distribution.</li>
 <li><strong>What is feature selection?</strong><br>
-<em>Answer</em>: Roughly speaking, the typical goal of feature selection is to identify a minimal set of features in a given data set that retain all or most of the predictive power of the full data set. Removing the other features can help us be more memory efficient, and it can also improve model performance and training times. Identifying which features are most important in a given problem can also provide useful insight.</li>
+<em>Answer</em>: Roughly speaking, the typical goal of feature selection is to identify a minimal set of features in a given data set that retain all or most of the predictive power of the full data set. Removing the other features can help us be more memory efficient, and it can also improve model performance and training times. Identifying which features are most important in a given problem can also provide useful&nbsp;insight.</li>
 <li><strong>What is stepwise selection?</strong><br>
-<em>Answer</em>: This is one approach to feature selection wherein one tracks the performance of a model as features are added or removed from its predictor set. Typically, in a forward step one adds to the model that feature not currently used that best improves the model. In a reverse step, you do the opposite: Remove that feature from the predictor set that results in the least drop in performance. This process pushes us towards a feature set exhibiting maximal predictive power and minimal redundancy. You can take this approach using any kind of model, but linear models are special because the process can be made to run very fast.</li>
+<em>Answer</em>: This is one approach to feature selection wherein one tracks the performance of a model as features are added or removed from its predictor set. Typically, in a forward step one adds to the model that feature not currently used that best improves the model. In a reverse step, you do the opposite: Remove that feature from the predictor set that results in the least drop in performance. This process pushes us towards a feature set exhibiting maximal predictive power and minimal redundancy. You can take this approach using any kind of model, but linear models are special because the process can be made to run very&nbsp;fast.</li>
 <li>
 <p><strong>What if my problem is not linear?</strong><br>
-<em>Answer</em>: It depends. In my work, I often find that the linear selection methods used here are sufficient: I can use <code>linselect</code> to pick a good feature set, and then plug this into a production, non-linear model, e.g., a random forest -- with the end result being a more lean feature set that is as predictive as the original.</p>
-<p>However, there are certainly non-linear problems out there where a linear tool cannot be used to identify the most important features. In such cases, I'd try: (1) Building non-linear features ahead of time (e.g., polynomial features), then using <code>linselect</code> on these, or (2) using a non-linear method. The downside with non-linear methods is that they are usually much slower. The trick that allows linear fits to go so fast is really a fundamental miracle that we should all appreciate and take advantage of, IMHO.</p>
+<em>Answer</em>: It depends. In my work, I often find that the linear selection methods used here are sufficient: I can use <code>linselect</code> to pick a good feature set, and then plug this into a production, non-linear model, e.g., a random forest &#8212; with the end result being a more lean feature set that is as predictive as the&nbsp;original.</p>
+<p>However, there are certainly non-linear problems out there where a linear tool cannot be used to identify the most important features. In such cases, I&#8217;d try: (1) Building non-linear features ahead of time (e.g., polynomial features), then using <code>linselect</code> on these, or (2) using a non-linear method. The downside with non-linear methods is that they are usually much slower. The trick that allows linear fits to go so fast is really a fundamental miracle that we should all appreciate and take advantage of, <span class="caps">IMHO</span>.</p>
 </li>
 <li>
 <p><strong>Any gotchas?</strong><br>
-<em>Answer</em>: The algorithm requires <em>numerical</em> data! If there are any nans, strings, Boolean's etc., it will cause the fits to fail -- often after taking some time to attempt to evaluate the data correlation matrix. Pre-clean your data!</p>
+<em>Answer</em>: The algorithm requires <em>numerical</em> data! If there are any nans, strings, Boolean&#8217;s etc., it will cause the fits to fail &#8212; often after taking some time to attempt to evaluate the data correlation matrix. Pre-clean your&nbsp;data!</p>
 </li>
 </ul>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -198,23 +162,67 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-          </section>
-      </div>
-      </article>
-  </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
+            
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
-        </section>
-      </div>
-    </footer>
-  </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="../theme/js/script.js"></script>
 
-</body>
+
+
+
+        </div>
+    </div>
+    </article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
+
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

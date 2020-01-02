@@ -1,209 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content=", Statistics, " />
 
-  <title>How not to sort by average rating, revisited</title>
+<meta property="og:title" content="How not to sort by average rating, revisited "/>
+<meta property="og:url" content="./ranking-revisited.html" />
+<meta property="og:description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an algorithm suggested by Evan Miller to generate their item rankings. However, this algorithm can sometimes be unfairly pessimistic about new, good items. This is especially true of items whose …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2015-07-11T20:30:00-07:00" />
+<meta name="twitter:title" content="How not to sort by average rating, revisited ">
+<meta name="twitter:description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an algorithm suggested by Evan Miller to generate their item rankings. However, this algorithm can sometimes be unfairly pessimistic about new, good items. This is especially true of items whose …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./ranking-revisited.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>How not to sort by average rating, revisited  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an...">
-
-    <meta name="author" content="Jonathan Landy">
-
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="How not to sort by average rating, revisited"/>
-<meta property="og:description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./ranking-revisited.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2015-07-11 20:30:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="Statistics"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="How not to sort by average rating, revisited">
-    <meta name="twitter:url" content="./ranking-revisited.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "How not to sort by average rating, revisited",
-  "headline": "How not to sort by average rating, revisited",
-  "datePublished": "2015-07-11 20:30:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./ranking-revisited.html",
-  "description": "What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">How not to sort by average rating, revisited</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Sat 11 July 2015">Sat 11 July 2015</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./ranking-revisited.html">
+                How not to sort by average rating,&nbsp;revisited
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an algorithm suggested by <a href="http://www.evanmiller.org/">Evan Miller</a> to generate their item rankings. However, this algorithm can sometimes be unfairly pessimistic about new, good items. This is especially true of items whose first few votes are negative -- an issue that can be "gamed" by adversaries. In this post, we consider three alternative ranking methods that can enable high-quality items to more-easily bubble-up. The last is the simplest, but continues to give good results: One simply seeds each item's vote count with a suitable fixed number of hidden "starter" votes.  </p>
-<h3>Introduction -- a review of Evan Miller's post</h3>
-<p>In an <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html">insightful prior post</a>, Evan Miller (EM) considered the problem of ranking items that had been reviewed as positive or negative (up-voted or down-voted, represented by a 1 or a 0, respectively) by a sample of users. He began by illustrating that two of the more readily-arrived at solutions to this problem are highly flawed. To review:</p>
-<p><strong>Bad method 1:</strong> Rank item <span class="math">\(i\)</span> by <span class="math">\(n_i(1) - n_i(0)\)</span>, its up-vote count minus its down-vote count.</p>
-<p><em>Issue:</em> If one item has garnered 60 up-votes and 40 down-votes, it will get the same score as an item with only 20 votes, all positive. Yet, the latter has a 100% up-vote rate (20 for 20), suggesting that it is of very high quality. Despite this, the algorithm ranks the two equally.</p>
-<p><strong>Bad method 2:</strong> Rank item <span class="math">\(i\)</span> by <span class="math">\(\hat{p} \equiv n_i(1)/[n_i(0) + n_i(1)]\)</span>, its sample up-vote rate (average rating).</p>
-<p><em>Issue:</em> If any one item has only one vote, an up-vote, it will be given a perfect score by this algorithm. This means that it will be ranked above all other items, despite the fact that a single vote is not particularly informative/convincing. In general, this method can work well, but only once each item has a significant number of votes.</p>
-<p>To avoid the issues of these two bad methods (BMs), EM suggests scoring and ranking each item by the <em>lower limit of its up-vote-rate confidence interval</em>. This is (<a href="https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval">E.B. Wilson, 1927</a>),<br>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>What is the best method for ranking items that have positive and negative reviews? Some sites, including reddit, have adopted an algorithm suggested by <a href="http://www.evanmiller.org/">Evan Miller</a> to generate their item rankings. However, this algorithm can sometimes be unfairly pessimistic about new, good items. This is especially true of items whose first few votes are negative &#8212; an issue that can be &#8220;gamed&#8221; by adversaries. In this post, we consider three alternative ranking methods that can enable high-quality items to more-easily bubble-up. The last is the simplest, but continues to give good results: One simply seeds each item&#8217;s vote count with a suitable fixed number of hidden &#8220;starter&#8221;&nbsp;votes.  </p>
+<h3>Introduction &#8212; a review of Evan Miller&#8217;s&nbsp;post</h3>
+<p>In an <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html">insightful prior post</a>, Evan Miller (<span class="caps">EM</span>) considered the problem of ranking items that had been reviewed as positive or negative (up-voted or down-voted, represented by a 1 or a 0, respectively) by a sample of users. He began by illustrating that two of the more readily-arrived at solutions to this problem are highly flawed. To&nbsp;review:</p>
+<p><strong>Bad method 1:</strong> Rank item <span class="math">\(i\)</span> by <span class="math">\(n_i(1) - n_i(0)\)</span>, its up-vote count minus its down-vote&nbsp;count.</p>
+<p><em>Issue:</em> If one item has garnered 60 up-votes and 40 down-votes, it will get the same score as an item with only 20 votes, all positive. Yet, the latter has a 100% up-vote rate (20 for 20), suggesting that it is of very high quality. Despite this, the algorithm ranks the two&nbsp;equally.</p>
+<p><strong>Bad method 2:</strong> Rank item <span class="math">\(i\)</span> by <span class="math">\(\hat{p} \equiv n_i(1)/[n_i(0) + n_i(1)]\)</span>, its sample up-vote rate (average&nbsp;rating).</p>
+<p><em>Issue:</em> If any one item has only one vote, an up-vote, it will be given a perfect score by this algorithm. This means that it will be ranked above all other items, despite the fact that a single vote is not particularly informative/convincing. In general, this method can work well, but only once each item has a significant number of&nbsp;votes.</p>
+<p>To avoid the issues of these two bad methods (BMs), <span class="caps">EM</span> suggests scoring and ranking each item by the <em>lower limit of its up-vote-rate confidence interval</em>. This is (<a href="https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval"><span class="caps">E.B.</span> Wilson, 1927</a>),<br>
 </p>
 <div class="math">$$\tag{1} \label{emsol}  
 p_{W} = \frac{\hat{p} + \frac{z_{\alpha/2}^2}{2n} - z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p}) + \frac{z_{\alpha/2}^2}{4n} }{n}}}{1 + \frac{z_{\alpha/2}^2}{n}},  
 $$</div>
 <p><br>
-where <span class="math">\(\hat{p}\)</span> is again the sample up-vote rate, <span class="math">\(z_{\alpha/2}\)</span> is a positive constant that sets the size of the confidence interval used, and <span class="math">\(n\)</span> is the total number of votes that have so far been recorded. The score <span class="math">\(p_{W}\)</span> approaches <span class="math">\(\hat{p}\)</span> once an item has a significant number of votes -- it consequently avoids the pitfall of BM1 above. By construction, it also avoids the pitfall of BM2. With both of these pitfalls avoided, the EM method can sometimes provide a reasonable, practical ranking system.</p>
-<h3>Potential issue with (\ref{emsol})</h3>
-<p>Although (\ref{emsol}) does a good job of avoiding the pitfall associated with BM2, it can do a poor job of handling a related pitfall: If any new item has only a few votes, and these each happen to be down-votes, its sample up-vote rate will be <span class="math">\(\hat{p} = 0\)</span>. In this case, (\ref{emsol}) gives<br>
+where <span class="math">\(\hat{p}\)</span> is again the sample up-vote rate, <span class="math">\(z_{\alpha/2}\)</span> is a positive constant that sets the size of the confidence interval used, and <span class="math">\(n\)</span> is the total number of votes that have so far been recorded. The score <span class="math">\(p_{W}\)</span> approaches <span class="math">\(\hat{p}\)</span> once an item has a significant number of votes &#8212; it consequently avoids the pitfall of <span class="caps">BM1</span> above. By construction, it also avoids the pitfall of <span class="caps">BM2</span>. With both of these pitfalls avoided, the <span class="caps">EM</span> method can sometimes provide a reasonable, practical ranking&nbsp;system.</p>
+<h3>Potential issue with&nbsp;(\ref{emsol})</h3>
+<p>Although (\ref{emsol}) does a good job of avoiding the pitfall associated with <span class="caps">BM2</span>, it can do a poor job of handling a related pitfall: If any new item has only a few votes, and these each happen to be down-votes, its sample up-vote rate will be <span class="math">\(\hat{p} = 0\)</span>. In this case, (\ref{emsol}) gives<br>
 </p>
 <div class="math">$$\label{problem} \tag{2}  
 p_{W} = \left .\frac{\hat{p} + \frac{z_{\alpha/2}^2}{2n} - z_{\alpha/2} \sqrt{\frac{\hat{p}(1-\hat{p}) + \frac{z_{\alpha/2}^2}{4n} }{n}}}{1 + \frac{z_{\alpha/2}^2}{n}}\right \vert_{\hat{p} = 0} = 0.  
 $$</div>
 <p><br>
-Now, <span class="math">\(p_W\)</span> is always between <span class="math">\(0\)</span> and <span class="math">\(1\)</span>, so (\ref{problem}) implies that any new, quickly-down-voted item will immediately be ranked below all others. This is extremely harsh and potentially unfair. For example, consider the case of a newly-opened restaurant: If an adversary were to quickly down-vote this restaurant on some ranking site -- the day of its opening -- the new restaurant would be ranked below all others, including the adversary. This would occur even if the new restaurant were of very high true quality. This could have potentially-damaging consequences, for both the restaurant and the ranking site -- whose lists should provide only the best recommendations!</p>
-<p>An ideal ranking system should explicitly take into account the large uncertainty present when only a small number of votes have been recorded. The score (\ref{emsol}) does a good job of this on the high <span class="math">\(\hat{p}\)</span> end, but a poor job on the low <span class="math">\(\hat{p}\)</span> end. This approach may be appropriate for cases where one is risk-averse on the high end only, but in general one should protect against both sorts of quick, strong judgements. Below we consider some alternative, <a href="https://en.wikipedia.org/wiki/Bayesian_statistics">Bayesian</a> ranking solutions. The last is easy to understand and implement: One simply gives each item a hidden number of up- and down-votes to start with. These hidden "starter" votes can be chosen in various ways -- they serve to simply bias new items towards an intermediate value early on, with the bias becoming less important as more votes come in. This approach avoids each of the pitfalls we have discussed.</p>
-<h3>Bayesian formulation</h3>
-<p>Note: This section and the next are both fairly mathematical. They can be skipped for those wishing to focus on application method only.</p>
+Now, <span class="math">\(p_W\)</span> is always between <span class="math">\(0\)</span> and <span class="math">\(1\)</span>, so (\ref{problem}) implies that any new, quickly-down-voted item will immediately be ranked below all others. This is extremely harsh and potentially unfair. For example, consider the case of a newly-opened restaurant: If an adversary were to quickly down-vote this restaurant on some ranking site &#8212; the day of its opening &#8212; the new restaurant would be ranked below all others, including the adversary. This would occur even if the new restaurant were of very high true quality. This could have potentially-damaging consequences, for both the restaurant and the ranking site &#8212; whose lists should provide only the best&nbsp;recommendations!</p>
+<p>An ideal ranking system should explicitly take into account the large uncertainty present when only a small number of votes have been recorded. The score (\ref{emsol}) does a good job of this on the high <span class="math">\(\hat{p}\)</span> end, but a poor job on the low <span class="math">\(\hat{p}\)</span> end. This approach may be appropriate for cases where one is risk-averse on the high end only, but in general one should protect against both sorts of quick, strong judgements. Below we consider some alternative, <a href="https://en.wikipedia.org/wiki/Bayesian_statistics">Bayesian</a> ranking solutions. The last is easy to understand and implement: One simply gives each item a hidden number of up- and down-votes to start with. These hidden &#8220;starter&#8221; votes can be chosen in various ways &#8212; they serve to simply bias new items towards an intermediate value early on, with the bias becoming less important as more votes come in. This approach avoids each of the pitfalls we have&nbsp;discussed.</p>
+<h3>Bayesian&nbsp;formulation</h3>
+<p>Note: This section and the next are both fairly mathematical. They can be skipped for those wishing to focus on application method&nbsp;only.</p>
 <p>To start our Bayesian analysis, we begin by positing a general beta distribution for the up-vote rate prior distribution,<br>
 </p>
 <div class="math">$$\tag{3}\label{beta}  
 P(p) = \tilde{\mathcal{N}} p^a (1-p)^b.  
 $$</div>
 <p><br>
-Here, <span class="math">\(\tilde{\mathcal{N}}\)</span> is a normalization factor and <span class="math">\(a\)</span> and <span class="math">\(b\)</span> are some constants (we suggest methods for choosing their values in the discussion section). The function <span class="math">\(P(p)\)</span> specifies an initial guess -- in the absence of any reviews for an item -- for what we think the probability is that it will have up-vote rate <span class="math">\(p\)</span>. If item <span class="math">\(i\)</span> actually has been reviewed, we can update our guess for its distribution using <a href="https://en.wikipedia.org/wiki/Bayes'_theorem">Bayes' rule</a>:<br>
+Here, <span class="math">\(\tilde{\mathcal{N}}\)</span> is a normalization factor and <span class="math">\(a\)</span> and <span class="math">\(b\)</span> are some constants (we suggest methods for choosing their values in the discussion section). The function <span class="math">\(P(p)\)</span> specifies an initial guess &#8212; in the absence of any reviews for an item &#8212; for what we think the probability is that it will have up-vote rate <span class="math">\(p\)</span>. If item <span class="math">\(i\)</span> actually has been reviewed, we can update our guess for its distribution using <a href="https://en.wikipedia.org/wiki/Bayes'_theorem">Bayes&#8217; rule</a>:<br>
 </p>
 <div class="math">$$\begin{align} \tag{4} \label{BR}  
 P(p \vert n_i(1), n_i(0)) =\frac{ P( n_i(1), n_i(0) \vert p ) P(p)}{P(n_i(1), n_i(0))} = \mathcal{N} p^{n_i(1)+a}(1-p)^{n_i(0)+b}.  
 \end{align}  
 $$</div>
 <p><br>
-Here, we have evaluated <span class="math">\( P( n(1), n(0) \vert p )\)</span> using the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a>, we've plugged in (\ref{beta}) for <span class="math">\(P(p)\)</span>, and we've collected all <span class="math">\(p\)</span>-independent factors into the new normalization factor <span class="math">\(\mathcal{N}\)</span>. The formula (\ref{BR}) provides the basis for the three ranking methods discussed below.</p>
-<h3>Three Bayesian ranking systems</h3>
-<p>Let's rank!</p>
-<p><strong>Bayesian method 1:</strong> Choose the ordering that is most likely.</p>
+Here, we have evaluated <span class="math">\( P( n(1), n(0) \vert p )\)</span> using the <a href="https://en.wikipedia.org/wiki/Binomial_distribution">binomial distribution</a>, we&#8217;ve plugged in (\ref{beta}) for <span class="math">\(P(p)\)</span>, and we&#8217;ve collected all <span class="math">\(p\)</span>-independent factors into the new normalization factor <span class="math">\(\mathcal{N}\)</span>. The formula (\ref{<span class="caps">BR</span>}) provides the basis for the three ranking methods discussed&nbsp;below.</p>
+<h3>Three Bayesian ranking&nbsp;systems</h3>
+<p>Let&#8217;s&nbsp;rank!</p>
+<p><strong>Bayesian method 1:</strong> Choose the ordering that is most&nbsp;likely.</p>
 <p>It is a simple matter to write down a formal expression for the probability of any ranking. For example, given two items we have<br>
 </p>
 <div class="math">$$  
 P(p_1 &gt; p_2) = \int_0^1 dp_1 \int_0^{p_1} dp_2 P(p_1) P(p_2). \tag{5} \label{int}  
 $$</div>
 <p><br>
-Plugging in (\ref{BR}) for the <span class="math">\(P(p_i)\)</span>'s, this can be evaluated numerically. Evaluating the probability for the opposite ordering, we can then choose that which is most likely to be correct.</p>
-<p><em><span class="math">\(\bullet\)</span> Pros:</em> Approach directly optimizes for the object we're interested in, the ranking -- very appealing!</p>
-<p><em><span class="math">\(\bullet\)</span> Cons:</em> Given <span class="math">\(N\)</span> items, one has <span class="math">\(N!\)</span> integrals to carry out -- untenable for large <span class="math">\(N\)</span>.</p>
-<p><em><span class="math">\(\bullet\)</span> Note:</em> See posssiblywrong's post <a href="https://possiblywrong.wordpress.com/2014/05/31/reddits-comment-ranking-algorithm-revisited/">here</a> for some related, interesting points.</p>
+Plugging in (\ref{<span class="caps">BR</span>}) for the <span class="math">\(P(p_i)\)</span><span class="quo">&#8216;</span>s, this can be evaluated numerically. Evaluating the probability for the opposite ordering, we can then choose that which is most likely to be&nbsp;correct.</p>
+<p><em><span class="math">\(\bullet\)</span> Pros:</em> Approach directly optimizes for the object we&#8217;re interested in, the ranking &#8212; very&nbsp;appealing!</p>
+<p><em><span class="math">\(\bullet\)</span> Cons:</em> Given <span class="math">\(N\)</span> items, one has <span class="math">\(N!\)</span> integrals to carry out &#8212; untenable for large <span class="math">\(N\)</span>.</p>
+<p><em><span class="math">\(\bullet\)</span> Note:</em> See posssiblywrong&#8217;s post <a href="https://possiblywrong.wordpress.com/2014/05/31/reddits-comment-ranking-algorithm-revisited/">here</a> for some related, interesting&nbsp;points.</p>
 <p><strong>Bayesian method 2:</strong> Rank item <span class="math">\(i\)</span> by its median <span class="math">\(p\)</span>-value.</p>
-<p>Sorting by an item score provides an approach that will scale well even at large <span class="math">\(N\)</span>. A natural score to consider is an item's median <span class="math">\(p\)</span>-value: that which it has a <span class="math">\(50/50\)</span> shot of being larger (or smaller) than. Using (\ref{BR}), this satisfies<br>
+<p>Sorting by an item score provides an approach that will scale well even at large <span class="math">\(N\)</span>. A natural score to consider is an item&#8217;s median <span class="math">\(p\)</span>-value: that which it has a <span class="math">\(50/50\)</span> shot of being larger (or smaller) than. Using (\ref{<span class="caps">BR</span>}), this satisfies<br>
 </p>
 <div class="math">$$\tag{6}\label{m2}  
 \frac{\int_0^{p_{med}} p^{n_i(1)+a}(1-p)^{n_i(0)+b} dp}{\int_0^{1} p^{n_i(1)+a}(1-p)^{n_i(0)+b} dp} = 1/2.  
 $$</div>
 <p><br>
-The integral at left actually has a name -- it's called the <a href="http://mathworld.wolfram.com/IncompleteBetaFunction.html">incomplete beta function</a>. Using a statistics package, it can be inverted to give <span class="math">\(p_{med}\)</span>. For example, if we set <span class="math">\(a = b = 1\)</span>, an item with a single up-vote and no down-votes would get a score of <span class="math">\(0.614\)</span>. In other words, we'd guess there's a 50/50 shot that the item's up-vote rate falls above this value, so we'd rank it higher than any other item whose <span class="math">\(p\)</span> value is known to be smaller than this.</p>
-<p><em><span class="math">\(\bullet\)</span> Pros:</em> Sorting is fast. Gives intuitive, meaningful score for each item.</p>
-<p><em><span class="math">\(\bullet\)</span> Cons:</em> Inverting (\ref{m2}) can be somewhat slow, e.g. <span class="math">\(\sim 10^{-3}\)</span> seconds in Mathematica.</p>
-<p><em><span class="math">\(\bullet\)</span> Note</em>: EM also derived this score function, in a follow-up to his original post. However, he motivated it in a slightly different way -- see <a href="http://www.evanmiller.org/bayesian-average-ratings.html">here</a>.</p>
-<p><strong>Bayesian method 3:</strong> Rank item <span class="math">\(i\)</span> by its most likely (aka <a href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation">MAP</a>) <span class="math">\(p\)</span>-value.</p>
-<p>The most likely <span class="math">\(p\)</span>-value for each item provides another natural score function. To find this, we simply set the derivative of (\ref{BR}) to zero,<br>
+The integral at left actually has a name &#8212; it&#8217;s called the <a href="http://mathworld.wolfram.com/IncompleteBetaFunction.html">incomplete beta function</a>. Using a statistics package, it can be inverted to give <span class="math">\(p_{med}\)</span>. For example, if we set <span class="math">\(a = b = 1\)</span>, an item with a single up-vote and no down-votes would get a score of <span class="math">\(0.614\)</span>. In other words, we&#8217;d guess there&#8217;s a 50/50 shot that the item&#8217;s up-vote rate falls above this value, so we&#8217;d rank it higher than any other item whose <span class="math">\(p\)</span> value is known to be smaller than&nbsp;this.</p>
+<p><em><span class="math">\(\bullet\)</span> Pros:</em> Sorting is fast. Gives intuitive, meaningful score for each&nbsp;item.</p>
+<p><em><span class="math">\(\bullet\)</span> Cons:</em> Inverting (\ref{m2}) can be somewhat slow, e.g. <span class="math">\(\sim 10^{-3}\)</span> seconds in&nbsp;Mathematica.</p>
+<p><em><span class="math">\(\bullet\)</span> Note</em>: <span class="caps">EM</span> also derived this score function, in a follow-up to his original post. However, he motivated it in a slightly different way &#8212; see <a href="http://www.evanmiller.org/bayesian-average-ratings.html">here</a>.</p>
+<p><strong>Bayesian method 3:</strong> Rank item <span class="math">\(i\)</span> by its most likely (aka <a href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation"><span class="caps">MAP</span></a>) <span class="math">\(p\)</span>-value.</p>
+<p>The most likely <span class="math">\(p\)</span>-value for each item provides another natural score function. To find this, we simply set the derivative of (\ref{<span class="caps">BR</span>}) to zero,<br>
 </p>
 <div class="math">$$  
 \begin{align}  
@@ -212,16 +150,16 @@ The integral at left actually has a name -- it's called the <a href="http://math
 \end{align}  
 $$</div>
 <p><br>
-This form <span class="math">\(\tilde{p}\)</span> is interesting because it resembles the sample mean <span class="math">\(\hat{p}\)</span> considered above. However, the actual number of up- and down-votes, <span class="math">\(n_i(1)\)</span> and <span class="math">\(n_i(0)\)</span>, are supplemented in (\ref{final}) by <span class="math">\(a\)</span> and <span class="math">\(b\)</span>, respectively. We can thus interpret these values as effective "starter votes", given to each item before any real reviews are recorded. Their effect is to bias our guess for <span class="math">\(p\)</span> towards the prior's peak value, with the bias being most strong when <span class="math">\(a\)</span> and <span class="math">\(b\)</span> are chosen large and/or when we have few actual votes present. For any non-zero choices, (\ref{final}) avoids each of the pitfalls discussed above. Further, it approaches the true up-vote rate in the limit of large review sample sizes, as required.</p>
-<p><em><span class="math">\(\bullet\)</span> Pros:</em> Sorting is fast. Simple method for avoiding the common pitfalls.</p>
-<p><em><span class="math">\(\bullet\)</span> Cons:</em> Have to pick <span class="math">\(a\)</span> and <span class="math">\(b\)</span> -- see below for suggested methods.</p>
+This form <span class="math">\(\tilde{p}\)</span> is interesting because it resembles the sample mean <span class="math">\(\hat{p}\)</span> considered above. However, the actual number of up- and down-votes, <span class="math">\(n_i(1)\)</span> and <span class="math">\(n_i(0)\)</span>, are supplemented in (\ref{final}) by <span class="math">\(a\)</span> and <span class="math">\(b\)</span>, respectively. We can thus interpret these values as effective &#8220;starter votes&#8221;, given to each item before any real reviews are recorded. Their effect is to bias our guess for <span class="math">\(p\)</span> towards the prior&#8217;s peak value, with the bias being most strong when <span class="math">\(a\)</span> and <span class="math">\(b\)</span> are chosen large and/or when we have few actual votes present. For any non-zero choices, (\ref{final}) avoids each of the pitfalls discussed above. Further, it approaches the true up-vote rate in the limit of large review sample sizes, as&nbsp;required.</p>
+<p><em><span class="math">\(\bullet\)</span> Pros:</em> Sorting is fast. Simple method for avoiding the common&nbsp;pitfalls.</p>
+<p><em><span class="math">\(\bullet\)</span> Cons:</em> Have to pick <span class="math">\(a\)</span> and <span class="math">\(b\)</span> &#8212; see below for suggested&nbsp;methods.</p>
 <h3>Discussion</h3>
-<p>We consider each of the four ranking methods we've discussed here to be interesting and useful -- the three Bayesian ranking systems, as well as <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html">EM's original system</a>, which works well when one only needs to protect against false positives (again, we note that Bayesian method 2 was also considered by EM in a <a href="http://www.evanmiller.org/bayesian-average-ratings.html">follow-up</a> to his original post). In practice, the three Bayesian approaches will each tend to return similar, but sometimes slightly different rankings. With regards to "correctness", the essential point is that each method is well-motivated and avoids the common pitfalls. However, the final method is the easiest to apply, so it might be the most practical.</p>
-<p>To apply the Bayesian methods, one must specify the <span class="math">\(a\)</span> and <span class="math">\(b\)</span> values defining the prior, (\ref{BR}). We suggest three methods for choosing these: 1) Choose these values to provide a good approximation to your actual distribution, fitting only to items for which you have good statistics. 2) A/B test to get the ranking that optimizes some quantity you are interested in, e.g. clicks. 3) Heuristics: For example, if simplicity is key, choose <span class="math">\(a= b =1\)</span>, which biases towards an up-vote rate of <span class="math">\(0.5\)</span>. If a conservative estimate is desired for new items, one can set <span class="math">\(b\)</span> larger than <span class="math">\(a\)</span>. Finally, if you want to raise the number of actual votes required before the sample rates dominate, simply increase the values of <span class="math">\(a\)</span> and <span class="math">\(b\)</span> accordingly.</p>
-<p>To conclude, we present some example output in the table below. We show values for the Wilson score <span class="math">\(p_W\)</span>, with <span class="math">\(z_{\alpha/2}\)</span> set to <span class="math">\(1.281\)</span> in (\ref{emsol}) (the value <a href="https://github.com/reddit/reddit/blob/62db2373f2555df17ebeb13968e243fccfbeff5f/r2/r2/lib/db/_sorts.pyx">reddit uses</a>), and the seed score <span class="math">\(\tilde{p}\)</span>, with <span class="math">\(a\)</span> and <span class="math">\(b\)</span> set to <span class="math">\(1\)</span> in (\ref{final}). Notice that the two scores are in near-agreement for the last item shown, which has already accumulated a fair number of votes. However, <span class="math">\(p_W\)</span> is significantly lower than <span class="math">\(\tilde{p}\)</span> for each of the first three items. For example, the third has an up-vote rate of <span class="math">\(66%\)</span>, but is only given a Wilson score of <span class="math">\(0.32\)</span>: This means that it would be ranked below any mature item having an up-vote rate at least this high -- including fairly unpopular items liked by only one in three! This observation explains why it is nearly impossible to have new comments noticed on a reddit thread that has already hit the front page. Were reddit to move to a ranking system that were less pessimistic of new comments, its mature threads might remain dynamic.</p>
+<p>We consider each of the four ranking methods we&#8217;ve discussed here to be interesting and useful &#8212; the three Bayesian ranking systems, as well as <a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html"><span class="caps">EM</span>&#8217;s original system</a>, which works well when one only needs to protect against false positives (again, we note that Bayesian method 2 was also considered by <span class="caps">EM</span> in a <a href="http://www.evanmiller.org/bayesian-average-ratings.html">follow-up</a> to his original post). In practice, the three Bayesian approaches will each tend to return similar, but sometimes slightly different rankings. With regards to &#8220;correctness&#8221;, the essential point is that each method is well-motivated and avoids the common pitfalls. However, the final method is the easiest to apply, so it might be the most&nbsp;practical.</p>
+<p>To apply the Bayesian methods, one must specify the <span class="math">\(a\)</span> and <span class="math">\(b\)</span> values defining the prior, (\ref{<span class="caps">BR</span>}). We suggest three methods for choosing these: 1) Choose these values to provide a good approximation to your actual distribution, fitting only to items for which you have good statistics. 2) A/B test to get the ranking that optimizes some quantity you are interested in, e.g. clicks. 3) Heuristics: For example, if simplicity is key, choose <span class="math">\(a= b =1\)</span>, which biases towards an up-vote rate of <span class="math">\(0.5\)</span>. If a conservative estimate is desired for new items, one can set <span class="math">\(b\)</span> larger than <span class="math">\(a\)</span>. Finally, if you want to raise the number of actual votes required before the sample rates dominate, simply increase the values of <span class="math">\(a\)</span> and <span class="math">\(b\)</span>&nbsp;accordingly.</p>
+<p>To conclude, we present some example output in the table below. We show values for the Wilson score <span class="math">\(p_W\)</span>, with <span class="math">\(z_{\alpha/2}\)</span> set to <span class="math">\(1.281\)</span> in (\ref{emsol}) (the value <a href="https://github.com/reddit/reddit/blob/62db2373f2555df17ebeb13968e243fccfbeff5f/r2/r2/lib/db/_sorts.pyx">reddit uses</a>), and the seed score <span class="math">\(\tilde{p}\)</span>, with <span class="math">\(a\)</span> and <span class="math">\(b\)</span> set to <span class="math">\(1\)</span> in (\ref{final}). Notice that the two scores are in near-agreement for the last item shown, which has already accumulated a fair number of votes. However, <span class="math">\(p_W\)</span> is significantly lower than <span class="math">\(\tilde{p}\)</span> for each of the first three items. For example, the third has an up-vote rate of <span class="math">\(66%\)</span>, but is only given a Wilson score of <span class="math">\(0.32\)</span>: This means that it would be ranked below any mature item having an up-vote rate at least this high &#8212; including fairly unpopular items liked by only one in three! This observation explains why it is nearly impossible to have new comments noticed on a reddit thread that has already hit the front page. Were reddit to move to a ranking system that were less pessimistic of new comments, its mature threads might remain&nbsp;dynamic.</p>
 <p>up-votes</p>
 <p>down-votes</p>
-<p><span class="math">\(p_W\)</span>, <span class="math">\(z_{\alpha/2}= 1.281\)</span></p>
+<p><span class="math">\(p_W\)</span>, <span class="math">\(z_{\alpha/2}=&nbsp;1.281\)</span></p>
 <p><span class="math">\(\tilde{p}\)</span>, <span class="math">\(a=b=1\)</span></p>
 <p>1</p>
 <p>0</p>
@@ -239,7 +177,7 @@ This form <span class="math">\(\tilde{p}\)</span> is interesting because it rese
 <p>10</p>
 <p>0.72</p>
 <p>0.79</p>
-<p>Cover image from <a href="https://commons.wikimedia.org/wiki/File:Pseudotsuga_seed_seedling.png">USDA Forest Service</a>.</p>
+<p>Cover image from <a href="https://commons.wikimedia.org/wiki/File:Pseudotsuga_seed_seedling.png"><span class="caps">USDA</span> Forest Service</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -302,76 +240,114 @@ This form <span class="math">\(\tilde{p}\)</span> is interesting because it rese
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=How not to sort by average rating, revisited&amp;url=./ranking-revisited.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./ranking-revisited.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./ranking-revisited.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
 
 
-                <div class="clear"></div>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./predicting-san-francisco-crimes.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Machine learning to predict San Francisco crime</h2>
-                            <p class="post-nav-excerpt">In today's post, we document our submission to the recent Kaggle competition aimed at...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./review-intro-to-big-data-with-spark.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">A review of the online course “Introduction to Big Data with Apache Spark”</h2>
-                            <p class="post-nav-excerpt">This is a review of Introduction to Big Data with Apache Spark (CS100.1x), the first...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./review-intro-to-big-data-with-spark.html" title="Previous: A review of the online course “Introduction to Big Data with Apache Spark”">A review of the online course “Introduction to Big Data with Apache Spark”</a></li>
+                <li class="next-article"><a href="./predicting-san-francisco-crimes.html" title="Next: Machine learning to predict San Francisco crime">Machine learning to predict San Francisco crime</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2015-07-11T20:30:00-07:00">Jul 11, 2015</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#statistics-ref">Statistics</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

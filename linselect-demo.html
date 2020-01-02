@@ -1,163 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="linselect, linselect, " />
 
-  <title>linselect demo: a tech sector stock analysis</title>
+<meta property="og:title" content="linselect demo: a tech sector stock analysis "/>
+<meta property="og:url" content="./linselect-demo.html" />
+<meta property="og:description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal, informative feature subsets within a given data set. Here, we demonstrate linselect‘s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2018-05-31T14:17:00-07:00" />
+<meta name="twitter:title" content="linselect demo: a tech sector stock analysis ">
+<meta name="twitter:description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal, informative feature subsets within a given data set. Here, we demonstrate linselect‘s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./linselect-demo.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>linselect demo: a tech sector stock analysis  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal,...">
-
-    <meta name="author" content="Jonathan Landy">
-
-    <meta name="tags" content="linselect">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="linselect demo: a tech sector stock analysis"/>
-<meta property="og:description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal,..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./linselect-demo.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2018-05-31 14:17:00-07:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="linselect"/>
-<meta property="article:tag" content="linselect"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="linselect demo: a tech sector stock analysis">
-    <meta name="twitter:url" content="./linselect-demo.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal,...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "linselect demo: a tech sector stock analysis",
-  "headline": "linselect demo: a tech sector stock analysis",
-  "datePublished": "2018-05-31 14:17:00-07:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./linselect-demo.html",
-  "description": "This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal,..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">linselect demo: a tech sector stock analysis</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Thu 31 May 2018">Thu 31 May 2018</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./linselect-demo.html">
+                linselect demo: a tech sector stock&nbsp;analysis
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>This is a tutorial post relating to our python feature selection package, <code>linselect</code>. The package allows one to easily identify minimal, informative feature subsets within a given data set.</p>
-<p>Here, we demonstrate <code>linselect</code>'s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the others.</p>
-<p>This is a demonstration walkthrough, with commentary and interpretation throughout. See the package docs folder for docstrings that succinctly detail the API.</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>This is a tutorial post relating to our python feature selection package, <code>linselect</code>. The package allows one to easily identify minimal, informative feature subsets within a given data&nbsp;set.</p>
+<p>Here, we demonstrate <code>linselect</code><span class="quo">&#8216;</span>s basic <span class="caps">API</span> by exploring the relationship between the daily percentage lifts of 50 tech stocks over one trading year. We will be interested in identifying minimal stock subsets that can be used to predict the lifts of the&nbsp;others.</p>
+<p>This is a demonstration walkthrough, with commentary and interpretation throughout. See the package docs folder for docstrings that succinctly detail the <span class="caps">API</span>.</p>
 <p>Contents:</p>
 <ul>
-<li>Load the data and examine some stock traces</li>
-<li>FwdSelect, RevSelect; supervised, single target</li>
-<li>FwdSelect, RevSelect; supervised, multiple targets</li>
-<li>FwdSelect, RevSelect; unsupervised</li>
+<li>Load the data and examine some stock&nbsp;traces</li>
+<li>FwdSelect, RevSelect; supervised, single&nbsp;target</li>
+<li>FwdSelect, RevSelect; supervised, multiple&nbsp;targets</li>
+<li>FwdSelect, RevSelect;&nbsp;unsupervised</li>
 <li>GenSelect</li>
 </ul>
 <p>The data and a Jupyter notebook containing the code for this demo are available on our github, <a href="https://github.com/EFavDB/linselect_demos">here</a>.</p>
 <p>The <code>linselect</code> package can be found on our github, <a href="https://github.com/efavdb/linselect">here</a>.</p>
-<h2>1 - Load the data and examine some stock traces</h2>
-<p>In this tutorial, we will explore using <code>linselect</code> to carry out various feature selection tasks on a prepared data set of daily percentage lifts for 50 of the largest tech stocks. This covers data from 2017-04-18 to 2018-04-13. In this section, we load the data and take a look at a couple of the stock traces that we will be studying.</p>
-<h3>Load data</h3>
-<p>The code snippet below loads the data and shows a small sample.</p>
+<h2>1 - Load the data and examine some stock&nbsp;traces</h2>
+<p>In this tutorial, we will explore using <code>linselect</code> to carry out various feature selection tasks on a prepared data set of daily percentage lifts for 50 of the largest tech stocks. This covers data from 2017-04-18 to 2018-04-13. In this section, we load the data and take a look at a couple of the stock traces that we will be&nbsp;studying.</p>
+<h3>Load&nbsp;data</h3>
+<p>The code snippet below loads the data and shows a small&nbsp;sample.</p>
 <div class="highlight"><pre><span></span><span class="c1"># load packages  </span>
 <span class="kn">from</span> <span class="nn">linselect</span> <span class="kn">import</span> <span class="n">FwdSelect</span><span class="p">,</span> <span class="n">RevSelect</span><span class="p">,</span> <span class="n">GenSelect</span>  
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
@@ -177,20 +113,20 @@
 </pre></div>
 
 
-<p>The last line here shows that there were 248 trading days in the range considered.</p>
-<h3>Plot some stock traces</h3>
-<p>The plot below shows Apple's and Google's daily lifts on top of each other, over our full date range (the code for the plot can be found in our notebook). Visually, it's clear that the two are highly correlated -- when one goes up or down, the other tends to as well. This suggests that it should be possible to get a good fit to any one of the stocks using the changes in each of the other stocks.</p>
+<p>The last line here shows that there were 248 trading days in the range&nbsp;considered.</p>
+<h3>Plot some stock&nbsp;traces</h3>
+<p>The plot below shows Apple&#8217;s and Google&#8217;s daily lifts on top of each other, over our full date range (the code for the plot can be found in our notebook). Visually, it&#8217;s clear that the two are highly correlated &#8212; when one goes up or down, the other tends to as well. This suggests that it should be possible to get a good fit to any one of the stocks using the changes in each of the other&nbsp;stocks.</p>
 <p><a href="./wp-content/uploads/2018/05/apple_google.jpg"><img alt="apple_google" src="./wp-content/uploads/2018/05/apple_google.jpg"></a></p>
-<p>In general, a stock's daily price change should be a function of the market at large, the behavior of its market segment(s) and sub-segment(s), and some idiosyncratic behavior special to the company in question. Given this intuition, it seems reasonable to expect one to be able to fit a given stock given the lifts from just a small subset of the other stocks -- stocks representative of the sectors relevant to the stock in question. Adding multiple stocks from each segment shouldn't provide much additional value since these should be redundant. We'll confirm this intuition below and use <code>linselect</code> to identify these optimal subsets.</p>
-<p><strong>Lesson</strong>: The fluctuations of related stocks are often highly correlated. Below, we will be using <code>linselect</code> to find minimal subsets of the 50 stocks that we can use to develop good linear fits to one, multiple, or all of the others.</p>
-<h2>2 - FwdSelect and RevSelect; supervised, single target</h2>
-<p>Goal: Demonstrate how to identify subsets of the stocks that can be used to fit a given target stock well.</p>
+<p>In general, a stock&#8217;s daily price change should be a function of the market at large, the behavior of its market segment(s) and sub-segment(s), and some idiosyncratic behavior special to the company in question. Given this intuition, it seems reasonable to expect one to be able to fit a given stock given the lifts from just a small subset of the other stocks &#8212; stocks representative of the sectors relevant to the stock in question. Adding multiple stocks from each segment shouldn&#8217;t provide much additional value since these should be redundant. We&#8217;ll confirm this intuition below and use <code>linselect</code> to identify these optimal&nbsp;subsets.</p>
+<p><strong>Lesson</strong>: The fluctuations of related stocks are often highly correlated. Below, we will be using <code>linselect</code> to find minimal subsets of the 50 stocks that we can use to develop good linear fits to one, multiple, or all of the&nbsp;others.</p>
+<h2>2 - FwdSelect and RevSelect; supervised, single&nbsp;target</h2>
+<p>Goal: Demonstrate how to identify subsets of the stocks that can be used to fit a given target stock&nbsp;well.</p>
 <ul>
-<li>First we carry out a <code>FwdSelect</code> fit to identify good choices.</li>
+<li>First we carry out a <code>FwdSelect</code> fit to identify good&nbsp;choices.</li>
 <li>Next, we compare the <code>FwdSelect</code> and <code>RevSelect</code> results</li>
 </ul>
-<h3>Forward selection applied to AAPL</h3>
-<p>The code snippet below uses our forward selection class, <code>FwdSelect</code> to seek the best feature subsets to fit AAPL's performance.</p>
+<h3>Forward selection applied to <span class="caps">AAPL</span></h3>
+<p>The code snippet below uses our forward selection class, <code>FwdSelect</code> to seek the best feature subsets to fit <span class="caps">AAPL</span>&#8217;s&nbsp;performance.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
 <span class="n">def</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
 <span class="n">all_tickers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="o">[</span><span class="n">:, 1:</span><span class="o">]</span><span class="p">.</span><span class="n">columns</span><span class="w">  </span>
@@ -217,19 +153,19 @@
 
 <p>The last two lines above print out the main outputs of <code>FwdSelect</code>:</p>
 <ul>
-<li>The <code>ordered_features</code> list provides the indices of the features, ranked by the algorithm. The first index shown provides the best possible single feature fit to AAPL, the second index provides the next best addition, etc. Note that we can get the tickers corresponding to these indices using:<br>
+<li>The <code>ordered_features</code> list provides the indices of the features, ranked by the algorithm. The first index shown provides the best possible single feature fit to <span class="caps">AAPL</span>, the second index provides the next best addition, etc. Note that we can get the tickers corresponding to these indices using:<br>
 <code>print [FEATURE_TICKERS[i] for i in selector.ordered_features[:3]]  
     # ['MSFT' 'AVGO' 'TSM']</code><br>
-    A little thought plus a Google search rationalizes why these might be the top three predictors for AAPL: First, Microsoft is probably a good representative of the large-scale tech sector, and second the latter two companies work closely with Apple. AVGO (Qualcomm) made Apple's modem chips until very recently, while TSM (Taiwan semi-conductor) makes the processors for iphones and ipads -- and may perhaps soon also provide the CPUs for all Apple computers. Apparently, we can predict APPL performance using only a combination of (a) a read on the tech sector at large, plus (b) a bit of idiosyncratic information also present in APPL's partner stocks.</li>
-<li>The <code>ordered_cods</code> list records the coefficient of determination (COD or R^2) of the fits in question -- the first number gives the COD obtained with just MSFT, the second with MSFT and AVGO, etc.</li>
+    A little thought plus a Google search rationalizes why these might be the top three predictors for <span class="caps">AAPL</span>: First, Microsoft is probably a good representative of the large-scale tech sector, and second the latter two companies work closely with Apple. <span class="caps">AVGO</span> (Qualcomm) made Apple&#8217;s modem chips until very recently, while <span class="caps">TSM</span> (Taiwan semi-conductor) makes the processors for iphones and ipads &#8212; and may perhaps soon also provide the CPUs for all Apple computers. Apparently, we can predict <span class="caps">APPL</span> performance using only a combination of (a) a read on the tech sector at large, plus (b) a bit of idiosyncratic information also present in <span class="caps">APPL</span>&#8217;s partner&nbsp;stocks.</li>
+<li>The <code>ordered_cods</code> list records the coefficient of determination (<span class="caps">COD</span> or R^2) of the fits in question &#8212; the first number gives the <span class="caps">COD</span> obtained with just <span class="caps">MSFT</span>, the second with <span class="caps">MSFT</span> and <span class="caps">AVGO</span>,&nbsp;etc.</li>
 </ul>
-<p>A plot of the values in <code>ordered_cods</code> versus feature count is given below. Here, we have labeled the x-axis with the tickers corresponding to the elements of our <code>selector.ordered_features</code>. We see that the top three features almost fit AAPL's performance as well as the full set!</p>
+<p>A plot of the values in <code>ordered_cods</code> versus feature count is given below. Here, we have labeled the x-axis with the tickers corresponding to the elements of our <code>selector.ordered_features</code>. We see that the top three features almost fit <span class="caps">AAPL</span>&#8217;s performance as well as the full&nbsp;set!</p>
 <p><a href="./wp-content/uploads/2018/05/apple.png"><img alt="apple" src="./wp-content/uploads/2018/05/apple.png"></a></p>
-<p><strong>Lesson</strong>: We can often use <code>linselect</code> to significantly reduce the dimension of a given feature set, with minimal cost in performance. This can be used to compress a data set and can also improve our understanding of the problem considered.</p>
-<p><strong>Lesson</strong>: To get a feel for the effective number of useful features we have at hand, we can plot the output <code>ordered_cods</code> versus feature count.</p>
-<h3>Compare forward and reverse selection applied to TSLA</h3>
-<p>The code snippet below applies both <code>FwdSelect</code> and <code>RevSelect</code> to seek minimal subsets that fit Tesla's daily lifts well. The outputs are plotted below this. This shows that <code>FwdSelect</code> performs slightly better when two or fewer features are included here, but that <code>RevSelect</code> finds better subsets after that.</p>
-<p><strong>Lesson</strong>: In general, we expect forward selection to work better when looking for small subsets and reverse selection to perform better at large subsets.</p>
+<p><strong>Lesson</strong>: We can often use <code>linselect</code> to significantly reduce the dimension of a given feature set, with minimal cost in performance. This can be used to compress a data set and can also improve our understanding of the problem&nbsp;considered.</p>
+<p><strong>Lesson</strong>: To get a feel for the effective number of useful features we have at hand, we can plot the output <code>ordered_cods</code> versus feature&nbsp;count.</p>
+<h3>Compare forward and reverse selection applied to <span class="caps">TSLA</span></h3>
+<p>The code snippet below applies both <code>FwdSelect</code> and <code>RevSelect</code> to seek minimal subsets that fit Tesla&#8217;s daily lifts well. The outputs are plotted below this. This shows that <code>FwdSelect</code> performs slightly better when two or fewer features are included here, but that <code>RevSelect</code> finds better subsets after&nbsp;that.</p>
+<p><strong>Lesson</strong>: In general, we expect forward selection to work better when looking for small subsets and reverse selection to perform better at large&nbsp;subsets.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
 <span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;TSLA&#39;</span><span class="o">]</span><span class="w">  </span>
 <span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w"></span>
@@ -248,9 +184,9 @@
 
 
 <p><a href="./wp-content/uploads/2018/05/rev2.jpg"><img alt="rev2" src="./wp-content/uploads/2018/05/rev2.jpg"></a></p>
-<h2>3 - FwdSelect and RevSelect; supervised, multiple targets</h2>
-<p>In the code below, we seek feature subsets that perform well when fitting multiple targets simultaneously.</p>
-<p><strong>Lesson</strong>: <code>linselect</code> can be used to find minimal feature subsets useful for fitting multiple targets. The optimal, "perfect score" COD in this case is equal to number of targets (three in our example).</p>
+<h2>3 - FwdSelect and RevSelect; supervised, multiple&nbsp;targets</h2>
+<p>In the code below, we seek feature subsets that perform well when fitting multiple targets&nbsp;simultaneously.</p>
+<p><strong>Lesson</strong>: <code>linselect</code> can be used to find minimal feature subsets useful for fitting multiple targets. The optimal, &#8220;perfect score&#8221; <span class="caps">COD</span> in this case is equal to number of targets (three in our&nbsp;example).</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
 <span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;TSLA&#39;, &#39;ADP&#39;, &#39;NFLX&#39;</span><span class="o">]</span><span class="w">  </span>
 <span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w"></span>
@@ -269,11 +205,11 @@
 
 
 <p><a href="./wp-content/uploads/2018/05/multiple.jpg"><img alt="multiple" src="./wp-content/uploads/2018/05/multiple.jpg"></a></p>
-<h2>4 - FwdSelect and RevSelect; unsupervised</h2>
-<p>Here, we seek those features that give us a best fit to / linear representation of the whole set. This goal is analogous to that addressed by PCA, but is a feature selection variant: Whereas PCA returns a set of linear combinations of the original features, the approach here will return a subset of the original features. This has the benefit of leaving one with a feature subset that is interpretable.</p>
-<p>(Note: See [1] for more examples like this. There, I show that if you try to fit smoothed versions of the stock performances, very good, small subsets can be found. Without smoothing, noise obscures this point).</p>
-<p><strong>Lesson</strong>: Unsupervised selection seeks to find those features that best describe the full data set -- a feature selection analog of PCA.</p>
-<p><strong>Lesson</strong>: Again, a perfect COD score is equal to the number of targets. In the unsupervised case, this is also the number of features (50 in our example).</p>
+<h2>4 - FwdSelect and RevSelect;&nbsp;unsupervised</h2>
+<p>Here, we seek those features that give us a best fit to / linear representation of the whole set. This goal is analogous to that addressed by <span class="caps">PCA</span>, but is a feature selection variant: Whereas <span class="caps">PCA</span> returns a set of linear combinations of the original features, the approach here will return a subset of the original features. This has the benefit of leaving one with a feature subset that is&nbsp;interpretable.</p>
+<p>(Note: See [1] for more examples like this. There, I show that if you try to fit smoothed versions of the stock performances, very good, small subsets can be found. Without smoothing, noise obscures this&nbsp;point).</p>
+<p><strong>Lesson</strong>: Unsupervised selection seeks to find those features that best describe the full data set &#8212; a feature selection analog of <span class="caps">PCA</span>.</p>
+<p><strong>Lesson</strong>: Again, a perfect <span class="caps">COD</span> score is equal to the number of targets. In the unsupervised case, this is also the number of features (50 in our&nbsp;example).</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">full</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="k">set</span><span class="p">.</span><span class="w">  </span>
 <span class="n">ALL_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="o">[</span><span class="n">:, 1:</span><span class="o">]</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span><span class="w">  </span>
 <span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">ALL_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
@@ -288,26 +224,26 @@
 
 
 <p><a href="./wp-content/uploads/2018/05/unsupervised.jpg"><img alt="unsupervised" src="./wp-content/uploads/2018/05/unsupervised.jpg"></a></p>
-<h2>5 - GenSelect</h2>
-<p><code>GenSelect</code>'s API is designed to expose the full flexibility of the efficient linear stepwise algorithm. Because of this, its API is somewhat more complex than that of <code>FwdSelect</code> and <code>RevSelect</code>. Here, our aim is to quickly demo this API.</p>
-<p>The Essential ingredients:</p>
+<h2>5 -&nbsp;GenSelect</h2>
+<p><code>GenSelect</code><span class="quo">&#8216;</span>s <span class="caps">API</span> is designed to expose the full flexibility of the efficient linear stepwise algorithm. Because of this, its <span class="caps">API</span> is somewhat more complex than that of <code>FwdSelect</code> and <code>RevSelect</code>. Here, our aim is to quickly demo this <span class="caps">API</span>.</p>
+<p>The Essential&nbsp;ingredients:</p>
 <ul>
-<li>We pass only a single data matrix <code>X</code>, and must specify which columns are the predictors and which are targets.</li>
-<li>Because we might sweep up and down, we cannot define an <code>ordered_features</code> list as in <code>FwdSelect</code> and <code>RevSelect</code> (the best subset of size three now may not contain the features in the best subset of size two). Instead, <code>GenSelect</code> maintains a dictionary <code>best_results</code> that stores information on the best results seen so far for each possible feature count. The keys of this dictionary correspond to the possible feature set sizes. The values are also dictionaries, each having two keys: <code>s</code> and <code>cod</code>. These specify the best feature subset seen so far with size equal to the outer key, and the corresponding COD, respectively.</li>
-<li>We can move back and forth, adding features to or removing them from the predictor set. We can specify the search protocol for doing this.</li>
-<li>We can reposition our search to any predictor set location and continue the search from there.</li>
-<li>We can access the costs of each possible move from our current location, without stepping.</li>
+<li>We pass only a single data matrix <code>X</code>, and must specify which columns are the predictors and which are&nbsp;targets.</li>
+<li>Because we might sweep up and down, we cannot define an <code>ordered_features</code> list as in <code>FwdSelect</code> and <code>RevSelect</code> (the best subset of size three now may not contain the features in the best subset of size two). Instead, <code>GenSelect</code> maintains a dictionary <code>best_results</code> that stores information on the best results seen so far for each possible feature count. The keys of this dictionary correspond to the possible feature set sizes. The values are also dictionaries, each having two keys: <code>s</code> and <code>cod</code>. These specify the best feature subset seen so far with size equal to the outer key, and the corresponding <span class="caps">COD</span>,&nbsp;respectively.</li>
+<li>We can move back and forth, adding features to or removing them from the predictor set. We can specify the search protocol for doing&nbsp;this.</li>
+<li>We can reposition our search to any predictor set location and continue the search from&nbsp;there.</li>
+<li>We can access the costs of each possible move from our current location, without&nbsp;stepping.</li>
 </ul>
-<p>If an <span class="math">\(m \times n\)</span> data matrix <code>X</code> is passed to <code>GenSelect</code>, three Boolean arrays define the state of the search.</p>
+<p>If an <span class="math">\(m \times n\)</span> data matrix <code>X</code> is passed to <code>GenSelect</code>, three Boolean arrays define the state of the&nbsp;search.</p>
 <ul>
-<li><code>s</code> -- This array specifies which of the columns are currently being used as predictors.</li>
-<li><code>targets</code> -- This specifies which of the columns are the target variables.</li>
-<li><code>mobile</code> -- This specifies which of the columns are locked into or out of our fit -- those that are not mobile are marked <code>False</code>.</li>
+<li><code>s</code> &#8212; This array specifies which of the columns are currently being used as&nbsp;predictors.</li>
+<li><code>targets</code> &#8212; This specifies which of the columns are the target&nbsp;variables.</li>
+<li><code>mobile</code> &#8212; This specifies which of the columns are locked into or out of our fit &#8212; those that are not mobile are marked <code>False</code>.</li>
 </ul>
-<p>Note: We usually want the targets to not be mobile -- though this is not the case in unsupervised applications. One might sometimes also want to lock certain features into the predictor set, and the <code>mobile</code> parameter can be used to accomplish this.</p>
-<h3>Use GenSelect to carry out a forward sweep for TSLA</h3>
-<p>The code below carries out a single forward sweep for TSLA. Note that the <code>protocol</code> argument of <code>search</code> is set to <code>(1, 0)</code>, which gives a forward search (see docstrings). For this reason, our results match those of <code>FwdSelect</code> at this point.</p>
-<p><strong>Lesson</strong>: Setting up a basic <code>GenSelect</code> call requires defining a few input parameters.</p>
+<p>Note: We usually want the targets to not be mobile &#8212; though this is not the case in unsupervised applications. One might sometimes also want to lock certain features into the predictor set, and the <code>mobile</code> parameter can be used to accomplish&nbsp;this.</p>
+<h3>Use GenSelect to carry out a forward sweep for <span class="caps">TSLA</span></h3>
+<p>The code below carries out a single forward sweep for <span class="caps">TSLA</span>. Note that the <code>protocol</code> argument of <code>search</code> is set to <code>(1, 0)</code>, which gives a forward search (see docstrings). For this reason, our results match those of <code>FwdSelect</code> at this&nbsp;point.</p>
+<p><strong>Lesson</strong>: Setting up a basic <code>GenSelect</code> call requires defining a few input&nbsp;parameters.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="w">  </span>
 <span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">ALL_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
 
@@ -329,9 +265,9 @@
 </pre></div>
 
 
-<h3>Continue the search above</h3>
-<p>A <code>GenSelect</code> instance always retains a summary of the best results it has seen so far. This means that we can continue a search where we left off after a <code>search</code> call completes. Below, we reposition our search and sweep back and forth to better explore a particular region. Note that this slightly improves our result.</p>
-<p><strong>Lesson</strong>: We can carry out general search protocols using <code>GenSelect</code>'s <code>position</code> and <code>search</code> methods.</p>
+<h3>Continue the search&nbsp;above</h3>
+<p>A <code>GenSelect</code> instance always retains a summary of the best results it has seen so far. This means that we can continue a search where we left off after a <code>search</code> call completes. Below, we reposition our search and sweep back and forth to better explore a particular region. Note that this slightly improves our&nbsp;result.</p>
+<p><strong>Lesson</strong>: We can carry out general search protocols using <code>GenSelect</code><span class="quo">&#8216;</span>s <code>position</code> and <code>search</code> methods.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">Reposition</span> <span class="n">back</span> <span class="k">to</span> <span class="n">the</span> <span class="n">best</span> <span class="n">fit</span> <span class="k">of</span> <span class="k">size</span> <span class="mi">3</span> <span class="n">seen</span> <span class="n">above</span><span class="p">.</span>  
 <span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
 <span class="n">selector</span><span class="p">.</span><span class="k">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
@@ -350,9 +286,9 @@
 </pre></div>
 
 
-<h3>Compare to forward and reverse search results</h3>
-<p>Below, we compare the COD values of our three classes.</p>
-<p><strong>Lesson</strong>: <code>GenSelect</code> can be used to do a more thorough search than <code>FwdSelect</code> and <code>RevSelect</code>, and so can sometimes find better feature subsets.</p>
+<h3>Compare to forward and reverse search&nbsp;results</h3>
+<p>Below, we compare the <span class="caps">COD</span> values of our three&nbsp;classes.</p>
+<p><strong>Lesson</strong>: <code>GenSelect</code> can be used to do a more thorough search than <code>FwdSelect</code> and <code>RevSelect</code>, and so can sometimes find better feature&nbsp;subsets.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="k">Get</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="n">COD</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="n">seen</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">GenSelect</span><span class="w"> </span><span class="k">search</span><span class="w">  </span>
 <span class="n">gen_select_cods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span><span class="w">  </span>
 <span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
@@ -381,9 +317,9 @@
 
 
 <p><a href="./wp-content/uploads/2018/05/comparison.jpg"><img alt="comparison" src="./wp-content/uploads/2018/05/comparison.jpg"></a></p>
-<h3>Examine the cost of removing a feature from the predictor set</h3>
-<p>Below, we reposition to the best feature set of size 10 seen so far. We then apply the method <code>reverse_cods</code> to expose the cost of removing each of these individuals from the predictor set at this point. Were we to take a reverse step, the feature with the least cost would be the one taken (looks like FB from the plot).</p>
-<p><strong>Lesson</strong>: We can easily access the costs associated with removing individual features from our current location. We can also access the COD gains associated with adding in new features by calling the <code>forward_cods</code> method.</p>
+<h3>Examine the cost of removing a feature from the predictor&nbsp;set</h3>
+<p>Below, we reposition to the best feature set of size 10 seen so far. We then apply the method <code>reverse_cods</code> to expose the cost of removing each of these individuals from the predictor set at this point. Were we to take a reverse step, the feature with the least cost would be the one taken (looks like <span class="caps">FB</span> from the&nbsp;plot).</p>
+<p><strong>Lesson</strong>: We can easily access the costs associated with removing individual features from our current location. We can also access the <span class="caps">COD</span> gains associated with adding in new features by calling the <code>forward_cods</code> method.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Reposition</span><span class="w">  </span>
 <span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="o">[</span><span class="n">10</span><span class="o">][</span><span class="n">&#39;s&#39;</span><span class="o">]</span><span class="w">  </span>
 <span class="n">selector</span><span class="p">.</span><span class="k">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
@@ -402,8 +338,8 @@
 
 
 <p><a href="./wp-content/uploads/2018/05/cost.jpg"><img alt="cost" src="./wp-content/uploads/2018/05/cost.jpg"></a></p>
-<h2>Final comments</h2>
-<p>In this tutorial, we've illustrated many of the basic API calls available in <code>linselect</code>. In a future tutorial post, we plan to illustrate some interesting use cases of some of these API calls -- e.g., how to use <code>GenSelect</code>'s arguments to explore the value of supplemental features, added to an already existing data set.</p>
+<h2>Final&nbsp;comments</h2>
+<p>In this tutorial, we&#8217;ve illustrated many of the basic <span class="caps">API</span> calls available in <code>linselect</code>. In a future tutorial post, we plan to illustrate some interesting use cases of some of these <span class="caps">API</span> calls &#8212; e.g., how to use <code>GenSelect</code><span class="quo">&#8216;</span>s arguments to explore the value of supplemental features, added to an already existing data&nbsp;set.</p>
 <h2>References</h2>
 <p>[1] J. Landy. Stepwise regression for unsupervised learning, 2017. <a href="https://arxiv.org/abs/1706.03265">arxiv.1706.03265</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -468,78 +404,120 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=linselect demo: a tech sector stock analysis&amp;url=./linselect-demo.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./linselect-demo.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./linselect-demo.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/linselect.html">linselect</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./unsupervised-feature-selection-in-python-with-linselect.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">Linear compression in python: PCA vs unsupervised feature selection</h2>
-                            <p class="post-nav-excerpt">We illustrate the application of two linear compression algorithms in python:...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./gans.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">Making AI Interpretable with Generative Adversarial Networks</h2>
-                            <p class="post-nav-excerpt">It has been quite awhile since I have posted, largely because soon after I started my...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./gans.html" title="Previous: Making AI Interpretable with Generative Adversarial Networks">Making AI Interpretable with Generative Adversarial Networks</a></li>
+                <li class="next-article"><a href="./unsupervised-feature-selection-in-python-with-linselect.html" title="Next: Linear compression in python: PCA vs unsupervised feature selection">Linear compression in python: PCA vs unsupervised feature selection</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2018-05-31T14:17:00-07:00">May 31, 2018</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#linselect-ref">linselect</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#linselect-ref">linselect
+                    <span>2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>

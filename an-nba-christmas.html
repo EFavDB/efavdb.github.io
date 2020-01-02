@@ -1,180 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
 
-<head>
-    <meta charset="utf-8">
-  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
 
+<meta name="keywords" content="NBA, statistics, Case studies, Methods, NBA prediction project, " />
 
-  <title>Quantifying the NBA Christmas week flop: one in ten thousand?</title>
+<meta property="og:title" content="Quantifying the NBA Christmas week flop: one in ten thousand? "/>
+<meta property="og:url" content="./an-nba-christmas.html" />
+<meta property="og:description" content="There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how bad those upsets were, taken in aggregate. Short answer: real bad! To argue this point, we review and then apply a very simple predictive model …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2014-12-28T21:55:00-08:00" />
+<meta name="twitter:title" content="Quantifying the NBA Christmas week flop: one in ten thousand? ">
+<meta name="twitter:description" content="There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how bad those upsets were, taken in aggregate. Short answer: real bad! To argue this point, we review and then apply a very simple predictive model …">
 
-
-  <meta name="HandheldFriendly" content="True" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="referrer" content="origin" />
-  <meta name="generator" content="Pelican" />
-<link href="./an-nba-christmas.html" rel="canonical" />
-  <!-- Feed -->
-
-  <link href="./theme/css/style.css" type="text/css" rel="stylesheet" />
-
-  <!-- Code highlight color scheme -->
-      <link href="./theme/css/code_blocks/github.css" rel="stylesheet">
-
-
-  <!-- Custom fonts -->
-  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
+        <title>Quantifying the NBA Christmas week flop: one in ten thousand?  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
 
-    <meta name="description" content="There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how...">
-
-    <meta name="author" content="Jonathan Landy">
-
-    <meta name="tags" content="NBA">
-    <meta name="tags" content="statistics">
-
-
-
-
-<!-- Open Graph -->
-<meta property="og:site_name" content="EFAVDB"/>
-<meta property="og:title" content="Quantifying the NBA Christmas week flop: one in ten thousand?"/>
-<meta property="og:description" content="There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="./an-nba-christmas.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2014-12-28 21:55:00-08:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="./author/jonathan-landy.html">
-<meta property="article:section" content="Case studies, Methods, NBA prediction project"/>
-<meta property="article:tag" content="NBA"/>
-<meta property="article:tag" content="statistics"/>
-<meta property="og:image" content="./theme/images/post-bg.jpg">
-
-<!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@efavdb">
-    <meta name="twitter:title" content="Quantifying the NBA Christmas week flop: one in ten thousand?">
-    <meta name="twitter:url" content="./an-nba-christmas.html">
-
-        <meta name="twitter:image:src" content="./theme/images/post-bg.jpg">
-
-      <meta name="twitter:description" content="There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how...">
-
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "name": "Quantifying the NBA Christmas week flop: one in ten thousand?",
-  "headline": "Quantifying the NBA Christmas week flop: one in ten thousand?",
-  "datePublished": "2014-12-28 21:55:00-08:00",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": "Jonathan Landy",
-    "url": "./author/jonathan-landy.html"
-  },
-  "image": "./theme/images/post-bg.jpg",
-  "url": "./an-nba-christmas.html",
-  "description": "There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how..."
-}
-</script>
-</head>
-<!-- TODO : Body class -->
-<body class="home-template">
-
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
-          <li><a href="/" role="presentation">Home</a></li>
-          <li><a href="/pages/about.html" role="presentation">About & Consulting</a></li>
-          <li><a href="/archives.html" role="presentation">Archive</a></li>
-          <li><a href="/tags.html" role="presentation">Tags</a></li>
-          <li><a href="/pages/linselect.html" role="presentation">linselect - feature selection</a></li>
-
-
-    </ul>
-  </div>
-</nav>
-    <!-- Progressbar -->
-    <div class="progress-container">
-        <span class="progress-bar"></span>
-    </div>
-
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
-      <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="./" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Quantifying the NBA Christmas week flop: one in ten thousand?</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="./author/jonathan-landy.html">Jonathan Landy</a>
-            | <time datetime="Sun 28 December 2014">Sun 28 December 2014</time>
-        </span>
-        <!-- TODO : Modified check -->
-      </div>
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       .
+                                    >Home</a>
+                                </li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span10 offset2">
+        <h1>
+            <a href="./an-nba-christmas.html">
+                Quantifying the <span class="caps">NBA</span> Christmas week flop: one in ten&nbsp;thousand?
+            </a>
+        </h1>
     </header>
+</div>
 
-  <section id="wrapper">
-    <a class="hidden-close"></a>
-
-    <!-- Post content -->
-    <main class="content" role="main">
-        <article class="post">
-        <div class="inner">
-            <section class="post-content">
-                <p>There were a number of upsets in the NBA this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how bad those upsets were, taken in aggregate. Short answer: real bad! To argue this point, we review and then apply a very simple predictive model for sporting event outcomes -- python code given in footnotes.</p>
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>There were a number of upsets in the <span class="caps">NBA</span> this past Christmas week. Here, we offer no explanation, but do attempt to quantify just how bad those upsets were, taken in aggregate. Short answer: real bad! To argue this point, we review and then apply a very simple predictive model for sporting event outcomes &#8212; python code given in&nbsp;footnotes.</p>
 <p><strong>Quick review of x-mas week</strong><br>
-The Christmas holiday week<span class="math">\(^1\)</span> (Dec. 19 - 25) provided a steady stream of frustrating upsets. The two most perplexing, perhaps, were the Lakers win over the Warriors and the Jazz win over the Grizzlies: two of this year's greats losing to two of its most lackluster. In all, <span class="math">\(24\)</span> of the <span class="math">\(49\)</span> games that week were upsets (with an upset defined here to be one where the winning team started the game with a lower win percentage than the loser). That comes out to an upset ratio just under <span class="math">\(49%\)</span>, much higher than the typical rate, about <span class="math">\(34%\)</span>.</p>
+The Christmas holiday week<span class="math">\(^1\)</span> (Dec. 19 - 25) provided a steady stream of frustrating upsets. The two most perplexing, perhaps, were the Lakers win over the Warriors and the Jazz win over the Grizzlies: two of this year&#8217;s greats losing to two of its most lackluster. In all, <span class="math">\(24\)</span> of the <span class="math">\(49\)</span> games that week were upsets (with an upset defined here to be one where the winning team started the game with a lower win percentage than the loser). That comes out to an upset ratio just under <span class="math">\(49%\)</span>, much higher than the typical rate, about <span class="math">\(34%\)</span>.</p>
 <p><strong>A general sporting model</strong><br>
-A <span class="math">\(49%\)</span> upset rate sounds significant. However, this metric does not quite capture the emotional magnitude of the debacle. To move towards obtaining such a metric, we first review here a ``standard"<span class="math">\(^2\)</span> sporting model that will allow us to quantify the probability of observing a week as bad as this just past. For each team <span class="math">\(i\)</span>, we introduce a variable <span class="math">\(h_i\)</span> called its mean scoring potential: Subtracting from this the analogous value for team <span class="math">\(j\)</span> gives the expected number of points team <span class="math">\(i\)</span> would win by, were it to play team <span class="math">\(j\)</span>. More formally, if we let the win-difference for any particular game be <span class="math">\(y_{ij}\)</span>, we have </p>
+A <span class="math">\(49%\)</span> upset rate sounds significant. However, this metric does not quite capture the emotional magnitude of the debacle. To move towards obtaining such a metric, we first review here a &#8220;standard&#8221;<span class="math">\(^2\)</span> sporting model that will allow us to quantify the probability of observing a week as bad as this just past. For each team <span class="math">\(i\)</span>, we introduce a variable <span class="math">\(h_i\)</span> called its mean scoring potential: Subtracting from this the analogous value for team <span class="math">\(j\)</span> gives the expected number of points team <span class="math">\(i\)</span> would win by, were it to play team <span class="math">\(j\)</span>. More formally, if we let the win-difference for any particular game be <span class="math">\(y_{ij}\)</span>, we&nbsp;have </p>
 <div class="math">$$h_i - h_j \equiv \langle score(i) - score(j) \rangle \equiv \langle y_{ij} \rangle, $$</div>
-<p> where we average over hypothetical outcomes on the right in order to account for the variability characterizing each individual game.</p>
+<p> where we average over hypothetical outcomes on the right in order to account for the variability characterizing each individual&nbsp;game.</p>
 <p><a href="./wp-content/uploads/2014/12/Screen-Shot-2015-01-01-at-3.51.42-AM.png"><img alt="Screen Shot 2015-01-01 at 3.51.42 AM" src="./wp-content/uploads/2014/12/Screen-Shot-2015-01-01-at-3.51.42-AM.png"></a></p>
-<p>By taking into account the games that have already occurred this season, one can estimate the set of <span class="math">\(\{h_i\}\)</span> values. For example, summing the above equation over all past games played by team <span class="math">\(1\)</span>, we obtain </p>
+<p>By taking into account the games that have already occurred this season, one can estimate the set of <span class="math">\(\{h_i\}\)</span> values. For example, summing the above equation over all past games played by team <span class="math">\(1\)</span>, we&nbsp;obtain </p>
 <div class="math">$$ \sum_{j\text{ (past opponents of 1)}} (h_1 - h_j) = \sum_j \langle y_{1j} \rangle \approx \sum_j y_{1j}.$$</div>
-<p> Here, in the sum on right we have approximated the averaged sum in the middle by the score differences actually observed in the games already played (note that in the sum on <span class="math">\(j\)</span> here, each team appears exactly the number of times they have already played team <span class="math">\(1\)</span> -- this could be zero, once, twice, etc.) Writing down all equations analogous to this last one (one for each team) returns a system of <span class="math">\(30\)</span> linear equations in the <span class="math">\(30\)</span> <span class="math">\(\{h_i\}\)</span> variables. This system can be easily solved using a computer<span class="math">\(^3\)</span>. We did this, applying the algorithm to the complete set of 2014-15 games played prior to the Christmas week, and obtained the set of <span class="math">\(h\)</span> values shown at right<span class="math">\(^4\)</span>. The ranking looks quite reasonable, from top to bottom.</p>
-<p><strong>A Gaussian NBA</strong><br>
-Now that we have the <span class="math">\(\{h_i\}\)</span> values, we can use them to estimate the mean score difference for any game. For example, in a Warriors-76ers game, we'd expect the Warriors to win, since they have the larger <span class="math">\(h\)</span> value. Further, on average, we'd expect them to win by about <span class="math">\(h_{\text{War's}} - h_{\text{76's}}\)</span> <span class="math">\( = 9.24 - (-11.96) \approx 21\)</span> points. These two actually played this week, on Dec 30, and the Warriors won by <span class="math">\(40\)</span>, a much larger margin than predicted.</p>
+<p> Here, in the sum on right we have approximated the averaged sum in the middle by the score differences actually observed in the games already played (note that in the sum on <span class="math">\(j\)</span> here, each team appears exactly the number of times they have already played team <span class="math">\(1\)</span> &#8212; this could be zero, once, twice, etc.) Writing down all equations analogous to this last one (one for each team) returns a system of <span class="math">\(30\)</span> linear equations in the <span class="math">\(30\)</span> <span class="math">\(\{h_i\}\)</span> variables. This system can be easily solved using a computer<span class="math">\(^3\)</span>. We did this, applying the algorithm to the complete set of 2014-15 games played prior to the Christmas week, and obtained the set of <span class="math">\(h\)</span> values shown at right<span class="math">\(^4\)</span>. The ranking looks quite reasonable, from top to&nbsp;bottom.</p>
+<p><strong>A Gaussian <span class="caps">NBA</span></strong><br>
+Now that we have the <span class="math">\(\{h_i\}\)</span> values, we can use them to estimate the mean score difference for any game. For example, in a Warriors-76ers game, we&#8217;d expect the Warriors to win, since they have the larger <span class="math">\(h\)</span> value. Further, on average, we&#8217;d expect them to win by about <span class="math">\(h_{\text{War's}} - h_{\text{76's}}\)</span> <span class="math">\( = 9.24 - (-11.96) \approx 21\)</span> points. These two actually played this week, on Dec 30, and the Warriors won by <span class="math">\(40\)</span>, a much larger margin than&nbsp;predicted.</p>
 <p><a href="./wp-content/uploads/2014/12/hist.jpg"><img alt="hist" src="./wp-content/uploads/2014/12/hist.jpg"></a></p>
-<p>The distinction between our predicted and the actual Warriors-76ers outcome motivates further consideration of the variability characterizing NBA games. It turns out that if we analyze the complete set of games already played this year, something simple pops out: Plotting a histogram of our estimate errors, <span class="math">\(\epsilon_{ij} \equiv (h_i - h_j) - y_{ij}\)</span>, we see that the actual score difference distribution of NBA games looks a lot like a <a href="http://en.wikipedia.org/wiki/Gaussian_function">Gaussian</a>, or bell curve. This is centered about our predicted value and has a standard deviation of <span class="math">\(\sigma \approx 11\)</span> points, as shown in the figure at right. These observations allow us to estimate various quantities of interest. For instance, we can estimate the frequency with which the Warriors should beat the 76ers by 40 or more points, as they did this week. This is simply equal to the frequency with which we underestimate the winning margin by at least <span class="math">\(40 - 21 = 19\)</span> points. This, in turn, can be estimated by counting how often this has already occurred in past games, using our histogram. Alternatively, we can use the fact that our errors are Gaussian distributed to write this as </p>
+<p>The distinction between our predicted and the actual Warriors-76ers outcome motivates further consideration of the variability characterizing <span class="caps">NBA</span> games. It turns out that if we analyze the complete set of games already played this year, something simple pops out: Plotting a histogram of our estimate errors, <span class="math">\(\epsilon_{ij} \equiv (h_i - h_j) - y_{ij}\)</span>, we see that the actual score difference distribution of <span class="caps">NBA</span> games looks a lot like a <a href="http://en.wikipedia.org/wiki/Gaussian_function">Gaussian</a>, or bell curve. This is centered about our predicted value and has a standard deviation of <span class="math">\(\sigma \approx 11\)</span> points, as shown in the figure at right. These observations allow us to estimate various quantities of interest. For instance, we can estimate the frequency with which the Warriors should beat the 76ers by 40 or more points, as they did this week. This is simply equal to the frequency with which we underestimate the winning margin by at least <span class="math">\(40 - 21 = 19\)</span> points. This, in turn, can be estimated by counting how often this has already occurred in past games, using our histogram. Alternatively, we can use the fact that our errors are Gaussian distributed to write this&nbsp;as </p>
 <div class="math">$$ P(\epsilon \leq -19) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^{-19} e^{-\frac{\epsilon^2}{2\sigma^2}} d \epsilon \approx 0.042,$$</div>
 <p><br>
-where we have evaluated the integral by computer. This result says that a Warriors win by 40 or more points will only occur about <span class="math">\(4.2%\)</span> of the time. Using a similar argument, one can show that the 76ers should beat the Warriors only about <span class="math">\(2.8 %\)</span> of the time.</p>
+where we have evaluated the integral by computer. This result says that a Warriors win by 40 or more points will only occur about <span class="math">\(4.2%\)</span> of the time. Using a similar argument, one can show that the 76ers should beat the Warriors only about <span class="math">\(2.8 %\)</span> of the&nbsp;time.</p>
 <p><strong>Christmas week, quantified</strong><br>
-It is now a simple matter to extend our analysis method so that we can estimate the joint likelihood of a given set of outcomes all happening the same week: We need only make use of the <a href="%20http://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables">fact</a> that the mean estimate error <span class="math">\(\langle \epsilon \rangle\)</span> of our predictions on a set of <span class="math">\(N\)</span> games <span class="math">\((\langle \epsilon \rangle = \frac{1}{N}\sum_{\text{games }i = 1}^N \epsilon_i)\)</span> will also be Gaussian distributed, but now with standard deviation <span class="math">\(\sigma/ \sqrt{N}\)</span>. The <span class="math">\(1/\sqrt{N}\)</span> factor here reduces the width of the mean error distribution, relative to that of the single games -- it takes into account the significant cancellations that typically occur when you sum over many games, some with positive and some with negative errors. A typical week has about <span class="math">\(50\)</span> games, so the mean error standard deviation will usually be about <span class="math">\(11/\sqrt{50} \approx 1.6\)</span>.</p>
-<p>In the four figures below, we plot histograms of our prediction errors for four separate weeks: Christmas week is shown last (in red), and the other subplots correspond to the three weeks preceding it (each in green). We also show in each subplot (in gray) a histogram of all game errors preceding the week highlighted in that subplot -- notice that each is quite well-fit by a Gaussian. In the first week, <span class="math">\(53\)</span> games were played, and our average error on these games was just <span class="math">\(\langle \epsilon \rangle = 0.5\)</span> points. The probability of observing an average overestimate of <span class="math">\(0.5\)</span> or greater in such a week is given by, </p>
+It is now a simple matter to extend our analysis method so that we can estimate the joint likelihood of a given set of outcomes all happening the same week: We need only make use of the <a href="%20http://en.wikipedia.org/wiki/Sum_of_normally_distributed_random_variables">fact</a> that the mean estimate error <span class="math">\(\langle \epsilon \rangle\)</span> of our predictions on a set of <span class="math">\(N\)</span> games <span class="math">\((\langle \epsilon \rangle = \frac{1}{N}\sum_{\text{games }i = 1}^N \epsilon_i)\)</span> will also be Gaussian distributed, but now with standard deviation <span class="math">\(\sigma/ \sqrt{N}\)</span>. The <span class="math">\(1/\sqrt{N}\)</span> factor here reduces the width of the mean error distribution, relative to that of the single games &#8212; it takes into account the significant cancellations that typically occur when you sum over many games, some with positive and some with negative errors. A typical week has about <span class="math">\(50\)</span> games, so the mean error standard deviation will usually be about <span class="math">\(11/\sqrt{50} \approx 1.6\)</span>.</p>
+<p>In the four figures below, we plot histograms of our prediction errors for four separate weeks: Christmas week is shown last (in red), and the other subplots correspond to the three weeks preceding it (each in green). We also show in each subplot (in gray) a histogram of all game errors preceding the week highlighted in that subplot &#8212; notice that each is quite well-fit by a Gaussian. In the first week, <span class="math">\(53\)</span> games were played, and our average error on these games was just <span class="math">\(\langle \epsilon \rangle = 0.5\)</span> points. The probability of observing an average overestimate of <span class="math">\(0.5\)</span> or greater in such a week is given&nbsp;by, </p>
 <div class="math">$$P(\langle \epsilon \rangle \geq 0.5) = \frac{1}{\sqrt{2 \pi \sigma^2/53}} \int_{0.5}^{\infty} e^{-\frac{\epsilon^2}{2\sigma^2/53}} d \epsilon \approx 0.38.$$</div>
-<p> That is, a weekly average overestimate of <span class="math">\(\langle \epsilon \rangle \geq 0.5\)</span> will happen about <span class="math">\(38%\)</span> of the time, and so is pretty common. Similarly, in the second, third, and fourth weeks, the number of games played and average estimate errors were <span class="math">\((N,\langle \epsilon \rangle) = (52,0.8),\)</span> <span class="math">\((55,2.2)\)</span>, and <span class="math">\((49,5.7)\)</span>, respectively. Calculating as above, overestimates of these magnitudes or larger occur with frequency <span class="math">\(30%\)</span>, <span class="math">\(7%\)</span>, and <span class="math">\(0.01 %\)</span>, respectively. The previous two are both fairly common, <em>but -- on average -- it would apparently take about ten thousand trials to find a week as bad as Christmas week 2014.</em></p>
+<p> That is, a weekly average overestimate of <span class="math">\(\langle \epsilon \rangle \geq 0.5\)</span> will happen about <span class="math">\(38%\)</span> of the time, and so is pretty common. Similarly, in the second, third, and fourth weeks, the number of games played and average estimate errors were <span class="math">\((N,\langle \epsilon \rangle) = (52,0.8),\)</span> <span class="math">\((55,2.2)\)</span>, and <span class="math">\((49,5.7)\)</span>, respectively. Calculating as above, overestimates of these magnitudes or larger occur with frequency <span class="math">\(30%\)</span>, <span class="math">\(7%\)</span>, and <span class="math">\(0.01 %\)</span>, respectively. The previous two are both fairly common, <em>but &#8212; on average &#8212; it would apparently take about ten thousand trials to find a week as bad as Christmas week&nbsp;2014.</em></p>
 <p><a href="./wp-content/uploads/2014/12/xmas_plots2.jpg"><img alt="xmas_plots" src="./wp-content/uploads/2014/12/xmas_plots2.jpg"></a></p>
 <p><strong>Discussion</strong><br>
-A week in ten thousand is equivalent to about one week in every <span class="math">\(400\)</span> seasons! We don't really take this estimate too seriously. In fact, we suspect that one of the following might be happening here: a) there may have been something peculiar about the games held this Christmas week that caused their outcomes to not be distributed in the same manner as other games this season<span class="math">\(^5\)</span>, b) alternatively, there may be long tails in the error distribution that we can't easily observe, or c) it may be that improvements to our model (e.g., taking into account home team advantage, etc.) would result in a larger frequency estimate. Maybe all three are true, or maybe this really was a week in ten thousand. Either way, it's clear that this past Christmas week was a singular one.</p>
+A week in ten thousand is equivalent to about one week in every <span class="math">\(400\)</span> seasons! We don&#8217;t really take this estimate too seriously. In fact, we suspect that one of the following might be happening here: a) there may have been something peculiar about the games held this Christmas week that caused their outcomes to not be distributed in the same manner as other games this season<span class="math">\(^5\)</span>, b) alternatively, there may be long tails in the error distribution that we can&#8217;t easily observe, or c) it may be that improvements to our model (e.g., taking into account home team advantage, etc.) would result in a larger frequency estimate. Maybe all three are true, or maybe this really was a week in ten thousand. Either way, it&#8217;s clear that this past Christmas week was a singular&nbsp;one.</p>
 <p><strong>Footnotes</strong><br>
-[1] The NBA workweek starts on Friday.</p>
-<p>[2] We first read about this modeling method <a href="http://www.pro-football-reference.com/blog/?p=37">here</a>. In the addendum, it's stated that the author thinks that nobody in particular is credited with having developed it, and that it's been around for a long time.</p>
-<p>[3] Notice that we can shift all <span class="math">\(h_i \to h_i +c\)</span>, with <span class="math">\(c\)</span> some common constant. This invariance means that the solution obtained by solving the system of equations is not unique. Consequently, the matrix of coefficients is not invertible, and the system needs to be solved by Gaussian elimination, or some other irritating means.</p>
-<p>[4] Python code and data for evaluating the NBA <span class="math">\(h\)</span> values given <a href="%20http://efavdb.com/nba-h-model/">here</a>.</p>
-<p>[5] Note, however, that carrying out a similar analysis over the past 9 seasons showed no similar anomalies in their respective Christmas weeks.</p>
+[1] The <span class="caps">NBA</span> workweek starts on&nbsp;Friday.</p>
+<p>[2] We first read about this modeling method <a href="http://www.pro-football-reference.com/blog/?p=37">here</a>. In the addendum, it&#8217;s stated that the author thinks that nobody in particular is credited with having developed it, and that it&#8217;s been around for a long&nbsp;time.</p>
+<p>[3] Notice that we can shift all <span class="math">\(h_i \to h_i +c\)</span>, with <span class="math">\(c\)</span> some common constant. This invariance means that the solution obtained by solving the system of equations is not unique. Consequently, the matrix of coefficients is not invertible, and the system needs to be solved by Gaussian elimination, or some other irritating&nbsp;means.</p>
+<p>[4] Python code and data for evaluating the <span class="caps">NBA</span> <span class="math">\(h\)</span> values given <a href="%20http://efavdb.com/nba-h-model/">here</a>.</p>
+<p>[5] Note, however, that carrying out a similar analysis over the past 9 seasons showed no similar anomalies in their respective Christmas&nbsp;weeks.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -237,78 +171,123 @@ A week in ten thousand is equivalent to about one week in every <span class="mat
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Quantifying the NBA Christmas week flop: one in ten thousand?&amp;url=./an-nba-christmas.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=./an-nba-christmas.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=./an-nba-christmas.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
-
-                <aside class="post-tags">
-<a href="./tag/nba.html">NBA</a><a href="./tag/statistics.html">statistics</a>                </aside>
-
-                <div class="clear"></div>
-
-                <aside class="post-author">
 
 
-                        <figure class="post-author-avatar">
-                            <img src=".//wp-content/uploads/2014/12/JonathanLinkedIn.jpg" alt="Jonathan Landy" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="./author/jonathan-landy.html">Jonathan Landy</a></h4>
-                            <p class="post-author-about">Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.</p>
-                        <!-- Social linkes in alphabet order. -->
-                    </div>
-                    <div class="clear"></div>
-                </aside>
+             
+ 
+            
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
 
-                </section>
+            
 
 
-                <aside class="post-nav">
-                    <a class="post-nav-next" href="./nba-week-8-results-week-9-predictions.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-left"></i>
-                                <h2 class="post-nav-title">NBA week 8 results, week 9 predictions</h2>
-                            <p class="post-nav-excerpt">A pretty good bounce-back from last week's results: \(35/52 = 67.3%\). Breakdown by...</p>
-                        </section>
-                    </a>
-                    <a class="post-nav-prev" href="./nba-week-7-results-week-8-predictions.html">
-                        <section class="post-nav-teaser">
-                            <i class="ic ic-arrow-right"></i>
-                                <h2 class="post-nav-title">NBA week 7 results, week 8 predictions</h2>
-                            <p class="post-nav-excerpt">The week that defeated the NBA predictor... \(24/49 = 49.0%\). That's right, worse...</p>
-                        </section>
-                    </a>
-                    <div class="clear"></div>
-                </aside>
 
-            </div>
-        </article>
-    </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
+
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="./nba-week-7-results-week-8-predictions.html" title="Previous: NBA week 7 results, week 8 predictions">NBA week 7 results, week 8 predictions</a></li>
+                <li class="next-article"><a href="./nba-week-8-results-week-9-predictions.html" title="Next: NBA week 8 results, week 9 predictions">NBA week 8 results, week 9 predictions</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2014-12-28T21:55:00-08:00">Dec 28, 2014</time>
+            <h4>Category</h4>
+            <a class="category-link" href="./categories.html#case-studies-methods-nba-prediction-project-ref">Case studies, Methods, NBA prediction project</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="./tags.html#nba-ref">NBA
+                    <span>13</span>
+</a></li>
+                <li><a href="./tags.html#statistics-ref">statistics
+                    <span>2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
         </section>
-      </div>
-    </footer>
-  </section>
+</div>
+</article>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript" src="./theme/js/script.js"></script>
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
 
-</body>
+
+
+    <div id="fpowered">
+        Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a>
+        Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a>
+    </div>
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
 </html>
