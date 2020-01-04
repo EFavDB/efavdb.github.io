@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Methods, Programming, Tools</title><link href="http/" rel="alternate"></link><link href="http/feeds/methods-programming-tools.atom.xml" rel="self"></link><id>http/</id><updated>2015-10-05T12:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Getting started with Pandas</title><link href="http/pandas-tips-and-tricks.html" rel="alternate"></link><published>2015-10-05T12:00:00-07:00</published><updated>2015-10-05T12:00:00-07:00</updated><author><name>Damien RJ</name></author><id>tag:None,2015-10-05:http/pandas-tips-and-tricks.html</id><summary type="html">&lt;p&gt;We have made use of Python&amp;#8217;s Pandas package in a variety of posts on the site. These have showcased some of Pandas&amp;#8217; abilities including the&amp;nbsp;following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DataFrames for data manipulation with built in&amp;nbsp;indexing&lt;/li&gt;
+&lt;li&gt;Handling of missing&amp;nbsp;data&lt;/li&gt;
+&lt;li&gt;Data&amp;nbsp;alignment&lt;/li&gt;
+&lt;li&gt;Melting/stacking and Pivoting/unstacking data&amp;nbsp;sets&lt;/li&gt;
+&lt;li&gt;Groupby feature …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;We have made use of Python&amp;#8217;s Pandas package in a variety of posts on the site. These have showcased some of Pandas&amp;#8217; abilities including the&amp;nbsp;following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;DataFrames for data manipulation with built in&amp;nbsp;indexing&lt;/li&gt;
+&lt;li&gt;Handling of missing&amp;nbsp;data&lt;/li&gt;
+&lt;li&gt;Data&amp;nbsp;alignment&lt;/li&gt;
+&lt;li&gt;Melting/stacking and Pivoting/unstacking data&amp;nbsp;sets&lt;/li&gt;
+&lt;li&gt;Groupby feature allowing split -&amp;gt; apply -&amp;gt; combine operations on data&amp;nbsp;sets&lt;/li&gt;
+&lt;li&gt;Data merging and&amp;nbsp;joining&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Pandas is also a high performance library, with much of its code written in Cython or C. Unfortunately, Pandas can have a bit of a steep learning curve &amp;#8212; In this post, I&amp;#8217;ll cover some introductory tips and tricks to help one get started with this excellent&amp;nbsp;package.&lt;/p&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;This post was partially inspired by Tom Augspurger&amp;#8217;s Pandas &lt;a href="https://github.com/tomaugspurger/pydataseattle"&gt;tutorial&lt;/a&gt;, which has a &lt;a href="https://www.youtube.com/watch?v=otCriSKVV_8"&gt;youtube video&lt;/a&gt; that can be viewed along side it. We also suggest some other excellent resource materials &amp;#8212; where relevant &amp;#8212;&amp;nbsp;below.&lt;/li&gt;
+&lt;li&gt;The notebook we use below can be downloaded from our &lt;a href="https://github.com/EFavDB/Pandas"&gt;github page&lt;/a&gt;. Feel free to grab it and follow&amp;nbsp;along.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Jupyter (Formally IPython) notebook&amp;nbsp;tips&lt;/h3&gt;
+&lt;p&gt;All the exercises I will be referring to here were carried out using IPython notebooks. To start off, here&amp;#8217;s a few quick tips on notebook navigation that can help make life easier:  First, the notebook has two modes, command and edit. If you are in edit mode you have the cursor in one of the cells (boxes) where you can enter code or text.  To enter command mode press the &lt;strong&gt;Esc&lt;/strong&gt; key and the cursor will disappear, but the cell will still be highlighted.  In command mode you have a variety of keyboard shortcuts, and you can see all of them if you press &lt;strong&gt;h&lt;/strong&gt;. &lt;strong&gt;a&lt;/strong&gt; and &lt;strong&gt;b &lt;/strong&gt;will make new empty cells below and above the current cell.  &lt;strong&gt;j &lt;/strong&gt;/ &lt;strong&gt;k&lt;/strong&gt; will navigate through the notebook. &lt;strong&gt;Shift + Enter&lt;/strong&gt; will execute the current cell and move to the next one, while &lt;strong&gt;Ctrl + Enter&lt;/strong&gt; will execute the cell but does not move to the next cell. This is nice if you are still tweaking the code in that&amp;nbsp;cell.&lt;/p&gt;
+&lt;h3&gt;Pandas is built on top of&amp;nbsp;NumPy&lt;/h3&gt;
+&lt;p&gt;To understand Pandas, you gotta understand NumPy, as Pandas is built on top of it. Here, we cover some of its NumPy&amp;#8217;s basic&amp;nbsp;properties.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Ndarray&lt;/strong&gt;: ndarrays are central to NumPy, and are homogeneous N-dimensional arrays of fixed-size. NumPy also provides fast methods for the ndarrary that are written in C, often making use of vectorized operations such as element wise addition and multiplication. These methods provide a major resource for code speedup, and Pandas takes full advantage of them where possible. In addition to the fast methods, ndarray also requires less memory than a python list because python lists are an array of pointers to Python objects &amp;#8212; this is what allows lists to hold mixed data types.  This overhead combined with the overhead of the Python objects vs a numpy object can add up quickly. The variabilities in data type also makes it difficult to implement efficient C-loops because every iteration would need to make a call to Python to check the data type. This leads us to the next&amp;nbsp;point.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Data types&lt;/strong&gt;: As mentioned earlier, unlike Python&amp;#8217;s list object, NumPy arrays can only contain one data type at a time.  Giving up mixed data types allows us to achieve much better performance through efficient C-loops.  One important thing to note is that missing values (NaN) will cast integer or boolean arrays to&amp;nbsp;floats.&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;&amp;#8221; align=&amp;#8221;aligncenter&amp;#8221; width=&amp;#8221;526&amp;#8221;]&lt;a href="http://docs.scipy.org/doc/numpy/_images/dtype-hierarchy.png"&gt;&lt;img alt="" src="http://docs.scipy.org/doc/numpy/_images/dtype-hierarchy.png"&gt;&lt;/a&gt; Graph showing data types in&amp;nbsp;NumPy[/caption]&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Broadcasting:&lt;/strong&gt; Broadcasting describes how NumPy treats arrays with different shapes. Essentially the smaller array is “broadcast” across the larger array so that they have compatible shapes. This makes it possible to have vectorized array operations, enabling the use of C instead of Python for the looping. Broadcasting also prevents needless copies of data from being created by making a new array with repeating copies.  The simplest broadcasting example occurs when combining an array with a scaler. This is something Pandas uses for efficiency and ease of&amp;nbsp;use.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;a = np.array([1.0, 2.0, 3.0])  &lt;/span&gt;
+&lt;span class="err"&gt;b = 2.0  &lt;/span&gt;
+&lt;span class="err"&gt;a * b  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; array([ 2., 4., 6.])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;When operating on two arrays, their shapes are compared starting with the trailing dimensions. Two dimensions are compatible&amp;nbsp;when:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;they are equal,&amp;nbsp;or&lt;/li&gt;
+&lt;li&gt;one of them is&amp;nbsp;1&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!-- --&gt;
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;a      (3d array):  15 x 3 x 5&lt;/span&gt;
+&lt;span class="err"&gt;b      (2d array):       3 x 1&lt;/span&gt;
+&lt;span class="err"&gt;a*b (3d array):     15 x 3 x 5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For those interested, I recommend Jake Vanderplas&amp;#8217;s &lt;a href="https://www.youtube.com/watch?v=EEUXKG97YRw"&gt;talk&lt;/a&gt; for learning more about how one can reduce loop usage in your own code using&amp;nbsp;NumPy.&lt;/p&gt;
+&lt;h3&gt;Pandas Data&amp;nbsp;Structures&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Series&lt;/strong&gt;&lt;br&gt;
+We now move to the Pandas-specific data types. First up are Series, which are one-dimensional labeled arrays. Unlike ndarrays, these are capable of holding mixed data types. The cells of the series are labeled via the series &lt;strong&gt;Index&lt;/strong&gt;. We will discuss indices more in a bit. The general method of creating a series is as&amp;nbsp;follows.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;s = Series(data, index=index)  &lt;/span&gt;
+&lt;span class="err"&gt;pd.Series([1,2,3,4], index=[&amp;#39;a&amp;#39;, &amp;#39;b&amp;#39;, &amp;#39;c&amp;#39;, &amp;#39;d&amp;#39;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt; a 1&lt;/span&gt;
+&lt;span class="err"&gt; b 2&lt;/span&gt;
+&lt;span class="err"&gt; c 3&lt;/span&gt;
+&lt;span class="err"&gt; d 4&lt;/span&gt;
+&lt;span class="err"&gt; dtype: int64&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;DataFrame&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;As we have seen in other posts on the site, the DataFrame is the main attraction for Pandas. It is a 2-dimensional labeled data structure with columns of potentially different types. You can think of it like a spreadsheet or &lt;span class="caps"&gt;SQL&lt;/span&gt; table, or a dict of Series objects. Like Series, DataFrame accepts many different kinds of input. One way of making a DataFrame is using a dictionary as&amp;nbsp;input.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;one&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;.],&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;two&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;.,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.],&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;good&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:[&lt;/span&gt;&lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="err"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;c&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;d&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Running the code in a notebook will output a nicely formatted&amp;nbsp;table.&lt;/p&gt;
+&lt;p&gt;good&lt;/p&gt;
+&lt;p&gt;one&lt;/p&gt;
+&lt;p&gt;two&lt;/p&gt;
+&lt;p&gt;a&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;b&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;p&gt;c&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;d&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;br&gt;&amp;nbsp;Index&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The index in Pandas provides axis labeling information for pandas objects &amp;#8212; it can serve many purposes. First, an index can provide metadata, potentially important for analysis, visualization, and so on. Second, it can enable automatic data alignment when preforming operations on multiple DataFrames or Series. Third, it can allow easy access to subsets of the&amp;nbsp;data.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Selection&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;A huge improvement over numpy arrays is labeled indexing. We can select subsets by column, row, or both. To select columns use&amp;nbsp;[].&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;good&amp;#39;]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt; a True&lt;/span&gt;
+&lt;span class="err"&gt; b False&lt;/span&gt;
+&lt;span class="err"&gt; c False&lt;/span&gt;
+&lt;span class="err"&gt; d True&lt;/span&gt;
+&lt;span class="err"&gt; Name: good, dtype: bool&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As we can see here, Pandas will reduce dimensions when possible which is why the output above is a Series instead of a DataFrame &amp;#8212; if you wish to force the returned result to be a DataFrame, you must supply a list of arguments, eg &lt;code&gt;df[['good']]&lt;/code&gt;. You can also select individual columns with the dot (.) operator, for example &lt;code&gt;df.good&lt;/code&gt; will give the same result. However, when using this approach, the column name selected must not have any spaces or special characters, nor can it conflict with any DataFrame methods. In order to add a column to a DataFrame, we&amp;nbsp;write,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;A&amp;#39;] = [1, 2, 3]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You can also select multiple columns using a column name&amp;nbsp;list.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[[&amp;#39;good&amp;#39;, &amp;#39;two&amp;#39;]]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;good&lt;/p&gt;
+&lt;p&gt;two&lt;/p&gt;
+&lt;p&gt;a&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;b&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;p&gt;c&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;d&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;For row selection, use &lt;code&gt;.loc[row_lables, column_labels]&lt;/code&gt; for label-based indexing and use &lt;code&gt;.iloc[row_positions, column_positions]&lt;/code&gt; for ordinal/positional&amp;nbsp;selection.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df.loc[[&amp;#39;a&amp;#39;, &amp;#39;d&amp;#39;]]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;good&lt;/p&gt;
+&lt;p&gt;one&lt;/p&gt;
+&lt;p&gt;two&lt;/p&gt;
+&lt;p&gt;a&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;d&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df.loc[&amp;#39;a&amp;#39;:&amp;#39;b&amp;#39;]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;good&lt;/p&gt;
+&lt;p&gt;one&lt;/p&gt;
+&lt;p&gt;two&lt;/p&gt;
+&lt;p&gt;a&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;b&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;p&gt;Notice that the slice is &lt;strong&gt;inclusive&lt;/strong&gt;: It includes both the start and end index &amp;#8212; unlike normal python&amp;nbsp;indexing.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df.iloc[0:2]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;good&lt;/p&gt;
+&lt;p&gt;one&lt;/p&gt;
+&lt;p&gt;two&lt;/p&gt;
+&lt;p&gt;a&lt;/p&gt;
+&lt;p&gt;True&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;b&lt;/p&gt;
+&lt;p&gt;False&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df.loc[&amp;#39;b&amp;#39;, &amp;#39;good&amp;#39;]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; False&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Reading files into&amp;nbsp;Pandas&lt;/h3&gt;
+&lt;p&gt;At this point, we require a larger data set in order to demonstrate other Pandas capabilities.  For that purpose, I decided to use unemployment data from (&lt;a href="http://data.bls.gov/"&gt;http://data.bls.gov/&lt;/a&gt;).  The data file is available in our Github repository along with the notebook that generated the examples above. I saved the data as a csv file. To read into the notebook, we&amp;#8217;ll make use of Pandas&amp;#8217; read_csv method &amp;#8212; a fast, simple method for directly reading csv files into a&amp;nbsp;DataFrame.&lt;/p&gt;
+&lt;p&gt;After reading in the data, we see that each row corresponds to one unemployment measurement with a different column for each time point. The first column has a numeric id, so the first thing to do is to replace those with human readable strings.  Next, we see that we have incomplete data for Jan 2000, so we drop that column.  Setting the inplace flag to true here causes the modified DataFrame to replace the original &amp;#8212; in this way, we avoid having to copy the&amp;nbsp;original.&lt;/p&gt;
+&lt;p&gt;Next, we assign our IDs to the DataFrame index using &lt;code&gt;set_index&lt;/code&gt;, and then drop the column since it is no longer needed.  Lastly we transpose the table so that each row corresponds to a different time point and the columns to the separate&amp;nbsp;measures.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read_csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data.csv&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Series ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Labor force&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Participation rate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;Rate&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Rate - 16-19 yrs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Rate - 20+ yrs (Men)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;Rate - 20+ yrs (Women)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Rate - White&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;Rate - Black or African American&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Rate - Asian&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;Rate - Hispanic or Latino&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;No High School Diploma&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;High School Graduates&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Some College or Associate Degree&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;Bachelor degree and higher&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Under 5 Weeks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="s1"&gt;&amp;#39;5-14 Weeks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;15 Weeks &amp;amp; over&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;27 Weeks &amp;amp; over&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;drop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Jan 2000&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;set_index&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Series ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;drop&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Series ID&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inplace&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;transpose&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;convert_objects&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;convert_numeric&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With these steps, we take the original&amp;nbsp;table:&lt;/p&gt;
+&lt;p&gt;Series &lt;span class="caps"&gt;ID&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Jan&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;Feb&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;Mar&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;Apr&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;0&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;LNS11000000&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;142267(1)&lt;/p&gt;
+&lt;p&gt;142456&lt;/p&gt;
+&lt;p&gt;142434&lt;/p&gt;
+&lt;p&gt;142751&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;LNS11300000&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;LNS14000000&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;4.0&lt;/p&gt;
+&lt;p&gt;4.1&lt;/p&gt;
+&lt;p&gt;4.0&lt;/p&gt;
+&lt;p&gt;3.8&lt;/p&gt;
+&lt;p&gt;3&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;LNS14000012&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;12.7&lt;/p&gt;
+&lt;p&gt;13.8&lt;/p&gt;
+&lt;p&gt;13.3&lt;/p&gt;
+&lt;p&gt;12.6&lt;/p&gt;
+&lt;p&gt;4&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;LNS14000025&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;3.3&lt;/p&gt;
+&lt;p&gt;3.5&lt;/p&gt;
+&lt;p&gt;3.2&lt;/p&gt;
+&lt;p&gt;3.1&lt;/p&gt;
+&lt;p&gt;to&lt;/p&gt;
+&lt;p&gt;Series &lt;span class="caps"&gt;ID&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Labor&amp;nbsp;force&lt;/p&gt;
+&lt;p&gt;Participation&amp;nbsp;rate&lt;/p&gt;
+&lt;p&gt;Rate&lt;/p&gt;
+&lt;p&gt;Rate - 16-19&amp;nbsp;yrs&lt;/p&gt;
+&lt;p&gt;Rate - 20+ yrs&amp;nbsp;(Men)&lt;/p&gt;
+&lt;p&gt;Feb&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;142456&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;4.1&lt;/p&gt;
+&lt;p&gt;13.8&lt;/p&gt;
+&lt;p&gt;3.5&lt;/p&gt;
+&lt;p&gt;Mar&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;142434&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;4.0&lt;/p&gt;
+&lt;p&gt;13.3&lt;/p&gt;
+&lt;p&gt;3.2&lt;/p&gt;
+&lt;p&gt;Apr&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;142751&lt;/p&gt;
+&lt;p&gt;67.3&lt;/p&gt;
+&lt;p&gt;3.8&lt;/p&gt;
+&lt;p&gt;12.6&lt;/p&gt;
+&lt;p&gt;3.1&lt;/p&gt;
+&lt;p&gt;May&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;142388&lt;/p&gt;
+&lt;p&gt;67.1&lt;/p&gt;
+&lt;p&gt;4.0&lt;/p&gt;
+&lt;p&gt;12.8&lt;/p&gt;
+&lt;p&gt;3.3&lt;/p&gt;
+&lt;p&gt;Jun&amp;nbsp;2000&lt;/p&gt;
+&lt;p&gt;142591&lt;/p&gt;
+&lt;p&gt;67.1&lt;/p&gt;
+&lt;p&gt;4.0&lt;/p&gt;
+&lt;p&gt;12.3&lt;/p&gt;
+&lt;p&gt;3.2&lt;/p&gt;
+&lt;h3&gt;Working with the&amp;nbsp;data&lt;/h3&gt;
+&lt;p&gt;Now that we have the data in a nicely formatted within DataFrame, we can easily visualize it using the Pandas plot method. For example, to plot the general unemployment rate, we&amp;nbsp;write&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;Rate&amp;#39;].plot()  &lt;/span&gt;
+&lt;span class="err"&gt;plt.ylabel(&amp;#39;Unemployment Rate (%)&amp;#39;)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2015/07/fig1.png"&gt;&lt;img alt="fig1" src="http/wp-content/uploads/2015/07/fig1.png"&gt;&lt;/a&gt; Similarly, the following plots unemployment for each of the available different levels of&amp;nbsp;education.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[[&amp;#39;Rate&amp;#39;, &amp;#39;No High School Diploma&amp;#39;, &amp;#39;Bachelor degree and higher&amp;#39;]].plot()  &lt;/span&gt;
+&lt;span class="err"&gt;plt.ylabel(&amp;#39;Unemployment Rate (%)&amp;#39;)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2015/07/fig2.png"&gt;&lt;img alt="fig2" src="http/wp-content/uploads/2015/07/fig2.png"&gt;&lt;/a&gt;&lt;br&gt;
+Interestingly, these unemployment rates seem to evolve in a similar manner. Notice that both the green and the red curves seem to have doubled during the recent&amp;nbsp;slow-down.&lt;/p&gt;
+&lt;h3&gt;GroupBy&lt;/h3&gt;
+&lt;p&gt;You can also used Pandas GroupBy functionality to do analysis on subsets of the data.  For this example we &lt;a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html"&gt;GroupBy&lt;/a&gt; year, and then make a plot showing the mean unemployment per year. GroupBy allows one to easily split the data, apply a function to each group, and then combine the results. It is a very useful&amp;nbsp;feature!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;Year&amp;#39;]=(df.index.to_datetime()).year  &lt;/span&gt;
+&lt;span class="err"&gt;years = df.groupby(&amp;#39;Year&amp;#39;)  &lt;/span&gt;
+&lt;span class="err"&gt;years[&amp;#39;Rate&amp;#39;].mean().plot(kind=&amp;#39;bar&amp;#39;)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;&lt;a href="http/wp-content/uploads/2015/07/fig3.png"&gt;&lt;img alt="fig3" src="http/wp-content/uploads/2015/07/fig3.png"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;There are some functions like mean, and describe that can be run directly on a grouped&amp;nbsp;object.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;years.get_group(2005)[&amp;#39;Rate&amp;#39;].describe()  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt;
+&lt;span class="err"&gt; count 12.000000&lt;/span&gt;
+&lt;span class="err"&gt; mean 5.083333&lt;/span&gt;
+&lt;span class="err"&gt; std 0.158592&lt;/span&gt;
+&lt;span class="err"&gt; min 4.900000&lt;/span&gt;
+&lt;span class="err"&gt; 25% 5.000000&lt;/span&gt;
+&lt;span class="err"&gt; 50% 5.000000&lt;/span&gt;
+&lt;span class="err"&gt; 75% 5.200000&lt;/span&gt;
+&lt;span class="err"&gt; max 5.400000&lt;/span&gt;
+&lt;span class="err"&gt; Name: Rate, dtype: float64&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It is possible to apply any function to the grouped function using &lt;a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html#aggregation"&gt;agg()&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;years[&amp;#39;Rate&amp;#39;].agg([np.mean, np.std, max, min])  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;mean&lt;/p&gt;
+&lt;p&gt;std&lt;/p&gt;
+&lt;p&gt;max&lt;/p&gt;
+&lt;p&gt;min&lt;/p&gt;
+&lt;p&gt;Year&lt;/p&gt;
+&lt;p&gt;2000&lt;/p&gt;
+&lt;p&gt;3.963636&lt;/p&gt;
+&lt;p&gt;0.092442&lt;/p&gt;
+&lt;p&gt;4.1&lt;/p&gt;
+&lt;p&gt;3.8&lt;/p&gt;
+&lt;p&gt;2001&lt;/p&gt;
+&lt;p&gt;4.741667&lt;/p&gt;
+&lt;p&gt;0.528219&lt;/p&gt;
+&lt;p&gt;5.7&lt;/p&gt;
+&lt;p&gt;4.2&lt;/p&gt;
+&lt;p&gt;2002&lt;/p&gt;
+&lt;p&gt;5.783333&lt;/p&gt;
+&lt;p&gt;0.102986&lt;/p&gt;
+&lt;p&gt;6.0&lt;/p&gt;
+&lt;p&gt;5.7&lt;/p&gt;
+&lt;p&gt;2003&lt;/p&gt;
+&lt;p&gt;5.991667&lt;/p&gt;
+&lt;p&gt;0.178164&lt;/p&gt;
+&lt;p&gt;6.3&lt;/p&gt;
+&lt;p&gt;5.7&lt;/p&gt;
+&lt;p&gt;2004&lt;/p&gt;
+&lt;p&gt;5.541667&lt;/p&gt;
+&lt;p&gt;0.131137&lt;/p&gt;
+&lt;p&gt;5.8&lt;/p&gt;
+&lt;p&gt;5.4&lt;/p&gt;
+&lt;p&gt;2005&lt;/p&gt;
+&lt;p&gt;5.083333&lt;/p&gt;
+&lt;p&gt;0.158592&lt;/p&gt;
+&lt;p&gt;5.4&lt;/p&gt;
+&lt;p&gt;4.9&lt;/p&gt;
+&lt;p&gt;2006&lt;/p&gt;
+&lt;p&gt;4.608333&lt;/p&gt;
+&lt;p&gt;0.131137&lt;/p&gt;
+&lt;p&gt;4.8&lt;/p&gt;
+&lt;p&gt;4.4&lt;/p&gt;
+&lt;p&gt;2007&lt;/p&gt;
+&lt;p&gt;4.616667&lt;/p&gt;
+&lt;p&gt;0.164225&lt;/p&gt;
+&lt;p&gt;5.0&lt;/p&gt;
+&lt;p&gt;4.4&lt;/p&gt;
+&lt;p&gt;2008&lt;/p&gt;
+&lt;p&gt;5.800000&lt;/p&gt;
+&lt;p&gt;0.780443&lt;/p&gt;
+&lt;p&gt;7.3&lt;/p&gt;
+&lt;p&gt;4.9&lt;/p&gt;
+&lt;p&gt;2009&lt;/p&gt;
+&lt;p&gt;9.283333&lt;/p&gt;
+&lt;p&gt;0.696528&lt;/p&gt;
+&lt;p&gt;10.0&lt;/p&gt;
+&lt;p&gt;7.8&lt;/p&gt;
+&lt;p&gt;2010&lt;/p&gt;
+&lt;p&gt;9.608333&lt;/p&gt;
+&lt;p&gt;0.219331&lt;/p&gt;
+&lt;p&gt;9.9&lt;/p&gt;
+&lt;p&gt;9.3&lt;/p&gt;
+&lt;p&gt;2011&lt;/p&gt;
+&lt;p&gt;8.941667&lt;/p&gt;
+&lt;p&gt;0.206522&lt;/p&gt;
+&lt;p&gt;9.2&lt;/p&gt;
+&lt;p&gt;8.5&lt;/p&gt;
+&lt;p&gt;2012&lt;/p&gt;
+&lt;p&gt;8.066667&lt;/p&gt;
+&lt;p&gt;0.214617&lt;/p&gt;
+&lt;p&gt;8.3&lt;/p&gt;
+&lt;p&gt;7.7&lt;/p&gt;
+&lt;p&gt;2013&lt;/p&gt;
+&lt;p&gt;7.366667&lt;/p&gt;
+&lt;p&gt;0.342008&lt;/p&gt;
+&lt;p&gt;8.0&lt;/p&gt;
+&lt;p&gt;6.7&lt;/p&gt;
+&lt;p&gt;2014&lt;/p&gt;
+&lt;p&gt;6.150000&lt;/p&gt;
+&lt;p&gt;0.360555&lt;/p&gt;
+&lt;p&gt;6.7&lt;/p&gt;
+&lt;p&gt;5.6&lt;/p&gt;
+&lt;p&gt;2015&lt;/p&gt;
+&lt;p&gt;5.412500&lt;/p&gt;
+&lt;p&gt;0.180772&lt;/p&gt;
+&lt;p&gt;5.7&lt;/p&gt;
+&lt;p&gt;5.1&lt;/p&gt;
+&lt;h3&gt;Boolean&amp;nbsp;Indexing&lt;/h3&gt;
+&lt;p&gt;Another common operation is the use of boolean vectors to filter data. This allows one to easily select subsets of data. It also provides a quick method for counting &amp;#8212; this works because True and False are represented as 1 and 0, respectively, when&amp;nbsp;adding.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sum(df[&amp;#39;Rate&amp;#39;] &amp;gt; 7)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;gt;&amp;gt;&amp;gt; 59&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;String&amp;nbsp;Methods&lt;/h3&gt;
+&lt;p&gt;Pandas has very useful string methods which can be access via &lt;code&gt;str.&lt;/code&gt; This makes it easy to look for patterns in the text, do filtering, replacements, and so on. I have a couple of examples below but I highly recommend taking a look at the documentation page for many &lt;a href="http://pandas.pydata.org/pandas-docs/stable/text.html"&gt;examples&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;s = pd.Series([&amp;#39;Dog&amp;#39;, &amp;#39;Bat&amp;#39;, &amp;#39;Coon&amp;#39;, &amp;#39;cAke&amp;#39;, &amp;#39;bAnk&amp;#39;, &amp;#39;CABA&amp;#39;, &amp;#39;dog&amp;#39;, &amp;#39;cat&amp;#39;])  &lt;/span&gt;
+&lt;span class="err"&gt;s[s.str.contains(&amp;#39;B&amp;#39;)]  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;1 Bat&lt;/span&gt;
+&lt;span class="err"&gt;5 CABA&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;s.str.replace(&amp;#39;dog|cat&amp;#39;, &amp;#39;nope &amp;#39;, case=False)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;0 nope&lt;/span&gt;
+&lt;span class="err"&gt;1 Bat&lt;/span&gt;
+&lt;span class="err"&gt;2 Coon&lt;/span&gt;
+&lt;span class="err"&gt;3 cAke&lt;/span&gt;
+&lt;span class="err"&gt;4 bAnk&lt;/span&gt;
+&lt;span class="err"&gt;5 CABA&lt;/span&gt;
+&lt;span class="err"&gt;6 nope&lt;/span&gt;
+&lt;span class="err"&gt;7 nope&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;&lt;/h3&gt;
+&lt;h3&gt;Wrap&amp;nbsp;Up&lt;/h3&gt;
+&lt;p&gt;Pandas is a very useful library that I highly recommend. Although it can have a bit of a steep learning curve, it&amp;#8217;s actually pretty easy to pick up once you get started. Give it a shot, and you won&amp;#8217;t regret&amp;nbsp;it!&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://github.com/EFavDB/Pandas" title="GitHub Repo"&gt;&lt;img alt="Open GitHub Repo" src="http://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="Methods, Programming, Tools"></category></entry><entry><title>Build a web scraper for a literature search - from soup to nuts</title><link href="http/build-a-web-scraper-lit-search.html" rel="alternate"></link><published>2015-08-25T17:43:00-07:00</published><updated>2015-08-25T17:43:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2015-08-25:http/build-a-web-scraper-lit-search.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Code, references, and examples of this project are on &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper"&gt;Github&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In this post, I&amp;#8217;ll describe the soup to nuts process of automating a literature search in &lt;a href="http://www.ncbi.nlm.nih.gov/pmc/"&gt;Pubmed Central&lt;/a&gt; using&amp;nbsp;R.&lt;/p&gt;
+&lt;p&gt;It feels deeply satisfying to sit back and let the code do the dirty&amp;nbsp;work.&lt;/p&gt;
+&lt;p&gt;Is it as satisfying …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;Code, references, and examples of this project are on &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper"&gt;Github&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;In this post, I&amp;#8217;ll describe the soup to nuts process of automating a literature search in &lt;a href="http://www.ncbi.nlm.nih.gov/pmc/"&gt;Pubmed Central&lt;/a&gt; using&amp;nbsp;R.&lt;/p&gt;
+&lt;p&gt;It feels deeply satisfying to sit back and let the code do the dirty&amp;nbsp;work.&lt;/p&gt;
+&lt;p&gt;Is it as satisfying as a bowl of red-braised beef noodle soup with melt-in-your-mouth tendons from Taipei&amp;#8217;s Yong Kang Restaurant (featured&amp;nbsp;image)?&lt;/p&gt;
+&lt;p&gt;If you have to do a lit search like this more than once, then I have to say the answer is yes &amp;#8212; unequivocally,&amp;nbsp;yes.  &lt;/p&gt;
+&lt;p&gt;The three components of the project&amp;nbsp;are&lt;/p&gt;
+&lt;p&gt;&lt;a href="#Section1"&gt;I. Design a database to store the contents of a scraping session&lt;/a&gt;&lt;br&gt;
+&lt;a href="#Section2"&gt;&lt;span class="caps"&gt;II&lt;/span&gt;. Extract information via an &lt;span class="caps"&gt;API&lt;/span&gt; and web scraper&lt;/a&gt;&lt;br&gt;
+&lt;a href="#Section3"&gt;&lt;span class="caps"&gt;III&lt;/span&gt;. Generate summary&amp;nbsp;reports&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;If you want to skip the explanations and go straight to using the program, check out the quick-start &lt;span class="caps"&gt;HTML5&lt;/span&gt; &lt;a href="http/wp-content/uploads/2015/08/PubmedCentralSlides.html"&gt;presentation&lt;/a&gt; or &lt;a href="http/wp-content/uploads/2015/08/scraper_manual.html"&gt;manual&lt;/a&gt; and an example of a &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md"&gt;report&lt;/a&gt; generated by this&amp;nbsp;project.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;The task is to capture plots of tumor growth inhibition (&lt;span class="caps"&gt;TGI&lt;/span&gt;), i.e. tumor growth as a function of time, in animals treated with a particular cancer drug, then aggregate all the plots in a summary&amp;nbsp;report.&lt;/p&gt;
+&lt;p&gt;An example of a &lt;span class="caps"&gt;TGI&lt;/span&gt; plot is provided below (source: &lt;a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/" title="PMC3792566"&gt;Qi 2011&lt;/a&gt;) for &lt;span class="caps"&gt;TGI&lt;/span&gt; in mice treated with the cancer drug,&amp;nbsp;Docetaxel.&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;attachment_2047&amp;#8221; align=&amp;#8221;alignnone&amp;#8221; width=&amp;#8221;300&amp;#8221; class=&amp;#8221;left&amp;#8221;]&lt;a href="http://efavdb.com/wp-content/uploads/2015/07/TGIplot.png"&gt;&lt;img alt="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/figure/F5/" src="http://efavdb.com/wp-content/uploads/2015/07/TGIplot-300x217.png"&gt;&lt;/a&gt; &lt;span class="caps"&gt;TGI&lt;/span&gt; plots for several drugs (image credit: Qi&amp;nbsp;2011)[/caption]&lt;/p&gt;
+&lt;p&gt;Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform&amp;nbsp;format.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;I. Set up the the&amp;nbsp;database&lt;/h2&gt;
+&lt;p&gt;This project called for data storage beyond the scope of data frames and external flat files, e.g. Excel spreadsheets or csv files, since the following attributes were required of the&amp;nbsp;data:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Persistence outside the R environment =&amp;gt; data frames&amp;nbsp;unsuitable&lt;/li&gt;
+&lt;li&gt;Ease of access and manipulation =&amp;gt; writing to and reading from text/csv files would be&amp;nbsp;cumbersome&lt;/li&gt;
+&lt;li&gt;The data would be structured =&amp;gt; relational&amp;nbsp;database&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With a view towards expediency, we cover just enough to get things up and running and leave the finer details of relational database design to the&amp;nbsp;experts.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.sqlite.org/about.html" title="SQLite"&gt;SQLite&lt;/a&gt; is well-suited for this small project; it&amp;#8217;s self-contained and doesn&amp;#8217;t require fussing with servers. To lower the barrier even further, the &lt;a href="http://cran.r-project.org/web/packages/RSQLite/index.html" title="RSQLite"&gt;RSQLite&lt;/a&gt; package embeds SQLite in R (no separate installation needed) and allows you to very easily interface with your database within the R environment. The database itself is stored in a single file on your hard disk and easily&amp;nbsp;transferred.&lt;/p&gt;
+&lt;h3&gt;What data will be&amp;nbsp;collected?&lt;/h3&gt;
+&lt;p&gt;The first step is to decide what data should be collected during the web scraping process. We want to aggregate images of plots in a (html)&amp;nbsp;report.&lt;/p&gt;
+&lt;p&gt;However, downloading the images themselves is inefficient; instead, we&amp;#8217;ll just grab the image URLs on Pubmed Central. (The image URLs are useful because they can be referred to by markdown code to embed the images in the html&amp;nbsp;report.)&lt;/p&gt;
+&lt;p&gt;The image urls should be captured, along with associated information&amp;nbsp;below:&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;image data&lt;/strong&gt;                         image url, figure name in the article, image caption
+  &lt;strong&gt;article metadata&lt;/strong&gt;                   Pubmed Central id, &lt;span class="caps"&gt;DOI&lt;/span&gt;, title, journal, year of publication, authors, abstracts, keywords
+  &lt;strong&gt;search criteria met by the image&lt;/strong&gt;   topic/drug, type of&amp;nbsp;plot&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;The last point addresses the foreseeable need to be able to modify the search parameters. In the next section, we allow for the possibility that the same image might show up for more than one kind of drug or plot&amp;nbsp;type.&lt;/p&gt;
+&lt;h3&gt;Decide on a layout for the&amp;nbsp;database&lt;/h3&gt;
+&lt;p&gt;After pinning down the content itself, the next step is to decide how it should be arranged in the database.&amp;nbsp;Namely,&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What tables are&amp;nbsp;needed?&lt;/li&gt;
+&lt;li&gt;Which fields go in which&amp;nbsp;tables?&lt;/li&gt;
+&lt;li&gt;How do the tables relate to one&amp;nbsp;another?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This particularly helpful &lt;a href="http://db.grussell.org/section008.html" title="normalization"&gt;page&lt;/a&gt; walks you through the concept of database normalization by providing lots of concrete examples, including &amp;#8220;anomalies&amp;#8221; that arise in poorly designed&amp;nbsp;databases.&lt;/p&gt;
+&lt;p&gt;Some ideas on normalization are intuitive. Let&amp;#8217;s take a look at how to restructure a table to satisfy first normal form (&lt;span class="caps"&gt;1NF&lt;/span&gt;). The table below is not in &lt;span class="caps"&gt;1NF&lt;/span&gt; because it contains sets of values within single&amp;nbsp;rows.&lt;/p&gt;
+&lt;p&gt;student_id&lt;/p&gt;
+&lt;p&gt;name&lt;/p&gt;
+&lt;p&gt;subjects&lt;/p&gt;
+&lt;p&gt;grades&lt;/p&gt;
+&lt;p&gt;1234&lt;/p&gt;
+&lt;p&gt;Andrew&lt;/p&gt;
+&lt;p&gt;machine&amp;nbsp;learning&lt;/p&gt;
+&lt;p&gt;linear&amp;nbsp;algebra&lt;/p&gt;
+&lt;p&gt;modern&amp;nbsp;physics&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;B+&lt;/p&gt;
+&lt;p&gt;5678&lt;/p&gt;
+&lt;p&gt;Yaser&lt;/p&gt;
+&lt;p&gt;statistical&amp;nbsp;physics&lt;/p&gt;
+&lt;p&gt;algorithms&lt;/p&gt;
+&lt;p&gt;A-&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;Instead, we can break it up into two&amp;nbsp;tables:&lt;/p&gt;
+&lt;p&gt;table:&amp;nbsp;student&lt;/p&gt;
+&lt;p&gt;student_id&lt;/p&gt;
+&lt;p&gt;name&lt;/p&gt;
+&lt;p&gt;1234&lt;/p&gt;
+&lt;p&gt;Andrew&lt;/p&gt;
+&lt;p&gt;5678&lt;/p&gt;
+&lt;p&gt;Yaser&lt;/p&gt;
+&lt;p&gt;table:&amp;nbsp;grades&lt;/p&gt;
+&lt;p&gt;student_id&lt;/p&gt;
+&lt;p&gt;subject&lt;/p&gt;
+&lt;p&gt;grade&lt;/p&gt;
+&lt;p&gt;1234&lt;/p&gt;
+&lt;p&gt;machine&amp;nbsp;learning&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;1234&lt;/p&gt;
+&lt;p&gt;linear&amp;nbsp;algebra&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;1234&lt;/p&gt;
+&lt;p&gt;modern&amp;nbsp;physics&lt;/p&gt;
+&lt;p&gt;B+&lt;/p&gt;
+&lt;p&gt;5678&lt;/p&gt;
+&lt;p&gt;statistical&amp;nbsp;physics&lt;/p&gt;
+&lt;p&gt;A-&lt;/p&gt;
+&lt;p&gt;5678&lt;/p&gt;
+&lt;p&gt;algorithms&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;Column names that are primary keys are underlined. A primary key is a column, or combination of columns, whose values uniquely identify a row in a table (and accordingly guards against duplicate rows). In a first go at a schema, a table without a logical primary key reared its ugly&amp;nbsp;head:&lt;/p&gt;
+&lt;p&gt;pmcid&lt;/p&gt;
+&lt;p&gt;topic&lt;/p&gt;
+&lt;p&gt;123456&lt;/p&gt;
+&lt;p&gt;drug&amp;nbsp;A&lt;/p&gt;
+&lt;p&gt;123456&lt;/p&gt;
+&lt;p&gt;drug&amp;nbsp;B&lt;/p&gt;
+&lt;p&gt;100000&lt;/p&gt;
+&lt;p&gt;drug&amp;nbsp;A&lt;/p&gt;
+&lt;p&gt;Note that the &lt;strong&gt;pmcid&lt;/strong&gt; value is not guaranteed to be unique in the above table because the same article may show up in searches for multiple drugs. This situation hinted at the need to restructure the tables. We finally settled on the three tables below, which all had natural primary keys&amp;nbsp;(underlined):&lt;/p&gt;
+&lt;p&gt;table:&amp;nbsp;article&lt;/p&gt;
+&lt;p&gt;pmcid&lt;/p&gt;
+&lt;p&gt;doi&lt;/p&gt;
+&lt;p&gt;title&lt;/p&gt;
+&lt;p&gt;journal&lt;/p&gt;
+&lt;p&gt;year&lt;/p&gt;
+&lt;p&gt;authors&lt;/p&gt;
+&lt;p&gt;abstract&lt;/p&gt;
+&lt;p&gt;keywords&lt;/p&gt;
+&lt;p&gt;table:&amp;nbsp;figure&lt;/p&gt;
+&lt;p&gt;topic&lt;/p&gt;
+&lt;p&gt;plot_type&lt;/p&gt;
+&lt;p&gt;img_url&lt;/p&gt;
+&lt;p&gt;pmcid&lt;/p&gt;
+&lt;p&gt;table:&amp;nbsp;figure_text&lt;/p&gt;
+&lt;p&gt;img_url&lt;/p&gt;
+&lt;p&gt;fig_name&lt;/p&gt;
+&lt;p&gt;caption&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;attachment_2041&amp;#8221; align=&amp;#8221;alignright&amp;#8221; width=&amp;#8221;263&amp;#8221;]&lt;a href="http://efavdb.com/wp-content/uploads/2015/07/a_hanging.jpg"&gt;&lt;img alt="cartoon hanging" src="http://efavdb.com/wp-content/uploads/2015/07/a_hanging-263x300.jpg"&gt;&lt;/a&gt; Their tables were not in &lt;span class="caps"&gt;1NF&lt;/span&gt;.[/caption]&lt;/p&gt;
+&lt;p&gt;The tables &amp;#8220;figure&amp;#8221; and &amp;#8220;figure_text&amp;#8221; are kept separate in order to minimize redundancies. For instance, the same img_url can appear in the table &amp;#8220;figure&amp;#8221; multiple times if it matches a number of different drugs or plot types, but its caption would only need to be stored once in the table&amp;nbsp;&amp;#8220;figure_text&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;The table &amp;#8220;figure&amp;#8221; is not in second normal form (&lt;span class="caps"&gt;2NF&lt;/span&gt;) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and&amp;nbsp;img_url}.&lt;/p&gt;
+&lt;p&gt;Although the normalization rules sound a bit intimidating, they are just guidelines&amp;#8212;apparently, one can even get carried away with&amp;nbsp;over-normalizing.&lt;/p&gt;
+&lt;p&gt;The database has held up fine so far, but any suggestions on how to improve the design are very&amp;nbsp;welcome!&lt;/p&gt;
+&lt;h3&gt;Creating a SQLite database in&amp;nbsp;R&lt;/h3&gt;
+&lt;p&gt;With a schema in hand, creating the SQLite database in R is a matter of minutes. First, we load the packages for interfacing with the&amp;nbsp;database.&lt;/p&gt;
+&lt;p&gt;[code lang=&amp;#8221;r&amp;#8221;]&lt;br&gt;
+library(&lt;span class="caps"&gt;DBI&lt;/span&gt;)&lt;br&gt;&amp;nbsp;library(RSQLite)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;Then&lt;/span&gt; &lt;span class="n"&gt;we&lt;/span&gt; &lt;span class="k"&gt;create&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="k"&gt;connection&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;we&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;ll&lt;/span&gt; &lt;span class="k"&gt;call&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;myDb.sqlite&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;con&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dbConnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SQLite&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;dbname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;myDb.sqlite&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, we create the three tables &amp;#8220;article&amp;#8221;, &amp;#8220;figure&amp;#8221;, and&amp;nbsp;&amp;#8220;figure_text&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;[code&amp;nbsp;language=&amp;#8221;r&amp;#8221;]  &lt;/p&gt;
+&lt;h2&gt;create &lt;span class="caps"&gt;TABLE&lt;/span&gt;&amp;nbsp;figure_text&lt;/h2&gt;
+&lt;p&gt;query = &amp;#8216;&lt;span class="caps"&gt;CREATE&lt;/span&gt; &lt;span class="caps"&gt;TABLE&lt;/span&gt; figure_text(img_url &lt;span class="caps"&gt;TEXT&lt;/span&gt;, fig_name &lt;span class="caps"&gt;TEXT&lt;/span&gt;, caption &lt;span class="caps"&gt;TEXT&lt;/span&gt;, &lt;span class="caps"&gt;PRIMARY&lt;/span&gt; &lt;span class="caps"&gt;KEY&lt;/span&gt;(img_url))&amp;#8217;&lt;br&gt;
+dbGetQuery(con,&amp;nbsp;query)&lt;/p&gt;
+&lt;h2&gt;create &lt;span class="caps"&gt;TABLE&lt;/span&gt;&amp;nbsp;figure&lt;/h2&gt;
+&lt;p&gt;query = &amp;#8216;&lt;span class="caps"&gt;CREATE&lt;/span&gt; &lt;span class="caps"&gt;TABLE&lt;/span&gt; figure(topic &lt;span class="caps"&gt;TEXT&lt;/span&gt;, plot_type &lt;span class="caps"&gt;TEXT&lt;/span&gt;, img_url &lt;span class="caps"&gt;TEXT&lt;/span&gt;, pmcid &lt;span class="caps"&gt;INTEGER&lt;/span&gt;, &lt;span class="caps"&gt;PRIMARY&lt;/span&gt; &lt;span class="caps"&gt;KEY&lt;/span&gt;(topic, plot_type, img_url))&amp;#8217;&lt;br&gt;
+dbGetQuery(con,&amp;nbsp;query)&lt;/p&gt;
+&lt;h2&gt;create &lt;span class="caps"&gt;TABLE&lt;/span&gt;&amp;nbsp;article&lt;/h2&gt;
+&lt;p&gt;query = &amp;#8216;&lt;span class="caps"&gt;CREATE&lt;/span&gt; &lt;span class="caps"&gt;TABLE&lt;/span&gt; article(pmcid &lt;span class="caps"&gt;INTEGER&lt;/span&gt;, doi &lt;span class="caps"&gt;TEXT&lt;/span&gt;, title &lt;span class="caps"&gt;TEXT&lt;/span&gt;, journal &lt;span class="caps"&gt;TEXT&lt;/span&gt;, year &lt;span class="caps"&gt;INTEGER&lt;/span&gt;, authors &lt;span class="caps"&gt;TEXT&lt;/span&gt;, abstract &lt;span class="caps"&gt;TEXT&lt;/span&gt;, keywords &lt;span class="caps"&gt;TEXT&lt;/span&gt;, &lt;span class="caps"&gt;PRIMARY&lt;/span&gt; &lt;span class="caps"&gt;KEY&lt;/span&gt;(pmcid))&amp;#8217;&lt;br&gt;
+dbGetQuery(con,&amp;nbsp;query)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;Last&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;we&lt;/span&gt; &lt;span class="k"&gt;close&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;connection&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;dbDisconnect&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;con&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The SQLite database is now ready to be used! The script above is available on github as &lt;code&gt;createSQLiteDatabase.R&lt;/code&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;&lt;span class="caps"&gt;II&lt;/span&gt;. Scrape Pubmed Central&amp;nbsp;articles&lt;/h2&gt;
+&lt;p&gt;The script &lt;code&gt;pubmedcentral_scraper.R&lt;/code&gt; is where the action happens. It takes input from the user to query the Pubmed Central Database, scrape articles, and load the extracted information into the&amp;nbsp;database.&lt;/p&gt;
+&lt;h3&gt;Input keywords for literature search and labels in&amp;nbsp;database&lt;/h3&gt;
+&lt;p&gt;The user input section is shown&amp;nbsp;below.&lt;/p&gt;
+&lt;p&gt;[code&amp;nbsp;language=&amp;#8221;r&amp;#8221;]  &lt;/p&gt;
+&lt;h2&gt;&amp;lt;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-&lt;span class="caps"&gt;USER&lt;/span&gt; &lt;span class="caps"&gt;INPUT&lt;/span&gt; &lt;span class="caps"&gt;STARTS&lt;/span&gt; &lt;span class="caps"&gt;HERE&lt;/span&gt;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-&amp;gt;&lt;/h2&gt;
+&lt;h2&gt;name of database where scraper results are&amp;nbsp;stored&lt;/h2&gt;
+&lt;p&gt;database.name =&amp;nbsp;&amp;#8220;myDb.sqlite&amp;#8221;&lt;/p&gt;
+&lt;h2&gt;maximum number of results to retrieve from&amp;nbsp;query&lt;/h2&gt;
+&lt;p&gt;retmax =&amp;nbsp;10&lt;/p&gt;
+&lt;h2&gt;topic terms to be queried via the pubmed search&amp;nbsp;engine&lt;/h2&gt;
+&lt;p&gt;query.topic = c(&amp;#8220;Docetaxel&amp;#8221;,&amp;nbsp;&amp;#8220;Docetaxol&amp;#8221;)&lt;/p&gt;
+&lt;h2&gt;keywords to identify plot type to be&amp;nbsp;captured&lt;/h2&gt;
+&lt;h2&gt;terms should be&amp;nbsp;lower-case&lt;/h2&gt;
+&lt;p&gt;query.plottype = c(&amp;#8220;tumor growth&amp;#8221;, &amp;#8220;tumor volume&amp;#8221;,&lt;br&gt;
+&amp;#8220;tumor size&amp;#8221;, &amp;#8220;tumor inhibition&amp;#8221;,&lt;br&gt;
+&amp;#8220;tumor growth inhibition&amp;#8221;, &amp;#8220;tgi&amp;#8221;,&lt;br&gt;
+&amp;#8220;tumor response&amp;#8221;, &amp;#8220;tumor&amp;nbsp;regression&amp;#8221;)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="k"&gt;user&lt;/span&gt; &lt;span class="k"&gt;input&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;variables&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;topic&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plottype&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="k"&gt;are&lt;/span&gt; &lt;span class="n"&gt;used&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;construct&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;Pubmed&lt;/span&gt; &lt;span class="n"&gt;Central&lt;/span&gt; &lt;span class="n"&gt;via&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;Entrez&lt;/span&gt; &lt;span class="n"&gt;Programming&lt;/span&gt; &lt;span class="n"&gt;Utilities&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;details&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;utilities&lt;/span&gt; &lt;span class="n"&gt;guide&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ncbi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nlm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nih&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gov&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;books&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;NBK25499&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;made&lt;/span&gt; &lt;span class="n"&gt;available&lt;/span&gt; &lt;span class="n"&gt;through&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="k"&gt;National&lt;/span&gt; &lt;span class="n"&gt;Center&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;Biotechnology&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;www&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ncbi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nlm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nih&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gov&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NCBI&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt; &lt;span class="k"&gt;To&lt;/span&gt; &lt;span class="n"&gt;maximize&lt;/span&gt; &lt;span class="n"&gt;hits&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;user&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;supply&lt;/span&gt; &lt;span class="n"&gt;multiple&lt;/span&gt; &lt;span class="n"&gt;terms&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;each&lt;/span&gt; &lt;span class="k"&gt;variable&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="k"&gt;language&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="o"&gt;##&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;drug&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;  
+&lt;span class="n"&gt;topic&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Docetaxel&amp;quot;&lt;/span&gt;
+
+&lt;span class="o"&gt;##&lt;/span&gt; &lt;span class="n"&gt;plot&lt;/span&gt; &lt;span class="k"&gt;type&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;  
+&lt;span class="n"&gt;plot_type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;TGI&amp;quot;&lt;/span&gt;
+
+&lt;span class="o"&gt;##&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="c1"&gt;---------USER INPUT ENDS HERE-----------&amp;gt;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The variables &lt;code&gt;topic&lt;/code&gt; and &lt;code&gt;plot_type&lt;/code&gt; label the data in the SQLite database (the labels should be consistent between queries in order to simplify the information retrieval process, e.g. stick to one spelling convention for a particular drug, like &amp;#8220;Docetaxel&amp;#8221;, in&amp;nbsp;myDb.sqlite).&lt;/p&gt;
+&lt;p&gt;The first E-utility we will use is ESearch, which returns the &lt;span class="caps"&gt;PMC&lt;/span&gt; ids of articles matching a query, along with other metadata. The E-utilities &lt;span class="caps"&gt;API&lt;/span&gt; is extremely easy to use. Simply string together the set of parameters (&lt;span class="caps"&gt;NCBI&lt;/span&gt; database name, utility name, etc.) and go to the &lt;span class="caps"&gt;URL&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;[code&amp;nbsp;language=&amp;#8221;r&amp;#8221;]  &lt;/p&gt;
+&lt;h2&gt;compose url for&amp;nbsp;eSearch&lt;/h2&gt;
+&lt;p&gt;url.esearch = paste0(url.base, esearch, db, &amp;#8220;&amp;amp;&amp;#8221;, retmax,&amp;#8221;&amp;amp;&amp;#8221;, sortmethod, &amp;#8220;&amp;amp;&amp;#8221;,&amp;nbsp;query)&lt;/p&gt;
+&lt;h2&gt;get and parse xml data returned by&amp;nbsp;eSearch&lt;/h2&gt;
+&lt;p&gt;data.esearch =&amp;nbsp;getURL(url.esearch)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;explicit&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="n"&gt;constructed&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;above&lt;/span&gt; &lt;span class="n"&gt;example&lt;/span&gt; &lt;span class="k"&gt;user&lt;/span&gt; &lt;span class="k"&gt;input&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="n"&gt;eutils&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ncbi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nlm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nih&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;gov&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;entrez&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;eutils&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;esearch&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fcgi&lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="n"&gt;db&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;pmc&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;retmax&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;relevance&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;term&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Docetaxel\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Docetaxol\&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;AND&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+growth\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+volume\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+size\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+inhibition\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+growth+inhibition\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tgi\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+response\&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="k"&gt;OR&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="err"&gt;\&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;tumor+regression\&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;
+
+&lt;span class="n"&gt;Try&lt;/span&gt; &lt;span class="n"&gt;copying&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;pasting&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;above&lt;/span&gt; &lt;span class="n"&gt;URL&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;your&lt;/span&gt; &lt;span class="n"&gt;browser&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;see&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;xml&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="n"&gt;returned&lt;/span&gt; &lt;span class="k"&gt;by&lt;/span&gt; &lt;span class="n"&gt;E&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;utilities&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Here&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;s an excerpt of the XML document from a query to ESearch on August 25, 2015:&lt;/span&gt;
+
+&lt;span class="s1"&gt;[caption id=&amp;quot;attachment_2317&amp;quot; align=&amp;quot;alignnone&amp;quot; width=&amp;quot;164&amp;quot; class=&amp;quot;center&amp;quot;][![ESearch XML file](http://efavdb.com/wp-content/uploads/2015/08/esearchXML-164x300.jpg)]({static}/wp-content/uploads/2015/08/esearchXML.jpg) XML output from a query to PMC via the ESearch API.[/caption]&lt;/span&gt;
+
+&lt;span class="s1"&gt;We extract the PMC ids, which are sandwiched between the &amp;lt;Id&amp;gt; XML tags, using functions from the XML and rvest packages:&lt;/span&gt;
+
+&lt;span class="s1"&gt;[code language=&amp;quot;r&amp;quot;]  &lt;/span&gt;
+&lt;span class="s1"&gt;data.xml = xmlParse(data.esearch)  &lt;/span&gt;
+&lt;span class="s1"&gt;## get pmcid&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;  
+&lt;span class="n"&gt;pmcids&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;data&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="n"&gt;xml_nodes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Id&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="n"&gt;xml_text&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;%&amp;gt;%&lt;/code&gt; is a pipe operator for chaining commands (from the &lt;a href="https://cran.r-project.org/web/packages/magrittr/index.html"&gt;magrittr&lt;/a&gt;&amp;nbsp;package).&lt;/p&gt;
+&lt;p&gt;The URLs of the html article can be simply constructed from their &lt;span class="caps"&gt;PMC&lt;/span&gt; ids. For example, the html version of the article with &lt;span class="caps"&gt;PMC&lt;/span&gt; id 3792566 is found at:&amp;nbsp;http://www.ncbi.nlm.nih.gov/pmc/articles/3792566&lt;/p&gt;
+&lt;h3&gt;Scrape &lt;span class="caps"&gt;HTML&lt;/span&gt;&amp;nbsp;articles&lt;/h3&gt;
+&lt;p&gt;The scraping of the &lt;span class="caps"&gt;HTML&lt;/span&gt; article is performed by &lt;code&gt;scrapeArticle.R&lt;/code&gt;. Note, &lt;span class="caps"&gt;PMC&lt;/span&gt; ids returned by ESearch which have already been scraped for that particular combination of search terms are&amp;nbsp;skipped.&lt;/p&gt;
+&lt;p&gt;The html version of the &lt;span class="caps"&gt;PMC&lt;/span&gt; articles only show excerpts of captions, so we have to extract the individual figure URLs in order to scrape their full captions (and search for keyword matches). In order to extract a data element from an html document, we need to identify the tag associated with that&amp;nbsp;element.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://selectorgadget.com/"&gt;SelectorGadget&lt;/a&gt; is a nifty tool to help you hone in on the &lt;span class="caps"&gt;CSS&lt;/span&gt; selectors of interest. Installation is ridiculously easy: just drag the link on the SelectorGadget page to your browser bookmark&amp;nbsp;bar!&lt;/p&gt;
+&lt;p&gt;For example, let&amp;#8217;s identify the &lt;span class="caps"&gt;CSS&lt;/span&gt; selector for figure URLs using SelectorGadget in 3 clicks of the mouse. We&amp;#8217;ll demo SelectorGadget on a &lt;span class="caps"&gt;PMC&lt;/span&gt; &lt;a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/"&gt;article&lt;/a&gt; that is returned in a query on Docetaxel and &lt;span class="caps"&gt;TGI&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;In the screenshot below, I clicked on the &amp;#8220;Figure 3&amp;#8221; link as a starting point for selecting all such figure URLs. SelectorGadget identified the element as &amp;#8220;.figpopup&amp;#8221; in the gray toolbar at the bottom of the screenshot, highlighted the direct click in green, and highlighted all the other elements in yellow (total: 35 elements). Notice, however, that two links to Figure 4 have been automatically highlighted in the screenshot, one of which is a reference in the body of the&amp;nbsp;text.&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;attachment_2250&amp;#8221; align=&amp;#8221;aligncenter&amp;#8221; width=&amp;#8221;381&amp;#8221;]&lt;a href="http/wp-content/uploads/2015/08/selectorgadg1.png"&gt;&lt;img alt="A click of the &amp;quot;Figure 3&amp;quot; link next to thumbnail highlights it in green, and similar elements are automatically highlighted in yellow." src="http/wp-content/uploads/2015/08/selectorgadg1.png"&gt;&lt;/a&gt; A click of the &amp;#8220;Figure 3&amp;#8221; link next to thumbnail highlights it in green. Similar elements are automatically highlighted in&amp;nbsp;yellow.[/caption]&lt;/p&gt;
+&lt;p&gt;To reduce the number of redundant figure &lt;span class="caps"&gt;URL&lt;/span&gt; links, I then clicked on the Figure 4 link in the body of the text in order to exclude it; it is accordingly highlighted in red to signify its&amp;nbsp;exclusion.&lt;/p&gt;
+&lt;p&gt;The pattern-matching is momentarily worsened since the link to Figure 4 (bottom) is no longer highlighted. SelectorGadget&amp;#8217;s guess for the &lt;span class="caps"&gt;CSS&lt;/span&gt; selector becomes &amp;#8220;#lgnd_F3 .figpopup&amp;#8221;, of which there is only one element, highlighted in&amp;nbsp;green.&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;attachment_2251&amp;#8221; align=&amp;#8221;aligncenter&amp;#8221; width=&amp;#8221;381&amp;#8221;]&lt;a href="http/wp-content/uploads/2015/08/selectorgadg2.png"&gt;&lt;img alt="Elements excluded from the pattern matching are highlighted in red." src="http/wp-content/uploads/2015/08/selectorgadg2.png"&gt;&lt;/a&gt; Elements excluded from the pattern matching are highlighted in&amp;nbsp;red.[/caption]&lt;/p&gt;
+&lt;p&gt;After making the pattern match more specific with an exclusion, we have to re-generalize by re-selecting the Figure 4 bottom link. This time, SelectorGadget gets the pattern right with the &lt;span class="caps"&gt;CSS&lt;/span&gt; selector &amp;#8220;.icnblk_cntnt .figpopup&amp;#8221;, which describes 5 elements on the&amp;nbsp;page.&lt;/p&gt;
+&lt;p&gt;[caption id=&amp;#8221;attachment_2249&amp;#8221; align=&amp;#8221;aligncenter&amp;#8221; width=&amp;#8221;380&amp;#8221;]&lt;a href="http/wp-content/uploads/2015/08/selectorgadg3.png"&gt;&lt;img alt="Third time's the charm: SelectorGadget has honed in on the CSS selectors that match the desired figure URLs." src="http/wp-content/uploads/2015/08/selectorgadg3.png"&gt;&lt;/a&gt; Third time&amp;#8217;s the charm: SelectorGadget has honed in on the &lt;span class="caps"&gt;CSS&lt;/span&gt; selectors that match the desired figure&amp;nbsp;URLs.[/caption]&lt;/p&gt;
+&lt;p&gt;Using rvest&amp;#8217;s &lt;code&gt;xml_nodes&lt;/code&gt; function, we extract components characterized by the &lt;span class="caps"&gt;CSS&lt;/span&gt; selector &lt;code&gt;.icnblk_cntnt .figpopup&lt;/code&gt; &amp;#8212; namely, the URLs of tables and&amp;nbsp;figures.&lt;/p&gt;
+&lt;p&gt;[code language=&amp;#8221;r&amp;#8221;]&lt;br&gt;
+popups.tags = article %&amp;gt;% xml_nodes(&amp;#8220;.icnblk_cntnt&amp;nbsp;.figpopup&amp;#8221;)  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;With&lt;/span&gt; &lt;span class="k"&gt;some&lt;/span&gt; &lt;span class="k"&gt;more&lt;/span&gt; &lt;span class="n"&gt;parsing&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;filtering&lt;/span&gt; &lt;span class="k"&gt;similar&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;above&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;full&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="n"&gt;captions&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;grepped&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;keywords&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Caption&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="n"&gt;metadata&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;keyword&lt;/span&gt; &lt;span class="n"&gt;matches&lt;/span&gt; &lt;span class="k"&gt;are&lt;/span&gt; &lt;span class="n"&gt;stored&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;SQLite&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt; &lt;span class="k"&gt;by&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;pubmedcentral_scraper&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+
+&lt;span class="n"&gt;III&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;Generate&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="n"&gt;report&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;scraped&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt;
+&lt;span class="c1"&gt;---------------------------------------------&lt;/span&gt;
+
+&lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="k"&gt;of&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;scraping&lt;/span&gt; &lt;span class="n"&gt;can&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;examined&lt;/span&gt; &lt;span class="k"&gt;by&lt;/span&gt; &lt;span class="n"&gt;directly&lt;/span&gt; &lt;span class="n"&gt;querying&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;SQLite&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="n"&gt;also&lt;/span&gt; &lt;span class="n"&gt;put&lt;/span&gt; &lt;span class="n"&gt;together&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;markdown_and_plot&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;that&lt;/span&gt; &lt;span class="n"&gt;automatically&lt;/span&gt; &lt;span class="n"&gt;creates&lt;/span&gt; &lt;span class="n"&gt;an&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;report&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;simple&lt;/span&gt; &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="k"&gt;where&lt;/span&gt; &lt;span class="k"&gt;only&lt;/span&gt; &lt;span class="n"&gt;one&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;plot_type&lt;/span&gt; &lt;span class="n"&gt;need&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="n"&gt;be&lt;/span&gt; &lt;span class="n"&gt;included&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt; &lt;span class="n"&gt;The&lt;/span&gt; &lt;span class="k"&gt;user&lt;/span&gt; &lt;span class="k"&gt;only&lt;/span&gt; &lt;span class="n"&gt;has&lt;/span&gt; &lt;span class="k"&gt;to&lt;/span&gt; &lt;span class="k"&gt;input&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;plot_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;report&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;subsequently&lt;/span&gt; &lt;span class="k"&gt;generated&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;markdown_and_plot&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt; &lt;span class="n"&gt;calls&lt;/span&gt; &lt;span class="k"&gt;on&lt;/span&gt; &lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="n"&gt;generate_markdown_code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="o"&gt;`&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;which&lt;/span&gt; &lt;span class="n"&gt;extracts&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="n"&gt;URLs&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="k"&gt;database&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="k"&gt;language&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;query&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SELECT *\  &lt;/span&gt;
+&lt;span class="s1"&gt;FROM ((figure JOIN article USING (pmcid))\  &lt;/span&gt;
+&lt;span class="s1"&gt;JOIN figure_text USING (img_url))\  &lt;/span&gt;
+&lt;span class="s1"&gt;WHERE (topic = &amp;quot;%s&amp;quot; AND plot_type = &amp;quot;%s&amp;quot;)\  &lt;/span&gt;
+&lt;span class="s1"&gt;ORDER BY pmcid ASC&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;topic&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot_type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;images&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dbGetQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;con&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;query&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;##&lt;/span&gt; &lt;span class="n"&gt;construct&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="n"&gt;URLs&lt;/span&gt;  
+&lt;span class="n"&gt;img_links&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;http://www.ncbi.nlm.nih.gov&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;images$img_url&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;generate_markdown_code.R&lt;/code&gt; then loops through the &lt;em&gt;i&lt;/em&gt; images per article and, line by line, writes out markdown code of the image URLs and captions.&lt;br&gt;
+[code language=&amp;#8221;r&amp;#8221;]&lt;br&gt;
+for(i in seq_along(img_links))&amp;nbsp;{  &lt;/p&gt;
+&lt;h2&gt;&amp;#8230;&lt;/h2&gt;
+&lt;p&gt;img_md = paste0(&amp;#8220;&lt;img alt="pmcid: &amp;quot;,images$pmcid[i],&amp;quot;" src="`r img_links[" title=",i,&amp;quot;]`)"&gt;&lt;br&gt;
+cat(img_md, file=outfile, append=T,&amp;nbsp;sep=&amp;#8221;\n&amp;#8221;)  &lt;/p&gt;
+&lt;h2&gt;&amp;#8230;&lt;/h2&gt;
+&lt;p&gt;}  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ss"&gt;`markdown_and_plot.R`&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt; &lt;span class="k"&gt;reads&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;renders&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt; &lt;span class="k"&gt;into&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="n"&gt;html&lt;/span&gt; &lt;span class="n"&gt;report&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;containing&lt;/span&gt; &lt;span class="n"&gt;images&lt;/span&gt; &lt;span class="n"&gt;embedded&lt;/span&gt; &lt;span class="n"&gt;via&lt;/span&gt; &lt;span class="n"&gt;href&lt;/span&gt; &lt;span class="n"&gt;links&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;using&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="ss"&gt;`knit2html`&lt;/span&gt; &lt;span class="n"&gt;function&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;knitr&lt;/span&gt; &lt;span class="n"&gt;package&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;
+
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt; &lt;span class="n"&gt;language&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;r&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nf"&gt;sprintf&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;scraper_%s_plots_for_%s.html&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;plot_type&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;topic&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="nf"&gt;knit2html&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;md&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;html&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;For a sample report that was generated for topic = Trastuzumab and plot_type = &lt;span class="caps"&gt;TGI&lt;/span&gt;, see &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.md"&gt;here&lt;/a&gt;. Note, github automatically renders markdown files into html, whereas html files are displayed as source code. However, the file that is actually intended for human perusal outside Github is the &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper/blob/master/example/scraper_TGI_plots_for_trastuzumab.html"&gt;html&lt;/a&gt; version, located in the same example subdirectory on&amp;nbsp;Github.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;A look at the example report shows that there are a few false positives, i.e. images that don&amp;#8217;t actually correspond to plots of &lt;span class="caps"&gt;TGI&lt;/span&gt;, but the simplistic grep-keyword-method works well overall. There&amp;#8217;s plenty of room for improving the code, but as it stands, this code sure beats compiling reports by&amp;nbsp;hand!&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;ve talked about the thought process behind building the program, but to put it to use, check it out on &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper"&gt;Github&lt;/a&gt;.&lt;/p&gt;</content><category term="Methods, Programming, Tools"></category><category term="database"></category><category term="R"></category><category term="SQL"></category><category term="SQLite"></category><category term="web scraping"></category></entry></feed>

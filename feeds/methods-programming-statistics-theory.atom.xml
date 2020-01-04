@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Methods, Programming, Statistics, Theory</title><link href="http/" rel="alternate"></link><link href="http/feeds/methods-programming-statistics-theory.atom.xml" rel="self"></link><id>http/</id><updated>2017-11-25T09:53:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Gaussian Processes</title><link href="http/gaussian-processes.html" rel="alternate"></link><published>2017-11-25T09:53:00-08:00</published><updated>2017-11-25T09:53:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:None,2017-11-25:http/gaussian-processes.html</id><summary type="html">&lt;p&gt;We review the math and code needed to fit a Gaussian Process (&lt;span class="caps"&gt;GP&lt;/span&gt;) regressor to data. We conclude with a demo of a popular application, fast function minimization through &lt;span class="caps"&gt;GP&lt;/span&gt;-guided search. The gif below illustrates this approach in action &amp;#8212; the red points are samples from the hidden red curve …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We review the math and code needed to fit a Gaussian Process (&lt;span class="caps"&gt;GP&lt;/span&gt;) regressor to data. We conclude with a demo of a popular application, fast function minimization through &lt;span class="caps"&gt;GP&lt;/span&gt;-guided search. The gif below illustrates this approach in action &amp;#8212; the red points are samples from the hidden red curve. Using these samples, we attempt to leverage GPs to find the curve&amp;#8217;s minimum as fast as&amp;nbsp;possible.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/11/full_search.gif"&gt;&lt;img alt="full_search" src="http/wp-content/uploads/2017/11/full_search.gif"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Appendices contain quick reviews on (i) the &lt;span class="caps"&gt;GP&lt;/span&gt; regressor posterior derivation, (ii) SKLearn&amp;#8217;s &lt;span class="caps"&gt;GP&lt;/span&gt; implementation, and (iii) &lt;span class="caps"&gt;GP&lt;/span&gt;&amp;nbsp;classifiers.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Gaussian Processes (GPs) provide a tool for treating the following general problem: A function &lt;span class="math"&gt;\(f(x)\)&lt;/span&gt; is sampled at &lt;span class="math"&gt;\(n\)&lt;/span&gt; points, resulting in a set of noisy&lt;span class="math"&gt;\(^1\)&lt;/span&gt; function measurements, &lt;span class="math"&gt;\(\{f(x_i) = y_i \pm \sigma_i, i = 1, \ldots, n\}\)&lt;/span&gt;. Given these available samples, can we estimate the probability that &lt;span class="math"&gt;\(f = \hat{f}\)&lt;/span&gt;, where &lt;span class="math"&gt;\(\hat{f}\)&lt;/span&gt; is some candidate&amp;nbsp;function?&lt;/p&gt;
+&lt;p&gt;To decompose and isolate the ambiguity associated with the above challenge, we begin by applying Bayes&amp;#8217;s rule,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{Bayes} \tag{1}  
+p(\hat{f} \vert \{y\}) = \frac{p(\{y\} \vert \hat{f} ) p(\hat{f})}{p(\{y\}) }.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The quantity at left above is shorthand for the probability we seek &amp;#8212; the probability that &lt;span class="math"&gt;\(f = \hat{f}\)&lt;/span&gt;, given our knowledge of the sampled function values &lt;span class="math"&gt;\(\{y\}\)&lt;/span&gt;. To evaluate this, one can define and then evaluate the quantities at right. Defining the first in the numerator requires some assumption about the source of error in our measurement process. The second function in the numerator is the prior &amp;#8212; it is here where the greatest assumptions must be taken. For example, we&amp;#8217;ll see below that the prior effectively dictates the probability of a given smoothness for the &lt;span class="math"&gt;\(f\)&lt;/span&gt; function in&amp;nbsp;question.&lt;/p&gt;
+&lt;p&gt;In the &lt;span class="caps"&gt;GP&lt;/span&gt; approach, both quantities in the numerator at right above are taken to be multivariate Normals / Gaussians. The specific parameters of this Gaussian can be selected to ensure that the resulting fit is good &amp;#8212; but the Normality requirement is essential for the mathematics to work out. Taking this approach, we can write down the posterior analytically, which then allows for some useful applications. For example, we used this approach to obtain the curves shown in the top figure of this post &amp;#8212; these were obtained through random sampling from the posterior of a fitted &lt;span class="caps"&gt;GP&lt;/span&gt;, pinned to equal measured values at the two pinched points shown. Posterior samples are useful for visualization and also for taking Monte Carlo&amp;nbsp;averages.&lt;/p&gt;
+&lt;p&gt;In this post, we (i) review the math needed to calculate the posterior above, (ii) discuss numerical evaluations and fit some example data using GPs, and (iii) review how a fitted &lt;span class="caps"&gt;GP&lt;/span&gt; can help to quickly minimize a cost function &amp;#8212; eg a machine learning cross-validation score. Appendices cover the derivation of the &lt;span class="caps"&gt;GP&lt;/span&gt; regressor posterior, SKLearn&amp;#8217;s &lt;span class="caps"&gt;GP&lt;/span&gt; implementation, and &lt;span class="caps"&gt;GP&lt;/span&gt;&amp;nbsp;Classifiers.&lt;/p&gt;
+&lt;p&gt;Our minimal python class SimpleGP used below is available on our GitHub, &lt;a href="https://github.com/EFavDB/gaussian_processes"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Note: To understand the mathematical details covered in this post, one should be familiar with multivariate normal distributions &amp;#8212; these are reviewed in our prior post, &lt;a href="http://efavdb.com/normal-distributions/"&gt;here&lt;/a&gt;. These details can be skipped by those primarily interested in&amp;nbsp;applications.&lt;/p&gt;
+&lt;h3&gt;Analytic evaluation of the&amp;nbsp;posterior&lt;/h3&gt;
+&lt;p&gt;To evaluate the left side of (\ref{Bayes}), we will evaluate the right. Only the terms in the numerator need to be considered, because the denominator does not depend on &lt;span class="math"&gt;\(\hat{f}\)&lt;/span&gt;. This means that the denominator must equate to a normalization factor, common to all candidate functions. In this section, we will first write down the assumed forms for the two terms in the numerator and then consider the posterior that&amp;nbsp;results.&lt;/p&gt;
+&lt;p&gt;The first assumption that we will make is that if the true function is &lt;span class="math"&gt;\(\hat{f}\)&lt;/span&gt;, then our &lt;span class="math"&gt;\(y\)&lt;/span&gt;-measurements are independent and Gaussian-distributed about &lt;span class="math"&gt;\(\hat{f}(x)\)&lt;/span&gt;. This assumption implies that the first term on the right of (\ref{Bayes}) is&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{prob}  
+p(\{y\} \vert \hat{f} ) \equiv \prod_{i=1}^n \frac{1}{\sqrt{2 \pi \sigma_i^2}} \exp \left ( - \frac{(y_i - \hat{f}(x_i) )^2}{2 \sigma_i^2} \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The &lt;span class="math"&gt;\(y_i\)&lt;/span&gt; above are the actual measurements made at our sample points, and the &lt;span class="math"&gt;\(\sigma_i^2\)&lt;/span&gt; are their variance&amp;nbsp;uncertainties.&lt;/p&gt;
+&lt;p&gt;The second thing we must do is assume a form for &lt;span class="math"&gt;\(p(\hat{f})\)&lt;/span&gt;, our prior. We restrict attention to a set of points &lt;span class="math"&gt;\(\{x_i: i = 1, \ldots, N\}\)&lt;/span&gt;, where the first &lt;span class="math"&gt;\(n\)&lt;/span&gt; points are the points that have been sampled, and the remaining &lt;span class="math"&gt;\((N-n)\)&lt;/span&gt; are test points at other locations &amp;#8212; points where we would like to estimate the joint statistics&lt;span class="math"&gt;\(^2\)&lt;/span&gt; of &lt;span class="math"&gt;\(f\)&lt;/span&gt;. To progress, we simply assume a multi-variate Normal distribution for &lt;span class="math"&gt;\(f\)&lt;/span&gt; at these points, governed by a covariance matrix &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt;. This gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{prior} \tag{3}  
+&amp;amp;&amp;amp;p(f(x_1), \ldots, f(x_N) ) \sim \  
+&amp;amp;&amp;amp; \frac{1}{\sqrt{ (2 \pi)^{N} \vert \Sigma \vert }} \exp \left ( - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here, we have introduced the shorthand, &lt;span class="math"&gt;\(f_i \equiv f(x_i)\)&lt;/span&gt;. Notice that we have implicitly assumed that the mean of our normal distribution is zero above. This is done for simplicity: If a non-zero mean is appropriate, this can be added in to the analysis, or subtracted from the underlying &lt;span class="math"&gt;\(f\)&lt;/span&gt; to obtain a new one with zero&amp;nbsp;mean.&lt;/p&gt;
+&lt;p&gt;The particular form of &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt; is where all of the modeler&amp;#8217;s insight and ingenuity must be placed when working with GPs. Researchers who know their topic very well can assert well-motivated, complex priors &amp;#8212; often taking the form of a sum of terms, each capturing some physically-relevant contribution to the statistics of their problem at hand. In this post, we&amp;#8217;ll assume the simple form&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{covariance}  
+\Sigma_{ij} \equiv \sigma^2 \exp \left( - \frac{(x_i - x_j)^2}{2 l^2}\right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Notice that with this assumed form, if &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_j\)&lt;/span&gt; are close together, the exponential will be nearly equal to one. This ensures that nearby points are highly correlated, forcing all high-probability functions to be smooth. The rate at which (\ref{covariance}) dies down as two test points move away from each another is controlled by the length-scale parameter &lt;span class="math"&gt;\(l.\)&lt;/span&gt; If this is large (small), the curve will be smooth over a long (short) distance. We illustrate these points in the next section, and also explain how an appropriate length scale can be inferred from the sample data at hand in the section after&amp;nbsp;that.&lt;/p&gt;
+&lt;p&gt;Now, if we combine (\ref{prob}) and (\ref{prior}) and plug this into (\ref{Bayes}), we obtain an expression for the posterior, &lt;span class="math"&gt;\(p(f \vert \{y\})\)&lt;/span&gt;. This function is an exponential whose argument is a quadratic in the &lt;span class="math"&gt;\(f_i\)&lt;/span&gt;. In other words, like the prior, the posterior is a multi-variate normal. With a little work, one can derive explicit expressions for the mean and covariance of this distribution: Using block notation, with &lt;span class="math"&gt;\(0\)&lt;/span&gt; corresponding to the sample points and &lt;span class="math"&gt;\(1\)&lt;/span&gt; to the test points, the marginal distribution at the test points is&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5} \label{posterior}  
+&amp;amp;&amp;amp; p(\textbf{f}_1 \vert \{y\}) =\  
+&amp;amp;&amp;amp; N\left ( \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \textbf{y}, \Sigma_{11} - \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \Sigma_{01} \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{6} \label{sigma_mat}  
+\sigma^2 I_{00} \equiv  
+\left( \begin{array}{cccc}  
+\sigma_1^2 &amp;amp; 0 &amp;amp; \ldots &amp;amp;0 \  
+0 &amp;amp; \sigma_2^2 &amp;amp; \ldots &amp;amp;0 \  
+\ldots &amp;amp; &amp;amp; &amp;amp; \  
+0 &amp;amp; 0 &amp;amp; \ldots &amp;amp; \sigma_n^2  
+\end{array} \right),  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+and &lt;span class="math"&gt;\(\textbf{y}\)&lt;/span&gt; is the length-&lt;span class="math"&gt;\(n\)&lt;/span&gt; vector of measurements,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{7} \label{y_vec}  
+\textbf{y}^T \equiv (y_1, \ldots, y_n).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Equation (\ref{posterior}) is one of the main results for Gaussian Process regressors &amp;#8212; this result is all one needs to evaluate the posterior. Notice that the mean at all points is linear in the sampled values &lt;span class="math"&gt;\(\textbf{y}\)&lt;/span&gt; and that the variance at each point is reduced near the measured values. Those interested in a careful derivation of this result can consult our appendix &amp;#8212; we actually provide two derivations there. However, in the remainder of the body of the post, we will simply explore applications of this&amp;nbsp;formula.&lt;/p&gt;
+&lt;h3&gt;Numerical evaluations of the&amp;nbsp;posterior&lt;/h3&gt;
+&lt;p&gt;In this section, we will demonstrate how two typical applications of (\ref{posterior}) can be carried out: (i) Evaluation of the mean and standard deviation of the posterior distribution at a test point &lt;span class="math"&gt;\(x\)&lt;/span&gt;, and (ii) Sampling functions &lt;span class="math"&gt;\(\hat{f}\)&lt;/span&gt; directly from the posterior. The former is useful in that it can be used to obtain confidence intervals for &lt;span class="math"&gt;\(f\)&lt;/span&gt; at all locations, and the latter is useful both for visualization and also for obtaining general Monte Carlo averages over the posterior. Both concepts are illustrated in the header image for this post: In this picture, we fit a &lt;span class="caps"&gt;GP&lt;/span&gt; to a one-d function that had been measured at two locations. The blue shaded region represents a one-sigma confidence interval for the function value at each location, and the colored curves are posterior&amp;nbsp;samples.&lt;/p&gt;
+&lt;p&gt;The code for our &lt;code&gt;SimpleGP&lt;/code&gt; fitter class is available on our &lt;a href="https://github.com/EFavDB/gaussian_processes"&gt;GitHub&lt;/a&gt;. We&amp;#8217;ll explain a bit how this works below, but those interested in the details should examine the code &amp;#8212; it&amp;#8217;s a short script and should be largely&amp;nbsp;self-explanatory.&lt;/p&gt;
+&lt;h4&gt;Intervals&lt;/h4&gt;
+&lt;p&gt;The code snippet below initializes our &lt;code&gt;SimpleGP&lt;/code&gt; class, defines some sample locations, values, and uncertainties, then evaluates the mean and standard deviation of the posterior at a set of test points. Briefly, this carried out as follows: The &lt;code&gt;fit&lt;/code&gt; method evaluates the inverse matrix &lt;span class="math"&gt;\(\left [ \sigma^2 I_{00} + \Sigma_{00} \right]^{-1}\)&lt;/span&gt; that appears in (\ref{posterior}) and saves the result for later use &amp;#8212; this allows us to avoid reevaluation of this inverse at each test point. Next, (\ref{posterior}) is evaluated once for each test point through the call to the &lt;code&gt;interval&lt;/code&gt; method.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Initialize&lt;/span&gt; &lt;span class="n"&gt;fitter&lt;/span&gt; &lt;span class="c1"&gt;-- set covariance parameters  &lt;/span&gt;
+&lt;span class="n"&gt;WIDTH_SCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;LENGTH_SCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SimpleGP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;WIDTH_SCALE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LENGTH_SCALE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;noise&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Insert&lt;/span&gt; &lt;span class="n"&gt;observed&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt; &lt;span class="k"&gt;data&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fit&lt;/span&gt;  
+&lt;span class="n"&gt;sample_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;sample_y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;sample_s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sample_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sample_y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sample_s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Get&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt; &lt;span class="k"&gt;at&lt;/span&gt; &lt;span class="k"&gt;each&lt;/span&gt; &lt;span class="n"&gt;point&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;x_test&lt;/span&gt;  
+&lt;span class="n"&gt;test_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;05&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;means&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;interval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In the above, &lt;code&gt;WIDTH_SCALE&lt;/code&gt; and &lt;code&gt;LENGTH_SCALE&lt;/code&gt; are needed to specify the covariance matrix (\ref{covariance}). The former corresponds to &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; and the latter to &lt;span class="math"&gt;\(l\)&lt;/span&gt; in that equation. Increasing &lt;code&gt;WIDTH_SCALE&lt;/code&gt; corresponds to asserting less certainty as to the magnitude of unknown function and increasing &lt;code&gt;LENGTH_SCALE&lt;/code&gt; corresponds to increasing how smooth we expect the function to be. The figure below illustrates these points: Here, the blue intervals were obtained by setting &lt;code&gt;WIDTH_SCALE = LENGTH_SCALE  = 1&lt;/code&gt; and the orange intervals were obtained by setting &lt;code&gt;WIDTH_SCALE = 0.5&lt;/code&gt; and &lt;code&gt;LENGTH_SCALE  = 2&lt;/code&gt;. The result is that the orange posterior estimate is tighter and smoother than the blue posterior. In both plots, the solid curve is a plot of the mean of the posterior distribution, and the vertical bars are one sigma confidence&amp;nbsp;intervals.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/11/intervals.jpg"&gt;&lt;img alt="intervals" src="http/wp-content/uploads/2017/11/intervals.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Posterior&amp;nbsp;samples&lt;/h4&gt;
+&lt;p&gt;To sample actual functions from the posterior, we will simply evaluate the mean and covariance matrix in (\ref{posterior}) again, this time passing in the multiple test point locations at which we would like to know the resulting sampled functions. Once we have the mean and covariance matrix of the posterior at these test points, we can pull samples from (\ref{posterior}) using an external library for multivariate normal sampling &amp;#8212; for this purpose, we used the python package numpy. The last step in the code snippet below carries out these&amp;nbsp;steps.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Insert&lt;/span&gt; &lt;span class="n"&gt;observed&lt;/span&gt; &lt;span class="n"&gt;sample&lt;/span&gt; &lt;span class="k"&gt;data&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;  
+&lt;span class="n"&gt;sample_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;sample_y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="n"&gt;sample_s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;01&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Initialize&lt;/span&gt; &lt;span class="n"&gt;fitter&lt;/span&gt; &lt;span class="c1"&gt;-- set covariance parameters  &lt;/span&gt;
+&lt;span class="n"&gt;WIDTH_SCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;LENGTH_SCALE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;  
+&lt;span class="n"&gt;model&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;SimpleGP&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;WIDTH_SCALE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LENGTH_SCALE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;noise&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sample_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sample_y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sample_s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="k"&gt;Get&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="k"&gt;and&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt; &lt;span class="k"&gt;at&lt;/span&gt; &lt;span class="k"&gt;each&lt;/span&gt; &lt;span class="n"&gt;point&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;test_x&lt;/span&gt;  
+&lt;span class="n"&gt;test_x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;05&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;means&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;interval&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="n"&gt;Sample&lt;/span&gt; &lt;span class="n"&gt;here&lt;/span&gt;  
+&lt;span class="n"&gt;SAMPLES&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;  
+&lt;span class="n"&gt;samples&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;model&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;SAMPLES&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that in lines 2-4 here, we&amp;#8217;ve added in a few additional function sample locations (for fun). The resulting intervals and posterior samples are shown in the figure below. Notice that near the sampled points, the posterior is fairly well localized. However, on the left side of the plot, the posterior approaches the prior once we have moved a distance &lt;span class="math"&gt;\(\geq 1\)&lt;/span&gt;, the length scale chosen for the covariance matrix&amp;nbsp;(\ref{covariance}).&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/11/samples.jpg"&gt;&lt;img alt="samples" src="http/wp-content/uploads/2017/11/samples.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Selecting the covariance&amp;nbsp;hyper-parameters&lt;/h3&gt;
+&lt;p&gt;In the above, we demonstrated that the length scale of our covariance form dramatically affects the posterior &amp;#8212; the shape of the intervals and also of the samples from the posterior. Appropriately setting these parameters is a general problem that can make working with GPs a challenge. Here, we describe two methods that can be used to intelligently set such hyper-parameters, given some sampled&amp;nbsp;data.&lt;/p&gt;
+&lt;h4&gt;Cross-validation&lt;/h4&gt;
+&lt;p&gt;A standard method for setting hyper-parameters is to make use of a cross-validation scheme. This entails splitting the available sample data into a training set and a test set. One fits the &lt;span class="caps"&gt;GP&lt;/span&gt; to the training set using one set of hyper-parameters, then evaluates the accuracy of the model on the held out test set. One then repeats this process across many hyper-parameter choices, and selects that set which resulted in the best test set&amp;nbsp;performance.&lt;/p&gt;
+&lt;h4&gt;Marginal Likelihood&amp;nbsp;Maximization&lt;/h4&gt;
+&lt;p&gt;Often, one is interested in applying GPs in limits where evaluation of samples is expensive. This means that one often works with GPs in limits where only a small number of samples are available. In cases like this, the optimal hyper-parameters can vary quickly as the number of training points is increased. This means that the optimal selections obtained from a cross-validation schema may be far from the optimal set that applies when one trains on the full sample set&lt;span class="math"&gt;\(^3\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;An alternative general approach for setting the hyper-parameters is to maximize the marginal likelihood. That is, we try to maximize the likelihood of seeing the samples we have seen &amp;#8212; optimizing over the choice of available hyper-parameters. Formally, the marginal likelihood is evaluated by integrating out the unknown &lt;span class="math"&gt;\(\hat{f}^4\)&lt;/span&gt;,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{8}  
+p(\{y\} \vert \Sigma) \equiv \int p(\{y\} \vert f) p(f \vert \Sigma) df.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Carrying out the integral directly can be done just as we have evaluated the posterior distribution in our appendix. However, a faster method is to note that after integrating out the &lt;span class="math"&gt;\(f\)&lt;/span&gt;, the &lt;span class="math"&gt;\(y\)&lt;/span&gt; values must be normally distributed as&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{9}  
+p(\{y\} \vert \Sigma) \sim N(0, \Sigma + \sigma^2 I_{00}),  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where &lt;span class="math"&gt;\(\sigma^2 I_{00}\)&lt;/span&gt; is defined as in (\ref{sigma_mat}). This gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{10} \label{marginallikelihood}  
+\log p(\{y\}) \sim - \log \vert \Sigma + \sigma^2 I_{00} \vert - \textbf{y} \cdot ( \Sigma + \sigma^2 I_{00} )^{-1} \cdot \textbf{y}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The two terms above compete: The second term is reduced by finding the covariance matrix that maximizes the exponent. Maximizing this alone would tend to result in an overfitting of the data. However, this term is counteracted by the first, which is the normalization for a Gaussian integral. This term becomes larger given short decay lengths and low diagonal variances. It acts as regularization term that suppresses overly complex&amp;nbsp;fits.&lt;/p&gt;
+&lt;p&gt;In practice, to maximize (\ref{marginallikelihood}), one typically makes use of gradient descent, using analytical expressions for the gradient. This is the approach taken by SKLearn. Being able to optimize the hyper-parameters of a &lt;span class="caps"&gt;GP&lt;/span&gt; is one of this model&amp;#8217;s virtures. Unfortunately, (\ref{marginallikelihood}) is not guaranteed to be convex and multiple local minima often exist. To obtain a good minimum, one can attempt to initialize at some well-motivated point. Alternatively, one can reinitialize the gradient descent repeatedly at random points, finally selecting the best option at the&amp;nbsp;end.&lt;/p&gt;
+&lt;h3&gt;Function minimum search and machine&amp;nbsp;learning&lt;/h3&gt;
+&lt;p&gt;We&amp;#8217;re now ready to introduce one of the popular application of GPs: fast, guided function minimum search. In this problem, one is able to iteratively obtain noisy samples of a function, and the aim is to identify as quickly as possible the global minimum of the function. Gradient descent could be applied in cases like this, but this approach generally requires repeated sampling if the function is not convex. To reduce the number of steps / samples required, one can attempt to apply a more general, explore-exploit type strategy &amp;#8212; one balancing the desire to optimize about the current best known minimum with the goal of seeking out new local minima that are potentially even better. &lt;span class="caps"&gt;GP&lt;/span&gt; posteriors provide a natural starting point for developing such&amp;nbsp;strategies.&lt;/p&gt;
+&lt;p&gt;The idea behind the &lt;span class="caps"&gt;GP&lt;/span&gt;-guided search approach is to develop a score function on top of the &lt;span class="caps"&gt;GP&lt;/span&gt; posterior. This score function should be chosen to encode some opinion of the value of searching a given point &amp;#8212; preferably one that takes an explore-exploit flavor. Once each point is scored, the point with the largest (or smallest, as appropriate) score is sampled. The process is then repeated iteratively until one is satisfied. Many score functions are possible. We discuss four possible choices below, then give an&amp;nbsp;example.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Gaussian Lower Confidence Bound (&lt;span class="caps"&gt;GLCB&lt;/span&gt;)&lt;/strong&gt;.&lt;br&gt;
+    The &lt;span class="caps"&gt;GLCB&lt;/span&gt; scores each point &lt;span class="math"&gt;\(x\)&lt;/span&gt; as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{11}  
+    s_{\kappa}(x) = \mu(x) - \kappa \sigma(x).  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Here, &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; are the &lt;span class="caps"&gt;GP&lt;/span&gt; posterior estimates for the mean and standard deviation for the function at &lt;span class="math"&gt;\(x\)&lt;/span&gt; and &lt;span class="math"&gt;\(\kappa\)&lt;/span&gt; is a control parameter. Notice that the first &lt;span class="math"&gt;\(\mu(x)\)&lt;/span&gt; term encourages exploitation around the best known local minimum. Similarly, the second &lt;span class="math"&gt;\(\kappa \sigma\)&lt;/span&gt; term encourages exploration &amp;#8212; search at points where the &lt;span class="caps"&gt;GP&lt;/span&gt; is currently most unsure of the true function&amp;nbsp;value.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gaussian Probability of Improvement (&lt;span class="caps"&gt;GPI&lt;/span&gt;)&lt;/strong&gt;.&lt;br&gt;
+    If the smallest value seen so far is &lt;span class="math"&gt;\(y\)&lt;/span&gt;, we can score each point using the probability that the true function value at that point is less than &lt;span class="math"&gt;\(y\)&lt;/span&gt;. That is, we can write&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{12}  
+    s(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^y e^{-(v - \mu)^2 / (2 \sigma^2)} dv.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gaussian Expected Improvement (&lt;span class="caps"&gt;EI&lt;/span&gt;)&lt;/strong&gt;.&lt;br&gt;
+    A popular variant of the above is the so-called expected improvement.&lt;br&gt;
+    This is defined as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{13}  
+    s(x) = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^y e^{-(v - \mu)^2 / (2 \sigma^2)} (y - v) dv.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This score function tends to encourage more exploration than the probability of improvement, since it values uncertainty more&amp;nbsp;highly.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Probability is minimum&lt;/strong&gt;.&lt;br&gt;
+    A final score function of interest is simply the probability that the point in question is the minimum. One way to obtain this score is to sample from the posterior many times. For each sample, we mark its global minimum, then take a majority vote for where to sample&amp;nbsp;next.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The gif at the top of this page (copied below) illustrates an actual &lt;span class="caps"&gt;GP&lt;/span&gt;-guided search, carried out in python using the package skopt&lt;span class="math"&gt;\(^5\)&lt;/span&gt;. The red curve at left is the (hidden) curve &lt;span class="math"&gt;\(f\)&lt;/span&gt; whose global minimum is being sought. The red points are the samples that have been obtained so far, and the green shaded curve is the &lt;span class="caps"&gt;GP&lt;/span&gt; posterior confidence interval for each point &amp;#8212; this gradually improves as more samples are obtained. At right is the Expected Improvement (&lt;span class="caps"&gt;EI&lt;/span&gt;) score function at each point that results from analysis on top of the &lt;span class="caps"&gt;GP&lt;/span&gt; posterior &amp;#8212; the score function used to guide search in this example. The process is initialized with five random samples, followed by guided search. Notice that as the process evolves, the first few samples focus on exploitation of known local minima. However, after a handful of iterations, the diminishing returns of continuing to sample these locations loses out to the desire to explore the middle points &amp;#8212; where the actual global minimum sits and is&amp;nbsp;found.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/11/full_search.gif"&gt;&lt;img alt="full_search" src="http/wp-content/uploads/2017/11/full_search.gif"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Discussion&lt;/h3&gt;
+&lt;p&gt;In this post we&amp;#8217;ve overviewed much of the math of GPs: The math needed to get to the posterior, how to sample from the posterior, and finally how to make practical use of the&amp;nbsp;posterior.&lt;/p&gt;
+&lt;p&gt;In principle, GPs represent a powerful tool that can be used to fit any function. In practice, the challenge in wielding this tool seems to sit mainly with selection of appropriate hyper-parameters &amp;#8212; the search for appropriate parameters often gets stuck in local minima, causing fits to go off the rails. Nevertheless, when done correctly, application of GPs can provide some valuable performance gains &amp;#8212; and they are always fun to&amp;nbsp;visualize.&lt;/p&gt;
+&lt;p&gt;Some additional topics relating to GPs are contained in our appendices. For those interested in even more detail, we can recommend the free online text by Rasmussen and Williams&lt;span class="math"&gt;\(^6\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Appendix A: Derivation of&amp;nbsp;posterior&lt;/h3&gt;
+&lt;p&gt;In this appendix, we present two methods to derive the posterior&amp;nbsp;(\ref{posterior}).&lt;/p&gt;
+&lt;h4&gt;Method&amp;nbsp;1&lt;/h4&gt;
+&lt;p&gt;We will begin by completing the square. Combining (\ref{prob}) and (\ref{prior}), a little algebra gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A1} \label{square_complete}  
+&amp;amp;&amp;amp; p(f_1, \ldots, f_N \vert \{y\}) \  
+&amp;amp;&amp;amp; \sim \exp \left (-\sum_{i=1}^n \frac{(y_i - f_i)^2}{2 \sigma^2_i} - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right) \  
+&amp;amp;&amp;amp; \sim N\left ( \frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2} I } \cdot \frac{1}{\sigma^2} I \cdot \textbf{y}, \frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2} I } \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here, &lt;span class="math"&gt;\(\frac{1}{\sigma^2} I\)&lt;/span&gt; is defined as in (\ref{sigma_mat}), but has zeros in all rows outside of the sample set. To obtain the expression (\ref{posterior}), we must identify the block structure of the inverse matrix that appears&amp;nbsp;above.&lt;/p&gt;
+&lt;p&gt;To start, we write&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A2} \label{matrix_to_invert}  
+\frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2}I } &amp;amp;=&amp;amp; \Sigma \frac{1}{I + \frac{1}{\sigma^2}I \Sigma} \  
+&amp;amp;=&amp;amp; \Sigma \left( \begin{array}{cc}  
+I_{00} + \frac{1}{\sigma^2}I_{00} \Sigma_{00} &amp;amp; \frac{1}{\sigma^2}I_{00} \Sigma_{01}\  
+0 &amp;amp; I_{11}  
+\end{array} \right)^{-1},  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where we are using block notation. To evaluate the inverse that appears above, we will make use of the block matrix inversion formula,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+&amp;amp;&amp;amp; \left( \begin{array}{cc}  
+A &amp;amp; B\  
+C &amp;amp; D  
+\end{array} \right)^{-1} = \  
+&amp;amp;&amp;amp;\left( \begin{array}{cc}  
+(A - B D^{-1} C)^{-1} &amp;amp; - (A - B D^{-1} C)^{-1} B D^{-1} \  
+-D^{-1} C (A - B D^{-1} C)^{-1} &amp;amp; D^{-1} + D^{-1} C (A - B D^{-1} C) B D^{-1}  
+\end{array} \right).  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The matrix (\ref{matrix_to_invert}) has blocks &lt;span class="math"&gt;\(C = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(D=I\)&lt;/span&gt;, which simplifies the above significantly. Plugging in, we obtain&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{shifted_cov} \tag{A3}  
+\frac{1}{\Sigma^{-1} + \frac{1}{\sigma^2}I } =  
+\Sigma \left( \begin{array}{cc}  
+\frac{1}{I_{00} + \frac{1}{\sigma^2}I \Sigma_{00}} &amp;amp; - \frac{1}{I_{00} + \frac{1}{\sigma^2}I \Sigma_{00}} \Sigma_{01}\  
+0 &amp;amp; I_{11}  
+\end{array} \right)  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+With this result and (\ref{square_complete}), we can read off the mean of the test set as&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A4} \label{mean_test}  
+&amp;amp;&amp;amp; \left [ [ \Sigma^{-1} + \frac{1}{\sigma^2} I_{00} ]^{-1} \cdot \frac{1}{\sigma^2} I_{00} \cdot \textbf{y} \right ]_1 \  
+&amp;amp;&amp;amp;= \Sigma_{10} \frac{1}{I_{00} + \frac{1}{\sigma^2}I_{00} \Sigma_{00}} \frac{1}{\sigma^2} I_{00} \cdot \textbf{y} \  
+&amp;amp;&amp;amp;= \Sigma_{10} \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \textbf{y},  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where we have multiplied the numerator and denominator by the inverse of &lt;span class="math"&gt;\(\frac{1}{\sigma^2}I_{00}\)&lt;/span&gt; in the second line. Similarly, the covariance of the test set is given by the lower right block of (\ref{shifted_cov}). This is,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A5} \label{covariance_test}  
+\Sigma_{11} - \Sigma_{10} \cdot \frac{1}{\sigma^2 I_{00} + \Sigma_{00}} \cdot \Sigma_{01}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The results (\ref{mean_test}) and (\ref{covariance_test}) give&amp;nbsp;(\ref{posterior}).&lt;/p&gt;
+&lt;h4&gt;Method&amp;nbsp;2&lt;/h4&gt;
+&lt;p&gt;In this second method, we consider the joint distribution of a set of test points &lt;span class="math"&gt;\(\textbf{f}_1\)&lt;/span&gt; and the set of observed samples &lt;span class="math"&gt;\(\textbf{f}_0\)&lt;/span&gt;. Again, we assume that the function density has mean zero. The joint probability density for the two is then&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A6}  
+p(\textbf{f}_0, \textbf{f}_1) \sim N \left (  
+\left ( \begin{array}{c}  
+0 \  
+0  
+\end{array} \right),  
+\left ( \begin{array}{cc}  
+\Sigma_{0,0} &amp;amp; \Sigma_{0,1} \  
+\Sigma_{1,0} &amp;amp; \Sigma_{11}  
+\end{array} \right )  
+\right )  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Now, we use the result&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A7}  
+p( \textbf{f}_1 \vert \textbf{f}_0) &amp;amp;=&amp;amp; \frac{p( \textbf{f}_0, \textbf{f}_1)}{p( \textbf{f}_0)}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The last two expressions are all that are needed to derive (\ref{posterior}). The main challenge involves completing the square, and this can be done with the block matrix inversion formula, as in the previous&amp;nbsp;derivation.&lt;/p&gt;
+&lt;h3&gt;Appendix B: SKLearn implementation and other&amp;nbsp;kernels&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/11/sklearn.jpg"&gt;&lt;img alt="sklearn" src="http/wp-content/uploads/2017/11/sklearn.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;SKLearn provides contains the &lt;code&gt;GaussianProcessRegressor&lt;/code&gt; class. This allows one to carry out fits and sampling in any dimension &amp;#8212; i.e., it is more general than our minimal class in that it can fit feature vectors in more than one dimension. In addition, the &lt;code&gt;fit&lt;/code&gt; method of the SKLearn class attempts to find an optimal set of hyper-parameters for a given set of data. This is done through maximization of the marginal likelihood, as described above. Here, we provide some basic notes on this class and the built in kernels that one can use to define the covariance matrix &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt; in (\ref{prior}). We also include a simple code snippet illustrating&amp;nbsp;calls.&lt;/p&gt;
+&lt;h4&gt;Pre-defined&amp;nbsp;Kernels&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Radial-basis function (&lt;span class="caps"&gt;RBF&lt;/span&gt;): This is the default &amp;#8212; equivalent to our (\ref{covariance}). The &lt;span class="caps"&gt;RBF&lt;/span&gt; is characterized by a scale parameter, &lt;span class="math"&gt;\(l\)&lt;/span&gt;. In more than one dimension, this can be a vector, allowing for anisotropic correlation&amp;nbsp;lengths.&lt;/li&gt;
+&lt;li&gt;White kernel : The White Kernel is used for noise estimation &amp;#8212; docs suggest useful for estimating the global noise level, but not&amp;nbsp;pointwise.&lt;/li&gt;
+&lt;li&gt;Matern: This is a generalized exponential decay, where the exponents is a powerlaw in separation distance. Special limits include the &lt;span class="caps"&gt;RBF&lt;/span&gt; and also an absolute distance exponential decay. Some special parameter choices allow for existence of single or double&amp;nbsp;derivatives.&lt;/li&gt;
+&lt;li&gt;Rational quadratic: This is &lt;span class="math"&gt;\((1 + (d / l)^2)^{\alpha}\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Exp-Sine-Squared: This allows one to model periodic functions. This is just like the &lt;span class="caps"&gt;RBF&lt;/span&gt;, but the distance that gets plugged in is the sine of the actual distance. A periodicity parameter exists, as well as a &amp;#8220;variance&amp;#8221;&lt;br&gt;
+    &amp;#8212; the scale of the Gaussian&amp;nbsp;suppression.&lt;/li&gt;
+&lt;li&gt;Dot product kernel : This takes form &lt;span class="math"&gt;\(1 + x_i \cdot x_j\)&lt;/span&gt;. It&amp;#8217;s not stationary, in the sense that the result changes if a constant translation is added in. They state that you get this result from linear regression analysis if you place &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; priors on the&amp;nbsp;coefficients.&lt;/li&gt;
+&lt;li&gt;Kernels as objects : The kernels are objects, but support binary operations between them to create more complicated kernels, eg addition, multiplication, and exponentiation (latter simply raises initial kernel to a power). They all support analytic gradient evaluation. You can access all of the parameters in a kernel that you define via some helper functions &amp;#8212; eg, &lt;code&gt;kernel.get_params()&lt;/code&gt;. &lt;code&gt;kernel.hyperparameters&lt;/code&gt; is a list of all the&amp;nbsp;hyper-parameters.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Parameters&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;n_restarts_optimizer&lt;/code&gt;: This is the number of times to restart the fit &amp;#8212; useful for exploration of multiple local minima. The default is&amp;nbsp;zero.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;alpha&lt;/code&gt;: This optional argument allows one to pass in uncertainties for each&amp;nbsp;measurement.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;normalize_y&lt;/code&gt;: This is used to indicate that the mean of the &lt;span class="math"&gt;\(y\)&lt;/span&gt;-values we&amp;#8217;re looking for is not necessarily&amp;nbsp;zero.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Example&amp;nbsp;call&lt;/h4&gt;
+&lt;p&gt;The code snippet below carries out a simple fit. The result is the plot shown at the top of this&amp;nbsp;section.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.gaussian_process.kernels&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;RBF&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ConstantKernel&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;  
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;sklearn.gaussian_process&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;GaussianProcessRegressor&lt;/span&gt;  
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Build a model  &lt;/span&gt;
+&lt;span class="n"&gt;kernel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;1e-3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1e3&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;RBF&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="n"&gt;gp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;GaussianProcessRegressor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;kernel&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;n_restarts_optimizer&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Some data  &lt;/span&gt;
+&lt;span class="n"&gt;xobs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mf"&gt;1.5&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;]])&lt;/span&gt;  
+&lt;span class="n"&gt;yobs&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Fit the model to the data (optimize hyper parameters)  &lt;/span&gt;
+&lt;span class="n"&gt;gp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;fit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xobs&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yobs&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Plot points and predictions  &lt;/span&gt;
+&lt;span class="n"&gt;x_set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;x_set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;array&lt;/span&gt;&lt;span class="p"&gt;([[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+&lt;span class="n"&gt;means&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;sigmas&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;predict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;return_std&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;figure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;figsize&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;errorbar&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;means&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yerr&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;sigmas&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;means&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;g&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;linewidth&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;colors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;g&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;k&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;colors&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+&lt;span class="n"&gt;y_set&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;gp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample_y&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;random_state&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;randint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y_set&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;--&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;More details on the sklearn implementation can be found &lt;a href="http://scikit-learn.org/stable/modules/generated/sklearn.gaussian_process.GaussianProcessRegressor.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Appendix C: &lt;span class="caps"&gt;GP&lt;/span&gt;&amp;nbsp;Classifiers&lt;/h3&gt;
+&lt;p&gt;Here, we describe how GPs are often used to fit binary classification data &amp;#8212; data where the response variable &lt;span class="math"&gt;\(y\)&lt;/span&gt; can take on values of either &lt;span class="math"&gt;\(0\)&lt;/span&gt; or &lt;span class="math"&gt;\(1\)&lt;/span&gt;. The mathematics for &lt;span class="caps"&gt;GP&lt;/span&gt; Classifiers does not work out as cleanly as it does for &lt;span class="caps"&gt;GP&lt;/span&gt; Regressors. The reason is that the &lt;span class="math"&gt;\(0 / 1\)&lt;/span&gt; response is not Gaussian-distributed, which means that the posterior is not either. To make use of the program, one approximates the posterior as normal, via the Laplace&amp;nbsp;approximation.&lt;/p&gt;
+&lt;p&gt;The starting point is to write down a form for the probability of seeing a given &lt;span class="math"&gt;\(y\)&lt;/span&gt; value at &lt;span class="math"&gt;\(x\)&lt;/span&gt;. This, ones takes as the form,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A8} \label{classifier}  
+p(y \vert f(x)) = \frac{1}{1 + \exp\left (- y \times f(x)\right)}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+This form is a natural non-linear generalization of logistic regression &amp;#8212; see our post on this topic, &lt;a href="http://efavdb.com/logistic-regression/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To proceed, the prior for &lt;span class="math"&gt;\(f\)&lt;/span&gt; is taken to once again have form (\ref{prior}). Using this and (\ref{classifier}), we obtain the posterior for &lt;span class="math"&gt;\(f\)&lt;/span&gt;&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+p(f \vert y) &amp;amp;\sim&amp;amp; \frac{1}{1 + \exp\left (- y \times f(x)\right)} \exp \left ( - \frac{1}{2} \sum_{ij=1}^N f_i \Sigma^{-1}_{ij} f_j \right) \  
+&amp;amp;\approx &amp;amp; N(\mu, \Sigma^{\prime}) \tag{A9}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Here, the last line is the Laplace / Normal approximation to the line above it. Using this form, one can easily obtain confidence intervals and samples from the approximate posterior, as was done for&amp;nbsp;regressors.&lt;/p&gt;
+&lt;h3&gt;Footnotes&lt;/h3&gt;
+&lt;p&gt;[1] The size of the &lt;span class="math"&gt;\(\sigma_i\)&lt;/span&gt; determines how precisely we know the function value at each of the &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; points sampled &amp;#8212; if they are all &lt;span class="math"&gt;\(0\)&lt;/span&gt;, we know the function exactly at these points, but not anywhere&amp;nbsp;else.&lt;/p&gt;
+&lt;p&gt;[2] One might wonder whether introducing more points to the analysis would change the posterior statistics for the original &lt;span class="math"&gt;\(N\)&lt;/span&gt; points in question. It turns out that this is not the case for GPs: If one is interested only in the joint-statistics of these &lt;span class="math"&gt;\(N\)&lt;/span&gt; points, all others integrate out. For example, consider the goal of identifying the posterior distribution of &lt;span class="math"&gt;\(f\)&lt;/span&gt; at only a single test point &lt;span class="math"&gt;\(x\)&lt;/span&gt;. In this case, the posterior for the &lt;span class="math"&gt;\(N = n+1\)&lt;/span&gt; points follows from Bayes&amp;#8217;s rule,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{f1}  
+p(f(x_1), \ldots, f(x_n), f(x_{n+1}) \vert \{y\}) = \frac{p(\{y\} \vert f) p(f)}{p(\{y\})}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Now, by assumption, &lt;span class="math"&gt;\(p(\{y\} \vert f)\)&lt;/span&gt; depends only on &lt;span class="math"&gt;\(f(x_1),\ldots, f(x_n)\)&lt;/span&gt; &amp;#8212; the values of &lt;span class="math"&gt;\(f\)&lt;/span&gt; where &lt;span class="math"&gt;\(y\)&lt;/span&gt; was sampled. Integrating over all points except the sample set and test point &lt;span class="math"&gt;\(x\)&lt;/span&gt; gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{f2}  
+&amp;amp;&amp;amp;p(f(x_1), \ldots, f(x_{n+1}) \vert \{y\}) =\  
+&amp;amp;&amp;amp; \frac{p(\{y\} \vert f(x_1),\ldots,f(x_n))}{p(\{y\})} \int p(f) \prod_{i \not \in \{x_1, \ldots, x_N\}} df_i  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The result of the integral above is a Normal distribution &amp;#8212; one with covariance given by the original covariance function evaluated only at the points &lt;span class="math"&gt;\(\{x_1, \ldots, x_{N} \}\)&lt;/span&gt;. This fact is proven in our post on Normal distributions &amp;#8212; see equation (22) of that post, &lt;a href="http://efavdb.com/normal-distributions/"&gt;here&lt;/a&gt;. The result implies that we can get the correct sampling statistics on any set of test points, simply by analyzing these alongside the sampled points. This fact is what allows us to tractably treat the formally-infinite number of degrees of freedom associated with&amp;nbsp;GPs.&lt;/p&gt;
+&lt;p&gt;[3] We have a prior post illustrating this point &amp;#8212; see &lt;a href="http://efavdb.com/model-selection/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[4] The marginal likelihood is equal to the denominator of (\ref{Bayes}), which we previously&amp;nbsp;ignored.&lt;/p&gt;
+&lt;p&gt;[5] We made this gif through adapting the skopt tutorial code, &lt;a href="https://scikit-optimize.github.io/notebooks/bayesian-optimization.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[6] For the free text by Rasmussen and Williams, see &lt;a href="http://www.gaussianprocess.org/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Methods, Programming, Statistics, Theory"></category></entry></feed>

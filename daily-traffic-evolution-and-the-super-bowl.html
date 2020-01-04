@@ -12,7 +12,7 @@
 <meta name="keywords" content="traffic, Case studies, " />
 
 <meta property="og:title" content="Daily traffic evolution and the Super Bowl "/>
-<meta property="og:url" content="./daily-traffic-evolution-and-the-super-bowl.html" />
+<meta property="og:url" content="http/daily-traffic-evolution-and-the-super-bowl.html" />
 <meta property="og:description" content="With an eye towards predicting traffic evolution, we begin by examining the time-dependence of the contribution from the first principal components on different days of the week. Traffic throughout the day \(\vert x(t) \rangle\) can be represented in the basis of principal components; \(\vert x(t) \rangle\) \(= \sum_{i …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Dustin McIntosh" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/custom.css" media="screen">
 
+        <link href="http/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="http/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       http
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="http/pages/authors.html">Authors</a></li>
+                                <li ><a href="http/categories.html">Categories</a></li>
+                                <li ><a href="http/tags.html">Tags</a></li>
+                                <li ><a href="http/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="http/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="./daily-traffic-evolution-and-the-super-bowl.html">
+            <a href="http/daily-traffic-evolution-and-the-super-bowl.html">
                 Daily traffic evolution and the Super&nbsp;Bowl
             </a>
         </h1>
@@ -78,11 +79,11 @@
         <div class="span8 offset2 article-content">
             
             <p>With an eye towards predicting traffic evolution, we begin by examining the time-dependence of the contribution from the first principal components on different days of the week. Traffic throughout the day <span class="math">\(\vert x(t) \rangle\)</span> can be represented in the basis of principal components; <span class="math">\(\vert x(t) \rangle\)</span> <span class="math">\(= \sum_{i} c_i(t) \vert \phi_i \rangle $\)</span>^1<span class="math">\(, where $\vert \phi_i \rangle\)</span> is the ith principle component. The coefficients <span class="math">\(c_i(t)\)</span>, sometimes called the “scores” of $\vert x(t) \rangle $ in the basis of principal components, carry all of the&nbsp;dynamics.</p>
-<p><a href="./wp-content/uploads/2014/10/ModeTDependence.png"><img alt="ModeTDependence" src="./wp-content/uploads/2014/10/ModeTDependence.png"></a><br>
+<p><a href="http/wp-content/uploads/2014/10/ModeTDependence.png"><img alt="ModeTDependence" src="http/wp-content/uploads/2014/10/ModeTDependence.png"></a><br>
 The largest deviations in the traffic patterns (and of the scores) are during weekday rush hours (around 8 am and 5 pm) - see plot of the scores for several modes throughout Jan. 15.  There is an abundance of interesting information to be gleaned here.  First, note that, generally, the amplitude of the lowest modes is the largest, again, <a href="http://efavdb.com/data-reduction-by-pca/">as expected</a>.  In addition, there appears to be some large wavelength structure (primarily correlated with the rush hours) sitting on top of a background of higher frequency noise.  Ignoring for the moment the noise, the modes generally come in two classes - something like “even” and “odd”.  That is, some fluctuate with the same sign in both the morning and evening, while others fluctuate with opposite&nbsp;signs.</p>
 <p>Let us consider the first two modes in this plot.  The first mode is an even mode and we attribute this essentially to an overall shift in general speed throughout the system. Whenever there are more cars on the road, the speed generally decreases everywhere.  Indeed, this is the only mode that deviates significantly from zero at night and it deviates positive - the roads are generally completely clear at night and thus the speed is somewhat higher than average.  The second mode is an odd mode, which we attribute generally to directional traffic - when everyone is going to work it has one sign, when they are coming home it has the other.  We have previously <a href="http://efavdb.com/traffic-patterns-of-the-year-2014-edition/">visualized these two modes</a> and, indeed, these concepts are reflected in their spatial structure: the first mode is generally uniform while the second has regions with either sign and many sections of highway are positive in one direction and negative in the&nbsp;other.</p>
 <p>The time-dependence of these scores is remarkably consistent from week to week (See Wednesdays plot below of the scores for modes 1 and 2).  On the right, we plot the same quantities for several Sundays as well.  Not surprisingly, the fluctuations are smaller on Sundays than on weekdays, reflecting more homogeneous speeds in sparse traffic.  However, they are still reproducible from week to week - see Sundays Jan. 5, 12, 19, and 26 - apparently there is a slight slow-down around 6 pm.  Feb. 2 was Super Bowl Sunday and the traffic pattern differs qualitatively from other Sundays.  Remarkably, we can identify the time of the Super Bowl kickoff from this data - before the kickoff there is slightly more traffic than the average Sunday and immediately after, less.<br>
-<a href="./wp-content/uploads/2014/10/WednesdayModes.png"><img alt="WednesdayModes" src="http://efavdb.com/wp-content/uploads/2014/10/WednesdayModes-300x283.png"></a><a href="./wp-content/uploads/2014/10/SuperBowlModes.png"><img alt="SuperBowlModes" src="http://efavdb.com/wp-content/uploads/2014/10/SuperBowlModes-300x283.png"></a></p>
+<a href="http/wp-content/uploads/2014/10/WednesdayModes.png"><img alt="WednesdayModes" src="http://efavdb.com/wp-content/uploads/2014/10/WednesdayModes-300x283.png"></a><a href="http/wp-content/uploads/2014/10/SuperBowlModes.png"><img alt="SuperBowlModes" src="http://efavdb.com/wp-content/uploads/2014/10/SuperBowlModes-300x283.png"></a></p>
 <p>[1] <em>On projecting into principal components</em>: In the original basis, our data reads <span class="math">\(\vert x(t) \rangle = \sum_j a_j(t) \vert \ell_j \rangle $, where the sum runs over all loop locations(there are some 2,000 loops in the Bay area) and $\vert \ell_j \rangle $ is a unit fluctuation in speed at the location of loop $j\)</span>. Changing bases, to the principal components <span class="math">\( \vert \phi_i \rangle $, $\vert x(t) \rangle = \sum_{i,j} a_j(t) \vert \phi_i \rangle \langle \phi_i \vert \ell_j \rangle\)</span> <span class="math">\(= \sum_i c_i(t) \vert \phi_i \rangle $ where $ c_i(t) =\)</span><span class="math">\(\sum_j a_j(t) \langle \phi_i \vert \ell_j \rangle\)</span>. The coefficient <span class="math">\(\langle \phi_i \vert \ell_j \rangle\)</span> is often called the “loading” of <span class="math">\(\vert \ell_j \rangle $ into $\vert \phi_i \rangle\)</span>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -152,11 +153,11 @@ The largest deviations in the traffic patterns (and of the scores) are during we
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Daily%20traffic%20evolution%20and%20the%20Super%C2%A0Bowl&url=http%3A//efavdb.github.io/daily-traffic-evolution-and-the-super-bowl.html&hashtags=traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Daily%20traffic%20evolution%20and%20the%20Super%C2%A0Bowl&url=http/daily-traffic-evolution-and-the-super-bowl.html&hashtags=traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/daily-traffic-evolution-and-the-super-bowl.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http/daily-traffic-evolution-and-the-super-bowl.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Daily%20traffic%20evolution%20and%20the%20Super%C2%A0Bowl&amp;body=http%3A//efavdb.github.io/daily-traffic-evolution-and-the-super-bowl.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Daily%20traffic%20evolution%20and%20the%20Super%C2%A0Bowl&amp;body=http/daily-traffic-evolution-and-the-super-bowl.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -185,8 +186,8 @@ The largest deviations in the traffic patterns (and of the scores) are during we
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./daily-traffic-evolution-and-the-super-bowl.html"
-                   href="./daily-traffic-evolution-and-the-super-bowl.html#comment_thread"
+                   data-disqus-identifier="http/daily-traffic-evolution-and-the-super-bowl.html"
+                   href="http/daily-traffic-evolution-and-the-super-bowl.html#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -204,8 +205,8 @@ The largest deviations in the traffic patterns (and of the scores) are during we
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './daily-traffic-evolution-and-the-super-bowl.html';
-    var disqus_url = './daily-traffic-evolution-and-the-super-bowl.html';
+    var disqus_identifier = 'http/daily-traffic-evolution-and-the-super-bowl.html';
+    var disqus_url = 'http/daily-traffic-evolution-and-the-super-bowl.html';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -229,8 +230,8 @@ The largest deviations in the traffic patterns (and of the scores) are during we
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./nba-learner-2013-14-warmup.html" title="Previous: NBA learner: 2013-14 warmup">NBA learner: 2013-14 warmup</a></li>
-                <li class="next-article"><a href="./nba-weekly-predictions-up.html" title="Next: NBA weekly predictions: up">NBA weekly predictions: up</a> »</li>
+                <li class="previous-article">« <a href="http/nba-learner-2013-14-warmup.html" title="Previous: NBA learner: 2013-14 warmup">NBA learner: 2013-14 warmup</a></li>
+                <li class="next-article"><a href="http/nba-weekly-predictions-up.html" title="Next: NBA weekly predictions: up">NBA weekly predictions: up</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -239,10 +240,10 @@ The largest deviations in the traffic patterns (and of the scores) are during we
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2014-10-31T04:02:00-07:00">Oct 31, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#case-studies-ref">Case studies</a>
+            <a class="category-link" href="http/categories.html#case-studies-ref">Case studies</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="./tags.html#traffic-ref">traffic
+                <li><a href="http/tags.html#traffic-ref">traffic
                     <span>6</span>
 </a></li>
             </ul>

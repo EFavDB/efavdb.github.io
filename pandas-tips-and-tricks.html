@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Programming, Tools, " />
 
 <meta property="og:title" content="Getting started with Pandas "/>
-<meta property="og:url" content="./pandas-tips-and-tricks.html" />
+<meta property="og:url" content="http/pandas-tips-and-tricks.html" />
 <meta property="og:description" content="We have made use of Python’s Pandas package in a variety of posts on the site. These have showcased some of Pandas’ abilities including the following: DataFrames for data manipulation with built in indexing Handling of missing data Data alignment Melting/stacking and Pivoting/unstacking data sets Groupby feature …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/custom.css" media="screen">
 
+        <link href="http/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="http/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       http
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="http/pages/authors.html">Authors</a></li>
+                                <li ><a href="http/categories.html">Categories</a></li>
+                                <li ><a href="http/tags.html">Tags</a></li>
+                                <li ><a href="http/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="http/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="./pandas-tips-and-tricks.html">
+            <a href="http/pandas-tips-and-tricks.html">
                 Getting started with&nbsp;Pandas
             </a>
         </h1>
@@ -368,13 +369,13 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 </pre></div>
 
 
-<p><a href="./wp-content/uploads/2015/07/fig1.png"><img alt="fig1" src="./wp-content/uploads/2015/07/fig1.png"></a> Similarly, the following plots unemployment for each of the available different levels of&nbsp;education.</p>
+<p><a href="http/wp-content/uploads/2015/07/fig1.png"><img alt="fig1" src="http/wp-content/uploads/2015/07/fig1.png"></a> Similarly, the following plots unemployment for each of the available different levels of&nbsp;education.</p>
 <div class="highlight"><pre><span></span><span class="err">df[[&#39;Rate&#39;, &#39;No High School Diploma&#39;, &#39;Bachelor degree and higher&#39;]].plot()  </span>
 <span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)  </span>
 </pre></div>
 
 
-<p><a href="./wp-content/uploads/2015/07/fig2.png"><img alt="fig2" src="./wp-content/uploads/2015/07/fig2.png"></a><br>
+<p><a href="http/wp-content/uploads/2015/07/fig2.png"><img alt="fig2" src="http/wp-content/uploads/2015/07/fig2.png"></a><br>
 Interestingly, these unemployment rates seem to evolve in a similar manner. Notice that both the green and the red curves seem to have doubled during the recent&nbsp;slow-down.</p>
 <h3>GroupBy</h3>
 <p>You can also used Pandas GroupBy functionality to do analysis on subsets of the data.  For this example we <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">GroupBy</a> year, and then make a plot showing the mean unemployment per year. GroupBy allows one to easily split the data, apply a function to each group, and then combine the results. It is a very useful&nbsp;feature!</p>
@@ -384,7 +385,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </pre></div>
 
 
-<h3><a href="./wp-content/uploads/2015/07/fig3.png"><img alt="fig3" src="./wp-content/uploads/2015/07/fig3.png"></a></h3>
+<h3><a href="http/wp-content/uploads/2015/07/fig3.png"><img alt="fig3" src="http/wp-content/uploads/2015/07/fig3.png"></a></h3>
 <p>There are some functions like mean, and describe that can be run directly on a grouped&nbsp;object.</p>
 <div class="highlight"><pre><span></span><span class="err">years.get_group(2005)[&#39;Rate&#39;].describe()  </span>
 </pre></div>
@@ -540,11 +541,11 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Getting%20started%20with%C2%A0Pandas&url=http%3A//efavdb.github.io/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Getting%20started%20with%C2%A0Pandas&url=http/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Getting%20started%20with%C2%A0Pandas&amp;body=http%3A//efavdb.github.io/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Getting%20started%20with%C2%A0Pandas&amp;body=http/pandas-tips-and-tricks.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -573,8 +574,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./pandas-tips-and-tricks.html"
-                   href="./pandas-tips-and-tricks.html#comment_thread"
+                   data-disqus-identifier="http/pandas-tips-and-tricks.html"
+                   href="http/pandas-tips-and-tricks.html#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -592,8 +593,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './pandas-tips-and-tricks.html';
-    var disqus_url = './pandas-tips-and-tricks.html';
+    var disqus_identifier = 'http/pandas-tips-and-tricks.html';
+    var disqus_url = 'http/pandas-tips-and-tricks.html';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -617,8 +618,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./stochastic-geometric-series.html" title="Previous: Stochastic geometric series">Stochastic geometric series</a></li>
-                <li class="next-article"><a href="./bayesian-linear-regression.html" title="Next: A review of parameter regularization and Bayesian regression">A review of parameter regularization and Bayesian regression</a> »</li>
+                <li class="previous-article">« <a href="http/stochastic-geometric-series.html" title="Previous: Stochastic geometric series">Stochastic geometric series</a></li>
+                <li class="next-article"><a href="http/bayesian-linear-regression.html" title="Next: A review of parameter regularization and Bayesian regression">A review of parameter regularization and Bayesian regression</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -627,7 +628,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-10-05T12:00:00-07:00">Oct 5, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-programming-tools-ref">Methods, Programming, Tools</a>
+            <a class="category-link" href="http/categories.html#methods-programming-tools-ref">Methods, Programming, Tools</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

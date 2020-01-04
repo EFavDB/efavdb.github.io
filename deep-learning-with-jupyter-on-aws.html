@@ -12,7 +12,7 @@
 <meta name="keywords" content="AWS, bash, cloud, deep learning, Jupyter, Tools, " />
 
 <meta property="og:title" content="Start deep learning with Jupyter notebooks in the cloud "/>
-<meta property="og:url" content="./deep-learning-with-jupyter-on-aws.html" />
+<meta property="og:url" content="http/deep-learning-with-jupyter-on-aws.html" />
 <meta property="og:description" content="Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) — specifically, AWS Elastic Compute Cloud (EC2) — no data scientist need be left behind. Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/custom.css" media="screen">
 
+        <link href="http/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="http/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       http
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="http/pages/authors.html">Authors</a></li>
+                                <li ><a href="http/categories.html">Categories</a></li>
+                                <li ><a href="http/tags.html">Tags</a></li>
+                                <li ><a href="http/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="http/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="./deep-learning-with-jupyter-on-aws.html">
+            <a href="http/deep-learning-with-jupyter-on-aws.html">
                 Start deep learning with Jupyter notebooks in the&nbsp;cloud
             </a>
         </h1>
@@ -109,10 +110,10 @@
 <p>We&#8217;re going to supply the shell script as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">user-data</a>, a way to pass in scripts to automate configurations to your <span class="caps">AMI</span>. Instead of clicking on &#8220;Review and Launch&#8221;, click on the gray button in the lower right &#8220;Next: Configure Instance&nbsp;Details&#8221;.</p>
 <p>In the next page, click on the arrowhead next to &#8220;Advanced Details&#8221; to expand its options. Click on the radio button next to &#8220;As text&#8221;, then copy and paste the text from <code>jupyter_userdata.sh</code> (modified with your password) into the&nbsp;field.</p>
 <p>Warning: if you click on &#8220;As file&#8221; instead and browse to wherever you saved <code>jupyter_userdata.sh</code>, the file must first be <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">base64-encoded</a>.</p>
-<p><a href="./wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="Step3_Configure-Instance-Details" src="http://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details-1024x426.png"></a></p>
+<p><a href="http/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="Step3_Configure-Instance-Details" src="http://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details-1024x426.png"></a></p>
 <p><strong>3.</strong> Next, (skipping steps 4. and 5.) click on the link to &#8220;6. Configure Security Group&#8221; near the top of the page. By default, <span class="caps">SSH</span> is enabled, but we need to enable access to the notebook server, whose port we&#8217;ve set as 8888 in the bash&nbsp;script.</p>
 <p>Click on the grey button &#8220;Add Rule&#8221;, then for the new rule, choose Type: Custom <span class="caps">TCP</span> Rule; Protocol: <span class="caps">TCP</span>; Port Range: 8888; Source:&nbsp;Anywhere.</p>
-<p><a href="./wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="Step6_Configure-Security-Group" src="http://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group-1024x434.png"></a></p>
+<p><a href="http/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="Step6_Configure-Security-Group" src="http://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group-1024x434.png"></a></p>
 <p><strong>4.</strong> Now, pick up where you left off in the CS231n tutorial (&#8220;<em>&#8230; click on &#8220;Review and Launch</em>&#8220;.), which takes you to &#8220;Step 7. Review Instance Launch&#8221;. Complete the&nbsp;tutorial.</p>
 <hr>
 <p>Check that the Jupyter notebook server was set up&nbsp;correctly:</p>
@@ -122,7 +123,7 @@
 <li>Start the notebook server using the <code>jupyter notebook</code> command.</li>
 <li>
 <p>In your web browser, access the notebook server with https://PUBLIC_IP:8888, where PUBLIC_IP is the public <span class="caps">IP</span> of your instance, displayed from the instance description on your <span class="caps">AWS</span> dashboard. Your browser will warn that your self-signed certificate is insecure or&nbsp;unrecognized.</p>
-<p><a href="./wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="scary-browser-warning" src="http://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning-1024x556.png"></a></p>
+<p><a href="http/wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="scary-browser-warning" src="http://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning-1024x556.png"></a></p>
 <p>That&#8217;s ok &#8212; click past the warnings, and you should get a sign-in page. Type in your&nbsp;password.</p>
 </li>
 <li>
@@ -143,11 +144,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&url=http%3A//efavdb.github.io/deep-learning-with-jupyter-on-aws.html&hashtags=aws,bash,cloud,deep-learning,jupyter" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&url=http/deep-learning-with-jupyter-on-aws.html&hashtags=aws,bash,cloud,deep-learning,jupyter" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/deep-learning-with-jupyter-on-aws.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http/deep-learning-with-jupyter-on-aws.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&amp;body=http%3A//efavdb.github.io/deep-learning-with-jupyter-on-aws.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&amp;body=http/deep-learning-with-jupyter-on-aws.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -176,8 +177,8 @@
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./deep-learning-with-jupyter-on-aws.html"
-                   href="./deep-learning-with-jupyter-on-aws.html#comment_thread"
+                   data-disqus-identifier="http/deep-learning-with-jupyter-on-aws.html"
+                   href="http/deep-learning-with-jupyter-on-aws.html#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -195,8 +196,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './deep-learning-with-jupyter-on-aws.html';
-    var disqus_url = './deep-learning-with-jupyter-on-aws.html';
+    var disqus_identifier = 'http/deep-learning-with-jupyter-on-aws.html';
+    var disqus_url = 'http/deep-learning-with-jupyter-on-aws.html';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -220,8 +221,8 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./dotfiles.html" title="Previous: Dotfiles for peace of mind">Dotfiles for peace of mind</a></li>
-                <li class="next-article"><a href="./caffe-virtualbox.html" title="Next: Try Caffe pre-installed on a VirtualBox image">Try Caffe pre-installed on a VirtualBox image</a> »</li>
+                <li class="previous-article">« <a href="http/dotfiles.html" title="Previous: Dotfiles for peace of mind">Dotfiles for peace of mind</a></li>
+                <li class="next-article"><a href="http/caffe-virtualbox.html" title="Next: Try Caffe pre-installed on a VirtualBox image">Try Caffe pre-installed on a VirtualBox image</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -230,22 +231,22 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-03-10T20:41:00-08:00">Mar 10, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#tools-ref">Tools</a>
+            <a class="category-link" href="http/categories.html#tools-ref">Tools</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="./tags.html#aws-ref">AWS
+                <li><a href="http/tags.html#aws-ref">AWS
                     <span>1</span>
 </a></li>
-                <li><a href="./tags.html#bash-ref">bash
+                <li><a href="http/tags.html#bash-ref">bash
                     <span>2</span>
 </a></li>
-                <li><a href="./tags.html#cloud-ref">cloud
+                <li><a href="http/tags.html#cloud-ref">cloud
                     <span>3</span>
 </a></li>
-                <li><a href="./tags.html#deep-learning-ref">deep learning
+                <li><a href="http/tags.html#deep-learning-ref">deep learning
                     <span>2</span>
 </a></li>
-                <li><a href="./tags.html#jupyter-ref">Jupyter
+                <li><a href="http/tags.html#jupyter-ref">Jupyter
                     <span>2</span>
 </a></li>
             </ul>

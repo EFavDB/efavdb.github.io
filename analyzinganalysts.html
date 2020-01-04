@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Case studies, " />
 
 <meta property="og:title" content="Analyzing Analysts "/>
-<meta property="og:url" content="./analyzinganalysts.html" />
+<meta property="og:url" content="http/analyzinganalysts.html" />
 <meta property="og:description" content="In this post, Dustin provides an overview of some of his work from his time in the Insight Data Science Fellowship program — work done in collaboration with Mode Analytics, an online collaborative SQL platform. Insight Demo from Dustin McIntosh Many high-value business insights have their answers rooted in data. Companies …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Dustin McIntosh" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="http/theme/css/custom.css" media="screen">
 
+        <link href="http/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="http/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       http
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="http/pages/authors.html">Authors</a></li>
+                                <li ><a href="http/categories.html">Categories</a></li>
+                                <li ><a href="http/tags.html">Tags</a></li>
+                                <li ><a href="http/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="http/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="./analyzinganalysts.html">
+            <a href="http/analyzinganalysts.html">
                 Analyzing&nbsp;Analysts
             </a>
         </h1>
@@ -95,7 +96,7 @@
 </ol>
 <p><strong><span class="caps">WHAT</span> <span class="caps">IS</span> <span class="caps">MODE</span> <span class="caps">AND</span> <span class="caps">WHO</span> <span class="caps">ARE</span> <span class="caps">THEIR</span> <span class="caps">USERS</span>?</strong></p>
 <p><a href="https://modeanalytics.com/">Mode Analytics</a> provides a one-stop shop for all the needs of a data analyst. Users can easily connect their data to Mode&#8217;s web-based app, query it with <span class="caps">SQL</span>, and create and share visualizations of their analysis to convey the insights they&#8217;ve extracted. In addition, Mode offers free instruction via their <a href="http://sqlschool.modeanalytics.com/"><span class="caps">SQL</span> school</a>, which instructs novices on the basics of <span class="caps">SQL</span> while querying some public, tutorial datasets.<br>
-<a href="./wp-content/uploads/2015/02/errorRate31.png"><img alt="errorRate3" src="./wp-content/uploads/2015/02/errorRate31.png"></a><br>
+<a href="http/wp-content/uploads/2015/02/errorRate31.png"><img alt="errorRate3" src="http/wp-content/uploads/2015/02/errorRate31.png"></a><br>
 With the goal of cohorting users based on their ability level, I group users based on the number of queries they have submitted to Mode (see plot at right of tutorial reference rate and error rate by&nbsp;cohort):</p>
 <ol>
 <li>Power users (1000 + queries): this group primarily queries private data sources with no need for the tutorials, making only occasional&nbsp;errors.</li>
@@ -106,17 +107,17 @@ With the goal of cohorting users based on their ability level, I group users bas
 <p>The primary goal, from a business perspective, is to move users up this list: get infrequent queriers invested in the product and get novice tutorial users up to speed with <span class="caps">SQL</span> so they can enjoy all aspects of Mode&#8217;s product. For the remainder of the post, I ignore the infrequent queriers [1] in favor of analyzing novices and the differences between them and the&nbsp;experts.</p>
 <p><strong><span class="caps">WHAT</span> <span class="caps">ERRORS</span> <span class="caps">DO</span> <span class="caps">SQL</span> <span class="caps">USERS</span> <span class="caps">MAKE</span>?</strong></p>
 <p><span class="caps">SQL</span> is a very simple language. With a simple, declarative style and only about 200 keywords in total, of which only a few dozen are in common usage [2], there is very little to memorize for <span class="caps">SQL</span> users. Thus, most errors should be recognizable and avoidable in product design. Examining the types of errors <span class="caps">SQL</span> users make informs us how we can make an analyst&#8217;s experience better through the Mode platform.  In the plot below, I count the number of each type of error made by the two cohorts (experts and novices).<br>
-<a href="./wp-content/uploads/2015/02/errorClass1.png"><img alt="errorClass" src="./wp-content/uploads/2015/02/errorClass1.png"></a></p>
+<a href="http/wp-content/uploads/2015/02/errorClass1.png"><img alt="errorClass" src="http/wp-content/uploads/2015/02/errorClass1.png"></a></p>
 <p>The most striking thing about this analysis is that the two most common error types are forgetting and/or misspelling table and column names. Fortunately, these errors are easily addressed through product design: simply prominently displaying the table/column names may significantly reduce errors. It may even be possible in some instances to auto-fill the&nbsp;names.</p>
 <p>There are a few subtle differences between expert and novice errors worth noting. Novice users tend to make more syntax errors, which is not a surprise given they are less familiar with the language. Power users, on the other hand, make a broader distribution of errors (e.g., a lot more rare errors). Further, experts much more frequently run into the limits of the system (e.g., timeouts, internal errors), an indication that they are running more complex queries. From a product perspective, correcting errors for novices is the priority as they make the most errors and are less likely to know how to correct them. Further, as novices tend to make a narrower range of errors, it is likely possible to parse out many of these errors and either auto-correct them or provide more personalized help to the user than the standard <span class="caps">SQL</span> error&nbsp;messages.</p>
 <p><strong><span class="caps">DO</span> <span class="caps">NOVICES</span> <span class="caps">GET</span> <span class="caps">FRUSTRATED</span> <span class="caps">AND</span> <span class="caps">QUIT</span>?</strong></p>
 <p>A principal concern for educating the novice users is that they may consistently run into certain types of errors, not understand how to correct them, and quit out of frustration. Should Mode customize the standard error messages to better direct novices to their problems? To see whether or not this is the case, I looked at the set of churned novice users (those that have not made a query since November) and examined their final few queries. If user frustration is causing churn, we expect the error rate to increase as the users approach churn.<br>
-<a href="./wp-content/uploads/2015/02/errorChurn.png"><img alt="errorChurn" src="./wp-content/uploads/2015/02/errorChurn.png"></a></p>
+<a href="http/wp-content/uploads/2015/02/errorChurn.png"><img alt="errorChurn" src="http/wp-content/uploads/2015/02/errorChurn.png"></a></p>
 <p>Surprisingly, the rate at which users commit errors before they churn is actually lower than the group&#8217;s average error rate and decreases until they churn. Thus, we can infer that the average novice does <strong>not</strong> quit due to frustration with errors they are making - this is not a major concern for customer&nbsp;retention.</p>
 <p>However, Mode could be more proactive about transitioning customers from their <span class="caps">SQL</span> school to connecting their own data and using their visualization tools. 88% of users that churn have not connected their own data sources and are working exclusively on the tutorial datasets. One potential product enhancement is to periodically remind tutorial users of the possibility of connecting their own data and to add tutorial exercises introducing the visualization&nbsp;tools.</p>
 <p><strong><span class="caps">WHAT</span>&#8217;S <span class="caps">IN</span> A <span class="caps">SQL</span> <span class="caps">EXPERT</span>&#8217;S <span class="caps">QUERY</span>?</strong></p>
 <p>As discussed above, drawing a line at 1000 queries is not a very useful classification metric for experts versus novices. There are many experts that come to Mode with a lot of expertise in <span class="caps">SQL</span>, but have not made 1000 queries yet.  Thus, I developed a model based on a Random Forest classifier to differentiate expert and novice <span class="caps">SQL</span> users based on the content of their queries [3]. This model accurately classifies users based on a single query roughly 65% of the time for both classes. Accuracy of the prediction will go up the more unique queries a user submits; for example, after ten queries accuracy may be as high as 90%&nbsp;[4].</p>
-<p><a href="./wp-content/uploads/2015/02/featureImportance5.png"><img alt="featureImportance5" src="./wp-content/uploads/2015/02/featureImportance5.png"></a></p>
+<p><a href="http/wp-content/uploads/2015/02/featureImportance5.png"><img alt="featureImportance5" src="http/wp-content/uploads/2015/02/featureImportance5.png"></a></p>
 <p>One interesting aspect of the Random Forest model is that it determines the most important features that define an expert&#8217;s query from a novice&#8217;s. The result is clear: Of the top five most important features, three of them have to do with formatting; experts take more care in their use of white space, line breaks, and parentheses. In particular, in their queries, experts have a higher density of white space, a lower density of line breaks, and a higher density of parentheses. Thus, experts tend to have longer lines of code with more white space. The two remaining features in the top five, query length and frequency of “select” and “from”, indicate that experts tend to write longer queries with more&nbsp;subqueries.</p>
 <p>Being able to classify a user as an expert or novice based on the content of their queries would be extremely useful for personalizing user experience. If a user connects their data early on and it becomes clear that they have limited experience with <span class="caps">SQL</span>, Mode would like to be able to direct those users to relevant tutorials or perhaps to work related to theirs that was performed by experts. Likewise, if a user immediately demonstrates advanced <span class="caps">SQL</span> knowledge, Mode would like to direct them to, for example, the data visualization tools that make Mode&#8217;s platform uniquely useful to the experienced analyst. Implementation of my model would permit&nbsp;this.</p>
 <p><strong><span class="caps">CONCLUSIONS</span></strong></p>
@@ -130,7 +131,7 @@ With the goal of cohorting users based on their ability level, I group users bas
 <p><strong><span class="caps">FOOTNOTES</span></strong></p>
 <p>[1] The query history of the infrequent queriers does not provide very much information as to who these users are. Gathering additional information on these users may prove useful in determining how to retain these&nbsp;customers.</p>
 <p>[2] <em>Top-Heavy Nature of <span class="caps">SQL</span> -</em>Of the approximately 200 keywords in the <span class="caps">SQL</span> vocabulary, a very small subset are even remotely common. Looking at the fraction of queries containing each keyword from the expert dataset demonstrates just how top heavy the language is. Each keyword not present on this plot appears in fewer than 4% of all unique queries in the dataset.<br>
-<a href="./wp-content/uploads/2015/02/SQL_keywords_expert.png"><img alt="SQL_keywords_expert" src="./wp-content/uploads/2015/02/SQL_keywords_expert.png"></a>[3] <em>Labeling the Training Set -</em>I define users with &gt;1000 queries as experts and take only a subset of their most recent queries (those submitted since November 2014) - assuming that they have become better queriers with time. For the novice training set, it is not possible to strictly take the users from the 10-1000 query group as there are likely some new-comer experts in that category (experienced <span class="caps">SQL</span> users that have just recently joined Mode). Instead, I took only users with 100-1000 queries that had participated extensively in the tutorials. I then remove those tutorial queries from their set and label those remaining as novice queries for training.<br>
+<a href="http/wp-content/uploads/2015/02/SQL_keywords_expert.png"><img alt="SQL_keywords_expert" src="http/wp-content/uploads/2015/02/SQL_keywords_expert.png"></a>[3] <em>Labeling the Training Set -</em>I define users with &gt;1000 queries as experts and take only a subset of their most recent queries (those submitted since November 2014) - assuming that they have become better queriers with time. For the novice training set, it is not possible to strictly take the users from the 10-1000 query group as there are likely some new-comer experts in that category (experienced <span class="caps">SQL</span> users that have just recently joined Mode). Instead, I took only users with 100-1000 queries that had participated extensively in the tutorials. I then remove those tutorial queries from their set and label those remaining as novice queries for training.<br>
 <em>Feature Selection/Engineering</em>- I use a bag-of-words approach with language defined by <span class="caps">SQL</span>&#8217;s keywords. Additional features include query length, number of unique keywords in the query (diversity), as well as fraction of the query that is white space, line breaks, and parentheses. Several keywords are strongly correlated with one another; for this reason, I combine some together (e.g., “select” and “from”) and remove others from the analysis entirely (e.g., “as”, “by” and&nbsp;“on”).</p>
 <p>[4]<em>Growing confidence of classification -</em>If a user&#8217;s successive queries were independent of one another we would expect confidence in the prediction to grow in accordance with a binomial distribution: <span class="math">\(P(\)</span>misclassify<span class="math">\() = \sum_{i = 0}^{\lfloor n/2 \rfloor} \binom{n}{i} p^i (1-p)^{n-i}\)</span> with <span class="math">\(p \approx 0.65\)</span> and <span class="math">\(n\)</span> the number of queries. After ten queries the misclassification error reduces to roughly 10%; after 20 queries - 5%. However, a user&#8217;s queries are typically not independent of one another, so this is likely a generous&nbsp;estimate.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -201,11 +202,11 @@ With the goal of cohorting users based on their ability level, I group users bas
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Analyzing%C2%A0Analysts&url=http%3A//efavdb.github.io/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Analyzing%C2%A0Analysts&url=http/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Analyzing%C2%A0Analysts&amp;body=http%3A//efavdb.github.io/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Analyzing%C2%A0Analysts&amp;body=http/analyzinganalysts.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -234,8 +235,8 @@ With the goal of cohorting users based on their ability level, I group users bas
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./analyzinganalysts.html"
-                   href="./analyzinganalysts.html#comment_thread"
+                   data-disqus-identifier="http/analyzinganalysts.html"
+                   href="http/analyzinganalysts.html#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -253,8 +254,8 @@ With the goal of cohorting users based on their ability level, I group users bas
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './analyzinganalysts.html';
-    var disqus_url = './analyzinganalysts.html';
+    var disqus_identifier = 'http/analyzinganalysts.html';
+    var disqus_url = 'http/analyzinganalysts.html';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -278,8 +279,8 @@ With the goal of cohorting users based on their ability level, I group users bas
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./nba-week-13-summary-week-14-predictions.html" title="Previous: NBA week 13 summary, week 14 predictions">NBA week 13 summary, week 14 predictions</a></li>
-                <li class="next-article"><a href="./nba-week-14-summary-week-15-predictions.html" title="Next: NBA week 14 summary, week 15 predictions">NBA week 14 summary, week 15 predictions</a> »</li>
+                <li class="previous-article">« <a href="http/nba-week-13-summary-week-14-predictions.html" title="Previous: NBA week 13 summary, week 14 predictions">NBA week 13 summary, week 14 predictions</a></li>
+                <li class="next-article"><a href="http/nba-week-14-summary-week-15-predictions.html" title="Next: NBA week 14 summary, week 15 predictions">NBA week 14 summary, week 15 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -288,7 +289,7 @@ With the goal of cohorting users based on their ability level, I group users bas
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-02-08T14:15:00-08:00">Feb 8, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#case-studies-ref">Case studies</a>
+            <a class="category-link" href="http/categories.html#case-studies-ref">Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

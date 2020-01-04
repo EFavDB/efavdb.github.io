@@ -1,147 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Theory</title><link href="http/" rel="alternate"></link><link href="http/feeds/theory.atom.xml" rel="self"></link><id>http/</id><updated>2019-07-18T23:35:00-07:00</updated><entry><title>Backpropagation in neural networks</title><link href="http/backpropagation-in-neural-networks.html" rel="alternate"></link><published>2019-07-18T23:35:00-07:00</published><updated>2019-07-18T23:35:00-07:00</updated><author><name>cyeh</name></author><id>tag:None,2019-07-18:http/backpropagation-in-neural-networks.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
-&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix multiplication.&lt;/p&gt;
-&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn't derive the …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Overview&lt;/h2&gt;
-&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix multiplication.&lt;/p&gt;
-&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn't derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same notation.&lt;/p&gt;
-&lt;h2&gt;Introduction: neural networks&lt;/h2&gt;
-&lt;h3&gt;A single neuron acting on a single training example&lt;/h3&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Theory</title><link href="http/" rel="alternate"></link><link href="http/feeds/theory.atom.xml" rel="self"></link><id>http/</id><updated>2019-07-18T23:35:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Backpropagation in neural networks</title><link href="http/backpropagation-in-neural-networks.html" rel="alternate"></link><published>2019-07-18T23:35:00-07:00</published><updated>2019-07-18T23:35:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2019-07-18:http/backpropagation-in-neural-networks.html</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix&amp;nbsp;multiplication.&lt;/p&gt;
+&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+&lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix&amp;nbsp;multiplication.&lt;/p&gt;
+&lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;&amp;#8220;Neural Networks and Deep Learning&amp;#8221;&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn&amp;#8217;t derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same&amp;nbsp;notation.&lt;/p&gt;
+&lt;h2&gt;Introduction: neural&amp;nbsp;networks&lt;/h2&gt;
+&lt;h3&gt;A single neuron acting on a single training&amp;nbsp;example&lt;/h3&gt;
 &lt;p&gt;&lt;img alt="single neuron" src="http://efavdb.com/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;  &lt;/p&gt;
-&lt;p&gt;The basic building block of a neural network is the composition of a nonlinear function (like a &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;sigmoid&lt;/a&gt;, &lt;a href="http://mathworld.wolfram.com/HyperbolicTangent.html"&gt;tanh&lt;/a&gt;, or &lt;a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)"&gt;ReLU&lt;/a&gt;) \&lt;span class="math"&gt;\(g(z)\\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
-a\^{[l]} = g(z\^{[l]})  
-\\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;with a linear function acting on a (multidimensional) input, \&lt;span class="math"&gt;\(a\\)&lt;/span&gt;.&lt;br&gt;
-\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
-z\^{[l]} = w\^{[l]T} a\^{[l-1]} + b\^{[l]}  
-\\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;These building blocks, i.e. "nodes" or "neurons" of the neural network, are arranged in layers, with the layer denoted by superscript square brackets, e.g. \&lt;span class="math"&gt;\([l]\\)&lt;/span&gt; for the \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;th layer. \&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt; denotes the number of neurons in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;.&lt;/p&gt;
-&lt;h3&gt;Forward propagation&lt;/h3&gt;
-&lt;p&gt;Forward propagation is the computation of the multiple linear and nonlinear transformations of the neural network on the input data. We can rewrite the above equations in vectorized form to handle multiple training examples and neurons per layer as&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\tag{1} \\label{1}  
-A\^{[l]} = g(Z\^{[l]})  
-\\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;with a linear function acting on a (multidimensional) input, \&lt;span class="math"&gt;\(A\\)&lt;/span&gt;.&lt;br&gt;
-\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\tag{2} \\label{2}  
-Z\^{[l]} = W\^{[l]} A\^{[l-1]} + b\^{[l]}  
-\\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;The outputs or activations, \&lt;span class="math"&gt;\(A\^{[l-1]}\\)&lt;/span&gt;, of the previous layer serve as inputs for the linear functions, \&lt;span class="math"&gt;\(z\^{[l]}\\)&lt;/span&gt;. If \&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt; denotes the number of neurons in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;, and \&lt;span class="math"&gt;\(m\\)&lt;/span&gt; denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices are:&lt;/p&gt;
-&lt;p&gt;Variable       Dimensions&lt;/p&gt;
+&lt;p&gt;The basic building block of a neural network is the composition of a nonlinear function (like a &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;sigmoid&lt;/a&gt;, &lt;a href="http://mathworld.wolfram.com/HyperbolicTangent.html"&gt;tanh&lt;/a&gt;, or &lt;a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)"&gt;ReLU&lt;/a&gt;) &lt;span class="math"&gt;\(g(z)\)&lt;/span&gt;&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+a^{[l]} = g(z^{[l]})  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(a\)&lt;/span&gt;.&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+z^{[l]} = w^{[l]T} a^{[l-1]} + b^{[l]}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;These building blocks, i.e. &amp;#8220;nodes&amp;#8221; or &amp;#8220;neurons&amp;#8221; of the neural network, are arranged in layers, with the layer denoted by superscript square brackets, e.g. &lt;span class="math"&gt;\([l]\)&lt;/span&gt; for the &lt;span class="math"&gt;\(l\)&lt;/span&gt;th layer. &lt;span class="math"&gt;\(n_l\)&lt;/span&gt; denotes the number of neurons in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Forward&amp;nbsp;propagation&lt;/h3&gt;
+&lt;p&gt;Forward propagation is the computation of the multiple linear and nonlinear transformations of the neural network on the input data. We can rewrite the above equations in vectorized form to handle multiple training examples and neurons per layer&amp;nbsp;as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
+A^{[l]} = g(Z^{[l]})  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(A\)&lt;/span&gt;.&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{2}  
+Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The outputs or activations, &lt;span class="math"&gt;\(A^{[l-1]}\)&lt;/span&gt;, of the previous layer serve as inputs for the linear functions, &lt;span class="math"&gt;\(z^{[l]}\)&lt;/span&gt;. If &lt;span class="math"&gt;\(n_l\)&lt;/span&gt; denotes the number of neurons in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;, and &lt;span class="math"&gt;\(m\)&lt;/span&gt; denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices&amp;nbsp;are:&lt;/p&gt;
+&lt;p&gt;Variable&amp;nbsp;Dimensions&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;\&lt;span class="math"&gt;\(A\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(m\\)&lt;/span&gt;)
-  \&lt;span class="math"&gt;\(Z\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(m\\)&lt;/span&gt;)
-  \&lt;span class="math"&gt;\(W\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, \&lt;span class="math"&gt;\(n\_{l-1}\\)&lt;/span&gt;)
-  \&lt;span class="math"&gt;\(b\^{[l]}\\)&lt;/span&gt;   (\&lt;span class="math"&gt;\(n\_l\\)&lt;/span&gt;, 1)&lt;/p&gt;
-&lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer 1.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(A^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)
+  &lt;span class="math"&gt;\(Z^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)
+  &lt;span class="math"&gt;\(W^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt;)
+  &lt;span class="math"&gt;\(b^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;,&amp;nbsp;1)&lt;/p&gt;
+&lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer&amp;nbsp;1.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="neural network" src="http://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;  &lt;/p&gt;
-&lt;p&gt;The matrix \&lt;span class="math"&gt;\(W\^{[1]}\\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, \&lt;span class="math"&gt;\(\\vec{x} = (x\_1, x\_2)\\)&lt;/span&gt;). Each row of \&lt;span class="math"&gt;\(W\^{[1]}\\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer 1.&lt;/p&gt;
+&lt;p&gt;The matrix &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, &lt;span class="math"&gt;\(\vec{x} = (x_1, x_2)\)&lt;/span&gt;). Each row of &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer&amp;nbsp;1.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="weights matrix" src="http://efavdb.com/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;  &lt;/p&gt;
-&lt;p&gt;The final output of the neural network is a prediction in the last layer \&lt;span class="math"&gt;\(L\\)&lt;/span&gt;, and the closeness of the prediction \&lt;span class="math"&gt;\(A\^{[L](i)}\\)&lt;/span&gt; to the true label \&lt;span class="math"&gt;\(y\^{(i)}\\)&lt;/span&gt; for training example \&lt;span class="math"&gt;\(i\\)&lt;/span&gt; is quantified by a loss function \&lt;span class="math"&gt;\(\\mathcal{L}(y\^{(i)}, A\^{[L](i)})\\)&lt;/span&gt;, where superscript \&lt;span class="math"&gt;\((i)\\)&lt;/span&gt; denotes the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th training example. For classification, the typical choice for \&lt;span class="math"&gt;\(\\mathcal{L}\\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Cross_entropy"&gt;cross-entropy loss&lt;/a&gt; (log loss).&lt;/p&gt;
-&lt;p&gt;The cost \&lt;span class="math"&gt;\(J\\)&lt;/span&gt; is the average loss over all \&lt;span class="math"&gt;\(m\\)&lt;/span&gt; training examples in the dataset.&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\tag{3} \\label{3}  
-J = \\frac{1}{m} \\sum\_{i=1}\^m \\mathcal{L}(y\^{(i)}, A\^{[L](i)})  
-\\end{eqnarray}&lt;/div&gt;
-&lt;h3&gt;Minimizing the cost with gradient descent&lt;/h3&gt;
-&lt;p&gt;The task of training a neural network is to find the set of parameters \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; (with different \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; for different nodes in the network) that will give us the best predictions, i.e. minimize the cost (\ref{3}).&lt;/p&gt;
-&lt;p&gt;Gradient descent is the workhorse that we employ for this optimization problem. We randomly initialize the parameters \&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; for each node, then iteratively update the parameters by moving them in the direction that is opposite to the gradient of the cost.&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
-W\_\\text{new} &amp;amp;=&amp;amp; W\_\\text{previous} - \\alpha \\frac{\\partial J}{\\partial W} \\\\  
-b\_\\text{new} &amp;amp;=&amp;amp; b\_\\text{previous} - \\alpha \\frac{\\partial J}{\\partial b}  
-\\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The final output of the neural network is a prediction in the last layer &lt;span class="math"&gt;\(L\)&lt;/span&gt;, and the closeness of the prediction &lt;span class="math"&gt;\(A^{[L](i)}\)&lt;/span&gt; to the true label &lt;span class="math"&gt;\(y^{(i)}\)&lt;/span&gt; for training example &lt;span class="math"&gt;\(i\)&lt;/span&gt; is quantified by a loss function &lt;span class="math"&gt;\(\mathcal{L}(y^{(i)}, A^{[L](i)})\)&lt;/span&gt;, where superscript &lt;span class="math"&gt;\((i)\)&lt;/span&gt; denotes the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example. For classification, the typical choice for &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Cross_entropy"&gt;cross-entropy loss&lt;/a&gt; (log&amp;nbsp;loss).&lt;/p&gt;
+&lt;p&gt;The cost &lt;span class="math"&gt;\(J\)&lt;/span&gt; is the average loss over all &lt;span class="math"&gt;\(m\)&lt;/span&gt; training examples in the&amp;nbsp;dataset.&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}  
+J = \frac{1}{m} \sum_{i=1}^m \mathcal{L}(y^{(i)}, A^{[L](i)})  
+\end{eqnarray}&lt;/div&gt;
+&lt;h3&gt;Minimizing the cost with gradient&amp;nbsp;descent&lt;/h3&gt;
+&lt;p&gt;The task of training a neural network is to find the set of parameters &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; (with different &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; for different nodes in the network) that will give us the best predictions, i.e. minimize the cost&amp;nbsp;(\ref{3}).&lt;/p&gt;
+&lt;p&gt;Gradient descent is the workhorse that we employ for this optimization problem. We randomly initialize the parameters &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; for each node, then iteratively update the parameters by moving them in the direction that is opposite to the gradient of the&amp;nbsp;cost.&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+W_\text{new} &amp;amp;=&amp;amp; W_\text{previous} - \alpha \frac{\partial J}{\partial W} \\  
+b_\text{new} &amp;amp;=&amp;amp; b_\text{previous} - \alpha \frac{\partial J}{\partial b}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-\&lt;span class="math"&gt;\(\\alpha\\)&lt;/span&gt; is the learning rate, a hyperparameter that needs to be tuned during the training process. The gradient of the cost is calculated by the backpropagation algorithm.&lt;/p&gt;
-&lt;h2&gt;Backpropagation equations&lt;/h2&gt;
-&lt;p&gt;These are the vectorized backpropagation (BP) equations which we wish to derive:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
-dW\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial W\^{[l]}} = \\frac{1}{m} dZ\^{[l]}A\^{[l-1]T} \\tag{BP1} \\label{BP1} \\\\  
-db\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial b\^{[l]}} = \\frac{1}{m} \\sum\_{i=1}\^m dZ\^{[l](i)} \\tag{BP2} \\label{BP2} \\\\  
-dA\^{[l-1]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l-1]}} = W\^{[l]T}dZ\^{[l]} \\tag{BP3} \\label{BP3} \\\\  
-dZ\^{[l]} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}} = dA\^{[l]} \* g'(Z\^{[l]}) \\tag{BP4} \\label{BP4}  
-\\end{eqnarray}&lt;/div&gt;
+&lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is the learning rate, a hyperparameter that needs to be tuned during the training process. The gradient of the cost is calculated by the backpropagation&amp;nbsp;algorithm.&lt;/p&gt;
+&lt;h2&gt;Backpropagation&amp;nbsp;equations&lt;/h2&gt;
+&lt;p&gt;These are the vectorized backpropagation (&lt;span class="caps"&gt;BP&lt;/span&gt;) equations which we wish to&amp;nbsp;derive:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+dW^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}} = \frac{1}{m} dZ^{[l]}A^{[l-1]T} \tag{BP1} \label{BP1} \\  
+db^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}} = \frac{1}{m} \sum_{i=1}^m dZ^{[l](i)} \tag{BP2} \label{BP2} \\  
+dA^{[l-1]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}} = W^{[l]T}dZ^{[l]} \tag{BP3} \label{BP3} \\  
+dZ^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}} = dA^{[l]} * g'(Z^{[l]}) \tag{BP4} \label{BP4}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-The \&lt;span class="math"&gt;\(\*\\)&lt;/span&gt; in the last line denotes element-wise multiplication.&lt;/p&gt;
-&lt;p&gt;\&lt;span class="math"&gt;\(W\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; are the parameters we want to learn (update), but the BP equations include two additional expressions for the partial derivative of the loss in terms of linear and nonlinear activations per training example since they are intermediate terms that appear in the calculation of \&lt;span class="math"&gt;\(dW\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(db\\)&lt;/span&gt;.&lt;/p&gt;
-&lt;h3&gt;Chain rule&lt;/h3&gt;
-&lt;p&gt;We'll need the chain rule for &lt;a href="https://en.wikipedia.org/wiki/Total_derivative"&gt;total derivatives&lt;/a&gt;, which describes how the change in a function \&lt;span class="math"&gt;\(f\\)&lt;/span&gt; with respect to a variable \&lt;span class="math"&gt;\(x\\)&lt;/span&gt; can be calculated as a sum over the contributions from intermediate functions \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; that depend on \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\nonumber  
-\\frac{\\partial f(u\_1, u\_2, ..., u\_k)}{\\partial x} = \\sum\_{i}\^k \\frac{\\partial f}{\\partial u\_i} \\frac{\\partial u\_i}{\\partial x}  
-\\end{eqnarray}&lt;/div&gt;
+The &lt;span class="math"&gt;\(*\)&lt;/span&gt; in the last line denotes element-wise&amp;nbsp;multiplication.&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; are the parameters we want to learn (update), but the &lt;span class="caps"&gt;BP&lt;/span&gt; equations include two additional expressions for the partial derivative of the loss in terms of linear and nonlinear activations per training example since they are intermediate terms that appear in the calculation of &lt;span class="math"&gt;\(dW\)&lt;/span&gt; and &lt;span class="math"&gt;\(db\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Chain&amp;nbsp;rule&lt;/h3&gt;
+&lt;p&gt;We&amp;#8217;ll need the chain rule for &lt;a href="https://en.wikipedia.org/wiki/Total_derivative"&gt;total derivatives&lt;/a&gt;, which describes how the change in a function &lt;span class="math"&gt;\(f\)&lt;/span&gt; with respect to a variable &lt;span class="math"&gt;\(x\)&lt;/span&gt; can be calculated as a sum over the contributions from intermediate functions &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; that depend on &lt;span class="math"&gt;\(x\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+\frac{\partial f(u_1, u_2, ..., u_k)}{\partial x} = \sum_{i}^k \frac{\partial f}{\partial u_i} \frac{\partial u_i}{\partial x}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-where the \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; are functions of \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;. This expression reduces to the single variable chain rule when only one \&lt;span class="math"&gt;\(u\_i\\)&lt;/span&gt; is a function of \&lt;span class="math"&gt;\(x\\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;The gradients for every node can be calculated in a single backward pass through the network, starting with the last layer and working backwards, towards the input layer. As we work backwards, we cache the values of \&lt;span class="math"&gt;\(dZ\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(dA\\)&lt;/span&gt; from previous calculations, which are then used to compute the derivative for variables that are further upstream in the computation graph. The dependency of the derivatives of upstream variables on downstream variables, i.e. cached derivatives, is manifested in the \&lt;span class="math"&gt;\(\\frac{\\partial f}{\\partial u\_i}\\)&lt;/span&gt; term in the chain rule. (Backpropagation is a dynamic programming algorithm!)&lt;/p&gt;
-&lt;h3&gt;The chain rule applied to backpropagation&lt;/h3&gt;
-&lt;p&gt;In this section, we apply the chain rule to derive the vectorized form of equations BP(1-4). Without loss of generality, we'll index an element of the matrix or vector on the left hand side of BP(1-4); the notation for applying the chain rule is therefore straightforward because the derivatives are just with respect to scalars.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BP1&lt;/strong&gt;&lt;br&gt;
-The partial derivative of the cost with respect to the \&lt;span class="math"&gt;\(s\\)&lt;/span&gt;th component (corresponding to the \&lt;span class="math"&gt;\(s\\)&lt;/span&gt;th input) of \&lt;span class="math"&gt;\(\\vec{w}\\)&lt;/span&gt; in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
+where the &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; are functions of &lt;span class="math"&gt;\(x\)&lt;/span&gt;. This expression reduces to the single variable chain rule when only one &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; is a function of &lt;span class="math"&gt;\(x\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The gradients for every node can be calculated in a single backward pass through the network, starting with the last layer and working backwards, towards the input layer. As we work backwards, we cache the values of &lt;span class="math"&gt;\(dZ\)&lt;/span&gt; and &lt;span class="math"&gt;\(dA\)&lt;/span&gt; from previous calculations, which are then used to compute the derivative for variables that are further upstream in the computation graph. The dependency of the derivatives of upstream variables on downstream variables, i.e. cached derivatives, is manifested in the &lt;span class="math"&gt;\(\frac{\partial f}{\partial u_i}\)&lt;/span&gt; term in the chain rule. (Backpropagation is a dynamic programming&amp;nbsp;algorithm!)&lt;/p&gt;
+&lt;h3&gt;The chain rule applied to&amp;nbsp;backpropagation&lt;/h3&gt;
+&lt;p&gt;In this section, we apply the chain rule to derive the vectorized form of equations &lt;span class="caps"&gt;BP&lt;/span&gt;(1-4). Without loss of generality, we&amp;#8217;ll index an element of the matrix or vector on the left hand side of &lt;span class="caps"&gt;BP&lt;/span&gt;(1-4); the notation for applying the chain rule is therefore straightforward because the derivatives are just with respect to&amp;nbsp;scalars.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP1&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the cost with respect to the &lt;span class="math"&gt;\(s\)&lt;/span&gt;th component (corresponding to the &lt;span class="math"&gt;\(s\)&lt;/span&gt;th input) of &lt;span class="math"&gt;\(\vec{w}\)&lt;/span&gt; in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}  
-dW\^{[l]}\_{rs} &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial W\^{[l]}\_{rs}} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial W\^{[l]}\_{rs}} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial z\^{[l]}\_{ri}} \\frac{\\partial z\^{[l]}\_{ri}}{\\partial W\^{[l]}\_{rs}} \\tag{4} \\label{4}  
-\\end{eqnarray}&lt;/div&gt;
+dW^{[l]}_{rs} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}_{rs}} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial W^{[l]}_{rs}} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial W^{[l]}_{rs}} \tag{4} \label{4}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-The last line is due to the chain rule.&lt;/p&gt;
-&lt;p&gt;The first term in (\ref{4}) is \&lt;span class="math"&gt;\(dZ\^{[l]}\_{ri}\\)&lt;/span&gt; by definition (\ref{BP4}). We can simplify the second term of (\ref{4}) using the definition of the linear function (\ref{2}), which we rewrite below explicitly for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th training example in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in the \&lt;span class="math"&gt;\(l\\)&lt;/span&gt;th layer in order to be able to more easily keep track of indices when we take derivatives of the linear function:&lt;br&gt;
-\&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \\tag{5} \\label{5}  
-Z\^{[l]}\_{ri} = \\sum\_j\^{n\_{l-1}} W\^{[l]}\_{rj} A\^{[l-1]}\_{ji} + b\^{[l]}\_r  
-\\end{eqnarray}&lt;/div&gt;
+The last line is due to the chain&amp;nbsp;rule.&lt;/p&gt;
+&lt;p&gt;The first term in (\ref{4}) is &lt;span class="math"&gt;\(dZ^{[l]}_{ri}\)&lt;/span&gt; by definition (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}). We can simplify the second term of (\ref{4}) using the definition of the linear function (\ref{2}), which we rewrite below explicitly for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in the &lt;span class="math"&gt;\(l\)&lt;/span&gt;th layer in order to be able to more easily keep track of indices when we take derivatives of the linear function:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5} \label{5}  
+Z^{[l]}_{ri} = \sum_j^{n_{l-1}} W^{[l]}_{rj} A^{[l-1]}_{ji} + b^{[l]}_r  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-where \&lt;span class="math"&gt;\(n\_{l-1}\\)&lt;/span&gt; denotes the number of nodes in layer \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt;.&lt;/p&gt;
+where &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt; denotes the number of nodes in layer &lt;span class="math"&gt;\(l-1\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;Therefore,&lt;br&gt;
-\&lt;/p&gt;
+&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}  
-dW\^{[l]}\_{rs} &amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri} A\^{[l-1]}\_{si} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri} A\^{[l-1]T}\_{is} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\left( dZ\^{[l]} A\^{[l-1]T} \\right)\_{rs}  
-\\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;BP2&lt;/strong&gt;&lt;br&gt;
-The partial derivative of the cost with respect to \&lt;span class="math"&gt;\(b\\)&lt;/span&gt; in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
+dW^{[l]}_{rs} &amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]}_{si} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]T}_{is} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \left( dZ^{[l]} A^{[l-1]T} \right)_{rs}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP2&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the cost with respect to &lt;span class="math"&gt;\(b\)&lt;/span&gt; in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}  
-db\^{[l]}\_r &amp;amp;\\equiv&amp;amp; \\frac{\\partial J}{\\partial b\^{[l]}\_r} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial b\^{[l]}\_r} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m \\frac{\\partial \\mathcal{L}}{\\partial z\^{[l]}\_{ri}} \\frac{\\partial z\^{[l]}\_{ri}}{\\partial b\^{[l]}\_r} \\tag{6} \\label{6} \\\\  
-&amp;amp;=&amp;amp; \\frac{1}{m} \\sum\_{i}\^m dZ\^{[l]}\_{ri}  
-\\end{eqnarray}&lt;/div&gt;
+db^{[l]}_r &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}_r} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial b^{[l]}_r} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial b^{[l]}_r} \tag{6} \label{6} \\  
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-(\ref{6}) is due to the chain rule. The first term in (\ref{6}) is \&lt;span class="math"&gt;\(dZ\^{[l]}\_{ri}\\)&lt;/span&gt; by definition (\ref{BP4}). The second term of (\ref{6}) simplifies to \&lt;span class="math"&gt;\(\\partial z\^{[l]}\_{ri} / \\partial b\^{[l]}\_r = 1\\)&lt;/span&gt; from (\ref{5}).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BP3&lt;/strong&gt;&lt;br&gt;
-The partial derivative of the loss for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th example with respect to the nonlinear activation in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
+(\ref{6}) is due to the chain rule. The first term in (\ref{6}) is &lt;span class="math"&gt;\(dZ^{[l]}_{ri}\)&lt;/span&gt; by definition (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}). The second term of (\ref{6}) simplifies to &lt;span class="math"&gt;\(\partial z^{[l]}_{ri} / \partial b^{[l]}_r = 1\)&lt;/span&gt; from&amp;nbsp;(\ref{5}).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP3&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the loss for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th example with respect to the nonlinear activation in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l-1\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}  
-dA\^{[l-1]}\_{ri} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l-1]}\_{ri}} \\\\  
-&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}\_{ki}} \\frac{\\partial Z\^{[l]}\_{ki}}{\\partial A\^{[l-1]}\_{ri}} \\tag{7} \\label{7} \\\\  
-&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} dZ\^{[l]}\_{ki} W\^{[l]}\_{kr} \\tag{8} \\label{8} \\\\  
-&amp;amp;=&amp;amp; \\sum\_{k=1}\^{n\_l} W\^{[l]T}\_{rk} dZ\^{[l]}\_{ki} \\\\  
-&amp;amp;=&amp;amp; \\left( W\^{[l]T} dZ\^{[l]} \\right)\_{ri}  
-\\end{eqnarray}&lt;/div&gt;
+dA^{[l-1]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}_{ri}} \\  
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ki}} \frac{\partial Z^{[l]}_{ki}}{\partial A^{[l-1]}_{ri}} \tag{7} \label{7} \\  
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} dZ^{[l]}_{ki} W^{[l]}_{kr} \tag{8} \label{8} \\  
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} W^{[l]T}_{rk} dZ^{[l]}_{ki} \\  
+&amp;amp;=&amp;amp; \left( W^{[l]T} dZ^{[l]} \right)_{ri}  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-The application of the chain rule (\ref{7}) includes a sum over the nodes in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; whose linear functions take \&lt;span class="math"&gt;\(A\^{[l-1]}\_{ri}\\)&lt;/span&gt; as an input, assuming the nodes between layers \&lt;span class="math"&gt;\(l-1\\)&lt;/span&gt; and \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; are fully-connected. The first term in (\ref{8}) is by definition \&lt;span class="math"&gt;\(dZ\\)&lt;/span&gt; (\ref{BP4}); from (\ref{5}), the second term in (\ref{8}) evaluates to \&lt;span class="math"&gt;\(\\partial Z\^{[l]}\_{ki} / \\partial A\^{[l-1]}\_{ri} = W\^{[l]}\_{kr}\\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;BP4&lt;/strong&gt;&lt;br&gt;
-The partial derivative of the loss for the \&lt;span class="math"&gt;\(i\\)&lt;/span&gt;th example with respect to the linear activation in the \&lt;span class="math"&gt;\(r\\)&lt;/span&gt;th node in layer \&lt;span class="math"&gt;\(l\\)&lt;/span&gt; is:&lt;/p&gt;
-&lt;p&gt;\&lt;/p&gt;
+The application of the chain rule (\ref{7}) includes a sum over the nodes in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt; whose linear functions take &lt;span class="math"&gt;\(A^{[l-1]}_{ri}\)&lt;/span&gt; as an input, assuming the nodes between layers &lt;span class="math"&gt;\(l-1\)&lt;/span&gt; and &lt;span class="math"&gt;\(l\)&lt;/span&gt; are fully-connected. The first term in (\ref{8}) is by definition &lt;span class="math"&gt;\(dZ\)&lt;/span&gt; (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}); from (\ref{5}), the second term in (\ref{8}) evaluates to &lt;span class="math"&gt;\(\partial Z^{[l]}_{ki} / \partial A^{[l-1]}_{ri} = W^{[l]}_{kr}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP4&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+The partial derivative of the loss for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th example with respect to the linear activation in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}  
-dZ\^{[l]}\_{ri} &amp;amp;\\equiv&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial Z\^{[l]}\_{ri}} \\\\  
-&amp;amp;=&amp;amp; \\frac{\\partial \\mathcal{L}}{\\partial A\^{[l]}\_{ri}} \\frac{\\partial A\^{[l]}\_{ri}}{\\partial Z\^{[l]}\_{ri}} \\\\  
-&amp;amp;=&amp;amp; dA\^{[l]}\_{ri} \* g'(Z\^{[l]}\_{ri})  
-\\end{eqnarray}&lt;/div&gt;
+dZ^{[l]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ri}} \\  
+&amp;amp;=&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l]}_{ri}} \frac{\partial A^{[l]}_{ri}}{\partial Z^{[l]}_{ri}} \\  
+&amp;amp;=&amp;amp; dA^{[l]}_{ri} * g'(Z^{[l]}_{ri})  
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;&lt;br&gt;
-The second line is by the application of the chain rule (single variable since only a single nonlinear activation depends on directly on \&lt;span class="math"&gt;\(Z\^{[l]}\_{ri}\\)&lt;/span&gt;). \&lt;span class="math"&gt;\(g'(Z)\\)&lt;/span&gt; is the derivative of the nonlinear activation function with respect to its input, which depends on the nonlinear activation function that is assigned to that particular node, e.g. sigmoid vs. tanh vs. ReLU.&lt;/p&gt;
+The second line is by the application of the chain rule (single variable since only a single nonlinear activation depends on directly on &lt;span class="math"&gt;\(Z^{[l]}_{ri}\)&lt;/span&gt;). &lt;span class="math"&gt;\(g'(Z)\)&lt;/span&gt; is the derivative of the nonlinear activation function with respect to its input, which depends on the nonlinear activation function that is assigned to that particular node, e.g. sigmoid vs. tanh vs.&amp;nbsp;ReLU.&lt;/p&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
-&lt;p&gt;Backpropagation efficiently executes gradient descent for updating the parameters of a neural network by ordering and caching the calculations of the gradient of the cost with respect to the parameters in the nodes. This post is a little heavy on notation since the focus is on deriving the vectorized formulas for backpropagation, but we hope it complements the lectures in Week 3 of Andrew Ng's &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;"Neural Networks and Deep Learning"&lt;/a&gt; course as well as the excellent, but even more notation-heavy, resources on matrix calculus for backpropagation that are linked below.&lt;/p&gt;
+&lt;p&gt;Backpropagation efficiently executes gradient descent for updating the parameters of a neural network by ordering and caching the calculations of the gradient of the cost with respect to the parameters in the nodes. This post is a little heavy on notation since the focus is on deriving the vectorized formulas for backpropagation, but we hope it complements the lectures in Week 3 of Andrew Ng&amp;#8217;s &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;&amp;#8220;Neural Networks and Deep Learning&amp;#8221;&lt;/a&gt; course as well as the excellent, but even more notation-heavy, resources on matrix calculus for backpropagation that are linked&amp;nbsp;below.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;&lt;strong&gt;More resources on vectorized backpropagation&lt;/strong&gt;&lt;br&gt;
 &lt;a href="https://explained.ai/matrix-calculus/index.html"&gt;The matrix calculus you need for deep learning&lt;/a&gt; - from explained.ai&lt;br&gt;
-&lt;a href="http://neuralnetworksanddeeplearning.com/chap2.html"&gt;How the backpropagation algorithm works&lt;/a&gt; - Chapter 2 of the Neural Networks and Deep Learning free online text&lt;/p&gt;
+&lt;a href="http://neuralnetworksanddeeplearning.com/chap2.html"&gt;How the backpropagation algorithm works&lt;/a&gt; - Chapter 2 of the Neural Networks and Deep Learning free online&amp;nbsp;text&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -203,4 +193,399 @@ The second line is by the application of the chain rule (single variable since o
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Theory"></category><category term="neural networks"></category><category term="deep learning"></category></entry></feed>
+&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>An orientational integral</title><link href="http/an-orientational-integral.html" rel="alternate"></link><published>2019-07-02T07:04:00-07:00</published><updated>2019-07-02T07:04:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:None,2019-07-02:http/an-orientational-integral.html</id><summary type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
+orientations in an n-dimensional&amp;nbsp;space.&lt;/p&gt;
+&lt;h2&gt;Problem&amp;nbsp;definition&lt;/h2&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
+J \equiv \langle \hat{v} \cdot \vec{a}_1 …&lt;/div&gt;</summary><content type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
+orientations in an n-dimensional&amp;nbsp;space.&lt;/p&gt;
+&lt;h2&gt;Problem&amp;nbsp;definition&lt;/h2&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
+J \equiv \langle \hat{v} \cdot \vec{a}_1 \hat{v} \cdot \vec{a}_2 \ldots \hat{v} \cdot \vec{a}_k \rangle  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where &lt;span class="math"&gt;\(\vec{a}_1, \ldots, \vec{a}_k\)&lt;/span&gt; are some given fixed vectors. For example, if all &lt;span class="math"&gt;\(\vec{a}_i\)&lt;/span&gt; are equal to &lt;span class="math"&gt;\(\hat{x}\)&lt;/span&gt;, we want the orientation average of &lt;span class="math"&gt;\(v_x^k\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h2&gt;Solution&lt;/h2&gt;
+&lt;p&gt;We&amp;#8217;ll evaluate our integral using parameter differentiation of the multivariate Gaussian integral. Let&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+I &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}  
+&amp;amp;=&amp;amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The expression in the second line follows from completing the square in the exponent in the first &amp;#8212; for review, see our post on the normal distribution, &lt;a href="http://efavdb.com/normal-distributions/"&gt;here&lt;/a&gt;. Now, we consider a particular derivative of &lt;span class="math"&gt;\(I\)&lt;/span&gt; with respect to the &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; parameters. From the first line of (\ref{2}), we have&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}  
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\  
+&amp;amp;\equiv &amp;amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v \\  
+&amp;amp;=&amp;amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The second factor above is almost our desired orientation average &lt;span class="math"&gt;\(J\)&lt;/span&gt; &amp;#8212; the only thing it&amp;#8217;s missing is the normalization, which we can get by evaluating this integral without any &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s.&lt;/p&gt;
+&lt;p&gt;Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This gives,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{4}  
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\  
+&amp;amp;=&amp;amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The sum here is over all possible, unique pairings of the indices. You can see this is correct by carrying out the differentiation one parameter at a&amp;nbsp;time.&lt;/p&gt;
+&lt;p&gt;To complete the calculation, we equate (\ref{3}) and (\ref{4}). This gives&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5}\label{5}  
+\int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when &lt;span class="math"&gt;\(k = 0\)&lt;/span&gt;. This gives,&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{6}\label{6}  
+J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+\end{eqnarray}&lt;/div&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Consider the case where &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt;. In this case, we note that the average of &lt;span class="math"&gt;\(\hat{v}_x^2\)&lt;/span&gt; is equal to the average along any other orientation. This means we have&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{7} \label{7}  
+\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{n} \sum_{i=1}^n \langle \hat{v}_x^2 + \hat{v}_y^2 + \ldots \rangle \\  
+&amp;amp;=&amp;amp; \frac{1}{n}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+We get this same result from our more general formula: Plugging in &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt; into (\ref{6}), we obtain&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{8} \label{8}  
+\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\  
+&amp;amp;=&amp;amp; \frac{1}{n}  
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The two results&amp;nbsp;agree.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>Support Vector Machines for classification</title><link href="http/svm-classification.html" rel="alternate"></link><published>2015-10-22T14:24:00-07:00</published><updated>2015-10-22T14:24:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2015-10-22:http/svm-classification.html</id><summary type="html">&lt;p&gt;To whet your appetite for support vector machines, here&amp;#8217;s a quote from machine learning researcher Andrew&amp;nbsp;Ng:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“SVMs are among the best (and many believe are indeed the best) ‘off-the-shelf’ supervised learning&amp;nbsp;algorithms.”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="http://commons.wikimedia.org/wiki/File%3AAndrew_Ng.png" title="See page for author [CC BY 3.0 us (http://creativecommons.org/licenses/by/3.0/us/deed.en)], via Wikimedia Commons"&gt;&lt;img alt="Andrew Ng" src="//upload.wikimedia.org/wikipedia/commons/5/5c/Andrew_Ng.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Professor Ng covers SVMs in his excellent &lt;a href="https://www.coursera.org/learn/machine-learning"&gt;Machine Learning &lt;span class="caps"&gt;MOOC&lt;/span&gt;&lt;/a&gt;, a gateway for many into the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;To whet your appetite for support vector machines, here&amp;#8217;s a quote from machine learning researcher Andrew&amp;nbsp;Ng:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;“SVMs are among the best (and many believe are indeed the best) ‘off-the-shelf’ supervised learning&amp;nbsp;algorithms.”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;a href="http://commons.wikimedia.org/wiki/File%3AAndrew_Ng.png" title="See page for author [CC BY 3.0 us (http://creativecommons.org/licenses/by/3.0/us/deed.en)], via Wikimedia Commons"&gt;&lt;img alt="Andrew Ng" src="//upload.wikimedia.org/wikipedia/commons/5/5c/Andrew_Ng.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Professor Ng covers SVMs in his excellent &lt;a href="https://www.coursera.org/learn/machine-learning"&gt;Machine Learning &lt;span class="caps"&gt;MOOC&lt;/span&gt;&lt;/a&gt;, a gateway for many into the realm of data science, but leaves out some details, motivating us to put together some notes here to answer the&amp;nbsp;question:&lt;/p&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;What are the &lt;em&gt;support vectors&lt;/em&gt; in support vector&amp;nbsp;machines?&amp;#8221;&lt;/p&gt;
+&lt;p&gt;We also provide python &amp;#8220;`(https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn&amp;#8217;s svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive &lt;a href="#3dfig"&gt;plots&lt;/a&gt; in Part&amp;nbsp;3.&lt;/p&gt;
+&lt;p&gt;This post consists of three&amp;nbsp;sections:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Part 1 sets up the problem from a geometric point of view and then shows how it can be framed as an optimization&amp;nbsp;problem.&lt;/li&gt;
+&lt;li&gt;Part 2 transforms the optimization problem and uncovers the support vectors in the&amp;nbsp;process.&lt;/li&gt;
+&lt;li&gt;Part 3 discusses how kernels can be used to separate non-linearly separable&amp;nbsp;data.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Part 1: Defining the&amp;nbsp;margin&lt;/h2&gt;
+&lt;h3&gt;Maximizing the&amp;nbsp;margin&lt;/h3&gt;
+&lt;p&gt;The figure below is a binary classification problem (points labeled &lt;span class="math"&gt;\(y_i = \pm 1\)&lt;/span&gt;) that is linearly&amp;nbsp;separable.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="binary classes in 2d" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d-300x284.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;There are many possible decision boundaries that would perfectly separate the two classes, but an &lt;span class="caps"&gt;SVM&lt;/span&gt; will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the&amp;nbsp;boundary.&lt;/p&gt;
+&lt;p&gt;Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the boundary.&lt;br&gt;
+&lt;br&gt;
+&lt;/p&gt;
+&lt;h3&gt;Formulating the margin with&amp;nbsp;geometry&lt;/h3&gt;
+&lt;p&gt;Any point &lt;span class="math"&gt;\(\boldsymbol{x}\)&lt;/span&gt; lying on the separating hyperplane satisfies:&lt;br&gt;
+&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;&lt;br&gt;
+&lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is the vector normal to the plane, and &lt;span class="math"&gt;\(b\)&lt;/span&gt; is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is &lt;span class="math"&gt;\(b / \| \boldsymbol{w} \|\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="margin around decision boundary" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (&lt;span class="math"&gt;\(d_+ + d_-\)&lt;/span&gt;) and is restricted by the data points closest to the boundary, which lie on the&amp;nbsp;gutters.&lt;/p&gt;
+&lt;p&gt;The half-spaces bounded by the planes on the gutters&amp;nbsp;are:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b \geq +a\)&lt;/span&gt;, for &lt;span class="math"&gt;\(y_i =&amp;nbsp;+1\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b \leq -a\)&lt;/span&gt;, for &lt;span class="math"&gt;\(y_i =&amp;nbsp;-1\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;These two conditions can be put more&amp;nbsp;succinctly:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq a, \forall \;&amp;nbsp;i\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Some arithmetic leads to the equation for the&amp;nbsp;margin:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(d_+ + d_- = 2a / \| \boldsymbol{w}&amp;nbsp;\|\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;Without loss of generality, we can set &lt;span class="math"&gt;\(a=1\)&lt;/span&gt;, since it only sets the scale (units) of &lt;span class="math"&gt;\(b\)&lt;/span&gt; and &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt;.  So to maximize the margin, we have to maximize &lt;span class="math"&gt;\(1 / \| \boldsymbol{w} \|\)&lt;/span&gt;.  However, this is an unpleasant (non-convex) objective function.  Instead we minimize &lt;span class="math"&gt;\(\| \boldsymbol{w}\|^2\)&lt;/span&gt;, which is&amp;nbsp;convex.&lt;/p&gt;
+&lt;h3&gt;The optimization&amp;nbsp;problem&lt;/h3&gt;
+&lt;p&gt;Maximizing the margin boils down to a constrained optimization problem: minimize some quantity &lt;span class="math"&gt;\(f(w)\)&lt;/span&gt;, subject to constraints &lt;span class="math"&gt;\(g(w,b)\)&lt;/span&gt;.  This optimization problem is particularly nice because it is convex; the objective &lt;span class="math"&gt;\(\| \boldsymbol{w}\|^2\)&lt;/span&gt; is convex, as are the constraints, which are&amp;nbsp;linear.&lt;/p&gt;
+&lt;p&gt;In other words, we are faced with a &lt;a href="http://en.wikipedia.org/wiki/Quadratic_programming"&gt;quadratic programming&lt;/a&gt; problem.  The standard format of the optimization problem for the separable case&amp;nbsp;is&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{1} \label{problem}  
+\begin{align}  
+\text{minimize} \quad &amp;amp; f(w) \equiv (1/2) \| \boldsymbol{w}\|^2 \  
+\text{subject to} \quad &amp;amp; g(w,b) \equiv -y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) + 1 \leq 0, \; i = 1 \ldots m  
+\end{align}  
+$$&lt;/div&gt;
+&lt;p&gt;Before we address how to solve this optimization problem in Part 2, let&amp;#8217;s first consider the case when data is&amp;nbsp;non-separable.&lt;/p&gt;
+&lt;h3&gt;Soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;: the non-separable problem and&amp;nbsp;regularization&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="softmargin" src="http://efavdb.com/wp-content/uploads/2015/05/softmargin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt; and slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; that define the amount by which data points are on the wrong side of the&amp;nbsp;margin.&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{2} \label{regularization}  
+\begin{align}  
+\text{minimize} \quad &amp;amp; (1/2) \| \boldsymbol{w}\|^2 + C \sum_i^m \xi_i \  
+\text{subject to} \quad &amp;amp; y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq 1 - \xi_i, \; i = 1 \ldots m \  
+&amp;amp; \xi_i \geq 0, \quad i = 1 \ldots m  
+\end{align}  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+A large penalty &amp;#8212; large &lt;span class="math"&gt;\(C\)&lt;/span&gt; &amp;#8212; for misclassifications will lead to learning a lower bias, higher variance &lt;span class="caps"&gt;SVM&lt;/span&gt;, and vice versa for small &lt;span class="math"&gt;\(C\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The soft margin is used in practice; even in the separable case, it can be desirable to allow tradeoffs between the size of the margin and number of misclassifications. Outliers can skew the decision boundary learned by (\ref{problem}) towards a model with small margins + perfect classification, in contrast to a possibly more robust model learned by (\ref{regularization}) with large margins + some misclassified&amp;nbsp;points.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Part 2: Solving the optimization&amp;nbsp;problem&lt;/h2&gt;
+&lt;p&gt;In Part 1, we showed how to set up SVMs as an optimization problem. In this section, we&amp;#8217;ll see how the eponymous support vectors emerge when we rephrase the minimization problem as an equivalent maximization&amp;nbsp;problem.&lt;/p&gt;
+&lt;p&gt;To recap: Given &lt;span class="math"&gt;\(m\)&lt;/span&gt; training points that are labeled &lt;span class="math"&gt;\(y_i = \pm 1\)&lt;/span&gt;, our goal is to maximize the margin of the hyperplane defined by &lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;ll use the separable case (\ref{problem}) as our starting point, but the steps in the procedure and final result are similar for the non-separable case (also worked out in ref [&lt;a href="#3"&gt;3&lt;/a&gt;]).&lt;/p&gt;
+&lt;h3&gt;The Lagrangian&amp;nbsp;formulation&lt;/h3&gt;
+&lt;p&gt;How do we solve this optimization problem? Minimizing a function without constraints is probably familiar: set the derivative of the function (the objective) to zero and&amp;nbsp;solve.&lt;/p&gt;
+&lt;p&gt;With constraints, the procedure is similar to setting the derivative of the objective equal to zero. Instead of taking the derivative of the objective itself, however, we&amp;#8217;ll operate on the Lagrangian &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;, which combines the objective and inequality constraints into one&amp;nbsp;function:&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{3} \label{Lagrangian}  
+\mathcal{L}(w,b,\alpha) = f(w) + \sum_i^m \alpha_i g_i(w,b)  
+$$&lt;/div&gt;
+&lt;p&gt;We&amp;#8217;ve just introduced additional variables &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;, Lagrange multipliers, that make it easier to work with the constraints (see Wikipedia about the &lt;a href="https://en.wikipedia.org/wiki/Lagrange_multiplier"&gt;method of Lagrange multipliers&lt;/a&gt;). Note, a more general form for the Lagrangian would include another summation term in (\ref{Lagrangian}) to uphold equality constraints. Since there are only inequality constraints here, we&amp;#8217;ll omit the extra&amp;nbsp;term.&lt;/p&gt;
+&lt;h3&gt;Constructing the dual&amp;nbsp;problem&lt;/h3&gt;
+&lt;p&gt;&lt;em&gt;Much of the following discussion is based off ref &lt;a href="#2"&gt;[2]&lt;/a&gt;, which has a nice introduction to duality in the context of&amp;nbsp;SVMs.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;First, let&amp;#8217;s make the following observation:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{Obs. 1}  
+\max_{\alpha} \mathcal{L}(w,b,\alpha) =  
+\begin{cases}  
+f(w), &amp;amp; \text{if } g_i(w) \leq 0, \; \text{(constraints satisfied)} \  
+\infty, &amp;amp; \text{if } g_i(w) \gt 0, \; \text{(constraints violated)}  
+\end{cases}  
+$$&lt;/div&gt;
+&lt;p&gt;Basically, if any constraint &lt;span class="math"&gt;\(j\)&lt;/span&gt; is violated, i.e. &lt;span class="math"&gt;\(g_j(w) &amp;gt; 0\)&lt;/span&gt;, then the Lagrange multiplier &lt;span class="math"&gt;\(\alpha_j\)&lt;/span&gt; that is multiplying &lt;span class="math"&gt;\(g_j(w)\)&lt;/span&gt; can be made arbitrarily large (&lt;span class="math"&gt;\(\rightarrow \infty\)&lt;/span&gt;) in order to maximize &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;On the other hand, if all the constraints are satisfied, &lt;span class="math"&gt;\(g_i(w) \leq 0\)&lt;/span&gt; &lt;span class="math"&gt;\(\forall \; i\)&lt;/span&gt;, then &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; is maximized by setting the &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;s that are multiplying negative quantities equal to zero. However, Lagrangian multipliers multiplying &lt;span class="math"&gt;\(g_i(w)\)&lt;/span&gt; that satisfy the constraints with equality, &lt;span class="math"&gt;\(g_i(w) = 0\)&lt;/span&gt;, can be non-zero without diminishing &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The last statement amounts to the property of &amp;#8220;complementary slackness&amp;#8221; in the &lt;a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions"&gt;Karush-Kuhn-Tucker&lt;/a&gt; conditions for the solution:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{4} \label{complementarity}  
+\alpha_i g_i(w) = 0  
+$$&lt;/div&gt;
+&lt;p&gt;Recall from the original geometric picture: only a few points lie exactly on the margins, and those points are described by &lt;span class="math"&gt;\(g_i(w) = 0\)&lt;/span&gt; (and thus have non-zero Lagrange multipliers). &lt;strong&gt;The points on the margin are the support&amp;nbsp;vectors.&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Next, we make use of the Max-Min inequality:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha) \leq \min_{w,b} \max_{\alpha} \mathcal{L}(w,b,\alpha)  
+$$&lt;/div&gt;
+&lt;p&gt;This inequality is an equality under certain conditions, which our problem satisfies (convex &lt;span class="math"&gt;\(f\)&lt;/span&gt; and &lt;span class="math"&gt;\(g\)&lt;/span&gt;). The left side of the inequality is called the dual problem, and the right side is the primal&amp;nbsp;problem.&lt;/p&gt;
+&lt;p&gt;Now we can put it all together: Observation 1 tells us that solving the right side (primal problem) of the Max-Min inequality is the same as solving the original problem. Because our problem is convex, solving the left side (dual) is equivalent to solving the primal problem by the Max-Min&amp;nbsp;inequality.&lt;/p&gt;
+&lt;p&gt;Thus we&amp;#8217;re set to approach the solution via the dual problem, which is useful for dealing with nonlinear decision&amp;nbsp;boundaries.&lt;/p&gt;
+&lt;h3&gt;Solving the dual&amp;nbsp;problem&lt;/h3&gt;
+&lt;p&gt;The dual problem to solve is &lt;span class="math"&gt;\(\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha)\)&lt;/span&gt;, subject to constraints&lt;a href="#note1"&gt;*&lt;/a&gt; on the Lagrange multipliers: &lt;span class="math"&gt;\(\alpha_i \geq 0\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s work out the inner part of the expression explicitly. We obtain &lt;span class="math"&gt;\(\min_{w,b} \mathcal{L}(w,b,\alpha)\)&lt;/span&gt; by setting:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\nabla_\boldsymbol{w} \mathcal{L} = 0; \quad \partial_b \mathcal{L} = 0  
+$$&lt;/div&gt;
+&lt;p&gt;These equations for the partial derivatives give us, respectively:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\boldsymbol{w} = \sum_i \alpha_i y_i \boldsymbol{x}_i; \quad \sum_i \alpha_i y_i = 0  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is a linear combination of the coordinates of the training data. Only the support vectors, which have non-zero &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;, contribute to the sum. To predict the label for a new test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;, simply evaluate the sign of&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{5} \label{testing}  
+\boldsymbol{w} \cdot \boldsymbol{x} + b = \sum_i \alpha_i y_i \boldsymbol{x}_i \cdot \boldsymbol{x_t} + b  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+where b can be computed from the &lt;span class="caps"&gt;KKT&lt;/span&gt; complementarity condition (\ref{complementarity}) by plugging in the values for any support vector. The equation for the separating hyperplane is entirely determined by the support&amp;nbsp;vectors.&lt;/p&gt;
+&lt;p&gt;Plugging the last two equations into &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; leads to the dual formulation of the problem &lt;span class="math"&gt;\( \max_{\alpha} \mathcal{L}_D\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{6} \label{dual}  
+\begin{align}  
+\max_{\alpha} \quad &amp;amp; \sum_i \alpha_i - (1/2) \sum_{i,j} \alpha_i \alpha_j y_i y_j \boldsymbol{x_i} \cdot \boldsymbol{x_j} \  
+\text{subject to} \quad &amp;amp; \alpha_i \geq 0, \; i = 1 \ldots m \  
+&amp;amp; \sum_i \alpha_i y_i = 0  
+\end{align}  
+$$&lt;/div&gt;
+&lt;p&gt;The dual for the non-separable primal Lagrangian (\ref{regularization}) &amp;#8212; derived using the same procedure we just followed &amp;#8212; looks just like the dual for the separable case (\ref{dual}), except that the Lagrange multipliers are bounded from above by the regularization constant: &lt;span class="math"&gt;\(0 \leq \alpha_i \leq C\)&lt;/span&gt;. Notably, the slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; do not appear in the dual of the soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The dual (called the Wolfe dual) is easier to solve because of the simpler form of its inequality constraints and is the form used in algorithms such as the &lt;a href="http://research.microsoft.com/pubs/68391/smo-book.pdf"&gt;Sequential Minimal Optimization&lt;/a&gt; algorithm, which is implemented in the popular &lt;span class="caps"&gt;SVM&lt;/span&gt; solver, &lt;a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/"&gt;&lt;span class="caps"&gt;LIBSVM&lt;/span&gt;&lt;/a&gt;. The key feature of the dual is that training vectors only appear as dot products &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)&lt;/span&gt;. This property allows us to generalize to the nonlinear case via the &amp;#8220;kernel trick&amp;#8221; discussed in Part 3 of this&amp;nbsp;post.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Some of you may be familiar with using Lagrangian multipliers to optimize some function &lt;span class="math"&gt;\(f(\boldsymbol{x})\)&lt;/span&gt; subject to equality constraints &lt;span class="math"&gt;\(g(\boldsymbol{x}) = 0\)&lt;/span&gt;, in which case the Lagrangian multipliers are unconstrained. The &lt;a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions"&gt;Karush-Kuhn-Tucker conditions&lt;/a&gt; generalize the method to include inequality constraints &lt;span class="math"&gt;\(g(\boldsymbol{x}) \leq 0\)&lt;/span&gt;, which results in additional constraints on the associated Lagrangian multipliers (as we have&amp;nbsp;here).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2&gt;Part 3:&amp;nbsp;Kernels&lt;/h2&gt;
+&lt;p&gt;Data that is not linearly separable in the original input space may be separable if mapped to a different space. Consider the following example of nonlinearly separable, two-dimensional&amp;nbsp;data:&lt;/p&gt;
+&lt;p&gt;[iframe src=&amp;#8221;https://plot.ly/~frangipane/9&amp;#8221; width=&amp;#8221;100%&amp;#8221; height=&amp;#8221;575&amp;#8221;&amp;nbsp;scrolling=&amp;#8221;no&amp;#8221;]&lt;/p&gt;
+&lt;p&gt;However, if we map the 2-d input data &lt;span class="math"&gt;\(\boldsymbol{x} = (x, y)\)&lt;/span&gt; to 3-d feature space by a function &lt;span class="math"&gt;\(\Phi(\boldsymbol{x}) = (x,\; y,\; x^2 + y^2)\)&lt;/span&gt;, the blue and red points can be separated with a plane in the new (3-d) space. See the plot below of the decision boundary, the mapped points, as well as the the original data points in the x-y plane. Drag the figure to rotate it, or zoom in and out with your mouse&amp;nbsp;wheel!&lt;/p&gt;
+&lt;p&gt;Code to generate and fit the data in this example with scikit-learn&amp;#8217;s &lt;span class="caps"&gt;SVM&lt;/span&gt; module, as well as code to create the plot.ly interactive plots above, is available in IPython notebooks on &lt;a href="https://github.com/EFavDB/svm-classification"&gt;github&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;From maps to&amp;nbsp;kernels&lt;/h3&gt;
+&lt;p&gt;So how do we incorporate mapping the data into the formulation of the&amp;nbsp;problem?&lt;/p&gt;
+&lt;p&gt;Recall that the data appears as a dot product in the dual Lagrangian (\ref{dual}). If we decide to train an &lt;span class="caps"&gt;SVM&lt;/span&gt; on the mapped data, then the dot product of the input data in (\ref{dual}) is replaced by the dot product of the mapped data: &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j} \rightarrow \Phi(\boldsymbol{x_i}) \cdot&amp;nbsp;\Phi(\boldsymbol{x_j})\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;The kernel is simply the dot product of the mapping functions. In the example above, the inner product of the mapping function is an instance of a polynomial kernel:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+K(x_i, x_j) = \Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j}) = x_i x_j + y_i y_j + (x_i^2 + y_i^2)(x_j^2 + y_j^2)  
+$$&lt;/div&gt;
+&lt;p&gt;In practice, we work directly with the kernel &lt;span class="math"&gt;\(K(x_i, x_j)\)&lt;/span&gt; rather than explicitly computing the map of the data points&lt;a href="#note2"&gt;**&lt;/a&gt;. Computing the kernel directly allows us to sidestep the computationally expensive operation of mapping data to a high dimensional space and then taking a dot product (see ref [&lt;a href="#2"&gt;2&lt;/a&gt;] for examples comparing computational times of the two&amp;nbsp;methods).&lt;/p&gt;
+&lt;p&gt;Using a kernel, the second term in the objective of the dual problem (\ref{dual}) becomes&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The kernel also appears in the evaluation of (\ref{testing}) to predict the classification of a test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{8} \label{testingKernel}  
+sgn \left(\sum_i \alpha_i y_i K(x_i, x_t) + b \right)  
+$$&lt;/div&gt;
+&lt;p&gt;Which functions are valid kernels to use in the kernel trick? i.e. given &lt;span class="math"&gt;\(K(x_i, x_j)\)&lt;/span&gt;, does some feature map &lt;span class="math"&gt;\(\Phi\)&lt;/span&gt; exist such that &lt;span class="math"&gt;\(K(x_i, x_j)=\Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j})\)&lt;/span&gt; for any &lt;span class="math"&gt;\(i,\ j\)&lt;/span&gt;? Mercer&amp;#8217;s condition states that a necessary and sufficient condition for &lt;span class="math"&gt;\(K\)&lt;/span&gt; to be a valid kernel is that it is symmetric and positive semi-definite&lt;a href="#note3"&gt;&lt;span class="math"&gt;\(^\dagger\)&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Some popular kernels are:&lt;br&gt;
+&lt;/p&gt;
+&lt;div class="math"&gt;$$  
+\begin{align}  
+\text{polynomial:} &amp;amp; \quad (\boldsymbol{x_i} \cdot \boldsymbol{x_j} + c)^p \  
+\text{Gaussian radial basis function:} &amp;amp; \quad \exp(-\|\boldsymbol{x_i} - \boldsymbol{x_j} \|^2/2\sigma^2)  
+\end{align}  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+The optimal parameters for the degree of the polynomial &lt;span class="math"&gt;\(p\)&lt;/span&gt; and spread of the Gaussian &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; (as well as the regularization parameter) are determined by cross-validation. Computing the above kernels takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time, where &lt;span class="math"&gt;\(d\)&lt;/span&gt; is the dimension of the input space, since we have to evaluate &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)&lt;/span&gt; in the polynomial kernel and &lt;span class="math"&gt;\(\boldsymbol{x_i} - \boldsymbol{x_j}\)&lt;/span&gt; in the Gaussian&amp;nbsp;kernel.&lt;/p&gt;
+&lt;h3&gt;Comparing runtimes of linear and nonlinear&amp;nbsp;kernels&lt;/h3&gt;
+&lt;p&gt;The computational complexity for &lt;strong&gt;classification/prediction&lt;/strong&gt;, i.e. at test time, can be obtained by eyeballing (\ref{testing}) and (\ref{testingKernel}). Let &lt;span class="math"&gt;\(d\)&lt;/span&gt; be the dimension of the input space and &lt;span class="math"&gt;\(n\)&lt;/span&gt; be the size of the training set, and assume the number of support vectors &lt;span class="math"&gt;\(n_S\)&lt;/span&gt; is some fraction of &lt;span class="math"&gt;\(n\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_S \sim \mathcal{O}(n)\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;In the case of working with the linear kernel/original input space, &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; can be explicitly evaluated to obtain the separating hyperplane parameters, so that classification in (\ref{testing}) takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time. On the other hand, with the kernel trick, the hyperplane parameters are not explicitly evaluated. Assume calculating a kernel takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time, cf. the polynomial and Gaussian kernels; then test time for a nonlinear &lt;span class="math"&gt;\(K\)&lt;/span&gt; in (\ref{testingKernel}) takes &lt;span class="math"&gt;\(\mathcal{O}(nd)\)&lt;/span&gt;&amp;nbsp;time.&lt;/p&gt;
+&lt;p&gt;Estimating the computational complexity for &lt;strong&gt;training&lt;/strong&gt; is complicated, so we defer the discussion to refs [&lt;a href="#4a"&gt;4a&lt;/a&gt;, &lt;a href="#4b"&gt;4b&lt;/a&gt;] and simply state the result: training for linear kernels is &lt;span class="math"&gt;\(\mathcal{O}(nd)\)&lt;/span&gt; while training for nonlinear kernels using the Sequential Minimal Optimization algorithm is &lt;span class="math"&gt;\(\mathcal{O}(n^2)\)&lt;/span&gt; to &lt;span class="math"&gt;\(\mathcal{O}(n^3)\)&lt;/span&gt; (dependent on the regularization parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt;), making nonlinear kernel SVMs impractical for larger datasets (a couple of 10,000 samples according to &lt;a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html"&gt;scikit-learn&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;** More than one mapping and feature space (dimension) may exist for a particular kernel. See section 4 of ref [&lt;a href="#1"&gt;1&lt;/a&gt;] for&amp;nbsp;examples.  &lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(^\dagger\)&lt;/span&gt; See ref [&lt;a href="#2"&gt;2&lt;/a&gt;] for a simple proof in terms of the Kernel (Gram) matrix, i.e. the kernel function evaluated on a finite set of&amp;nbsp;points.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Discussion&lt;/h2&gt;
+&lt;p&gt;We&amp;#8217;ve glimpsed the elegant theory behind the construction of SVMs and seen how support vectors pop out of the mathematical machinery. Geometrically, the support vectors are the points lying on the margins of the decision&amp;nbsp;boundary.&lt;/p&gt;
+&lt;p&gt;How about using SVMs in&amp;nbsp;practice?&lt;/p&gt;
+&lt;p&gt;In his Coursera course, Professor Ng recommends linear and Gaussian kernels for most use cases. He also provides some rules of thumb (based on the current state of &lt;span class="caps"&gt;SVM&lt;/span&gt; algorithms) for different sample sizes &lt;span class="math"&gt;\(n\)&lt;/span&gt; and input data dimension/number of features &lt;span class="math"&gt;\(d\)&lt;/span&gt;, restated&amp;nbsp;here:&lt;/p&gt;
+&lt;p&gt;case                                               method                                                           &lt;span class="math"&gt;\(n\)&lt;/span&gt;         &lt;span class="math"&gt;\(d\)&lt;/span&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(n \ll d\)&lt;/span&gt;, e.g. genomics, bioinformatics data   linear kernel &lt;span class="caps"&gt;SVM&lt;/span&gt; or logistic regression                         10 - 1000     10,000
+  &lt;span class="math"&gt;\(n\)&lt;/span&gt; intermediate, &lt;span class="math"&gt;\(d\)&lt;/span&gt; small                    Gaussian kernel &lt;span class="caps"&gt;SVM&lt;/span&gt;                                              10 - 10,000   1 - 1000
+  &lt;span class="math"&gt;\(n \gg d\)&lt;/span&gt;                                       create features, then linear kernel &lt;span class="caps"&gt;SVM&lt;/span&gt; or logistic regression   50,000+       1 -&amp;nbsp;1000&lt;/p&gt;
+&lt;p&gt;The creators of the &lt;span class="caps"&gt;LIBSVM&lt;/span&gt; and &lt;span class="caps"&gt;LIBLINEAR&lt;/span&gt; packages also provide a &lt;a href="https://www.csie.ntu.edu.tw/~cjlin/papers/guide/guide.pdf"&gt;user&amp;#8217;s guide&lt;/a&gt; for novices, which includes a study of when to use linear instead of radial basis function kernels. They recommend linear SVMs when &lt;span class="math"&gt;\(d\)&lt;/span&gt; and &lt;span class="math"&gt;\(n\)&lt;/span&gt; are both large, often encountered in document classification problems where bag-of-words approaches can generate huge numbers of features (in their example &lt;span class="math"&gt;\(n =\)&lt;/span&gt; 20,000, &lt;span class="math"&gt;\(d =\)&lt;/span&gt;&amp;nbsp;47,000).&lt;/p&gt;
+&lt;p&gt;The idea is that if the input data is already high-dimensional, then it shouldn&amp;#8217;t be necessary to apply nonlinear transformations to it in order to obtain a separating&amp;nbsp;hyperplane.&lt;/p&gt;
+&lt;p&gt;Tip: &lt;span class="caps"&gt;LIBLINEAR&lt;/span&gt; is specifically optimized for linear kernels and should be used instead of &lt;span class="caps"&gt;LIBSVM&lt;/span&gt; in the linear&amp;nbsp;case.&lt;/p&gt;
+&lt;h3&gt;Further&amp;nbsp;reading&lt;/h3&gt;
+&lt;p&gt;In addition to the many excellent written tutorials on SVMs online, we highly recommend viewing lectures 14 and 15 of Yaser Abu-Mostafa&amp;#8217;s &lt;span class="caps"&gt;MOOC&lt;/span&gt;, &lt;a href="https://work.caltech.edu/telecourse.html"&gt;Learning from Data&lt;/a&gt;, which cover SVMs at about the same level as this post, with the considerable added benefit of Professor Abu-Mostafa&amp;#8217;s explanations. He also discusses the generalization performance of SVMs as a function of the number of support vectors using &lt;span class="caps"&gt;VC&lt;/span&gt; theory (also see [&lt;a href="#1"&gt;1&lt;/a&gt;]).&lt;/p&gt;
+&lt;p&gt;There is a lot more theory on SVMs that we haven&amp;#8217;t touched upon. For example, SVMs can be framed as a penalization method [&lt;a href="#3"&gt;3&lt;/a&gt;] or &lt;a href="http://cbcl.mit.edu/cbcl/publications/ps/evgeniou-reviewall.pdf"&gt;&amp;#8220;regularization network&amp;#8221;&lt;/a&gt;, c.f. ridge regression, but with a hinge loss rather than squared error. Insights about the choice of a &lt;a href="http://alex.smola.org/papers/1998/SmoSch98b.pdf"&gt;kernel&lt;/a&gt; have also been developed in that&amp;nbsp;framework.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;[&lt;a href="http://research.microsoft.com/pubs/67119/svmtutorial.pdf"&gt;1&lt;/a&gt;] Burges, &lt;span class="caps"&gt;C. J.C.&lt;/span&gt;(1998). A Tutorial on Support Vector Machines for Pattern Recognition. Knowledge Discovery and Data Mining 2 (2)&amp;nbsp;121-167.&lt;/p&gt;
+&lt;p&gt;[&lt;a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf"&gt;2&lt;/a&gt;] Ng, A. Support Vector Machines [&lt;span class="caps"&gt;PDF&lt;/span&gt; document]. Retrieved from lecture notes online: http://cs229.stanford.edu/notes/cs229-notes3.pdf&lt;br&gt;
+&lt;em&gt;Lecture notes by Andrew Ng for a more advanced class (but still in his signature intuitive&amp;nbsp;style).&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;[&lt;a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/"&gt;3&lt;/a&gt;] Hastie, T., Tibshirani, R., and Friedman, J. (2009). The Elements of Statistical Learning.&lt;br&gt;
+&lt;em&gt;See section 12.2.1, page 420, for derivation of the dual Lagrangian for the nonseparable&amp;nbsp;case.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;[&lt;a href="https://www.csie.ntu.edu.tw/~cjlin/papers/bottou_lin.pdf"&gt;4a&lt;/a&gt;] Bottou, L. and Lin C-J., (2006). Support Vector Machine Solvers.&lt;br&gt;
+[&lt;a href="http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf"&gt;4b&lt;/a&gt;] Chang, C-C. and Lin C-J., (2013). &lt;span class="caps"&gt;LIBSVM&lt;/span&gt;: A Library for Support Vector&amp;nbsp;Machines.&lt;/p&gt;
+&lt;p&gt;[&lt;a href="http://www.cs.colostate.edu/~asa/pdfs/howto.pdf"&gt;5&lt;/a&gt;] Ben-Hur, A. and Weston, J. (2009). A User&amp;#8217;s Guide to Support Vector Machines. In Carugo, O. and Eisenhaber, F. (Eds.), Methods in Molecular Biology 609,&amp;nbsp;223-229.&lt;/p&gt;
+&lt;p&gt;Andrew Ng photo credit: &lt;a href="https://commons.wikimedia.org/wiki/User:InverseHypercube"&gt;InverseHypercube&lt;/a&gt;, &lt;a href="http://creativecommons.org/licenses/by/3.0/us/deed.en"&gt;creative commons license&lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Theory"></category><category term="kernel methods"></category><category term="Machine Learning"></category><category term="optimization"></category><category term="Python"></category><category term="quadratic programming"></category><category term="SVM"></category></entry></feed>

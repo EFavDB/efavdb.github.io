@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Review, Statistics, Theory</title><link href="http/" rel="alternate"></link><link href="http/feeds/review-statistics-theory.atom.xml" rel="self"></link><id>http/</id><updated>2017-05-13T21:48:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Normal Distributions</title><link href="http/normal-distributions.html" rel="alternate"></link><published>2017-05-13T21:48:00-07:00</published><updated>2017-05-13T21:48:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:None,2017-05-13:http/normal-distributions.html</id><summary type="html">&lt;p&gt;I review &amp;#8212; and provide derivations for &amp;#8212; some basic properties of Normal distributions. Topics currently covered: (i) Their normalization, (ii) Samples from a univariate Normal, (iii) Multivariate Normal distributions, (iv) Central limit&amp;nbsp;theorem.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"&gt;&lt;img alt="carl-f-gauss-4" src="http/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This post contains a running list of properties (with derivations) relating to Normal (Gaussian) distributions. Normal distributions …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I review &amp;#8212; and provide derivations for &amp;#8212; some basic properties of Normal distributions. Topics currently covered: (i) Their normalization, (ii) Samples from a univariate Normal, (iii) Multivariate Normal distributions, (iv) Central limit&amp;nbsp;theorem.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"&gt;&lt;img alt="carl-f-gauss-4" src="http/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This post contains a running list of properties (with derivations) relating to Normal (Gaussian) distributions. Normal distributions are important for two principal reasons: Their significance a la the central limit theorem and their appearance in saddle point approximations to more general integrals. As usual, the results here assume familiarity with calculus and linear&amp;nbsp;algebra.&lt;/p&gt;
+&lt;p&gt;Pictured at right is an image of Gauss &amp;#8212; &amp;#8220;Few, but&amp;nbsp;ripe.&amp;#8221;&lt;/p&gt;
+&lt;h3&gt;Normalization&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Consider the integral&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1}  
+    I = \int_{-\infty}^{\infty} e^{-x^2} dx.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    To evaluate, consider the value of &lt;span class="math"&gt;\(I^2\)&lt;/span&gt;. This is&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2}  
+    I^2 &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} e^{-x^2} dx \int_{-\infty}^{\infty} e^{-y^2} dy \\  
+    &amp;amp;=&amp;amp; \int_0^{\infty} e^{-r^2} 2 \pi r dr = -\pi e^{-r^2} \vert_0^{\infty} = \pi.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Here, I have used the usual trick of transforming the integral over the plane to one over polar &lt;span class="math"&gt;\((r, \theta)\)&lt;/span&gt; coordinates. The result above gives the normalization for the Normal&amp;nbsp;distribution.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Samples from a univariate&amp;nbsp;normal&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Suppose &lt;span class="math"&gt;\(N\)&lt;/span&gt; independent samples are taken from a Normal distribution. The sample mean is defined as &lt;span class="math"&gt;\(\hat{\mu} = \frac{1}{N}\sum x_i\)&lt;/span&gt; and the sample variance as &lt;span class="math"&gt;\(\hat{S}^2 \equiv \frac{1}{N-1} \sum (x_i - \hat{\mu})^2\)&lt;/span&gt;. These two statistics are independent. Further, the former is Normal distributed with variance &lt;span class="math"&gt;\(\sigma^2/N\)&lt;/span&gt; and the latter is proportional to a &lt;span class="math"&gt;\(\chi_{N-1}^2.\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Let the sample be &lt;span class="math"&gt;\(\textbf{x} = (x_1, x_2, \ldots, x_N)\)&lt;/span&gt;. Then the mean can be written as &lt;span class="math"&gt;\(\textbf{x} \cdot \textbf{1}/N\)&lt;/span&gt;, the projection of &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; along &lt;span class="math"&gt;\(\textbf{1}/N\)&lt;/span&gt;. Similarly, the sample variance can be expressed as the squared length of &lt;span class="math"&gt;\(\textbf{x} - (\textbf{x} \cdot \textbf{1} / N)\textbf{1} = \textbf{x} - (\textbf{x} \cdot \textbf{1} / \sqrt{N})\textbf{1}/\sqrt{N}\)&lt;/span&gt;, which is the squared length of &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; projected into the space orthogonal to &lt;span class="math"&gt;\(\textbf{1}\)&lt;/span&gt;. The independence of the &lt;span class="math"&gt;\(\{x_i\}\)&lt;/span&gt; implies that these two variables are themselves independent, the former Normal and the latter &lt;span class="math"&gt;\(\chi^2_{N-1}.\)&lt;/span&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The result above implies that the weight for sample &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; can be written as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3}  
+    p(\textbf{x} \vert \mu, \sigma^2) = \frac{1}{(2 \pi \sigma^2)^{N/2}} \exp\left [ - \frac{1}{2 \sigma^2}\left ( - N (\hat{\mu} - \mu)^2 - (N-1)S^2\right) \right].  
+    \end{eqnarray}&lt;/div&gt;
+&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Aside on sample variance: Given independent samples from any distribution, dividing by &lt;span class="math"&gt;\(N-1\)&lt;/span&gt; gives an unbiased estimate for the population variance. However, if the samples are not independent (eg, direct trace from &lt;span class="caps"&gt;MCMC&lt;/span&gt;), this factor is not appropriate: We have&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+    (N-1)E(S^2) = E(\sum (x_i - \overline{x})^2)  
+    &amp;amp;=&amp;amp; E(\sum (x_i - \mu)^2 - N ( \overline{x} - \mu)^2 ) \\ \tag{4}  
+    &amp;amp;=&amp;amp; N [\sigma^2 - \text{var}(\overline{x})] \label{sample_var}  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    If the samples are independent, the above gives &lt;span class="math"&gt;\((N-1) \sigma^2\)&lt;/span&gt;. However, if the samples are all the same, &lt;span class="math"&gt;\(\text{var}(\overline{x}) = \sigma^2\)&lt;/span&gt;, giving &lt;span class="math"&gt;\(S^2=0\)&lt;/span&gt;. In general, the relationship between the samples determines whether &lt;span class="math"&gt;\(S^2\)&lt;/span&gt; is biased or&amp;nbsp;not.&lt;/li&gt;
+&lt;li&gt;From the results above, the quantity&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{t-var} \tag{5}  
+    (\hat{\mu}- \mu)/(S/\sqrt(N))  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    is the ratio of two independent variables &amp;#8212; the numerator a Normal and the denominator the square root of an independent &lt;span class="math"&gt;\(\chi^2_{N-1}\)&lt;/span&gt; variable. This quantity follows a universal distribution called the &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distribution. One can write down closed-form expressions for the &lt;span class="math"&gt;\(t\)&lt;/span&gt;. For example, when &lt;span class="math"&gt;\(N=2\)&lt;/span&gt;, you get a Cauchy variable: the ratio of one Normal over the absolute value of another, independent Normal (see above). In general, &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distributions have power law tails. A key point is that we cannot evaluate (\ref{t-var}) numerically if we do not know &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;. Nevertheless, we can use the known distribution of the above to specify its likely range. Using this, we can then construct a confidence interval for &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;Consider now a situation where you have two separate Normal distributions. To compare their variances you can take samples from the two and then construct the quantity&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{f-var} \tag{6}  
+    \frac{S_x / \sigma_x}{ S_y/ \sigma_y}.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This is the ratio of two independent &lt;span class="math"&gt;\(\chi^2\)&lt;/span&gt; variables, resulting in what is referred to as an &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distributed variable. Like (\ref{t-var}), we often cannot evaluate (\ref{f-var}) numerically. Instead, we use a tabulated cdf of the &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distribution to derive confidence intervals for the ratio of the two underlying variances. Aside: The &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distribution arises in the analysis of both &lt;span class="caps"&gt;ANOVA&lt;/span&gt; and linear regression. Note also that the square of a &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distributed variable (Normal over the square root of a &lt;span class="math"&gt;\(\chi^2\)&lt;/span&gt; variable) is &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distributed.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Multivariate&amp;nbsp;Normals&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Consider a set of jointly-distributed variables &lt;span class="math"&gt;\(x\)&lt;/span&gt; having normal distribution&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{7}  
+    p(x) = \sqrt{\frac{ \text{det}(M)} {2 \pi}} \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ],  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    with &lt;span class="math"&gt;\(M\)&lt;/span&gt; a real, symmetric matrix. The correlation of two components is given by&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{8}  
+    \langle x_i x_j \rangle = M^{-1}_{ij}.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+&lt;em&gt;Proof:&lt;/em&gt; Let&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{9}  
+    I = \int dx \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ].  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Then,&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{10}  
+    \partial_{M_{ij}} \log I = -\frac{1}{2} \langle x_i x_j \rangle.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    We can also evaluate this using the normalization of the integral as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+    \partial_{M_{ij}} \log I &amp;amp;=&amp;amp; - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} \partial_{M_{ij}} \lambda_{\alpha} \\ \nonumber  
+    &amp;amp;=&amp;amp; - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} v_{\alpha i } v_{\alpha j} \\  
+    &amp;amp;=&amp;amp; - \frac{1}{2} M^{-1}_{ij}. \tag{11}  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Here, I&amp;#8217;ve used the result &lt;span class="math"&gt;\( \partial_{M_{ij}} \lambda_{\alpha} = v_{\alpha i } v_{\alpha j}\)&lt;/span&gt;. I give a proof of this next. The last line follows by expressing &lt;span class="math"&gt;\(M\)&lt;/span&gt; in terms of its eigenbasis. Comparing the last two lines above gives the&amp;nbsp;result.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Consider a matrix &lt;span class="math"&gt;\(M\)&lt;/span&gt; having eigenvalues &lt;span class="math"&gt;\(\{\lambda_{\alpha}\}\)&lt;/span&gt;. The first derivative of &lt;span class="math"&gt;\(\lambda_{\alpha}\)&lt;/span&gt; with respect to &lt;span class="math"&gt;\(M_{ij}\)&lt;/span&gt; is given by &lt;span class="math"&gt;\(v_{\alpha, i} v_{\alpha, j}\)&lt;/span&gt;, where &lt;span class="math"&gt;\(v_{\alpha}\)&lt;/span&gt; is the unit eigenvector corresponding to the eigenvalue &lt;span class="math"&gt;\(\lambda_{\alpha}\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; The eigenvalue in question is given by&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{12}  
+\lambda_{\alpha} = \sum_{ij} v_{\alpha i} M_{ij} v_{\alpha j}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+If we differentiate with respect to &lt;span class="math"&gt;\(M_{ab}\)&lt;/span&gt;, say, we obtain&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+\partial_{M_{ab}} \lambda_{\alpha} &amp;amp;=&amp;amp; \sum_{ij} \delta_{ia} \delta_{jb} v_{\alpha i} v_{\alpha j} + 2 v_{\alpha i} M_{ij} \partial_{M_{ab}} v_{\alpha j} \\  
+&amp;amp;=&amp;amp; v_{\alpha a} v_{\alpha b} + 2 \lambda_{\alpha} v_{\alpha } \cdot \partial_{M_{ab}} v_{\alpha }  
+\tag{13}.  
+\end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+The last term above must be zero since the length of &lt;span class="math"&gt;\(v_{\alpha }\)&lt;/span&gt; is fixed at &lt;span class="math"&gt;\(1\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The conditional distribution. Let &lt;span class="math"&gt;\(x\)&lt;/span&gt; be a vector of jointly distributed variables of mean zero and covariance matrix &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt;. If we segment the variables into two sets, &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1\)&lt;/span&gt;, the distribution of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; is also normal. Here, we find the mean and covariance. We have&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{multivargaucond} \tag{14}  
+    p(x) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \Sigma^{-1}_{00} x_0\right] \exp \left [ -\frac{1}{2} \left \{ x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 \right \} \right]  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Here, &lt;span class="math"&gt;\(\Sigma^{-1}_{ij}\)&lt;/span&gt; refers to the &lt;span class="math"&gt;\(i-j\)&lt;/span&gt; block of the inverse. To complete the square, we write&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{15}  
+    x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 + c = (x_1^T + a) \Sigma^{-1}_{11} ( x_1 + a).  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Comparing both sides, we find&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{16}  
+    x_1^T \Sigma^{-1}_{10} x_0 = x_1^T \Sigma^{-1}_{11} a  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This holds for any value of &lt;span class="math"&gt;\(x_1^T\)&lt;/span&gt;, so we must have&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{17}  
+    a = \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 .  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Plugging the last few results into (\ref{multivargaucond}), we obtain&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+    p(x) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -  
+    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0\right] \\ \times  
+    \exp \left [ -\frac{1}{2} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) \Sigma^{-1}_{11} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) \right ] \tag{18} \label{multivargaucondfix}  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This shows that &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 $ are independent. This formula also shows that the average value of $x_1\)&lt;/span&gt; shifts at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;,&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{19}  
+    \langle x_1 \rangle = \langle x_1 \rangle_0 - \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    With some work, we can rewrite this as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{20}  
+    \langle x_1 \rangle = \langle x_1 \rangle_0 + \Sigma_{10} \frac{1}{\Sigma_{00}}x_0.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    There are two ways to prove this equivalent form holds. One is to make use of the expression for the inverse of a block matrix. The second is to note that the above is simply the linear response to a shift in &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; &amp;#8212; see post on linear&amp;nbsp;regression.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;If we integrate over &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; in (\ref{multivargaucondfix}), we obtain the distribution for &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;. This is&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{21}  
+    p(x_0) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -  
+    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0\right]  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    The block-diagonal inverse theorem can be used to show that this is equivalent to&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{22}  
+    p(x_0) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma_{00} \right)^{-1} x_0\right]  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Another way to see this is correct is to make use of the fact that the coefficient matrix in the normal is the inverse of the correlation matrix. We know that after integrating out the values of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt;, we remain normal, and the covariance matrix will simply be given by that for &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;.&lt;/li&gt;
+&lt;li&gt;The covariance of the &lt;span class="caps"&gt;CDF&lt;/span&gt; transform in multivariate case &amp;#8212; a result needed for fitting Gaussian Copulas to data: Let &lt;span class="math"&gt;\(x_1, x_2\)&lt;/span&gt; be jointly distributed Normal variables with covariance matrix&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    C = \left( \begin{array}{cc}  
+    1 &amp;amp; \rho \\  
+    \rho &amp;amp; 1  
+    \end{array} \right)  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    The &lt;span class="caps"&gt;CDF&lt;/span&gt; transform of &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; is defined as&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    X_i \equiv \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x_i} \exp\left( -\frac{\tilde{x}_i^2}{2} \right)d\tilde{x}_i.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Here, we&amp;#8217;ll calculate the covariance of &lt;span class="math"&gt;\(X_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(X_2\)&lt;/span&gt;. Up to a constant that does not depend on &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, this is given by the integral&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    J \equiv \frac{1}{\sqrt{(2 \pi)^2 \text{det} C}} \int d\vec{x} \exp\left( -\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x} \right)  
+    \frac{1}{2 \pi} \int_{-\infty}^{x_1}\int_{-\infty}^{x_2} \exp\left( -\frac{\tilde{x}_1^2}{2} -\frac{\tilde{x}_2^2}{2} \right)d\tilde{x}_1 d\tilde{x}_2.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    To progress, we first write&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    \exp\left( -\frac{\tilde{x}_i^2}{2} \right ) = \frac{1}{\sqrt{2\pi }}\int \exp \left (- \frac{1}{2} k_i^2 + i k \tilde{x}_i \right )  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    We will substitute this equation into the prior line and then integrate over the &lt;span class="math"&gt;\(\tilde{x}_i\)&lt;/span&gt; using the result&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    \int_{-\infty}^{x_i} \exp \left ( i k \tilde{x}_i \right ) d \tilde{x}_i = \frac{e^{i k_i x_i}}{i k_i}.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    J = \frac{-1}{(2 \pi)^3 \sqrt{\text{det} C} } \int_{k_1} \int_{k_2} \frac{e^{-\frac{1}{2} (k_1^2 + k_2^2)}}{k_1 k_2}  
+    \int d\vec{x} \exp\left( -\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x} + i \vec{k} \cdot \vec{x} \right)  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    The integral on &lt;span class="math"&gt;\(\vec{x}\)&lt;/span&gt; can now be carried out by completing the square. This gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  
+    J = \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2} \frac{1}{k_1 k_2}  
+    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right)  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    We now differentiate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; to get rid of the &lt;span class="math"&gt;\(k_1 k_2\)&lt;/span&gt; in the denominator. This gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+    \partial_{\rho} J &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2}  
+    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right) \\ \nonumber  
+    &amp;amp;=&amp;amp; \frac{1}{2 \pi } \frac{1}{\sqrt{\text{det}(C + I)}} \\  
+    &amp;amp;=&amp;amp; \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}}.  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    The last step is to integrate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, but we will now switch back to the original goal of calculating the covariance of the two &lt;span class="caps"&gt;CDF&lt;/span&gt; transforms, &lt;span class="math"&gt;\(P\)&lt;/span&gt;, rather than &lt;span class="math"&gt;\(J\)&lt;/span&gt; itself. At &lt;span class="math"&gt;\(\rho = 0\)&lt;/span&gt;, we must have &lt;span class="math"&gt;\(P(\rho=0) = 0\)&lt;/span&gt;, since the transforms will also be uncorrelated in this limit. This gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
+    P &amp;amp;=&amp;amp; \int_0^{\rho} \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}} d \rho \\  
+    &amp;amp;=&amp;amp; \frac{1}{2 \pi } \sin^{-1} \left( \frac{\rho}{2} \right). \tag{23}  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    Using a similar calculation, we find that the diagonal terms of the &lt;span class="caps"&gt;CDF&lt;/span&gt; covariance matrix are &lt;span class="math"&gt;\(1/12\)&lt;/span&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Central Limit&amp;nbsp;Theorem&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(x_1, x_2, \ldots, x_N\)&lt;/span&gt; be &lt;span class="caps"&gt;IID&lt;/span&gt; random variables with an mgf that exists near &lt;span class="math"&gt;\(0\)&lt;/span&gt;. Let &lt;span class="math"&gt;\(E(x_i) = \mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\text{var}(x_i) = \sigma^2\)&lt;/span&gt;. Then the variable &lt;span class="math"&gt;\(\frac{\overline{x} - \mu}{\sigma / \sqrt{N}}\)&lt;/span&gt; approaches standard normal as &lt;span class="math"&gt;\(N \to \infty\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Let &lt;span class="math"&gt;\(y_i =\frac{x_i - \mu}{\sigma}\)&lt;/span&gt;. Then,&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{24}  
+\tilde{y} \equiv \frac{\overline{x} - \mu}{\sigma / \sqrt{N}} = \frac{1}{\sqrt{N}} \sum_i y_i.  
+\end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+Using the fact that the mgf of a sum of independent variables is given by the product of their mgfs, the quantity at left is&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{25}  
+m_{\tilde{y}}(t) = \left [ m_{y}\left (\frac{t}{\sqrt{N}} \right) \right]^n.  
+\end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+We now expand the term in brackets using a Taylor series, obtaining&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{26}  
+m_{\tilde{y}}(t) = \left [1 + \frac{t^2}{2 N } + O\left (\frac{t^3}{ N^{3/2}} \right) \right]^N \to \exp\left ( \frac{t^2}{2} \right),  
+\end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+where the latter form is the fixed &lt;span class="math"&gt;\(t\)&lt;/span&gt; limit as &lt;span class="math"&gt;\(N \to \infty\)&lt;/span&gt;. This is the mgf for a &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; variable, proving the&amp;nbsp;result.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;One can get a sense of the accuracy of the normal approximation at fixed &lt;span class="math"&gt;\(N\)&lt;/span&gt; through consideration of higher moments. For example, if we have an even distribution with mgf &lt;span class="math"&gt;\(1 + x^2 /2 + (1 + \kappa^{\prime}) x^4 / 8 + \ldots\)&lt;/span&gt;. Then the mgf for the scaled average above will be&lt;br&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
+    m_{\tilde{y}} &amp;amp;=&amp;amp; \left [1 + \frac{t^2}{2 N } + \frac{(1 + \kappa^{\prime}) t^4}{8 N^2 } + \ldots \right]^N \\  
+    &amp;amp;=&amp;amp; 1 + \frac{t^2}{2} + \left (1 + \frac{\kappa^{\prime}}{ N } \right) \frac{t^4}{8} + \ldots \tag{27}  
+    \end{eqnarray}&lt;/div&gt;
+&lt;br&gt;
+    This shows that the deviation in the kurtosis away from its &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; value decays like &lt;span class="math"&gt;\(1/N\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Review, Statistics, Theory"></category></entry></feed>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Tools</title><link href="http/" rel="alternate"></link><link href="http/feeds/tools.atom.xml" rel="self"></link><id>http/</id><updated>2016-03-22T15:02:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Try Caffe pre-installed on a VirtualBox image</title><link href="http/caffe-virtualbox.html" rel="alternate"></link><published>2016-03-22T15:02:00-07:00</published><updated>2016-03-22T15:02:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2016-03-22:http/caffe-virtualbox.html</id><summary type="html">&lt;p&gt;A previous &lt;a href="http://efavdb.com/deep-learning-with-jupyter-on-aws/"&gt;post&lt;/a&gt; showed beginners how to try out deep learning libraries&amp;nbsp;by&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;using an Amazon Machine Image (&lt;span class="caps"&gt;AMI&lt;/span&gt;) pre-installed with deep learning&amp;nbsp;libraries&lt;/li&gt;
+&lt;li&gt;setting up a Jupyter notebook server to play with said&amp;nbsp;libraries&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you have VirtualBox and &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;, you can follow a similar procedure on your own …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A previous &lt;a href="http://efavdb.com/deep-learning-with-jupyter-on-aws/"&gt;post&lt;/a&gt; showed beginners how to try out deep learning libraries&amp;nbsp;by&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;using an Amazon Machine Image (&lt;span class="caps"&gt;AMI&lt;/span&gt;) pre-installed with deep learning&amp;nbsp;libraries&lt;/li&gt;
+&lt;li&gt;setting up a Jupyter notebook server to play with said&amp;nbsp;libraries&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;If you have VirtualBox and &lt;a href="https://www.vagrantup.com/"&gt;Vagrant&lt;/a&gt;, you can follow a similar procedure on your own computer. The advantage is that you can develop locally, then deploy on an expensive &lt;span class="caps"&gt;AWS&lt;/span&gt; &lt;span class="caps"&gt;EC2&lt;/span&gt; gpu instance when your scripts are&amp;nbsp;ready.  &lt;/p&gt;
+&lt;p&gt;For example, &lt;a href="http://caffe.berkeleyvision.org/"&gt;Caffe&lt;/a&gt;, the machine vision framework, allows you to seamlessly transition between cpu- and gpu-mode, and is available as a &lt;a href="https://atlas.hashicorp.com/malthejorgensen/boxes/caffe-deeplearning"&gt;vagrant box&lt;/a&gt; running Ubuntu 14.04 (&lt;a href="#virtualization"&gt;**&lt;/a&gt;64-bit), with Caffe&amp;nbsp;pre-installed.&lt;/p&gt;
+&lt;p&gt;To add the box, type on the command line:&lt;br&gt;
+&lt;code&gt;vagrant box add malthejorgensen/caffe-deeplearning&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;If you don&amp;#8217;t already have VirtualBox and Vagrant installed, you can find instructions online, or look at my &lt;a href="#vagrant_install"&gt;dotfiles&lt;/a&gt; to get an&amp;nbsp;idea.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Gotchas&lt;/h2&gt;
+&lt;h3&gt;&lt;span class="caps"&gt;SSH&lt;/span&gt; authentication&amp;nbsp;failure&lt;/h3&gt;
+&lt;p&gt;For me, the box had the wrong public key in &lt;code&gt;/home/vagrant/.ssh/authorized_keys file&lt;/code&gt;, which gave me “authentication failure” upon starting up the box with &lt;code&gt;vagrant up&lt;/code&gt;. This was fixed&amp;nbsp;by:&lt;/p&gt;
+&lt;p&gt;Manually ssh into the box: &lt;code&gt;vagrant ssh&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then type (key taken from &lt;a href="https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub"&gt;here&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;[code language=&amp;#8221;bash&amp;#8221;]&lt;br&gt;
+echo &amp;#8220;ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6NF8iallvQVp22WDkTkyrtvp9eWW6A8YVr+kz4TjGYe7gHzIw+niNltGEFHzD8+v1I2YJ6oXevct1YeS0o9HZyN1Q9qgCgzUFtdOKLv6IedplqoPkcmF0aYet2PkEDo3MlTBckFXPITAMzF8dJSIFo9D8HfdOV0IAdx4O7PtixWKn5y2hMNG0zQPyUecp4pzC6kivAIhyfHilFR61RGL+GPXQ2MWZWFYbAGjyiYJnAmCP3NOTd0jMZEnDkbUvxhMmBYSdETk1rRgm+R4LOzFUGaHqHDLKLX+FIPKcF96hrucXzcWyLbIbEgE98OHlnVYCzRdK8jlqm8tehUc9c9WhQ== vagrant insecure public key&amp;#8221; &amp;gt;&amp;nbsp;~/.ssh/authorized_keys  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nf"&gt;Log&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;out&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;reload&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;with&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;reload&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;hopefully&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;authentication&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;is&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;fixed&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="err"&gt;###&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Jupyter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;notebook&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;By&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;box&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;has&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;notebook&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;on&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8003&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;that&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;starts&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;caffe&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;examples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;directory&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;be&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;used&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;conjunction&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;with&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forwarding&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Vagrant&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
+&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;vm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;network&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;forwarded_port&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;guest&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8003&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;host&lt;/span&gt;&lt;span class="err"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8003&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;
+&lt;span class="k"&gt;With&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;go&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="nl"&gt;http&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="o"&gt;//&lt;/span&gt;&lt;span class="nl"&gt;localhost&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;8003&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;browser&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;access&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;caffe&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;examples&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;The&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;default&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;limits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;access&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;only&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;caffe&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;examples&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;so&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;prefer&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;set&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;my&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;own&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;configuration&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;jupyter&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;notebook&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;on&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8888&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;allowing&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;forwarding&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;of&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;port&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8888&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;Vagrantfile&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;as&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;well&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;and&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;start&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;up&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;from&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;home&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;or&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wherever&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="err"&gt;&amp;#39;&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;working&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;To&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;do&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="nf"&gt;Log&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="ow"&gt;in&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;to&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;box&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="n"&gt;vagrant&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;ssh&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;Then&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;create&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;notebook&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;file&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="o"&gt;~/&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;jupyter&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;jupyter_notebook_config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;py&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;containing&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;the&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;following&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nl"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;c.NotebookApp.ip = &amp;#8216;*&amp;#8217;&lt;br&gt;
+c.NotebookApp.open_browser = False&lt;br&gt;
+c.NotebookApp.port = 8888&lt;br&gt;&amp;nbsp;&amp;#8220;`&lt;/p&gt;
+&lt;h3&gt;Vagrantfile&lt;/h3&gt;
+&lt;p&gt;Here&amp;#8217;s the vagrant file that worked for&amp;nbsp;me:  &lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;Scripts to &lt;a href="https://github.com/frangipane/.dotfiles/blob/master/install/apt-get.sh"&gt;install Virtualbox&lt;/a&gt; (line 31 and onwards) and &lt;a href="https://github.com/frangipane/.dotfiles/blob/master/install/install-vagrant.sh"&gt;install Vagrant&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;** This is a 64-bit box, so you need to have Intel &lt;span class="caps"&gt;VT&lt;/span&gt;-x enabled in your &lt;span class="caps"&gt;BIOS&lt;/span&gt;.&lt;/p&gt;</content><category term="Tools"></category><category term="Caffe"></category><category term="deep learning"></category><category term="Jupyter"></category><category term="cloud"></category></entry><entry><title>Start deep learning with Jupyter notebooks in the cloud</title><link href="http/deep-learning-with-jupyter-on-aws.html" rel="alternate"></link><published>2016-03-10T20:41:00-08:00</published><updated>2016-03-10T20:41:00-08:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2016-03-10:http/deep-learning-with-jupyter-on-aws.html</id><summary type="html">&lt;p&gt;Want a quick and easy way to play around with deep learning libraries? Puny &lt;span class="caps"&gt;GPU&lt;/span&gt; got you down? Thanks to Amazon Web Services (&lt;span class="caps"&gt;AWS&lt;/span&gt;) &amp;#8212; specifically, &lt;span class="caps"&gt;AWS&lt;/span&gt; Elastic Compute Cloud (&lt;span class="caps"&gt;EC2&lt;/span&gt;) &amp;#8212; no data scientist need be left&amp;nbsp;behind.&lt;/p&gt;
+&lt;p&gt;Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Want a quick and easy way to play around with deep learning libraries? Puny &lt;span class="caps"&gt;GPU&lt;/span&gt; got you down? Thanks to Amazon Web Services (&lt;span class="caps"&gt;AWS&lt;/span&gt;) &amp;#8212; specifically, &lt;span class="caps"&gt;AWS&lt;/span&gt; Elastic Compute Cloud (&lt;span class="caps"&gt;EC2&lt;/span&gt;) &amp;#8212; no data scientist need be left&amp;nbsp;behind.&lt;/p&gt;
+&lt;p&gt;Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows how to set up a public Jupyter notebook server in &lt;span class="caps"&gt;EC2&lt;/span&gt; and then access it remotely through your web browser, just as you would if you were using a notebook launched from your own&amp;nbsp;laptop.  &lt;/p&gt;
+&lt;p&gt;For a beginner, having to both set up deep learning libraries and navigate the &lt;span class="caps"&gt;AWS&lt;/span&gt; menagerie feels like getting thrown into the deep end when you just want to stick a toe in. You can skip the hassle of setting up deep learning frameworks from scratch by choosing an Amazon Machine Image (&lt;span class="caps"&gt;AMI&lt;/span&gt;) that comes pre-installed with the libraries and their dependencies. (Concerned about costs? &amp;#8212; see the note&lt;a href="#note1"&gt;*&lt;/a&gt; at the bottom of this&amp;nbsp;post.)&lt;/p&gt;
+&lt;p&gt;For example, the Stanford class, &lt;a href="http://cs231n.stanford.edu/"&gt;CS231n: Convolutional Neural Networksfor Visual Recognition&lt;/a&gt;, has provided a public &lt;span class="caps"&gt;AMI&lt;/span&gt; with these&amp;nbsp;specs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;cs231n_caffe_torch7_keras_lasagne_v2&lt;/li&gt;
+&lt;li&gt;&lt;span class="caps"&gt;AMI&lt;/span&gt; &lt;span class="caps"&gt;ID&lt;/span&gt;: ami-125b2c72 in the us-west-1&amp;nbsp;region&lt;/li&gt;
+&lt;li&gt;Use a g2.2xlarge&amp;nbsp;instance.&lt;/li&gt;
+&lt;li&gt;Caffe, Torch7, Theano, Keras and Lasagne are pre-installed. Python bindings of caffe are available. It has &lt;span class="caps"&gt;CUDA&lt;/span&gt; 7.5 and CuDNN&amp;nbsp;v3.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you&amp;#8217;re new to &lt;span class="caps"&gt;AWS&lt;/span&gt;, CS231n provides a nice step-by-step &lt;a href="http://cs231n.github.io/aws-tutorial/"&gt;&lt;span class="caps"&gt;AWS&lt;/span&gt; tutorial&lt;/a&gt; with lots of screenshots. We&amp;#8217;re just going to tweak their procedure to enable access to Jupyter/IPython&amp;nbsp;notebooks.&lt;/p&gt;
+&lt;p&gt;After you&amp;#8217;re done, you&amp;#8217;ll be able to work through tutorials in notebook format like those provided by caffe in their examples folder, e.g. &lt;a href="http://nbviewer.jupyter.org/github/BVLC/caffe/blob/master/examples/00-classification.ipynb"&gt;00-classification.ipynb&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;ve written a little bash script &lt;code&gt;jupyter_userdata.sh&lt;/code&gt; to execute Jupyter&amp;#8217;s &lt;a href="http://jupyter-notebook.readthedocs.org/en/latest/public_server.html"&gt;instructions&lt;/a&gt; for setting up a public notebook server, so you don&amp;#8217;t have to manually configure the notebook server every time you want to spin up a new &lt;span class="caps"&gt;AMI&lt;/span&gt;&amp;nbsp;instance.&lt;/p&gt;
+&lt;p&gt;For the script to work, Jupyter itself should already be installed &amp;#8212; which it is in the CS231n &lt;span class="caps"&gt;AMI&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;You just have to edit the password in the script. To generate a hashed password, use&amp;nbsp;IPython:  &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;notebook.auth&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;passwd&lt;/span&gt;  
+&lt;span class="n"&gt;In&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="n"&gt;passwd&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;span class="n"&gt;Enter&lt;/span&gt; &lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+&lt;span class="n"&gt;Verify&lt;/span&gt; &lt;span class="n"&gt;password&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+&lt;span class="n"&gt;Out&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sha1:bcd259ccf...&amp;lt;your hashed password here&amp;gt;&amp;#39;&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Replace the right hand side of line 24 in the script with the hashed password you just&amp;nbsp;generated.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Then, follow these steps to launch an &lt;span class="caps"&gt;EC2&lt;/span&gt;&amp;nbsp;instance.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;1.&lt;/strong&gt; First, follow the CS231n &lt;a href="http://cs231n.github.io/aws-tutorial/"&gt;&lt;span class="caps"&gt;AWS&lt;/span&gt; tutorial&lt;/a&gt; up until the step &lt;em&gt;&amp;#8220;Choose the instance type &lt;code&gt;g2.2xlarge&lt;/code&gt;, and click on &amp;#8220;Review and Launch&amp;#8221;&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Don&amp;#8217;t click on &amp;#8220;Review and Launch&amp;#8221;&amp;nbsp;yet!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2.&lt;/strong&gt; Here&amp;#8217;s where we add a couple extra steps to the tutorial.&lt;a href="#note2"&gt;**&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;re going to supply the shell script as &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html"&gt;user-data&lt;/a&gt;, a way to pass in scripts to automate configurations to your &lt;span class="caps"&gt;AMI&lt;/span&gt;. Instead of clicking on &amp;#8220;Review and Launch&amp;#8221;, click on the gray button in the lower right &amp;#8220;Next: Configure Instance&amp;nbsp;Details&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;In the next page, click on the arrowhead next to &amp;#8220;Advanced Details&amp;#8221; to expand its options. Click on the radio button next to &amp;#8220;As text&amp;#8221;, then copy and paste the text from &lt;code&gt;jupyter_userdata.sh&lt;/code&gt; (modified with your password) into the&amp;nbsp;field.&lt;/p&gt;
+&lt;p&gt;Warning: if you click on &amp;#8220;As file&amp;#8221; instead and browse to wherever you saved &lt;code&gt;jupyter_userdata.sh&lt;/code&gt;, the file must first be &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html"&gt;base64-encoded&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"&gt;&lt;img alt="Step3_Configure-Instance-Details" src="http://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details-1024x426.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;3.&lt;/strong&gt; Next, (skipping steps 4. and 5.) click on the link to &amp;#8220;6. Configure Security Group&amp;#8221; near the top of the page. By default, &lt;span class="caps"&gt;SSH&lt;/span&gt; is enabled, but we need to enable access to the notebook server, whose port we&amp;#8217;ve set as 8888 in the bash&amp;nbsp;script.&lt;/p&gt;
+&lt;p&gt;Click on the grey button &amp;#8220;Add Rule&amp;#8221;, then for the new rule, choose Type: Custom &lt;span class="caps"&gt;TCP&lt;/span&gt; Rule; Protocol: &lt;span class="caps"&gt;TCP&lt;/span&gt;; Port Range: 8888; Source:&amp;nbsp;Anywhere.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"&gt;&lt;img alt="Step6_Configure-Security-Group" src="http://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group-1024x434.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;4.&lt;/strong&gt; Now, pick up where you left off in the CS231n tutorial (&amp;#8220;&lt;em&gt;&amp;#8230; click on &amp;#8220;Review and Launch&lt;/em&gt;&amp;#8220;.), which takes you to &amp;#8220;Step 7. Review Instance Launch&amp;#8221;. Complete the&amp;nbsp;tutorial.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Check that the Jupyter notebook server was set up&amp;nbsp;correctly:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;ssh into your instance (see CS231n&amp;nbsp;instructions).&lt;/li&gt;
+&lt;li&gt;Navigate to &lt;code&gt;~/caffe/examples&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Start the notebook server using the &lt;code&gt;jupyter notebook&lt;/code&gt; command.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In your web browser, access the notebook server with https://PUBLIC_IP:8888, where PUBLIC_IP is the public &lt;span class="caps"&gt;IP&lt;/span&gt; of your instance, displayed from the instance description on your &lt;span class="caps"&gt;AWS&lt;/span&gt; dashboard. Your browser will warn that your self-signed certificate is insecure or&amp;nbsp;unrecognized.&lt;/p&gt;
+&lt;p&gt;&lt;a href="http/wp-content/uploads/2016/03/scary-browser-warning.png"&gt;&lt;img alt="scary-browser-warning" src="http://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning-1024x556.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;That&amp;#8217;s ok &amp;#8212; click past the warnings, and you should get a sign-in page. Type in your&amp;nbsp;password.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Next, you should see the files and directories in &lt;code&gt;/home/ubuntu/caffe/examples&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Open one of the example notebooks, e.g. &lt;code&gt;00-classification.ipynb&lt;/code&gt;, and try running some cells to make sure everything is&amp;nbsp;working.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Voila! We hope this guide removes some obstacles to getting started. Happy&amp;nbsp;learning!&lt;/p&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;The cost of running a &lt;span class="caps"&gt;GPU&lt;/span&gt; instance is high compared to many other instance types, but still very reasonable if you&amp;#8217;re just tinkering for a few hours on a pre-trained model, not training a whole neural network from&amp;nbsp;scratch.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Check out the &lt;a href="https://aws.amazon.com/ec2/pricing/"&gt;pricing&lt;/a&gt; for an &lt;span class="caps"&gt;EC2&lt;/span&gt; instance in the section &amp;#8220;On-Demand Instance Prices&amp;#8221; and selecting the region of your &lt;span class="caps"&gt;AMI&lt;/span&gt;. At the time of writing, the cost of an on-demand &lt;code&gt;g2.2xlarge&lt;/code&gt; instance in the &lt;span class="caps"&gt;US&lt;/span&gt; West (Northern California) region was $0.7/hour, whereas the price of a &lt;a href="https://aws.amazon.com/ec2/spot/pricing/"&gt;spot&lt;/a&gt; instance (a cheaper alternative which will automatically terminate when the spot pricing exceeds your bid) was&amp;nbsp;$0.3/hour.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt; If you followed the CS231n tutorial exactly and forgot to supply user data, you can still use this script. First modify the security configuration of your instance according to step &lt;/strong&gt;3**. Then use the &lt;code&gt;scp&lt;/code&gt; command to copy the script from your local computer to your instance, &lt;code&gt;ssh&lt;/code&gt; into your instance, then execute the script: &lt;code&gt;source jupyter_userdata.sh&lt;/code&gt;. If you need help with using &lt;code&gt;scp&lt;/code&gt;, see &amp;#8220;To use &lt;span class="caps"&gt;SCP&lt;/span&gt; to transfer a file&amp;#8221; in this &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html"&gt;guide&lt;/a&gt;.&lt;/p&gt;</content><category term="Tools"></category><category term="AWS"></category><category term="bash"></category><category term="cloud"></category><category term="deep learning"></category><category term="Jupyter"></category></entry><entry><title>Quick tutorial on MySQL</title><link href="http/quick-tutorial-on-mysql.html" rel="alternate"></link><published>2015-01-16T16:07:00-08:00</published><updated>2015-01-16T16:07:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:None,2015-01-16:http/quick-tutorial-on-mysql.html</id><summary type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like&amp;nbsp;us).  &lt;/p&gt;
+&lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow&amp;nbsp;@efavdb&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt;Follow us on twitter for new submission&amp;nbsp;alerts!&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Getting&amp;nbsp;started&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you&amp;#8217;re a beginner reading this, we suggest &lt;a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html"&gt;installing&lt;/a&gt; it on your personal computer or server, and following along by trying each of the commands we go through here. Once it&amp;#8217;s installed and you have its server running, you can often access MySQL from the command line by&amp;nbsp;typing&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mysql  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;On a mac, you may need to use the following&amp;nbsp;though&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;/usr/local/mysql/bin/mysql -uroot  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Once mysql is loaded, you can see what databases are available by&amp;nbsp;typing&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SHOW DATABASES;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Notice that a semi-colon is used to terminate commands: In general, these can extend across multiple lines and the semi-colon tells the program where the command stops. Also, MySQL is case-insensitive, but it is considered good form to have all command calls capitalized for easier reading. If no databases yet exist, you can create one as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;CREATE DATABASE animalDB;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, &lt;code&gt;animalDB&lt;/code&gt; is the name of the database. From the list of available databases,&lt;br&gt;
+you can select one of interest with the &lt;code&gt;USE&lt;/code&gt; command. For&amp;nbsp;example,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;USE animalDB;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Each database can contain many tables. To see the tables contained in a database, use the &lt;span class="caps"&gt;SHOW&lt;/span&gt;&amp;nbsp;command,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SHOW tables;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;strong&gt;Table creation and&amp;nbsp;alteration&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;span class="caps"&gt;SQL&lt;/span&gt; tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (&lt;code&gt;INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR&lt;/code&gt;, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the&amp;nbsp;command&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;CREATE TABLE MyPets (name VARCHAR(10),  &lt;/span&gt;
+&lt;span class="err"&gt;species VARCHAR(10), age INT);  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, we are using the &lt;code&gt;VARCHAR&lt;/code&gt; type for our two string columns. The argument supplied allows us to use strings up to length &lt;code&gt;10&lt;/code&gt; for these entries. We could also have used the &lt;code&gt;CHAR(10)&lt;/code&gt; type here, but that would result in trailing spaces following names shorter than &lt;code&gt;10&lt;/code&gt; characters. We now insert some entries using the &lt;code&gt;INSERT&lt;/code&gt; command,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;INSERT INTO MyPets VALUES (&amp;quot;Bottles&amp;quot;, &amp;quot;Dog&amp;quot;, 3);  &lt;/span&gt;
+&lt;span class="err"&gt;INSERT INTO MyPets (name, species) VALUES (&amp;quot;Mac&amp;quot;, &amp;quot;Dog&amp;quot;);  &lt;/span&gt;
+&lt;span class="err"&gt;INSERT INTO MyPets VALUES (&amp;quot;Hector&amp;quot;, &amp;quot;Cat&amp;quot;, 1);  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, we’ve illustrated two different methods to do insertion. In the first and third lines, we have values for all columns. However, in the second, no age is supplied, so we have to specify which columns the values we are supplying correspond to. The age column for this entry will read &lt;code&gt;NULL&lt;/code&gt;, since no value was provided for it. To view the table, we write – with &lt;code&gt;SELECT&lt;/code&gt; and &lt;code&gt;∗&lt;/code&gt; meaning &amp;#8220;retrieve&amp;#8221; and “all”, respectively&amp;nbsp;–&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SELECT * FROM MyPets;  &lt;/span&gt;
+&lt;span class="err"&gt;&amp;gt;&amp;gt;  &lt;/span&gt;
+&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
+&lt;span class="err"&gt;| name | species | age |  &lt;/span&gt;
+&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
+&lt;span class="err"&gt;| Bottles | Dog | 3 |  &lt;/span&gt;
+&lt;span class="err"&gt;| Mac | Dog | NULL |  &lt;/span&gt;
+&lt;span class="err"&gt;| Hector | Cat | 1 |  &lt;/span&gt;
+&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Additional &lt;code&gt;SELECT&lt;/code&gt; queries are given below that illustrate how one can select and operate on subsets of the columns and rows. To add an age for Mac, we use the &lt;code&gt;UPDATE, SET&lt;/code&gt;, and &lt;code&gt;WHERE&lt;/code&gt; commands,&amp;nbsp;writing&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;UPDATE MyPets  &lt;/span&gt;
+&lt;span class="err"&gt;SET age = 7  &lt;/span&gt;
+&lt;span class="err"&gt;WHERE name = &amp;quot;Mac&amp;quot;;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;To see that this and the other commands that follow work as expected, try running the &lt;code&gt;SELECT&lt;/code&gt; command above after each application. To delete a row from the table, we use the &lt;span class="caps"&gt;DELETE&lt;/span&gt;&amp;nbsp;command,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;DELETE from MyPets  &lt;/span&gt;
+&lt;span class="err"&gt;WHERE name = &amp;quot;Hector&amp;quot;;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It is also possible to add or subtract columns from a table. To add a column, we use&lt;br&gt;
+the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; commands,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ALTER TABLE MyPets  &lt;/span&gt;
+&lt;span class="err"&gt;ADD COLUMN litters INT  &lt;/span&gt;
+&lt;span class="err"&gt;DEFAULT 0;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The last line here is not necessary. Without it, the command would create the column and set each row’s value there to &lt;code&gt;NULL&lt;/code&gt;. To delete a column, we use the &lt;code&gt;DROP&lt;/code&gt; command,&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ALTER TABLE MyPets  &lt;/span&gt;
+&lt;span class="err"&gt;DROP litters;  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;Caveat:&lt;/em&gt; While row addition and removal can always be carried out quickly, addition and removal of columns scales linearly with table size. The reason is that these operations are generally carried out by copying the original table into a second table having the desired new structure. For this reason, it is generally a good idea to plan ahead and make sure any new table has all the columns you foresee might be&amp;nbsp;needed.&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;&lt;span class="caps"&gt;SELECTION&lt;/span&gt; queries &amp;#8212; learn by&amp;nbsp;example&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Example conditional&amp;nbsp;commands:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;What is the name and age each of my&amp;nbsp;pets?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT name, age FROM mypets;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;How many dogs have I&amp;nbsp;got?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT COUNT(*) FROM mypets WHERE species = "dog";&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Show me just the first two pets in my&amp;nbsp;table.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT * FROM mypets LIMIT 2;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Show me my pets in age-descending&amp;nbsp;order.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets ORDER BY age;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Which of my dogs are under 4 years&amp;nbsp;old?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets WHERE age &amp;lt; 4 AND species = "dog";&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Which animals have names that start with the letter&amp;nbsp;“M”?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT * FROM mypets WHERE name LIKE "M%";&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Which animals have the letter “E” somewhere in their name?
+    &lt;code&gt;SELECT * FROM mypets WHERE name LIKE "%E%";&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Example &lt;span class="caps"&gt;GROUP&lt;/span&gt; &lt;span class="caps"&gt;BY&lt;/span&gt; commands (see also &lt;code&gt;MIN, MAX, SUM, STD&lt;/code&gt;,&amp;nbsp;etc.):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;How many pets have I got of each&amp;nbsp;species?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT species, count(*) FROM mypets GROUP BY species;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;What is the average age of my pets, grouped by species?
+    &lt;code&gt;SELECT species, AVG(age) FROM mypets GROUP BY species;&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;&lt;strong&gt;Actions on multiple&amp;nbsp;tables&lt;/strong&gt;&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;To solidify what we&amp;#8217;ve learned above, try to now create a second table, called &lt;code&gt;PetDetails&lt;/code&gt;, like that above but with different age and species values. You can add other columns to it if you like. Once that&amp;#8217;s done, apply the &lt;code&gt;SHOW TABLES&lt;/code&gt; command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands&amp;nbsp;like&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;UPDATE MyPets, PetDetails  
+SET MyPets.age = PetDetails.age  
+WHERE MyPets.name = PetDetails.name;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Note the use of the period here to specify from which table a certain column is to be selected&amp;nbsp;from.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;The&lt;/em&gt; &lt;code&gt;JOIN/ON&lt;/code&gt; &lt;em&gt;commands&lt;/em&gt;. The &lt;code&gt;JOIN&lt;/code&gt; command essentially creates something like a flattened outer product of two tables: If there are &lt;span class="math"&gt;\(n\)&lt;/span&gt; entries in the first table and &lt;span class="math"&gt;\(m\)&lt;/span&gt; in the second, the command returns a table with &lt;span class="math"&gt;\(n \times m\)&lt;/span&gt; rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The &lt;span class="caps"&gt;ON&lt;/span&gt; command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick&amp;nbsp;pairs&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CREATE TABLE PetTricks (name VARCHAR(10), trick VARCHAR(10));  
+INSERT INTO PetTricks VALUES ("Bottles", "Shake");  
+INSERT INTO PetTricks VALUES ("Bottles", "Play dead");  
+INSERT INTO PetTricks VALUES ("Mac", "Shake");  
+INSERT INTO PetTricks VALUES ("Dogbert", "Consulting");&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;With the following, we get the number of tricks each of my pets can&amp;nbsp;do&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT MyPets.name AS name, count(*) AS num_tricks  
+FROM (MyPets JOIN PetTricks  
+ON MyPets.name = PetTricks.name)  
+GROUP BY MyPets.name;&lt;/code&gt;&lt;br&gt;
+Here, we see for the first time that it is possible to select values from a table created &amp;#8220;on the fly&amp;#8221; (the table in parentheses, which you can print using the &lt;code&gt;SELECT&lt;/code&gt; command). We also see for the first time the concept of aliasing, applied through use of the &lt;code&gt;AS&lt;/code&gt; command.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Our last &amp;#8212; and most complicated &amp;#8212; example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you&amp;#8217;ll be pretty much set to construct your own complex &lt;span class="caps"&gt;SQL&lt;/span&gt; queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks&amp;nbsp;table.&lt;/p&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;`&lt;br&gt;
+&lt;span class="caps"&gt;ALTER&lt;/span&gt; &lt;span class="caps"&gt;TABLE&lt;/span&gt; MyPets&lt;br&gt;
+&lt;span class="caps"&gt;ADD&lt;/span&gt; &lt;span class="caps"&gt;COLUMN&lt;/span&gt; num_tricks &lt;span class="caps"&gt;INT&lt;/span&gt;&lt;br&gt;
+&lt;span class="caps"&gt;DEFAULT&lt;/span&gt;&amp;nbsp;0;&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;UPDATE&lt;/span&gt; MyPets &lt;span class="caps"&gt;AS&lt;/span&gt; T1,&lt;br&gt;
+(Select name, count(*) &lt;span class="caps"&gt;AS&lt;/span&gt; tot&lt;br&gt;
+&lt;span class="caps"&gt;FROM&lt;/span&gt; PetTricks&lt;br&gt;
+&lt;span class="caps"&gt;GROUP&lt;/span&gt; &lt;span class="caps"&gt;BY&lt;/span&gt; name) &lt;span class="caps"&gt;AS&lt;/span&gt; T2&lt;br&gt;
+&lt;span class="caps"&gt;SET&lt;/span&gt; T1.num_tricks = T2.tot&lt;br&gt;
+&lt;span class="caps"&gt;WHERE&lt;/span&gt; T1.name =&amp;nbsp;T2.name;&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;SELECT&lt;/span&gt; * &lt;span class="caps"&gt;FROM&lt;/span&gt;&amp;nbsp;MyPets;  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;
+| name | species | age | num_tricks |&lt;br&gt;
++&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;
+| Bottles | Dog | 3 | 2 |&lt;br&gt;
+| Mac | Dog | 7 | 1 |&lt;br&gt;
+| Hector | Cat | 1 | 0 |&lt;br&gt;
++&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;&amp;nbsp;&amp;#8220;`&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;&lt;strong&gt;Other&amp;nbsp;tips&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Lastly, a few one-off tips that can be very&amp;nbsp;helpful.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Creating a new table similar another.&lt;/em&gt; The following command can come in handy when you’re dealing with tables that have many&amp;nbsp;columns:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CREATE TABLE TNew LIKE T1;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Here, the command creates &lt;code&gt;TNew&lt;/code&gt;, a new table with column names and types like those of &lt;code&gt;T1&lt;/code&gt;. The entries of &lt;code&gt;T1&lt;/code&gt; are not copied over. If you want to copy some of them over, you can do that with a command&amp;nbsp;like&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;INSERT INTO TNew (SELECT * FROM T1 WHERE ...);&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Saving to a text file.&lt;/em&gt; Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the&amp;nbsp;following&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;cd /usr/local  
+mkdir MySQLOutput  
+sudo chmod -R 777 MySQLOutput&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This creates the directory &lt;code&gt;/usr/local/MYSQLOutput&lt;/code&gt; with global read, write, and execute permissions. With this setup, we can write to a file from within MySQL with a command&amp;nbsp;like&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets  
+INTO OUTFILE "/usr/local/MySQLOutput/test.txt"&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Scripts.&lt;/em&gt; For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the &lt;code&gt;SOURCE&lt;/code&gt; command. To illustrate, suppose we have a text file called &lt;code&gt;/usr/local/MySQLOutput/test.txt&lt;/code&gt; within which we have written the&amp;nbsp;commands&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;CREATE table Bad_dogs (DogID BIGINT, Barks INT);  
+INSERT INTO Bad_dogs VALUES (1234567890, 666);&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;We can run this from within MySQL using the&amp;nbsp;command&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;SOURCE /usr/local/MySQLOutput/test.txt;&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This creates the table and inserts the example&amp;nbsp;entry.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Indexing.&lt;/em&gt; By creating an index, one can speed up &lt;code&gt;SELECT&lt;/code&gt; calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table,&amp;nbsp;write&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;ALTER TABLE MyPets  
+ADD PRIMARY KEY (name);&lt;/code&gt;&lt;br&gt;
+This selects the name column as our index, which will speed up all &lt;code&gt;SELECT&lt;/code&gt; calls seeking entries with &lt;code&gt;name&lt;/code&gt; values satisfying some condition &amp;#8212; specified using &lt;code&gt;WHERE name = ...&lt;/code&gt;. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table&amp;nbsp;creation.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;Further study.&lt;/em&gt; At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both &lt;a href="http://stackoverflow.com/"&gt;stackoverflow.com&lt;/a&gt; &amp;#8212; which has tons of interesting discussions on the topic &amp;#8212; and the &lt;a href="http://dev.mysql.com/doc/"&gt;MySQL documentation page&lt;/a&gt;, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent&amp;nbsp;resources.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Tools"></category></entry></feed>

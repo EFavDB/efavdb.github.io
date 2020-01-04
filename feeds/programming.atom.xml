@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Programming</title><link href="http/" rel="alternate"></link><link href="http/feeds/programming.atom.xml" rel="self"></link><id>http/</id><updated>2016-11-18T12:59:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Simple python to LaTeX parser</title><link href="http/simple-python-to-latex-parser.html" rel="alternate"></link><published>2016-11-18T12:59:00-08:00</published><updated>2016-11-18T12:59:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:None,2016-11-18:http/simple-python-to-latex-parser.html</id><summary type="html">&lt;p&gt;We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&amp;nbsp;result.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&amp;nbsp;result.&lt;/p&gt;
+&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;s = &amp;#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&amp;#39;  &lt;/span&gt;
+&lt;span class="x"&gt;print command_to_latex(s)&lt;/span&gt;
+
+&lt;span class="x"&gt;## output:  &lt;/span&gt;
+&lt;span class="x"&gt;\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;&lt;span class="err"&gt;^&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;w&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt; \cdot \tanh \left (2 \cdot \pi \cdot x \right )  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If the output shown here is plugged into a LaTeX editor, we get the following&amp;nbsp;result:&lt;/p&gt;
+&lt;div class="math"&gt;$$\tag{1}  
+\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt{{2}^{w}} \cdot \tanh \left (2 \cdot \pi \cdot x \right )  
+$$&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;
+Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;notebook&lt;/a&gt; automatically pretty prints to this&amp;nbsp;form.&lt;/p&gt;
+&lt;p&gt;We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python&amp;nbsp;format.&lt;/p&gt;
+&lt;p&gt;We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined &amp;#8212; we illustrate this issue in the&amp;nbsp;notebook.&lt;/p&gt;
+&lt;p&gt;As usual, our code can be downloaded from our github page &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Code&lt;/h3&gt;
+&lt;p&gt;The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines&amp;nbsp;below.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;def parse_simple_eqn(q):  &lt;/span&gt;
+&lt;span class="x"&gt;&amp;quot;&amp;quot;&amp;quot; Return TeX equivalent of a command  &lt;/span&gt;
+&lt;span class="x"&gt;without parentheses. &amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
+&lt;span class="x"&gt;# Define replacement rules.  &lt;/span&gt;
+&lt;span class="x"&gt;simple_replacements = [[&amp;#39; &amp;#39;, &amp;#39;&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;**&amp;#39;, &amp;#39;^&amp;#39;], [&amp;#39;*&amp;#39;, &amp;#39; \cdot &amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;math.&amp;#39;, &amp;#39;&amp;#39;], [&amp;#39;np.&amp;#39;, &amp;#39;&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;pi&amp;#39;, &amp;#39;\pi&amp;#39;] , [&amp;#39;tan&amp;#39;, &amp;#39;\tan&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;cos&amp;#39;, &amp;#39;\cos&amp;#39;], [&amp;#39;sin&amp;#39;, &amp;#39;\sin&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;sec&amp;#39;, &amp;#39;\sec&amp;#39;], [&amp;#39;csc&amp;#39;, &amp;#39;\csc&amp;#39;]]  &lt;/span&gt;
+&lt;span class="x"&gt;complex_replacements = [[&amp;#39;^&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}^&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;_&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}_&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;/&amp;#39;, &amp;#39;\frac&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
+&lt;span class="x"&gt;[&amp;#39;sqrt&amp;#39;,&amp;#39;\sqrt&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;]]  &lt;/span&gt;
+&lt;span class="x"&gt;# Carry out simple replacements  &lt;/span&gt;
+&lt;span class="x"&gt;for pair in simple_replacements:  &lt;/span&gt;
+&lt;span class="x"&gt;q = q.replace(pair[0], pair[1])  &lt;/span&gt;
+&lt;span class="x"&gt;# Now complex replacements  &lt;/span&gt;
+&lt;span class="x"&gt;for item in [&amp;#39;*&amp;#39;, &amp;#39;/&amp;#39;, &amp;#39;+&amp;#39;, &amp;#39;-&amp;#39;, &amp;#39;^&amp;#39;, &amp;#39;_&amp;#39;, &amp;#39;,&amp;#39;, &amp;#39;sqrt&amp;#39;]:  &lt;/span&gt;
+&lt;span class="x"&gt;q = q.replace(item, &amp;#39; &amp;#39; + item + &amp;#39; &amp;#39;)  &lt;/span&gt;
+&lt;span class="x"&gt;q_split = q.split()  &lt;/span&gt;
+&lt;span class="x"&gt;for index, item in enumerate(q_split):  &lt;/span&gt;
+&lt;span class="x"&gt;for pair in complex_replacements:  &lt;/span&gt;
+&lt;span class="x"&gt;if item == pair[0]:  &lt;/span&gt;
+&lt;span class="x"&gt;if item == &amp;#39;sqrt&amp;#39;:  &lt;/span&gt;
+&lt;span class="x"&gt;match_str = &amp;quot; &amp;quot;.join(q_split[index:index+2])  &lt;/span&gt;
+&lt;span class="x"&gt;else:  &lt;/span&gt;
+&lt;span class="x"&gt;match_str = &amp;quot; &amp;quot;.join(q_split[index-1:index+2])  &lt;/span&gt;
+&lt;span class="x"&gt;q = q.replace(match_str, pair[1].format(  &lt;/span&gt;
+&lt;span class="x"&gt;i1=q_split[index-1], i2=q_split[index+1]))  &lt;/span&gt;
+&lt;span class="x"&gt;return q&lt;/span&gt;
+
+&lt;span class="x"&gt;def command_to_latex(q, index=0):  &lt;/span&gt;
+&lt;span class="x"&gt;&amp;quot;&amp;quot;&amp;quot; Recursively eliminate parentheses. Once  &lt;/span&gt;
+&lt;span class="x"&gt;removed, apply parse_simple_eqn. &amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
+&lt;span class="x"&gt;open_index, close_index = -1, -1  &lt;/span&gt;
+&lt;span class="x"&gt;for q_index, i in enumerate(q):  &lt;/span&gt;
+&lt;span class="x"&gt;if i == &amp;#39;(&amp;#39;:  &lt;/span&gt;
+&lt;span class="x"&gt;open_index = q_index  &lt;/span&gt;
+&lt;span class="x"&gt;elif i == &amp;#39;)&amp;#39;:  &lt;/span&gt;
+&lt;span class="x"&gt;close_index = q_index  &lt;/span&gt;
+&lt;span class="x"&gt;break  &lt;/span&gt;
+&lt;span class="x"&gt;if open_index != -1:  &lt;/span&gt;
+&lt;span class="x"&gt;o = q[:open_index] + &amp;#39;@&amp;#39; + str(index) + q[close_index + 1:]  &lt;/span&gt;
+&lt;span class="x"&gt;m = q[open_index + 1:close_index]  &lt;/span&gt;
+&lt;span class="x"&gt;o_tex = command_to_latex(o, index + 1)  &lt;/span&gt;
+&lt;span class="x"&gt;m_tex = command_to_latex(m, index + 1)  &lt;/span&gt;
+&lt;span class="x"&gt;# Clean up redundant parentheses at recombination  &lt;/span&gt;
+&lt;span class="x"&gt;r_index = o_tex.find(&amp;#39;@&amp;#39; + str(index))  &lt;/span&gt;
+&lt;span class="x"&gt;if o_tex[r_index - 1] == &amp;#39;{&amp;#39;:  &lt;/span&gt;
+&lt;span class="x"&gt;return o_tex.replace(&amp;#39;@&amp;#39;+str(index), m_tex)  &lt;/span&gt;
+&lt;span class="x"&gt;else:  &lt;/span&gt;
+&lt;span class="x"&gt;return o_tex.replace(&amp;#39;@&amp;#39;+str(index),  &lt;/span&gt;
+&lt;span class="x"&gt;&amp;#39; \left (&amp;#39; + m_tex + &amp;#39; \right )&amp;#39;)  &lt;/span&gt;
+&lt;span class="x"&gt;else:  &lt;/span&gt;
+&lt;span class="x"&gt;return parse_simple_eqn(q)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That&amp;#8217;s&amp;nbsp;it!&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Programming"></category></entry><entry><title>Reshaping Data in R</title><link href="http/reshaping-data-in-r.html" rel="alternate"></link><published>2015-06-06T19:17:00-07:00</published><updated>2015-06-06T19:17:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:None,2015-06-06:http/reshaping-data-in-r.html</id><summary type="html">&lt;p&gt;Today, we&amp;#8217;ll talk about reshaping data in R. At the same time, we&amp;#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&amp;nbsp;loop.  &lt;/p&gt;
+&lt;h3&gt;The&amp;nbsp;Task …&lt;/h3&gt;</summary><content type="html">&lt;p&gt;Today, we&amp;#8217;ll talk about reshaping data in R. At the same time, we&amp;#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&amp;nbsp;loop.  &lt;/p&gt;
+&lt;h3&gt;The&amp;nbsp;Task&lt;/h3&gt;
+&lt;p&gt;Suppose you&amp;#8217;re given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its&amp;nbsp;id.&lt;/p&gt;
+&lt;p&gt;Day&amp;nbsp;1&lt;/p&gt;
+&lt;p&gt;day&lt;/p&gt;
+&lt;p&gt;group&lt;/p&gt;
+&lt;p&gt;id&lt;/p&gt;
+&lt;p&gt;height&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;A.1&lt;/p&gt;
+&lt;p&gt;1.1&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;A.2&lt;/p&gt;
+&lt;p&gt;1.2&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;B&lt;/p&gt;
+&lt;p&gt;B.1&lt;/p&gt;
+&lt;p&gt;1.0&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;B&lt;/p&gt;
+&lt;p&gt;B.2&lt;/p&gt;
+&lt;p&gt;0.9&lt;/p&gt;
+&lt;p&gt;Day&amp;nbsp;2&lt;/p&gt;
+&lt;p&gt;day&lt;/p&gt;
+&lt;p&gt;group&lt;/p&gt;
+&lt;p&gt;id&lt;/p&gt;
+&lt;p&gt;height&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;A.1&lt;/p&gt;
+&lt;p&gt;1.5&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;A&lt;/p&gt;
+&lt;p&gt;A.2&lt;/p&gt;
+&lt;p&gt;1.5&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;B&lt;/p&gt;
+&lt;p&gt;B.1&lt;/p&gt;
+&lt;p&gt;2.1&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;B&lt;/p&gt;
+&lt;p&gt;B.2&lt;/p&gt;
+&lt;p&gt;1.9&lt;/p&gt;
+&lt;p&gt;Your task is to split the data by treatment group rather than day. The desired output is one file per group, with day on the vertical of the new tables, plant id on the horizontal, and height as the value inside the table. For example, the new table for group A would&amp;nbsp;be:&lt;/p&gt;
+&lt;p&gt;Group&amp;nbsp;A&lt;/p&gt;
+&lt;p&gt;day&lt;/p&gt;
+&lt;p&gt;A.1&lt;/p&gt;
+&lt;p&gt;A.2&lt;/p&gt;
+&lt;p&gt;1&lt;/p&gt;
+&lt;p&gt;1.1&lt;/p&gt;
+&lt;p&gt;1.2&lt;/p&gt;
+&lt;p&gt;2&lt;/p&gt;
+&lt;p&gt;1.5&lt;/p&gt;
+&lt;p&gt;1.5&lt;/p&gt;
+&lt;p&gt;This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you&amp;#8217;re in first grade. So, we&amp;#8217;re going to take a little time to write a script now in order to save a lot of time in the&amp;nbsp;future.&lt;/p&gt;
+&lt;h3&gt;The code broken&amp;nbsp;down&lt;/h3&gt;
+&lt;p&gt;First, let&amp;#8217;s load some libraries that are useful for reshaping&amp;nbsp;data.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;library(&amp;quot;plyr&amp;quot;)  &lt;/span&gt;
+&lt;span class="err"&gt;library(&amp;quot;reshape2&amp;quot;)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;(To install, e.g. the plyr package, simply type &lt;code&gt;install.packages("plyr")&lt;/code&gt; in the R&amp;nbsp;console.)&lt;/p&gt;
+&lt;p&gt;Then store the full names, including directory path, of the files in a character vector. Here, the input .csv files are stored in the subdirectory&amp;nbsp;&amp;#8220;input&amp;#8221;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;in_files = list.files(path = &amp;quot;input&amp;quot;, pattern=&amp;quot;*.csv&amp;quot;, full.names = T)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, we&amp;#8217;ll use &lt;code&gt;lapply(...)&lt;/code&gt;, one of base R&amp;#8217;s functionals, to read the input files into a list of data frames, which we call&amp;nbsp;list_dfperday.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;list_dfperday = lapply(in_files, read.csv)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;lapply()&lt;/code&gt; loops over the the names of the files in &lt;code&gt;in_files&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;to each file, apply the function &lt;code&gt;read.csv()&lt;/code&gt;, which reads the contents of the file into a data&amp;nbsp;frame&lt;/li&gt;
+&lt;li&gt;output the result into a list of data frames, called dfs, of the same length as the character vector containing the file&amp;nbsp;names&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bind together (rbind) the data frames in the list by rows into a single data frame, so we can more conveniently subset the data by&amp;nbsp;group.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df = ldply(list_dfperday, rbind)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In the &lt;code&gt;plyr&lt;/code&gt; package, the first two letters in the &amp;#8220;&amp;#8212;ply&amp;#8221; functions indicate what type of object is being transformed into another. In this case, we are reshaping a list (&amp;#8216;l&amp;#8217;) of data frames into a data frame (&amp;#8216;d&amp;#8217;), hence&amp;nbsp;&amp;#8220;ldply&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;Define a function to cast the data into a data frame with a shape specified by the formula &lt;code&gt;day ~ id&lt;/code&gt;: per &lt;em&gt;day&lt;/em&gt; (x-variable), output the corresponding height (value.var) of each plant &lt;em&gt;id&lt;/em&gt;&amp;nbsp;(y-variable).&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;cast_short = function(mydata) dcast(mydata, day ~ id, value.var = height)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So the function &amp;#8220;cast_short&amp;#8221; takes as its argument a data frame &amp;#8220;mydata&amp;#8221; (containing columns &amp;#8220;day&amp;#8221; and &amp;#8220;id&amp;#8221;) and returns a reshaped data frame with &amp;#8220;day&amp;#8221; on the rows and &amp;#8220;id&amp;#8221; on the&amp;nbsp;columns.&lt;/p&gt;
+&lt;p&gt;Now apply the function we just defined to each treatment group. Store the outcome of each application of &lt;code&gt;cast_short&lt;/code&gt; into a list. (Also compare to the earlier use of &lt;code&gt;ldply&lt;/code&gt;.)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;list_dfpergroup = dlply(df, .(group), cast_short)  &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;It&amp;#8217;s finally time to write the formatted data frames to .csv files. We&amp;#8217;ll output them in a new directory called &amp;#8220;output&amp;#8221; with the aid of another base R functional &lt;code&gt;mapply&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;output&amp;quot;&lt;/span&gt;  
+&lt;span class="n"&gt;outnames&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;names&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_dfpergroup&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;mapply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;row&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;  
+&lt;span class="n"&gt;list_dfpergroup&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="n"&gt;outnames&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;mapply&lt;/code&gt; allows functions with multiple arguments to be applied in a loop. Here, we&amp;#8217;ve defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of &lt;em&gt;x&lt;/em&gt; is given by list_dfpergroup, and &lt;em&gt;y&lt;/em&gt; is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup&lt;span class="math"&gt;\(_i\)&lt;/span&gt; to a file named outnames&lt;span class="math"&gt;\(_i\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;The code in one&amp;nbsp;piece&lt;/h3&gt;
+&lt;p&gt;Now here&amp;#8217;s the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing &lt;code&gt;ldply&lt;/code&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;plyr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;reshape2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;in_files&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;list&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;files&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;input&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;*.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;full&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;names&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;list_dfperday&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;lapply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;in_files&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;read&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ldply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_dfperday&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;rbind&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;cast_short&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mydata&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;dcast&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mydata&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;day&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;height&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;list_dfpergroup&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dlply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;.(&lt;/span&gt;&lt;span class="k"&gt;group&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;cast_short&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;outdir&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;output&amp;quot;&lt;/span&gt;  
+&lt;span class="n"&gt;outnames&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;paste0&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;names&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;list_dfpergroup&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;.csv&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;dir&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;create&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="n"&gt;mapply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;write&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;csv&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outdir&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="k"&gt;row&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="k"&gt;names&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;F&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;  
+&lt;span class="n"&gt;list_dfpergroup&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;  
+&lt;span class="n"&gt;outnames&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Programming"></category><category term="programming"></category><category term="R"></category></entry></feed>
