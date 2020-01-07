@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Linear Regression "/>
-<meta property="og:url" content="./linear-regression.html" />
+<meta property="og:url" content="https://efavdb.github.io/linear-regression" />
 <meta property="og:description" content="We review classical linear regression using vector-matrix notation. In particular, we derive a) the least-squares solution, b) the fit’s coefficient covariance matrix — showing that the coefficient estimates are most precise along directions that have been sampled over a large range of values (the high variance directions, a la PCA …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
 
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       https://efavdb.github.io
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./linear-regression.html">
+            <a href="https://efavdb.github.io/linear-regression">
                 Linear&nbsp;Regression
             </a>
         </h1>
@@ -141,7 +142,7 @@ In the third line here, note that we have assumed that the <span class="math">\(
 \left( X^T X \right)_{i,j} &amp;\equiv&amp; \sum_k \delta X_{k,i} \delta X_{k,j} \equiv N \times \langle x_i, x_j\rangle. \tag{8} \label{corr_mat}  
 \end{eqnarray}</div>
 <p><br>
-<a href="./wp-content/uploads/2016/05/scatter.jpg"><img alt="margin around decision boundary" src="./wp-content/uploads/2016/05/scatter.jpg"></a> That is, <span class="math">\(X^T X\)</span> is proportional to the correlation matrix of our <span class="math">\(x\)</span> values. This correlation matrix is real and symmetric, and thus has an orthonormal set of eigenvectors. The eigenvalue corresponding to the <span class="math">\(k\)</span>-th eigenvector gives the variance of our data set&#8217;s <span class="math">\(k\)</span>-th component values in this basis &#8212; details can be found in our <a href="http://efavdb.com/principal-component-analysis/">article on <span class="caps">PCA</span></a>. This implies a simple interpretation of (\ref{cov}): The variance in the <span class="math">\(\vec{\beta}\)</span> coefficients will be lowest for predictors parallel to the highest variance <span class="caps">PCA</span> components (eg <span class="math">\(x_1\)</span> in the figure shown) and highest for predictors parallel to the lowest variance <span class="caps">PCA</span> components (<span class="math">\(x_2\)</span> in the figure). This observation can often be exploited during an experiment&#8217;s design: If a particular coefficient is desired to high accuracy, one should make sure to sample the corresponding predictor over a wide&nbsp;range.</p>
+<a href="https://efavdb.github.io/wp-content/uploads/2016/05/scatter.jpg"><img alt="margin around decision boundary" src="https://efavdb.github.io/wp-content/uploads/2016/05/scatter.jpg"></a> That is, <span class="math">\(X^T X\)</span> is proportional to the correlation matrix of our <span class="math">\(x\)</span> values. This correlation matrix is real and symmetric, and thus has an orthonormal set of eigenvectors. The eigenvalue corresponding to the <span class="math">\(k\)</span>-th eigenvector gives the variance of our data set&#8217;s <span class="math">\(k\)</span>-th component values in this basis &#8212; details can be found in our <a href="http://efavdb.com/principal-component-analysis/">article on <span class="caps">PCA</span></a>. This implies a simple interpretation of (\ref{cov}): The variance in the <span class="math">\(\vec{\beta}\)</span> coefficients will be lowest for predictors parallel to the highest variance <span class="caps">PCA</span> components (eg <span class="math">\(x_1\)</span> in the figure shown) and highest for predictors parallel to the lowest variance <span class="caps">PCA</span> components (<span class="math">\(x_2\)</span> in the figure). This observation can often be exploited during an experiment&#8217;s design: If a particular coefficient is desired to high accuracy, one should make sure to sample the corresponding predictor over a wide&nbsp;range.</p>
 <p>[Note: Cathy gives an interesting, alternative interpretation for the parameter estimate variances in a follow-up post, <a href="http://efavdb.com/interpret-linear-regression/">here</a>.]</p>
 <h3>Unbiased estimator for <span class="math">\(\sigma^2\)</span></h3>
 <p>The result (\ref{cov}) gives an expression for the variance of the parameter coefficients in terms of the underlying sample variance <span class="math">\(\sigma^2\)</span>. In practice, <span class="math">\(\sigma^2\)</span> is often not provided and must be estimated from the observations at hand. Assuming that the <span class="math">\(\{\epsilon_i\}\)</span> in (\ref{noise}) are independent <span class="math">\(\mathcal{N}(0, \sigma^2)\)</span> random variables, we now show that the following provides an unbiased estimate for this variance:<br>
@@ -297,11 +298,11 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Linear%C2%A0Regression&url=http%3A//efavdb.github.io/linear-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Linear%C2%A0Regression&url=https%3A//efavdb.github.io/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/linear-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Linear%C2%A0Regression&amp;body=http%3A//efavdb.github.io/linear-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Linear%C2%A0Regression&amp;body=https%3A//efavdb.github.io/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -330,8 +331,8 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./linear-regression.html"
-                   href="./linear-regression.html#comment_thread"
+                   data-disqus-identifier="https://efavdb.github.io/linear-regression"
+                   href="https://efavdb.github.io/linear-regression#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -341,7 +342,7 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
                     <div class="comments">
                         <div id="disqus_thread"></div>
                         <script>
-    var disqus_shortname = 'EFAVDB';
+    var disqus_shortname = 'efavdb2';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -349,8 +350,8 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './linear-regression.html';
-    var disqus_url = './linear-regression.html';
+    var disqus_identifier = 'https://efavdb.github.io/linear-regression';
+    var disqus_url = 'https://efavdb.github.io/linear-regression';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -374,8 +375,8 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./average-queue-wait-times-with-random-arrivals.html" title="Previous: Average queue wait times with random arrivals">Average queue wait times with random arrivals</a></li>
-                <li class="next-article"><a href="./interpret-linear-regression.html" title="Next: Interpreting the results of linear regression">Interpreting the results of linear regression</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.github.io/average-queue-wait-times-with-random-arrivals" title="Previous: Average queue wait times with random arrivals">Average queue wait times with random arrivals</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/interpret-linear-regression" title="Next: Interpreting the results of linear regression">Interpreting the results of linear regression</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -384,7 +385,7 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-05-29T11:27:00-07:00">May 29, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

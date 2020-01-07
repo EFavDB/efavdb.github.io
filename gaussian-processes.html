@@ -12,7 +12,7 @@
 <meta name="keywords" content="methods, programming, statistics, theory, Methods, " />
 
 <meta property="og:title" content="Gaussian Processes "/>
-<meta property="og:url" content="./gaussian-processes.html" />
+<meta property="og:url" content="https://efavdb.github.io/gaussian-processes" />
 <meta property="og:description" content="We review the math and code needed to fit a Gaussian Process (GP) regressor to data. We conclude with a demo of a popular application, fast function minimization through GP-guided search. The gif below illustrates this approach in action — the red points are samples from the hidden red curve …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
 
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       https://efavdb.github.io
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./gaussian-processes.html">
+            <a href="https://efavdb.github.io/gaussian-processes">
                 Gaussian&nbsp;Processes
             </a>
         </h1>
@@ -79,7 +80,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We review the math and code needed to fit a Gaussian Process (<span class="caps">GP</span>) regressor to data. We conclude with a demo of a popular application, fast function minimization through <span class="caps">GP</span>-guided search. The gif below illustrates this approach in action &#8212; the red points are samples from the hidden red curve. Using these samples, we attempt to leverage GPs to find the curve&#8217;s minimum as fast as&nbsp;possible.</p>
-<p><a href="./wp-content/uploads/2017/11/full_search.gif"><img alt="full_search" src="./wp-content/uploads/2017/11/full_search.gif"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/11/full_search.gif"><img alt="full_search" src="https://efavdb.github.io/wp-content/uploads/2017/11/full_search.gif"></a></p>
 <p>Appendices contain quick reviews on (i) the <span class="caps">GP</span> regressor posterior derivation, (ii) SKLearn&#8217;s <span class="caps">GP</span> implementation, and (iii) <span class="caps">GP</span>&nbsp;classifiers.</p>
 <h3>Introduction</h3>
 <p>Gaussian Processes (GPs) provide a tool for treating the following general problem: A function <span class="math">\(f(x)\)</span> is sampled at <span class="math">\(n\)</span> points, resulting in a set of noisy<span class="math">\(^1\)</span> function measurements, <span class="math">\(\{f(x_i) = y_i \pm \sigma_i, i = 1, \ldots, n\}\)</span>. Given these available samples, can we estimate the probability that <span class="math">\(f = \hat{f}\)</span>, where <span class="math">\(\hat{f}\)</span> is some candidate&nbsp;function?</p>
@@ -166,7 +167,7 @@ and <span class="math">\(\textbf{y}\)</span> is the length-<span class="math">\(
 
 
 <p>In the above, <code>WIDTH_SCALE</code> and <code>LENGTH_SCALE</code> are needed to specify the covariance matrix (\ref{covariance}). The former corresponds to <span class="math">\(\sigma\)</span> and the latter to <span class="math">\(l\)</span> in that equation. Increasing <code>WIDTH_SCALE</code> corresponds to asserting less certainty as to the magnitude of unknown function and increasing <code>LENGTH_SCALE</code> corresponds to increasing how smooth we expect the function to be. The figure below illustrates these points: Here, the blue intervals were obtained by setting <code>WIDTH_SCALE = LENGTH_SCALE  = 1</code> and the orange intervals were obtained by setting <code>WIDTH_SCALE = 0.5</code> and <code>LENGTH_SCALE  = 2</code>. The result is that the orange posterior estimate is tighter and smoother than the blue posterior. In both plots, the solid curve is a plot of the mean of the posterior distribution, and the vertical bars are one sigma confidence&nbsp;intervals.</p>
-<p><a href="./wp-content/uploads/2017/11/intervals.jpg"><img alt="intervals" src="./wp-content/uploads/2017/11/intervals.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/11/intervals.jpg"><img alt="intervals" src="https://efavdb.github.io/wp-content/uploads/2017/11/intervals.jpg"></a></p>
 <h4>Posterior&nbsp;samples</h4>
 <p>To sample actual functions from the posterior, we will simply evaluate the mean and covariance matrix in (\ref{posterior}) again, this time passing in the multiple test point locations at which we would like to know the resulting sampled functions. Once we have the mean and covariance matrix of the posterior at these test points, we can pull samples from (\ref{posterior}) using an external library for multivariate normal sampling &#8212; for this purpose, we used the python package numpy. The last step in the code snippet below carries out these&nbsp;steps.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">Insert</span> <span class="n">observed</span> <span class="n">sample</span> <span class="k">data</span> <span class="n">here</span><span class="p">.</span>  
@@ -191,7 +192,7 @@ and <span class="math">\(\textbf{y}\)</span> is the length-<span class="math">\(
 
 
 <p>Notice that in lines 2-4 here, we&#8217;ve added in a few additional function sample locations (for fun). The resulting intervals and posterior samples are shown in the figure below. Notice that near the sampled points, the posterior is fairly well localized. However, on the left side of the plot, the posterior approaches the prior once we have moved a distance <span class="math">\(\geq 1\)</span>, the length scale chosen for the covariance matrix&nbsp;(\ref{covariance}).</p>
-<p><a href="./wp-content/uploads/2017/11/samples.jpg"><img alt="samples" src="./wp-content/uploads/2017/11/samples.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/11/samples.jpg"><img alt="samples" src="https://efavdb.github.io/wp-content/uploads/2017/11/samples.jpg"></a></p>
 <h3>Selecting the covariance&nbsp;hyper-parameters</h3>
 <p>In the above, we demonstrated that the length scale of our covariance form dramatically affects the posterior &#8212; the shape of the intervals and also of the samples from the posterior. Appropriately setting these parameters is a general problem that can make working with GPs a challenge. Here, we describe two methods that can be used to intelligently set such hyper-parameters, given some sampled&nbsp;data.</p>
 <h4>Cross-validation</h4>
@@ -247,7 +248,7 @@ The two terms above compete: The second term is reduced by finding the covarianc
     A final score function of interest is simply the probability that the point in question is the minimum. One way to obtain this score is to sample from the posterior many times. For each sample, we mark its global minimum, then take a majority vote for where to sample&nbsp;next.</li>
 </ul>
 <p>The gif at the top of this page (copied below) illustrates an actual <span class="caps">GP</span>-guided search, carried out in python using the package skopt<span class="math">\(^5\)</span>. The red curve at left is the (hidden) curve <span class="math">\(f\)</span> whose global minimum is being sought. The red points are the samples that have been obtained so far, and the green shaded curve is the <span class="caps">GP</span> posterior confidence interval for each point &#8212; this gradually improves as more samples are obtained. At right is the Expected Improvement (<span class="caps">EI</span>) score function at each point that results from analysis on top of the <span class="caps">GP</span> posterior &#8212; the score function used to guide search in this example. The process is initialized with five random samples, followed by guided search. Notice that as the process evolves, the first few samples focus on exploitation of known local minima. However, after a handful of iterations, the diminishing returns of continuing to sample these locations loses out to the desire to explore the middle points &#8212; where the actual global minimum sits and is&nbsp;found.</p>
-<p><a href="./wp-content/uploads/2017/11/full_search.gif"><img alt="full_search" src="./wp-content/uploads/2017/11/full_search.gif"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/11/full_search.gif"><img alt="full_search" src="https://efavdb.github.io/wp-content/uploads/2017/11/full_search.gif"></a></p>
 <h3>Discussion</h3>
 <p>In this post we&#8217;ve overviewed much of the math of GPs: The math needed to get to the posterior, how to sample from the posterior, and finally how to make practical use of the&nbsp;posterior.</p>
 <p>In principle, GPs represent a powerful tool that can be used to fit any function. In practice, the challenge in wielding this tool seems to sit mainly with selection of appropriate hyper-parameters &#8212; the search for appropriate parameters often gets stuck in local minima, causing fits to go off the rails. Nevertheless, when done correctly, application of GPs can provide some valuable performance gains &#8212; and they are always fun to&nbsp;visualize.</p>
@@ -336,7 +337,7 @@ p( \textbf{f}_1 \vert \textbf{f}_0) &amp;=&amp; \frac{p( \textbf{f}_0, \textbf{f
 <p><br>
 The last two expressions are all that are needed to derive (\ref{posterior}). The main challenge involves completing the square, and this can be done with the block matrix inversion formula, as in the previous&nbsp;derivation.</p>
 <h3>Appendix B: SKLearn implementation and other&nbsp;kernels</h3>
-<p><a href="./wp-content/uploads/2017/11/sklearn.jpg"><img alt="sklearn" src="./wp-content/uploads/2017/11/sklearn.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/11/sklearn.jpg"><img alt="sklearn" src="https://efavdb.github.io/wp-content/uploads/2017/11/sklearn.jpg"></a></p>
 <p>SKLearn provides contains the <code>GaussianProcessRegressor</code> class. This allows one to carry out fits and sampling in any dimension &#8212; i.e., it is more general than our minimal class in that it can fit feature vectors in more than one dimension. In addition, the <code>fit</code> method of the SKLearn class attempts to find an optimal set of hyper-parameters for a given set of data. This is done through maximization of the marginal likelihood, as described above. Here, we provide some basic notes on this class and the built in kernels that one can use to define the covariance matrix <span class="math">\(\Sigma\)</span> in (\ref{prior}). We also include a simple code snippet illustrating&nbsp;calls.</p>
 <h4>Pre-defined&nbsp;Kernels</h4>
 <ul>
@@ -493,11 +494,11 @@ The result of the integral above is a Normal distribution &#8212; one with covar
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Gaussian%C2%A0Processes&url=http%3A//efavdb.github.io/gaussian-processes.html&hashtags=methods,programming,statistics,theory" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Gaussian%C2%A0Processes&url=https%3A//efavdb.github.io/gaussian-processes&hashtags=methods,programming,statistics,theory" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/gaussian-processes.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/gaussian-processes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Gaussian%C2%A0Processes&amp;body=http%3A//efavdb.github.io/gaussian-processes.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Gaussian%C2%A0Processes&amp;body=https%3A//efavdb.github.io/gaussian-processes" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -526,8 +527,8 @@ The result of the integral above is a Normal distribution &#8212; one with covar
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./gaussian-processes.html"
-                   href="./gaussian-processes.html#comment_thread"
+                   data-disqus-identifier="https://efavdb.github.io/gaussian-processes"
+                   href="https://efavdb.github.io/gaussian-processes#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -537,7 +538,7 @@ The result of the integral above is a Normal distribution &#8212; one with covar
                     <div class="comments">
                         <div id="disqus_thread"></div>
                         <script>
-    var disqus_shortname = 'EFAVDB';
+    var disqus_shortname = 'efavdb2';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -545,8 +546,8 @@ The result of the integral above is a Normal distribution &#8212; one with covar
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './gaussian-processes.html';
-    var disqus_url = './gaussian-processes.html';
+    var disqus_identifier = 'https://efavdb.github.io/gaussian-processes';
+    var disqus_url = 'https://efavdb.github.io/gaussian-processes';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -570,8 +571,8 @@ The result of the integral above is a Normal distribution &#8212; one with covar
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./martingales.html" title="Previous: Martingales">Martingales</a></li>
-                <li class="next-article"><a href="./integration-method-to-map-model-scores-to-conversion-rates-from-example-data.html" title="Next: Integration method to map model scores to conversion rates from example data">Integration method to map model scores to conversion rates from example data</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.github.io/martingales" title="Previous: Martingales">Martingales</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" title="Next: Integration method to map model scores to conversion rates from example data">Integration method to map model scores to conversion rates from example data</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -580,19 +581,19 @@ The result of the integral above is a Normal distribution &#8212; one with covar
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2017-11-25T09:53:00-08:00">Nov 25, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-ref">Methods</a>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-ref">Methods</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="./tags.html#methods-ref">methods
+                <li><a href="https://efavdb.github.io/tags.html#methods-ref">methods
                     <span>8</span>
 </a></li>
-                <li><a href="./tags.html#programming-ref">programming
+                <li><a href="https://efavdb.github.io/tags.html#programming-ref">programming
                     <span>9</span>
 </a></li>
-                <li><a href="./tags.html#statistics-ref">statistics
+                <li><a href="https://efavdb.github.io/tags.html#statistics-ref">statistics
                     <span>5</span>
 </a></li>
-                <li><a href="./tags.html#theory-ref">theory
+                <li><a href="https://efavdb.github.io/tags.html#theory-ref">theory
                     <span>4</span>
 </a></li>
             </ul>

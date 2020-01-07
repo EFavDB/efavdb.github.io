@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Deep reinforcement learning, battleship "/>
-<meta property="og:url" content="./battleship.html" />
+<meta property="og:url" content="https://efavdb.github.io/battleship" />
 <meta property="og:description" content="Here, we provide a brief introduction to reinforcement learning (RL) — a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
 
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       https://efavdb.github.io
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./battleship.html">
+            <a href="https://efavdb.github.io/battleship">
                 Deep reinforcement learning,&nbsp;battleship
             </a>
         </h1>
@@ -249,7 +250,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 
 <p>Here, the first five lines are the board encodings that the network was fed each step &#8212; using (\ref{input}). The second to last row presents the sequential grid selections that were chosen. Finally, the last row is the hit log. Notice that the first two moves nicely sample different regions of the board. After this, a hit was recorded at <span class="math">\(6\)</span>. The algorithm then intelligently selects <span class="math">\(7\)</span> and <span class="math">\(8\)</span>, which it can infer must be the final locations of the&nbsp;ship.</p>
 <p>The plot below provides further characterization of the learning process. This shows the running average game length (steps required to fully bomb ship) versus training epoch. The program learns the basics quite quickly, then continues to gradually improve over time&nbsp;[2].</p>
-<p><a href="./wp-content/uploads/2016/10/trace.jpg"><img alt="trace" src="./wp-content/uploads/2016/10/trace.jpg"></a>  </p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/10/trace.jpg"><img alt="trace" src="https://efavdb.github.io/wp-content/uploads/2016/10/trace.jpg"></a>  </p>
 <h3>Summary</h3>
 <p>In this post, we have covered a variant of <span class="caps">RL</span> &#8212; namely, the policy-gradient, deep <span class="caps">RL</span> scheme. This is a method that typically defaults to the currently best-known strategy, but occasionally samples from other approaches, ultimately resulting in an iterative improvement in policy. The two main ingredients here are the policy network and the rewards function. Although network architecture design is usually the place where most of the thinking is involved in supervised learning, it is the rewards function that typically requires the most thought in the <span class="caps">RL</span> context. A good choice should be as local in time as possible, so as to facilitate training (distant forecast dependence will result in a slow learning process). However, the rewards function should also directly attack the ultimate end of the process (&#8220;winning&#8221; the game &#8212; encouragement of side quests that aren&#8217;t necessary can often occur if care is not taken). Balancing these two competing demands can be a challenge, and rewards function design is therefore something of an art&nbsp;form.</p>
 <p>Our brief introduction here was intended only to illustrate the gist of how <span class="caps">RL</span> is carried out in practice. For further details, we can recommend two resources: the text book by Sutton and Barto [3] and a recent talk by John Schulman&nbsp;[4].</p>
@@ -326,11 +327,11 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Deep%20reinforcement%20learning%2C%C2%A0battleship&url=http%3A//efavdb.github.io/battleship.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Deep%20reinforcement%20learning%2C%C2%A0battleship&url=https%3A//efavdb.github.io/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/battleship.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Deep%20reinforcement%20learning%2C%C2%A0battleship&amp;body=http%3A//efavdb.github.io/battleship.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Deep%20reinforcement%20learning%2C%C2%A0battleship&amp;body=https%3A//efavdb.github.io/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -359,8 +360,8 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./battleship.html"
-                   href="./battleship.html#comment_thread"
+                   data-disqus-identifier="https://efavdb.github.io/battleship"
+                   href="https://efavdb.github.io/battleship#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -370,7 +371,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
                     <div class="comments">
                         <div id="disqus_thread"></div>
                         <script>
-    var disqus_shortname = 'EFAVDB';
+    var disqus_shortname = 'efavdb2';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -378,8 +379,8 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './battleship.html';
-    var disqus_url = './battleship.html';
+    var disqus_identifier = 'https://efavdb.github.io/battleship';
+    var disqus_url = 'https://efavdb.github.io/battleship';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -403,8 +404,8 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./gpu-accelerated-theano-keras-with-windows-10.html" title="Previous: GPU-accelerated Theano &amp; Keras with Windows 10">GPU-accelerated Theano & Keras with Windows 10</a></li>
-                <li class="next-article"><a href="./simple-python-to-latex-parser.html" title="Next: Simple python to LaTeX parser">Simple python to LaTeX parser</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.github.io/gpu-accelerated-theano-keras-with-windows-10" title="Previous: GPU-accelerated Theano &amp; Keras with Windows 10">GPU-accelerated Theano & Keras with Windows 10</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/simple-python-to-latex-parser" title="Next: Simple python to LaTeX parser">Simple python to LaTeX parser</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -413,7 +414,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-10-15T13:52:00-07:00">Oct 15, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

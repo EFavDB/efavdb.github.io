@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Independent component analysis "/>
-<meta property="og:url" content="./independent-component-analysis.html" />
+<meta property="og:url" content="https://efavdb.github.io/independent-component-analysis" />
 <meta property="og:description" content="Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one “remix” them in some prescribed way to isolate the individual conversations? Yes! In this post, we review one simple approach to solving this type of problem, Independent Component Analysis (ICA …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
 
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       https://efavdb.github.io
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./independent-component-analysis.html">
+            <a href="https://efavdb.github.io/independent-component-analysis">
                 Independent component&nbsp;analysis
             </a>
         </h1>
@@ -88,7 +89,7 @@ m_2(t) &amp;= a_3 c_1(t) + a_4 c_2(t). \label{1} \tag{1}
 \end{align}</div>
 <p><br>
 Here, we stress that the <span class="math">\(a_i\)</span> coefficients in (\ref{1}) are hidden from us: We only have access to the <span class="math">\(m_i\)</span>. Hypothetical illustrations are given in the figure below. Given only these mixed signals, we&#8217;d like to recover the underlying <span class="math">\(c_i\)</span> used to construct them (spoiler: a sine wave and a saw-tooth function were used for this&nbsp;figure).</p>
-<p><a href="./wp-content/uploads/2016/02/mixed2.jpg"><img alt="mixed" src="./wp-content/uploads/2016/02/mixed2.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/02/mixed2.jpg"><img alt="mixed" src="https://efavdb.github.io/wp-content/uploads/2016/02/mixed2.jpg"></a></p>
 <p>Amazingly, it turns out that with the introduction of a modest assumption, a simple solution to our problem can be obtained: We need only assume that the desired <span class="math">\(c_i\)</span> are mutually independent<span class="math">\(^1\)</span>. This assumption is helpful because it turns out that when two independent signals are added together, the resulting mixture is always &#8220;more Gaussian&#8221; than either of the individual, independent signals (a la the central limit theorem). Seeking linear combinations of the available <span class="math">\(m_i\)</span> that locally extremize their non-Gaussian character therefore provides a way to identify the pure, unmixed signals. This approach to solving the problem is called &#8220;Independent Component Analysis&#8221;, or <span class="caps">ICA</span>.</p>
 <p>Here, we demonstrate the principle of <span class="caps">ICA</span> through consideration of the audio de-mixing problem. This is a really impressive application. However, one should strive to remember that the algorithm is not a one-trick-pony. <span class="caps">ICA</span> is an unsupervised machine learning algorithm of general applicability &#8212; similar in nature, and complementary to, the more familiar <a href="http://efavdb.com/principal-component-analysis/"><span class="caps">PCA</span></a> algorithm. Whereas in <span class="caps">PCA</span> we seek the feature-space directions that maximize captured variance, in <span class="caps">ICA</span> we seek those directions that maximize the &#8220;interestingness&#8221; of the distribution &#8212; i.e., the non-Gaussian character of the resulting projections. It can be fruitfully applied in many contexts<span class="math">\(^2\)</span>.</p>
 <p>We turn now to the problem of audio de-mixing via <span class="caps">ICA</span>.</p>
@@ -115,7 +116,7 @@ where brackets represent an average over time (or index). It turns out that the 
 </pre></div>
 
 
-<p><a href="./wp-content/uploads/2016/02/k3.jpg"><img alt="k" src="./wp-content/uploads/2016/02/k3.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/02/k3.jpg"><img alt="k" src="https://efavdb.github.io/wp-content/uploads/2016/02/k3.jpg"></a></p>
 <p>In line <span class="math">\((3)\)</span> of the code here, we define the &#8220;remixed&#8221; signal <span class="math">\(s\)</span>, which is a linear combination of the two mixed signals <span class="math">\(m_1\)</span> and <span class="math">\(m_2\)</span>. Note that in line <span class="math">\((4)\)</span>, we normalize the signal so that it always has variance <span class="math">\(1\)</span> &#8212; this simply eliminates an arbitrary scale factor from the analysis. Similarly in line <span class="math">\((2)\)</span>, we specify <span class="math">\(c_2\)</span> as a function of <span class="math">\(c_1\)</span>, requiring the sum of their squared values to equal one &#8212; this fixes another arbitrary scale&nbsp;factor.</p>
 <p>When we applied the code above to the two signals shown in the introduction, we obtained the top plot at right. This shows the kurtosis of <span class="math">\(s\)</span> as a function of <span class="math">\(c_1\)</span>, the weight applied to signal <span class="math">\(m_1\)</span>. Notice that there are two internal extrema in this plot: a peak near <span class="math">\(-0.9\)</span> and a local minimum near <span class="math">\(-0.7\)</span>. These are the two <span class="math">\(c_1\)</span> weight choices that <span class="caps">ICA</span> suggests may relate to the pure, underlying signals we seek. To plot each of these signals, we used code similar to the following (the code shown is just for the&nbsp;maximum)</p>
 <div class="highlight"><pre><span></span><span class="n">index1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">k_array</span><span class="p">.</span><span class="k">index</span><span class="p">(</span><span class="nf">max</span><span class="p">(</span><span class="n">k_array</span><span class="p">))</span><span class="w">  </span>
@@ -206,11 +207,11 @@ where brackets represent an average over time (or index). It turns out that the 
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Independent%20component%C2%A0analysis&url=http%3A//efavdb.github.io/independent-component-analysis.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Independent%20component%C2%A0analysis&url=https%3A//efavdb.github.io/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/independent-component-analysis.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Independent%20component%C2%A0analysis&amp;body=http%3A//efavdb.github.io/independent-component-analysis.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Independent%20component%C2%A0analysis&amp;body=https%3A//efavdb.github.io/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -239,8 +240,8 @@ where brackets represent an average over time (or index). It turns out that the 
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./independent-component-analysis.html"
-                   href="./independent-component-analysis.html#comment_thread"
+                   data-disqus-identifier="https://efavdb.github.io/independent-component-analysis"
+                   href="https://efavdb.github.io/independent-component-analysis#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -250,7 +251,7 @@ where brackets represent an average over time (or index). It turns out that the 
                     <div class="comments">
                         <div id="disqus_thread"></div>
                         <script>
-    var disqus_shortname = 'EFAVDB';
+    var disqus_shortname = 'efavdb2';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -258,8 +259,8 @@ where brackets represent an average over time (or index). It turns out that the 
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './independent-component-analysis.html';
-    var disqus_url = './independent-component-analysis.html';
+    var disqus_identifier = 'https://efavdb.github.io/independent-component-analysis';
+    var disqus_url = 'https://efavdb.github.io/independent-component-analysis';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -283,8 +284,8 @@ where brackets represent an average over time (or index). It turns out that the 
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./maximum-likelihood-asymptotics.html" title="Previous: Maximum-likelihood asymptotics">Maximum-likelihood asymptotics</a></li>
-                <li class="next-article"><a href="./dotfiles.html" title="Next: Dotfiles for peace of mind">Dotfiles for peace of mind</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.github.io/maximum-likelihood-asymptotics" title="Previous: Maximum-likelihood asymptotics">Maximum-likelihood asymptotics</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/dotfiles" title="Next: Dotfiles for peace of mind">Dotfiles for peace of mind</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -293,7 +294,7 @@ where brackets represent an average over time (or index). It turns out that the 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-02-14T00:00:00-08:00">Feb 14, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Statistics, Theory, " />
 
 <meta property="og:title" content="Logistic Regression "/>
-<meta property="og:url" content="./logistic-regression.html" />
+<meta property="og:url" content="https://efavdb.github.io/logistic-regression" />
 <meta property="og:description" content="We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the maximum likelihood fit’s asymptotic coefficient covariance matrix, and c) expressions for model test point class membership probability confidence intervals. We also provide python code implementing a minimal …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,9 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
 
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -41,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       .
+                                       https://efavdb.github.io
                                     >Home</a>
                                 </li>
-                                <li ><a href="./pages/authors.html">Authors</a></li>
-                                <li ><a href="./categories.html">Categories</a></li>
-                                <li ><a href="./tags.html">Tags</a></li>
-                                <li ><a href="./archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -67,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./logistic-regression.html">
+            <a href="https://efavdb.github.io/logistic-regression">
                 Logistic&nbsp;Regression
             </a>
         </h1>
@@ -96,7 +97,7 @@ p(y=0 \vert \vec{x}) \equiv 1 - p(y=1 \vert \vec{x}) = \frac{1}{1 + e^{ \vec{\be
 <p><br>
 The latter equality above follows from simplifying algebra, after plugging in (\ref{model1}) for <span class="math">\(p(y=1 \vert&nbsp;\vec{x}).\)</span></p>
 <p>To fit the Logistic model to a training set &#8212; i.e., to find a good choice for the fit parameter vector <span class="math">\(\vec{\beta}\)</span> &#8212; we consider here only the maximum-likelihood solution. This is that <span class="math">\(\vec{\beta}^*\)</span> that maximizes the conditional probability of observing the training data. The essential results we review below are 1) a proof that the maximum likelihood solution can be found by gradient descent, and 2) a derivation for the asymptotic covariance matrix of <span class="math">\(\vec{\beta}\)</span>. This latter result provides the basis for returning point estimate confidence&nbsp;intervals.</p>
-<p><a href="./wp-content/uploads/2017/07/errorbar.png"><img alt="errorbar" src="./wp-content/uploads/2017/07/errorbar.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2017/07/errorbar.png"><img alt="errorbar" src="https://efavdb.github.io/wp-content/uploads/2017/07/errorbar.png"></a></p>
 <p>On our GitHub <a href="https://github.com/EFavDB/logistic-regression-with-error">page</a>, we provide a Jupyter notebook that contains some minimal code extending the SKLearn LogisticRegression class. This extension makes use of the results presented here and allows for class probability confidence intervals to be returned for individual test points. In the notebook, we apply the algorithm to the SKLearn Iris dataset. The figure at right illustrates the output of the algorithm along a particular cut through the Iris data set parameter space. The y-axis represents the probability of a given test point belong to Iris class <span class="math">\(1\)</span>. The error bars in the plot provide insight that is completely missed when considering the point estimates only. For example, notice that the error bars are quite large for each of the far right points, despite the fact that the point estimates there are each near <span class="math">\(1\)</span>. Without the error bars, the high probability of these point estimates might easily be misinterpreted as implying high model&nbsp;confidence.</p>
 <p>Our derivations below rely on some prerequisites: Properties of covariance matrices, the multivariate Cramer-Rao theorem, and properties of maximum likelihood estimators. These concepts are covered in two of our prior posts [<span class="math">\(1\)</span>, <span class="math">\(2\)</span>].</p>
 <h3>Optimization by gradient&nbsp;descent</h3>
@@ -263,11 +264,11 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Logistic%C2%A0Regression&url=http%3A//efavdb.github.io/logistic-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Logistic%C2%A0Regression&url=https%3A//efavdb.github.io/logistic-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A//efavdb.github.io/logistic-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/logistic-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Logistic%C2%A0Regression&amp;body=http%3A//efavdb.github.io/logistic-regression.html" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Logistic%C2%A0Regression&amp;body=https%3A//efavdb.github.io/logistic-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -296,8 +297,8 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="./logistic-regression.html"
-                   href="./logistic-regression.html#comment_thread"
+                   data-disqus-identifier="https://efavdb.github.io/logistic-regression"
+                   href="https://efavdb.github.io/logistic-regression#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -307,7 +308,7 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
                     <div class="comments">
                         <div id="disqus_thread"></div>
                         <script>
-    var disqus_shortname = 'EFAVDB';
+    var disqus_shortname = 'efavdb2';
     (function () {
         var s = document.createElement('script'); s.async = true;
         s.type = 'text/javascript';
@@ -315,8 +316,8 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = './logistic-regression.html';
-    var disqus_url = './logistic-regression.html';
+    var disqus_identifier = 'https://efavdb.github.io/logistic-regression';
+    var disqus_url = 'https://efavdb.github.io/logistic-regression';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -340,8 +341,8 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./normal-distributions.html" title="Previous: Normal Distributions">Normal Distributions</a></li>
-                <li class="next-article"><a href="./martingales.html" title="Next: Martingales">Martingales</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.github.io/normal-distributions" title="Previous: Normal Distributions">Normal Distributions</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/martingales" title="Next: Martingales">Martingales</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -350,7 +351,7 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2017-07-29T19:10:00-07:00">Jul 29, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
