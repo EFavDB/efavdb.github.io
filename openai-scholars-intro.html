@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Cathy Yeh" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="OpenAI, reinforcement learning, machine learning, deep learning, Misc, " />
+
+<meta property="og:title" content="Introduction to OpenAI Scholars 2020 "/>
+<meta property="og:url" content="https://efavdb.github.io/openai-scholars-intro" />
+<meta property="og:description" content="Two weeks ago, I started at the OpenAI Scholars program, which provides the opportunity to study and work full time on a project in an area of deep learning over 4 months. I’m having a blast! It’s been a joy focusing 100% on learning and challenging myself in …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2019-02-14T09:00:00-08:00" />
+<meta name="twitter:title" content="Introduction to OpenAI Scholars 2020 ">
+<meta name="twitter:description" content="Two weeks ago, I started at the OpenAI Scholars program, which provides the opportunity to study and work full time on a project in an area of deep learning over 4 months. I’m having a blast! It’s been a joy focusing 100% on learning and challenging myself in …">
+
+        <title>Introduction to OpenAI Scholars 2020  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.github.io
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.github.io/openai-scholars-intro">
+                Introduction to OpenAI Scholars&nbsp;2020
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Two weeks ago, I started at the <a href="https://openai.com/blog/openai-scholars-spring-2020/">OpenAI Scholars</a> program, which provides the opportunity to study and work full time on a project in an area of deep learning over 4 months.  I’m having a blast!  It’s been a joy focusing 100% on learning and challenging myself in an atmosphere full of friendly intellectual energy and&nbsp;drive.</p>
+<p>My mentor is Jerry Tworek, an OpenAI research scientist who works on reinforcement learning (<span class="caps">RL</span>) in robotics, and I’ve also chosen to focus on <span class="caps">RL</span> during the program.  I constructed a <a href="https://docs.google.com/document/d/1MlM5bxMqqiUIig5I6Y28fegvbqokjuvS2llVd2dIIRE/edit?usp=sharing">syllabus</a> that will definitely evolve over time, but I’ll try to keep it up-to-date to serve as a useful record for myself and a guide for others who might be interested in a similar course of&nbsp;study.</p>
+<p>Some casual notes from the last two&nbsp;weeks:</p>
+<p>(1) There are manifold benefits to working on a topic that is in my mentor’s area of expertise.  For example, I’ve already benefited from Jerry’s guidance on major concepts I should focus on in my first month, namely, getting my hands dirty with model-free <span class="caps">RL</span> divided broadly into Q-Learning and Policy Gradients, and intuition around hyperparameter tuning and debugging <span class="caps">RL</span>&nbsp;problems.</p>
+<p>(2) <strong>Weights <span class="amp">&amp;</span> Biases</strong> at <a href="wandb.com">wandb.com</a> is a fantastic free tool for tracking machine learning experiments that is used by a many people at OpenAI.  It was staggeringly simple to integrate wandb with my training script &#8212; both for local runs and in the cloud!  Just ~4 extra lines of code, and logged metrics automagically appear in my wandb dashboard, with auto-generated plots grouped by experiment name, saved artifacts,&nbsp;etc.</p>
+<p>Here&#8217;s an example of a <a href="https://app.wandb.ai/frangipane/dqn?workspace=user-frangipane">dashboard</a> tracking experiments for my first attempt at implementing a deep <span class="caps">RL</span> algorithm from scratch (<span class="caps">DQN</span>, or Deep Q learning).  The script that is generating the experiments is still a work in progress, but you can see how few lines were required to integrate with wandb <a href="https://github.com/frangipane/reinforcement-learning/blob/master/DQN/dqn.py">here</a>.  Stay tuned for a blog post about <span class="caps">DQN</span> itself in the&nbsp;future!</p>
+<p>(3) I&#8217;ve found it very helpful to parallelize reading Sutton and Barto&#8217;s <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction</a>, <em>the</em> classic text on <span class="caps">RL</span>, with watching David Silver&#8217;s pedagogical online <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html">lectures</a>.  Silver&#8217;s lectures follow the book closely for the first few chapters, then start condensing several chapters per lecture beginning around lecture 4 or 5, which is helpful for the compressed time over which I&#8217;m hoping to ramp up on <span class="caps">RL</span>!  Silver also supplements with insightful explanations and material that aren&#8217;t covered in the&nbsp;book.</p>
+<p>Note, Silver was an author on the <a href="https://storage.googleapis.com/deepmind-media/dqn/DQNNaturePaper.pdf"><span class="caps">DQN</span> Atari</a> paper that kicked off deep learning in <span class="caps">RL</span> in 2015, so his lecture 6 on Value Function Approximation (<a href="https://www.youtube.com/watch?v=UoPei5o4fps">video</a>, <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching_files/FA.pdf">slides</a>) is a perfect accompaniment to reading the&nbsp;paper.</p>
+
+
+             
+ 
+                <p id="post-share-links">
+    Like this post?  Share on:
+    <a href="https://twitter.com/intent/tweet?text=Introduction%20to%20OpenAI%20Scholars%C2%A02020&url=https%3A//efavdb.github.io/openai-scholars-intro&hashtags=openai,reinforcement-learning,machine-learning,deep-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    ❄
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/openai-scholars-intro" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    ❄
+    <a href="mailto:?subject=Introduction%20to%20OpenAI%20Scholars%C2%A02020&amp;body=https%3A//efavdb.github.io/openai-scholars-intro" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/images/cy_efavdb_headshot.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
+        </a>
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. She is currently looking to transition to a career in data science after wrapping up work with the translational modeling group in a pharmaceutical company in San Diego. She enjoys mining big data and big ice cream and seeing how both can help make the world a better place.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.github.io/openai-scholars-intro"
+                   href="https://efavdb.github.io/openai-scholars-intro#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.github.io/openai-scholars-intro';
+    var disqus_url = 'https://efavdb.github.io/openai-scholars-intro';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect" title="Previous: Linear compression in python: PCA vs unsupervised feature selection">Linear compression in python: PCA vs unsupervised feature selection</a></li>
+                <li class="next-article"><a href="https://efavdb.github.io/the-speed-of-traffic" title="Next: The speed of traffic">The speed of traffic</a> »</li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2019-02-14T09:00:00-08:00">Feb 14, 2019</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#misc-ref">Misc</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://efavdb.github.io/tags.html#deep-learning-ref">deep learning
+                    <span>3</span>
+</a></li>
+                <li><a href="https://efavdb.github.io/tags.html#machine-learning-ref">machine learning
+                    <span>5</span>
+</a></li>
+                <li><a href="https://efavdb.github.io/tags.html#openai-ref">OpenAI
+                    <span>1</span>
+</a></li>
+                <li><a href="https://efavdb.github.io/tags.html#reinforcement-learning-ref">reinforcement learning
+                    <span>1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

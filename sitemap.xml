@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/</loc>
-<lastmod>2020-01-28T21:54:27-00:00</lastmod>
+<lastmod>2020-02-14T17:55:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/archives.html</loc>
-<lastmod>2020-01-28T21:54:27-00:00</lastmod>
+<lastmod>2020-02-14T17:55:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/tags.html</loc>
-<lastmod>2020-01-28T21:54:27-00:00</lastmod>
+<lastmod>2020-02-14T17:55:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/categories.html</loc>
-<lastmod>2020-01-28T21:54:27-00:00</lastmod>
+<lastmod>2020-02-14T17:55:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -90,6 +90,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>https://efavdb.github.io/the-speed-of-traffic</loc>
 <lastmod>2019-06-14T09:21:00-07:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.99</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/openai-scholars-intro</loc>
+<lastmod>2019-02-14T09:00:00-08:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.99</priority>
 </url>
@@ -747,7 +754,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/category/misc.html</loc>
-<lastmod>2018-04-05T09:43:00-07:53</lastmod>
+<lastmod>2019-02-14T09:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -844,6 +851,34 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://efavdb.github.io/tag/openai.html</loc>
+<lastmod>2019-02-14T09:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/tag/reinforcement-learning.html</loc>
+<lastmod>2019-02-14T09:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/tag/machine-learning.html</loc>
+<lastmod>2019-02-14T09:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/tag/deep-learning.html</loc>
+<lastmod>2019-02-14T09:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://efavdb.github.io/tag/linselect.html</loc>
 <lastmod>2018-08-11T07:30:00-07:53</lastmod>
 <changefreq>daily</changefreq>
@@ -866,13 +901,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/tag/caffe.html</loc>
-<lastmod>2016-03-22T15:02:00-07:53</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://efavdb.github.io/tag/deep-learning.html</loc>
 <lastmod>2016-03-22T15:02:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -915,13 +943,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/tag/kernel-methods.html</loc>
-<lastmod>2015-10-22T14:24:00-07:53</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
-<loc>https://efavdb.github.io/tag/machine-learning.html</loc>
 <lastmod>2015-10-22T14:24:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
