@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Cathy Yeh" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="reinforcement learning, machine learning, Machine learning, " />
+
+<meta property="og:title" content="Multiarmed bandits in the context of reinforcement learning "/>
+<meta property="og:url" content="https://efavdb.github.io/multiarmed-bandits" />
+<meta property="og:description" content="Reinforcement Learning: An Introduction by Sutton and Barto[1] is a classic book on RL universally recommended to beginners in their RL studies. The first chapter is an extended text-heavy introduction. The second chapter deals with multiarmed bandits, i.e. slot machines with multiple arms, and is the subject of …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2020-02-25T00:00:00-08:00" />
+<meta name="twitter:title" content="Multiarmed bandits in the context of reinforcement learning ">
+<meta name="twitter:description" content="Reinforcement Learning: An Introduction by Sutton and Barto[1] is a classic book on RL universally recommended to beginners in their RL studies. The first chapter is an extended text-heavy introduction. The second chapter deals with multiarmed bandits, i.e. slot machines with multiple arms, and is the subject of …">
+
+        <title>Multiarmed bandits in the context of reinforcement learning  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.github.io
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.github.io/multiarmed-bandits">
+                Multiarmed bandits in the context of reinforcement&nbsp;learning
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p><a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction</a> by Sutton and Barto[1] is a classic book on <span class="caps">RL</span> universally recommended to beginners in their <span class="caps">RL</span> studies.  The first chapter is an extended text-heavy introduction. The second chapter deals with multiarmed bandits, i.e. slot machines with multiple arms, and is the subject of today&#8217;s&nbsp;post.</p>
+<p>Before getting into the <em>what</em> and <em>how</em> of bandits, I&#8217;d like to address the <strong>why</strong>, since the &#8220;why&#8221; can guard against getting lost in the details / not seeing the forest for the&nbsp;trees.</p>
+<h1>Why discuss multiarmed&nbsp;bandits?</h1>
+<p><span class="caps">RL</span> treats the problem of trying to achieve a goal in an environment where an agent is <em>not</em> instructed about which actions to take to achieve that goal, in contrast to supervised learning problems.  Learning the best actions to take is a complicated problem, since the best actions depend on what state an agent is in, e.g. an agent trying to get to a goalpost east of its current location as quickly as possible may find that moving east is a generally good policy, but not if there is a fire-breathing dragon in the way, in which case, it might make sense to move up or down to navigate around the&nbsp;obstacle.</p>
+<p>Multiarmed bandits are simpler problem: a single state system.  No matter which action an agent takes, i.e. which slot machine arm the agent pulls, the agent ends up back in the same state; the distribution of rewards as a consequence of the agent&#8217;s action remains the same, assuming a stationary distribution of rewards, and actions have no effect on subsequent states or rewards.  This simple case study is useful for building intuition and introducing <span class="caps">RL</span> concepts that will be expanded on in later chapters of&nbsp;[1].</p>
+<h1>Key <span class="caps">RL</span> concepts introduced by the multiarmed bandit&nbsp;problem</h1>
+<h2>The nature of the&nbsp;problem</h2>
+<p><strong>Agent has a goal</strong>: In <span class="caps">RL</span> and multiarmed bandit problems, we want to figure out the strategy, or &#8220;policy&#8221; in <span class="caps">RL</span> lingo, that will maximize our rewards.  For the simple bandit problem, this goal is equivalent to maximizing the reward &#8212; literally, money! &#8212; for each arm&nbsp;pull.</p>
+<p><strong>Unlike supervised learning, no ground truth is supplied</strong>: Each slot has a different distribution of rewards, but the agent playing the machine does not know that distribution.  Instead, the agent has to try different actions and evaluate how good the actions are.  The goodness of an action is straightforwardly determined by its immediate reward in the bandit&nbsp;case.</p>
+<p><strong>Exploration vs. exploitation</strong>:  Based on a few trials, one arm may appear to yield the highest rewards, but the agent may decide to try others occasionally to improve its estimates of the rewards, an example of balancing exploration and exploitation.  The various algorithms handle exploration vs. exploitation differently, but this example introduces one method that is simple but widely-used in practice: the epsilon-greedy algorithm, which takes greedy actions most of the time (exploits) but takes random actions (explores) a fraction epsilon of the&nbsp;time.</p>
+<h3>Different approaches to learning a&nbsp;policy</h3>
+<p><strong>model-free</strong>:  All the strategies discussed in [1] for solving the bandit problem are &#8220;model-free&#8221; strategies.  In real world applications, a model of the world is rarely available, and the agent has to figure out how to act based on sampled experience, and the same applies to the bandit case; even though bandits are a simpler single state system (we don&#8217;t have to model transitions from state to state), an agent still does not know the model that generates the probability of a reward <span class="math">\(r\)</span> given an action <span class="math">\(a\)</span>, <span class="math">\(P(r|a)\)</span> and has to figure that out from trial and&nbsp;error.</p>
+<p>There <em>are</em> model-based algorithms that attempt to model the environment&#8217;s transition dynamics from data, but many popular algorithms today are model-free because of the difficulty of modeling those&nbsp;dynamics.</p>
+<h4>Learning&nbsp;action-values</h4>
+<p>The bandit problem introduces the idea of estimating the expected value associated with each action, namely the <em>action-value function</em> in <span class="caps">RL</span> terms.  The concept is very intuitive &#8212; as an agent pulls on different bandit arms, it will accumulate rewards associated with each arm.  A simple way to estimate the expected value per arm is just to average the rewards generated by pulling on each slot.  The policy that follows is then implicit, namely, take the action / pull on the arm with the highest estimated&nbsp;action-value!</p>
+<p>Historically, <span class="caps">RL</span> formalism has dealt with estimating value functions and using them to figure out a policy, which includes the Q-Learning (&#8220;Q&#8221; stands for action-value!) approach we mentioned in our earlier <a href="{SITEURL}/openai-scholars-intro">post</a>.</p>
+<h4>Learning policies&nbsp;directly</h4>
+<p>[1] also use the bandit problem to introduce a type of algorithm that approaches the problem, not indirectly by learning a value function and deriving the policy from those value functions, but by parameterizing the policy directly and learning the parameters that optimize the rewards.  This class of algorithm is a &#8220;policy gradient method&#8221; and is very popular today for its nice convergence properties.  After the foreshadowing in the bandit problem, policy gradients only reappear very late in [1] &#8212; chapter&nbsp;13!</p>
+<p>We now provide code for&nbsp;concreteness.</p>
+<h1>Ground truth is hidden in our multiarmed&nbsp;bandit</h1>
+<p>The <code>Bandit</code> class initializes a multiarmed bandit. The distribution of rewards per arm follows a Gaussian distribution with some mean dollar&nbsp;amount.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Bandit</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;N-armed bandit with stationary distribution of rewards per arm.</span>
+<span class="sd">    Each arm (action) is identified by an integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_arms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_arms</span> <span class="o">=</span> <span class="n">n_arms</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="n">sigma</span>
+        <span class="c1"># a dict of the mean action_value per arm, w/ each action_value sampled from a Gaussian</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">action_values</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">s</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">n_arms</span><span class="p">))}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># arms of the bandit</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Get reward from bandit for action&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_values</span><span class="p">[</span><span class="n">action</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)</span>
+</pre></div>
+
+
+<p>Implementation detail: the means per arm, stored in <code>self.action_values</code>, are drawn from a Gaussian distribution upon&nbsp;initialization).</p>
+<p>The agent doesn&#8217;t know the true mean rewards per arm &#8212; it only sees a sample reward when he takes the action of pulling on a particular bandit arm (<code>__call__</code>).</p>
+<h1>Action, reward, update&nbsp;strategy</h1>
+<p>For every action the agent takes, it gets a reward.  With each additional interaction with the bandit, the agent has a new data point it can use to update its strategy (whether indirectly, via an updated action-value estimate, or directly in the policy&nbsp;gradient).</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseBanditAlgo</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for algorithms to maximize the rewards </span>
+<span class="sd">    for the multiarmed bandit problem&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">:</span> <span class="n">Bandit</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span> <span class="o">=</span> <span class="n">bandit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">_update_for_action_and_reward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">reward</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+         <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_select_action</span><span class="p">()</span>
+        <span class="n">reward</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_for_action_and_reward</span><span class="p">(</span><span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reward</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_timesteps</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_timesteps</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">())</span>
+</pre></div>
+
+
+<h2>Two types of strategies: value based and policy&nbsp;based</h2>
+<ol>
+<li>value based - agents try to directly estimate the value of
+   each action (and whose policies, i.e. probability of selecting an
+   action, are therefore implicit, since the agent will want to choose
+   the action that has the highest&nbsp;value)</li>
+<li>policy based - agents don&#8217;t try to directly estimate the value
+   of an action and instead directly store the policy, i.e. the
+   probability of taking each&nbsp;action.</li>
+</ol>
+<p>An example of a <strong>value based</strong> strategy / action-value method for the
+bandit problem is the <code>EpsilonGreedy</code> approach, which selects the
+action associated with the highest estimated action-value with probability <span class="math">\(1-\epsilon\)</span>, but chooses a random arm
+a fraction <span class="math">\(\epsilon\)</span> of the time as part of its exploration&nbsp;strategy.</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EpsilonGreedy</span><span class="p">(</span><span class="n">BaseEstimateActionValueAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Greedy algorithm that explores/samples from the non-greedy action some fraction, </span>
+<span class="sd">    epsilon, of the time.</span>
+
+<span class="sd">    - For a basic greedy algorithm, set epsilon = 0.</span>
+<span class="sd">    - For optimistic intialization, set q_init &gt; mu, the mean of the Gaussian from</span>
+<span class="sd">      which the real values per bandit arm are sampled (default is 0).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">:</span> <span class="n">Bandit</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">bandit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+
+    <span class="k">def</span> <span class="nf">_select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">()</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon</span><span class="p">:</span>
+            <span class="c1"># take random action</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">actions</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># take greedy action</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">est_action_values</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">est_action_values</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">a</span>
+</pre></div>
+
+
+<p>(See end of post for additional action-value&nbsp;methods.)</p>
+<p>An example of a <strong>policy based</strong> strategy is the <code>GradientBandit</code>
+method, which stores its policy, the probability per action in
+<code>self.preferences</code>.  It learns these preferences by doing stochastic
+gradient ascent along the preferences in the gradient of the expected
+reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivation).</p>
+<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GradientBandit</span><span class="p">(</span><span class="n">BaseBanditAlgo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Algorithm that does not try to estimate action values directly and, instead, tries to learn</span>
+<span class="sd">    a preference for each action (equivalent to stochastic gradient ascent along gradient in expected</span>
+<span class="sd">    reward over preferences).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">:</span> <span class="n">Bandit</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">bandit</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span>  <span class="c1"># step-size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_baseline_avg</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span> <span class="o">=</span> <span class="p">{</span><span class="n">action</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">bandit</span><span class="o">.</span><span class="n">actions</span><span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_probs_from_preferences</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_calc_probs_from_preferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Probabilities per action follow a Boltzmann distribution over the preferences &quot;&quot;&quot;</span>
+        <span class="n">exp_preferences_for_action</span> <span class="o">=</span> <span class="p">{</span><span class="n">action</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">partition_fxn</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">exp_preferences_for_action</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({</span><span class="n">action</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="n">partition_fxn</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> 
+                                                     <span class="n">exp_preferences_for_action</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+
+    <span class="k">def</span> <span class="nf">_select_action</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span> 
+                                <span class="n">p</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+    <span class="k">def</span> <span class="nf">_update_for_action_and_reward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update preferences&quot;&quot;&quot;</span>
+        <span class="n">reward_diff</span> <span class="o">=</span> <span class="n">reward</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_baseline_avg</span>
+
+        <span class="c1"># can we combine these updates into single expression using kronecker delta?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">[</span><span class="n">action</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">reward_diff</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span><span class="p">[</span><span class="n">action</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span><span class="o">.</span><span class="n">actions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="n">action</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">reward_diff</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">reward_baseline_avg</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">*</span> <span class="n">reward_diff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_calc_probs_from_preferences</span><span class="p">()</span>
+</pre></div>
+
+
+<h1>Extra: Total rewards for different bandit&nbsp;algorithms</h1>
+<p>We have discussed a bunch of different bandit algorithms, but haven&#8217;t seen what rewards they yield in&nbsp;practice!</p>
+<p>In this
+<a href="https://github.com/frangipane/reinforcement-learning/blob/master/00-Introduction/multiarmed_bandits.ipynb">Jupyter notebook</a>,
+we run the algorithms through a range of values for their parameters
+to compare their cumulative rewards across 1000 timesteps (also
+averaged across many trials of different bandits to smooth things
+out).  In the end, we arrive at a plot of the parameter study, that
+reproduces Figure 2.6 in&nbsp;[1].</p>
+<p><img alt="![parameter study]({static}/images/reproduce_multiarmed_bandit_parameter_study.png)" src="https://efavdb.github.io/images/reproduce_multiarmed_bandit_parameter_study.png"></p>
+<h1>References</h1>
+<p>[1] Sutton and Barto - <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction (2nd&nbsp;Edition)</a></p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+             
+ 
+                <p id="post-share-links">
+    Like this post?  Share on:
+    <a href="https://twitter.com/intent/tweet?text=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&url=https%3A//efavdb.github.io/multiarmed-bandits&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    ❄
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    ❄
+    <a href="mailto:?subject=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&amp;body=https%3A//efavdb.github.io/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/images/cy_efavdb_headshot.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
+        </a>
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. After stints in a translational modeling group at Pfizer in San Diego, Driver (a no longer extant startup trying to match cancer patients to clinical trials) in San Francisco, and Square, she is currently participating in the OpenAI Scholars program.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.github.io/multiarmed-bandits"
+                   href="https://efavdb.github.io/multiarmed-bandits#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.github.io/multiarmed-bandits';
+    var disqus_url = 'https://efavdb.github.io/multiarmed-bandits';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.github.io/openai-scholars-intro" title="Previous: Introduction to OpenAI Scholars 2020">Introduction to OpenAI Scholars 2020</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2020-02-25T00:00:00-08:00">Feb 25, 2020</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.github.io/categories.html#machine-learning-ref">Machine learning</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://efavdb.github.io/tags.html#machine-learning-ref">machine learning
+                    <span>6</span>
+</a></li>
+                <li><a href="https://efavdb.github.io/tags.html#reinforcement-learning-ref">reinforcement learning
+                    <span>2</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

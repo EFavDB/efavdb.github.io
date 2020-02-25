@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/</loc>
-<lastmod>2020-02-15T18:42:15-00:00</lastmod>
+<lastmod>2020-02-25T08:55:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/archives.html</loc>
-<lastmod>2020-02-15T18:42:15-00:00</lastmod>
+<lastmod>2020-02-25T08:55:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/tags.html</loc>
-<lastmod>2020-02-15T18:42:15-00:00</lastmod>
+<lastmod>2020-02-25T08:55:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/categories.html</loc>
-<lastmod>2020-02-15T18:42:15-00:00</lastmod>
+<lastmod>2020-02-25T08:55:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -36,6 +36,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2020-01-01T00:00:00-08:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.75</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/multiarmed-bandits</loc>
+<lastmod>2020-02-25T00:00:00-08:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.99</priority>
 </url>
 
 <url>
@@ -725,6 +732,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>https://efavdb.github.io/category/machine-learning.html</loc>
+<lastmod>2020-02-25T00:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>https://efavdb.github.io/category/methods.html</loc>
 <lastmod>2017-11-25T09:53:00-07:53</lastmod>
 <changefreq>daily</changefreq>
@@ -816,21 +830,21 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>https://efavdb.github.io/tag/openai.html</loc>
-<lastmod>2020-02-14T09:00:00-07:53</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>https://efavdb.github.io/tag/reinforcement-learning.html</loc>
-<lastmod>2020-02-14T09:00:00-07:53</lastmod>
+<lastmod>2020-02-25T00:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.github.io/tag/machine-learning.html</loc>
+<lastmod>2020-02-25T00:00:00-07:53</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>https://efavdb.github.io/tag/openai.html</loc>
 <lastmod>2020-02-14T09:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -1034,7 +1048,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.github.io/author/cathy-yeh.html</loc>
-<lastmod>2020-02-14T09:00:00-07:53</lastmod>
+<lastmod>2020-02-25T00:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
