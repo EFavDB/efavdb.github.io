@@ -347,12 +347,12 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;p&gt;The figure below is a binary classification problem (points labeled &lt;span class="math"&gt;\(y_i = \pm 1\)&lt;/span&gt;) that is linearly&amp;nbsp;separable.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="binary classes in 2d" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d-300x284.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;There are many possible decision boundaries that would perfectly separate the two classes, but an &lt;span class="caps"&gt;SVM&lt;/span&gt; will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the&amp;nbsp;boundary.&lt;/p&gt;
-&lt;p&gt;Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the boundary.&lt;br&gt;
-&lt;br&gt;
-&lt;/p&gt;
+&lt;p&gt;Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the&amp;nbsp;boundary.
+ 
+ &lt;/p&gt;
 &lt;h3&gt;Formulating the margin with&amp;nbsp;geometry&lt;/h3&gt;
-&lt;p&gt;Any point &lt;span class="math"&gt;\(\boldsymbol{x}\)&lt;/span&gt; lying on the separating hyperplane satisfies:&lt;br&gt;
-&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;&lt;br&gt;
+&lt;p&gt;Any point &lt;span class="math"&gt;\(\boldsymbol{x}\)&lt;/span&gt; lying on the separating hyperplane satisfies:
+&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;
 &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is the vector normal to the plane, and &lt;span class="math"&gt;\(b\)&lt;/span&gt; is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is &lt;span class="math"&gt;\(b / \| \boldsymbol{w} \|\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="margin around decision boundary" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (&lt;span class="math"&gt;\(d_+ + d_-\)&lt;/span&gt;) and is restricted by the data points closest to the boundary, which lie on the&amp;nbsp;gutters.&lt;/p&gt;
@@ -367,24 +367,24 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;h3&gt;The optimization&amp;nbsp;problem&lt;/h3&gt;
 &lt;p&gt;Maximizing the margin boils down to a constrained optimization problem: minimize some quantity &lt;span class="math"&gt;\(f(w)\)&lt;/span&gt;, subject to constraints &lt;span class="math"&gt;\(g(w,b)\)&lt;/span&gt;.  This optimization problem is particularly nice because it is convex; the objective &lt;span class="math"&gt;\(\| \boldsymbol{w}\|^2\)&lt;/span&gt; is convex, as are the constraints, which are&amp;nbsp;linear.&lt;/p&gt;
 &lt;p&gt;In other words, we are faced with a &lt;a href="http://en.wikipedia.org/wiki/Quadratic_programming"&gt;quadratic programming&lt;/a&gt; problem.  The standard format of the optimization problem for the separable case&amp;nbsp;is&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{1} \label{problem}  
-\begin{align}  
-\text{minimize} \quad &amp;amp; f(w) \equiv (1/2) \| \boldsymbol{w}\|^2 \  
-\text{subject to} \quad &amp;amp; g(w,b) \equiv -y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) + 1 \leq 0, \; i = 1 \ldots m  
-\end{align}  
+&lt;div class="math"&gt;$$\tag{1} \label{problem}
+\begin{align}
+\text{minimize} \quad &amp;amp; f(w) \equiv (1/2) \| \boldsymbol{w}\|^2 \
+\text{subject to} \quad &amp;amp; g(w,b) \equiv -y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) + 1 \leq 0, \; i = 1 \ldots m
+\end{align}
 $$&lt;/div&gt;
 &lt;p&gt;Before we address how to solve this optimization problem in Part 2, let&amp;#8217;s first consider the case when data is&amp;nbsp;non-separable.&lt;/p&gt;
 &lt;h3&gt;Soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;: the non-separable problem and&amp;nbsp;regularization&lt;/h3&gt;
 &lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="softmargin" src="http://efavdb.com/wp-content/uploads/2015/05/softmargin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt; and slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; that define the amount by which data points are on the wrong side of the&amp;nbsp;margin.&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{2} \label{regularization}  
-\begin{align}  
-\text{minimize} \quad &amp;amp; (1/2) \| \boldsymbol{w}\|^2 + C \sum_i^m \xi_i \  
-\text{subject to} \quad &amp;amp; y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq 1 - \xi_i, \; i = 1 \ldots m \  
-&amp;amp; \xi_i \geq 0, \quad i = 1 \ldots m  
-\end{align}  
+&lt;div class="math"&gt;$$\tag{2} \label{regularization}
+\begin{align}
+\text{minimize} \quad &amp;amp; (1/2) \| \boldsymbol{w}\|^2 + C \sum_i^m \xi_i \\
+\text{subject to} \quad &amp;amp; y_i (\boldsymbol{w} \cdot \boldsymbol{x} + b) \geq 1 - \xi_i, \; i = 1 \ldots m \\
+&amp;amp; \xi_i \geq 0, \quad i = 1 \ldots m
+\end{align}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 A large penalty &amp;#8212; large &lt;span class="math"&gt;\(C\)&lt;/span&gt; &amp;#8212; for misclassifications will lead to learning a lower bias, higher variance &lt;span class="caps"&gt;SVM&lt;/span&gt;, and vice versa for small &lt;span class="math"&gt;\(C\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The soft margin is used in practice; even in the separable case, it can be desirable to allow tradeoffs between the size of the margin and number of misclassifications. Outliers can skew the decision boundary learned by (\ref{problem}) towards a model with small margins + perfect classification, in contrast to a possibly more robust model learned by (\ref{regularization}) with large margins + some misclassified&amp;nbsp;points.&lt;/p&gt;
 &lt;hr&gt;
@@ -395,63 +395,63 @@ A large penalty &amp;#8212; large &lt;span class="math"&gt;\(C\)&lt;/span&gt; &a
 &lt;h3&gt;The Lagrangian&amp;nbsp;formulation&lt;/h3&gt;
 &lt;p&gt;How do we solve this optimization problem? Minimizing a function without constraints is probably familiar: set the derivative of the function (the objective) to zero and&amp;nbsp;solve.&lt;/p&gt;
 &lt;p&gt;With constraints, the procedure is similar to setting the derivative of the objective equal to zero. Instead of taking the derivative of the objective itself, however, we&amp;#8217;ll operate on the Lagrangian &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;, which combines the objective and inequality constraints into one&amp;nbsp;function:&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{3} \label{Lagrangian}  
-\mathcal{L}(w,b,\alpha) = f(w) + \sum_i^m \alpha_i g_i(w,b)  
+&lt;div class="math"&gt;$$\tag{3} \label{Lagrangian}
+\mathcal{L}(w,b,\alpha) = f(w) + \sum_i^m \alpha_i g_i(w,b)
 $$&lt;/div&gt;
 &lt;p&gt;We&amp;#8217;ve just introduced additional variables &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;, Lagrange multipliers, that make it easier to work with the constraints (see Wikipedia about the &lt;a href="https://en.wikipedia.org/wiki/Lagrange_multiplier"&gt;method of Lagrange multipliers&lt;/a&gt;). Note, a more general form for the Lagrangian would include another summation term in (\ref{Lagrangian}) to uphold equality constraints. Since there are only inequality constraints here, we&amp;#8217;ll omit the extra&amp;nbsp;term.&lt;/p&gt;
 &lt;h3&gt;Constructing the dual&amp;nbsp;problem&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;Much of the following discussion is based off ref &lt;a href="#2"&gt;[2]&lt;/a&gt;, which has a nice introduction to duality in the context of&amp;nbsp;SVMs.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;First, let&amp;#8217;s make the following observation:&lt;br&gt;
+&lt;p&gt;First, let&amp;#8217;s make the following&amp;nbsp;observation:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{Obs. 1}  
-\max_{\alpha} \mathcal{L}(w,b,\alpha) =  
-\begin{cases}  
-f(w), &amp;amp; \text{if } g_i(w) \leq 0, \; \text{(constraints satisfied)} \  
-\infty, &amp;amp; \text{if } g_i(w) \gt 0, \; \text{(constraints violated)}  
-\end{cases}  
+&lt;div class="math"&gt;$$\tag{Obs. 1}
+\max_{\alpha} \mathcal{L}(w,b,\alpha) =
+\begin{cases}
+f(w), &amp;amp; \text{if } g_i(w) \leq 0, \; \text{(constraints satisfied)} \\
+\infty, &amp;amp; \text{if } g_i(w) \gt 0, \; \text{(constraints violated)}
+\end{cases}
 $$&lt;/div&gt;
 &lt;p&gt;Basically, if any constraint &lt;span class="math"&gt;\(j\)&lt;/span&gt; is violated, i.e. &lt;span class="math"&gt;\(g_j(w) &amp;gt; 0\)&lt;/span&gt;, then the Lagrange multiplier &lt;span class="math"&gt;\(\alpha_j\)&lt;/span&gt; that is multiplying &lt;span class="math"&gt;\(g_j(w)\)&lt;/span&gt; can be made arbitrarily large (&lt;span class="math"&gt;\(\rightarrow \infty\)&lt;/span&gt;) in order to maximize &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;On the other hand, if all the constraints are satisfied, &lt;span class="math"&gt;\(g_i(w) \leq 0\)&lt;/span&gt; &lt;span class="math"&gt;\(\forall \; i\)&lt;/span&gt;, then &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; is maximized by setting the &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;s that are multiplying negative quantities equal to zero. However, Lagrangian multipliers multiplying &lt;span class="math"&gt;\(g_i(w)\)&lt;/span&gt; that satisfy the constraints with equality, &lt;span class="math"&gt;\(g_i(w) = 0\)&lt;/span&gt;, can be non-zero without diminishing &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;The last statement amounts to the property of &amp;#8220;complementary slackness&amp;#8221; in the &lt;a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions"&gt;Karush-Kuhn-Tucker&lt;/a&gt; conditions for the solution:&lt;br&gt;
+&lt;p&gt;The last statement amounts to the property of &amp;#8220;complementary slackness&amp;#8221; in the &lt;a href="http://en.wikipedia.org/wiki/Karush%E2%80%93Kuhn%E2%80%93Tucker_conditions" title="KKT conditions"&gt;Karush-Kuhn-Tucker&lt;/a&gt; conditions for the&amp;nbsp;solution:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{4} \label{complementarity}  
-\alpha_i g_i(w) = 0  
+&lt;div class="math"&gt;$$\tag{4} \label{complementarity}
+\alpha_i g_i(w) = 0
 $$&lt;/div&gt;
 &lt;p&gt;Recall from the original geometric picture: only a few points lie exactly on the margins, and those points are described by &lt;span class="math"&gt;\(g_i(w) = 0\)&lt;/span&gt; (and thus have non-zero Lagrange multipliers). &lt;strong&gt;The points on the margin are the support&amp;nbsp;vectors.&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Next, we make use of the Max-Min inequality:&lt;br&gt;
+&lt;p&gt;Next, we make use of the Max-Min&amp;nbsp;inequality:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha) \leq \min_{w,b} \max_{\alpha} \mathcal{L}(w,b,\alpha)  
+&lt;div class="math"&gt;$$
+\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha) \leq \min_{w,b} \max_{\alpha} \mathcal{L}(w,b,\alpha)
 $$&lt;/div&gt;
 &lt;p&gt;This inequality is an equality under certain conditions, which our problem satisfies (convex &lt;span class="math"&gt;\(f\)&lt;/span&gt; and &lt;span class="math"&gt;\(g\)&lt;/span&gt;). The left side of the inequality is called the dual problem, and the right side is the primal&amp;nbsp;problem.&lt;/p&gt;
 &lt;p&gt;Now we can put it all together: Observation 1 tells us that solving the right side (primal problem) of the Max-Min inequality is the same as solving the original problem. Because our problem is convex, solving the left side (dual) is equivalent to solving the primal problem by the Max-Min&amp;nbsp;inequality.&lt;/p&gt;
 &lt;p&gt;Thus we&amp;#8217;re set to approach the solution via the dual problem, which is useful for dealing with nonlinear decision&amp;nbsp;boundaries.&lt;/p&gt;
 &lt;h3&gt;Solving the dual&amp;nbsp;problem&lt;/h3&gt;
 &lt;p&gt;The dual problem to solve is &lt;span class="math"&gt;\(\max_{\alpha} \min_{w,b} \mathcal{L}(w,b,\alpha)\)&lt;/span&gt;, subject to constraints&lt;a href="#note1"&gt;*&lt;/a&gt; on the Lagrange multipliers: &lt;span class="math"&gt;\(\alpha_i \geq 0\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;Let&amp;#8217;s work out the inner part of the expression explicitly. We obtain &lt;span class="math"&gt;\(\min_{w,b} \mathcal{L}(w,b,\alpha)\)&lt;/span&gt; by setting:&lt;br&gt;
+&lt;p&gt;Let&amp;#8217;s work out the inner part of the expression explicitly. We obtain &lt;span class="math"&gt;\(\min_{w,b} \mathcal{L}(w,b,\alpha)\)&lt;/span&gt; by&amp;nbsp;setting:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\nabla_\boldsymbol{w} \mathcal{L} = 0; \quad \partial_b \mathcal{L} = 0  
+&lt;div class="math"&gt;$$
+\nabla_\boldsymbol{w} \mathcal{L} = 0; \quad \partial_b \mathcal{L} = 0
 $$&lt;/div&gt;
-&lt;p&gt;These equations for the partial derivatives give us, respectively:&lt;br&gt;
+&lt;p&gt;These equations for the partial derivatives give us,&amp;nbsp;respectively:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\boldsymbol{w} = \sum_i \alpha_i y_i \boldsymbol{x}_i; \quad \sum_i \alpha_i y_i = 0  
+&lt;div class="math"&gt;$$
+\boldsymbol{w} = \sum_i \alpha_i y_i \boldsymbol{x}_i; \quad \sum_i \alpha_i y_i = 0
 $$&lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is a linear combination of the coordinates of the training data. Only the support vectors, which have non-zero &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;, contribute to the sum. To predict the label for a new test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;, simply evaluate the sign of&lt;br&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is a linear combination of the coordinates of the training data. Only the support vectors, which have non-zero &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt;, contribute to the sum. To predict the label for a new test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;, simply evaluate the sign&amp;nbsp;of
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{5} \label{testing}  
-\boldsymbol{w} \cdot \boldsymbol{x} + b = \sum_i \alpha_i y_i \boldsymbol{x}_i \cdot \boldsymbol{x_t} + b  
+&lt;div class="math"&gt;$$\tag{5} \label{testing}
+\boldsymbol{w} \cdot \boldsymbol{x} + b = \sum_i \alpha_i y_i \boldsymbol{x}_i \cdot \boldsymbol{x_t} + b
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 where b can be computed from the &lt;span class="caps"&gt;KKT&lt;/span&gt; complementarity condition (\ref{complementarity}) by plugging in the values for any support vector. The equation for the separating hyperplane is entirely determined by the support&amp;nbsp;vectors.&lt;/p&gt;
 &lt;p&gt;Plugging the last two equations into &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; leads to the dual formulation of the problem &lt;span class="math"&gt;\( \max_{\alpha} \mathcal{L}_D\)&lt;/span&gt;:&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{6} \label{dual}  
-\begin{align}  
-\max_{\alpha} \quad &amp;amp; \sum_i \alpha_i - (1/2) \sum_{i,j} \alpha_i \alpha_j y_i y_j \boldsymbol{x_i} \cdot \boldsymbol{x_j} \  
-\text{subject to} \quad &amp;amp; \alpha_i \geq 0, \; i = 1 \ldots m \  
-&amp;amp; \sum_i \alpha_i y_i = 0  
-\end{align}  
+&lt;div class="math"&gt;$$\tag{6} \label{dual}
+\begin{align}
+\max_{\alpha} \quad &amp;amp; \sum_i \alpha_i - (1/2) \sum_{i,j} \alpha_i \alpha_j y_i y_j \boldsymbol{x_i} \cdot \boldsymbol{x_j} \\
+\text{subject to} \quad &amp;amp; \alpha_i \geq 0, \; i = 1 \ldots m \\
+&amp;amp; \sum_i \alpha_i y_i = 0
+\end{align}
 $$&lt;/div&gt;
 &lt;p&gt;The dual for the non-separable primal Lagrangian (\ref{regularization}) &amp;#8212; derived using the same procedure we just followed &amp;#8212; looks just like the dual for the separable case (\ref{dual}), except that the Lagrange multipliers are bounded from above by the regularization constant: &lt;span class="math"&gt;\(0 \leq \alpha_i \leq C\)&lt;/span&gt;. Notably, the slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; do not appear in the dual of the soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The dual (called the Wolfe dual) is easier to solve because of the simpler form of its inequality constraints and is the form used in algorithms such as the &lt;a href="http://research.microsoft.com/pubs/68391/smo-book.pdf"&gt;Sequential Minimal Optimization&lt;/a&gt; algorithm, which is implemented in the popular &lt;span class="caps"&gt;SVM&lt;/span&gt; solver, &lt;a href="https://www.csie.ntu.edu.tw/~cjlin/libsvm/"&gt;&lt;span class="caps"&gt;LIBSVM&lt;/span&gt;&lt;/a&gt;. The key feature of the dual is that training vectors only appear as dot products &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)&lt;/span&gt;. This property allows us to generalize to the nonlinear case via the &amp;#8220;kernel trick&amp;#8221; discussed in Part 3 of this&amp;nbsp;post.&lt;/p&gt;
@@ -461,45 +461,48 @@ $$&lt;/div&gt;
 &lt;hr&gt;
 &lt;h2&gt;Part 3:&amp;nbsp;Kernels&lt;/h2&gt;
 &lt;p&gt;Data that is not linearly separable in the original input space may be separable if mapped to a different space. Consider the following example of nonlinearly separable, two-dimensional&amp;nbsp;data:&lt;/p&gt;
-&lt;p&gt;[iframe src=&amp;#8221;https://plot.ly/~frangipane/9&amp;#8221; width=&amp;#8221;100%&amp;#8221; height=&amp;#8221;575&amp;#8221;&amp;nbsp;scrolling=&amp;#8221;no&amp;#8221;]&lt;/p&gt;
+&lt;iframe width="600" height="533" frameborder="0" scrolling="no" src="//plot.ly/~frangipane/9.embed"&gt;&lt;/iframe&gt;
+
 &lt;p&gt;However, if we map the 2-d input data &lt;span class="math"&gt;\(\boldsymbol{x} = (x, y)\)&lt;/span&gt; to 3-d feature space by a function &lt;span class="math"&gt;\(\Phi(\boldsymbol{x}) = (x,\; y,\; x^2 + y^2)\)&lt;/span&gt;, the blue and red points can be separated with a plane in the new (3-d) space. See the plot below of the decision boundary, the mapped points, as well as the the original data points in the x-y plane. Drag the figure to rotate it, or zoom in and out with your mouse&amp;nbsp;wheel!&lt;/p&gt;
+&lt;iframe width="600" height="533" frameborder="0" src="//plot.ly/~frangipane/35.embed"&gt;&lt;/iframe&gt;
+
 &lt;p&gt;Code to generate and fit the data in this example with scikit-learn&amp;#8217;s &lt;span class="caps"&gt;SVM&lt;/span&gt; module, as well as code to create the plot.ly interactive plots above, is available in IPython notebooks on &lt;a href="https://github.com/EFavDB/svm-classification"&gt;github&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;From maps to&amp;nbsp;kernels&lt;/h3&gt;
 &lt;p&gt;So how do we incorporate mapping the data into the formulation of the&amp;nbsp;problem?&lt;/p&gt;
 &lt;p&gt;Recall that the data appears as a dot product in the dual Lagrangian (\ref{dual}). If we decide to train an &lt;span class="caps"&gt;SVM&lt;/span&gt; on the mapped data, then the dot product of the input data in (\ref{dual}) is replaced by the dot product of the mapped data: &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j} \rightarrow \Phi(\boldsymbol{x_i}) \cdot&amp;nbsp;\Phi(\boldsymbol{x_j})\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;The kernel is simply the dot product of the mapping functions. In the example above, the inner product of the mapping function is an instance of a polynomial kernel:&lt;br&gt;
+&lt;p&gt;The kernel is simply the dot product of the mapping functions. In the example above, the inner product of the mapping function is an instance of a polynomial&amp;nbsp;kernel:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-K(x_i, x_j) = \Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j}) = x_i x_j + y_i y_j + (x_i^2 + y_i^2)(x_j^2 + y_j^2)  
+&lt;div class="math"&gt;$$
+K(x_i, x_j) = \Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j}) = x_i x_j + y_i y_j + (x_i^2 + y_i^2)(x_j^2 + y_j^2)
 $$&lt;/div&gt;
 &lt;p&gt;In practice, we work directly with the kernel &lt;span class="math"&gt;\(K(x_i, x_j)\)&lt;/span&gt; rather than explicitly computing the map of the data points&lt;a href="#note2"&gt;**&lt;/a&gt;. Computing the kernel directly allows us to sidestep the computationally expensive operation of mapping data to a high dimensional space and then taking a dot product (see ref [&lt;a href="#2"&gt;2&lt;/a&gt;] for examples comparing computational times of the two&amp;nbsp;methods).&lt;/p&gt;
-&lt;p&gt;Using a kernel, the second term in the objective of the dual problem (\ref{dual}) becomes&lt;br&gt;
+&lt;p&gt;Using a kernel, the second term in the objective of the dual problem (\ref{dual})&amp;nbsp;becomes
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)  
+&lt;div class="math"&gt;$$
+\sum_{i,j} \alpha_i \alpha_j y_i y_j K(x_i, x_j)
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The kernel also appears in the evaluation of (\ref{testing}) to predict the classification of a test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;:&lt;br&gt;
+&lt;p&gt;
+The kernel also appears in the evaluation of (\ref{testing}) to predict the classification of a test point &lt;span class="math"&gt;\(\boldsymbol{x_t}\)&lt;/span&gt;:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{8} \label{testingKernel}  
-sgn \left(\sum_i \alpha_i y_i K(x_i, x_t) + b \right)  
+&lt;div class="math"&gt;$$\tag{8} \label{testingKernel}
+sgn \left(\sum_i \alpha_i y_i K(x_i, x_t) + b \right)
 $$&lt;/div&gt;
 &lt;p&gt;Which functions are valid kernels to use in the kernel trick? i.e. given &lt;span class="math"&gt;\(K(x_i, x_j)\)&lt;/span&gt;, does some feature map &lt;span class="math"&gt;\(\Phi\)&lt;/span&gt; exist such that &lt;span class="math"&gt;\(K(x_i, x_j)=\Phi(\boldsymbol{x_i}) \cdot \Phi(\boldsymbol{x_j})\)&lt;/span&gt; for any &lt;span class="math"&gt;\(i,\ j\)&lt;/span&gt;? Mercer&amp;#8217;s condition states that a necessary and sufficient condition for &lt;span class="math"&gt;\(K\)&lt;/span&gt; to be a valid kernel is that it is symmetric and positive semi-definite&lt;a href="#note3"&gt;&lt;span class="math"&gt;\(^\dagger\)&lt;/span&gt;&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Some popular kernels are:&lt;br&gt;
+&lt;p&gt;Some popular kernels&amp;nbsp;are:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\begin{align}  
-\text{polynomial:} &amp;amp; \quad (\boldsymbol{x_i} \cdot \boldsymbol{x_j} + c)^p \  
-\text{Gaussian radial basis function:} &amp;amp; \quad \exp(-\|\boldsymbol{x_i} - \boldsymbol{x_j} \|^2/2\sigma^2)  
-\end{align}  
+&lt;div class="math"&gt;$$
+\begin{align}
+\text{polynomial:} &amp;amp; \quad (\boldsymbol{x_i} \cdot \boldsymbol{x_j} + c)^p \\
+\text{Gaussian radial basis function:} &amp;amp; \quad \exp(-\|\boldsymbol{x_i} - \boldsymbol{x_j} \|^2/2\sigma^2)
+\end{align}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The optimal parameters for the degree of the polynomial &lt;span class="math"&gt;\(p\)&lt;/span&gt; and spread of the Gaussian &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; (as well as the regularization parameter) are determined by cross-validation. Computing the above kernels takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time, where &lt;span class="math"&gt;\(d\)&lt;/span&gt; is the dimension of the input space, since we have to evaluate &lt;span class="math"&gt;\(\boldsymbol{x_i} \cdot \boldsymbol{x_j}\)&lt;/span&gt; in the polynomial kernel and &lt;span class="math"&gt;\(\boldsymbol{x_i} - \boldsymbol{x_j}\)&lt;/span&gt; in the Gaussian&amp;nbsp;kernel.&lt;/p&gt;
 &lt;h3&gt;Comparing runtimes of linear and nonlinear&amp;nbsp;kernels&lt;/h3&gt;
 &lt;p&gt;The computational complexity for &lt;strong&gt;classification/prediction&lt;/strong&gt;, i.e. at test time, can be obtained by eyeballing (\ref{testing}) and (\ref{testingKernel}). Let &lt;span class="math"&gt;\(d\)&lt;/span&gt; be the dimension of the input space and &lt;span class="math"&gt;\(n\)&lt;/span&gt; be the size of the training set, and assume the number of support vectors &lt;span class="math"&gt;\(n_S\)&lt;/span&gt; is some fraction of &lt;span class="math"&gt;\(n\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_S \sim \mathcal{O}(n)\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;In the case of working with the linear kernel/original input space, &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; can be explicitly evaluated to obtain the separating hyperplane parameters, so that classification in (\ref{testing}) takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time. On the other hand, with the kernel trick, the hyperplane parameters are not explicitly evaluated. Assume calculating a kernel takes &lt;span class="math"&gt;\(\mathcal{O}(d)\)&lt;/span&gt; time, cf. the polynomial and Gaussian kernels; then test time for a nonlinear &lt;span class="math"&gt;\(K\)&lt;/span&gt; in (\ref{testingKernel}) takes &lt;span class="math"&gt;\(\mathcal{O}(nd)\)&lt;/span&gt;&amp;nbsp;time.&lt;/p&gt;
 &lt;p&gt;Estimating the computational complexity for &lt;strong&gt;training&lt;/strong&gt; is complicated, so we defer the discussion to refs [&lt;a href="#4a"&gt;4a&lt;/a&gt;, &lt;a href="#4b"&gt;4b&lt;/a&gt;] and simply state the result: training for linear kernels is &lt;span class="math"&gt;\(\mathcal{O}(nd)\)&lt;/span&gt; while training for nonlinear kernels using the Sequential Minimal Optimization algorithm is &lt;span class="math"&gt;\(\mathcal{O}(n^2)\)&lt;/span&gt; to &lt;span class="math"&gt;\(\mathcal{O}(n^3)\)&lt;/span&gt; (dependent on the regularization parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt;), making nonlinear kernel SVMs impractical for larger datasets (a couple of 10,000 samples according to &lt;a href="http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html"&gt;scikit-learn&lt;/a&gt;).&lt;/p&gt;
-&lt;p&gt;** More than one mapping and feature space (dimension) may exist for a particular kernel. See section 4 of ref [&lt;a href="#1"&gt;1&lt;/a&gt;] for&amp;nbsp;examples.  &lt;/p&gt;
+&lt;p&gt;** More than one mapping and feature space (dimension) may exist for a particular kernel. See section 4 of ref [&lt;a href="#1"&gt;1&lt;/a&gt;] for&amp;nbsp;examples.&lt;/p&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(^\dagger\)&lt;/span&gt; See ref [&lt;a href="#2"&gt;2&lt;/a&gt;] for a simple proof in terms of the Kernel (Gram) matrix, i.e. the kernel function evaluated on a finite set of&amp;nbsp;points.&lt;/p&gt;
 &lt;hr&gt;
 &lt;h2&gt;Discussion&lt;/h2&gt;
@@ -519,11 +522,11 @@ The optimal parameters for the degree of the polynomial &lt;span class="math"&gt
 &lt;p&gt;There is a lot more theory on SVMs that we haven&amp;#8217;t touched upon. For example, SVMs can be framed as a penalization method [&lt;a href="#3"&gt;3&lt;/a&gt;] or &lt;a href="http://cbcl.mit.edu/cbcl/publications/ps/evgeniou-reviewall.pdf"&gt;&amp;#8220;regularization network&amp;#8221;&lt;/a&gt;, c.f. ridge regression, but with a hinge loss rather than squared error. Insights about the choice of a &lt;a href="http://alex.smola.org/papers/1998/SmoSch98b.pdf"&gt;kernel&lt;/a&gt; have also been developed in that&amp;nbsp;framework.&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;[&lt;a href="http://research.microsoft.com/pubs/67119/svmtutorial.pdf"&gt;1&lt;/a&gt;] Burges, &lt;span class="caps"&gt;C. J.C.&lt;/span&gt;(1998). A Tutorial on Support Vector Machines for Pattern Recognition. Knowledge Discovery and Data Mining 2 (2)&amp;nbsp;121-167.&lt;/p&gt;
-&lt;p&gt;[&lt;a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf"&gt;2&lt;/a&gt;] Ng, A. Support Vector Machines [&lt;span class="caps"&gt;PDF&lt;/span&gt; document]. Retrieved from lecture notes online: http://cs229.stanford.edu/notes/cs229-notes3.pdf&lt;br&gt;
+&lt;p&gt;[&lt;a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf"&gt;2&lt;/a&gt;] Ng, A. Support Vector Machines [&lt;span class="caps"&gt;PDF&lt;/span&gt; document]. Retrieved from lecture notes online: http://cs229.stanford.edu/notes/cs229-notes3.pdf
 &lt;em&gt;Lecture notes by Andrew Ng for a more advanced class (but still in his signature intuitive&amp;nbsp;style).&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;[&lt;a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/"&gt;3&lt;/a&gt;] Hastie, T., Tibshirani, R., and Friedman, J. (2009). The Elements of Statistical Learning.&lt;br&gt;
+&lt;p&gt;[&lt;a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/"&gt;3&lt;/a&gt;] Hastie, T., Tibshirani, R., and Friedman, J. (2009). The Elements of Statistical Learning.
 &lt;em&gt;See section 12.2.1, page 420, for derivation of the dual Lagrangian for the nonseparable&amp;nbsp;case.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;[&lt;a href="https://www.csie.ntu.edu.tw/~cjlin/papers/bottou_lin.pdf"&gt;4a&lt;/a&gt;] Bottou, L. and Lin C-J., (2006). Support Vector Machine Solvers.&lt;br&gt;
+&lt;p&gt;[&lt;a href="https://www.csie.ntu.edu.tw/~cjlin/papers/bottou_lin.pdf"&gt;4a&lt;/a&gt;] Bottou, L. and Lin C-J., (2006). Support Vector Machine Solvers.
 [&lt;a href="http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf"&gt;4b&lt;/a&gt;] Chang, C-C. and Lin C-J., (2013). &lt;span class="caps"&gt;LIBSVM&lt;/span&gt;: A Library for Support Vector&amp;nbsp;Machines.&lt;/p&gt;
 &lt;p&gt;[&lt;a href="http://www.cs.colostate.edu/~asa/pdfs/howto.pdf"&gt;5&lt;/a&gt;] Ben-Hur, A. and Weston, J. (2009). A User&amp;#8217;s Guide to Support Vector Machines. In Carugo, O. and Eisenhaber, F. (Eds.), Methods in Molecular Biology 609,&amp;nbsp;223-229.&lt;/p&gt;
 &lt;p&gt;Andrew Ng photo credit: &lt;a href="https://commons.wikimedia.org/wiki/User:InverseHypercube"&gt;InverseHypercube&lt;/a&gt;, &lt;a href="http://creativecommons.org/licenses/by/3.0/us/deed.en"&gt;creative commons license&lt;/a&gt;.&lt;/p&gt;

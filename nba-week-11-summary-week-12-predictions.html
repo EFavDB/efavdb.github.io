@@ -80,24 +80,38 @@
         <div class="span8 offset2 article-content">
             
             <p>Again, reasonably good accuracy this past week &#8212; 36/54, or 66.6% overall. The breakdown by point spread is given below, and the new predictions are&nbsp;up.</p>
-<p>We made a couple of changes to the dashboard this week. First, it has a new, cleaner look, thanks to <a href="http://www.jairehtecarro.com/">Jaireh Tecarro</a>, who kindly donated a redesign. Secondly, we discovered that our prior processing code implementation was inadvertently defaulting to a non-smooth rendering mode as a consequence of some coordinate transformations that we were making use of. This behavior was not explained in the general processing references, and so came as a surprise to us. We&#8217;ve reimplemented some of the drawing commands in order to avoid the problem, and we&#8217;ve documented it in our <a href="http://efavdb.com/processing-and-processing-js-tips-and-tricks/">processing tips and tricks post</a>.  </p>
-<p>Point&nbsp;spread</p>
-<h1>games</h1>
-<p>Accuracy</p>
-<p>&lt;&nbsp;5</p>
-<p>11</p>
-<p>45%</p>
-<p>5-9</p>
-<p>23</p>
-<p>65%</p>
-<p>10-14</p>
-<p>18</p>
-<p>78%</p>
-<blockquote>
-<p>14</p>
-</blockquote>
-<p>18</p>
-<p>72%</p>
+<p>We made a couple of changes to the dashboard this week. First, it has a new, cleaner look, thanks to <a href="http://www.jairehtecarro.com/">Jaireh Tecarro</a>, who kindly donated a redesign. Secondly, we discovered that our prior processing code implementation was inadvertently defaulting to a non-smooth rendering mode as a consequence of some coordinate transformations that we were making use of. This behavior was not explained in the general processing references, and so came as a surprise to us. We&#8217;ve reimplemented some of the drawing commands in order to avoid the problem, and we&#8217;ve documented it in our <a href="http://efavdb.com/processing-and-processing-js-tips-and-tricks/">processing tips and tricks post</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Point spread</th>
+<th># games</th>
+<th>Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt; 5</td>
+<td>11</td>
+<td>45%</td>
+</tr>
+<tr>
+<td>5-9</td>
+<td>23</td>
+<td>65%</td>
+</tr>
+<tr>
+<td>10-14</td>
+<td>18</td>
+<td>78%</td>
+</tr>
+<tr>
+<td>&gt;14</td>
+<td>18</td>
+<td>72%</td>
+</tr>
+</tbody>
+</table>
 
 
              

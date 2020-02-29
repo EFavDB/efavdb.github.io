@@ -82,111 +82,111 @@
             <p>Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also review Bayesian regressions &#8212; in effect, these generalize the regularization approach, biasing model parameters to any specified prior estimates, not necessarily&nbsp;zero.</p>
 <p>This is the second of a series of posts expounding on topics discussed in the text, <a href="http://www-bcf.usc.edu/~gareth/ISL/">&#8220;An Introduction to Statistical Learning&#8221;</a>. Here, we cover material from its Chapters 2 and 6. See prior post <a href="http://efavdb.com/leave-one-out-cross-validation/">here</a>.</p>
 <h3>Introduction and&nbsp;overview</h3>
-<p>In this post, we will be concerned with the problem of fitting a function of the form<br>
+<p>In this post, we will be concerned with the problem of fitting a function of the&nbsp;form
 </p>
-<div class="math">$$\label{function}  
-y(\vec{x}_i) = f(\vec{x}_i) + \epsilon_i \tag{1},  
+<div class="math">$$\label{function}
+y(\vec{x}_i) = f(\vec{x}_i) + \epsilon_i \tag{1},
 $$</div>
-<p><br>
+<p>
 where <span class="math">\(f\)</span> is the function&#8217;s systematic part and <span class="math">\(\epsilon_i\)</span> is a random error. These errors have mean zero and are iid &#8212; their presence is meant to take into account dependences in <span class="math">\(y\)</span> on features that we don&#8217;t have access to. To &#8220;fit&#8221; such a function, we will suppose that one has chosen some appropriate regression algorithm (perhaps a linear model, a random forest, etc.) that can be used to generate an approximation <span class="math">\(\hat{f}\)</span> to <span class="math">\(y\)</span>, given a training set of example <span class="math">\((\vec{x}_i, y_i)\)</span>&nbsp;pairs.</p>
 <p>The primary concern when carrying out a regression is often to find a fit that will be accurate when applied to points not included in the training set. There are two sources of error that one has to grapple with: Bias in the algorithm &#8212; sometimes the result of using an algorithm that has insufficient flexibility to capture the nature of the function being fit, and variance &#8212; this relates to how sensitive the resulting fit is to the samples chosen for the training set. The latter issue is closely related to the concept of <a href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a>.</p>
 <p>To mitigate overfitting, <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics)">parameter regularization</a> is often applied. As we detail below, this entails penalizing non-zero parameter estimates. Although this can favorably reduce the variance of the resulting model, it will also introduce bias. The optimal amount of regularization is therefore determined by appropriately balancing these two&nbsp;effects.</p>
 <p>In the following, we carefully review the mathematical definitions of model bias and variance, as well as how these effects contribute to the error of an algorithm. We then show that regularization is equivalent to assuming a particular form of Bayesian prior that causes the parameters to be somewhat &#8220;sticky&#8221; around zero &#8212; this stickiness is what results in model variance reduction. Because standard regularization techniques bias towards zero, they work best when the underlying true feature dependences are sparse. When this is not true, one should attempt an analogous variance reduction through application of the more general Bayesian regression&nbsp;framework.</p>
 <h3>Squared error&nbsp;decomposition</h3>
-<p>The first step to understanding regression error is the following identity: Given any fixed <span class="math">\(\vec{x}\)</span>, we have<br>
+<p>The first step to understanding regression error is the following identity: Given any fixed <span class="math">\(\vec{x}\)</span>, we&nbsp;have
 </p>
-<div class="math">$$  
-\begin{align}  
-\overline{\left (\hat{f}(\vec{x}) - y(\vec{x}) \right)^2} &amp;= \overline{\left (\hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right)^2} + \left (\overline{\hat{f}(\vec{x})} - f(\vec{x}) \right)^2 + \overline{ \epsilon^2} \\  
-&amp; \equiv var\left(\hat{f}(\vec{x})\right) + bias\left(\hat{f}(\vec{x})\right)^2 + \overline{\epsilon^2}. \tag{2}\label{error_decomp}  
-\end{align}  
+<div class="math">$$
+\begin{align}
+\overline{\left (\hat{f}(\vec{x}) - y(\vec{x}) \right)^2} &amp;= \overline{\left (\hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right)^2} + \left (\overline{\hat{f}(\vec{x})} - f(\vec{x}) \right)^2 + \overline{ \epsilon^2} \\
+&amp; \equiv var\left(\hat{f}(\vec{x})\right) + bias\left(\hat{f}(\vec{x})\right)^2 + \overline{\epsilon^2}. \tag{2}\label{error_decomp}
+\end{align}
 $$</div>
-<p><br>
+<p>
 Here, overlines represent averages over two things: The first is the random error <span class="math">\(\epsilon\)</span> values, and the second is the training set used to construct <span class="math">\(\hat{f}\)</span>. The left side of (\ref{error_decomp}) gives the average squared error of our algorithm, at point <span class="math">\(\vec{x}\)</span> &#8212; i.e., the average squared error we can expect to get, given a typical training set and <span class="math">\(\epsilon\)</span> value. The right side of the equation decomposes this error into separate, independent components. The first term at right &#8212; the variance of <span class="math">\(\hat{f}(\vec{x})\)</span> &#8212; relates to how widely the estimate at <span class="math">\(\vec{x}\)</span> changes as one randomly samples from the space of possible training sets. Similarly, the second term &#8212; the algorithm&#8217;s squared bias &#8212; relates to the systematic error of the algorithm at <span class="math">\(\vec{x}\)</span>. The third and final term above gives the average squared random error &#8212; this provides a fundamental lower bound on the accuracy of any estimator of <span class="math">\(y\)</span>.</p>
-<p>We turn now to the proof of (\ref{error_decomp}). We write the left side of this equation as<br>
+<p>We turn now to the proof of (\ref{error_decomp}). We write the left side of this equation&nbsp;as
 </p>
-<div class="math">$$\label{detail}  
-\begin{align} \tag{3}  
-\overline{\left (\hat{f}(\vec{x}) - y(\vec{x}) \right)^2} &amp;= \overline{\left ( \left \{\hat{f}(\vec{x}) - f(\vec{x}) \right \} - \left \{ y(\vec{x}) - f(\vec{x}) \right \} \right)^2}\\  
-&amp;=  
-\overline{\left ( \hat{f}(\vec{x}) - f(\vec{x}) \right)^2}  
-- 2 \overline{ \left (\hat{f}(\vec{x}) - f(\vec{x}) \right ) \left (y(\vec{x}) - f(\vec{x}) \right ) }  
-+ \overline{ \left (y(\vec{x}) - f(\vec{x}) \right)^2}.  
-\end{align}  
+<div class="math">$$\label{detail}
+\begin{align} \tag{3}
+\overline{\left (\hat{f}(\vec{x}) - y(\vec{x}) \right)^2} &amp;= \overline{\left ( \left \{\hat{f}(\vec{x}) - f(\vec{x}) \right \} - \left \{ y(\vec{x}) - f(\vec{x}) \right \} \right)^2}\\
+&amp;=
+\overline{\left ( \hat{f}(\vec{x}) - f(\vec{x}) \right)^2}
+- 2 \overline{ \left (\hat{f}(\vec{x}) - f(\vec{x}) \right ) \left (y(\vec{x}) - f(\vec{x}) \right ) }
++ \overline{ \left (y(\vec{x}) - f(\vec{x}) \right)^2}.
+\end{align}
 $$</div>
-<p><br>
-The middle term here is zero. To see this, note that it is the average of the product of two independent quantities: The first factor, <span class="math">\(\hat{f}(\vec{x}) - f(\vec{x})\)</span>, varies only with the training set, while the second factor, <span class="math">\(y(\vec{x}) - f(\vec{x})\)</span>, varies only with <span class="math">\(\epsilon\)</span>. Because these two factors are independent, their average product is the product of their individual averages, the second of which is zero, by definition. Now, the third term in (\ref{detail}) is simply <span class="math">\(\overline{\epsilon^2}\)</span>. To complete the proof, we need only evaluate the first term above. To do that, we write<br>
+<p>
+The middle term here is zero. To see this, note that it is the average of the product of two independent quantities: The first factor, <span class="math">\(\hat{f}(\vec{x}) - f(\vec{x})\)</span>, varies only with the training set, while the second factor, <span class="math">\(y(\vec{x}) - f(\vec{x})\)</span>, varies only with <span class="math">\(\epsilon\)</span>. Because these two factors are independent, their average product is the product of their individual averages, the second of which is zero, by definition. Now, the third term in (\ref{detail}) is simply <span class="math">\(\overline{\epsilon^2}\)</span>. To complete the proof, we need only evaluate the first term above. To do that, we&nbsp;write
 </p>
-<div class="math">$$\begin{align} \tag{4} \label{detail2}  
-\overline{\left ( \hat{f}(\vec{x}) - f(\vec{x}) \right)^2} &amp;=  
-\overline{\left ( \left \{ \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right \}- \left \{f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right \}\right)^2} \\  
-&amp;=  
-\overline{\left ( \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right)^2}  
--2  
-\overline{ \left \{ \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right \} \left \{f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right \} }  
-+  
-\left ( f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right)^2.  
-\end{align}  
+<div class="math">$$\begin{align} \tag{4} \label{detail2}
+\overline{\left ( \hat{f}(\vec{x}) - f(\vec{x}) \right)^2} &amp;=
+\overline{\left ( \left \{ \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right \}- \left \{f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right \}\right)^2} \\
+&amp;=
+\overline{\left ( \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right)^2}
+-2
+\overline{ \left \{ \hat{f}(\vec{x}) - \overline{\hat{f}(\vec{x})} \right \} \left \{f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right \} }
++
+\left ( f(\vec{x}) -\overline{\hat{f}(\vec{x})} \right)^2.
+\end{align}
 $$</div>
-<p><br>
+<p>
 The middle term here is again zero. This is because its second factor is a constant, while the first averages to zero, by definition. The first and third terms above are the algorithm&#8217;s variance and squared bias, respectively. Combining these observations with (\ref{detail}), we obtain&nbsp;(\ref{error_decomp}).</p>
 <h3>Bayesian&nbsp;regression</h3>
-<p>In order to introduce Bayesian regression, we focus on the special case of least-squares regressions. In this context, one posits that the samples generated take the form (\ref{function}), with the error <span class="math">\(\epsilon_i\)</span> terms now iid, Gaussian distributed with mean zero and standard deviation <span class="math">\(\sigma\)</span>. Under this assumption, the probability of observing values <span class="math">\((y_1, y_2,\ldots, y_N)\)</span> at <span class="math">\((\vec{x}_1, \vec{x}_2,\ldots,\vec{x}_N)\)</span> is given by<br>
+<p>In order to introduce Bayesian regression, we focus on the special case of least-squares regressions. In this context, one posits that the samples generated take the form (\ref{function}), with the error <span class="math">\(\epsilon_i\)</span> terms now iid, Gaussian distributed with mean zero and standard deviation <span class="math">\(\sigma\)</span>. Under this assumption, the probability of observing values <span class="math">\((y_1, y_2,\ldots, y_N)\)</span> at <span class="math">\((\vec{x}_1, \vec{x}_2,\ldots,\vec{x}_N)\)</span> is given&nbsp;by
 </p>
-<div class="math">$$  
-\begin{align}  
-\tag{5} \label{5}  
-P(\vec{y} \vert f) &amp;= \prod_{i=1}^N \frac{1}{(2 \pi \sigma)^{1/2}} \exp \left [-\frac{1}{2 \sigma^2} (y_i - f(\vec{x}_i))^2 \right]\\  
-&amp;= \frac{1}{(2 \pi \sigma)^{N/2}} \exp \left [-\frac{1}{2 \sigma^2} (\vec{y} - \vec{f})^2 \right],  
-\end{align}  
+<div class="math">$$
+\begin{align}
+\tag{5} \label{5}
+P(\vec{y} \vert f) &amp;= \prod_{i=1}^N \frac{1}{(2 \pi \sigma)^{1/2}} \exp \left [-\frac{1}{2 \sigma^2} (y_i - f(\vec{x}_i))^2 \right]\\
+&amp;= \frac{1}{(2 \pi \sigma)^{N/2}} \exp \left [-\frac{1}{2 \sigma^2} (\vec{y} - \vec{f})^2 \right],
+\end{align}
 $$</div>
-<p><br>
-where <span class="math">\(\vec{y} \equiv (y_1, y_2,\ldots, y_N)\)</span> and <span class="math">\(\vec{f} \equiv (f_1, f_2,\ldots, f_N)\)</span>. In order to carry out a maximum-likelihood analysis, one posits a parameterization for <span class="math">\(f(\vec{x})\)</span>. For example, one could posit the linear form,<br>
+<p>
+where <span class="math">\(\vec{y} \equiv (y_1, y_2,\ldots, y_N)\)</span> and <span class="math">\(\vec{f} \equiv (f_1, f_2,\ldots, f_N)\)</span>. In order to carry out a maximum-likelihood analysis, one posits a parameterization for <span class="math">\(f(\vec{x})\)</span>. For example, one could posit the linear&nbsp;form,
 </p>
-<div class="math">$$\tag{6}  
-f(\vec{x}) = \vec{\theta} \cdot \vec{x}.  
+<div class="math">$$\tag{6}
+f(\vec{x}) = \vec{\theta} \cdot \vec{x}.
 $$</div>
-<p><br>
+<p>
 Once a parameterization is selected, its optimal <span class="math">\(\vec{\theta}\)</span> values are selected by maximizing (\ref{5}), which gives the least-squares&nbsp;fit.</p>
-<p>One sometimes would like to nudge (or bias) the parameters away from those that maximize (\ref{5}), towards some values considered reasonable ahead of time. A simple way to do this is to introduce a Bayesian prior for the parameters <span class="math">\(\vec{\theta}\)</span>. For example, one might posit a prior of the form<br>
+<p>One sometimes would like to nudge (or bias) the parameters away from those that maximize (\ref{5}), towards some values considered reasonable ahead of time. A simple way to do this is to introduce a Bayesian prior for the parameters <span class="math">\(\vec{\theta}\)</span>. For example, one might posit a prior of the&nbsp;form
 </p>
-<div class="math">$$ \tag{7} \label{7}  
-P(f) \equiv P(\vec{\theta}) \propto \exp \left [- \frac{1}{2\sigma^2} (\vec{\theta} - \vec{\theta}_0)  
-\Lambda (\vec{\theta} - \vec{\theta}_0)\right].  
+<div class="math">$$ \tag{7} \label{7}
+P(f) \equiv P(\vec{\theta}) \propto \exp \left [- \frac{1}{2\sigma^2} (\vec{\theta} - \vec{\theta}_0)
+\Lambda (\vec{\theta} - \vec{\theta}_0)\right].
 $$</div>
-<p><br>
-Here, <span class="math">\(\vec{\theta}_0\)</span> represents a best guess for what <span class="math">\(\theta\)</span> should be before any data is taken, and the matrix <span class="math">\(\Lambda\)</span> determines how strongly we wish to bias <span class="math">\(\theta\)</span> to this value: If the components of <span class="math">\(\Lambda\)</span> are large (small), then we strongly (weakly) constrain <span class="math">\(\vec{\theta}\)</span> to sit near <span class="math">\(\vec{\theta}_0\)</span>. To carry out the regression, we combine (\ref{5}-\ref{7}) with Bayes&#8217; rule, giving<br>
+<p>
+Here, <span class="math">\(\vec{\theta}_0\)</span> represents a best guess for what <span class="math">\(\theta\)</span> should be before any data is taken, and the matrix <span class="math">\(\Lambda\)</span> determines how strongly we wish to bias <span class="math">\(\theta\)</span> to this value: If the components of <span class="math">\(\Lambda\)</span> are large (small), then we strongly (weakly) constrain <span class="math">\(\vec{\theta}\)</span> to sit near <span class="math">\(\vec{\theta}_0\)</span>. To carry out the regression, we combine (\ref{5}-\ref{7}) with Bayes&#8217; rule,&nbsp;giving
 </p>
-<div class="math">$$  
-\tag{8}  
-P(\vec{\theta} \vert \vec{y}) = \frac{P(\vec{y}\vert \vec{\theta}) P(\vec{\theta})}{P(\vec{y})}  
-\propto \exp \left [-\frac{1}{2 \sigma^2} (\vec{y} - \vec{\theta} \cdot \vec{x})^2 - \frac{1}{2\sigma^2} (\vec{\theta} - \vec{\theta}_0)  
-\Lambda (\vec{\theta} - \vec{\theta}_0)\right].  
+<div class="math">$$
+\tag{8}
+P(\vec{\theta} \vert \vec{y}) = \frac{P(\vec{y}\vert \vec{\theta}) P(\vec{\theta})}{P(\vec{y})}
+\propto \exp \left [-\frac{1}{2 \sigma^2} (\vec{y} - \vec{\theta} \cdot \vec{x})^2 - \frac{1}{2\sigma^2} (\vec{\theta} - \vec{\theta}_0)
+\Lambda (\vec{\theta} - \vec{\theta}_0)\right].
 $$</div>
-<p><br>
-The most likely <span class="math">\(\vec{\theta}\)</span> now minimizes the quadratic &#8220;cost function&#8221;,<br>
+<p>
+The most likely <span class="math">\(\vec{\theta}\)</span> now minimizes the quadratic &#8220;cost&nbsp;function&#8221;,
 </p>
-<div class="math">$$\tag{9} \label{9}  
-F(\theta) \equiv (\vec{y} - \vec{\theta} \cdot \vec{x})^2 +(\vec{\theta} - \vec{\theta}_0)  
-\Lambda (\vec{\theta} - \vec{\theta}_0),  
+<div class="math">$$\tag{9} \label{9}
+F(\theta) \equiv (\vec{y} - \vec{\theta} \cdot \vec{x})^2 +(\vec{\theta} - \vec{\theta}_0)
+\Lambda (\vec{\theta} - \vec{\theta}_0),
 $$</div>
-<p><br>
+<p>
 a Bayesian generalization of the usual squared error. With this, our heavy-lifting is at an end. We now move to a quick review of regularization, which will appear as a simple application of the Bayesian&nbsp;method.</p>
 <h3>Parameter regularization as special&nbsp;cases</h3>
-<p>The most common forms of regularization are the so-called &#8220;ridge&#8221; and &#8220;lasso&#8221;. In the context of least-squares fits, the former involves minimization of the quadratic form<br>
+<p>The most common forms of regularization are the so-called &#8220;ridge&#8221; and &#8220;lasso&#8221;. In the context of least-squares fits, the former involves minimization of the quadratic&nbsp;form
 </p>
-<div class="math">$$  
-\tag{10} \label{ridge}  
-F_{ridge}(\theta) \equiv (\vec{y} - \hat{f}(\vec{x}; \vec{\theta}))^2 + \Lambda \sum_i \theta_i^2,  
+<div class="math">$$
+\tag{10} \label{ridge}
+F_{ridge}(\theta) \equiv (\vec{y} - \hat{f}(\vec{x}; \vec{\theta}))^2 + \Lambda \sum_i \theta_i^2,
 $$</div>
-<p><br>
-while in the latter, one minimizes<br>
+<p>
+while in the latter, one&nbsp;minimizes
 </p>
-<div class="math">$$  
-\tag{11} \label{lasso}  
-F_{lasso}(\theta) \equiv (\vec{y} - \hat{f}(\vec{x}; \vec{\theta}))^2 + \Lambda \sum_i \vert\theta_i \vert.  
+<div class="math">$$
+\tag{11} \label{lasso}
+F_{lasso}(\theta) \equiv (\vec{y} - \hat{f}(\vec{x}; \vec{\theta}))^2 + \Lambda \sum_i \vert\theta_i \vert.
 $$</div>
-<p><br>
+<p>
 The terms proportional to <span class="math">\(\Lambda\)</span> above are the so-called regularization terms. In elementary courses, these are generally introduced to least-squares fits in an ad-hoc manner: Conceptually, it is suggested that these terms serve to penalize the inclusion of too many parameters in the model, with individual parameters now taking on large values only if they are really essential to the&nbsp;fit.</p>
 <p>While the conceptual argument above may be correct, the framework we&#8217;ve reviewed here allows for a more sophisticated understanding of regularization: (\ref{ridge}) is a special case of (\ref{9}), with <span class="math">\(\vec{\theta}_0\)</span> set to <span class="math">\((0,0,\ldots, 0)\)</span>. Further, the lasso form (\ref{lasso}) is also a special-case form of Bayesian regression, with the prior set to <span class="math">\(P(\vec{\theta}) \propto \exp \left (- \frac{\Lambda}{2 \sigma^2} \sum_i \vert \theta_i \vert \right)\)</span>. As advertised, regularization is a form of Bayesian&nbsp;regression.</p>
 <p>Why then does regularization &#8220;work&#8221;? For the same reason any other Bayesian approach does: Introduction of a prior will bias a model (if chosen well, hopefully not by much), but will also effect a reduction in its variance. The appropriate amount of regularization balances these two effects. Sometimes &#8212; but not always &#8212; a non-zero amount of bias is&nbsp;required.</p>

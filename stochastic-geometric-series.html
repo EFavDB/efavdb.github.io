@@ -13,12 +13,12 @@
 
 <meta property="og:title" content="Stochastic geometric series "/>
 <meta property="og:url" content="https://efavdb.github.io/stochastic-geometric-series" />
-<meta property="og:description" content="Let \(a_1, a_2, \ldots\) be an infinite set of non-negative samples taken from a distribution \(P_0(a)\), and write $$\tag{1} \label{problem} S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots. $$ Notice that if the \(a_i\) were all the same, \(S\) would be a regular geometric series, with value …" />
+<meta property="og:description" content="Let \(a_1, a_2, \ldots\) be an infinite set of non-negative samples taken from a distribution \(P_0(a)\), and write $$\tag{1} \label{problem} S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots. $$ Notice that if the \(a_i\) were all the same, \(S\) would be a regular geometric series, with value …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
 <meta property="og:article:published_time" content="2015-09-13T06:00:00-07:00" />
 <meta name="twitter:title" content="Stochastic geometric series ">
-<meta name="twitter:description" content="Let \(a_1, a_2, \ldots\) be an infinite set of non-negative samples taken from a distribution \(P_0(a)\), and write $$\tag{1} \label{problem} S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots. $$ Notice that if the \(a_i\) were all the same, \(S\) would be a regular geometric series, with value …">
+<meta name="twitter:description" content="Let \(a_1, a_2, \ldots\) be an infinite set of non-negative samples taken from a distribution \(P_0(a)\), and write $$\tag{1} \label{problem} S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots. $$ Notice that if the \(a_i\) were all the same, \(S\) would be a regular geometric series, with value …">
 
         <title>Stochastic geometric series  · EFAVDB
 </title>
@@ -79,105 +79,105 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>Let <span class="math">\(a_1, a_2, \ldots\)</span> be an infinite set of non-negative samples taken from a distribution <span class="math">\(P_0(a)\)</span>, and write<br>
+            <p>Let <span class="math">\(a_1, a_2, \ldots\)</span> be an infinite set of non-negative samples taken from a distribution <span class="math">\(P_0(a)\)</span>, and&nbsp;write
 </p>
-<div class="math">$$\tag{1} \label{problem}  
-S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots.  
+<div class="math">$$\tag{1} \label{problem}
+S = 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots.
 $$</div>
-<p><br>
+<p>
 Notice that if the <span class="math">\(a_i\)</span> were all the same, <span class="math">\(S\)</span> would be a regular geometric series, with value <span class="math">\(S = \frac{1}{1-a}\)</span>. How will the introduction of <span class="math">\(a_i\)</span> randomness change this sum? Will <span class="math">\(S\)</span> necessarily converge? How is <span class="math">\(S\)</span> distributed? In this post, we discuss some simple techniques to answer these&nbsp;questions.</p>
 <p>Note: This post covers work done in collaboration with my aged p, S.&nbsp;Landy.</p>
 <h3>Introduction &#8212; a stock dividend&nbsp;problem</h3>
-<p>To motivate the sum (\ref{problem}), consider the problem of evaluating the total output of a stock that pays dividends each year in proportion to its present value &#8212; say <span class="math">\(x %\)</span>. The price dynamics of a typical stock can be reasonably modeled as a geometric random walk<span class="math">\(^1\)</span>:<br>
+<p>To motivate the sum (\ref{problem}), consider the problem of evaluating the total output of a stock that pays dividends each year in proportion to its present value &#8212; say <span class="math">\(x %\)</span>. The price dynamics of a typical stock can be reasonably modeled as a geometric random walk<span class="math">\(^1\)</span>:
 </p>
-<div class="math">$$\label{prod} \tag{2}  
-price(t) = price(t-1) * a_t,  
+<div class="math">$$\label{prod} \tag{2}
+price(t) = price(t-1) * a_t,
 $$</div>
-<p><br>
-where <span class="math">\(a_t\)</span> is a random variable, having distribution <span class="math">\(P_0(a_t)\)</span>. Assuming this form for our hypothetical stock, its total lifetime dividends output will be<br>
+<p>
+where <span class="math">\(a_t\)</span> is a random variable, having distribution <span class="math">\(P_0(a_t)\)</span>. Assuming this form for our hypothetical stock, its total lifetime dividends output will&nbsp;be
 </p>
-<div class="math">$$\tag{3}  
-x \times \sum_{t = 0}^{\infty} price(t) = x \times price(0) \left ( 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots \right)  
+<div class="math">$$\tag{3}
+x \times \sum_{t = 0}^{\infty} price(t) = x \times price(0) \left ( 1 + a_1 + a_1 a_2 + a_1 a_2 a_3 + \ldots \right)
 $$</div>
-<p><br>
+<p>
 The inner term in parentheses here is precisely (\ref{problem}). More generally, a series of this form will be of interest pretty much whenever geometric series are: Population growth problems, the length of a cylindrical bacterium at a series of time steps<span class="math">\(^2\)</span>, etc. Will the nature of these sums change dramatically through the introduction of growth&nbsp;variance?</p>
 <p>To characterize these types of stochastic geometric series, we will start below by considering their moments: This will allow us to determine the average value of (\ref{problem}), it&#8217;s variance etc. This approach will also allow us to determine a condition that is both necessary and sufficient for the sum&#8217;s convergence. Following this, we will introduce an integral equation satisfied by the <span class="math">\(P(S)\)</span> distribution. We demonstrate its application by solving the equation for a simple&nbsp;example.</p>
 <h3>The moments of <span class="math">\(S\)</span></h3>
-<p>To solve for the moments of <span class="math">\(S\)</span>, we use a trick similar to that used to sum the regular geometric series: We write<br>
+<p>To solve for the moments of <span class="math">\(S\)</span>, we use a trick similar to that used to sum the regular geometric series: We&nbsp;write
 </p>
-<div class="math">$$\tag{4} \label{trick}  
-S = 1 + a_1 + a_1 a_2 + \ldots \equiv 1 + a_1 T,  
+<div class="math">$$\tag{4} \label{trick}
+S = 1 + a_1 + a_1 a_2 + \ldots \equiv 1 + a_1 T,
 $$</div>
-<p><br>
-where <span class="math">\(T = 1 + a_2 + a_2 a_3 + \ldots.\)</span> Now, because we assume that the <span class="math">\(a_i\)</span> are independent, it follows that <span class="math">\(a_1\)</span> and <span class="math">\(T\)</span> are independent. Further, <span class="math">\(S\)</span> and <span class="math">\(T\)</span> are clearly distributed identically, since they take the same form. Subtracting <span class="math">\(1\)</span> from both sides of the above equation, these observations imply<br>
+<p>
+where <span class="math">\(T = 1 + a_2 + a_2 a_3 + \ldots.\)</span> Now, because we assume that the <span class="math">\(a_i\)</span> are independent, it follows that <span class="math">\(a_1\)</span> and <span class="math">\(T\)</span> are independent. Further, <span class="math">\(S\)</span> and <span class="math">\(T\)</span> are clearly distributed identically, since they take the same form. Subtracting <span class="math">\(1\)</span> from both sides of the above equation, these observations&nbsp;imply
 </p>
-<div class="math">$$\tag{5} \label{moments}  
-\overline{(S-1)^k} = \sum_j {k \choose j} (-1)^j \overline{S^{k-j}} = \overline{ a^k S^k} = \overline{a^k} \ \overline{S^k}.  
+<div class="math">$$\tag{5} \label{moments}
+\overline{(S-1)^k} = \sum_j {k \choose j} (-1)^j \overline{S^{k-j}} = \overline{ a^k S^k} = \overline{a^k} \ \overline{S^k}.
 $$</div>
-<p><br>
+<p>
 This expression can be used to relate the moments of <span class="math">\(S\)</span> to those of <span class="math">\(a\)</span> &#8212; a useful result, whenever the distribution of <span class="math">\(a\)</span> is known, allowing for the direct evaluation of its&nbsp;moments.</p>
-<p>To illustrate, let us get the first couple of moments of <span class="math">\(S\)</span>, using (\ref{moments}). Setting <span class="math">\(k=1\)</span> above, we obtain<br>
+<p>To illustrate, let us get the first couple of moments of <span class="math">\(S\)</span>, using (\ref{moments}). Setting <span class="math">\(k=1\)</span> above, we&nbsp;obtain
 </p>
-<div class="math">$$\tag{6} \label{mean}  
-\overline{S -1} = \overline{a} \overline{S} \ \ \to \ \ \overline{S} = \frac{1}{1 - \overline{a}}  
+<div class="math">$$\tag{6} \label{mean}
+\overline{S -1} = \overline{a} \overline{S} \ \ \to \ \ \overline{S} = \frac{1}{1 - \overline{a}}
 $$</div>
-<p><br>
-The right side here looks just like the usual geometric sum result, with <span class="math">\(a\)</span> replaced by its average value. Similarly, setting <span class="math">\(k =2\)</span> in (\ref{moments}), we can solve for the second moment of <span class="math">\(S\)</span>. Subtracting the square of the first gives the following expression for the sum&#8217;s variance,<br>
+<p>
+The right side here looks just like the usual geometric sum result, with <span class="math">\(a\)</span> replaced by its average value. Similarly, setting <span class="math">\(k =2\)</span> in (\ref{moments}), we can solve for the second moment of <span class="math">\(S\)</span>. Subtracting the square of the first gives the following expression for the sum&#8217;s&nbsp;variance,
 </p>
-<div class="math">$$\tag{7} \label{var}  
-var(S) = \frac{var(a)}{(1 - \overline{a})^2(1 - \overline{a^2})}.  
+<div class="math">$$\tag{7} \label{var}
+var(S) = \frac{var(a)}{(1 - \overline{a})^2(1 - \overline{a^2})}.
 $$</div>
-<p><br>
+<p>
 As one might intuit, the variance of <span class="math">\(S\)</span> is proportional to the variance of <span class="math">\(a\)</span>.</p>
 <p>Expressions (\ref{mean}) and (\ref{var}) are the most practical results of this post: They provide formal general expressions for the mean and variance for a sum of form (\ref{problem}). They can be used to provide a statistical estimate and error bar for a sum of form <span class="math">\(S\)</span> in any practical context. It is interesting/nice that the mean takes such a natural looking form &#8212; one that many people likely make use of already, without putting much thought&nbsp;into.</p>
 <p>The expressions above are also of some theoretical interest: Note, for example, that as <span class="math">\(\overline{a} \to 1\)</span> from below, the average value of <span class="math">\(S\)</span> diverges, and then becomes negative as <span class="math">\(a\)</span> goes above this value. This is clearly impossible, as <span class="math">\(S\)</span> is a sum of positive terms. This indicates that <span class="math">\(S\)</span> has no first moment whenever <span class="math">\(\overline{a} \geq 1\)</span>, while (\ref{mean}) holds whenever <span class="math">\(\overline{a} &lt; 1\)</span>. Similarly, (\ref{var}) indicates that the second moment of <span class="math">\(S\)</span> exists and is finite whenever <span class="math">\(\overline{a^2} &lt; 1\)</span>. In fact, this pattern continues for all <span class="math">\(k\)</span>: <span class="math">\(\overline{S^k}\)</span> exists and is finite if and only if <span class="math">\(\overline{a^k} &lt; 1\)</span> &#8212; a result that can be obtained from (\ref{moments}). A rigorous and elementary proof of these statements can be found in an earlier work by Szabados and Szekeley<span class="math">\(^3\)</span>. The simple moment equation (\ref{moments}) can also be found&nbsp;there.</p>
 <h3>Condition for the convergence of <span class="math">\(S\)</span></h3>
-<p>A simple condition for the convergence of <span class="math">\(S\)</span> can also be obtained using (\ref{moments}). The trick is to consider the limit as <span class="math">\(k\)</span> goes to zero of the <span class="math">\(k\)</span>-th moments. This gives, for example, the average of <span class="math">\(1\)</span> with respect to <span class="math">\(P(S)\)</span>. If this is finite, then the distribution of <span class="math">\(P\)</span> is normalizable. Otherwise, <span class="math">\(S\)</span> must diverge: Setting <span class="math">\(k = \epsilon\)</span> in (\ref{moments}), expanding to first order in <span class="math">\(\epsilon\)</span> gives<br>
+<p>A simple condition for the convergence of <span class="math">\(S\)</span> can also be obtained using (\ref{moments}). The trick is to consider the limit as <span class="math">\(k\)</span> goes to zero of the <span class="math">\(k\)</span>-th moments. This gives, for example, the average of <span class="math">\(1\)</span> with respect to <span class="math">\(P(S)\)</span>. If this is finite, then the distribution of <span class="math">\(P\)</span> is normalizable. Otherwise, <span class="math">\(S\)</span> must diverge: Setting <span class="math">\(k = \epsilon\)</span> in (\ref{moments}), expanding to first order in <span class="math">\(\epsilon\)</span>&nbsp;gives
 </p>
-<div class="math">$$\tag{8} \label{approximate_log}  
-\overline{ \exp [\epsilon \log (S -1) ]} \sim \overline{ 1 + \epsilon \log (S -1) } \sim \overline{ 1 + \epsilon \log S } \ \overline{ 1 + \epsilon \log a}.  
+<div class="math">$$\tag{8} \label{approximate_log}
+\overline{ \exp [\epsilon \log (S -1) ]} \sim \overline{ 1 + \epsilon \log (S -1) } \sim \overline{ 1 + \epsilon \log S } \ \overline{ 1 + \epsilon \log a}.
 $$</div>
-<p><br>
-Solving for <span class="math">\(\overline{1}_S\)</span>, the average of <span class="math">\(1\)</span> with respect to <span class="math">\(P(S)\)</span>, gives<br>
+<p>
+Solving for <span class="math">\(\overline{1}_S\)</span>, the average of <span class="math">\(1\)</span> with respect to <span class="math">\(P(S)\)</span>,&nbsp;gives
 </p>
-<div class="math">$$\tag{9}  
-\overline{1}_S = \frac{\overline{\log( 1 - \frac{1}{S})}}{\log a} + O(\epsilon).  
+<div class="math">$$\tag{9}
+\overline{1}_S = \frac{\overline{\log( 1 - \frac{1}{S})}}{\log a} + O(\epsilon).
 $$</div>
-<p><br>
+<p>
 Like the integer moment expressions above, the right side here is finite up to the point where its denominator diverges. That is, the series will converge, if and only if <span class="math">\(\overline{\log a} &lt; 0\)</span>, a very simple condition<span class="math">\(^4\)</span>.</p>
 <h3>Integral equation for the distribution <span class="math">\(P(S)\)</span></h3>
-<p>We have also found that one can sometimes go beyond solving for the moments of <span class="math">\(S\)</span>, and instead solve directly for its full distribution: Integrating (\ref{trick}) over <span class="math">\(a\)</span> gives<br>
+<p>We have also found that one can sometimes go beyond solving for the moments of <span class="math">\(S\)</span>, and instead solve directly for its full distribution: Integrating (\ref{trick}) over <span class="math">\(a\)</span>&nbsp;gives
 </p>
-<div class="math">$$\tag{10} \label{int}  
-P(S_0) = \int da P_0(a) \int dS P(S) \delta(1+ a S - S_0) = \int \frac{da}{a} P_0(a) P \left (\frac{S_0 -1}{a} \right).  
+<div class="math">$$\tag{10} \label{int}
+P(S_0) = \int da P_0(a) \int dS P(S) \delta(1+ a S - S_0) \\= \int \frac{da}{a} P_0(a) P \left (\frac{S_0 -1}{a} \right).
 $$</div>
-<p><br>
+<p>
 This is a general, linear integral equation for <span class="math">\(P(S)\)</span>. At least in some cases, it can solved in closed-form. An example&nbsp;follows.</p>
 <p><strong>Uniformly distributed <span class="math">\(a_i\)</span></strong></p>
-<p>To demonstrate how one might solve the equation (\ref{int}), we consider here the case where the <span class="math">\(a_i\)</span> are uniform on <span class="math">\([0,1]\)</span>. In this case, writing <span class="math">\(a = \frac{S_0 -1}{v}\)</span>, (\ref{int}) goes to<br>
+<p>To demonstrate how one might solve the equation (\ref{int}), we consider here the case where the <span class="math">\(a_i\)</span> are uniform on <span class="math">\([0,1]\)</span>. In this case, writing <span class="math">\(a = \frac{S_0 -1}{v}\)</span>, (\ref{int}) goes&nbsp;to
 </p>
-<div class="math">$$\tag{11} \label{int2}  
-P(S_0) = \int_{S_0-1}^{\infty} P\left (v\right) \frac{1}{v}dv.  
+<div class="math">$$\tag{11} \label{int2}
+P(S_0) = \int_{S_0-1}^{\infty} P\left (v\right) \frac{1}{v}dv.
 $$</div>
-<p><br>
-To progress, we differentiate with respect to <span class="math">\(S_0\)</span>, which gives<br>
+<p>
+To progress, we differentiate with respect to <span class="math">\(S_0\)</span>, which&nbsp;gives
 </p>
-<div class="math">$$\tag{12} \label{delay}  
-P^{\prime} (S_0)\equiv - \frac{1 }{S_0 -1}\times P\left (S_0 -1\right).  
+<div class="math">$$\tag{12} \label{delay}
+P^{\prime} (S_0)\equiv - \frac{1 }{S_0 -1}\times P\left (S_0 -1\right).
 $$</div>
-<p><br>
-Equation (\ref{delay}) is a <a href="https://en.wikipedia.org/wiki/Delay_differential_equation">delay differential equation</a>. It can be solved through iterated integrations: To initiate the process, we note that <span class="math">\(P(S_0)\)</span> is equal to zero for all <span class="math">\(S_0&lt; 1\)</span>. Plugging this observation into (\ref{delay}) implies that <span class="math">\(P(S_0) \equiv J\)</span> &#8212; some constant &#8212; for <span class="math">\(S \in (1,2)\)</span>. Continuing in this fashion, repeated integrations of (\ref{delay}) gives<br>
+<p>
+Equation (\ref{delay}) is a <a href="https://en.wikipedia.org/wiki/Delay_differential_equation">delay differential equation</a>. It can be solved through iterated integrations: To initiate the process, we note that <span class="math">\(P(S_0)\)</span> is equal to zero for all <span class="math">\(S_0&lt; 1\)</span>. Plugging this observation into (\ref{delay}) implies that <span class="math">\(P(S_0) \equiv J\)</span> &#8212; some constant &#8212; for <span class="math">\(S \in (1,2)\)</span>. Continuing in this fashion, repeated integrations of (\ref{delay})&nbsp;gives
 </p>
-<div class="math">$$\tag{13}  
-P (S_0) = \begin{cases}  
-J, \ \ \ S_0 \in (1,2) \  
-J[1 - \log (S_0 -1)], \ \ \ S_0 \in (2,3) \  
-J \left [ 1 - \log(S_0 - 1) + Li_2(2-S_0) + \frac{ \log(S_0 - 2)}{\log(S_0 - 1)} - Li_2(-1) \right ], \ \ S_0 \in (3,4) \  
-\ldots,  
-\end{cases}  
+<div class="math">$$\tag{13}
+P (S_0) = \begin{cases}
+J, \ \ \ S_0 \in (1,2) \\
+J[1 - \log (S_0 -1)], \ \ \ S_0 \in (2,3) \\
+J \left [ 1 - \log(S_0 - 1) + Li_2(2-S_0) + \frac{ \log(S_0 - 2)}{\log(S_0 - 1)} - Li_2(-1) \right ], \ \ S_0 \in (3,4) \\
+\ldots,
+\end{cases}
 $$</div>
-<p><br>
-where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.  </p>
+<p>
+where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.</p>
 <p>In practice, to find <span class="math">\(J\)</span> one can solve (\ref{delay}) numerically, requiring <span class="math">\(P(S)\)</span> to be normalized. The figure below compares the result to a simulation estimate, obtained via binning the results of 250,000 random sums of form (\ref{problem}). The two agree&nbsp;nicely.</p>
 <p><a href="https://efavdb.github.io/wp-content/uploads/2015/08/Screen-Shot-2015-08-16-at-10.34.46-PM.png"><img alt="Screen Shot 2015-08-16 at 10.34.46 PM" src="https://efavdb.github.io/wp-content/uploads/2015/08/Screen-Shot-2015-08-16-at-10.34.46-PM.png"></a></p>
 <h3>Discussion</h3>

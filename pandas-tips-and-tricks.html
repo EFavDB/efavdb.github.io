@@ -102,9 +102,9 @@
 <p><strong>Data types</strong>: As mentioned earlier, unlike Python&#8217;s list object, NumPy arrays can only contain one data type at a time.  Giving up mixed data types allows us to achieve much better performance through efficient C-loops.  One important thing to note is that missing values (NaN) will cast integer or boolean arrays to&nbsp;floats.</p>
 <p>[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;526&#8221;]<a href="http://docs.scipy.org/doc/numpy/_images/dtype-hierarchy.png"><img alt="" src="http://docs.scipy.org/doc/numpy/_images/dtype-hierarchy.png"></a> Graph showing data types in&nbsp;NumPy[/caption]</p>
 <p><strong>Broadcasting:</strong> Broadcasting describes how NumPy treats arrays with different shapes. Essentially the smaller array is “broadcast” across the larger array so that they have compatible shapes. This makes it possible to have vectorized array operations, enabling the use of C instead of Python for the looping. Broadcasting also prevents needless copies of data from being created by making a new array with repeating copies.  The simplest broadcasting example occurs when combining an array with a scaler. This is something Pandas uses for efficiency and ease of&nbsp;use.</p>
-<div class="highlight"><pre><span></span><span class="err">a = np.array([1.0, 2.0, 3.0])  </span>
-<span class="err">b = 2.0  </span>
-<span class="err">a * b  </span>
+<div class="highlight"><pre><span></span><span class="err">a = np.array([1.0, 2.0, 3.0])</span>
+<span class="err">b = 2.0</span>
+<span class="err">a * b</span>
 </pre></div>
 
 
@@ -127,9 +127,9 @@
 
 <p>For those interested, I recommend Jake Vanderplas&#8217;s <a href="https://www.youtube.com/watch?v=EEUXKG97YRw">talk</a> for learning more about how one can reduce loop usage in your own code using&nbsp;NumPy.</p>
 <h3>Pandas Data&nbsp;Structures</h3>
-<p><strong>Series</strong><br>
+<p><strong>Series</strong>
 We now move to the Pandas-specific data types. First up are Series, which are one-dimensional labeled arrays. Unlike ndarrays, these are capable of holding mixed data types. The cells of the series are labeled via the series <strong>Index</strong>. We will discuss indices more in a bit. The general method of creating a series is as&nbsp;follows.</p>
-<div class="highlight"><pre><span></span><span class="err">s = Series(data, index=index)  </span>
+<div class="highlight"><pre><span></span><span class="err">s = Series(data, index=index)</span>
 <span class="err">pd.Series([1,2,3,4], index=[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;])</span>
 </pre></div>
 
@@ -145,39 +145,56 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 
 <p><strong>DataFrame</strong></p>
 <p>As we have seen in other posts on the site, the DataFrame is the main attraction for Pandas. It is a 2-dimensional labeled data structure with columns of potentially different types. You can think of it like a spreadsheet or <span class="caps">SQL</span> table, or a dict of Series objects. Like Series, DataFrame accepts many different kinds of input. One way of making a DataFrame is using a dictionary as&nbsp;input.</p>
-<div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="err">{</span><span class="s1">&#39;one&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">.,</span> <span class="mi">2</span><span class="p">.,</span> <span class="mi">3</span><span class="p">.,</span> <span class="mi">4</span><span class="p">.],</span>  
-<span class="s1">&#39;two&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">.,</span> <span class="mi">3</span><span class="p">.,</span> <span class="mi">2</span><span class="p">.,</span> <span class="mi">1</span><span class="p">.],</span>  
+<div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="err">{</span><span class="s1">&#39;one&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">.,</span> <span class="mi">2</span><span class="p">.,</span> <span class="mi">3</span><span class="p">.,</span> <span class="mi">4</span><span class="p">.],</span>
+<span class="s1">&#39;two&#39;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">4</span><span class="p">.,</span> <span class="mi">3</span><span class="p">.,</span> <span class="mi">2</span><span class="p">.,</span> <span class="mi">1</span><span class="p">.],</span>
 <span class="s1">&#39;good&#39;</span> <span class="p">:[</span><span class="k">True</span><span class="p">,</span> <span class="k">False</span><span class="p">,</span> <span class="k">False</span><span class="p">,</span> <span class="k">True</span><span class="p">]</span><span class="err">}</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="k">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>  
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="k">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">])</span>
 </pre></div>
 
 
 <p>Running the code in a notebook will output a nicely formatted&nbsp;table.</p>
-<p>good</p>
-<p>one</p>
-<p>two</p>
-<p>a</p>
-<p>True</p>
-<p>1</p>
-<p>4</p>
-<p>b</p>
-<p>False</p>
-<p>2</p>
-<p>3</p>
-<p>c</p>
-<p>False</p>
-<p>3</p>
-<p>2</p>
-<p>d</p>
-<p>True</p>
-<p>4</p>
-<p>1</p>
-<p><strong><br>&nbsp;Index</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>good</th>
+<th>one</th>
+<th>two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><span class="caps">TRUE</span></td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>b</td>
+<td><span class="caps">FALSE</span></td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr>
+<td>c</td>
+<td><span class="caps">FALSE</span></td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>d</td>
+<td><span class="caps">TRUE</span></td>
+<td>4</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>&nbsp;Index</strong></p>
 <p>The index in Pandas provides axis labeling information for pandas objects &#8212; it can serve many purposes. First, an index can provide metadata, potentially important for analysis, visualization, and so on. Second, it can enable automatic data alignment when preforming operations on multiple DataFrames or Series. Third, it can allow easy access to subsets of the&nbsp;data.</p>
 <p><strong>Selection</strong></p>
 <p>A huge improvement over numpy arrays is labeled indexing. We can select subsets by column, row, or both. To select columns use&nbsp;[].</p>
-<div class="highlight"><pre><span></span><span class="err">df[&#39;good&#39;]  </span>
+<div class="highlight"><pre><span></span><span class="err">df[&#39;good&#39;]</span>
 </pre></div>
 
 
@@ -191,77 +208,125 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 
 
 <p>As we can see here, Pandas will reduce dimensions when possible which is why the output above is a Series instead of a DataFrame &#8212; if you wish to force the returned result to be a DataFrame, you must supply a list of arguments, eg <code>df[['good']]</code>. You can also select individual columns with the dot (.) operator, for example <code>df.good</code> will give the same result. However, when using this approach, the column name selected must not have any spaces or special characters, nor can it conflict with any DataFrame methods. In order to add a column to a DataFrame, we&nbsp;write,</p>
-<div class="highlight"><pre><span></span><span class="err">df[&#39;A&#39;] = [1, 2, 3]  </span>
+<div class="highlight"><pre><span></span><span class="err">df[&#39;A&#39;] = [1, 2, 3]</span>
 </pre></div>
 
 
 <p>You can also select multiple columns using a column name&nbsp;list.</p>
-<div class="highlight"><pre><span></span><span class="err">df[[&#39;good&#39;, &#39;two&#39;]]  </span>
+<div class="highlight"><pre><span></span><span class="err">df[[&#39;good&#39;, &#39;two&#39;]]</span>
 </pre></div>
 
 
-<p>good</p>
-<p>two</p>
-<p>a</p>
-<p>True</p>
-<p>4</p>
-<p>b</p>
-<p>False</p>
-<p>3</p>
-<p>c</p>
-<p>False</p>
-<p>2</p>
-<p>d</p>
-<p>True</p>
-<p>1</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>good</th>
+<th>two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><span class="caps">TRUE</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td>b</td>
+<td><span class="caps">FALSE</span></td>
+<td>3</td>
+</tr>
+<tr>
+<td>c</td>
+<td><span class="caps">FALSE</span></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
 <p>For row selection, use <code>.loc[row_lables, column_labels]</code> for label-based indexing and use <code>.iloc[row_positions, column_positions]</code> for ordinal/positional&nbsp;selection.</p>
-<div class="highlight"><pre><span></span><span class="err">df.loc[[&#39;a&#39;, &#39;d&#39;]]  </span>
+<div class="highlight"><pre><span></span><span class="err">df.loc[[&#39;a&#39;, &#39;d&#39;]]</span>
 </pre></div>
 
 
-<p>good</p>
-<p>one</p>
-<p>two</p>
-<p>a</p>
-<p>True</p>
-<p>1</p>
-<p>4</p>
-<p>d</p>
-<p>True</p>
-<p>4</p>
-<p>1</p>
-<div class="highlight"><pre><span></span><span class="err">df.loc[&#39;a&#39;:&#39;b&#39;]  </span>
+<table>
+<thead>
+<tr>
+<th>good</th>
+<th>one</th>
+<th>two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><span class="caps">TRUE</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>d</td>
+<td><span class="caps">TRUE</span></td>
+<td>4</td>
+</tr>
+<tr>
+<td><br /></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><span class="err">df.loc[&#39;a&#39;:&#39;b&#39;]</span>
 </pre></div>
 
 
-<p>good</p>
-<p>one</p>
-<p>two</p>
-<p>a</p>
-<p>True</p>
-<p>1</p>
-<p>4</p>
-<p>b</p>
-<p>False</p>
-<p>2</p>
-<p>3</p>
+<table>
+<thead>
+<tr>
+<th>good</th>
+<th>one</th>
+<th>two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><span class="caps">TRUE</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td><span class="caps">FALSE</span></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
 <p>Notice that the slice is <strong>inclusive</strong>: It includes both the start and end index &#8212; unlike normal python&nbsp;indexing.</p>
-<div class="highlight"><pre><span></span><span class="err">df.iloc[0:2]  </span>
+<div class="highlight"><pre><span></span><span class="err">df.iloc[0:2]</span>
 </pre></div>
 
 
-<p>good</p>
-<p>one</p>
-<p>two</p>
-<p>a</p>
-<p>True</p>
-<p>1</p>
-<p>4</p>
-<p>b</p>
-<p>False</p>
-<p>2</p>
-<p>3</p>
-<div class="highlight"><pre><span></span><span class="err">df.loc[&#39;b&#39;, &#39;good&#39;]  </span>
+<table>
+<thead>
+<tr>
+<th>good</th>
+<th>one</th>
+<th>two</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td><span class="caps">TRUE</span></td>
+<td>1</td>
+</tr>
+<tr>
+<td>b</td>
+<td><span class="caps">FALSE</span></td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<p><br /></p>
+<div class="highlight"><pre><span></span><span class="err">df.loc[&#39;b&#39;, &#39;good&#39;]</span>
 </pre></div>
 
 
@@ -275,120 +340,145 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 <p>Next, we assign our IDs to the DataFrame index using <code>set_index</code>, and then drop the column since it is no longer needed.  Lastly we transpose the table so that each row corresponds to a different time point and the columns to the separate&nbsp;measures.</p>
 <div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data.csv&#39;</span><span class="p">)</span>
 
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Series ID&#39;</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Labor force&#39;</span><span class="p">,</span> <span class="s1">&#39;Participation rate&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;Rate&#39;</span><span class="p">,</span> <span class="s1">&#39;Rate - 16-19 yrs&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - 20+ yrs (Men)&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;Rate - 20+ yrs (Women)&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - White&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;Rate - Black or African American&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - Asian&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;Rate - Hispanic or Latino&#39;</span><span class="p">,</span><span class="s1">&#39;No High School Diploma&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;High School Graduates&#39;</span><span class="p">,</span><span class="s1">&#39;Some College or Associate Degree&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;Bachelor degree and higher&#39;</span><span class="p">,</span><span class="s1">&#39;Under 5 Weeks&#39;</span><span class="p">,</span>  
-<span class="s1">&#39;5-14 Weeks&#39;</span><span class="p">,</span> <span class="s1">&#39;15 Weeks &amp; over&#39;</span><span class="p">,</span> <span class="s1">&#39;27 Weeks &amp; over&#39;</span><span class="p">]</span>  
-<span class="n">df</span><span class="p">.</span><span class="k">drop</span><span class="p">(</span><span class="s1">&#39;Jan 2000&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  
-<span class="n">df</span><span class="p">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Series ID&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  
-<span class="n">df</span><span class="p">.</span><span class="k">drop</span><span class="p">(</span><span class="s1">&#39;Series ID&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  
-<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">transpose</span><span class="p">().</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>  
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;Series ID&#39;</span><span class="p">]</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Labor force&#39;</span><span class="p">,</span> <span class="s1">&#39;Participation rate&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Rate&#39;</span><span class="p">,</span> <span class="s1">&#39;Rate - 16-19 yrs&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - 20+ yrs (Men)&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Rate - 20+ yrs (Women)&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - White&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Rate - Black or African American&#39;</span><span class="p">,</span><span class="s1">&#39;Rate - Asian&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Rate - Hispanic or Latino&#39;</span><span class="p">,</span><span class="s1">&#39;No High School Diploma&#39;</span><span class="p">,</span>
+<span class="s1">&#39;High School Graduates&#39;</span><span class="p">,</span><span class="s1">&#39;Some College or Associate Degree&#39;</span><span class="p">,</span>
+<span class="s1">&#39;Bachelor degree and higher&#39;</span><span class="p">,</span><span class="s1">&#39;Under 5 Weeks&#39;</span><span class="p">,</span>
+<span class="s1">&#39;5-14 Weeks&#39;</span><span class="p">,</span> <span class="s1">&#39;15 Weeks &amp; over&#39;</span><span class="p">,</span> <span class="s1">&#39;27 Weeks &amp; over&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">.</span><span class="k">drop</span><span class="p">(</span><span class="s1">&#39;Jan 2000&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Series ID&#39;</span><span class="p">],</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="k">drop</span><span class="p">(</span><span class="s1">&#39;Series ID&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">.</span><span class="n">transpose</span><span class="p">().</span><span class="n">convert_objects</span><span class="p">(</span><span class="n">convert_numeric</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
 </pre></div>
 
 
 <p>With these steps, we take the original&nbsp;table:</p>
-<p>Series <span class="caps">ID</span></p>
-<p>Jan&nbsp;2000</p>
-<p>Feb&nbsp;2000</p>
-<p>Mar&nbsp;2000</p>
-<p>Apr&nbsp;2000</p>
-<p>0</p>
-<p><span class="caps">LNS11000000</span></p>
-<p>142267(1)</p>
-<p>142456</p>
-<p>142434</p>
-<p>142751</p>
-<p>1</p>
-<p><span class="caps">LNS11300000</span></p>
-<p>67.3</p>
-<p>67.3</p>
-<p>67.3</p>
-<p>67.3</p>
-<p>2</p>
-<p><span class="caps">LNS14000000</span></p>
-<p>4.0</p>
-<p>4.1</p>
-<p>4.0</p>
-<p>3.8</p>
-<p>3</p>
-<p><span class="caps">LNS14000012</span></p>
-<p>12.7</p>
-<p>13.8</p>
-<p>13.3</p>
-<p>12.6</p>
-<p>4</p>
-<p><span class="caps">LNS14000025</span></p>
-<p>3.3</p>
-<p>3.5</p>
-<p>3.2</p>
-<p>3.1</p>
+<table>
+<thead>
+<tr>
+<th>Series <span class="caps">ID</span></th>
+<th>Jan 2000</th>
+<th>Feb 2000</th>
+<th>Mar 2000</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="caps">LNS11000000</span></td>
+<td>142267(1)</td>
+<td>142456</td>
+<td>142434</td>
+</tr>
+<tr>
+<td><span class="caps">LNS11300000</span></td>
+<td>67.3</td>
+<td>67.3</td>
+<td>67.3</td>
+</tr>
+<tr>
+<td><span class="caps">LNS14000000</span></td>
+<td>4</td>
+<td>4.1</td>
+<td>4</td>
+</tr>
+<tr>
+<td><span class="caps">LNS14000012</span></td>
+<td>12.7</td>
+<td>13.8</td>
+<td>13.3</td>
+</tr>
+<tr>
+<td><span class="caps">LNS14000025</span></td>
+<td>3.3</td>
+<td>3.5</td>
+<td>3.2</td>
+</tr>
+</tbody>
+</table>
 <p>to</p>
-<p>Series <span class="caps">ID</span></p>
-<p>Labor&nbsp;force</p>
-<p>Participation&nbsp;rate</p>
-<p>Rate</p>
-<p>Rate - 16-19&nbsp;yrs</p>
-<p>Rate - 20+ yrs&nbsp;(Men)</p>
-<p>Feb&nbsp;2000</p>
-<p>142456</p>
-<p>67.3</p>
-<p>4.1</p>
-<p>13.8</p>
-<p>3.5</p>
-<p>Mar&nbsp;2000</p>
-<p>142434</p>
-<p>67.3</p>
-<p>4.0</p>
-<p>13.3</p>
-<p>3.2</p>
-<p>Apr&nbsp;2000</p>
-<p>142751</p>
-<p>67.3</p>
-<p>3.8</p>
-<p>12.6</p>
-<p>3.1</p>
-<p>May&nbsp;2000</p>
-<p>142388</p>
-<p>67.1</p>
-<p>4.0</p>
-<p>12.8</p>
-<p>3.3</p>
-<p>Jun&nbsp;2000</p>
-<p>142591</p>
-<p>67.1</p>
-<p>4.0</p>
-<p>12.3</p>
-<p>3.2</p>
+<table>
+<thead>
+<tr>
+<th>Series <span class="caps">ID</span></th>
+<th>Labor force</th>
+<th>Part. rate</th>
+<th>Rate</th>
+<th>Rate – 16-19 yrs</th>
+<th>Rate – 20+ yrs (Men)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Feb 2000</td>
+<td>142456</td>
+<td>67.3</td>
+<td>4.1</td>
+<td>13.8</td>
+<td>3.5</td>
+</tr>
+<tr>
+<td>Mar 2000</td>
+<td>142434</td>
+<td>67.3</td>
+<td>4</td>
+<td>13.3</td>
+<td>3.2</td>
+</tr>
+<tr>
+<td>Apr 2000</td>
+<td>142751</td>
+<td>67.3</td>
+<td>3.8</td>
+<td>12.6</td>
+<td>3.1</td>
+</tr>
+<tr>
+<td>May 2000</td>
+<td>142388</td>
+<td>67.1</td>
+<td>4</td>
+<td>12.8</td>
+<td>3.3</td>
+</tr>
+<tr>
+<td>Jun 2000</td>
+<td>142591</td>
+<td>67.1</td>
+<td>4</td>
+<td>12.3</td>
+<td>3.2</td>
+</tr>
+</tbody>
+</table>
 <h3>Working with the&nbsp;data</h3>
 <p>Now that we have the data in a nicely formatted within DataFrame, we can easily visualize it using the Pandas plot method. For example, to plot the general unemployment rate, we&nbsp;write</p>
-<div class="highlight"><pre><span></span><span class="err">df[&#39;Rate&#39;].plot()  </span>
-<span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)  </span>
+<div class="highlight"><pre><span></span><span class="err">df[&#39;Rate&#39;].plot()</span>
+<span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)</span>
 </pre></div>
 
 
 <p><a href="https://efavdb.github.io/wp-content/uploads/2015/07/fig1.png"><img alt="fig1" src="https://efavdb.github.io/wp-content/uploads/2015/07/fig1.png"></a> Similarly, the following plots unemployment for each of the available different levels of&nbsp;education.</p>
-<div class="highlight"><pre><span></span><span class="err">df[[&#39;Rate&#39;, &#39;No High School Diploma&#39;, &#39;Bachelor degree and higher&#39;]].plot()  </span>
-<span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)  </span>
+<div class="highlight"><pre><span></span><span class="err">df[[&#39;Rate&#39;, &#39;No High School Diploma&#39;, &#39;Bachelor degree and higher&#39;]].plot()</span>
+<span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)</span>
 </pre></div>
 
 
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/07/fig2.png"><img alt="fig2" src="https://efavdb.github.io/wp-content/uploads/2015/07/fig2.png"></a><br>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/07/fig2.png"><img alt="fig2" src="https://efavdb.github.io/wp-content/uploads/2015/07/fig2.png"></a>
 Interestingly, these unemployment rates seem to evolve in a similar manner. Notice that both the green and the red curves seem to have doubled during the recent&nbsp;slow-down.</p>
 <h3>GroupBy</h3>
 <p>You can also used Pandas GroupBy functionality to do analysis on subsets of the data.  For this example we <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">GroupBy</a> year, and then make a plot showing the mean unemployment per year. GroupBy allows one to easily split the data, apply a function to each group, and then combine the results. It is a very useful&nbsp;feature!</p>
-<div class="highlight"><pre><span></span><span class="err">df[&#39;Year&#39;]=(df.index.to_datetime()).year  </span>
-<span class="err">years = df.groupby(&#39;Year&#39;)  </span>
-<span class="err">years[&#39;Rate&#39;].mean().plot(kind=&#39;bar&#39;)  </span>
+<div class="highlight"><pre><span></span><span class="err">df[&#39;Year&#39;]=(df.index.to_datetime()).year</span>
+<span class="err">years = df.groupby(&#39;Year&#39;)</span>
+<span class="err">years[&#39;Rate&#39;].mean().plot(kind=&#39;bar&#39;)</span>
 </pre></div>
 
 
 <h3><a href="https://efavdb.github.io/wp-content/uploads/2015/07/fig3.png"><img alt="fig3" src="https://efavdb.github.io/wp-content/uploads/2015/07/fig3.png"></a></h3>
 <p>There are some functions like mean, and describe that can be run directly on a grouped&nbsp;object.</p>
-<div class="highlight"><pre><span></span><span class="err">years.get_group(2005)[&#39;Rate&#39;].describe()  </span>
+<div class="highlight"><pre><span></span><span class="err">years.get_group(2005)[&#39;Rate&#39;].describe()</span>
 </pre></div>
 
 
@@ -406,98 +496,145 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 
 <p>It is possible to apply any function to the grouped function using <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html#aggregation">agg()</a>.</p>
-<div class="highlight"><pre><span></span><span class="err">years[&#39;Rate&#39;].agg([np.mean, np.std, max, min])  </span>
+<div class="highlight"><pre><span></span><span class="err">years[&#39;Rate&#39;].agg([np.mean, np.std, max, min])</span>
 </pre></div>
 
 
-<p>mean</p>
-<p>std</p>
-<p>max</p>
-<p>min</p>
-<p>Year</p>
-<p>2000</p>
-<p>3.963636</p>
-<p>0.092442</p>
-<p>4.1</p>
-<p>3.8</p>
-<p>2001</p>
-<p>4.741667</p>
-<p>0.528219</p>
-<p>5.7</p>
-<p>4.2</p>
-<p>2002</p>
-<p>5.783333</p>
-<p>0.102986</p>
-<p>6.0</p>
-<p>5.7</p>
-<p>2003</p>
-<p>5.991667</p>
-<p>0.178164</p>
-<p>6.3</p>
-<p>5.7</p>
-<p>2004</p>
-<p>5.541667</p>
-<p>0.131137</p>
-<p>5.8</p>
-<p>5.4</p>
-<p>2005</p>
-<p>5.083333</p>
-<p>0.158592</p>
-<p>5.4</p>
-<p>4.9</p>
-<p>2006</p>
-<p>4.608333</p>
-<p>0.131137</p>
-<p>4.8</p>
-<p>4.4</p>
-<p>2007</p>
-<p>4.616667</p>
-<p>0.164225</p>
-<p>5.0</p>
-<p>4.4</p>
-<p>2008</p>
-<p>5.800000</p>
-<p>0.780443</p>
-<p>7.3</p>
-<p>4.9</p>
-<p>2009</p>
-<p>9.283333</p>
-<p>0.696528</p>
-<p>10.0</p>
-<p>7.8</p>
-<p>2010</p>
-<p>9.608333</p>
-<p>0.219331</p>
-<p>9.9</p>
-<p>9.3</p>
-<p>2011</p>
-<p>8.941667</p>
-<p>0.206522</p>
-<p>9.2</p>
-<p>8.5</p>
-<p>2012</p>
-<p>8.066667</p>
-<p>0.214617</p>
-<p>8.3</p>
-<p>7.7</p>
-<p>2013</p>
-<p>7.366667</p>
-<p>0.342008</p>
-<p>8.0</p>
-<p>6.7</p>
-<p>2014</p>
-<p>6.150000</p>
-<p>0.360555</p>
-<p>6.7</p>
-<p>5.6</p>
-<p>2015</p>
-<p>5.412500</p>
-<p>0.180772</p>
-<p>5.7</p>
-<p>5.1</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>mean</th>
+<th>std</th>
+<th>max</th>
+<th>min</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Year</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2000</td>
+<td>3.963636</td>
+<td>0.092442</td>
+<td>4.1</td>
+<td>3.8</td>
+</tr>
+<tr>
+<td>2001</td>
+<td>4.741667</td>
+<td>0.528219</td>
+<td>5.7</td>
+<td>4.2</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>5.783333</td>
+<td>0.102986</td>
+<td>6</td>
+<td>5.7</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>5.991667</td>
+<td>0.178164</td>
+<td>6.3</td>
+<td>5.7</td>
+</tr>
+<tr>
+<td>2004</td>
+<td>5.541667</td>
+<td>0.131137</td>
+<td>5.8</td>
+<td>5.4</td>
+</tr>
+<tr>
+<td>2005</td>
+<td>5.083333</td>
+<td>0.158592</td>
+<td>5.4</td>
+<td>4.9</td>
+</tr>
+<tr>
+<td>2006</td>
+<td>4.608333</td>
+<td>0.131137</td>
+<td>4.8</td>
+<td>4.4</td>
+</tr>
+<tr>
+<td>2007</td>
+<td>4.616667</td>
+<td>0.164225</td>
+<td>5</td>
+<td>4.4</td>
+</tr>
+<tr>
+<td>2008</td>
+<td>5.8</td>
+<td>0.780443</td>
+<td>7.3</td>
+<td>4.9</td>
+</tr>
+<tr>
+<td>2009</td>
+<td>9.283333</td>
+<td>0.696528</td>
+<td>10</td>
+<td>7.8</td>
+</tr>
+<tr>
+<td>2010</td>
+<td>9.608333</td>
+<td>0.219331</td>
+<td>9.9</td>
+<td>9.3</td>
+</tr>
+<tr>
+<td>2011</td>
+<td>8.941667</td>
+<td>0.206522</td>
+<td>9.2</td>
+<td>8.5</td>
+</tr>
+<tr>
+<td>2012</td>
+<td>8.066667</td>
+<td>0.214617</td>
+<td>8.3</td>
+<td>7.7</td>
+</tr>
+<tr>
+<td>2013</td>
+<td>7.366667</td>
+<td>0.342008</td>
+<td>8</td>
+<td>6.7</td>
+</tr>
+<tr>
+<td>2014</td>
+<td>6.15</td>
+<td>0.360555</td>
+<td>6.7</td>
+<td>5.6</td>
+</tr>
+<tr>
+<td>2015</td>
+<td>5.4125</td>
+<td>0.180772</td>
+<td>5.7</td>
+<td>5.1</td>
+</tr>
+</tbody>
+</table>
 <h3>Boolean&nbsp;Indexing</h3>
 <p>Another common operation is the use of boolean vectors to filter data. This allows one to easily select subsets of data. It also provides a quick method for counting &#8212; this works because True and False are represented as 1 and 0, respectively, when&nbsp;adding.</p>
-<div class="highlight"><pre><span></span><span class="err">sum(df[&#39;Rate&#39;] &gt; 7)  </span>
+<div class="highlight"><pre><span></span><span class="err">sum(df[&#39;Rate&#39;] &gt; 7)</span>
 </pre></div>
 
 
@@ -507,8 +644,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 <h3>String&nbsp;Methods</h3>
 <p>Pandas has very useful string methods which can be access via <code>str.</code> This makes it easy to look for patterns in the text, do filtering, replacements, and so on. I have a couple of examples below but I highly recommend taking a look at the documentation page for many <a href="http://pandas.pydata.org/pandas-docs/stable/text.html">examples</a>.</p>
-<div class="highlight"><pre><span></span><span class="err">s = pd.Series([&#39;Dog&#39;, &#39;Bat&#39;, &#39;Coon&#39;, &#39;cAke&#39;, &#39;bAnk&#39;, &#39;CABA&#39;, &#39;dog&#39;, &#39;cat&#39;])  </span>
-<span class="err">s[s.str.contains(&#39;B&#39;)]  </span>
+<div class="highlight"><pre><span></span><span class="err">s = pd.Series([&#39;Dog&#39;, &#39;Bat&#39;, &#39;Coon&#39;, &#39;cAke&#39;, &#39;bAnk&#39;, &#39;CABA&#39;, &#39;dog&#39;, &#39;cat&#39;])</span>
+<span class="err">s[s.str.contains(&#39;B&#39;)]</span>
 </pre></div>
 
 
@@ -517,7 +654,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </pre></div>
 
 
-<div class="highlight"><pre><span></span><span class="err">s.str.replace(&#39;dog|cat&#39;, &#39;nope &#39;, case=False)  </span>
+<div class="highlight"><pre><span></span><span class="err">s.str.replace(&#39;dog|cat&#39;, &#39;nope &#39;, case=False)</span>
 </pre></div>
 
 

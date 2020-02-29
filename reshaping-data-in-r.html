@@ -79,78 +79,122 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>Today, we&#8217;ll talk about reshaping data in R. At the same time, we&#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&nbsp;loop.  </p>
+            <p>Today, we&#8217;ll talk about reshaping data in R. At the same time, we&#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&nbsp;loop.</p>
 <h3>The&nbsp;Task</h3>
 <p>Suppose you&#8217;re given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its&nbsp;id.</p>
 <p>Day&nbsp;1</p>
-<p>day</p>
-<p>group</p>
-<p>id</p>
-<p>height</p>
-<p>1</p>
-<p>A</p>
-<p>A.1</p>
-<p>1.1</p>
-<p>1</p>
-<p>A</p>
-<p>A.2</p>
-<p>1.2</p>
-<p>1</p>
-<p>B</p>
-<p>B.1</p>
-<p>1.0</p>
-<p>1</p>
-<p>B</p>
-<p>B.2</p>
-<p>0.9</p>
+<table>
+<thead>
+<tr>
+<th>day</th>
+<th>group</th>
+<th>id</th>
+<th>height</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+<td>A.1</td>
+<td>1.1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>A</td>
+<td>A.2</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>1</td>
+<td>B</td>
+<td>B.1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>B</td>
+<td>B.2</td>
+<td>0.9</td>
+</tr>
+</tbody>
+</table>
 <p>Day&nbsp;2</p>
-<p>day</p>
-<p>group</p>
-<p>id</p>
-<p>height</p>
-<p>2</p>
-<p>A</p>
-<p>A.1</p>
-<p>1.5</p>
-<p>2</p>
-<p>A</p>
-<p>A.2</p>
-<p>1.5</p>
-<p>2</p>
-<p>B</p>
-<p>B.1</p>
-<p>2.1</p>
-<p>2</p>
-<p>B</p>
-<p>B.2</p>
-<p>1.9</p>
+<table>
+<thead>
+<tr>
+<th>day</th>
+<th>group</th>
+<th>id</th>
+<th>height</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>A</td>
+<td>A.1</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>A</td>
+<td>A.2</td>
+<td>1.5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>B.1</td>
+<td>2.1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+<td>B.2</td>
+<td>1.9</td>
+</tr>
+</tbody>
+</table>
 <p>Your task is to split the data by treatment group rather than day. The desired output is one file per group, with day on the vertical of the new tables, plant id on the horizontal, and height as the value inside the table. For example, the new table for group A would&nbsp;be:</p>
 <p>Group&nbsp;A</p>
-<p>day</p>
-<p>A.1</p>
-<p>A.2</p>
-<p>1</p>
-<p>1.1</p>
-<p>1.2</p>
-<p>2</p>
-<p>1.5</p>
-<p>1.5</p>
+<table>
+<thead>
+<tr>
+<th>day</th>
+<th>A.1</th>
+<th>A.2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>1.1</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1.5</td>
+<td>1.5</td>
+</tr>
+</tbody>
+</table>
 <p>This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you&#8217;re in first grade. So, we&#8217;re going to take a little time to write a script now in order to save a lot of time in the&nbsp;future.</p>
 <h3>The code broken&nbsp;down</h3>
 <p>First, let&#8217;s load some libraries that are useful for reshaping&nbsp;data.</p>
-<div class="highlight"><pre><span></span><span class="err">library(&quot;plyr&quot;)  </span>
-<span class="err">library(&quot;reshape2&quot;)  </span>
+<div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="s">&quot;plyr&quot;</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="s">&quot;reshape2&quot;</span><span class="p">)</span>
 </pre></div>
 
 
 <p>(To install, e.g. the plyr package, simply type <code>install.packages("plyr")</code> in the R&nbsp;console.)</p>
 <p>Then store the full names, including directory path, of the files in a character vector. Here, the input .csv files are stored in the subdirectory&nbsp;&#8220;input&#8221;.</p>
-<div class="highlight"><pre><span></span><span class="err">in_files = list.files(path = &quot;input&quot;, pattern=&quot;*.csv&quot;, full.names = T)  </span>
+<div class="highlight"><pre><span></span><span class="n">in_files</span> <span class="o">=</span> <span class="nf">list.files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;input&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;*.csv&quot;</span><span class="p">,</span> <span class="n">full.names</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Now, we&#8217;ll use <code>lapply(...)</code>, one of base R&#8217;s functionals, to read the input files into a list of data frames, which we call&nbsp;list_dfperday.</p>
-<div class="highlight"><pre><span></span><span class="err">list_dfperday = lapply(in_files, read.csv)  </span>
+<div class="highlight"><pre><span></span><span class="n">list_dfperday</span> <span class="o">=</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">in_files</span><span class="p">,</span> <span class="n">read.csv</span><span class="p">)</span>
 </pre></div>
 
 
@@ -160,53 +204,53 @@
 <li>output the result into a list of data frames, called dfs, of the same length as the character vector containing the file&nbsp;names</li>
 </ul>
 <p>Bind together (rbind) the data frames in the list by rows into a single data frame, so we can more conveniently subset the data by&nbsp;group.</p>
-<div class="highlight"><pre><span></span><span class="err">df = ldply(list_dfperday, rbind)  </span>
+<div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="nf">ldply</span><span class="p">(</span><span class="n">list_dfperday</span><span class="p">,</span> <span class="n">rbind</span><span class="p">)</span>
 </pre></div>
 
 
 <p>In the <code>plyr</code> package, the first two letters in the &#8220;&#8212;ply&#8221; functions indicate what type of object is being transformed into another. In this case, we are reshaping a list (&#8216;l&#8217;) of data frames into a data frame (&#8216;d&#8217;), hence&nbsp;&#8220;ldply&#8221;.</p>
 <p>Define a function to cast the data into a data frame with a shape specified by the formula <code>day ~ id</code>: per <em>day</em> (x-variable), output the corresponding height (value.var) of each plant <em>id</em>&nbsp;(y-variable).</p>
-<div class="highlight"><pre><span></span><span class="err">cast_short = function(mydata) dcast(mydata, day ~ id, value.var = height)  </span>
+<div class="highlight"><pre><span></span><span class="n">cast_short</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span> <span class="nf">dcast</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">day</span> <span class="o">~</span> <span class="n">id</span><span class="p">,</span> <span class="n">value.var</span> <span class="o">=</span> <span class="n">height</span><span class="p">)</span>
 </pre></div>
 
 
 <p>So the function &#8220;cast_short&#8221; takes as its argument a data frame &#8220;mydata&#8221; (containing columns &#8220;day&#8221; and &#8220;id&#8221;) and returns a reshaped data frame with &#8220;day&#8221; on the rows and &#8220;id&#8221; on the&nbsp;columns.</p>
 <p>Now apply the function we just defined to each treatment group. Store the outcome of each application of <code>cast_short</code> into a list. (Also compare to the earlier use of <code>ldply</code>.)</p>
-<div class="highlight"><pre><span></span><span class="err">list_dfpergroup = dlply(df, .(group), cast_short)  </span>
+<div class="highlight"><pre><span></span><span class="n">list_dfpergroup</span> <span class="o">=</span> <span class="nf">dlply</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">.(group</span><span class="p">),</span> <span class="n">cast_short</span><span class="p">)</span>
 </pre></div>
 
 
 <p>It&#8217;s finally time to write the formatted data frames to .csv files. We&#8217;ll output them in a new directory called &#8220;output&#8221; with the aid of another base R functional <code>mapply</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="ss">&quot;output&quot;</span>  
-<span class="n">outnames</span> <span class="o">=</span> <span class="n">paste0</span><span class="p">(</span><span class="k">names</span><span class="p">(</span><span class="n">list_dfpergroup</span><span class="p">),</span><span class="ss">&quot;.csv&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">outdir</span> <span class="o">=</span> <span class="s">&quot;output&quot;</span>
+<span class="n">outnames</span> <span class="o">=</span> <span class="nf">paste0</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">list_dfpergroup</span><span class="p">),</span><span class="s">&quot;.csv&quot;</span><span class="p">)</span>
 
-<span class="n">dir</span><span class="p">.</span><span class="k">create</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>  
-<span class="n">mapply</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">write</span><span class="p">.</span><span class="n">csv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">file</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="k">row</span><span class="p">.</span><span class="k">names</span><span class="o">=</span><span class="n">F</span><span class="p">),</span>  
-<span class="n">list_dfpergroup</span><span class="p">,</span>  
-<span class="n">outnames</span><span class="p">)</span>  
+<span class="nf">dir.create</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+<span class="nf">mapply</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="nf">write.csv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nf">file.path</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">row.names</span><span class="o">=</span><span class="bp">F</span><span class="p">),</span>
+<span class="n">list_dfpergroup</span><span class="p">,</span>
+<span class="n">outnames</span><span class="p">)</span>
 </pre></div>
 
 
 <p><code>mapply</code> allows functions with multiple arguments to be applied in a loop. Here, we&#8217;ve defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of <em>x</em> is given by list_dfpergroup, and <em>y</em> is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup<span class="math">\(_i\)</span> to a file named outnames<span class="math">\(_i\)</span>.</p>
 <h3>The code in one&nbsp;piece</h3>
 <p>Now here&#8217;s the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing <code>ldply</code>.</p>
-<div class="highlight"><pre><span></span><span class="n">library</span><span class="p">(</span><span class="ss">&quot;plyr&quot;</span><span class="p">)</span>  
-<span class="n">library</span><span class="p">(</span><span class="ss">&quot;reshape2&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="s">&quot;plyr&quot;</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="s">&quot;reshape2&quot;</span><span class="p">)</span>
 
-<span class="n">in_files</span> <span class="o">=</span> <span class="n">list</span><span class="p">.</span><span class="n">files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="ss">&quot;input&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="ss">&quot;*.csv&quot;</span><span class="p">,</span> <span class="k">full</span><span class="p">.</span><span class="k">names</span> <span class="o">=</span> <span class="n">T</span><span class="p">)</span>  
-<span class="n">list_dfperday</span> <span class="o">=</span> <span class="n">lapply</span><span class="p">(</span><span class="n">in_files</span><span class="p">,</span> <span class="k">read</span><span class="p">.</span><span class="n">csv</span><span class="p">)</span>
+<span class="n">in_files</span> <span class="o">=</span> <span class="nf">list.files</span><span class="p">(</span><span class="n">path</span> <span class="o">=</span> <span class="s">&quot;input&quot;</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;*.csv&quot;</span><span class="p">,</span> <span class="n">full.names</span> <span class="o">=</span> <span class="bp">T</span><span class="p">)</span>
+<span class="n">list_dfperday</span> <span class="o">=</span> <span class="nf">lapply</span><span class="p">(</span><span class="n">in_files</span><span class="p">,</span> <span class="n">read.csv</span><span class="p">)</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">ldply</span><span class="p">(</span><span class="n">list_dfperday</span><span class="p">,</span> <span class="n">rbind</span><span class="p">)</span>  
-<span class="n">cast_short</span> <span class="o">=</span> <span class="k">function</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span> <span class="n">dcast</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="k">day</span> <span class="o">~</span> <span class="n">id</span><span class="p">,</span> <span class="n">value</span><span class="p">.</span><span class="n">var</span> <span class="o">=</span> <span class="n">height</span><span class="p">)</span>  
-<span class="n">list_dfpergroup</span> <span class="o">=</span> <span class="n">dlply</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="p">.(</span><span class="k">group</span><span class="p">),</span> <span class="n">cast_short</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="nf">ldply</span><span class="p">(</span><span class="n">list_dfperday</span><span class="p">,</span> <span class="n">rbind</span><span class="p">)</span>
+<span class="n">cast_short</span> <span class="o">=</span> <span class="nf">function</span><span class="p">(</span><span class="n">mydata</span><span class="p">)</span> <span class="nf">dcast</span><span class="p">(</span><span class="n">mydata</span><span class="p">,</span> <span class="n">day</span> <span class="o">~</span> <span class="n">id</span><span class="p">,</span> <span class="n">value.var</span> <span class="o">=</span> <span class="n">height</span><span class="p">)</span>
+<span class="n">list_dfpergroup</span> <span class="o">=</span> <span class="nf">dlply</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">.(group</span><span class="p">),</span> <span class="n">cast_short</span><span class="p">)</span>
 
-<span class="n">outdir</span> <span class="o">=</span> <span class="ss">&quot;output&quot;</span>  
-<span class="n">outnames</span> <span class="o">=</span> <span class="n">paste0</span><span class="p">(</span><span class="k">names</span><span class="p">(</span><span class="n">list_dfpergroup</span><span class="p">),</span><span class="ss">&quot;.csv&quot;</span><span class="p">)</span>
+<span class="n">outdir</span> <span class="o">=</span> <span class="s">&quot;output&quot;</span>
+<span class="n">outnames</span> <span class="o">=</span> <span class="nf">paste0</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">list_dfpergroup</span><span class="p">),</span><span class="s">&quot;.csv&quot;</span><span class="p">)</span>
 
-<span class="n">dir</span><span class="p">.</span><span class="k">create</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>  
-<span class="n">mapply</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="k">write</span><span class="p">.</span><span class="n">csv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">file</span><span class="p">.</span><span class="n">path</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="k">row</span><span class="p">.</span><span class="k">names</span><span class="o">=</span><span class="n">F</span><span class="p">),</span>  
-<span class="n">list_dfpergroup</span><span class="p">,</span>  
-<span class="n">outnames</span><span class="p">)</span>  
+<span class="nf">dir.create</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+<span class="nf">mapply</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span> <span class="nf">write.csv</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nf">file.path</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="n">y</span><span class="p">),</span> <span class="n">row.names</span><span class="o">=</span><span class="bp">F</span><span class="p">),</span>
+<span class="n">list_dfpergroup</span><span class="p">,</span>
+<span class="n">outnames</span><span class="p">)</span>
 </pre></div>
 
 
