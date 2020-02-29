@@ -549,71 +549,72 @@ We won&amp;#8217;t show the details, but if you plug (\ref{A2}), (\ref{A3}), and
 }
 &lt;/script&gt;</content><category term="Finance"></category></entry><entry><title>Universal drawdown statistics in investing</title><link href="https://efavdb.github.io/universal-drawdown-statistics-in-investing" rel="alternate"></link><published>2019-12-05T15:46:00-08:00</published><updated>2019-12-05T15:46:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2019-12-05:/universal-drawdown-statistics-in-investing</id><summary type="html">&lt;p&gt;We consider the equilibrium drawdown distribution for a biased random walk &amp;#8212; in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We consider the equilibrium drawdown distribution for a biased random walk &amp;#8212; in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent that is universal in form, depending only on the mean and standard deviation of the step distribution. We give simulation examples in python consistent with the&amp;nbsp;results.&lt;/p&gt;
 &lt;h2&gt;Introduction and main&amp;nbsp;results&lt;/h2&gt;
-&lt;p&gt;In this post, we consider a topic of high interest to investors and gamblers alike &amp;#8212; the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. &lt;a href="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt; For example, if an investor once held &lt;span class="math"&gt;\(100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of $\)&lt;/span&gt;k$, given knowledge of the statistics of his&amp;nbsp;bets.&lt;/p&gt;
-&lt;p&gt;We will take as our model system a biased random walk. The probability that at step &lt;span class="math"&gt;\(t\)&lt;/span&gt; the investment goes from &lt;span class="math"&gt;\(k^{\prime}\)&lt;/span&gt; to &lt;span class="math"&gt;\(k\)&lt;/span&gt; will be taken to be independent of time and given by&lt;br&gt;
+&lt;p&gt;In this post, we consider a topic of high interest to investors and gamblers alike &amp;#8212; the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. &lt;a href="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For example, if an investor once held $100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of $\(k\), given knowledge of the statistics of his&amp;nbsp;bets.&lt;/p&gt;
+&lt;p&gt;We will take as our model system a biased random walk. The probability that at step &lt;span class="math"&gt;\(t\)&lt;/span&gt; the investment goes from &lt;span class="math"&gt;\(k^{\prime}\)&lt;/span&gt; to &lt;span class="math"&gt;\(k\)&lt;/span&gt; will be taken to be independent of time and given&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{1} \label{step_distribution}  
-p(k^{\prime} \to k) = \tau(k - k^{\prime}).  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{1} \label{step_distribution}
+p(k^{\prime} \to k) = \tau(k - k^{\prime}).
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-We will assume that this has a positive bias &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;, so that on average the investor makes money. With this assumption, we show below that for &lt;span class="math"&gt;\(\vert k \vert\)&lt;/span&gt; more than a few step sizes, the drawdown distribution has an exponential form,&lt;br&gt;
+&lt;p&gt;
+We will assume that this has a positive bias &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;, so that on average the investor makes money. With this assumption, we show below that for &lt;span class="math"&gt;\(\vert k \vert\)&lt;/span&gt; more than a few step sizes, the drawdown distribution has an exponential&amp;nbsp;form,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{exponential}  
-p(k) \propto \exp\left( - \alpha \vert k \vert \right)  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{exponential}
+p(k) \propto \exp\left( - \alpha \vert k \vert \right)
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-where the decay constant &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; satisfies&lt;br&gt;
+&lt;p&gt;
+where the decay constant &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;&amp;nbsp;satisfies
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{3} \label{dd_decay_eqn}  
-1 = \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj.  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{3} \label{dd_decay_eqn}
+1 = \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj.
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The form (\ref{exponential}) holds for general distributions and (\ref{dd_decay_eqn}) provides the formula for obtaining &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; in this case. However, in the limit where the mean drift &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; in &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; is small relative to its standard deviation, &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;, we show that the solution to (\ref{dd_decay_eqn}) has a universal form, giving&lt;br&gt;
+&lt;p&gt;
+The form (\ref{exponential}) holds for general distributions and (\ref{dd_decay_eqn}) provides the formula for obtaining &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; in this case. However, in the limit where the mean drift &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; in &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; is small relative to its standard deviation, &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;, we show that the solution to (\ref{dd_decay_eqn}) has a universal form,&amp;nbsp;giving
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{4} \label{exponential_universal}  
-p(k) \propto \exp\left( - 2 \frac{\mu}{\sigma^2} \vert k \vert \right).  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{4} \label{exponential_universal}
+p(k) \propto \exp\left( - 2 \frac{\mu}{\sigma^2} \vert k \vert \right).
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Because it is difficult to find very high drift investments, this simple form should hold for most real world investments (under the assumption of a Markov process). It can be used to give one a sense of how much time they can expect to sit at a particular drawdown, given estimates for &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The results (\ref{exponential} - \ref{exponential_universal}) are the main results of this post. These may be new, but could also be well-known to finance theorists &amp;#8212; we are not sure. We illustrate their accuracy in the following section using a numerical example, and provide derivations in an&amp;nbsp;appendix.&lt;/p&gt;
 &lt;h2&gt;Numerical examples in&amp;nbsp;python&lt;/h2&gt;
 &lt;p&gt;Here, we will consider two different kinds of random walk &amp;#8212; one where the steps are always the same size, but there is bias in the forward direction, and the other where the steps are taken from a Gaussian or normal distribution. The code below carries out a simulated investing scenario over one million&amp;nbsp;steps.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
-&lt;span class="sd"&gt;Return either mu - 1 or mu + 1 with equal probability.  &lt;/span&gt;
-&lt;span class="sd"&gt;Note unit std.  &lt;/span&gt;
-&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;binary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Return either mu - 1 or mu + 1 with equal probability.&lt;/span&gt;
+&lt;span class="sd"&gt;Note unit std.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;choice&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;mu&lt;/span&gt;
 
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;normal_random_step&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
-&lt;span class="sd"&gt;Return a random unit normal with unit std.  &lt;/span&gt;
-&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;normal_random_step&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mu&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;Return a random unit normal with unit std.&lt;/span&gt;
+&lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
 &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;randn&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;mu&lt;/span&gt;
 
-&lt;span class="c1"&gt;# CONSTANTS  &lt;/span&gt;
-&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;  
+&lt;span class="c1"&gt;# CONSTANTS&lt;/span&gt;
+&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;
 &lt;span class="n"&gt;MU&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;
 
-&lt;span class="c1"&gt;# BINARY WALK  &lt;/span&gt;
-&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
-&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
-&lt;span class="n"&gt;drawdowns_binary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;  
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
-&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="c1"&gt;# BINARY WALK&lt;/span&gt;
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;drawdowns_binary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;drawdowns_binary&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="c1"&gt;# GAUSSIAN / NORMAL WALK  &lt;/span&gt;
-&lt;span class="n"&gt;STEP_FUNC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;normal_random_step&lt;/span&gt;  
-&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
-&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;  
-&lt;span class="n"&gt;drawdowns_normal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;  
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
-&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="c1"&gt;# GAUSSIAN / NORMAL WALK&lt;/span&gt;
+&lt;span class="n"&gt;STEP_FUNC&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;normal_random_step&lt;/span&gt;
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="n"&gt;drawdowns_normal&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TIME_STEPS&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+&lt;span class="n"&gt;position&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;STEP_FUNC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;drawdowns_normal&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="kp"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;max_position_to_date&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;position&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -623,10 +624,10 @@ Because it is difficult to find very high drift investments, this simple form sh
 &lt;p&gt;To check whether our theoretical forms are accurate, it is useful to plot the cumulative distribution functions vs the theoretical forms &amp;#8212; the latter will again be exponential with the same &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; values as the probability distribution functions. It turns out that the exponent &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; that solves (\ref{dd_decay_eqn}) is always given by the universal form for a Gaussian. However, for the binary walker, we need to solve for this numerically in general. The following code snippet does&amp;nbsp;this.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;scipy.optimize&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;fsolve&lt;/span&gt;
 
-&lt;span class="c1"&gt;# Solving numerically for binary case.  &lt;/span&gt;
-&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cosh&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
-&lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;  
-&lt;span class="n"&gt;alpha_solution&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fsolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+&lt;span class="c1"&gt;# Solving numerically for binary case.&lt;/span&gt;
+&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;MU&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;cosh&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;
+&lt;span class="n"&gt;alpha_solution&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fsolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;binary_alpha_func&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;alpha_initial_guess&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -636,57 +637,57 @@ Because it is difficult to find very high drift investments, this simple form sh
 &lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2019/12/results.png"&gt;&lt;img alt="results" src="https://efavdb.github.io/wp-content/uploads/2019/12/results.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;In conclusion, we have found that the exponential form of drawdown works quite well in these examples, with the theoretical results (\ref{exponential} - \ref{exponential_universal}) providing methods for identifying the exponents. In particular, the plot at left above illustrates the universality of form (\ref{exponential_universal}) &amp;#8212; it holds for all walks, provided we are in the small bias&amp;nbsp;limit.&lt;/p&gt;
 &lt;h2&gt;Appendix:&amp;nbsp;Derivations&lt;/h2&gt;
-&lt;p&gt;To derive the exponential form, we consider an integral equation for the drawdown probability &lt;span class="math"&gt;\(p\)&lt;/span&gt;. At equilibrium, we have&lt;br&gt;
+&lt;p&gt;To derive the exponential form, we consider an integral equation for the drawdown probability &lt;span class="math"&gt;\(p\)&lt;/span&gt;. At equilibrium, we&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{A1}  
-p(k) = \int_{-\infty}^{0} p(k^{\prime}) T(k^{\prime}, k) dk^{\prime}.  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A1}
+p(k) = \int_{-\infty}^{0} p(k^{\prime}) T(k^{\prime}, k) dk^{\prime}.
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-where &lt;span class="math"&gt;\(T\)&lt;/span&gt; is the transition function for the drawdown process. In the tail, we can ignore the boundary at zero and this goes to&lt;br&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(T\)&lt;/span&gt; is the transition function for the drawdown process. In the tail, we can ignore the boundary at zero and this goes&amp;nbsp;to
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{A2}  
-p(k) = \int_{-\infty}^{\infty} p(k^{\prime}) \tau(k - k^{\prime}) dk^{\prime},  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A2}
+p(k) = \int_{-\infty}^{\infty} p(k^{\prime}) \tau(k - k^{\prime}) dk^{\prime},
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-where we have taken the upper limit to infinity, assuming that the transition function has a finite length so that this is acceptable. We can solve this by positing an exponential solution of form&lt;br&gt;
+&lt;p&gt;
+where we have taken the upper limit to infinity, assuming that the transition function has a finite length so that this is acceptable. We can solve this by positing an exponential solution of&amp;nbsp;form
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{A3}  
-p(k) \equiv A \exp\left(\alpha k \right).  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{A3}
+p(k) \equiv A \exp\left(\alpha k \right).
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Plugging this into the above gives&lt;br&gt;
+&lt;p&gt;
+Plugging this into the above&amp;nbsp;gives
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-A \exp\left(\alpha k \right) &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} A \exp\left(\alpha k^{\prime} \right) \tau(k - k^{\prime}) dk^{\prime}\ \tag{A4}  
-&amp;amp;=&amp;amp; A \exp\left(\alpha k \right) \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+A \exp\left(\alpha k \right) &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} A \exp\left(\alpha k^{\prime} \right) \tau(k - k^{\prime}) dk^{\prime}\ \tag{A4}
+&amp;amp;=&amp;amp; A \exp\left(\alpha k \right) \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Simplifying this gives&amp;nbsp;(\ref{exponential}).&lt;/p&gt;
-&lt;p&gt;Now, to get the universal form, we make use of the cumulant expansion, writing&lt;br&gt;
+&lt;p&gt;Now, to get the universal form, we make use of the cumulant expansion,&amp;nbsp;writing
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-1 &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \  
-&amp;amp;\equiv &amp;amp; \exp \left ( - \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots \right) \tag{A5}  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+1 &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} \exp\left( \alpha j \right) \tau(-j) dj \
+&amp;amp;\equiv &amp;amp; \exp \left ( - \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots \right) \tag{A5}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Provided the expansion converges quickly, we obtain&lt;br&gt;
+&lt;p&gt;
+Provided the expansion converges quickly, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-- \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots = 0 \tag{A6}  
+&lt;div class="math"&gt;\begin{eqnarray}
+- \mu \alpha + \sigma^2 \frac{\alpha^2}{2} + \ldots = 0 \tag{A6}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-giving&lt;br&gt;
+&lt;p&gt;
+giving
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}  
-\alpha \sim 2 \frac{\mu}{\sigma^2}  
+&lt;div class="math"&gt;\begin{eqnarray} \label{cppi_alpha_asymptotic} \tag{A7}
+\alpha \sim 2 \frac{\mu}{\sigma^2}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-With this solution, the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th term in the cumulant expansion goes like&lt;br&gt;
+&lt;p&gt;
+With this solution, the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-th term in the cumulant expansion goes&amp;nbsp;like
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{A8}  
-\frac{2^k}{k!} \left( \frac{\mu}{\sigma^2} \right)^k O(\overline{x^k}) \sim \frac{2^k}{k!} \left( \frac{\mu}{\sigma} \right)^k  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A8}
+\frac{2^k}{k!} \left( \frac{\mu}{\sigma^2} \right)^k O(\overline{x^k}) \sim \frac{2^k}{k!} \left( \frac{\mu}{\sigma} \right)^k
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 assuming the the jumps are constrained over some length scale proportional to &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt;. We see that provided the drift to standard deviation is small, the series converges quickly and our approximation is universally good. Unless you&amp;#8217;re cursed with an unusually large drift ratio for a given move, this form should work&amp;nbsp;well.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
