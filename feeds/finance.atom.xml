@@ -665,86 +665,85 @@ These two factors may look similar, but they represent exponential growth with d
 &lt;/script&gt;</content><category term="Finance"></category></entry><entry><title>Martingales</title><link href="https://efavdb.github.io/martingales" rel="alternate"></link><published>2017-10-20T07:44:00-07:00</published><updated>2017-10-20T07:44:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2017-10-20:/martingales</id><summary type="html">&lt;p&gt;Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific expectation conservation law. If one can identify a Martingale relating to some other sequence of random variables, its use can sometimes make quick work of certain expectation …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific expectation conservation law. If one can identify a Martingale relating to some other sequence of random variables, its use can sometimes make quick work of certain expectation value&amp;nbsp;evaluations.&lt;/p&gt;
 &lt;p&gt;This note is adapted from Chapter 2 of Stochastic Calculus and Financial Applications, by&amp;nbsp;Steele.&lt;/p&gt;
 &lt;h3&gt;Definition&lt;/h3&gt;
-&lt;p&gt;Often in random processes, one is interested in characterizing a sequence of random variables &lt;span class="math"&gt;\(\{X_i\}\)&lt;/span&gt;. The example we will keep in mind is a set of variables &lt;span class="math"&gt;\(X_i \in \{-1, 1\}\)&lt;/span&gt; corresponding to the steps of an unbiased random walk in one-dimension. A Martingale process &lt;span class="math"&gt;\(M_i = f(X_1, X_2, \ldots X_i)\)&lt;/span&gt; is a derived random variable on top of the &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; variables satisfying the following conservation law&lt;br&gt;
+&lt;p&gt;Often in random processes, one is interested in characterizing a sequence of random variables &lt;span class="math"&gt;\(\{X_i\}\)&lt;/span&gt;. The example we will keep in mind is a set of variables &lt;span class="math"&gt;\(X_i \in \{-1, 1\}\)&lt;/span&gt; corresponding to the steps of an unbiased random walk in one-dimension. A Martingale process &lt;span class="math"&gt;\(M_i = f(X_1, X_2, \ldots X_i)\)&lt;/span&gt; is a derived random variable on top of the &lt;span class="math"&gt;\(X_i\)&lt;/span&gt; variables satisfying the following conservation&amp;nbsp;law
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1}  
-E(M_i | X_1, \ldots X_{i-1}) = M_{i-1}.  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{1}
+E(M_i | X_1, \ldots X_{i-1}) = M_{i-1}.
+\end{align}&lt;/div&gt;
+&lt;p&gt;
 For example, in the unbiased random walk example, if we take &lt;span class="math"&gt;\(S_n = \sum_{i=1}^n X_i\)&lt;/span&gt;, then &lt;span class="math"&gt;\(E(S_n) = S_{n-1}\)&lt;/span&gt;, so &lt;span class="math"&gt;\(S_n\)&lt;/span&gt; is a Martingale. If we can develop or identify a Martingale for a given &lt;span class="math"&gt;\(\{X_i\}\)&lt;/span&gt; process, it can often help us to quickly evaluate certain expectation values relating to the underlying process. Three useful Martingales&amp;nbsp;follow.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Again, the sum &lt;span class="math"&gt;\(S_n = \sum_{i=1}^n X_i\)&lt;/span&gt; is a Martingale, provided &lt;span class="math"&gt;\(E(X_i) = 0\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;.&lt;/li&gt;
-&lt;li&gt;The expression &lt;span class="math"&gt;\(S_n^2 - n \sigma^2\)&lt;/span&gt; is a Martingale, provided &lt;span class="math"&gt;\(E(X_i) = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(E(X_i^2) = \sigma^2\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. Proof: &lt;div class="math"&gt;\begin{eqnarray} \tag{2}  
-    E(S_n^2 | X_1, \ldots X_{n-1}) &amp;amp;=&amp;amp; \sigma^2 + 2 E(X_n) S_{n-1} + S_{n-1}^2 - n \sigma^2\  
-    &amp;amp; =&amp;amp; S_{n-1}^2 - (n-1) \sigma^2.  
-    \end{eqnarray}&lt;/div&gt;
+&lt;li&gt;The expression &lt;span class="math"&gt;\(S_n^2 - n \sigma^2\)&lt;/span&gt; is a Martingale, provided &lt;span class="math"&gt;\(E(X_i) = 0\)&lt;/span&gt; and &lt;span class="math"&gt;\(E(X_i^2) = \sigma^2\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. Proof: &lt;div class="math"&gt;\begin{align} \tag{2}
+    E(S_n^2 | X_1, \ldots X_{n-1}) &amp;amp;= \sigma^2 + 2 E(X_n) S_{n-1} + S_{n-1}^2 - n \sigma^2\\
+    &amp;amp;= S_{n-1}^2 - (n-1) \sigma^2.
+    \end{align}&lt;/div&gt;
 &lt;/li&gt;
-&lt;li&gt;The product &lt;span class="math"&gt;\(P_n = \prod_{i=1}^n X_i\)&lt;/span&gt; is a Martingale, provided &lt;span class="math"&gt;\(E(X_i) = 1\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. One example of interest is&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{3}  
-    P_n = \frac{\exp \left ( \lambda \sum_{i=1}^n X_i\right)}{E(\exp \left ( \lambda X \right))^n}.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;The product &lt;span class="math"&gt;\(P_n = \prod_{i=1}^n X_i\)&lt;/span&gt; is a Martingale, provided &lt;span class="math"&gt;\(E(X_i) = 1\)&lt;/span&gt; for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. One example of interest is
+    &lt;div class="math"&gt;\begin{align} \tag{3}
+    P_n = \frac{\exp \left ( \lambda \sum_{i=1}^n X_i\right)}{E(\exp \left ( \lambda X \right))^n}.
+    \end{align}&lt;/div&gt;
     Here, &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; is a free tuning parameter. If we choose a &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; such that &lt;span class="math"&gt;\(E(\exp(\lambda X)) = 1\)&lt;/span&gt; for our process, we can get a particularly simple&amp;nbsp;form.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h3&gt;Stopped&amp;nbsp;processes&lt;/h3&gt;
-&lt;p&gt;In some games, we may want to setup rules that say we will stop the game at time &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; if some condition is met at index &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;. For example, we may stop a random walk (initialized at zero) if the walker gets to either position &lt;span class="math"&gt;\(A\)&lt;/span&gt; or &lt;span class="math"&gt;\(-B\)&lt;/span&gt; (wins &lt;span class="math"&gt;\(A\)&lt;/span&gt; or loses &lt;span class="math"&gt;\(B\)&lt;/span&gt;). This motivates defining the stopped Martingale as,&lt;br&gt;
+&lt;p&gt;In some games, we may want to setup rules that say we will stop the game at time &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; if some condition is met at index &lt;span class="math"&gt;\(\tau\)&lt;/span&gt;. For example, we may stop a random walk (initialized at zero) if the walker gets to either position &lt;span class="math"&gt;\(A\)&lt;/span&gt; or &lt;span class="math"&gt;\(-B\)&lt;/span&gt; (wins &lt;span class="math"&gt;\(A\)&lt;/span&gt; or loses &lt;span class="math"&gt;\(B\)&lt;/span&gt;). This motivates defining the stopped Martingale&amp;nbsp;as,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-M_{n \wedge \tau} = \begin{cases}  
-M_n &amp;amp; \text{if } \tau \geq n \  
-M_{\tau} &amp;amp; \text{else}. \tag{4}  
-\end{cases}  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;div class="math"&gt;\begin{align}
+M_{n \wedge \tau} = \begin{cases}
+M_n &amp;amp;\text{if } \tau \geq n \\
+M_{\tau} &amp;amp;\text{else}. \tag{4}
+\end{cases}
+\end{align}&lt;/div&gt;
+&lt;p&gt;
 Here, we prove that if &lt;span class="math"&gt;\(M_n\)&lt;/span&gt; is a Martingale, then so is $M_{n \wedge \tau} $. This is useful because it will tell us that the stopped Martingale has the same conservation law as the unstopped&amp;nbsp;version.&lt;/p&gt;
-&lt;p&gt;First, we note that if &lt;span class="math"&gt;\(A_i \equiv f_2(X_1, \ldots X_{i-1})\)&lt;/span&gt; is some function of the observations so far, then the transformed process&lt;br&gt;
+&lt;p&gt;First, we note that if &lt;span class="math"&gt;\(A_i \equiv f_2(X_1, \ldots X_{i-1})\)&lt;/span&gt; is some function of the observations so far, then the transformed&amp;nbsp;process
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{5}  
-\tilde{M}_n \equiv M_0 + \sum_{i=1}^n A_i (M_i - M_{i-1})  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-is also a Martingale. Proof:&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{5}
+\tilde{M}_n \equiv M_0 + \sum_{i=1}^n A_i (M_i - M_{i-1})
+\end{align}&lt;/div&gt;
+&lt;p&gt;
+is also a Martingale.&amp;nbsp;Proof:
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{6}  
-E(\tilde{M}_n | X_1, \ldots X_{n-1}) = A_n \left ( E(M_n) - M_{n-1} \right) + \tilde{M}_{n-1} = \tilde{M}_{n-1}.  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;With this result we can prove the stopped Martingale is also a Martingale. We can do that by writing &lt;span class="math"&gt;\(A_i = 1(\tau \geq i)\)&lt;/span&gt; &amp;#8212; where &lt;span class="math"&gt;\(1\)&lt;/span&gt; is the indicator function. Plugging this into the above, we get the transformed Martingale,&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{6}
+E(\tilde{M}_n | X_1, \ldots X_{n-1}) = A_n \left ( E(M_n) - M_{n-1} \right) + \tilde{M}_{n-1} = \tilde{M}_{n-1}.
+\end{align}&lt;/div&gt;
+&lt;p&gt;With this result we can prove the stopped Martingale is also a Martingale. We can do that by writing &lt;span class="math"&gt;\(A_i = 1(\tau \geq i)\)&lt;/span&gt; &amp;#8212; where &lt;span class="math"&gt;\(1\)&lt;/span&gt; is the indicator function. Plugging this into the above, we get the transformed&amp;nbsp;Martingale,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber \tag{7}  
-\tilde{M}_n &amp;amp;=&amp;amp; M_0 + \sum_{i=1}^n 1(\tau \geq i) (M_i - M_{i-1}) \  
-&amp;amp;=&amp;amp; \begin{cases}  
-M_n &amp;amp; \text{if } \tau \geq n \  
-M_{\tau} &amp;amp; \text{else}.  
-\end{cases}  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \nonumber \tag{7}
+\tilde{M}_n &amp;amp;= M_0 + \sum_{i=1}^n 1(\tau \geq i) (M_i - M_{i-1}) \\
+&amp;amp;= \begin{cases}
+M_n &amp;amp; \text{if } \tau \geq n \
+M_{\tau} &amp;amp; \text{else}.
+\end{cases}
+\end{align}&lt;/div&gt;
+&lt;p&gt;
 This is the stopped Martingale &amp;#8212; indeed a Martingale, by the&amp;nbsp;above.&lt;/p&gt;
 &lt;h3&gt;Example&amp;nbsp;applications&lt;/h3&gt;
 &lt;h3&gt;&lt;/h3&gt;
 &lt;h4&gt;Problem&amp;nbsp;1&lt;/h4&gt;
 &lt;p&gt;Consider an unbiased random walker that takes steps of size &lt;span class="math"&gt;\(1\)&lt;/span&gt;. If we stop the walk as soon as he reaches either &lt;span class="math"&gt;\(A\)&lt;/span&gt; or &lt;span class="math"&gt;\(-B\)&lt;/span&gt;, what is the probability that he is at &lt;span class="math"&gt;\(A\)&lt;/span&gt; when the game&amp;nbsp;stops?&lt;/p&gt;
-&lt;p&gt;Solution: Let &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; be the stopping time and let &lt;span class="math"&gt;\(S_n = \sum_{i=1}^n X_i\)&lt;/span&gt; be the walker&amp;#8217;s position at time &lt;span class="math"&gt;\(n\)&lt;/span&gt;. We know that &lt;span class="math"&gt;\(S_n\)&lt;/span&gt; is a Martingale. By the above, so then is &lt;span class="math"&gt;\(S_{n \wedge \tau}\)&lt;/span&gt;, the stopped process Martingale. By the Martingale property&lt;br&gt;
+&lt;p&gt;Solution: Let &lt;span class="math"&gt;\(\tau\)&lt;/span&gt; be the stopping time and let &lt;span class="math"&gt;\(S_n = \sum_{i=1}^n X_i\)&lt;/span&gt; be the walker&amp;#8217;s position at time &lt;span class="math"&gt;\(n\)&lt;/span&gt;. We know that &lt;span class="math"&gt;\(S_n\)&lt;/span&gt; is a Martingale. By the above, so then is &lt;span class="math"&gt;\(S_{n \wedge \tau}\)&lt;/span&gt;, the stopped process Martingale. By the Martingale&amp;nbsp;property
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{8}  
-E(S_{n \wedge \tau}) = E(S_{i \wedge \tau})  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. In particular, plugging in &lt;span class="math"&gt;\(i = 0\)&lt;/span&gt; gives &lt;span class="math"&gt;\(E(S_{n \wedge \tau}) = 0\)&lt;/span&gt;. If we take &lt;span class="math"&gt;\(n \to \infty\)&lt;/span&gt;, then&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{8}
+E(S_{n \wedge \tau}) = E(S_{i \wedge \tau})
+\end{align}&lt;/div&gt;
+&lt;p&gt;
+for all &lt;span class="math"&gt;\(i\)&lt;/span&gt;. In particular, plugging in &lt;span class="math"&gt;\(i = 0\)&lt;/span&gt; gives &lt;span class="math"&gt;\(E(S_{n \wedge \tau}) = 0\)&lt;/span&gt;. If we take &lt;span class="math"&gt;\(n \to \infty\)&lt;/span&gt;,&amp;nbsp;then
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{9}  
-\lim_{n \to \infty} E(S_{n \wedge \tau}) \to E(S_{\tau}) = 0.  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-But we also have&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{9}
+\lim_{n \to \infty} E(S_{n \wedge \tau}) \to E(S_{\tau}) = 0.
+\end{align}&lt;/div&gt;
+&lt;p&gt;
+But we also&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{10}  
-E(S_{\tau}) = P(A) * A - (1 - P(A)) B.  
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Equating (9) and (10) gives&lt;br&gt;
+&lt;div class="math"&gt;\begin{align} \tag{10}
+E(S_{\tau}) = P(A) * A - (1 - P(A)) B.
+\end{align}&lt;/div&gt;
+&lt;p&gt;
+Equating (9) and (10)&amp;nbsp;gives
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{equation} \tag{11}  
-P(A) = \frac{B}{A + B}  
+&lt;div class="math"&gt;\begin{equation} \tag{11}
+P(A) = \frac{B}{A + B}
 \end{equation}&lt;/div&gt;
 &lt;h5&gt;Problem&amp;nbsp;2&lt;/h5&gt;
 &lt;p&gt;In the game above, what is the expected stopping time? Solution: Use the stopped version of the Martingale &lt;span class="math"&gt;\(S_n^2 - n \sigma^2\)&lt;/span&gt;.&lt;/p&gt;

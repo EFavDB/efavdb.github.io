@@ -83,18 +83,18 @@
 <p>Our python code can be downloaded from our github page, <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a>. Its use requires the jupyter, numpy, sklearn, and matplotlib&nbsp;packages.</p>
 <h3>Introduction</h3>
 <p>The logistic regression model is a linear classification model that can be used to fit binary data &#8212; data where the label one wishes to predict can take on one of two values &#8212; e.g., <span class="math">\(0\)</span> or <span class="math">\(1\)</span>. Its linear form makes it a convenient choice of model for fits that are required to be interpretable. Another of its virtues is that it can &#8212; with relative ease &#8212; be set up to return both point estimates and also confidence intervals for test point class membership probabilities. The availability of confidence intervals allows one to flag test points where the model prediction is not precise, which can be useful for some applications &#8212; eg fraud&nbsp;detection.</p>
-<p>In this note, we derive the expressions needed to fit the logistic model to a training data set. We assume the training data consists of a set of <span class="math">\(n\)</span> feature vector- label pairs, <span class="math">\(\{(\vec{x}_i, y_i)\)</span>, for <span class="math">\(i = 1, 2, \ldots, n\}\)</span>, where the feature vectors <span class="math">\(\vec{x}_i\)</span> belong to some <span class="math">\(m\)</span>-dimensional space and the labels are binary, <span class="math">\(y_i \in \{0, 1\}.\)</span> The logistic model states that the probability of belonging to class <span class="math">\(1\)</span> is given by<br>
+<p>In this note, we derive the expressions needed to fit the logistic model to a training data set. We assume the training data consists of a set of <span class="math">\(n\)</span> feature vector- label pairs, <span class="math">\(\{(\vec{x}_i, y_i)\)</span>, for <span class="math">\(i = 1, 2, \ldots, n\}\)</span>, where the feature vectors <span class="math">\(\vec{x}_i\)</span> belong to some <span class="math">\(m\)</span>-dimensional space and the labels are binary, <span class="math">\(y_i \in \{0, 1\}.\)</span> The logistic model states that the probability of belonging to class <span class="math">\(1\)</span> is given&nbsp;by
 </p>
-<div class="math">\begin{eqnarray}\tag{1} \label{model1}  
-p(y=1 \vert \vec{x}) \equiv \frac{1}{1 + e^{- \vec{\beta} \cdot \vec{x} } },  
-\end{eqnarray}</div>
-<p><br>
-where <span class="math">\(\vec{\beta}\)</span> is a coefficient vector characterizing the model. Note that with this choice of sign in the exponent, predictor vectors <span class="math">\(\vec{x}\)</span> having a large, positive component along <span class="math">\(\vec{\beta}\)</span> will be predicted to have a large probability of being in class <span class="math">\(1\)</span>. The probability of class <span class="math">\(0\)</span> is given by the complement,<br>
+<div class="math">\begin{align}\tag{1} \label{model1}
+p(y=1 \vert \vec{x}) \equiv \frac{1}{1 + e^{- \vec{\beta} \cdot \vec{x} } },
+\end{align}</div>
+<p>
+where <span class="math">\(\vec{\beta}\)</span> is a coefficient vector characterizing the model. Note that with this choice of sign in the exponent, predictor vectors <span class="math">\(\vec{x}\)</span> having a large, positive component along <span class="math">\(\vec{\beta}\)</span> will be predicted to have a large probability of being in class <span class="math">\(1\)</span>. The probability of class <span class="math">\(0\)</span> is given by the&nbsp;complement,
 </p>
-<div class="math">\begin{eqnarray}\tag{2} \label{model2}  
-p(y=0 \vert \vec{x}) \equiv 1 - p(y=1 \vert \vec{x}) = \frac{1}{1 + e^{ \vec{\beta} \cdot \vec{x} } }.  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}\tag{2} \label{model2}
+p(y=0 \vert \vec{x}) \equiv 1 - p(y=1 \vert \vec{x}) = \frac{1}{1 + e^{ \vec{\beta} \cdot \vec{x} } }.
+\end{align}</div>
+<p>
 The latter equality above follows from simplifying algebra, after plugging in (\ref{model1}) for <span class="math">\(p(y=1 \vert&nbsp;\vec{x}).\)</span></p>
 <p>To fit the Logistic model to a training set &#8212; i.e., to find a good choice for the fit parameter vector <span class="math">\(\vec{\beta}\)</span> &#8212; we consider here only the maximum-likelihood solution. This is that <span class="math">\(\vec{\beta}^*\)</span> that maximizes the conditional probability of observing the training data. The essential results we review below are 1) a proof that the maximum likelihood solution can be found by gradient descent, and 2) a derivation for the asymptotic covariance matrix of <span class="math">\(\vec{\beta}\)</span>. This latter result provides the basis for returning point estimate confidence&nbsp;intervals.</p>
 <p><a href="https://efavdb.github.io/wp-content/uploads/2017/07/errorbar.png"><img alt="errorbar" src="https://efavdb.github.io/wp-content/uploads/2017/07/errorbar.png"></a></p>
@@ -102,89 +102,89 @@ The latter equality above follows from simplifying algebra, after plugging in (\
 <p>Our derivations below rely on some prerequisites: Properties of covariance matrices, the multivariate Cramer-Rao theorem, and properties of maximum likelihood estimators. These concepts are covered in two of our prior posts [<span class="math">\(1\)</span>, <span class="math">\(2\)</span>].</p>
 <h3>Optimization by gradient&nbsp;descent</h3>
 <p>In this section, we derive expressions for the gradient of the negative-log likelihood loss function and also demonstrate that this loss is everywhere convex. The latter result is important because it implies that gradient descent can be used to find the maximum likelihood&nbsp;solution.</p>
-<p>Again, to fit the logistic model to a training set, our aim is to find &#8212; and also to set the parameter vector to &#8212; the maximum likelihood value. Assuming the training set samples are independent, the likelihood of observing the training set labels is given by<br>
+<p>Again, to fit the logistic model to a training set, our aim is to find &#8212; and also to set the parameter vector to &#8212; the maximum likelihood value. Assuming the training set samples are independent, the likelihood of observing the training set labels is given&nbsp;by
 </p>
-<div class="math">\begin{eqnarray}  
-L &amp;\equiv&amp; \prod_i p(y_i \vert \vec{x}_i) \  
-&amp;=&amp; \prod_{i: y_i = 1} \frac{1}{1 + e^{-\vec{\beta} \cdot \vec{x}_i}} \prod_{i: y_i = 0} \frac{1}{1 + e^{\vec{\beta} \cdot \vec{x}_i}}.  
-\tag{3} \label{likelihood}  
-\end{eqnarray}</div>
-<p><br>
-Maximizing this is equivalent to minimizing its negative logarithm &#8212; a cost function that is somewhat easier to work with,<br>
+<div class="math">\begin{align}
+L &amp;\equiv \prod_i p(y_i \vert \vec{x}_i) \\
+&amp;= \prod_{i: y_i = 1} \frac{1}{1 + e^{-\vec{\beta} \cdot \vec{x}_i}} \prod_{i: y_i = 0} \frac{1}{1 + e^{\vec{\beta} \cdot \vec{x}_i}}.
+\tag{3} \label{likelihood}
+\end{align}</div>
+<p>
+Maximizing this is equivalent to minimizing its negative logarithm &#8212; a cost function that is somewhat easier to work&nbsp;with,
 </p>
-<div class="math">\begin{eqnarray}  
-J &amp;\equiv &amp; -\log L \  
-&amp;=&amp; \sum_{\{i: y_i = 1 \}} \log \left (1 + e^{- \vec{\beta} \cdot \vec{x}_i } \right ) + \sum_{\{i: y_i = 0 \}} \log \left (1 + e^{\vec{\beta} \cdot \vec{x}_i } \right ).  
-\tag{4} \label{costfunction}  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+J &amp;\equiv -\log L \\
+&amp;= \sum_{\{i: y_i = 1 \}} \log \left (1 + e^{- \vec{\beta} \cdot \vec{x}_i } \right ) + \sum_{\{i: y_i = 0 \}} \log \left (1 + e^{\vec{\beta} \cdot \vec{x}_i } \right ).
+\tag{4} \label{costfunction}
+\end{align}</div>
+<p>
 The maximum-likelihood solution, <span class="math">\(\vec{\beta}^*\)</span>, is that coefficient vector that minimizes the above. Note that <span class="math">\(\vec{\beta}^*\)</span> will be a function of the random sample, and so will itself be a random variable &#8212; characterized by a distribution having some mean value, covariance, etc. Given enough samples, a theorem on maximum-likelihood asymptotics (Cramer-Rao) guarantees that this distribution will be unbiased &#8212; i.e., it will have mean value given by the correct parameter values &#8212; and will also be of minimal covariance [<span class="math">\(1\)</span>]. This theorem is one of the main results motivating use of the maximum-likelihood&nbsp;solution.</p>
-<p>Because <span class="math">\(J\)</span> is convex (demonstrated below), the logistic regression maximum-likelihood solution can always be found by gradient descent. That is, one need only iteratively update <span class="math">\(\vec{\beta}\)</span> in the direction of the negative <span class="math">\(\vec{\beta}\)</span>-gradient of <span class="math">\(J\)</span>, which is<br>
+<p>Because <span class="math">\(J\)</span> is convex (demonstrated below), the logistic regression maximum-likelihood solution can always be found by gradient descent. That is, one need only iteratively update <span class="math">\(\vec{\beta}\)</span> in the direction of the negative <span class="math">\(\vec{\beta}\)</span>-gradient of <span class="math">\(J\)</span>, which&nbsp;is
 </p>
-<div class="math">\begin{eqnarray}  
-- \nabla_{\vec{\beta}} J &amp;=&amp; \sum_{\{i: y_i = 1 \}}\vec{x}_i \frac{ e^{- \vec{\beta} \cdot \vec{x}_i } }{1 + e^{- \vec{\beta} \cdot \vec{x}_i }}  
-- \sum_{\{i: y_i = 0 \}} \vec{x}_i \frac{ e^{\vec{\beta} \cdot \vec{x}_i }}{1 + e^{\vec{\beta} \cdot \vec{x}_i } } \  
-&amp;\equiv&amp; \sum_{\{i: y_i = 1 \}}\vec{x}_i p(y=0 \vert \vec{x}_i)  
--\sum_{\{i: y_i = 0 \}} \vec{x}_i p(y= 1 \vert \vec{x}_i). \tag{5} \label{gradient}  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+- \nabla_{\vec{\beta}} J &amp;= \sum_{\{i: y_i = 1 \}}\vec{x}_i \frac{ e^{- \vec{\beta} \cdot \vec{x}_i } }{1 + e^{- \vec{\beta} \cdot \vec{x}_i }}
+- \sum_{\{i: y_i = 0 \}} \vec{x}_i \frac{ e^{\vec{\beta} \cdot \vec{x}_i }}{1 + e^{\vec{\beta} \cdot \vec{x}_i } } \\
+&amp;\equiv \sum_{\{i: y_i = 1 \}}\vec{x}_i p(y=0 \vert \vec{x}_i)
+-\sum_{\{i: y_i = 0 \}} \vec{x}_i p(y= 1 \vert \vec{x}_i). \tag{5} \label{gradient}
+\end{align}</div>
+<p>
 Notice that the terms that contribute the most here are those that are most strongly misclassified &#8212; i.e., those where the model&#8217;s predicted probability for the observed class is very low. For example, a point with true label <span class="math">\(y=1\)</span> but large model <span class="math">\(p(y=0 \vert \vec{x})\)</span> will contribute a significant push on <span class="math">\(\vec{\beta}\)</span> in the direction of <span class="math">\(\vec{x}\)</span> &#8212; so that the model will be more likely to predict <span class="math">\(y=1\)</span> at this point going forward. Notice that the contribution of a term above is also proportional to the length of its feature vector &#8212; training points further from the origin have a stronger impact on the optimization process than those near the origin (at fixed classification&nbsp;difficulty).</p>
-<p>The Hessian (second partial derivative) matrix of the cost function follows from taking a second gradient of the above. With a little algebra, one can show that this has <span class="math">\(i-j\)</span> component given by,<br>
+<p>The Hessian (second partial derivative) matrix of the cost function follows from taking a second gradient of the above. With a little algebra, one can show that this has <span class="math">\(i-j\)</span> component given&nbsp;by,
 </p>
-<div class="math">\begin{eqnarray}  
-H(J)_{ij} &amp;\equiv&amp; -\partial_{\beta_j} \partial_{\beta_i} \log L \  
-&amp;=&amp; \sum_k x_{k; i} x_{k; j} p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k). \tag{6} \label{Hessian}  
-\end{eqnarray}</div>
-<p><br>
-We can prove that this is positive semi-definite using the fact that a matrix <span class="math">\(M\)</span> is necessarily positive semi-definite if <span class="math">\(\vec{s}^T \cdot M \cdot \vec{s} \geq 0\)</span> for all real <span class="math">\(\vec{s}\)</span> [<span class="math">\(2\)</span>]. Dotting our Hessian above on both sides by an arbitrary vector <span class="math">\(\vec{s}\)</span>, we obtain<br>
+<div class="math">\begin{align}
+H(J)_{ij} &amp;\equiv -\partial_{\beta_j} \partial_{\beta_i} \log L \\
+&amp;= \sum_k x_{k; i} x_{k; j} p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k). \tag{6} \label{Hessian}
+\end{align}</div>
+<p>
+We can prove that this is positive semi-definite using the fact that a matrix <span class="math">\(M\)</span> is necessarily positive semi-definite if <span class="math">\(\vec{s}^T \cdot M \cdot \vec{s} \geq 0\)</span> for all real <span class="math">\(\vec{s}\)</span> [<span class="math">\(2\)</span>]. Dotting our Hessian above on both sides by an arbitrary vector <span class="math">\(\vec{s}\)</span>, we&nbsp;obtain
 </p>
-<div class="math">\begin{eqnarray}  
-\vec{s}^T \cdot H \cdot \vec{s} &amp;\equiv &amp; \sum_k \sum_{ij} s_i x_{k; i} x_{k; j} s_j p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \  
-&amp;=&amp; \sum_k \vert \vec{s} \cdot \vec{x}_k \vert^2 p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \geq 0.  
-\tag{7} \label{convex}  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+\vec{s}^T \cdot H \cdot \vec{s} &amp;\equiv \sum_k \sum_{ij} s_i x_{k; i} x_{k; j} s_j p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \\
+&amp;= \sum_k \vert \vec{s} \cdot \vec{x}_k \vert^2 p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k) \geq 0.
+\tag{7} \label{convex}
+\end{align}</div>
+<p>
 The last form follows from the fact that both <span class="math">\( p(y= 0 \vert \vec{x}_k) $ and $ p(y= 1 \vert \vec{x}_k) $ are non-negative. This holds for any $\vec{\beta}\)</span> and any <span class="math">\(\vec{s}\)</span>, which implies that our Hessian is everywhere positive semi-definite. Because of this, convex optimization strategies &#8212; e.g., gradient descent &#8212; can always be applied to find the global maximum-likelihood&nbsp;solution.</p>
 <h3>Coefficient uncertainty and significance&nbsp;tests</h3>
-<p>The solution <span class="math">\(\vec{\beta}^*\)</span> that minimizes <span class="math">\(J\)</span> &#8212; which can be found by gradient descent &#8212; is a maximum likelihood estimate. In the asymptotic limit of a large number of samples, maximum-likelihood parameter estimates satisfy the Cramer-Rao lower bound [<span class="math">\(2\)</span>]. That is, the parameter covariance matrix satisfies [<span class="math">\(3\)</span>],<br>
+<p>The solution <span class="math">\(\vec{\beta}^*\)</span> that minimizes <span class="math">\(J\)</span> &#8212; which can be found by gradient descent &#8212; is a maximum likelihood estimate. In the asymptotic limit of a large number of samples, maximum-likelihood parameter estimates satisfy the Cramer-Rao lower bound [<span class="math">\(2\)</span>]. That is, the parameter covariance matrix satisfies [<span class="math">\(3\)</span>],
 </p>
-<div class="math">\begin{eqnarray}  
-\text{cov}(\vec{\beta}^*, \vec{\beta}^*) &amp;\sim&amp; H(J)^{-1} \  
-&amp;\approx &amp; \frac{1}{\sum_k \vec{x}_{k} \vec{x}_{k}^T p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k)}.  
-\tag{8} \label{covariance}  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+\text{cov}(\vec{\beta}^*, \vec{\beta}^*) &amp;\sim H(J)^{-1} \\
+&amp;\approx \frac{1}{\sum_k \vec{x}_{k} \vec{x}_{k}^T p(y= 0 \vert \vec{x}_k) p(y= 1 \vert \vec{x}_k)}.
+\tag{8} \label{covariance}
+\end{align}</div>
+<p>
 Notice that the covariance matrix will be small if the denominator above is large. Along a given direction, this requires that the training set contains samples over a wide range of values in that direction (we discuss this at some length in the analogous section of our post on Linear Regression [<span class="math">\(4\)</span>]). For a term to contribute in the denominator, the model must also have some confusion about its values: If there are no difficult-to-classify training examples, this means that there are no examples near the decision boundary. When this occurs, there will necessarily be a lot of flexibility in where the decision boundary is placed, resulting in large parameter&nbsp;variances.</p>
-<p>Although the form above only holds in the asymptotic limit, we can always use it to approximate the true covariance matrix &#8212; keeping in mind that the accuracy of the approximation will degrade when working with small training sets. For example, using (\ref{covariance}), the asymptotic variance for a single parameter can be approximated by<br>
+<p>Although the form above only holds in the asymptotic limit, we can always use it to approximate the true covariance matrix &#8212; keeping in mind that the accuracy of the approximation will degrade when working with small training sets. For example, using (\ref{covariance}), the asymptotic variance for a single parameter can be approximated&nbsp;by
 </p>
-<div class="math">\begin{eqnarray}  
-\tag{9} \label{single_cov}  
-\sigma^2_{\beta^*_i} = \text{cov}(\vec{\beta}^*, \vec{\beta}^*)_{ii}.  
-\end{eqnarray}</div>
-<p><br>
-In the asymptotic limit, the maximum-likelihood parameters will be Normally-distributed [<span class="math">\(1\)</span>], so we can provide confidence intervals for the parameters as<br>
+<div class="math">\begin{align}
+\tag{9} \label{single_cov}
+\sigma^2_{\beta^*_i} = \text{cov}(\vec{\beta}^*, \vec{\beta}^*)_{ii}.
+\end{align}</div>
+<p>
+In the asymptotic limit, the maximum-likelihood parameters will be Normally-distributed [<span class="math">\(1\)</span>], so we can provide confidence intervals for the parameters&nbsp;as
 </p>
-<div class="math">\begin{eqnarray}  
-\tag{10} \label{parameter_interval}  
-\beta_i \in \left ( \beta^*_i - z \sigma_{\beta^*_i}, \beta_i^* + z \sigma_{\beta^*_i} \right),  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+\tag{10} \label{parameter_interval}
+\beta_i \in \left ( \beta^*_i - z \sigma_{\beta^*_i}, \beta_i^* + z \sigma_{\beta^*_i} \right),
+\end{align}</div>
+<p>
 where the value of <span class="math">\(z\)</span> sets the size of the interval. For example, choosing <span class="math">\(z = 2\)</span> gives an interval construction procedure that will cover the true value approximately <span class="math">\(95%\)</span> of the time &#8212; a result of Normal statistics [<span class="math">\(5\)</span>]. Checking which intervals do not cross zero provides a method for identifying which features contribute significantly to a given&nbsp;fit.</p>
 <h3>Prediction confidence&nbsp;intervals</h3>
-<p>The probability of class <span class="math">\(1\)</span> for a test point <span class="math">\(\vec{x}\)</span> is given by (\ref{model1}). Notice that this depends on <span class="math">\(\vec{x}\)</span> and <span class="math">\(\vec{\beta}\)</span> only through the dot product <span class="math">\(\vec{x} \cdot \vec{\beta}\)</span>. At fixed <span class="math">\(\vec{x}\)</span>, the variance (uncertainty) in this dot product follows from the coefficient covariance matrix above: We have [<span class="math">\(2\)</span>],<br>
+<p>The probability of class <span class="math">\(1\)</span> for a test point <span class="math">\(\vec{x}\)</span> is given by (\ref{model1}). Notice that this depends on <span class="math">\(\vec{x}\)</span> and <span class="math">\(\vec{\beta}\)</span> only through the dot product <span class="math">\(\vec{x} \cdot \vec{\beta}\)</span>. At fixed <span class="math">\(\vec{x}\)</span>, the variance (uncertainty) in this dot product follows from the coefficient covariance matrix above: We have [<span class="math">\(2\)</span>],
 </p>
-<div class="math">\begin{eqnarray}  
-\tag{11} \label{logit_var}  
-\sigma^2_{\vec{x} \cdot \vec{\beta}} \equiv \vec{x}^T \cdot \text{cov}(\vec{\beta}^*, \vec{\beta}^*) \cdot \vec{x}.  
-\end{eqnarray}</div>
-<p><br>
-With this result, we can obtain an expression for the confidence interval for the dot product, or equivalently a confidence interval for the class probability. For example, the asymptotic interval for class <span class="math">\(1\)</span> probability is given by<br>
+<div class="math">\begin{align}
+\tag{11} \label{logit_var}
+\sigma^2_{\vec{x} \cdot \vec{\beta}} \equiv \vec{x}^T \cdot \text{cov}(\vec{\beta}^*, \vec{\beta}^*) \cdot \vec{x}.
+\end{align}</div>
+<p>
+With this result, we can obtain an expression for the confidence interval for the dot product, or equivalently a confidence interval for the class probability. For example, the asymptotic interval for class <span class="math">\(1\)</span> probability is given&nbsp;by
 </p>
-<div class="math">\begin{eqnarray}  
-\tag{12} \label{prob_interval}  
-p(y=1 \vert \vec{x}) \in \left ( \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* + z \sigma_{\vec{x} \cdot \vec{\beta}^*}}}, \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* - z \sigma_{\vec{x} \cdot \vec{\beta}^*}}} \right),  
-\end{eqnarray}</div>
-<p><br>
+<div class="math">\begin{align}
+\tag{12} \label{prob_interval}
+p(y=1 \vert \vec{x}) \in \left ( \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* + z \sigma_{\vec{x} \cdot \vec{\beta}^*}}}, \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* - z \sigma_{\vec{x} \cdot \vec{\beta}^*}}} \right),
+\end{align}</div>
+<p>
 where <span class="math">\(z\)</span> again sets the size of the interval as above (<span class="math">\(z=2\)</span> gives a <span class="math">\(95%\)</span> confidence interval, etc. [<span class="math">\(5\)</span>]), and <span class="math">\(\sigma_{\vec{x} \cdot \vec{\beta}^*}\)</span> is obtained from (\ref{covariance}) and&nbsp;(\ref{logit_var}).</p>
 <p>The results (\ref{covariance}), (\ref{logit_var}), and (\ref{prob_interval}) are used in our Jupyter notebook. There we provide code for a minimal Logistic Regression class implementation that returns both point estimates and prediction confidence intervals for each test point. We used this code to generate the plot shown in the post introduction. Again, the code can be downloaded <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a> if you are interested in trying it&nbsp;out.</p>
 <h3>Summary</h3>

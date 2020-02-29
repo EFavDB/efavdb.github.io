@@ -86,80 +86,80 @@
 <p>To illustrate the above points, our main effort here is to present some toy examples where the optimal hyperparameters can be characterized exactly: We derive the optimal <span class="math">\(L_1\)</span> and <span class="math">\(L_2\)</span> regularization strength for models having only a single variable. These examples illustrate two opposite limits: The latter approaches a finite constant as <span class="math">\(N\)</span> increases, but the former varies exponentially with <span class="math">\(N\)</span>. This shows that strong <span class="math">\(N\)</span>-dependence can sometimes occur, but is not necessarily always an issue. In practice, a simple way to check for sensitivity is to vary the size of your training set during model selection: If a strong dependence is observed, care should be taken during the final&nbsp;extrapolation.</p>
 <p>We now walk through our two&nbsp;examples.</p>
 <h3><span class="math">\(L_2\)</span>&nbsp;optimization</h3>
-<p>We start off by positing that we have a method for generating a Bayesian posterior for a parameter <span class="math">\(\theta\)</span> that is a function of a vector of <span class="math">\(N\)</span> random samples <span class="math">\(\textbf{x}\)</span>. To simplify our discussion, we assume that &#8212; given a flat prior &#8212; this is unbiased and normal with variance <span class="math">\(\sigma^2\)</span>. We write <span class="math">\(\theta_0 \equiv \theta_0(\textbf{x})\)</span> for the maximum a posteriori (<span class="caps">MAP</span>) value under the flat prior. With the introduction of an <span class="math">\(L_2\)</span> prior, the posterior for <span class="math">\(\theta\)</span> is then<br>
+<p>We start off by positing that we have a method for generating a Bayesian posterior for a parameter <span class="math">\(\theta\)</span> that is a function of a vector of <span class="math">\(N\)</span> random samples <span class="math">\(\textbf{x}\)</span>. To simplify our discussion, we assume that &#8212; given a flat prior &#8212; this is unbiased and normal with variance <span class="math">\(\sigma^2\)</span>. We write <span class="math">\(\theta_0 \equiv \theta_0(\textbf{x})\)</span> for the maximum a posteriori (<span class="caps">MAP</span>) value under the flat prior. With the introduction of an <span class="math">\(L_2\)</span> prior, the posterior for <span class="math">\(\theta\)</span> is&nbsp;then
 </p>
-<div class="math">$$\tag{1}  
-P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \theta^2 \right).  
+<div class="math">$$\tag{1}
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \theta^2 \right).
 $$</div>
-<p><br>
-Setting the derivative of the above to zero, the point-estimate, <span class="caps">MAP</span> is given by<br>
+<p>
+Setting the derivative of the above to zero, the point-estimate, <span class="caps">MAP</span> is given&nbsp;by
 </p>
-<div class="math">$$\tag{2}  
-\hat{\theta} = \frac{\theta_0}{1 + 2 \Lambda \sigma^2}.  
+<div class="math">$$\tag{2}
+\hat{\theta} = \frac{\theta_0}{1 + 2 \Lambda \sigma^2}.
 $$</div>
-<p><br>
-The average squared error of this estimate is obtained by averaging over the possible <span class="math">\(\theta_0\)</span> values. Our assumptions above imply that <span class="math">\(\theta_0\)</span> is normal about the true parameter value, <span class="math">\(\theta_*\)</span>, so we have<br>
+<p>
+The average squared error of this estimate is obtained by averaging over the possible <span class="math">\(\theta_0\)</span> values. Our assumptions above imply that <span class="math">\(\theta_0\)</span> is normal about the true parameter value, <span class="math">\(\theta_*\)</span>, so we&nbsp;have
 </p>
-<div class="math">\begin{eqnarray}  
-\langle (\hat{\theta} - \theta_*)^2 \rangle &amp;\equiv&amp; \int_{\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}}  
-\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \frac{\theta_0}{1 + 2 \Lambda \sigma^2} - \theta_* \right)^2 d \theta_0 \\  
-&amp;=&amp; \frac{ 4 \Lambda^2 \sigma^4 \theta_*^2 }{(1 + 2 \Lambda \sigma^2 )^2} + \frac{\sigma^2}{\left( 1 + 2 \Lambda \sigma^2 \right)^2}. \tag{3} \label{error}  
+<div class="math">\begin{eqnarray}
+\langle (\hat{\theta} - \theta_*)^2 \rangle &amp;\equiv&amp; \int_{\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}}
+e^{ - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}} \left ( \frac{\theta_0}{1 + 2 \Lambda \sigma^2} - \theta_* \right)^2 d \theta_0 \\
+&amp;=&amp; \frac{ 4 \Lambda^2 \sigma^4 \theta_*^2 }{(1 + 2 \Lambda \sigma^2 )^2} + \frac{\sigma^2}{\left( 1 + 2 \Lambda \sigma^2 \right)^2}. \tag{3} \label{error}
 \end{eqnarray}</div>
-<p><br>
-The optimal <span class="math">\(\Lambda\)</span> is readily obtained by minimizing this average error. This gives,<br>
+<p>
+The optimal <span class="math">\(\Lambda\)</span> is readily obtained by minimizing this average error. This&nbsp;gives,
 </p>
-<div class="math">$$ \label{result}  
-\Lambda = \frac{1}{2 \theta_*^2}, \tag{4}  
+<div class="math">$$ \label{result}
+\Lambda = \frac{1}{2 \theta_*^2}, \tag{4}
 $$</div>
-<p><br>
-a constant, independent of sample size. The mean squared error with this choice is obtained by plugging (\ref{result}) into (\ref{error}). This gives<br>
+<p>
+a constant, independent of sample size. The mean squared error with this choice is obtained by plugging (\ref{result}) into (\ref{error}). This&nbsp;gives
 </p>
-<div class="math">$$  
-\langle (\hat{\theta} - \theta_*)^2 \rangle = \frac{\sigma^2}{1 + \sigma^2 / \theta_*^2}. \tag{5}  
+<div class="math">$$
+\langle (\hat{\theta} - \theta_*)^2 \rangle = \frac{\sigma^2}{1 + \sigma^2 / \theta_*^2}. \tag{5}
 $$</div>
-<p><br>
+<p>
 Notice that this is strictly less than <span class="math">\(\sigma^2\)</span> &#8212; the variance one would get without regularization &#8212; and that the benefit is largest when <span class="math">\(\sigma^2 \gg \theta_*^2\)</span>. That is, <span class="math">\(L_2\)</span> regularization is most effective when <span class="math">\(\theta_*\)</span> is hard to differentiate from zero &#8212; an intuitive&nbsp;result!</p>
 <h3><span class="math">\(L_1\)</span>&nbsp;optimization</h3>
-<p>The analysis for <span class="math">\(L_1\)</span> optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an <span class="math">\(L_1\)</span> prior is given by<br>
+<p>The analysis for <span class="math">\(L_1\)</span> optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an <span class="math">\(L_1\)</span> prior is given&nbsp;by
 </p>
-<div class="math">$$ \tag{6}  
-P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \vert \theta \vert \right).  
+<div class="math">$$ \tag{6}
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \vert \theta \vert \right).
 $$</div>
-<p><br>
-Assuming for simplicity that <span class="math">\(\hat{\theta} &gt; 0\)</span>, the <span class="caps">MAP</span> value is now<br>
+<p>
+Assuming for simplicity that <span class="math">\(\hat{\theta} &gt; 0\)</span>, the <span class="caps">MAP</span> value is&nbsp;now
 </p>
-<div class="math">$$ \tag{7}  
-\hat{\theta} = \begin{cases}  
-\theta_0 - \Lambda \sigma^2 &amp; \text{if } \theta_0 - \Lambda \sigma^2 &gt; 0 \\  
-0 &amp; \text{else}.  
-\end{cases}  
+<div class="math">$$ \tag{7}
+\hat{\theta} = \begin{cases}
+\theta_0 - \Lambda \sigma^2 &amp; \text{if } \theta_0 - \Lambda \sigma^2 &gt; 0 \\
+0 &amp; \text{else}.
+\end{cases}
 $$</div>
-<p><br>
-The mean squared error of the estimator is<br>
+<p>
+The mean squared error of the estimator&nbsp;is
 </p>
-<div class="math">$$ \tag{8}  
-\langle (\hat{\theta} - \theta_*)^2 \rangle \equiv \int \frac{1}{\sqrt{2 \pi \sigma^2}}  
-\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \hat{\theta} - \theta_* \right)^2 d \theta_0.  
+<div class="math">$$ \tag{8}
+\langle (\hat{\theta} - \theta_*)^2 \rangle \equiv \int \frac{1}{\sqrt{2 \pi \sigma^2}}
+e^{ - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}} \left ( \hat{\theta} - \theta_* \right)^2 d \theta_0.
 $$</div>
-<p><br>
-This can be evaluated in terms of error functions. The optimal value of <span class="math">\(\Lambda\)</span> is obtained by differentiating the above. Doing this, one finds that it satisfies the equation<br>
+<p>
+This can be evaluated in terms of error functions. The optimal value of <span class="math">\(\Lambda\)</span> is obtained by differentiating the above. Doing this, one finds that it satisfies the&nbsp;equation
 </p>
-<div class="math">$$ \tag{9}  
-\exp\left( - \frac{(\tilde{\Lambda}- \tilde{\theta_*})^2}{2} \right ) + \sqrt{\frac{\pi}{2}} \tilde{\Lambda} \ \text{erfc}\left( \frac{\tilde{\Lambda} - \tilde{\theta_*}}{\sqrt{2}} \right ) = 0,  
+<div class="math">$$ \tag{9}
+e^{ - \frac{(\tilde{\Lambda}- \tilde{\theta_*})^2}{2} } + \sqrt{\frac{\pi}{2}} \tilde{\Lambda} \ \text{erfc}\left( \frac{\tilde{\Lambda} - \tilde{\theta_*}}{\sqrt{2}} \right ) = 0,
 $$</div>
-<p><br>
-where <span class="math">\(\tilde{\Lambda} \equiv \sigma \Lambda\)</span> and <span class="math">\(\tilde{\theta_*} \equiv \theta_* / \sigma\)</span>. In general, the equation above must be solved numerically. However, in the case where <span class="math">\(\theta_* \gg \sigma\)</span> &#8212; relevant when <span class="math">\(N\)</span> is large &#8212; we can obtain a clean asymptotic solution. In this case, we have <span class="math">\(\tilde{\theta_*} \gg 1\)</span> and we expect <span class="math">\(\Lambda\)</span> small. This implies that the above equation can be approximated as<br>
+<p>
+where <span class="math">\(\tilde{\Lambda} \equiv \sigma \Lambda\)</span> and <span class="math">\(\tilde{\theta_*} \equiv \theta_* / \sigma\)</span>. In general, the equation above must be solved numerically. However, in the case where <span class="math">\(\theta_* \gg \sigma\)</span> &#8212; relevant when <span class="math">\(N\)</span> is large &#8212; we can obtain a clean asymptotic solution. In this case, we have <span class="math">\(\tilde{\theta_*} \gg 1\)</span> and we expect <span class="math">\(\Lambda\)</span> small. This implies that the above equation can be approximated&nbsp;as
 </p>
-<div class="math">$$ \tag{10}  
-\exp\left( - \frac{\tilde{\theta_*}^2}{2} \right ) - \sqrt{2 \pi} \tilde{\Lambda} \sim 0.  
+<div class="math">$$ \tag{10}
+e^{ - \frac{\tilde{\theta_*}^2}{2} } - \sqrt{2 \pi} \tilde{\Lambda} \sim 0.
 $$</div>
-<p><br>
-Solving gives<br>
+<p>
+Solving&nbsp;gives
 </p>
-<div class="math">\begin{eqnarray} \tag{11}  
-\Lambda \sim \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( - \frac{\theta_*^2}{2 \sigma^2} \right ) \sim \frac{\sqrt{N}}{\sqrt{2 \pi \sigma_1^2}} \exp\left( - \frac{N \theta_*^2}{2 \sigma_1^2} \right ).  
+<div class="math">\begin{eqnarray} \tag{11}
+\Lambda \sim \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ - \frac{\theta_*^2}{2 \sigma^2}} \sim \frac{\sqrt{N}}{\sqrt{2 \pi \sigma_1^2}} e^{ - \frac{N \theta_*^2}{2 \sigma_1^2}}.
 \end{eqnarray}</div>
-<p><br>
+<p>
 Here, in the last line we have made the <span class="math">\(N\)</span>-dependence explicit, writing <span class="math">\(\sigma^2 = \sigma_1^2 / N\)</span> &#8212; a form that follows when our samples <span class="math">\(\textbf{x}\)</span> are independent. Whereas the optimal <span class="math">\(L_2\)</span> regularization strength approaches a constant, our result here shows that the optimal <span class="math">\(L_1\)</span> strength decays exponentially to zero as <span class="math">\(N\)</span>&nbsp;increases.</p>
 <h3>Summary</h3>
 <p>The subtlety that we have discussed here is likely already familiar to those with significant applied modeling experience: optimal model hyperparameters can vary with training set size. However, the two toy examples we have presented are interesting in that they allow for this <span class="math">\(N\)</span> dependence to be derived explicitly. Interestingly, we have found that the <span class="caps">MSE</span>-minimizing <span class="math">\(L_2\)</span> regularization remains finite, even at large training set size, but the optimal <span class="math">\(L_1\)</span> regularization goes to zero in this same limit. For small and medium <span class="math">\(N\)</span>, this exponential dependence represents a strong sensitivity to <span class="math">\(N\)</span> &#8212; one that must be carefully taken into account when extrapolating to the full training&nbsp;set.</p>

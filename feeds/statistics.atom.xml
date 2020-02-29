@@ -9,17 +9,15 @@
 &lt;p&gt;Pictured at right is an image of Gauss &amp;#8212; &amp;#8220;Few, but&amp;nbsp;ripe.&amp;#8221;&lt;/p&gt;
 &lt;h3&gt;Normalization&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Consider the integral&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1}  
-    I = \int_{-\infty}^{\infty} e^{-x^2} dx.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    To evaluate, consider the value of &lt;span class="math"&gt;\(I^2\)&lt;/span&gt;. This is&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{2}  
-    I^2 &amp;amp;=&amp;amp; \int_{-\infty}^{\infty} e^{-x^2} dx \int_{-\infty}^{\infty} e^{-y^2} dy \\  
-    &amp;amp;=&amp;amp; \int_0^{\infty} e^{-r^2} 2 \pi r dr = -\pi e^{-r^2} \vert_0^{\infty} = \pi.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;Consider the integral
+    &lt;div class="math"&gt;\begin{align} \tag{1}
+    I = \int_{-\infty}^{\infty} e^{-x^2} dx.
+    \end{align}&lt;/div&gt;
+    To evaluate, consider the value of &lt;span class="math"&gt;\(I^2\)&lt;/span&gt;. This is
+    &lt;div class="math"&gt;\begin{align}\tag{2}
+    I^2 &amp;amp;= \int_{-\infty}^{\infty} e^{-x^2} dx \int_{-\infty}^{\infty} e^{-y^2} dy \\
+    &amp;amp;= \int_0^{\infty} e^{-r^2} 2 \pi r dr = -\pi e^{-r^2} \vert_0^{\infty} = \pi.
+    \end{align}&lt;/div&gt;
     Here, I have used the usual trick of transforming the integral over the plane to one over polar &lt;span class="math"&gt;\((r, \theta)\)&lt;/span&gt; coordinates. The result above gives the normalization for the Normal&amp;nbsp;distribution.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Samples from a univariate&amp;nbsp;normal&lt;/h3&gt;
@@ -29,216 +27,184 @@
 &lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Let the sample be &lt;span class="math"&gt;\(\textbf{x} = (x_1, x_2, \ldots, x_N)\)&lt;/span&gt;. Then the mean can be written as &lt;span class="math"&gt;\(\textbf{x} \cdot \textbf{1}/N\)&lt;/span&gt;, the projection of &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; along &lt;span class="math"&gt;\(\textbf{1}/N\)&lt;/span&gt;. Similarly, the sample variance can be expressed as the squared length of &lt;span class="math"&gt;\(\textbf{x} - (\textbf{x} \cdot \textbf{1} / N)\textbf{1} = \textbf{x} - (\textbf{x} \cdot \textbf{1} / \sqrt{N})\textbf{1}/\sqrt{N}\)&lt;/span&gt;, which is the squared length of &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; projected into the space orthogonal to &lt;span class="math"&gt;\(\textbf{1}\)&lt;/span&gt;. The independence of the &lt;span class="math"&gt;\(\{x_i\}\)&lt;/span&gt; implies that these two variables are themselves independent, the former Normal and the latter &lt;span class="math"&gt;\(\chi^2_{N-1}.\)&lt;/span&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The result above implies that the weight for sample &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; can be written as&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{3}  
-    p(\textbf{x} \vert \mu, \sigma^2) = \frac{1}{(2 \pi \sigma^2)^{N/2}} \exp\left [ - \frac{1}{2 \sigma^2}\left ( - N (\hat{\mu} - \mu)^2 - (N-1)S^2\right) \right].  
-    \end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The result above implies that the weight for sample &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; can be written as
+    &lt;div class="math"&gt;\begin{align} \tag{3}
+    p(\textbf{x} \vert \mu, \sigma^2) = \frac{1}{(2 \pi \sigma^2)^{N/2}} e^{\left (N (\hat{\mu} - \mu)^2 + (N-1)S^2\right)/(2 \sigma^2) }.
+    \end{align}&lt;/div&gt;
 &lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;Aside on sample variance: Given independent samples from any distribution, dividing by &lt;span class="math"&gt;\(N-1\)&lt;/span&gt; gives an unbiased estimate for the population variance. However, if the samples are not independent (eg, direct trace from &lt;span class="caps"&gt;MCMC&lt;/span&gt;), this factor is not appropriate: We have&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-    (N-1)E(S^2) = E(\sum (x_i - \overline{x})^2)  
-    &amp;amp;=&amp;amp; E(\sum (x_i - \mu)^2 - N ( \overline{x} - \mu)^2 ) \\ \tag{4}  
-    &amp;amp;=&amp;amp; N [\sigma^2 - \text{var}(\overline{x})] \label{sample_var}  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;Aside on sample variance: Given independent samples from any distribution, dividing by &lt;span class="math"&gt;\(N-1\)&lt;/span&gt; gives an unbiased estimate for the population variance. However, if the samples are not independent (eg, direct trace from &lt;span class="caps"&gt;MCMC&lt;/span&gt;), this factor is not appropriate: We have
+    &lt;div class="math"&gt;\begin{align} \nonumber
+    (N-1)E(S^2) &amp;amp;= E(\sum (x_i - \overline{x})^2) \\
+    &amp;amp;= E(\sum (x_i - \mu)^2 - N ( \overline{x} - \mu)^2 ) \\ \tag{4}
+    &amp;amp;= N [\sigma^2 - \text{var}(\overline{x})] \label{sample_var}
+    \end{align}&lt;/div&gt;
     If the samples are independent, the above gives &lt;span class="math"&gt;\((N-1) \sigma^2\)&lt;/span&gt;. However, if the samples are all the same, &lt;span class="math"&gt;\(\text{var}(\overline{x}) = \sigma^2\)&lt;/span&gt;, giving &lt;span class="math"&gt;\(S^2=0\)&lt;/span&gt;. In general, the relationship between the samples determines whether &lt;span class="math"&gt;\(S^2\)&lt;/span&gt; is biased or&amp;nbsp;not.&lt;/li&gt;
-&lt;li&gt;From the results above, the quantity&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \label{t-var} \tag{5}  
-    (\hat{\mu}- \mu)/(S/\sqrt(N))  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;From the results above, the quantity
+    &lt;div class="math"&gt;\begin{align} \label{t-var} \tag{5}
+    (\hat{\mu}- \mu)/(S/\sqrt(N))
+    \end{align}&lt;/div&gt;
     is the ratio of two independent variables &amp;#8212; the numerator a Normal and the denominator the square root of an independent &lt;span class="math"&gt;\(\chi^2_{N-1}\)&lt;/span&gt; variable. This quantity follows a universal distribution called the &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distribution. One can write down closed-form expressions for the &lt;span class="math"&gt;\(t\)&lt;/span&gt;. For example, when &lt;span class="math"&gt;\(N=2\)&lt;/span&gt;, you get a Cauchy variable: the ratio of one Normal over the absolute value of another, independent Normal (see above). In general, &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distributions have power law tails. A key point is that we cannot evaluate (\ref{t-var}) numerically if we do not know &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;. Nevertheless, we can use the known distribution of the above to specify its likely range. Using this, we can then construct a confidence interval for &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;.&lt;/li&gt;
-&lt;li&gt;Consider now a situation where you have two separate Normal distributions. To compare their variances you can take samples from the two and then construct the quantity&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\label{f-var} \tag{6}  
-    \frac{S_x / \sigma_x}{ S_y/ \sigma_y}.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;Consider now a situation where you have two separate Normal distributions. To compare their variances you can take samples from the two and then construct the quantity
+    &lt;div class="math"&gt;\begin{align}\label{f-var} \tag{6}
+    \frac{S_x / \sigma_x}{ S_y/ \sigma_y}.
+    \end{align}&lt;/div&gt;
     This is the ratio of two independent &lt;span class="math"&gt;\(\chi^2\)&lt;/span&gt; variables, resulting in what is referred to as an &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distributed variable. Like (\ref{t-var}), we often cannot evaluate (\ref{f-var}) numerically. Instead, we use a tabulated cdf of the &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distribution to derive confidence intervals for the ratio of the two underlying variances. Aside: The &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distribution arises in the analysis of both &lt;span class="caps"&gt;ANOVA&lt;/span&gt; and linear regression. Note also that the square of a &lt;span class="math"&gt;\(t\)&lt;/span&gt;-distributed variable (Normal over the square root of a &lt;span class="math"&gt;\(\chi^2\)&lt;/span&gt; variable) is &lt;span class="math"&gt;\(F\)&lt;/span&gt;-distributed.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Multivariate&amp;nbsp;Normals&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;Consider a set of jointly-distributed variables &lt;span class="math"&gt;\(x\)&lt;/span&gt; having normal distribution&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{7}  
-    p(x) = \sqrt{\frac{ \text{det}(M)} {2 \pi}} \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ],  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    with &lt;span class="math"&gt;\(M\)&lt;/span&gt; a real, symmetric matrix. The correlation of two components is given by&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{8}  
-    \langle x_i x_j \rangle = M^{-1}_{ij}.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-&lt;em&gt;Proof:&lt;/em&gt; Let&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{9}  
-    I = \int dx \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ].  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    Then,&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{10}  
-    \partial_{M_{ij}} \log I = -\frac{1}{2} \langle x_i x_j \rangle.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    We can also evaluate this using the normalization of the integral as&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-    \partial_{M_{ij}} \log I &amp;amp;=&amp;amp; - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} \partial_{M_{ij}} \lambda_{\alpha} \\ \nonumber  
-    &amp;amp;=&amp;amp; - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} v_{\alpha i } v_{\alpha j} \\  
-    &amp;amp;=&amp;amp; - \frac{1}{2} M^{-1}_{ij}. \tag{11}  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;Consider a set of jointly-distributed variables &lt;span class="math"&gt;\(x\)&lt;/span&gt; having normal distribution
+    &lt;div class="math"&gt;\begin{align} \tag{7}
+    p(x) = \sqrt{\frac{ \text{det}(M)} {2 \pi}} \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ],
+    \end{align}&lt;/div&gt;
+    with &lt;span class="math"&gt;\(M\)&lt;/span&gt; a real, symmetric matrix. The correlation of two components is given by
+    &lt;div class="math"&gt;\begin{align}\tag{8}
+    \langle x_i x_j \rangle = M^{-1}_{ij}.
+    \end{align}&lt;/div&gt;
+&lt;em&gt;Proof:&lt;/em&gt; Let
+    &lt;div class="math"&gt;\begin{align}\tag{9}
+    I = \int dx \exp \left [- \frac{1}{2} x^T \cdot M \cdot x \right ].
+    \end{align}&lt;/div&gt;
+    Then,
+    &lt;div class="math"&gt;\begin{align}\tag{10}
+    \partial_{M_{ij}} \log I = -\frac{1}{2} \langle x_i x_j \rangle.
+    \end{align}&lt;/div&gt;
+    We can also evaluate this using the normalization of the integral as
+    &lt;div class="math"&gt;\begin{align} \nonumber
+    \partial_{M_{ij}} \log I &amp;amp;= - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} \partial_{M_{ij}} \lambda_{\alpha} \\ \nonumber
+    &amp;amp;= - \frac{1}{2} \sum_{\alpha} \frac{1}{\lambda_{\alpha}} v_{\alpha i } v_{\alpha j} \\
+    &amp;amp;= - \frac{1}{2} M^{-1}_{ij}. \tag{11}
+    \end{align}&lt;/div&gt;
     Here, I&amp;#8217;ve used the result &lt;span class="math"&gt;\( \partial_{M_{ij}} \lambda_{\alpha} = v_{\alpha i } v_{\alpha j}\)&lt;/span&gt;. I give a proof of this next. The last line follows by expressing &lt;span class="math"&gt;\(M\)&lt;/span&gt; in terms of its eigenbasis. Comparing the last two lines above gives the&amp;nbsp;result.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Consider a matrix &lt;span class="math"&gt;\(M\)&lt;/span&gt; having eigenvalues &lt;span class="math"&gt;\(\{\lambda_{\alpha}\}\)&lt;/span&gt;. The first derivative of &lt;span class="math"&gt;\(\lambda_{\alpha}\)&lt;/span&gt; with respect to &lt;span class="math"&gt;\(M_{ij}\)&lt;/span&gt; is given by &lt;span class="math"&gt;\(v_{\alpha, i} v_{\alpha, j}\)&lt;/span&gt;, where &lt;span class="math"&gt;\(v_{\alpha}\)&lt;/span&gt; is the unit eigenvector corresponding to the eigenvalue &lt;span class="math"&gt;\(\lambda_{\alpha}\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; The eigenvalue in question is given by&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{12}  
-\lambda_{\alpha} = \sum_{ij} v_{\alpha i} M_{ij} v_{\alpha j}.  
-\end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-If we differentiate with respect to &lt;span class="math"&gt;\(M_{ab}\)&lt;/span&gt;, say, we obtain&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-\partial_{M_{ab}} \lambda_{\alpha} &amp;amp;=&amp;amp; \sum_{ij} \delta_{ia} \delta_{jb} v_{\alpha i} v_{\alpha j} + 2 v_{\alpha i} M_{ij} \partial_{M_{ab}} v_{\alpha j} \\  
-&amp;amp;=&amp;amp; v_{\alpha a} v_{\alpha b} + 2 \lambda_{\alpha} v_{\alpha } \cdot \partial_{M_{ab}} v_{\alpha }  
-\tag{13}.  
-\end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; The eigenvalue in question is given by
+&lt;div class="math"&gt;\begin{align} \tag{12}
+\lambda_{\alpha} = \sum_{ij} v_{\alpha i} M_{ij} v_{\alpha j}.
+\end{align}&lt;/div&gt;
+If we differentiate with respect to &lt;span class="math"&gt;\(M_{ab}\)&lt;/span&gt;, say, we obtain
+&lt;div class="math"&gt;\begin{align} \nonumber
+\partial_{M_{ab}} \lambda_{\alpha} &amp;amp;= \sum_{ij} \delta_{ia} \delta_{jb} v_{\alpha i} v_{\alpha j} + 2 v_{\alpha i} M_{ij} \partial_{M_{ab}} v_{\alpha j} \\
+&amp;amp;= v_{\alpha a} v_{\alpha b} + 2 \lambda_{\alpha} v_{\alpha } \cdot \partial_{M_{ab}} v_{\alpha }
+\tag{13}.
+\end{align}&lt;/div&gt;
 The last term above must be zero since the length of &lt;span class="math"&gt;\(v_{\alpha }\)&lt;/span&gt; is fixed at &lt;span class="math"&gt;\(1\)&lt;/span&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;The conditional distribution. Let &lt;span class="math"&gt;\(x\)&lt;/span&gt; be a vector of jointly distributed variables of mean zero and covariance matrix &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt;. If we segment the variables into two sets, &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1\)&lt;/span&gt;, the distribution of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; is also normal. Here, we find the mean and covariance. We have&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \label{multivargaucond} \tag{14}  
-    p(x) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \Sigma^{-1}_{00} x_0\right] \exp \left [ -\frac{1}{2} \left \{ x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 \right \} \right]  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    Here, &lt;span class="math"&gt;\(\Sigma^{-1}_{ij}\)&lt;/span&gt; refers to the &lt;span class="math"&gt;\(i-j\)&lt;/span&gt; block of the inverse. To complete the square, we write&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{15}  
-    x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 + c = (x_1^T + a) \Sigma^{-1}_{11} ( x_1 + a).  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    Comparing both sides, we find&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{16}  
-    x_1^T \Sigma^{-1}_{10} x_0 = x_1^T \Sigma^{-1}_{11} a  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    This holds for any value of &lt;span class="math"&gt;\(x_1^T\)&lt;/span&gt;, so we must have&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{17}  
-    a = \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 .  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    Plugging the last few results into (\ref{multivargaucond}), we obtain&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-    p(x) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -  
-    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0\right] \\ \times  
-    \exp \left [ -\frac{1}{2} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) \Sigma^{-1}_{11} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) \right ] \tag{18} \label{multivargaucondfix}  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    This shows that &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 $ are independent. This formula also shows that the average value of $x_1\)&lt;/span&gt; shifts at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;,&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{19}  
-    \langle x_1 \rangle = \langle x_1 \rangle_0 - \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    With some work, we can rewrite this as&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{20}  
-    \langle x_1 \rangle = \langle x_1 \rangle_0 + \Sigma_{10} \frac{1}{\Sigma_{00}}x_0.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;p&gt;The conditional distribution. Let &lt;span class="math"&gt;\(x\)&lt;/span&gt; be a vector of jointly distributed variables of mean zero and covariance matrix &lt;span class="math"&gt;\(\Sigma\)&lt;/span&gt;. If we segment the variables into two sets, &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1\)&lt;/span&gt;, the distribution of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; is also normal. Here, we find the mean and covariance. We have
+    &lt;div class="math"&gt;\begin{align} \label{multivargaucond} \tag{14}
+    p(x) = \mathcal{N} e^{-\frac{1}{2} x_0^T \Sigma^{-1}_{00} x_0} e^{ -\frac{1}{2} \left \{ x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 \right \} }
+    \end{align}&lt;/div&gt;
+    Here, &lt;span class="math"&gt;\(\Sigma^{-1}_{ij}\)&lt;/span&gt; refers to the &lt;span class="math"&gt;\(i-j\)&lt;/span&gt; block of the inverse. To complete the square, we write
+    &lt;div class="math"&gt;\begin{align} \tag{15}
+    x_1^T \Sigma^{-1}_{11} x_1 + 2 x_1^T \Sigma^{-1}_{10} x_0 + c = (x_1^T + a) \Sigma^{-1}_{11} ( x_1 + a).
+    \end{align}&lt;/div&gt;
+    Comparing both sides, we find
+    &lt;div class="math"&gt;\begin{align} \tag{16}
+    x_1^T \Sigma^{-1}_{10} x_0 = x_1^T \Sigma^{-1}_{11} a
+    \end{align}&lt;/div&gt;
+    This holds for any value of &lt;span class="math"&gt;\(x_1^T\)&lt;/span&gt;, so we must have
+    &lt;div class="math"&gt;\begin{align}\tag{17}
+    a = \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 .
+    \end{align}&lt;/div&gt;
+    Plugging the last few results into (\ref{multivargaucond}), we obtain
+    &lt;div class="math"&gt;\begin{align} \nonumber
+    p(x) = \mathcal{N} e^{-\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -
+    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0}\times  \\
+    e^{ -\frac{1}{2} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) \Sigma^{-1}_{11} \left (x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0 \right) } \tag{18} \label{multivargaucondfix}
+    \end{align}&lt;/div&gt;
+    This shows that &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; and &lt;span class="math"&gt;\(x_1 + \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0\)&lt;/span&gt; are independent. This formula also shows that the average value of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; shifts at fixed &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;,
+    &lt;div class="math"&gt;\begin{align}\tag{19}
+    \langle x_1 \rangle = \langle x_1 \rangle_0 - \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} x_0.
+    \end{align}&lt;/div&gt;
+    With some work, we can rewrite this as
+    &lt;div class="math"&gt;\begin{align} \tag{20}
+    \langle x_1 \rangle = \langle x_1 \rangle_0 + \Sigma_{10} \frac{1}{\Sigma_{00}}x_0.
+    \end{align}&lt;/div&gt;
     There are two ways to prove this equivalent form holds. One is to make use of the expression for the inverse of a block matrix. The second is to note that the above is simply the linear response to a shift in &lt;span class="math"&gt;\(x_0\)&lt;/span&gt; &amp;#8212; see post on linear&amp;nbsp;regression.&lt;/p&gt;
 &lt;/li&gt;
-&lt;li&gt;If we integrate over &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; in (\ref{multivargaucondfix}), we obtain the distribution for &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;. This is&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{21}  
-    p(x_0) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -  
-    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0\right]  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    The block-diagonal inverse theorem can be used to show that this is equivalent to&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{22}  
-    p(x_0) = \mathcal{N} \exp \left [ -\frac{1}{2} x_0^T \left( \Sigma_{00} \right)^{-1} x_0\right]  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;If we integrate over &lt;span class="math"&gt;\(x_1\)&lt;/span&gt; in (\ref{multivargaucondfix}), we obtain the distribution for &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;. This is
+    &lt;div class="math"&gt;\begin{align} \tag{21}
+    p(x_0) = \mathcal{N} e^ {-\frac{1}{2} x_0^T \left( \Sigma^{-1}_{00} -
+    \Sigma^{-1}_{01} \left( \Sigma^{-1}_{11} \right)^{-1} \Sigma^{-1}_{10} \right) x_0}
+    \end{align}&lt;/div&gt;
+    The block-diagonal inverse theorem can be used to show that this is equivalent to
+    &lt;div class="math"&gt;\begin{align} \tag{22}
+    p(x_0) = \mathcal{N} e^{ -\frac{1}{2} x_0^T \left( \Sigma_{00} \right)^{-1} x_0}
+    \end{align}&lt;/div&gt;
     Another way to see this is correct is to make use of the fact that the coefficient matrix in the normal is the inverse of the correlation matrix. We know that after integrating out the values of &lt;span class="math"&gt;\(x_1\)&lt;/span&gt;, we remain normal, and the covariance matrix will simply be given by that for &lt;span class="math"&gt;\(x_0\)&lt;/span&gt;.&lt;/li&gt;
-&lt;li&gt;The covariance of the &lt;span class="caps"&gt;CDF&lt;/span&gt; transform in multivariate case &amp;#8212; a result needed for fitting Gaussian Copulas to data: Let &lt;span class="math"&gt;\(x_1, x_2\)&lt;/span&gt; be jointly distributed Normal variables with covariance matrix&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    C = \left( \begin{array}{cc}  
-    1 &amp;amp; \rho \\  
-    \rho &amp;amp; 1  
-    \end{array} \right)  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    The &lt;span class="caps"&gt;CDF&lt;/span&gt; transform of &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; is defined as&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    X_i \equiv \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x_i} \exp\left( -\frac{\tilde{x}_i^2}{2} \right)d\tilde{x}_i.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    Here, we&amp;#8217;ll calculate the covariance of &lt;span class="math"&gt;\(X_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(X_2\)&lt;/span&gt;. Up to a constant that does not depend on &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, this is given by the integral&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    J \equiv \frac{1}{\sqrt{(2 \pi)^2 \text{det} C}} \int d\vec{x} \exp\left( -\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x} \right)  
-    \frac{1}{2 \pi} \int_{-\infty}^{x_1}\int_{-\infty}^{x_2} \exp\left( -\frac{\tilde{x}_1^2}{2} -\frac{\tilde{x}_2^2}{2} \right)d\tilde{x}_1 d\tilde{x}_2.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    To progress, we first write&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    \exp\left( -\frac{\tilde{x}_i^2}{2} \right ) = \frac{1}{\sqrt{2\pi }}\int \exp \left (- \frac{1}{2} k_i^2 + i k \tilde{x}_i \right )  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    We will substitute this equation into the prior line and then integrate over the &lt;span class="math"&gt;\(\tilde{x}_i\)&lt;/span&gt; using the result&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    \int_{-\infty}^{x_i} \exp \left ( i k \tilde{x}_i \right ) d \tilde{x}_i = \frac{e^{i k_i x_i}}{i k_i}.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    This gives&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    J = \frac{-1}{(2 \pi)^3 \sqrt{\text{det} C} } \int_{k_1} \int_{k_2} \frac{e^{-\frac{1}{2} (k_1^2 + k_2^2)}}{k_1 k_2}  
-    \int d\vec{x} \exp\left( -\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x} + i \vec{k} \cdot \vec{x} \right)  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    The integral on &lt;span class="math"&gt;\(\vec{x}\)&lt;/span&gt; can now be carried out by completing the square. This gives&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-    J = \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2} \frac{1}{k_1 k_2}  
-    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right)  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    We now differentiate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; to get rid of the &lt;span class="math"&gt;\(k_1 k_2\)&lt;/span&gt; in the denominator. This gives&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-    \partial_{\rho} J &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2}  
-    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right) \\ \nonumber  
-    &amp;amp;=&amp;amp; \frac{1}{2 \pi } \frac{1}{\sqrt{\text{det}(C + I)}} \\  
-    &amp;amp;=&amp;amp; \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}}.  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-    The last step is to integrate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, but we will now switch back to the original goal of calculating the covariance of the two &lt;span class="caps"&gt;CDF&lt;/span&gt; transforms, &lt;span class="math"&gt;\(P\)&lt;/span&gt;, rather than &lt;span class="math"&gt;\(J\)&lt;/span&gt; itself. At &lt;span class="math"&gt;\(\rho = 0\)&lt;/span&gt;, we must have &lt;span class="math"&gt;\(P(\rho=0) = 0\)&lt;/span&gt;, since the transforms will also be uncorrelated in this limit. This gives&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-    P &amp;amp;=&amp;amp; \int_0^{\rho} \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}} d \rho \\  
-    &amp;amp;=&amp;amp; \frac{1}{2 \pi } \sin^{-1} \left( \frac{\rho}{2} \right). \tag{23}  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;li&gt;The covariance of the &lt;span class="caps"&gt;CDF&lt;/span&gt; transform in multivariate case &amp;#8212; a result needed for fitting Gaussian Copulas to data: Let &lt;span class="math"&gt;\(x_1, x_2\)&lt;/span&gt; be jointly distributed Normal variables with covariance matrix
+    &lt;div class="math"&gt;\begin{align}
+    C = \left( \begin{array}{cc}
+    1 &amp;amp; \rho \\
+    \rho &amp;amp; 1
+    \end{array} \right)
+    \end{align}&lt;/div&gt;
+    The &lt;span class="caps"&gt;CDF&lt;/span&gt; transform of &lt;span class="math"&gt;\(x_i\)&lt;/span&gt; is defined as
+    &lt;div class="math"&gt;\begin{align}
+    X_i \equiv \frac{1}{\sqrt{2 \pi}} \int_{-\infty}^{x_i} \exp\left( -\frac{\tilde{x}_i^2}{2} \right)d\tilde{x}_i.
+    \end{align}&lt;/div&gt;
+    Here, we&amp;#8217;ll calculate the covariance of &lt;span class="math"&gt;\(X_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(X_2\)&lt;/span&gt;. Up to a constant that does not depend on &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, this is given by the integral
+    &lt;div class="math"&gt;\begin{align}
+    J \equiv &amp;amp;\frac{1}{\sqrt{(2 \pi)^2 \text{det} C}} \int d\vec{x} e^{-\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x}} \times \\
+    &amp;amp;\frac{1}{2 \pi} \int_{-\infty}^{x_1}\int_{-\infty}^{x_2} e^{-\frac{\tilde{x}_1^2}{2} -\frac{\tilde{x}_2^2}{2}}d\tilde{x}_1 d\tilde{x}_2.
+    \end{align}&lt;/div&gt;
+    To progress, we first write
+    &lt;div class="math"&gt;\begin{align}
+    \exp\left( -\frac{\tilde{x}_i^2}{2} \right ) = \frac{1}{\sqrt{2\pi }}\int \exp \left (- \frac{1}{2} k_i^2 + i k \tilde{x}_i \right )
+    \end{align}&lt;/div&gt;
+    We will substitute this equation into the prior line and then integrate over the &lt;span class="math"&gt;\(\tilde{x}_i\)&lt;/span&gt; using the result
+    &lt;div class="math"&gt;\begin{align}
+    \int_{-\infty}^{x_i} \exp \left ( i k \tilde{x}_i \right ) d \tilde{x}_i = \frac{e^{i k_i x_i}}{i k_i}.
+    \end{align}&lt;/div&gt;
+    This gives
+    &lt;div class="math"&gt;\begin{align}
+    J = &amp;amp;\frac{-1}{(2 \pi)^3 \sqrt{\text{det} C} } \int_{k_1} \int_{k_2} \frac{e^{-\frac{1}{2} (k_1^2 + k_2^2)}}{k_1 k_2} \times \\
+    &amp;amp;\int d\vec{x} e^{-\frac{1}{2} \vec{x} \cdot C^{-1} \cdot \vec{x} + i \vec{k} \cdot \vec{x}}
+    \end{align}&lt;/div&gt;
+    The integral on &lt;span class="math"&gt;\(\vec{x}\)&lt;/span&gt; can now be carried out by completing the square. This gives
+    &lt;div class="math"&gt;\begin{align}
+    J = \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2} \frac{1}{k_1 k_2}
+    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right)
+    \end{align}&lt;/div&gt;
+    We now differentiate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; to get rid of the &lt;span class="math"&gt;\(k_1 k_2\)&lt;/span&gt; in the denominator. This gives
+    &lt;div class="math"&gt;\begin{align} \nonumber
+    \partial_{\rho} J &amp;amp;= \frac{1}{(2 \pi)^2} \int_{k_1} \int_{k_2}
+    \exp\left( -\frac{1}{2} \vec{k} \cdot (C + I) \cdot \vec{k} \right) \\ \nonumber
+    &amp;amp;= \frac{1}{2 \pi } \frac{1}{\sqrt{\text{det}(C + I)}} \\
+    &amp;amp;= \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}}.
+    \end{align}&lt;/div&gt;
+    The last step is to integrate with respect to &lt;span class="math"&gt;\(\rho\)&lt;/span&gt;, but we will now switch back to the original goal of calculating the covariance of the two &lt;span class="caps"&gt;CDF&lt;/span&gt; transforms, &lt;span class="math"&gt;\(P\)&lt;/span&gt;, rather than &lt;span class="math"&gt;\(J\)&lt;/span&gt; itself. At &lt;span class="math"&gt;\(\rho = 0\)&lt;/span&gt;, we must have &lt;span class="math"&gt;\(P(\rho=0) = 0\)&lt;/span&gt;, since the transforms will also be uncorrelated in this limit. This gives
+    &lt;div class="math"&gt;\begin{align} \nonumber
+    P &amp;amp;= \int_0^{\rho} \frac{1}{4 \pi } \frac{1}{\sqrt{1 - \frac{\rho^2}{4}}} d \rho \\
+    &amp;amp;= \frac{1}{2 \pi } \sin^{-1} \left( \frac{\rho}{2} \right). \tag{23}
+    \end{align}&lt;/div&gt;
     Using a similar calculation, we find that the diagonal terms of the &lt;span class="caps"&gt;CDF&lt;/span&gt; covariance matrix are &lt;span class="math"&gt;\(1/12\)&lt;/span&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Central Limit&amp;nbsp;Theorem&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Let &lt;span class="math"&gt;\(x_1, x_2, \ldots, x_N\)&lt;/span&gt; be &lt;span class="caps"&gt;IID&lt;/span&gt; random variables with an mgf that exists near &lt;span class="math"&gt;\(0\)&lt;/span&gt;. Let &lt;span class="math"&gt;\(E(x_i) = \mu\)&lt;/span&gt; and &lt;span class="math"&gt;\(\text{var}(x_i) = \sigma^2\)&lt;/span&gt;. Then the variable &lt;span class="math"&gt;\(\frac{\overline{x} - \mu}{\sigma / \sqrt{N}}\)&lt;/span&gt; approaches standard normal as &lt;span class="math"&gt;\(N \to \infty\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Let &lt;span class="math"&gt;\(y_i =\frac{x_i - \mu}{\sigma}\)&lt;/span&gt;. Then,&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{24}  
-\tilde{y} \equiv \frac{\overline{x} - \mu}{\sigma / \sqrt{N}} = \frac{1}{\sqrt{N}} \sum_i y_i.  
-\end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-Using the fact that the mgf of a sum of independent variables is given by the product of their mgfs, the quantity at left is&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{25}  
-m_{\tilde{y}}(t) = \left [ m_{y}\left (\frac{t}{\sqrt{N}} \right) \right]^n.  
-\end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
-We now expand the term in brackets using a Taylor series, obtaining&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{26}  
-m_{\tilde{y}}(t) = \left [1 + \frac{t^2}{2 N } + O\left (\frac{t^3}{ N^{3/2}} \right) \right]^N \to \exp\left ( \frac{t^2}{2} \right),  
-\end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Let &lt;span class="math"&gt;\(y_i =\frac{x_i - \mu}{\sigma}\)&lt;/span&gt;. Then,
+&lt;div class="math"&gt;\begin{align}\tag{24}
+\tilde{y} \equiv \frac{\overline{x} - \mu}{\sigma / \sqrt{N}} = \frac{1}{\sqrt{N}} \sum_i y_i.
+\end{align}&lt;/div&gt;
+Using the fact that the mgf of a sum of independent variables is given by the product of their mgfs, the quantity at left is
+&lt;div class="math"&gt;\begin{align} \tag{25}
+m_{\tilde{y}}(t) = \left [ m_{y}\left (\frac{t}{\sqrt{N}} \right) \right]^n.
+\end{align}&lt;/div&gt;
+We now expand the term in brackets using a Taylor series, obtaining
+&lt;div class="math"&gt;\begin{align} \tag{26}
+m_{\tilde{y}}(t) &amp;amp;= \left [1 + \frac{t^2}{2 N } + O\left (\frac{t^3}{ N^{3/2}} \right) \right]^N \\ &amp;amp;\to \exp\left ( \frac{t^2}{2} \right),
+\end{align}&lt;/div&gt;
 where the latter form is the fixed &lt;span class="math"&gt;\(t\)&lt;/span&gt; limit as &lt;span class="math"&gt;\(N \to \infty\)&lt;/span&gt;. This is the mgf for a &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; variable, proving the&amp;nbsp;result.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;One can get a sense of the accuracy of the normal approximation at fixed &lt;span class="math"&gt;\(N\)&lt;/span&gt; through consideration of higher moments. For example, if we have an even distribution with mgf &lt;span class="math"&gt;\(1 + x^2 /2 + (1 + \kappa^{\prime}) x^4 / 8 + \ldots\)&lt;/span&gt;. Then the mgf for the scaled average above will be&lt;br&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\nonumber  
-    m_{\tilde{y}} &amp;amp;=&amp;amp; \left [1 + \frac{t^2}{2 N } + \frac{(1 + \kappa^{\prime}) t^4}{8 N^2 } + \ldots \right]^N \\  
-    &amp;amp;=&amp;amp; 1 + \frac{t^2}{2} + \left (1 + \frac{\kappa^{\prime}}{ N } \right) \frac{t^4}{8} + \ldots \tag{27}  
-    \end{eqnarray}&lt;/div&gt;
-&lt;br&gt;
+&lt;p&gt;One can get a sense of the accuracy of the normal approximation at fixed &lt;span class="math"&gt;\(N\)&lt;/span&gt; through consideration of higher moments. For example, if we have an even distribution with mgf &lt;span class="math"&gt;\(1 + x^2 /2 + (1 + \kappa^{\prime}) x^4 / 8 + \ldots\)&lt;/span&gt;. Then the mgf for the scaled average above will be
+    &lt;div class="math"&gt;\begin{align}\nonumber
+    m_{\tilde{y}} &amp;amp;= \left [1 + \frac{t^2}{2 N } + \frac{(1 + \kappa^{\prime}) t^4}{8 N^2 } + \ldots \right]^N \\
+    &amp;amp;= 1 + \frac{t^2}{2} + \left (1 + \frac{\kappa^{\prime}}{ N } \right) \frac{t^4}{8} + \ldots \tag{27}
+    \end{align}&lt;/div&gt;
     This shows that the deviation in the kurtosis away from its &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; value decays like &lt;span class="math"&gt;\(1/N\)&lt;/span&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -310,80 +276,80 @@ where the latter form is the fixed &lt;span class="math"&gt;\(t\)&lt;/span&gt; l
 &lt;p&gt;To illustrate the above points, our main effort here is to present some toy examples where the optimal hyperparameters can be characterized exactly: We derive the optimal &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; and &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; regularization strength for models having only a single variable. These examples illustrate two opposite limits: The latter approaches a finite constant as &lt;span class="math"&gt;\(N\)&lt;/span&gt; increases, but the former varies exponentially with &lt;span class="math"&gt;\(N\)&lt;/span&gt;. This shows that strong &lt;span class="math"&gt;\(N\)&lt;/span&gt;-dependence can sometimes occur, but is not necessarily always an issue. In practice, a simple way to check for sensitivity is to vary the size of your training set during model selection: If a strong dependence is observed, care should be taken during the final&amp;nbsp;extrapolation.&lt;/p&gt;
 &lt;p&gt;We now walk through our two&amp;nbsp;examples.&lt;/p&gt;
 &lt;h3&gt;&lt;span class="math"&gt;\(L_2\)&lt;/span&gt;&amp;nbsp;optimization&lt;/h3&gt;
-&lt;p&gt;We start off by positing that we have a method for generating a Bayesian posterior for a parameter &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; that is a function of a vector of &lt;span class="math"&gt;\(N\)&lt;/span&gt; random samples &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;. To simplify our discussion, we assume that &amp;#8212; given a flat prior &amp;#8212; this is unbiased and normal with variance &lt;span class="math"&gt;\(\sigma^2\)&lt;/span&gt;. We write &lt;span class="math"&gt;\(\theta_0 \equiv \theta_0(\textbf{x})\)&lt;/span&gt; for the maximum a posteriori (&lt;span class="caps"&gt;MAP&lt;/span&gt;) value under the flat prior. With the introduction of an &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; prior, the posterior for &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; is then&lt;br&gt;
+&lt;p&gt;We start off by positing that we have a method for generating a Bayesian posterior for a parameter &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; that is a function of a vector of &lt;span class="math"&gt;\(N\)&lt;/span&gt; random samples &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt;. To simplify our discussion, we assume that &amp;#8212; given a flat prior &amp;#8212; this is unbiased and normal with variance &lt;span class="math"&gt;\(\sigma^2\)&lt;/span&gt;. We write &lt;span class="math"&gt;\(\theta_0 \equiv \theta_0(\textbf{x})\)&lt;/span&gt; for the maximum a posteriori (&lt;span class="caps"&gt;MAP&lt;/span&gt;) value under the flat prior. With the introduction of an &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; prior, the posterior for &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; is&amp;nbsp;then
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{1}  
-P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \theta^2 \right).  
+&lt;div class="math"&gt;$$\tag{1}
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \theta^2 \right).
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Setting the derivative of the above to zero, the point-estimate, &lt;span class="caps"&gt;MAP&lt;/span&gt; is given by&lt;br&gt;
+&lt;p&gt;
+Setting the derivative of the above to zero, the point-estimate, &lt;span class="caps"&gt;MAP&lt;/span&gt; is given&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{2}  
-\hat{\theta} = \frac{\theta_0}{1 + 2 \Lambda \sigma^2}.  
+&lt;div class="math"&gt;$$\tag{2}
+\hat{\theta} = \frac{\theta_0}{1 + 2 \Lambda \sigma^2}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The average squared error of this estimate is obtained by averaging over the possible &lt;span class="math"&gt;\(\theta_0\)&lt;/span&gt; values. Our assumptions above imply that &lt;span class="math"&gt;\(\theta_0\)&lt;/span&gt; is normal about the true parameter value, &lt;span class="math"&gt;\(\theta_*\)&lt;/span&gt;, so we have&lt;br&gt;
+&lt;p&gt;
+The average squared error of this estimate is obtained by averaging over the possible &lt;span class="math"&gt;\(\theta_0\)&lt;/span&gt; values. Our assumptions above imply that &lt;span class="math"&gt;\(\theta_0\)&lt;/span&gt; is normal about the true parameter value, &lt;span class="math"&gt;\(\theta_*\)&lt;/span&gt;, so we&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-\langle (\hat{\theta} - \theta_*)^2 \rangle &amp;amp;\equiv&amp;amp; \int_{\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}}  
-\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \frac{\theta_0}{1 + 2 \Lambda \sigma^2} - \theta_* \right)^2 d \theta_0 \\  
-&amp;amp;=&amp;amp; \frac{ 4 \Lambda^2 \sigma^4 \theta_*^2 }{(1 + 2 \Lambda \sigma^2 )^2} + \frac{\sigma^2}{\left( 1 + 2 \Lambda \sigma^2 \right)^2}. \tag{3} \label{error}  
+&lt;div class="math"&gt;\begin{eqnarray}
+\langle (\hat{\theta} - \theta_*)^2 \rangle &amp;amp;\equiv&amp;amp; \int_{\infty}^{\infty} \frac{1}{\sqrt{2 \pi \sigma^2}}
+e^{ - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}} \left ( \frac{\theta_0}{1 + 2 \Lambda \sigma^2} - \theta_* \right)^2 d \theta_0 \\
+&amp;amp;=&amp;amp; \frac{ 4 \Lambda^2 \sigma^4 \theta_*^2 }{(1 + 2 \Lambda \sigma^2 )^2} + \frac{\sigma^2}{\left( 1 + 2 \Lambda \sigma^2 \right)^2}. \tag{3} \label{error}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The optimal &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; is readily obtained by minimizing this average error. This gives,&lt;br&gt;
+&lt;p&gt;
+The optimal &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; is readily obtained by minimizing this average error. This&amp;nbsp;gives,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \label{result}  
-\Lambda = \frac{1}{2 \theta_*^2}, \tag{4}  
+&lt;div class="math"&gt;$$ \label{result}
+\Lambda = \frac{1}{2 \theta_*^2}, \tag{4}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-a constant, independent of sample size. The mean squared error with this choice is obtained by plugging (\ref{result}) into (\ref{error}). This gives&lt;br&gt;
+&lt;p&gt;
+a constant, independent of sample size. The mean squared error with this choice is obtained by plugging (\ref{result}) into (\ref{error}). This&amp;nbsp;gives
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\langle (\hat{\theta} - \theta_*)^2 \rangle = \frac{\sigma^2}{1 + \sigma^2 / \theta_*^2}. \tag{5}  
+&lt;div class="math"&gt;$$
+\langle (\hat{\theta} - \theta_*)^2 \rangle = \frac{\sigma^2}{1 + \sigma^2 / \theta_*^2}. \tag{5}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Notice that this is strictly less than &lt;span class="math"&gt;\(\sigma^2\)&lt;/span&gt; &amp;#8212; the variance one would get without regularization &amp;#8212; and that the benefit is largest when &lt;span class="math"&gt;\(\sigma^2 \gg \theta_*^2\)&lt;/span&gt;. That is, &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; regularization is most effective when &lt;span class="math"&gt;\(\theta_*\)&lt;/span&gt; is hard to differentiate from zero &amp;#8212; an intuitive&amp;nbsp;result!&lt;/p&gt;
 &lt;h3&gt;&lt;span class="math"&gt;\(L_1\)&lt;/span&gt;&amp;nbsp;optimization&lt;/h3&gt;
-&lt;p&gt;The analysis for &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; prior is given by&lt;br&gt;
+&lt;p&gt;The analysis for &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; prior is given&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{6}  
-P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \vert \theta \vert \right).  
+&lt;div class="math"&gt;$$ \tag{6}
+P\left(\theta \vert \theta_0(\textbf{x})\right) \propto \exp\left( - \frac{(\theta - \theta_0)^2}{2 \sigma^2} - \Lambda \vert \theta \vert \right).
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Assuming for simplicity that &lt;span class="math"&gt;\(\hat{\theta} &amp;gt; 0\)&lt;/span&gt;, the &lt;span class="caps"&gt;MAP&lt;/span&gt; value is now&lt;br&gt;
+&lt;p&gt;
+Assuming for simplicity that &lt;span class="math"&gt;\(\hat{\theta} &amp;gt; 0\)&lt;/span&gt;, the &lt;span class="caps"&gt;MAP&lt;/span&gt; value is&amp;nbsp;now
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{7}  
-\hat{\theta} = \begin{cases}  
-\theta_0 - \Lambda \sigma^2 &amp;amp; \text{if } \theta_0 - \Lambda \sigma^2 &amp;gt; 0 \\  
-0 &amp;amp; \text{else}.  
-\end{cases}  
+&lt;div class="math"&gt;$$ \tag{7}
+\hat{\theta} = \begin{cases}
+\theta_0 - \Lambda \sigma^2 &amp;amp; \text{if } \theta_0 - \Lambda \sigma^2 &amp;gt; 0 \\
+0 &amp;amp; \text{else}.
+\end{cases}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The mean squared error of the estimator is&lt;br&gt;
+&lt;p&gt;
+The mean squared error of the estimator&amp;nbsp;is
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{8}  
-\langle (\hat{\theta} - \theta_*)^2 \rangle \equiv \int \frac{1}{\sqrt{2 \pi \sigma^2}}  
-\exp\left( - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}\right) \left ( \hat{\theta} - \theta_* \right)^2 d \theta_0.  
+&lt;div class="math"&gt;$$ \tag{8}
+\langle (\hat{\theta} - \theta_*)^2 \rangle \equiv \int \frac{1}{\sqrt{2 \pi \sigma^2}}
+e^{ - \frac{(\theta_0 - \theta_*)^2}{2 \sigma^2}} \left ( \hat{\theta} - \theta_* \right)^2 d \theta_0.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-This can be evaluated in terms of error functions. The optimal value of &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; is obtained by differentiating the above. Doing this, one finds that it satisfies the equation&lt;br&gt;
+&lt;p&gt;
+This can be evaluated in terms of error functions. The optimal value of &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; is obtained by differentiating the above. Doing this, one finds that it satisfies the&amp;nbsp;equation
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{9}  
-\exp\left( - \frac{(\tilde{\Lambda}- \tilde{\theta_*})^2}{2} \right ) + \sqrt{\frac{\pi}{2}} \tilde{\Lambda} \ \text{erfc}\left( \frac{\tilde{\Lambda} - \tilde{\theta_*}}{\sqrt{2}} \right ) = 0,  
+&lt;div class="math"&gt;$$ \tag{9}
+e^{ - \frac{(\tilde{\Lambda}- \tilde{\theta_*})^2}{2} } + \sqrt{\frac{\pi}{2}} \tilde{\Lambda} \ \text{erfc}\left( \frac{\tilde{\Lambda} - \tilde{\theta_*}}{\sqrt{2}} \right ) = 0,
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-where &lt;span class="math"&gt;\(\tilde{\Lambda} \equiv \sigma \Lambda\)&lt;/span&gt; and &lt;span class="math"&gt;\(\tilde{\theta_*} \equiv \theta_* / \sigma\)&lt;/span&gt;. In general, the equation above must be solved numerically. However, in the case where &lt;span class="math"&gt;\(\theta_* \gg \sigma\)&lt;/span&gt; &amp;#8212; relevant when &lt;span class="math"&gt;\(N\)&lt;/span&gt; is large &amp;#8212; we can obtain a clean asymptotic solution. In this case, we have &lt;span class="math"&gt;\(\tilde{\theta_*} \gg 1\)&lt;/span&gt; and we expect &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; small. This implies that the above equation can be approximated as&lt;br&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(\tilde{\Lambda} \equiv \sigma \Lambda\)&lt;/span&gt; and &lt;span class="math"&gt;\(\tilde{\theta_*} \equiv \theta_* / \sigma\)&lt;/span&gt;. In general, the equation above must be solved numerically. However, in the case where &lt;span class="math"&gt;\(\theta_* \gg \sigma\)&lt;/span&gt; &amp;#8212; relevant when &lt;span class="math"&gt;\(N\)&lt;/span&gt; is large &amp;#8212; we can obtain a clean asymptotic solution. In this case, we have &lt;span class="math"&gt;\(\tilde{\theta_*} \gg 1\)&lt;/span&gt; and we expect &lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt; small. This implies that the above equation can be approximated&amp;nbsp;as
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{10}  
-\exp\left( - \frac{\tilde{\theta_*}^2}{2} \right ) - \sqrt{2 \pi} \tilde{\Lambda} \sim 0.  
+&lt;div class="math"&gt;$$ \tag{10}
+e^{ - \frac{\tilde{\theta_*}^2}{2} } - \sqrt{2 \pi} \tilde{\Lambda} \sim 0.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Solving gives&lt;br&gt;
+&lt;p&gt;
+Solving&amp;nbsp;gives
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{11}  
-\Lambda \sim \frac{1}{\sqrt{2 \pi \sigma^2}} \exp\left( - \frac{\theta_*^2}{2 \sigma^2} \right ) \sim \frac{\sqrt{N}}{\sqrt{2 \pi \sigma_1^2}} \exp\left( - \frac{N \theta_*^2}{2 \sigma_1^2} \right ).  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{11}
+\Lambda \sim \frac{1}{\sqrt{2 \pi \sigma^2}} e^{ - \frac{\theta_*^2}{2 \sigma^2}} \sim \frac{\sqrt{N}}{\sqrt{2 \pi \sigma_1^2}} e^{ - \frac{N \theta_*^2}{2 \sigma_1^2}}.
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Here, in the last line we have made the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-dependence explicit, writing &lt;span class="math"&gt;\(\sigma^2 = \sigma_1^2 / N\)&lt;/span&gt; &amp;#8212; a form that follows when our samples &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; are independent. Whereas the optimal &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; regularization strength approaches a constant, our result here shows that the optimal &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; strength decays exponentially to zero as &lt;span class="math"&gt;\(N\)&lt;/span&gt;&amp;nbsp;increases.&lt;/p&gt;
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;The subtlety that we have discussed here is likely already familiar to those with significant applied modeling experience: optimal model hyperparameters can vary with training set size. However, the two toy examples we have presented are interesting in that they allow for this &lt;span class="math"&gt;\(N\)&lt;/span&gt; dependence to be derived explicitly. Interestingly, we have found that the &lt;span class="caps"&gt;MSE&lt;/span&gt;-minimizing &lt;span class="math"&gt;\(L_2\)&lt;/span&gt; regularization remains finite, even at large training set size, but the optimal &lt;span class="math"&gt;\(L_1\)&lt;/span&gt; regularization goes to zero in this same limit. For small and medium &lt;span class="math"&gt;\(N\)&lt;/span&gt;, this exponential dependence represents a strong sensitivity to &lt;span class="math"&gt;\(N\)&lt;/span&gt; &amp;#8212; one that must be carefully taken into account when extrapolating to the full training&amp;nbsp;set.&lt;/p&gt;
@@ -456,65 +422,65 @@ Here, in the last line we have made the &lt;span class="math"&gt;\(N\)&lt;/span&
 &lt;p&gt;In order to derive the average wait time for queues of different sorts, one often works within the framework of Markov processes. This approach is very general and elementary, but requires a bit of effort to develop the machinery needed get to the end results. Here, we demonstrate an alternative, sometimes faster approach that is based on writing down an integral equation for the wait time distribution. We consider only a simple case &amp;#8212; that where the queue is serviced by only one staff member, the customers arrive at random times via a Poisson process, and each customer requires the same time to service, one&amp;nbsp;second.&lt;/p&gt;
 &lt;h3&gt;Integral equation&amp;nbsp;formulation&lt;/h3&gt;
 &lt;p&gt;Suppose the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer arrives at time &lt;span class="math"&gt;\(0\)&lt;/span&gt;, and let &lt;span class="math"&gt;\(P(t)\)&lt;/span&gt; be the probability that this customer has to wait a time &lt;span class="math"&gt;\(t\geq 0\)&lt;/span&gt; before being served. This wait time can be written in terms of the arrival and wait times of the previous customer: If this previous customer arrived at time &lt;span class="math"&gt;\(t^{\prime}\)&lt;/span&gt; and has to wait a time &lt;span class="math"&gt;\(w\)&lt;/span&gt; before being served, his service will conclude at time &lt;span class="math"&gt;\(t = t^{\prime} + w + 1\)&lt;/span&gt;. If this is greater than &lt;span class="math"&gt;\(0\)&lt;/span&gt;, the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer will have to wait before being served. In particular, he will wait &lt;span class="math"&gt;\(t\)&lt;/span&gt; if the previous customer waited &lt;span class="math"&gt;\(w = t - t^{\prime} - 1\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;The above considerations allow us to write down an equation satisfied by the wait time distribution. If we let the probability that the previous customer arrived at &lt;span class="math"&gt;\(t^{\prime}\)&lt;/span&gt; be &lt;span class="math"&gt;\(A(t^{\prime})\)&lt;/span&gt;, we have (for &lt;span class="math"&gt;\(t &amp;gt; 0\)&lt;/span&gt;)&lt;br&gt;
+&lt;p&gt;The above considerations allow us to write down an equation satisfied by the wait time distribution. If we let the probability that the previous customer arrived at &lt;span class="math"&gt;\(t^{\prime}\)&lt;/span&gt; be &lt;span class="math"&gt;\(A(t^{\prime})\)&lt;/span&gt;, we have (for &lt;span class="math"&gt;\(t &amp;gt; 0\)&lt;/span&gt;)
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\tag{1} \label{int_eqn}  
-P(t) = \int_{-\infty}^{0^-} A(t^{\prime}) P(t - t^{\prime} - 1) d t^{\prime}  
-= \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} P(t - t^{\prime} - 1) d t^{\prime}  
+&lt;div class="math"&gt;$$
+\tag{1} \label{int_eqn}
+P(t) = \int_{-\infty}^{0^-} A(t^{\prime}) P(t - t^{\prime} - 1) d t^{\prime}  \\
+= \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} P(t - t^{\prime} - 1) d t^{\prime}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Here, in the first equality we&amp;#8217;re simply averaging over the possible arrival times of the previous customer (which had to occur before the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th, at &lt;span class="math"&gt;\(0\)&lt;/span&gt;), multiplying by the probability &lt;span class="math"&gt;\(P(t - t^{\prime} - 1)\)&lt;/span&gt; that this customer had to wait the amount of time &lt;span class="math"&gt;\(w\)&lt;/span&gt; needed so that the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer will wait &lt;span class="math"&gt;\(t\)&lt;/span&gt;. We also use the symmetry that each customer has the same wait time distribution at steady state. In the second equality, we have plugged in the arrival time distribution appropriate for our Poisson&amp;nbsp;model.&lt;/p&gt;
-&lt;p&gt;To proceed, we differentiate both sides of (\ref{int_eqn}) with respect to &lt;span class="math"&gt;\(t\)&lt;/span&gt;,&lt;br&gt;
+&lt;p&gt;To proceed, we differentiate both sides of (\ref{int_eqn}) with respect to &lt;span class="math"&gt;\(t\)&lt;/span&gt;,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{2} \label{int2}  
-P^{\prime}(t) = \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt}P(t - t^{\prime} - 1) d t^{\prime} = - \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt^{\prime}}P(t - t^{\prime} - 1) d t^{\prime}.  
+&lt;div class="math"&gt;$$ \tag{2} \label{int2}
+P^{\prime}(t) = \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt}P(t - t^{\prime} - 1) d t^{\prime} \\= - \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt^{\prime}}P(t - t^{\prime} - 1) d t^{\prime}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The second equality follows after noticing that we can switch the parameter being differentiated in the first. Integrating by parts, we obtain&lt;br&gt;
+&lt;p&gt;
+The second equality follows after noticing that we can switch the parameter being differentiated in the first. Integrating by parts, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-P^{\prime}(t) = \lambda \left [P(t) - P(t-1) \right], \tag{3} \label{sol}  
+&lt;div class="math"&gt;$$
+P^{\prime}(t) = \lambda \left [P(t) - P(t-1) \right], \tag{3} \label{sol}
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 a delay differential equation for the wait time distribution. This could be integrated numerically to get the full solution. However, our interest here is primarily the mean waiting time &amp;#8212; as we show next, it&amp;#8217;s easy to extract this part of the solution&amp;nbsp;analytically.&lt;/p&gt;
 &lt;h3&gt;Probability of no wait and the mean wait&amp;nbsp;time&lt;/h3&gt;
-&lt;p&gt;We can obtain a series of useful relations by multiplying (\ref{sol}) by powers of &lt;span class="math"&gt;\(t\)&lt;/span&gt; and integrating. The first such expression is obtained by multiplying by &lt;span class="math"&gt;\(t^1\)&lt;/span&gt;. Doing this and integrating its left side, we obtain&lt;br&gt;
+&lt;p&gt;We can obtain a series of useful relations by multiplying (\ref{sol}) by powers of &lt;span class="math"&gt;\(t\)&lt;/span&gt; and integrating. The first such expression is obtained by multiplying by &lt;span class="math"&gt;\(t^1\)&lt;/span&gt;. Doing this and integrating its left side, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{4} \label{int3}  
-\int_{0^{+}}^{\infty} P^{\prime}(t) t dt = \left . P(t) t \right |_{0^{+}}^{\infty} - \int_{0^+}^{\infty} P(t) dt = 1 - P(0).  
+&lt;div class="math"&gt;$$\tag{4} \label{int3}
+\int_{0^{+}}^{\infty} P^{\prime}(t) t dt = \left . P(t) t \right |_{0^{+}}^{\infty} - \int_{0^+}^{\infty} P(t) dt = 1 - P(0).
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Similarly integrating its right side, we&amp;nbsp;obtain&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{5} \label{int4}  
-\lambda \int_{0^{+}}^{\infty} t \left [P(t) - P(t-1) \right] = \lambda [ \overline{t} - \overline{(t + 1)} ] = - \lambda.  
+&lt;div class="math"&gt;$$\tag{5} \label{int4}
+\lambda \int_{0^{+}}^{\infty} t \left [P(t) - P(t-1) \right] = \lambda [ \overline{t} - \overline{(t + 1)} ] = - \lambda.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Equating the last two lines, we obtain the probability of no wait,&lt;br&gt;
+&lt;p&gt;
+Equating the last two lines, we obtain the probability of no&amp;nbsp;wait,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{6} \label{int5}  
-P(0) = 1 - \lambda.  
+&lt;div class="math"&gt;$$ \tag{6} \label{int5}
+P(0) = 1 - \lambda.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 This shows that when the arrival rate is low, the probability of no wait goes to one &amp;#8212; an intuitively reasonable result. On the other hand, as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/span&gt;, the probability of no wait approaches zero. In between, the idle time fraction of our staffer (which is equal to the probability of no wait, given a random arrival time) grows linearly, connecting these two&amp;nbsp;limits.&lt;/p&gt;
-&lt;p&gt;To obtain an expression for the average wait time, we carry out a similar analysis to that above, but multiply (\ref{sol}) by &lt;span class="math"&gt;\(t^2\)&lt;/span&gt; instead. The integral on left is then&lt;br&gt;
+&lt;p&gt;To obtain an expression for the average wait time, we carry out a similar analysis to that above, but multiply (\ref{sol}) by &lt;span class="math"&gt;\(t^2\)&lt;/span&gt; instead. The integral on left is&amp;nbsp;then
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{7} \label{int6}  
-\int_{0^{+}}^{\infty} P^{\prime}(t) t^2 dt = \left . P(t) t^2 \right |_{0^{+}}^{\infty} - 2\int_{0^+}^{\infty} P(t) t dt = - 2 \overline{t}.  
+&lt;div class="math"&gt;$$ \tag{7} \label{int6}
+\int_{0^{+}}^{\infty} P^{\prime}(t) t^2 dt = \left . P(t) t^2 \right |_{0^{+}}^{\infty} - 2\int_{0^+}^{\infty} P(t) t dt = - 2 \overline{t}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Similarly, the integral at right is&lt;br&gt;
+&lt;p&gt;
+Similarly, the integral at right&amp;nbsp;is
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{8} \label{fin_int}  
-\lambda \int_{0^{+}}^{\infty} t^2 \left [P(t) - P(t-1) \right] = \lambda \overline{ t^2} - \overline{ (t + 1)^2} = - \lambda (2 \overline{t} +1).  
+&lt;div class="math"&gt;$$ \tag{8} \label{fin_int}
+\lambda \int_{0^{+}}^{\infty} t^2 \left [P(t) - P(t-1) \right] = \lambda \overline{ t^2} - \overline{ (t + 1)^2} \\= - \lambda (2 \overline{t} +1).
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Equating the last two lines and rearranging gives our solution for the average wait,&lt;br&gt;
+&lt;p&gt;
+Equating the last two lines and rearranging gives our solution for the average&amp;nbsp;wait,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{9} \label{fin}  
-\overline{t} = \frac{\lambda}{2 (1 - \lambda)}.  
+&lt;div class="math"&gt;$$ \tag{9} \label{fin}
+\overline{t} = \frac{\lambda}{2 (1 - \lambda)}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 As advertised, this diverges as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/span&gt;, see illustration in the plot below. It&amp;#8217;s very interesting that even as &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; approaches this extreme limit, the line is still empty a finite fraction of the time &amp;#8212; see (\ref{int5}). Evidently a finite idle time fraction can&amp;#8217;t be avoided, even as one approaches the divergent &lt;span class="math"&gt;\(\lambda = 1\)&lt;/span&gt;&amp;nbsp;limit.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="average wait time" src="https://efavdb.github.io/wp-content/uploads/2016/04/Screen-Shot-2016-04-23-at-5.02.38-PM.png"&gt;&lt;/p&gt;
 &lt;h3&gt;Conclusions and&amp;nbsp;extensions&lt;/h3&gt;
@@ -585,153 +551,185 @@ As advertised, this diverges as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/s
 &lt;p&gt;[edit (6/11/2018): I&amp;#8217;ve added the notebook used below to our Github, &lt;a href="https://github.com/EFavDB/improved_bonferroni"&gt;here&lt;/a&gt;]&lt;/p&gt;
 &lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;In this post, we consider a particular kind of statistical test where one examines &lt;span class="math"&gt;\(N\)&lt;/span&gt; different treatment groups, measures some particular response within each, and then decides which of the &lt;span class="math"&gt;\({N \choose 2}\)&lt;/span&gt; pairs appear to exhibit responses that differ significantly. This is called the pairwise comparison problem (or sometimes &amp;#8220;posthoc analysis&amp;#8221;). It comes up in many contexts, and in general it will be of interest whenever one is carrying out a multiple-treatment&amp;nbsp;test.&lt;/p&gt;
-&lt;p&gt;Our specific interest here is in identifying the appropriate individual measurement error bars needed to guarantee a given family-wise type 1 error rate, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;. Briefly, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt; is the probability that we incorrectly make any assertion that two measurements differ significantly when the true effect sizes we&amp;#8217;re trying to measure are actually all the same. This can happen due to the nature of statistical fluctuations. For example, when measuring the heights of &lt;span class="math"&gt;\(N\)&lt;/span&gt; identical objects, measurement error can cause us to incorrectly think that some pair have slightly different heights, even though that&amp;#8217;s not the case. A classical approach to addressing this problem is given by the Bonferroni approximation: If we consider &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt; independent comparisons, and each has an individual type 1 error rate of &lt;span class="math"&gt;\(\alpha_i,\)&lt;/span&gt; then the family-wise probability of not making any type 1 errors is simply the product of the probabilities that we don&amp;#8217;t make any individual type 1 errors,&lt;br&gt;
+&lt;p&gt;Our specific interest here is in identifying the appropriate individual measurement error bars needed to guarantee a given family-wise type 1 error rate, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;. Briefly, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt; is the probability that we incorrectly make any assertion that two measurements differ significantly when the true effect sizes we&amp;#8217;re trying to measure are actually all the same. This can happen due to the nature of statistical fluctuations. For example, when measuring the heights of &lt;span class="math"&gt;\(N\)&lt;/span&gt; identical objects, measurement error can cause us to incorrectly think that some pair have slightly different heights, even though that&amp;#8217;s not the case. A classical approach to addressing this problem is given by the Bonferroni approximation: If we consider &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt; independent comparisons, and each has an individual type 1 error rate of &lt;span class="math"&gt;\(\alpha_i,\)&lt;/span&gt; then the family-wise probability of not making any type 1 errors is simply the product of the probabilities that we don&amp;#8217;t make any individual type 1&amp;nbsp;errors,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{1} \label{bon1}  
-p_f = (1 - \alpha_f) = p_i^{\mathcal{N}} \equiv \left ( 1 - \alpha_i \right)^{\mathcal{N}} \approx 1 - \mathcal{N} \alpha_i.  
+&lt;div class="math"&gt;$$ \tag{1} \label{bon1}
+p_f = (1 - \alpha_f) = p_i^{\mathcal{N}} \equiv \left ( 1 - \alpha_i \right)^{\mathcal{N}} \approx 1 - \mathcal{N} \alpha_i.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The last equality here is an expansion that holds when &lt;span class="math"&gt;\(p_f\)&lt;/span&gt; is close to &lt;span class="math"&gt;\(1\)&lt;/span&gt;, the limit we usually work in. Rearranging (\ref{bon1}) gives a simple expression,&lt;br&gt;
+&lt;p&gt;
+The last equality here is an expansion that holds when &lt;span class="math"&gt;\(p_f\)&lt;/span&gt; is close to &lt;span class="math"&gt;\(1\)&lt;/span&gt;, the limit we usually work in. Rearranging (\ref{bon1}) gives a simple&amp;nbsp;expression,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{2} \label{bon2}  
-\alpha_i = \frac{\alpha_f}{\mathcal{N}}.  
+&lt;div class="math"&gt;$$ \tag{2} \label{bon2}
+\alpha_i = \frac{\alpha_f}{\mathcal{N}}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 This is the (naive) Bonferroni approximation &amp;#8212; it states that one should use individual tests of size &lt;span class="math"&gt;\(\alpha_f / \mathcal{N}\)&lt;/span&gt; in order to obtain a family-wise error rate of &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The reason why we refer to (\ref{bon2}) as the naive Bonferroni approximation is that it doesn&amp;#8217;t actually apply to the problem we consider here. The reason why is that &lt;span class="math"&gt;\(p_f \not = p_i^{\mathcal{N}}\)&lt;/span&gt; in (\ref{bon1}) if the &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt; comparisons considered are not independent: This is generally the case for our system of &lt;span class="math"&gt;\(\mathcal{N} = {N \choose 2}\)&lt;/span&gt; comparisons, since they are based on an underlying set of measurements having only &lt;span class="math"&gt;\(N\)&lt;/span&gt; degrees of freedom (the object heights, in our example). Despite this obvious issue, the naive approximation is often applied in this context. Here, we explore the nature of the error incurred in such applications, and we find that it is sometimes very significant. We also show that it&amp;#8217;s actually quite simple to apply the principle behind the Bonferroni approximation without error: One need only find a way to evaluate the true &lt;span class="math"&gt;\(p_f\)&lt;/span&gt; for any particular choice of error bars. Inverting this then allows one to identify the error bars needed to obtain the desired &lt;span class="math"&gt;\(p_f\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h3&gt;General&amp;nbsp;treatment&lt;/h3&gt;
 &lt;p&gt;In this section, we derive a formal expression for the type 1 error rate in the pairwise comparison problem. For simplicity, we will assume 1) that the uncertainty in each of our &lt;span class="math"&gt;\(N\)&lt;/span&gt; individual measurements is the same (e.g., the variance in the case of Normal variables), and 2) that our pairwise tests assert that two measurements differ statistically if and only if they are more than &lt;span class="math"&gt;\(k\)&lt;/span&gt; units&amp;nbsp;apart.&lt;/p&gt;
-&lt;p&gt;To proceed, we consider the probability that a type 1 error does not occur, &lt;span class="math"&gt;\(p_f\)&lt;/span&gt;. This requires that all &lt;span class="math"&gt;\(N\)&lt;/span&gt; measurements sit within &lt;span class="math"&gt;\(k\)&lt;/span&gt; units of each other. For any set of values satisfying this condition, let the smallest of the set be &lt;span class="math"&gt;\(x\)&lt;/span&gt;. We have &lt;span class="math"&gt;\(N\)&lt;/span&gt; choices for which of the treatments sit as this position. The remaining &lt;span class="math"&gt;\((N-1)\)&lt;/span&gt; values must all be within the region &lt;span class="math"&gt;\((x, x+k)\)&lt;/span&gt;. Because we&amp;#8217;re considering the type 1 error rate, we can assume that each of the independent measurements takes on the same distribution &lt;span class="math"&gt;\(P(x)\)&lt;/span&gt;. These considerations imply&lt;br&gt;
+&lt;p&gt;To proceed, we consider the probability that a type 1 error does not occur, &lt;span class="math"&gt;\(p_f\)&lt;/span&gt;. This requires that all &lt;span class="math"&gt;\(N\)&lt;/span&gt; measurements sit within &lt;span class="math"&gt;\(k\)&lt;/span&gt; units of each other. For any set of values satisfying this condition, let the smallest of the set be &lt;span class="math"&gt;\(x\)&lt;/span&gt;. We have &lt;span class="math"&gt;\(N\)&lt;/span&gt; choices for which of the treatments sit as this position. The remaining &lt;span class="math"&gt;\((N-1)\)&lt;/span&gt; values must all be within the region &lt;span class="math"&gt;\((x, x+k)\)&lt;/span&gt;. Because we&amp;#8217;re considering the type 1 error rate, we can assume that each of the independent measurements takes on the same distribution &lt;span class="math"&gt;\(P(x)\)&lt;/span&gt;. These considerations&amp;nbsp;imply
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{3} \label{gen}  
-p_{f} \equiv 1 - \alpha_{f} = N \int_{-\infty}^{\infty} P(x) \left \{\int_x^{x+k} P(y) dy \right \}^{N-1} dx.  
+&lt;div class="math"&gt;$$ \tag{3} \label{gen}
+p_{f} \equiv 1 - \alpha_{f} = N \int_{-\infty}^{\infty} P(x) \left \{\int_x^{x+k} P(y) dy \right \}^{N-1} dx.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Equation (\ref{gen}) is our main result. It is nice for a couple of reasons. First, its form implies that when &lt;span class="math"&gt;\(N\)&lt;/span&gt; is large it will scale like &lt;span class="math"&gt;\(a \times p_{1,eff}^N\)&lt;/span&gt;, for some &lt;span class="math"&gt;\(k\)&lt;/span&gt;-dependent numbers &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(p_{1,eff}\)&lt;/span&gt;. This is reminiscent of the expression (\ref{bon1}), where &lt;span class="math"&gt;\(p_f\)&lt;/span&gt; took the form &lt;span class="math"&gt;\(p_i^{\mathcal{N}}\)&lt;/span&gt;. Here, we see that the correct value actually scales like some number to the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th power, not the &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt;-th. This reflects the fact that we actually only have &lt;span class="math"&gt;\(N\)&lt;/span&gt; independent degrees of freedom here, not &lt;span class="math"&gt;\({N \choose 2}\)&lt;/span&gt;. Second, when the inner integral above can be carried out formally, (\ref{gen}) can be expressed as a single one-dimensional integral. In such cases, the integral can be evaluated numerically for any &lt;span class="math"&gt;\(k\)&lt;/span&gt;, allowing one to conveniently identify the &lt;span class="math"&gt;\(k\)&lt;/span&gt; that returns any specific, desired &lt;span class="math"&gt;\(p_f\)&lt;/span&gt;. We illustrate both points in the next two sections, where we consider Normal and Cauchy variables,&amp;nbsp;respectively.&lt;/p&gt;
 &lt;h3&gt;Normally-distributed&amp;nbsp;responses&lt;/h3&gt;
-&lt;p&gt;We now consider the case where the individual statistics are each Normally-distributed about zero, and we reject any pair if they are more than &lt;span class="math"&gt;\(k \times \sqrt{2} \sigma\)&lt;/span&gt; apart, with &lt;span class="math"&gt;\(\sigma^2\)&lt;/span&gt; the variance of the individual statistics. In this case, the inner integral of (\ref{gen}) goes to&lt;br&gt;
+&lt;p&gt;We now consider the case where the individual statistics are each Normally-distributed about zero, and we reject any pair if they are more than &lt;span class="math"&gt;\(k \times \sqrt{2} \sigma\)&lt;/span&gt; apart, with &lt;span class="math"&gt;\(\sigma^2\)&lt;/span&gt; the variance of the individual statistics. In this case, the inner integral of (\ref{gen}) goes&amp;nbsp;to
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{4} \label{inner_g}  
-\frac{1}{\sqrt{2 \pi \sigma^2}} \int_x^{x+k \sqrt{2} \sigma} \exp\left [ -\frac{y^2}{2 \sigma^2} \right] dy = \frac{1}{2} \left [\text{erf}(k + \frac{x}{\sqrt{2} \sigma}) - \text{erf}(\frac{x}{\sqrt{2} \sigma})\right].  
+&lt;div class="math"&gt;$$\tag{4} \label{inner_g}
+\frac{1}{\sqrt{2 \pi \sigma^2}} \int_x^{x+k \sqrt{2} \sigma} \exp\left [ -\frac{y^2}{2 \sigma^2} \right] dy = \frac{1}{2} \left [\text{erf}(k + \frac{x}{\sqrt{2} \sigma}) - \text{erf}(\frac{x}{\sqrt{2} \sigma})\right].
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Plugging this into (\ref{gen}), we obtain&lt;br&gt;
+&lt;p&gt;
+Plugging this into (\ref{gen}), we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{5} \label{exact_g}  
-p_f = \int \frac{N e^{-x^2 / 2 \sigma^2}}{\sqrt{2 \pi \sigma^2}} \exp \left ((N-1) \log \frac{1}{2} \left [\text{erf}(k + \frac{x}{\sqrt{2} \sigma}) - \text{erf}(\frac{x}{\sqrt{2} \sigma})\right]\right)dx.  
+&lt;div class="math"&gt;$$\tag{5} \label{exact_g}
+p_f = \int \frac{N e^{-x^2 / 2 \sigma^2}}{\sqrt{2 \pi \sigma^2}} \exp \left ((N-1) \log \frac{1}{2} \left [\text{erf}(k + \frac{x}{\sqrt{2} \sigma}) - \text{erf}(\frac{x}{\sqrt{2} \sigma})\right]\right)dx.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 This exact expression (\ref{exact_g}) can be used to obtain the &lt;span class="math"&gt;\(k\)&lt;/span&gt; value needed to achieve any desired family-wise type 1error rate. Example solutions obtained in this way are compared to the &lt;span class="math"&gt;\(k\)&lt;/span&gt;-values returned by the naive Bonferroni approach in the table below. The last column &lt;span class="math"&gt;\(p_{f,Bon}\)&lt;/span&gt; shown is the family-wise success rate that you get when you plug in &lt;span class="math"&gt;\(k_{Bon},\)&lt;/span&gt; the naive Bonferroni &lt;span class="math"&gt;\(k\)&lt;/span&gt; value targeting &lt;span class="math"&gt;\(p_{f,exact}\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(N\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(p_{f,exact}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(k_{exact}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(k_{Bon}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(p_{f,&amp;nbsp;Bon}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(4\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.90\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.29\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.39\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.921\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(8\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.90\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.78\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.91\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.929\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(4\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.95\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.57\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(2.64\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.959\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(8\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.95\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(3.03\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(3.10\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.959\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;Examining the table shown, you can see that the naive approach is consistently overestimating the &lt;span class="math"&gt;\(k\)&lt;/span&gt; values (error bars) needed to obtain the desired family-wise rates &amp;#8212; but not dramatically so. The reason for the near-accuracy is that two solutions basically scale the same way with &lt;span class="math"&gt;\(N\)&lt;/span&gt;. To see this, one can carry out an asymptotic analysis of (\ref{exact_g}). We skip the details and note only that at large &lt;span class="math"&gt;\(N\)&lt;/span&gt; we have&lt;br&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(N\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(p_{f,exact}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(k_{exact}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(k_{Bon}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(p_{f, Bon}\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;2.29&lt;/td&gt;
+&lt;td&gt;2.39&lt;/td&gt;
+&lt;td&gt;0.921&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;2.78&lt;/td&gt;
+&lt;td&gt;2.91&lt;/td&gt;
+&lt;td&gt;0.929&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;0.95&lt;/td&gt;
+&lt;td&gt;2.57&lt;/td&gt;
+&lt;td&gt;2.64&lt;/td&gt;
+&lt;td&gt;0.959&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;0.95&lt;/td&gt;
+&lt;td&gt;3.03&lt;/td&gt;
+&lt;td&gt;3.1&lt;/td&gt;
+&lt;td&gt;0.959&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Examining the table shown, you can see that the naive approach is consistently overestimating the &lt;span class="math"&gt;\(k\)&lt;/span&gt; values (error bars) needed to obtain the desired family-wise rates &amp;#8212; but not dramatically so. The reason for the near-accuracy is that two solutions basically scale the same way with &lt;span class="math"&gt;\(N\)&lt;/span&gt;. To see this, one can carry out an asymptotic analysis of (\ref{exact_g}). We skip the details and note only that at large &lt;span class="math"&gt;\(N\)&lt;/span&gt; we&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{6} \label{asy_g}  
-p_f \sim \text{erf} \left ( \frac{k}{2}\right)^N  
-\sim \left (1 - \frac{e^{-k^2 / 4}}{k \sqrt{\pi}/2} \right)^N.  
+&lt;div class="math"&gt;$$\tag{6} \label{asy_g}
+p_f \sim \text{erf} \left ( \frac{k}{2}\right)^N
+\sim \left (1 - \frac{e^{-k^2 / 4}}{k \sqrt{\pi}/2} \right)^N.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-This is interesting because the individual pairwise tests have p-values given by&lt;br&gt;
+&lt;p&gt;
+This is interesting because the individual pairwise tests have p-values given&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{7} \label{asy_i}  
-p_i = \int_{-k\sqrt{2}\sigma}^{k\sqrt{2}\sigma} \frac{e^{-x^2 / (4 \sigma^2)}}{\sqrt{4 \pi \sigma^2 }} = \text{erf}(k /\sqrt{2}) \sim 1 - \frac{e^{-k^2/2}}{k \sqrt{\pi/2}}.  
+&lt;div class="math"&gt;$$ \tag{7} \label{asy_i}
+p_i = \int_{-k\sqrt{2}\sigma}^{k\sqrt{2}\sigma} \frac{e^{-x^2 / (4 \sigma^2)}}{\sqrt{4 \pi \sigma^2 }} = \text{erf}(k /\sqrt{2}) \sim 1 - \frac{e^{-k^2/2}}{k \sqrt{\pi/2}}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-At large &lt;span class="math"&gt;\(k\)&lt;/span&gt;, this is dominated by the exponential. Comparing with (\ref{asy_g}), this implies&lt;br&gt;
+&lt;p&gt;
+At large &lt;span class="math"&gt;\(k\)&lt;/span&gt;, this is dominated by the exponential. Comparing with (\ref{asy_g}), this&amp;nbsp;implies
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{8} \label{fin_g}  
-p_f \sim \left (1 - \alpha_i^{1/2} \right)^N \sim 1 - N \alpha_i^{1/2} \equiv 1 - \alpha_f.  
+&lt;div class="math"&gt;$$ \tag{8} \label{fin_g}
+p_f \sim \left (1 - \alpha_i^{1/2} \right)^N \sim 1 - N \alpha_i^{1/2} \equiv 1 - \alpha_f.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Fixing &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;, this requires that &lt;span class="math"&gt;\(\alpha_i\)&lt;/span&gt; scale like &lt;span class="math"&gt;\(N^{-2}\)&lt;/span&gt;, the same scaling with &lt;span class="math"&gt;\(N\)&lt;/span&gt; as the naive Bonferroni solution. Thus, in the case of Normal variables, the Bonferroni approximation provides an inexact, but reasonable approximation (nevertheless, we suggest going with the exact approach using (\ref{exact_g}), since it&amp;#8217;s just as easy!). We show in the next section that this is not the case for Cauchy&amp;nbsp;variables.&lt;/p&gt;
 &lt;h3&gt;Cauchy-distributed&amp;nbsp;variables&lt;/h3&gt;
-&lt;p&gt;We&amp;#8217;ll now consider the case of &lt;span class="math"&gt;\(N\)&lt;/span&gt; independent, identically-distributed Cauchy variables having half widths &lt;span class="math"&gt;\(a\)&lt;/span&gt;,&lt;br&gt;
+&lt;p&gt;We&amp;#8217;ll now consider the case of &lt;span class="math"&gt;\(N\)&lt;/span&gt; independent, identically-distributed Cauchy variables having half widths &lt;span class="math"&gt;\(a\)&lt;/span&gt;,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{9} \label{c_dist}  
-P(x) = \frac{a}{\pi} \frac{1}{a^2 + x^2}.  
+&lt;div class="math"&gt;$$ \tag{9} \label{c_dist}
+P(x) = \frac{a}{\pi} \frac{1}{a^2 + x^2}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-When we compare any two, we will reject the null if they are more than &lt;span class="math"&gt;\(ka\)&lt;/span&gt; apart. With this choice, the inner integral of (\ref{gen}) is now&lt;br&gt;
+&lt;p&gt;
+When we compare any two, we will reject the null if they are more than &lt;span class="math"&gt;\(ka\)&lt;/span&gt; apart. With this choice, the inner integral of (\ref{gen}) is&amp;nbsp;now
 &lt;/p&gt;
-&lt;div class="math"&gt;$$  
-\tag{10} \label{inner_c}  
-\frac{a}{\pi} \int_x^{x+ k a} \frac{1}{a^2 + y^2} dy = \frac{1}{\pi} \left [\tan^{-1}(k + x/a) - \tan^{-1}(x/a) \right].  
+&lt;div class="math"&gt;$$
+\tag{10} \label{inner_c}
+\frac{a}{\pi} \int_x^{x+ k a} \frac{1}{a^2 + y^2} dy =\\ \frac{1}{\pi} \left [\tan^{-1}(k + x/a) - \tan^{-1}(x/a) \right].
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Plugging into into (\ref{gen}) now&amp;nbsp;gives&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{11} \label{exact_c}  
-p_f = \int \frac{N a/\pi}{a^2 + x^2} \exp \left ((N-1) \log  
-\frac{1}{\pi} \left [\tan^{-1}(k + x/a) - \tan^{-1}(x/a) \right]  
-\right).  
+&lt;div class="math"&gt;$$\tag{11} \label{exact_c}
+p_f = \int \frac{N a/\pi}{a^2 + x^2} e^{(N-1) \log
+\frac{1}{\pi} \left [\tan^{-1}(k + x/a) - \tan^{-1}(x/a) \right]
+}.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 This is the analog of (\ref{exact_g}) for Cauchy variables &amp;#8212; it can be used to find the exact &lt;span class="math"&gt;\(k\)&lt;/span&gt; value needed to obtain a given family-wise type 1 error rate. The table below compares the exact values to those returned by the naive Bonferroni analysis [obtained using the fact that the difference between two independent Cauchy variables of width &lt;span class="math"&gt;\(a\)&lt;/span&gt; is itself a Cauchy distributed variable, but with width &lt;span class="math"&gt;\(2a\)&lt;/span&gt;].&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(N\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(p_{f,exact}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(k_{exact}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(k_{Bon}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(p_{f,&amp;nbsp;Bon}\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(4\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.90\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(27\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(76\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.965\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(8\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.90\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(55\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(350\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.985\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(4\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.95\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(53\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(153\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.983\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(8\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.95\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(107\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(700\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(0.993\)&lt;/span&gt;&lt;/p&gt;
-&lt;p&gt;In this case, you can see that the naive Bonferroni approximation performs badly. For example, in the last line, it suggests using error bars that are seven times too large for each point estimate. The error gets even worse as &lt;span class="math"&gt;\(N\)&lt;/span&gt; grows: Again, skipping the details, we note that in this limit, (\ref{exact_c}) scales like&lt;br&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(N\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(p_{f,exact}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(k_{exact}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(k_{Bon}\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(p_{f, Bon}\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;td&gt;76&lt;/td&gt;
+&lt;td&gt;0.965&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;0.9&lt;/td&gt;
+&lt;td&gt;55&lt;/td&gt;
+&lt;td&gt;350&lt;/td&gt;
+&lt;td&gt;0.985&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;0.95&lt;/td&gt;
+&lt;td&gt;53&lt;/td&gt;
+&lt;td&gt;153&lt;/td&gt;
+&lt;td&gt;0.983&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;0.95&lt;/td&gt;
+&lt;td&gt;107&lt;/td&gt;
+&lt;td&gt;700&lt;/td&gt;
+&lt;td&gt;0.993&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;In this case, you can see that the naive Bonferroni approximation performs badly. For example, in the last line, it suggests using error bars that are seven times too large for each point estimate. The error gets even worse as &lt;span class="math"&gt;\(N\)&lt;/span&gt; grows: Again, skipping the details, we note that in this limit, (\ref{exact_c}) scales&amp;nbsp;like
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{12} \label{asym_c}  
-p_f \sim \left [\frac{2}{\pi} \tan^{-1}(k/2) \right]^N.  
+&lt;div class="math"&gt;$$\tag{12} \label{asym_c}
+p_f \sim \left [\frac{2}{\pi} \tan^{-1}(k/2) \right]^N.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-This can be related to the individual &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; values, which are given by&lt;br&gt;
+&lt;p&gt;
+This can be related to the individual &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; values, which are given&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{13} \label{asym2_c}  
-p_i = \int_{-ka}^{ka} \frac{2 a / \pi}{4 a^2 + x^2}dx = \frac{2}{\pi}\tan^{-1}(k/2).  
+&lt;div class="math"&gt;$$ \tag{13} \label{asym2_c}
+p_i = \int_{-ka}^{ka} \frac{2 a / \pi}{4 a^2 + x^2}dx = \frac{2}{\pi}\tan^{-1}(k/2).
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Comparing the last two lines, we obtain&lt;br&gt;
+&lt;p&gt;
+Comparing the last two lines, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{14} \label{asym3_c}  
-p_f \equiv 1 - \alpha_f \sim p_i^N \sim 1 - N \alpha_i.  
+&lt;div class="math"&gt;$$ \tag{14} \label{asym3_c}
+p_f \equiv 1 - \alpha_f \sim p_i^N \sim 1 - N \alpha_i.
 $$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 Although we&amp;#8217;ve been a bit sloppy with coefficients here, (\ref{asym3_c}) gives the correct leading &lt;span class="math"&gt;\(N\)&lt;/span&gt;-dependence: &lt;span class="math"&gt;\(k_{exact} \sim 1/\alpha_i \propto N\)&lt;/span&gt;. We can see this linear scaling in the table above. This explains why &lt;span class="math"&gt;\(k_{exact}\)&lt;/span&gt; and &lt;span class="math"&gt;\(k_{Bon}\)&lt;/span&gt; &amp;#8212; which scales like &lt;span class="math"&gt;\({N \choose 2} \sim N^2\)&lt;/span&gt; &amp;#8212; differ more and more as &lt;span class="math"&gt;\(N\)&lt;/span&gt; grows. In this case, you should definitely never use the naive approximation, but instead stick to the exact analysis based on&amp;nbsp;(\ref{exact_c}).&lt;/p&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Some people criticize the Bonferroni correction factor as being too conservative. However, our analysis here suggests that this feeling may be due in part to its occasional improper application. The naive approximation simply does not apply in the case of pairwise comparisons because the &lt;span class="math"&gt;\({N \choose 2}\)&lt;/span&gt; pairs considered are not independent &amp;#8212; there are only &lt;span class="math"&gt;\(N\)&lt;/span&gt; independent degrees of freedom in this problem. Although the naive correction does not apply to the problem of pairwise comparisons, we&amp;#8217;ve shown here that it remains a simple matter to correctly apply the principle behind it: One can easily select any desired family-wise type 1 error rate through an appropriate selection of the individual test sizes &amp;#8212; just use&amp;nbsp;(\ref{gen})!&lt;/p&gt;
