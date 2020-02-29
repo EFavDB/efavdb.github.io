@@ -138,28 +138,28 @@ This last equation says that we choose to always accept a candidate sample if it
 
 <span class="c1"># Function used to decide move acceptance</span>
 <span class="k">def</span> <span class="nf">posterior_numerator</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
-<span class="kp">prod</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
-<span class="kp">prod</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="kp">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-<span class="k">return</span> <span class="kp">prod</span>
+    <span class="kp">prod</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">X</span><span class="p">:</span>
+        <span class="kp">prod</span> <span class="o">*=</span> <span class="n">np</span><span class="o">.</span><span class="kp">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mu</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kp">prod</span>
 
 <span class="c1"># Initialize MCMC, then iterate</span>
 <span class="n">z1</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="n">posterior_samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">z1</span><span class="p">]</span>
 
 <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">posterior_samples</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">total_samples</span><span class="p">:</span>
-<span class="n">z_current</span> <span class="o">=</span> <span class="n">posterior_samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">z_candidate</span> <span class="o">=</span> <span class="n">z_current</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span>
-<span class="n">rel_prob</span> <span class="o">=</span> <span class="n">posterior_numerator</span><span class="p">(</span>
-<span class="n">z_candidate</span><span class="p">)</span> <span class="o">/</span> <span class="n">posterior_numerator</span><span class="p">(</span><span class="n">z_current</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">rel_prob</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-<span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_candidate</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-<span class="n">trial_toss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
-<span class="k">if</span> <span class="n">trial_toss</span> <span class="o">&lt;</span> <span class="n">rel_prob</span><span class="p">:</span>
-<span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_candidate</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-<span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_current</span><span class="p">)</span>
+    <span class="n">z_current</span> <span class="o">=</span> <span class="n">posterior_samples</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">z_candidate</span> <span class="o">=</span> <span class="n">z_current</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span> <span class="o">-</span> <span class="mf">0.5</span>
+    <span class="n">rel_prob</span> <span class="o">=</span> <span class="n">posterior_numerator</span><span class="p">(</span>
+    <span class="n">z_candidate</span><span class="p">)</span> <span class="o">/</span> <span class="n">posterior_numerator</span><span class="p">(</span><span class="n">z_current</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rel_prob</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_candidate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">trial_toss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">trial_toss</span> <span class="o">&lt;</span> <span class="n">rel_prob</span><span class="p">:</span>
+        <span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_candidate</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">posterior_samples</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">z_current</span><span class="p">)</span>
 
 <span class="c1"># Drop some initial samples and thin</span>
 <span class="n">thinned_samples</span> <span class="o">=</span> <span class="n">posterior_samples</span><span class="p">[</span><span class="mi">2000</span><span class="p">:]</span>
