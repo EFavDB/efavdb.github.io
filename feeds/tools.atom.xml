@@ -104,92 +104,92 @@ With the default setup, go to &lt;code&gt;http://localhost:8003&lt;/code&gt; in 
 &lt;li&gt;The cost of running a &lt;span class="caps"&gt;GPU&lt;/span&gt; instance is high compared to many other instance types, but still very reasonable if you&amp;#8217;re just tinkering for a few hours on a pre-trained model, not training a whole neural network from&amp;nbsp;scratch.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Check out the &lt;a href="https://aws.amazon.com/ec2/pricing/"&gt;pricing&lt;/a&gt; for an &lt;span class="caps"&gt;EC2&lt;/span&gt; instance in the section &amp;#8220;On-Demand Instance Prices&amp;#8221; and selecting the region of your &lt;span class="caps"&gt;AMI&lt;/span&gt;. At the time of writing, the cost of an on-demand &lt;code&gt;g2.2xlarge&lt;/code&gt; instance in the &lt;span class="caps"&gt;US&lt;/span&gt; West (Northern California) region was $0.7/hour, whereas the price of a &lt;a href="https://aws.amazon.com/ec2/spot/pricing/"&gt;spot&lt;/a&gt; instance (a cheaper alternative which will automatically terminate when the spot pricing exceeds your bid) was&amp;nbsp;$0.3/hour.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt; If you followed the CS231n tutorial exactly and forgot to supply user data, you can still use this script. First modify the security configuration of your instance according to step &lt;/strong&gt;3**. Then use the &lt;code&gt;scp&lt;/code&gt; command to copy the script from your local computer to your instance, &lt;code&gt;ssh&lt;/code&gt; into your instance, then execute the script: &lt;code&gt;source jupyter_userdata.sh&lt;/code&gt;. If you need help with using &lt;code&gt;scp&lt;/code&gt;, see &amp;#8220;To use &lt;span class="caps"&gt;SCP&lt;/span&gt; to transfer a file&amp;#8221; in this &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html"&gt;guide&lt;/a&gt;.&lt;/p&gt;</content><category term="Tools"></category><category term="AWS"></category><category term="bash"></category><category term="cloud"></category><category term="deep learning"></category><category term="Jupyter"></category></entry><entry><title>Quick tutorial on MySQL</title><link href="https://efavdb.github.io/quick-tutorial-on-mysql" rel="alternate"></link><published>2015-01-16T16:07:00-08:00</published><updated>2015-01-16T16:07:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2015-01-16:/quick-tutorial-on-mysql</id><summary type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like&amp;nbsp;us).  &lt;/p&gt;
-&lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow&amp;nbsp;@efavdb&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt;&lt;strong&gt; If you followed the CS231n tutorial exactly and forgot to supply user data, you can still use this script. First modify the security configuration of your instance according to step &lt;/strong&gt;3**. Then use the &lt;code&gt;scp&lt;/code&gt; command to copy the script from your local computer to your instance, &lt;code&gt;ssh&lt;/code&gt; into your instance, then execute the script: &lt;code&gt;source jupyter_userdata.sh&lt;/code&gt;. If you need help with using &lt;code&gt;scp&lt;/code&gt;, see &amp;#8220;To use &lt;span class="caps"&gt;SCP&lt;/span&gt; to transfer a file&amp;#8221; in this &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html"&gt;guide&lt;/a&gt;.&lt;/p&gt;</content><category term="Tools"></category><category term="AWS"></category><category term="bash"></category><category term="cloud"></category><category term="deep learning"></category><category term="Jupyter"></category></entry><entry><title>Quick tutorial on MySQL</title><link href="https://efavdb.github.io/quick-tutorial-on-mysql" rel="alternate"></link><published>2015-01-16T16:07:00-08:00</published><updated>2015-01-16T16:07:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2015-01-16:/quick-tutorial-on-mysql</id><summary type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like&amp;nbsp;us).&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow&amp;nbsp;@efavdb&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Follow us on twitter for new submission&amp;nbsp;alerts!&lt;/p&gt;
 &lt;h4&gt;&lt;strong&gt;Getting&amp;nbsp;started&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you&amp;#8217;re a beginner reading this, we suggest &lt;a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html"&gt;installing&lt;/a&gt; it on your personal computer or server, and following along by trying each of the commands we go through here. Once it&amp;#8217;s installed and you have its server running, you can often access MySQL from the command line by&amp;nbsp;typing&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;mysql  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mysql
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;On a mac, you may need to use the following&amp;nbsp;though&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;/usr/local/mysql/bin/mysql -uroot  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/usr/local/mysql/bin/mysql -uroot
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Once mysql is loaded, you can see what databases are available by&amp;nbsp;typing&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SHOW DATABASES;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;SHOW&lt;/span&gt; &lt;span class="n"&gt;DATABASES&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Notice that a semi-colon is used to terminate commands: In general, these can extend across multiple lines and the semi-colon tells the program where the command stops. Also, MySQL is case-insensitive, but it is considered good form to have all command calls capitalized for easier reading. If no databases yet exist, you can create one as&amp;nbsp;follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;CREATE DATABASE animalDB;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;DATABASE&lt;/span&gt; &lt;span class="n"&gt;animalDB&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Here, &lt;code&gt;animalDB&lt;/code&gt; is the name of the database. From the list of available databases,&lt;br&gt;
+&lt;p&gt;Here, &lt;code&gt;animalDB&lt;/code&gt; is the name of the database. From the list of available databases,
 you can select one of interest with the &lt;code&gt;USE&lt;/code&gt; command. For&amp;nbsp;example,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;USE animalDB;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;USE&lt;/span&gt; &lt;span class="n"&gt;animalDB&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Each database can contain many tables. To see the tables contained in a database, use the &lt;span class="caps"&gt;SHOW&lt;/span&gt;&amp;nbsp;command,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SHOW tables;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;SHOW&lt;/span&gt; &lt;span class="n"&gt;tables&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;h4&gt;&lt;strong&gt;Table creation and&amp;nbsp;alteration&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;span class="caps"&gt;SQL&lt;/span&gt; tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (&lt;code&gt;INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR&lt;/code&gt;, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the&amp;nbsp;command&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;CREATE TABLE MyPets (name VARCHAR(10),  &lt;/span&gt;
-&lt;span class="err"&gt;species VARCHAR(10), age INT);  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+    &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="nb"&gt;INT&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Here, we are using the &lt;code&gt;VARCHAR&lt;/code&gt; type for our two string columns. The argument supplied allows us to use strings up to length &lt;code&gt;10&lt;/code&gt; for these entries. We could also have used the &lt;code&gt;CHAR(10)&lt;/code&gt; type here, but that would result in trailing spaces following names shorter than &lt;code&gt;10&lt;/code&gt; characters. We now insert some entries using the &lt;code&gt;INSERT&lt;/code&gt; command,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;INSERT INTO MyPets VALUES (&amp;quot;Bottles&amp;quot;, &amp;quot;Dog&amp;quot;, 3);  &lt;/span&gt;
-&lt;span class="err"&gt;INSERT INTO MyPets (name, species) VALUES (&amp;quot;Mac&amp;quot;, &amp;quot;Dog&amp;quot;);  &lt;/span&gt;
-&lt;span class="err"&gt;INSERT INTO MyPets VALUES (&amp;quot;Hector&amp;quot;, &amp;quot;Cat&amp;quot;, 1);  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Bottles&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Dog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Mac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Dog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Hector&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Cat&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Here, we’ve illustrated two different methods to do insertion. In the first and third lines, we have values for all columns. However, in the second, no age is supplied, so we have to specify which columns the values we are supplying correspond to. The age column for this entry will read &lt;code&gt;NULL&lt;/code&gt;, since no value was provided for it. To view the table, we write – with &lt;code&gt;SELECT&lt;/code&gt; and &lt;code&gt;∗&lt;/code&gt; meaning &amp;#8220;retrieve&amp;#8221; and “all”, respectively&amp;nbsp;–&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;SELECT * FROM MyPets;  &lt;/span&gt;
-&lt;span class="err"&gt;&amp;gt;&amp;gt;  &lt;/span&gt;
-&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
-&lt;span class="err"&gt;| name | species | age |  &lt;/span&gt;
-&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
-&lt;span class="err"&gt;| Bottles | Dog | 3 |  &lt;/span&gt;
-&lt;span class="err"&gt;| Mac | Dog | NULL |  &lt;/span&gt;
-&lt;span class="err"&gt;| Hector | Cat | 1 |  &lt;/span&gt;
-&lt;span class="err"&gt;+---------+---------+------+  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+&lt;/span&gt;
+    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+&lt;/span&gt;
+    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Bottles&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Mac&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="k"&gt;NULL&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Hector&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+    &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Additional &lt;code&gt;SELECT&lt;/code&gt; queries are given below that illustrate how one can select and operate on subsets of the columns and rows. To add an age for Mac, we use the &lt;code&gt;UPDATE, SET&lt;/code&gt;, and &lt;code&gt;WHERE&lt;/code&gt; commands,&amp;nbsp;writing&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;UPDATE MyPets  &lt;/span&gt;
-&lt;span class="err"&gt;SET age = 7  &lt;/span&gt;
-&lt;span class="err"&gt;WHERE name = &amp;quot;Mac&amp;quot;;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;UPDATE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Mac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;To see that this and the other commands that follow work as expected, try running the &lt;code&gt;SELECT&lt;/code&gt; command above after each application. To delete a row from the table, we use the &lt;span class="caps"&gt;DELETE&lt;/span&gt;&amp;nbsp;command,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;DELETE from MyPets  &lt;/span&gt;
-&lt;span class="err"&gt;WHERE name = &amp;quot;Hector&amp;quot;;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;DELETE&lt;/span&gt; &lt;span class="k"&gt;from&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Hector&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;It is also possible to add or subtract columns from a table. To add a column, we use&lt;br&gt;
+&lt;p&gt;It is also possible to add or subtract columns from a table. To add a column, we use
 the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; commands,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ALTER TABLE MyPets  &lt;/span&gt;
-&lt;span class="err"&gt;ADD COLUMN litters INT  &lt;/span&gt;
-&lt;span class="err"&gt;DEFAULT 0;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;ALTER&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;ADD&lt;/span&gt; &lt;span class="k"&gt;COLUMN&lt;/span&gt; &lt;span class="n"&gt;litters&lt;/span&gt; &lt;span class="nb"&gt;INT&lt;/span&gt;
+    &lt;span class="k"&gt;DEFAULT&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;The last line here is not necessary. Without it, the command would create the column and set each row’s value there to &lt;code&gt;NULL&lt;/code&gt;. To delete a column, we use the &lt;code&gt;DROP&lt;/code&gt; command,&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;ALTER TABLE MyPets  &lt;/span&gt;
-&lt;span class="err"&gt;DROP litters;  &lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;ALTER&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;DROP&lt;/span&gt; &lt;span class="n"&gt;litters&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -197,130 +197,200 @@ the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; comma
 &lt;h4&gt;&lt;strong&gt;&lt;span class="caps"&gt;SELECTION&lt;/span&gt; queries &amp;#8212; learn by&amp;nbsp;example&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;Example conditional&amp;nbsp;commands:&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;What is the name and age each of my&amp;nbsp;pets?&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT name, age FROM mypets;&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;How many dogs have I&amp;nbsp;got?&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT COUNT(*) FROM mypets WHERE species = "dog";&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Show me just the first two pets in my&amp;nbsp;table.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT * FROM mypets LIMIT 2;&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Show me my pets in age-descending&amp;nbsp;order.&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets ORDER BY age;&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Which of my dogs are under 4 years&amp;nbsp;old?&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets WHERE age &amp;lt; 4 AND species = "dog";&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Which animals have names that start with the letter&amp;nbsp;“M”?&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT * FROM mypets WHERE name LIKE "M%";&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Which animals have the letter “E” somewhere in their name?
-    &lt;code&gt;SELECT * FROM mypets WHERE name LIKE "%E%";&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;What is the name and age each of my&amp;nbsp;pets?&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;How many dogs have I&amp;nbsp;got?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="k"&gt;COUNT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;dog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Show me just the first two pets in my&amp;nbsp;table.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;LIMIT&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Show me my pets in age-descending&amp;nbsp;order.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;ORDER&lt;/span&gt; &lt;span class="k"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Which of my dogs are under 4 years&amp;nbsp;old?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;
+      &lt;span class="k"&gt;AND&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;dog&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Which animals have names that start with the letter&amp;nbsp;“M”?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;LIKE&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;M%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;Which animals have the letter “E” somewhere in their&amp;nbsp;name?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;LIKE&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;%E%&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Example &lt;span class="caps"&gt;GROUP&lt;/span&gt; &lt;span class="caps"&gt;BY&lt;/span&gt; commands (see also &lt;code&gt;MIN, MAX, SUM, STD&lt;/code&gt;,&amp;nbsp;etc.):&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;How many pets have I got of each&amp;nbsp;species?&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT species, count(*) FROM mypets GROUP BY species;&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;What is the average age of my pets, grouped by species?
-    &lt;code&gt;SELECT species, AVG(age) FROM mypets GROUP BY species;&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;How many pets have I got of each&amp;nbsp;species?&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;GROUP&lt;/span&gt; &lt;span class="k"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;What is the average age of my pets, grouped by&amp;nbsp;species?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;AVG&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;mypets&lt;/span&gt;
+    &lt;span class="k"&gt;GROUP&lt;/span&gt; &lt;span class="k"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h4&gt;&lt;strong&gt;Actions on multiple&amp;nbsp;tables&lt;/strong&gt;&lt;/h4&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;To solidify what we&amp;#8217;ve learned above, try to now create a second table, called &lt;code&gt;PetDetails&lt;/code&gt;, like that above but with different age and species values. You can add other columns to it if you like. Once that&amp;#8217;s done, apply the &lt;code&gt;SHOW TABLES&lt;/code&gt; command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands&amp;nbsp;like&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;UPDATE MyPets, PetDetails  
-SET MyPets.age = PetDetails.age  
-WHERE MyPets.name = PetDetails.name;&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;Note the use of the period here to specify from which table a certain column is to be selected&amp;nbsp;from.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;The&lt;/em&gt; &lt;code&gt;JOIN/ON&lt;/code&gt; &lt;em&gt;commands&lt;/em&gt;. The &lt;code&gt;JOIN&lt;/code&gt; command essentially creates something like a flattened outer product of two tables: If there are &lt;span class="math"&gt;\(n\)&lt;/span&gt; entries in the first table and &lt;span class="math"&gt;\(m\)&lt;/span&gt; in the second, the command returns a table with &lt;span class="math"&gt;\(n \times m\)&lt;/span&gt; rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The &lt;span class="caps"&gt;ON&lt;/span&gt; command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick&amp;nbsp;pairs&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CREATE TABLE PetTricks (name VARCHAR(10), trick VARCHAR(10));  
-INSERT INTO PetTricks VALUES ("Bottles", "Shake");  
-INSERT INTO PetTricks VALUES ("Bottles", "Play dead");  
-INSERT INTO PetTricks VALUES ("Mac", "Shake");  
-INSERT INTO PetTricks VALUES ("Dogbert", "Consulting");&lt;/code&gt;&lt;/p&gt;
-&lt;p&gt;With the following, we get the number of tricks each of my pets can&amp;nbsp;do&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT MyPets.name AS name, count(*) AS num_tricks  
-FROM (MyPets JOIN PetTricks  
-ON MyPets.name = PetTricks.name)  
-GROUP BY MyPets.name;&lt;/code&gt;&lt;br&gt;
-Here, we see for the first time that it is possible to select values from a table created &amp;#8220;on the fly&amp;#8221; (the table in parentheses, which you can print using the &lt;code&gt;SELECT&lt;/code&gt; command). We also see for the first time the concept of aliasing, applied through use of the &lt;code&gt;AS&lt;/code&gt; command.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Our last &amp;#8212; and most complicated &amp;#8212; example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you&amp;#8217;ll be pretty much set to construct your own complex &lt;span class="caps"&gt;SQL&lt;/span&gt; queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks&amp;nbsp;table.&lt;/p&gt;
-&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;`&lt;br&gt;
-&lt;span class="caps"&gt;ALTER&lt;/span&gt; &lt;span class="caps"&gt;TABLE&lt;/span&gt; MyPets&lt;br&gt;
-&lt;span class="caps"&gt;ADD&lt;/span&gt; &lt;span class="caps"&gt;COLUMN&lt;/span&gt; num_tricks &lt;span class="caps"&gt;INT&lt;/span&gt;&lt;br&gt;
-&lt;span class="caps"&gt;DEFAULT&lt;/span&gt;&amp;nbsp;0;&lt;/p&gt;
-&lt;p&gt;&lt;span class="caps"&gt;UPDATE&lt;/span&gt; MyPets &lt;span class="caps"&gt;AS&lt;/span&gt; T1,&lt;br&gt;
-(Select name, count(*) &lt;span class="caps"&gt;AS&lt;/span&gt; tot&lt;br&gt;
-&lt;span class="caps"&gt;FROM&lt;/span&gt; PetTricks&lt;br&gt;
-&lt;span class="caps"&gt;GROUP&lt;/span&gt; &lt;span class="caps"&gt;BY&lt;/span&gt; name) &lt;span class="caps"&gt;AS&lt;/span&gt; T2&lt;br&gt;
-&lt;span class="caps"&gt;SET&lt;/span&gt; T1.num_tricks = T2.tot&lt;br&gt;
-&lt;span class="caps"&gt;WHERE&lt;/span&gt; T1.name =&amp;nbsp;T2.name;&lt;/p&gt;
-&lt;p&gt;&lt;span class="caps"&gt;SELECT&lt;/span&gt; * &lt;span class="caps"&gt;FROM&lt;/span&gt;&amp;nbsp;MyPets;  &lt;/p&gt;
-&lt;blockquote&gt;
-&lt;blockquote&gt;
-&lt;p&gt;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;
-| name | species | age | num_tricks |&lt;br&gt;
-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;
-| Bottles | Dog | 3 | 2 |&lt;br&gt;
-| Mac | Dog | 7 | 1 |&lt;br&gt;
-| Hector | Cat | 1 | 0 |&lt;br&gt;
-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;-+&amp;#8212;&amp;#8212;&amp;#8212;+&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;&amp;#8212;+&lt;br&gt;&amp;nbsp;&amp;#8220;`&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
+&lt;li&gt;To solidify what we&amp;#8217;ve learned above, try to now create a second table, called &lt;code&gt;PetDetails&lt;/code&gt;, like that above but with different age and species values. You can add other columns to it if you like. Once that&amp;#8217;s done, apply the &lt;code&gt;SHOW TABLES&lt;/code&gt; command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands&amp;nbsp;like&lt;/li&gt;
 &lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;UPDATE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PetDetails&lt;/span&gt;
+      &lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetDetails&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;age&lt;/span&gt;
+      &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetDetails&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;Note the use of the period here to specify from which table a certain column is to be selected from.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;The&lt;/em&gt; &lt;code&gt;JOIN/ON&lt;/code&gt; &lt;em&gt;commands&lt;/em&gt;. The &lt;code&gt;JOIN&lt;/code&gt; command essentially creates something like a flattened outer product of two tables: If there are &lt;span class="math"&gt;\(n\)&lt;/span&gt; entries in the first table and &lt;span class="math"&gt;\(m\)&lt;/span&gt; in the second, the command returns a table with &lt;span class="math"&gt;\(n \times m\)&lt;/span&gt; rows. There is one row for each possible pairing, one entry taken from the first table and one from the second. All columns from both tables are then included in the new table. The &lt;span class="caps"&gt;ON&lt;/span&gt; command can be used to specify conditions on which pairs are to be included in the combined table. To illustrate, let’s define a new table of pet-trick&amp;nbsp;pairs&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;trick&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Bottles&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Shake&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Bottles&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Play dead&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Mac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Shake&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ss"&gt;&amp;quot;Dogbert&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;Consulting&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With the following, we get the number of tricks each of my pets can&amp;nbsp;do&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;num_tricks&lt;/span&gt;
+    &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="k"&gt;JOIN&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt;
+    &lt;span class="k"&gt;ON&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;GROUP&lt;/span&gt; &lt;span class="k"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, we see for the first time that it is possible to select values from a table created &amp;#8220;on the fly&amp;#8221; (the table in parentheses, which you can print using the &lt;code&gt;SELECT&lt;/code&gt; command). We also see for the first time the concept of aliasing, applied through use of the &lt;code&gt;AS&lt;/code&gt; command.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Our last &amp;#8212; and most complicated &amp;#8212; example combines many of the ideas discussed above. If you can get to the point where you can replicate commands like this one, you&amp;#8217;ll be pretty much set to construct your own complex &lt;span class="caps"&gt;SQL&lt;/span&gt; queries: Let’s add a trick count to our first table, and then fill it in by querying the PetTricks&amp;nbsp;table.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;ALTER&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+      &lt;span class="k"&gt;ADD&lt;/span&gt; &lt;span class="k"&gt;COLUMN&lt;/span&gt; &lt;span class="n"&gt;num_tricks&lt;/span&gt; &lt;span class="nb"&gt;INT&lt;/span&gt;
+      &lt;span class="k"&gt;DEFAULT&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;UPDATE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;Select&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;tot&lt;/span&gt;
+        &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;PetTricks&lt;/span&gt;
+        &lt;span class="k"&gt;GROUP&lt;/span&gt; &lt;span class="k"&gt;BY&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;AS&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;
+        &lt;span class="k"&gt;SET&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_tricks&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tot&lt;/span&gt;
+        &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+------------+&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;num_tricks&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+------------+&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Bottles&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Mac&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Dog&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Hector&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="n"&gt;Cat&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;|&lt;/span&gt;
+        &lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="c1"&gt;---------+---------+------+------------+&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h4&gt;&lt;strong&gt;Other&amp;nbsp;tips&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;Lastly, a few one-off tips that can be very&amp;nbsp;helpful.&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Creating a new table similar another.&lt;/em&gt; The following command can come in handy when you’re dealing with tables that have many&amp;nbsp;columns:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CREATE TABLE TNew LIKE T1;&lt;/code&gt;&lt;/p&gt;
+&lt;li&gt;&lt;em&gt;Creating a new table similar another.&lt;/em&gt; The following command can come in handy when you’re dealing with tables that have many&amp;nbsp;columns:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;TNew&lt;/span&gt; &lt;span class="k"&gt;LIKE&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;Here, the command creates &lt;code&gt;TNew&lt;/code&gt;, a new table with column names and types like those of &lt;code&gt;T1&lt;/code&gt;. The entries of &lt;code&gt;T1&lt;/code&gt; are not copied over. If you want to copy some of them over, you can do that with a command&amp;nbsp;like&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;INSERT INTO TNew (SELECT * FROM T1 WHERE ...);&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Saving to a text file.&lt;/em&gt; Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the&amp;nbsp;following&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;cd /usr/local  
-mkdir MySQLOutput  
-sudo chmod -R 777 MySQLOutput&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;TNew&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt; &lt;span class="k"&gt;WHERE&lt;/span&gt; &lt;span class="p"&gt;...);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Saving to a text file.&lt;/em&gt; Printing a table to a text file can sometimes be useful. To proceed, you first need to create a directory that MySQL can have write access to. On a mac, you can accomplish this from the terminal with the&amp;nbsp;following&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="nb"&gt;cd&lt;/span&gt; /usr/local
+    mkdir MySQLOutput
+    sudo chmod -R &lt;span class="m"&gt;777&lt;/span&gt; MySQLOutput
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;This creates the directory &lt;code&gt;/usr/local/MYSQLOutput&lt;/code&gt; with global read, write, and execute permissions. With this setup, we can write to a file from within MySQL with a command&amp;nbsp;like&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SELECT * FROM MyPets  
-INTO OUTFILE "/usr/local/MySQLOutput/test.txt"&lt;/code&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Scripts.&lt;/em&gt; For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the &lt;code&gt;SOURCE&lt;/code&gt; command. To illustrate, suppose we have a text file called &lt;code&gt;/usr/local/MySQLOutput/test.txt&lt;/code&gt; within which we have written the&amp;nbsp;commands&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;CREATE table Bad_dogs (DogID BIGINT, Barks INT);  
-INSERT INTO Bad_dogs VALUES (1234567890, 666);&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SELECT&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="k"&gt;FROM&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+        &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;OUTFILE&lt;/span&gt; &lt;span class="ss"&gt;&amp;quot;/usr/local/MySQLOutput/test.txt&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Scripts.&lt;/em&gt; For complicated queries, or queries that you would like to be able to run multiple times, it is useful to employ scripts. These can then be executed from within mysql using the &lt;code&gt;SOURCE&lt;/code&gt; command. To illustrate, suppose we have a text file called &lt;code&gt;/usr/local/MySQLOutput/test.txt&lt;/code&gt; within which we have written the&amp;nbsp;commands&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;table&lt;/span&gt; &lt;span class="n"&gt;Bad_dogs&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;DogID&lt;/span&gt; &lt;span class="nb"&gt;BIGINT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Barks&lt;/span&gt; &lt;span class="nb"&gt;INT&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;INSERT&lt;/span&gt; &lt;span class="k"&gt;INTO&lt;/span&gt; &lt;span class="n"&gt;Bad_dogs&lt;/span&gt; &lt;span class="k"&gt;VALUES&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1234567890&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;666&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;We can run this from within MySQL using the&amp;nbsp;command&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;SOURCE /usr/local/MySQLOutput/test.txt;&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;SOURCE&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;usr&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="k"&gt;local&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;MySQLOutput&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;txt&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;p&gt;This creates the table and inserts the example&amp;nbsp;entry.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Indexing.&lt;/em&gt; By creating an index, one can speed up &lt;code&gt;SELECT&lt;/code&gt; calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table,&amp;nbsp;write&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;ALTER TABLE MyPets  
-ADD PRIMARY KEY (name);&lt;/code&gt;&lt;br&gt;
-This selects the name column as our index, which will speed up all &lt;code&gt;SELECT&lt;/code&gt; calls seeking entries with &lt;code&gt;name&lt;/code&gt; values satisfying some condition &amp;#8212; specified using &lt;code&gt;WHERE name = ...&lt;/code&gt;. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table&amp;nbsp;creation.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Further study.&lt;/em&gt; At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both &lt;a href="http://stackoverflow.com/"&gt;stackoverflow.com&lt;/a&gt; &amp;#8212; which has tons of interesting discussions on the topic &amp;#8212; and the &lt;a href="http://dev.mysql.com/doc/"&gt;MySQL documentation page&lt;/a&gt;, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent&amp;nbsp;resources.&lt;/p&gt;
-&lt;/li&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Indexing.&lt;/em&gt; By creating an index, one can speed up &lt;code&gt;SELECT&lt;/code&gt; calls on large tables. You can think of an index heuristically as a second table having two columns: The first is a sorted version of one of the original table’s columns, and the second column is a pointer to the memory block where its corresponding entry sits (actually, an index usually sits in a B-tree, a structure similar to a binary-search tree). Entries can be quickly accessed via the index, generally in logarithmic time. To add a key to our first table,&amp;nbsp;write&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="k"&gt;ALTER&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt;
+        &lt;span class="k"&gt;ADD&lt;/span&gt; &lt;span class="k"&gt;PRIMARY&lt;/span&gt; &lt;span class="k"&gt;KEY&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This selects the name column as our index, which will speed up all &lt;code&gt;SELECT&lt;/code&gt; calls seeking entries with &lt;code&gt;name&lt;/code&gt; values satisfying some condition &amp;#8212; specified using &lt;code&gt;WHERE name = ...&lt;/code&gt;. You can actually index as many columns of a table as you like. However, this takes up disk space, and so should be avoided when the extra indexes are not useful. It is also possible to specify that you want one or more columns to be keys upon table&amp;nbsp;creation.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;Further study.&lt;/em&gt; At this point, we have covered most of the basics, but only the basics. If you get stumped by any tricky queries moving forward, we suggest visiting both &lt;a href="http://stackoverflow.com/"&gt;stackoverflow.com&lt;/a&gt; &amp;#8212; which has tons of interesting discussions on the topic &amp;#8212; and the &lt;a href="http://dev.mysql.com/doc/"&gt;MySQL documentation page&lt;/a&gt;, which goes over most everything and includes a tutorial in chapter 3 similar to this one. Both are excellent&amp;nbsp;resources.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
