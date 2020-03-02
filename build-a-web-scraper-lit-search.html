@@ -92,7 +92,7 @@
 <hr>
 <p>The task is to capture plots of tumor growth inhibition (<span class="caps">TGI</span>), i.e. tumor growth as a function of time, in animals treated with a particular cancer drug, then aggregate all the plots in a summary&nbsp;report.</p>
 <p>An example of a <span class="caps">TGI</span> plot is provided below (source: <a href="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/" title="PMC3792566">Qi 2011</a>) for <span class="caps">TGI</span> in mice treated with the cancer drug,&nbsp;Docetaxel.</p>
-<p><a href="http://efavdb.com/wp-content/uploads/2015/07/TGIplot.png"><img alt="http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3792566/figure/F5/" src="http://efavdb.com/wp-content/uploads/2015/07/TGIplot-300x217.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/07/TGIplot.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/07/TGIplot-300x217.png"></a></p>
 <p><span class="caps">TGI</span> plots for several drugs (image credit: Qi&nbsp;2011)</p>
 <p>Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform&nbsp;format.</p>
 <hr>
@@ -292,7 +292,7 @@
 </tr>
 </tbody>
 </table>
-<p><a href="http://efavdb.com/wp-content/uploads/2015/07/a_hanging.jpg"><img alt="cartoon hanging" src="http://efavdb.com/wp-content/uploads/2015/07/a_hanging-263x300.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/07/a_hanging.jpg"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/07/a_hanging-263x300.jpg"></a></p>
 <p>Their tables were not in <span class="caps">1NF</span>.</p>
 <p>The tables &#8220;figure&#8221; and &#8220;figure_text&#8221; are kept separate in order to minimize redundancies. For instance, the same img_url can appear in the table &#8220;figure&#8221; multiple times if it matches a number of different drugs or plot types, but its caption would only need to be stored once in the table&nbsp;&#8220;figure_text&#8221;.</p>
 <p>The table &#8220;figure&#8221; is not in second normal form (<span class="caps">2NF</span>) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and&nbsp;img_url}.</p>
@@ -384,7 +384,7 @@
 <p>The explicit <span class="caps">URL</span> constructed from the above example user input is:
 <em>http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pmc&amp;retmax=10&amp;sort=relevance&amp;term=(&#34;Docetaxel&#34;+<span class="caps">OR</span>+&#34;Docetaxol&#34;)+<span class="caps">AND</span>+(&#34;tumor+growth&#34;+<span class="caps">OR</span>+&#34;tumor+volume&#34;+<span class="caps">OR</span>+&#34;tumor+size&#34;+<span class="caps">OR</span>+&#34;tumor+inhibition&#34;+<span class="caps">OR</span>+&#34;tumor+growth+inhibition&#34;+<span class="caps">OR</span>+&#34;tgi&#34;+<span class="caps">OR</span>+&#34;tumor+response&#34;+<span class="caps">OR</span>+&#34;tumor+regression&#34;)</em></p>
 <p>Try copying and pasting the above <span class="caps">URL</span> in your browser to see a sample of the xml file returned by E-utilities. Here&#8217;s an excerpt of the <span class="caps">XML</span> document from a query to ESearch on August 25,&nbsp;2015:</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/08/esearchXML.jpg"><img alt="ESearch XML file" src="http://efavdb.com/wp-content/uploads/2015/08/esearchXML-164x300.jpg"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/08/esearchXML.jpg"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/08/esearchXML-164x300.jpg"></a></p>
 <p><span class="caps">XML</span> output from a query to <span class="caps">PMC</span> via the ESearch <span class="caps">API</span>.</p>
 <p>We extract the <span class="caps">PMC</span> ids, which are sandwiched between the <Id> <span class="caps">XML</span> tags, using functions from the <span class="caps">XML</span> and rvest&nbsp;packages:</p>
 <div class="highlight"><pre><span></span><span class="n">data.xml</span> <span class="o">=</span> <span class="nf">xmlParse</span><span class="p">(</span><span class="n">data.esearch</span><span class="p">)</span>

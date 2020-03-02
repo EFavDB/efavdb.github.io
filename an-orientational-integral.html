@@ -13,12 +13,12 @@
 
 <meta property="og:title" content="An orientational integral "/>
 <meta property="og:url" content="https://efavdb.github.io/an-orientational-integral" />
-<meta property="og:description" content="We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\hat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \hat{v} \cdot \vec{a}_1 …" />
+<meta property="og:description" content="We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\hat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \hat{v} \cdot \vec{a}_1 …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
 <meta property="og:article:published_time" content="2019-07-02T07:04:00-07:00" />
 <meta name="twitter:title" content="An orientational integral ">
-<meta name="twitter:description" content="We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\hat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \hat{v} \cdot \vec{a}_1 …">
+<meta name="twitter:description" content="We evaluate an integral having to do with vector averages over all orientations in an n-dimensional space. Problem definition Let \(\hat{v}\) be a unit vector in \(n\)-dimensions and consider the orientation average of \begin{eqnarray} \tag{1} \label{1} J \equiv \langle \hat{v} \cdot \vec{a}_1 …">
 
         <title>An orientational integral  · EFAVDB
 </title>
@@ -82,64 +82,64 @@
             <p>We evaluate an integral having to do with vector averages over all
 orientations in an n-dimensional&nbsp;space.</p>
 <h2>Problem&nbsp;definition</h2>
-<p>Let <span class="math">\(\hat{v}\)</span> be a unit vector in <span class="math">\(n\)</span>-dimensions and consider the orientation average of<br>
+<p>Let <span class="math">\(\hat{v}\)</span> be a unit vector in <span class="math">\(n\)</span>-dimensions and consider the orientation average&nbsp;of
 </p>
-<div class="math">\begin{eqnarray} \tag{1} \label{1}  
-J \equiv \langle \hat{v} \cdot \vec{a}_1 \hat{v} \cdot \vec{a}_2 \ldots \hat{v} \cdot \vec{a}_k \rangle  
+<div class="math">\begin{eqnarray} \tag{1} \label{1}
+J \equiv \langle \hat{v} \cdot \vec{a}_1 \hat{v} \cdot \vec{a}_2 \ldots \hat{v} \cdot \vec{a}_k \rangle
 \end{eqnarray}</div>
-<p><br>
+<p>
 where <span class="math">\(\vec{a}_1, \ldots, \vec{a}_k\)</span> are some given fixed vectors. For example, if all <span class="math">\(\vec{a}_i\)</span> are equal to <span class="math">\(\hat{x}\)</span>, we want the orientation average of <span class="math">\(v_x^k\)</span>.</p>
 <h2>Solution</h2>
-<p>We&#8217;ll evaluate our integral using parameter differentiation of the multivariate Gaussian integral. Let<br>
+<p>We&#8217;ll evaluate our integral using parameter differentiation of the multivariate Gaussian integral.&nbsp;Let
 </p>
-<div class="math">\begin{eqnarray} \nonumber  
-I &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}  
-&amp;=&amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]  
+<div class="math">\begin{eqnarray} \nonumber
+I &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}
+&amp;=&amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]
 \end{eqnarray}</div>
-<p><br>
-The expression in the second line follows from completing the square in the exponent in the first &#8212; for review, see our post on the normal distribution, <a href="http://efavdb.com/normal-distributions/">here</a>. Now, we consider a particular derivative of <span class="math">\(I\)</span> with respect to the <span class="math">\(\alpha\)</span> parameters. From the first line of (\ref{2}), we have<br>
+<p>
+The expression in the second line follows from completing the square in the exponent in the first &#8212; for review, see our post on the normal distribution, <a href="http://efavdb.github.io/normal-distributions">here</a>. Now, we consider a particular derivative of <span class="math">\(I\)</span> with respect to the <span class="math">\(\alpha\)</span> parameters. From the first line of (\ref{2}), we&nbsp;have
 </p>
-<div class="math">\begin{eqnarray} \tag{3} \label{3}  
-\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\  
-&amp;\equiv &amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v \\  
-&amp;=&amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v  
+<div class="math">\begin{eqnarray} \tag{3} \label{3}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\
+&amp;\equiv &amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v \\
+&amp;=&amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v
 \end{eqnarray}</div>
-<p><br>
+<p>
 The second factor above is almost our desired orientation average <span class="math">\(J\)</span> &#8212; the only thing it&#8217;s missing is the normalization, which we can get by evaluating this integral without any <span class="math">\(\vec{a}\)</span><span class="quo">&#8216;</span>s.</p>
-<p>Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This gives,<br>
+<p>Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This&nbsp;gives,
 </p>
-<div class="math">\begin{eqnarray} \tag{4} \label{4}  
-\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\  
-&amp;=&amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+<div class="math">\begin{eqnarray} \tag{4} \label{4}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;=&amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\
+&amp;=&amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}</div>
-<p><br>
+<p>
 The sum here is over all possible, unique pairings of the indices. You can see this is correct by carrying out the differentiation one parameter at a&nbsp;time.</p>
-<p>To complete the calculation, we equate (\ref{3}) and (\ref{4}). This gives<br>
+<p>To complete the calculation, we equate (\ref{3}) and (\ref{4}). This&nbsp;gives
 </p>
-<div class="math">\begin{eqnarray} \tag{5}\label{5}  
-\int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+<div class="math">\begin{eqnarray} \tag{5}\label{5}
+\int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}</div>
-<p><br>
-Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when <span class="math">\(k = 0\)</span>. This gives,<br>
+<p>
+Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when <span class="math">\(k = 0\)</span>. This&nbsp;gives,
 </p>
-<div class="math">\begin{eqnarray}\tag{6}\label{6}  
-J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+<div class="math">\begin{eqnarray}\tag{6}\label{6}
+J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}</div>
 <h2>Example</h2>
-<p>Consider the case where <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)</span>. In this case, we note that the average of <span class="math">\(\hat{v}_x^2\)</span> is equal to the average along any other orientation. This means we have<br>
+<p>Consider the case where <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)</span>. In this case, we note that the average of <span class="math">\(\hat{v}_x^2\)</span> is equal to the average along any other orientation. This means we&nbsp;have
 </p>
-<div class="math">\begin{eqnarray}\nonumber \tag{7} \label{7}  
-\langle \hat{v}_x^2 \rangle &amp;=&amp; \frac{1}{n} \sum_{i=1}^n \langle \hat{v}_x^2 + \hat{v}_y^2 + \ldots \rangle \\  
-&amp;=&amp; \frac{1}{n}  
+<div class="math">\begin{eqnarray}\nonumber \tag{7} \label{7}
+\langle \hat{v}_x^2 \rangle &amp;=&amp; \frac{1}{n} \sum_{i=1}^n \langle \hat{v}_x^2 + \hat{v}_y^2 + \ldots \rangle \\
+&amp;=&amp; \frac{1}{n}
 \end{eqnarray}</div>
-<p><br>
-We get this same result from our more general formula: Plugging in <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)</span> into (\ref{6}), we obtain<br>
+<p>
+We get this same result from our more general formula: Plugging in <span class="math">\(k=2\)</span> and <span class="math">\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)</span> into (\ref{6}), we&nbsp;obtain
 </p>
-<div class="math">\begin{eqnarray}\nonumber \tag{8} \label{8}  
-\langle \hat{v}_x^2 \rangle &amp;=&amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\  
-&amp;=&amp; \frac{1}{n}  
+<div class="math">\begin{eqnarray}\nonumber \tag{8} \label{8}
+\langle \hat{v}_x^2 \rangle &amp;=&amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\
+&amp;=&amp; \frac{1}{n}
 \end{eqnarray}</div>
-<p><br>
+<p>
 The two results&nbsp;agree.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

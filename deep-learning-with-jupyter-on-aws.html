@@ -80,7 +80,7 @@
         <div class="span8 offset2 article-content">
             
             <p>Want a quick and easy way to play around with deep learning libraries? Puny <span class="caps">GPU</span> got you down? Thanks to Amazon Web Services (<span class="caps">AWS</span>) &#8212; specifically, <span class="caps">AWS</span> Elastic Compute Cloud (<span class="caps">EC2</span>) &#8212; no data scientist need be left&nbsp;behind.</p>
-<p>Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows how to set up a public Jupyter notebook server in <span class="caps">EC2</span> and then access it remotely through your web browser, just as you would if you were using a notebook launched from your own&nbsp;laptop.  </p>
+<p>Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows how to set up a public Jupyter notebook server in <span class="caps">EC2</span> and then access it remotely through your web browser, just as you would if you were using a notebook launched from your own&nbsp;laptop.</p>
 <p>For a beginner, having to both set up deep learning libraries and navigate the <span class="caps">AWS</span> menagerie feels like getting thrown into the deep end when you just want to stick a toe in. You can skip the hassle of setting up deep learning frameworks from scratch by choosing an Amazon Machine Image (<span class="caps">AMI</span>) that comes pre-installed with the libraries and their dependencies. (Concerned about costs? &#8212; see the note<a href="#note1">*</a> at the bottom of this&nbsp;post.)</p>
 <p>For example, the Stanford class, <a href="http://cs231n.stanford.edu/">CS231n: Convolutional Neural Networksfor Visual Recognition</a>, has provided a public <span class="caps">AMI</span> with these&nbsp;specs:</p>
 <ul>
@@ -93,12 +93,12 @@
 <p>After you&#8217;re done, you&#8217;ll be able to work through tutorials in notebook format like those provided by caffe in their examples folder, e.g. <a href="http://nbviewer.jupyter.org/github/BVLC/caffe/blob/master/examples/00-classification.ipynb">00-classification.ipynb</a>.</p>
 <p>We&#8217;ve written a little bash script <code>jupyter_userdata.sh</code> to execute Jupyter&#8217;s <a href="http://jupyter-notebook.readthedocs.org/en/latest/public_server.html">instructions</a> for setting up a public notebook server, so you don&#8217;t have to manually configure the notebook server every time you want to spin up a new <span class="caps">AMI</span>&nbsp;instance.</p>
 <p>For the script to work, Jupyter itself should already be installed &#8212; which it is in the CS231n <span class="caps">AMI</span>.</p>
-<p>You just have to edit the password in the script. To generate a hashed password, use&nbsp;IPython:  </p>
-<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">notebook.auth</span> <span class="kn">import</span> <span class="n">passwd</span>  
-<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">passwd</span><span class="p">()</span>  
-<span class="n">Enter</span> <span class="n">password</span><span class="p">:</span>  
-<span class="n">Verify</span> <span class="n">password</span><span class="p">:</span>  
-<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>  
+<p>You just have to edit the password in the script. To generate a hashed password, use&nbsp;IPython:</p>
+<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">notebook.auth</span> <span class="kn">import</span> <span class="n">passwd</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">passwd</span><span class="p">()</span>
+<span class="n">Enter</span> <span class="n">password</span><span class="p">:</span>
+<span class="n">Verify</span> <span class="n">password</span><span class="p">:</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>
 </pre></div>
 
 
@@ -111,10 +111,10 @@
 <p>We&#8217;re going to supply the shell script as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">user-data</a>, a way to pass in scripts to automate configurations to your <span class="caps">AMI</span>. Instead of clicking on &#8220;Review and Launch&#8221;, click on the gray button in the lower right &#8220;Next: Configure Instance&nbsp;Details&#8221;.</p>
 <p>In the next page, click on the arrowhead next to &#8220;Advanced Details&#8221; to expand its options. Click on the radio button next to &#8220;As text&#8221;, then copy and paste the text from <code>jupyter_userdata.sh</code> (modified with your password) into the&nbsp;field.</p>
 <p>Warning: if you click on &#8220;As file&#8221; instead and browse to wherever you saved <code>jupyter_userdata.sh</code>, the file must first be <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">base64-encoded</a>.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="Step3_Configure-Instance-Details" src="http://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details-1024x426.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"></a></p>
 <p><strong>3.</strong> Next, (skipping steps 4. and 5.) click on the link to &#8220;6. Configure Security Group&#8221; near the top of the page. By default, <span class="caps">SSH</span> is enabled, but we need to enable access to the notebook server, whose port we&#8217;ve set as 8888 in the bash&nbsp;script.</p>
 <p>Click on the grey button &#8220;Add Rule&#8221;, then for the new rule, choose Type: Custom <span class="caps">TCP</span> Rule; Protocol: <span class="caps">TCP</span>; Port Range: 8888; Source:&nbsp;Anywhere.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="Step6_Configure-Security-Group" src="http://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group-1024x434.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"></a></p>
 <p><strong>4.</strong> Now, pick up where you left off in the CS231n tutorial (&#8220;<em>&#8230; click on &#8220;Review and Launch</em>&#8220;.), which takes you to &#8220;Step 7. Review Instance Launch&#8221;. Complete the&nbsp;tutorial.</p>
 <hr>
 <p>Check that the Jupyter notebook server was set up&nbsp;correctly:</p>
@@ -124,7 +124,7 @@
 <li>Start the notebook server using the <code>jupyter notebook</code> command.</li>
 <li>
 <p>In your web browser, access the notebook server with https://PUBLIC_IP:8888, where PUBLIC_IP is the public <span class="caps">IP</span> of your instance, displayed from the instance description on your <span class="caps">AWS</span> dashboard. Your browser will warn that your self-signed certificate is insecure or&nbsp;unrecognized.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="scary-browser-warning" src="http://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning-1024x556.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2016/03/scary-browser-warning.png"></a></p>
 <p>That&#8217;s ok &#8212; click past the warnings, and you should get a sign-in page. Type in your&nbsp;password.</p>
 </li>
 <li>

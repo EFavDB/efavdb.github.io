@@ -20,7 +20,7 @@ the formula&amp;#8217;s accuracy with a simulation in&amp;nbsp;python.&lt;/p&gt;
 the amount of money lost relative to its maximum held capital up to
 that date. This is illustrated in the figure at right &amp;#8212; a portfolio
 that once held $100 now holds only $90, so the drawdown is currently
-$10. &lt;a href="http://efavdb.com/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="http://efavdb.com/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt;&lt;/p&gt;
+$10. &lt;a href="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;img alt="dd" src="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class="caps"&gt;CPPI&lt;/span&gt; is a method that can be applied to guarantee that the maximum
 fractional drawdown is never more than some predetermined value &amp;#8212; the
 idea is to simply squirrel away an appropriate portion of earnings
@@ -29,7 +29,7 @@ over from that point on. For example, to cap the max loss at 50%, one
 should only risk 50% of the initial capital and then continue to bank
 50% of any additional earnings whenever a new all time high is&amp;nbsp;reached.&lt;/p&gt;
 &lt;p&gt;According to Wikipedia, the first person to study &lt;span class="caps"&gt;CPPI&lt;/span&gt; was Perold, who derived the statistical properties of a &lt;span class="caps"&gt;CPPI&lt;/span&gt; portfolio&amp;#8217;s value at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, assuming the underlying stochastic investment follows a Wiener process. I was introduced to the &lt;span class="caps"&gt;CPPI&lt;/span&gt; concept by the book &amp;#8220;Algorithmic Trading&amp;#8221; by Ernest Chan. This book implicitly poses the question of what the mean return is for general, discrete investment strategies. Here, I show that a universal formula applies in this case, valid at low to modest leverages and small unit investment Sharpe ratios &amp;#8212; this result is given in equation (\ref{cppi_asymptotic_growth})&amp;nbsp;below.&lt;/p&gt;
-&lt;p&gt;The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my &lt;a href="http://efavdb.com/universal-drawdown-statistics-in-investing/"&gt;prior post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my &lt;a href="http://efavdb.github.io/universal-drawdown-statistics-in-investing"&gt;prior post&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;&lt;span class="caps"&gt;CPPI&lt;/span&gt; formulation and universal mean growth&amp;nbsp;rate&lt;/h2&gt;
 &lt;p&gt;In this section, I review the &lt;span class="caps"&gt;CPPI&lt;/span&gt; strategy and give the limiting mean return result. Consider a portfolio that at time &lt;span class="math"&gt;\(t\)&lt;/span&gt; has&amp;nbsp;value,
 &lt;/p&gt;

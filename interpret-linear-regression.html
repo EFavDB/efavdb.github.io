@@ -79,7 +79,7 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>Our <a href="http://efavdb.com/linear-regression/">last post</a> showed how to obtain the least-squares solution for linear regression and discussed the idea of sampling variability in the best estimates for the coefficients. In this post, we continue the discussion about uncertainty in linear regression &#8212; both in the estimates of individual linear regression coefficients and the quality of the overall&nbsp;fit.</p>
+            <p>Our <a href="http://efavdb.github.io/linear-regression">last post</a> showed how to obtain the least-squares solution for linear regression and discussed the idea of sampling variability in the best estimates for the coefficients. In this post, we continue the discussion about uncertainty in linear regression &#8212; both in the estimates of individual linear regression coefficients and the quality of the overall&nbsp;fit.</p>
 <p>Specifically, we&#8217;ll discuss how to calculate the 95% confidence intervals and p-values from hypothesis tests that are output by many statistical packages like python&#8217;s statsmodels or R. An example with code is provided at the&nbsp;end.</p>
 <h2>Review</h2>
 <p>We wish to predict a scalar response variable <span class="math">\(y_i\)</span> given a vector of predictors <span class="math">\(\vec{x}_i\)</span> of dimension <span class="math">\(K\)</span>. In linear regression, we assume that <span class="math">\(y_i\)</span> is a linear function of <span class="math">\(\vec{x}_i\)</span>, parameterized by a set of coefficients <span class="math">\(\vec{\beta}\)</span> and an error term <span class="math">\(\epsilon_i\)</span>. The linear model (in matrix format and dropping the arrows over the vectors) for predicting <span class="math">\(N\)</span> response variables&nbsp;is
@@ -88,13 +88,13 @@
 y = X\beta + \epsilon.
 \end{align}</div>
 <p>The dimensions of each component are: dim(<span class="math">\(X\)</span>) = (<span class="math">\(N\)</span>,<span class="math">\(K\)</span>), dim(<span class="math">\(\beta\)</span>) = (<span class="math">\(K\)</span>,1), dim(<span class="math">\(y\)</span>) = dim(<span class="math">\(\epsilon\)</span>) = (<span class="math">\(N\)</span>,1), where <span class="math">\(N\)</span> = # of examples, <span class="math">\(K\)</span> = # of regressors / predictors, counting an optional intercept/constant&nbsp;term.</p>
-<p>The ordinary least-squares best estimator of the coefficients, <span class="math">\(\hat{\beta}\)</span>, was <a href="http://efavdb.com/linear-regression/#mjx-eqn-optimal">derived last time</a>:
+<p>The ordinary least-squares best estimator of the coefficients, <span class="math">\(\hat{\beta}\)</span>, was <a href="http://efavdb.github.io/linear-regression">derived last time</a>:
 </p>
 <div class="math">\begin{align}\tag{2}\label{optimal}
 \hat{\beta} = (X'X)^{-1}X'y,
 \end{align}</div>
 <p>where the hat &#8220;^&#8221; denotes an estimator, not a true population&nbsp;parameter.</p>
-<p>(\ref{optimal}) is a point estimate, but fitting different samples of data from the population will cause the best estimators to shift around. The amount of shifting can be explained by the variance-covariance matrix of <span class="math">\(\hat{\beta}\)</span>, <a href="http://efavdb.com/linear-regression/#mjx-eqn-cov">also derived</a> last time (independent of assumptions of&nbsp;normality):
+<p>(\ref{optimal}) is a point estimate, but fitting different samples of data from the population will cause the best estimators to shift around. The amount of shifting can be explained by the variance-covariance matrix of <span class="math">\(\hat{\beta}\)</span>, <a href="http://efavdb.github.io/linear-regression">also derived</a> last time (independent of assumptions of&nbsp;normality):
 </p>
 <div class="math">\begin{align}\tag{3}\label{cov}
 cov(\hat{\beta}, \hat{\beta}) = \sigma^2 (X'X)^{-1}.

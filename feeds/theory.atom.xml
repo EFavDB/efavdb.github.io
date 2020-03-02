@@ -6,26 +6,26 @@
 &lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;&amp;#8220;Neural Networks and Deep Learning&amp;#8221;&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn&amp;#8217;t derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same&amp;nbsp;notation.&lt;/p&gt;
 &lt;h2&gt;Introduction: neural&amp;nbsp;networks&lt;/h2&gt;
 &lt;h3&gt;A single neuron acting on a single training&amp;nbsp;example&lt;/h3&gt;
-&lt;p&gt;&lt;img alt="single neuron" src="http://efavdb.com/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="single neuron" src="https://efavdb.github.io/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;&lt;/p&gt;
 &lt;p&gt;The basic building block of a neural network is the composition of a nonlinear function (like a &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;sigmoid&lt;/a&gt;, &lt;a href="http://mathworld.wolfram.com/HyperbolicTangent.html"&gt;tanh&lt;/a&gt;, or &lt;a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)"&gt;ReLU&lt;/a&gt;) &lt;span class="math"&gt;\(g(z)\)&lt;/span&gt;&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-a^{[l]} = g(z^{[l]})  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+a^{[l]} = g(z^{[l]})
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(a\)&lt;/span&gt;.&lt;br&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(a\)&lt;/span&gt;.
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-z^{[l]} = w^{[l]T} a^{[l-1]} + b^{[l]}  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+z^{[l]} = w^{[l]T} a^{[l-1]} + b^{[l]}
 \end{eqnarray}&lt;/div&gt;
 &lt;p&gt;These building blocks, i.e. &amp;#8220;nodes&amp;#8221; or &amp;#8220;neurons&amp;#8221; of the neural network, are arranged in layers, with the layer denoted by superscript square brackets, e.g. &lt;span class="math"&gt;\([l]\)&lt;/span&gt; for the &lt;span class="math"&gt;\(l\)&lt;/span&gt;th layer. &lt;span class="math"&gt;\(n_l\)&lt;/span&gt; denotes the number of neurons in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h3&gt;Forward&amp;nbsp;propagation&lt;/h3&gt;
 &lt;p&gt;Forward propagation is the computation of the multiple linear and nonlinear transformations of the neural network on the input data. We can rewrite the above equations in vectorized form to handle multiple training examples and neurons per layer&amp;nbsp;as&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
-A^{[l]} = g(Z^{[l]})  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
+A^{[l]} = g(Z^{[l]})
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(A\)&lt;/span&gt;.&lt;br&gt;
+&lt;p&gt;with a linear function acting on a (multidimensional) input, &lt;span class="math"&gt;\(A\)&lt;/span&gt;.
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{2}  
-Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{2}
+Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
 \end{eqnarray}&lt;/div&gt;
 &lt;p&gt;The outputs or activations, &lt;span class="math"&gt;\(A^{[l-1]}\)&lt;/span&gt;, of the previous layer serve as inputs for the linear functions, &lt;span class="math"&gt;\(z^{[l]}\)&lt;/span&gt;. If &lt;span class="math"&gt;\(n_l\)&lt;/span&gt; denotes the number of neurons in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;, and &lt;span class="math"&gt;\(m\)&lt;/span&gt; denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices&amp;nbsp;are:&lt;/p&gt;
 &lt;p&gt;Variable&amp;nbsp;Dimensions&lt;/p&gt;
@@ -35,102 +35,102 @@ Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
   &lt;span class="math"&gt;\(W^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt;)
   &lt;span class="math"&gt;\(b^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;,&amp;nbsp;1)&lt;/p&gt;
 &lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer&amp;nbsp;1.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="neural network" src="http://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="neural network" src="https://efavdb.github.io/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;&lt;/p&gt;
 &lt;p&gt;The matrix &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, &lt;span class="math"&gt;\(\vec{x} = (x_1, x_2)\)&lt;/span&gt;). Each row of &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer&amp;nbsp;1.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="weights matrix" src="http://efavdb.com/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;  &lt;/p&gt;
+&lt;p&gt;&lt;img alt="weights matrix" src="https://efavdb.github.io/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;&lt;/p&gt;
 &lt;p&gt;The final output of the neural network is a prediction in the last layer &lt;span class="math"&gt;\(L\)&lt;/span&gt;, and the closeness of the prediction &lt;span class="math"&gt;\(A^{[L](i)}\)&lt;/span&gt; to the true label &lt;span class="math"&gt;\(y^{(i)}\)&lt;/span&gt; for training example &lt;span class="math"&gt;\(i\)&lt;/span&gt; is quantified by a loss function &lt;span class="math"&gt;\(\mathcal{L}(y^{(i)}, A^{[L](i)})\)&lt;/span&gt;, where superscript &lt;span class="math"&gt;\((i)\)&lt;/span&gt; denotes the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example. For classification, the typical choice for &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Cross_entropy"&gt;cross-entropy loss&lt;/a&gt; (log&amp;nbsp;loss).&lt;/p&gt;
 &lt;p&gt;The cost &lt;span class="math"&gt;\(J\)&lt;/span&gt; is the average loss over all &lt;span class="math"&gt;\(m\)&lt;/span&gt; training examples in the&amp;nbsp;dataset.&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}  
-J = \frac{1}{m} \sum_{i=1}^m \mathcal{L}(y^{(i)}, A^{[L](i)})  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}
+J = \frac{1}{m} \sum_{i=1}^m \mathcal{L}(y^{(i)}, A^{[L](i)})
 \end{eqnarray}&lt;/div&gt;
 &lt;h3&gt;Minimizing the cost with gradient&amp;nbsp;descent&lt;/h3&gt;
 &lt;p&gt;The task of training a neural network is to find the set of parameters &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; (with different &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; for different nodes in the network) that will give us the best predictions, i.e. minimize the cost&amp;nbsp;(\ref{3}).&lt;/p&gt;
 &lt;p&gt;Gradient descent is the workhorse that we employ for this optimization problem. We randomly initialize the parameters &lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; for each node, then iteratively update the parameters by moving them in the direction that is opposite to the gradient of the&amp;nbsp;cost.&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-W_\text{new} &amp;amp;=&amp;amp; W_\text{previous} - \alpha \frac{\partial J}{\partial W} \\  
-b_\text{new} &amp;amp;=&amp;amp; b_\text{previous} - \alpha \frac{\partial J}{\partial b}  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+W_\text{new} &amp;amp;=&amp;amp; W_\text{previous} - \alpha \frac{\partial J}{\partial W} \\
+b_\text{new} &amp;amp;=&amp;amp; b_\text{previous} - \alpha \frac{\partial J}{\partial b}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; is the learning rate, a hyperparameter that needs to be tuned during the training process. The gradient of the cost is calculated by the backpropagation&amp;nbsp;algorithm.&lt;/p&gt;
 &lt;h2&gt;Backpropagation&amp;nbsp;equations&lt;/h2&gt;
 &lt;p&gt;These are the vectorized backpropagation (&lt;span class="caps"&gt;BP&lt;/span&gt;) equations which we wish to&amp;nbsp;derive:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-dW^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}} = \frac{1}{m} dZ^{[l]}A^{[l-1]T} \tag{BP1} \label{BP1} \\  
-db^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}} = \frac{1}{m} \sum_{i=1}^m dZ^{[l](i)} \tag{BP2} \label{BP2} \\  
-dA^{[l-1]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}} = W^{[l]T}dZ^{[l]} \tag{BP3} \label{BP3} \\  
-dZ^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}} = dA^{[l]} * g'(Z^{[l]}) \tag{BP4} \label{BP4}  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+dW^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}} = \frac{1}{m} dZ^{[l]}A^{[l-1]T} \tag{BP1} \label{BP1} \\
+db^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}} = \frac{1}{m} \sum_{i=1}^m dZ^{[l](i)} \tag{BP2} \label{BP2} \\
+dA^{[l-1]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}} = W^{[l]T}dZ^{[l]} \tag{BP3} \label{BP3} \\
+dZ^{[l]} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}} = dA^{[l]} * g'(Z^{[l]}) \tag{BP4} \label{BP4}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The &lt;span class="math"&gt;\(*\)&lt;/span&gt; in the last line denotes element-wise&amp;nbsp;multiplication.&lt;/p&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(W\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; are the parameters we want to learn (update), but the &lt;span class="caps"&gt;BP&lt;/span&gt; equations include two additional expressions for the partial derivative of the loss in terms of linear and nonlinear activations per training example since they are intermediate terms that appear in the calculation of &lt;span class="math"&gt;\(dW\)&lt;/span&gt; and &lt;span class="math"&gt;\(db\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h3&gt;Chain&amp;nbsp;rule&lt;/h3&gt;
 &lt;p&gt;We&amp;#8217;ll need the chain rule for &lt;a href="https://en.wikipedia.org/wiki/Total_derivative"&gt;total derivatives&lt;/a&gt;, which describes how the change in a function &lt;span class="math"&gt;\(f\)&lt;/span&gt; with respect to a variable &lt;span class="math"&gt;\(x\)&lt;/span&gt; can be calculated as a sum over the contributions from intermediate functions &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; that depend on &lt;span class="math"&gt;\(x\)&lt;/span&gt;:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-\frac{\partial f(u_1, u_2, ..., u_k)}{\partial x} = \sum_{i}^k \frac{\partial f}{\partial u_i} \frac{\partial u_i}{\partial x}  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\frac{\partial f(u_1, u_2, ..., u_k)}{\partial x} = \sum_{i}^k \frac{\partial f}{\partial u_i} \frac{\partial u_i}{\partial x}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 where the &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; are functions of &lt;span class="math"&gt;\(x\)&lt;/span&gt;. This expression reduces to the single variable chain rule when only one &lt;span class="math"&gt;\(u_i\)&lt;/span&gt; is a function of &lt;span class="math"&gt;\(x\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The gradients for every node can be calculated in a single backward pass through the network, starting with the last layer and working backwards, towards the input layer. As we work backwards, we cache the values of &lt;span class="math"&gt;\(dZ\)&lt;/span&gt; and &lt;span class="math"&gt;\(dA\)&lt;/span&gt; from previous calculations, which are then used to compute the derivative for variables that are further upstream in the computation graph. The dependency of the derivatives of upstream variables on downstream variables, i.e. cached derivatives, is manifested in the &lt;span class="math"&gt;\(\frac{\partial f}{\partial u_i}\)&lt;/span&gt; term in the chain rule. (Backpropagation is a dynamic programming&amp;nbsp;algorithm!)&lt;/p&gt;
 &lt;h3&gt;The chain rule applied to&amp;nbsp;backpropagation&lt;/h3&gt;
 &lt;p&gt;In this section, we apply the chain rule to derive the vectorized form of equations &lt;span class="caps"&gt;BP&lt;/span&gt;(1-4). Without loss of generality, we&amp;#8217;ll index an element of the matrix or vector on the left hand side of &lt;span class="caps"&gt;BP&lt;/span&gt;(1-4); the notation for applying the chain rule is therefore straightforward because the derivatives are just with respect to&amp;nbsp;scalars.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP1&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP1&lt;/span&gt;&lt;/strong&gt;
 The partial derivative of the cost with respect to the &lt;span class="math"&gt;\(s\)&lt;/span&gt;th component (corresponding to the &lt;span class="math"&gt;\(s\)&lt;/span&gt;th input) of &lt;span class="math"&gt;\(\vec{w}\)&lt;/span&gt; in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-dW^{[l]}_{rs} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}_{rs}} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial W^{[l]}_{rs}} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial W^{[l]}_{rs}} \tag{4} \label{4}  
+&lt;div class="math"&gt;\begin{eqnarray}
+dW^{[l]}_{rs} &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial W^{[l]}_{rs}} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial W^{[l]}_{rs}} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial W^{[l]}_{rs}} \tag{4} \label{4}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The last line is due to the chain&amp;nbsp;rule.&lt;/p&gt;
-&lt;p&gt;The first term in (\ref{4}) is &lt;span class="math"&gt;\(dZ^{[l]}_{ri}\)&lt;/span&gt; by definition (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}). We can simplify the second term of (\ref{4}) using the definition of the linear function (\ref{2}), which we rewrite below explicitly for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in the &lt;span class="math"&gt;\(l\)&lt;/span&gt;th layer in order to be able to more easily keep track of indices when we take derivatives of the linear function:&lt;br&gt;
+&lt;p&gt;The first term in (\ref{4}) is &lt;span class="math"&gt;\(dZ^{[l]}_{ri}\)&lt;/span&gt; by definition (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}). We can simplify the second term of (\ref{4}) using the definition of the linear function (\ref{2}), which we rewrite below explicitly for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in the &lt;span class="math"&gt;\(l\)&lt;/span&gt;th layer in order to be able to more easily keep track of indices when we take derivatives of the linear&amp;nbsp;function:
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{5} \label{5}  
-Z^{[l]}_{ri} = \sum_j^{n_{l-1}} W^{[l]}_{rj} A^{[l-1]}_{ji} + b^{[l]}_r  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5} \label{5}
+Z^{[l]}_{ri} = \sum_j^{n_{l-1}} W^{[l]}_{rj} A^{[l-1]}_{ji} + b^{[l]}_r
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt; denotes the number of nodes in layer &lt;span class="math"&gt;\(l-1\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;Therefore,&lt;br&gt;
+&lt;p&gt;Therefore,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-dW^{[l]}_{rs} &amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]}_{si} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]T}_{is} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \left( dZ^{[l]} A^{[l-1]T} \right)_{rs}  
+&lt;div class="math"&gt;\begin{eqnarray}
+dW^{[l]}_{rs} &amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]}_{si} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri} A^{[l-1]T}_{is} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \left( dZ^{[l]} A^{[l-1]T} \right)_{rs}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP2&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP2&lt;/span&gt;&lt;/strong&gt;
 The partial derivative of the cost with respect to &lt;span class="math"&gt;\(b\)&lt;/span&gt; in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-db^{[l]}_r &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}_r} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial b^{[l]}_r} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial b^{[l]}_r} \tag{6} \label{6} \\  
-&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri}  
+&lt;div class="math"&gt;\begin{eqnarray}
+db^{[l]}_r &amp;amp;\equiv&amp;amp; \frac{\partial J}{\partial b^{[l]}_r} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial b^{[l]}_r} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m \frac{\partial \mathcal{L}}{\partial z^{[l]}_{ri}} \frac{\partial z^{[l]}_{ri}}{\partial b^{[l]}_r} \tag{6} \label{6} \\
+&amp;amp;=&amp;amp; \frac{1}{m} \sum_{i}^m dZ^{[l]}_{ri}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 (\ref{6}) is due to the chain rule. The first term in (\ref{6}) is &lt;span class="math"&gt;\(dZ^{[l]}_{ri}\)&lt;/span&gt; by definition (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}). The second term of (\ref{6}) simplifies to &lt;span class="math"&gt;\(\partial z^{[l]}_{ri} / \partial b^{[l]}_r = 1\)&lt;/span&gt; from&amp;nbsp;(\ref{5}).&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP3&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP3&lt;/span&gt;&lt;/strong&gt;
 The partial derivative of the loss for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th example with respect to the nonlinear activation in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l-1\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-dA^{[l-1]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}_{ri}} \\  
-&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ki}} \frac{\partial Z^{[l]}_{ki}}{\partial A^{[l-1]}_{ri}} \tag{7} \label{7} \\  
-&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} dZ^{[l]}_{ki} W^{[l]}_{kr} \tag{8} \label{8} \\  
-&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} W^{[l]T}_{rk} dZ^{[l]}_{ki} \\  
-&amp;amp;=&amp;amp; \left( W^{[l]T} dZ^{[l]} \right)_{ri}  
+&lt;div class="math"&gt;\begin{eqnarray}
+dA^{[l-1]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l-1]}_{ri}} \\
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ki}} \frac{\partial Z^{[l]}_{ki}}{\partial A^{[l-1]}_{ri}} \tag{7} \label{7} \\
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} dZ^{[l]}_{ki} W^{[l]}_{kr} \tag{8} \label{8} \\
+&amp;amp;=&amp;amp; \sum_{k=1}^{n_l} W^{[l]T}_{rk} dZ^{[l]}_{ki} \\
+&amp;amp;=&amp;amp; \left( W^{[l]T} dZ^{[l]} \right)_{ri}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The application of the chain rule (\ref{7}) includes a sum over the nodes in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt; whose linear functions take &lt;span class="math"&gt;\(A^{[l-1]}_{ri}\)&lt;/span&gt; as an input, assuming the nodes between layers &lt;span class="math"&gt;\(l-1\)&lt;/span&gt; and &lt;span class="math"&gt;\(l\)&lt;/span&gt; are fully-connected. The first term in (\ref{8}) is by definition &lt;span class="math"&gt;\(dZ\)&lt;/span&gt; (\ref{&lt;span class="caps"&gt;BP4&lt;/span&gt;}); from (\ref{5}), the second term in (\ref{8}) evaluates to &lt;span class="math"&gt;\(\partial Z^{[l]}_{ki} / \partial A^{[l-1]}_{ri} = W^{[l]}_{kr}\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP4&lt;/span&gt;&lt;/strong&gt;&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;&lt;span class="caps"&gt;BP4&lt;/span&gt;&lt;/strong&gt;
 The partial derivative of the loss for the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th example with respect to the linear activation in the &lt;span class="math"&gt;\(r\)&lt;/span&gt;th node in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;&amp;nbsp;is:&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}  
-dZ^{[l]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ri}} \\  
-&amp;amp;=&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l]}_{ri}} \frac{\partial A^{[l]}_{ri}}{\partial Z^{[l]}_{ri}} \\  
-&amp;amp;=&amp;amp; dA^{[l]}_{ri} * g'(Z^{[l]}_{ri})  
+&lt;div class="math"&gt;\begin{eqnarray}
+dZ^{[l]}_{ri} &amp;amp;\equiv&amp;amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ri}} \\
+&amp;amp;=&amp;amp; \frac{\partial \mathcal{L}}{\partial A^{[l]}_{ri}} \frac{\partial A^{[l]}_{ri}}{\partial Z^{[l]}_{ri}} \\
+&amp;amp;=&amp;amp; dA^{[l]}_{ri} * g'(Z^{[l]}_{ri})
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The second line is by the application of the chain rule (single variable since only a single nonlinear activation depends on directly on &lt;span class="math"&gt;\(Z^{[l]}_{ri}\)&lt;/span&gt;). &lt;span class="math"&gt;\(g'(Z)\)&lt;/span&gt; is the derivative of the nonlinear activation function with respect to its input, which depends on the nonlinear activation function that is assigned to that particular node, e.g. sigmoid vs. tanh vs.&amp;nbsp;ReLU.&lt;/p&gt;
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;Backpropagation efficiently executes gradient descent for updating the parameters of a neural network by ordering and caching the calculations of the gradient of the cost with respect to the parameters in the nodes. This post is a little heavy on notation since the focus is on deriving the vectorized formulas for backpropagation, but we hope it complements the lectures in Week 3 of Andrew Ng&amp;#8217;s &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;&amp;#8220;Neural Networks and Deep Learning&amp;#8221;&lt;/a&gt; course as well as the excellent, but even more notation-heavy, resources on matrix calculus for backpropagation that are linked&amp;nbsp;below.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;&lt;strong&gt;More resources on vectorized backpropagation&lt;/strong&gt;&lt;br&gt;
-&lt;a href="https://explained.ai/matrix-calculus/index.html"&gt;The matrix calculus you need for deep learning&lt;/a&gt; - from explained.ai&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;More resources on vectorized backpropagation&lt;/strong&gt;
+&lt;a href="https://explained.ai/matrix-calculus/index.html"&gt;The matrix calculus you need for deep learning&lt;/a&gt; - from explained.ai
 &lt;a href="http://neuralnetworksanddeeplearning.com/chap2.html"&gt;How the backpropagation algorithm works&lt;/a&gt; - Chapter 2 of the Neural Networks and Deep Learning free online&amp;nbsp;text&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -196,70 +196,70 @@ The second line is by the application of the chain rule (single variable since o
 &lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>An orientational integral</title><link href="https://efavdb.github.io/an-orientational-integral" rel="alternate"></link><published>2019-07-02T07:04:00-07:00</published><updated>2019-07-02T07:04:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2019-07-02:/an-orientational-integral</id><summary type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
 orientations in an n-dimensional&amp;nbsp;space.&lt;/p&gt;
 &lt;h2&gt;Problem&amp;nbsp;definition&lt;/h2&gt;
-&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of&lt;br&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average&amp;nbsp;of
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
 J \equiv \langle \hat{v} \cdot \vec{a}_1 …&lt;/div&gt;</summary><content type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
 orientations in an n-dimensional&amp;nbsp;space.&lt;/p&gt;
 &lt;h2&gt;Problem&amp;nbsp;definition&lt;/h2&gt;
-&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average of&lt;br&gt;
+&lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average&amp;nbsp;of
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  
-J \equiv \langle \hat{v} \cdot \vec{a}_1 \hat{v} \cdot \vec{a}_2 \ldots \hat{v} \cdot \vec{a}_k \rangle  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
+J \equiv \langle \hat{v} \cdot \vec{a}_1 \hat{v} \cdot \vec{a}_2 \ldots \hat{v} \cdot \vec{a}_k \rangle
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 where &lt;span class="math"&gt;\(\vec{a}_1, \ldots, \vec{a}_k\)&lt;/span&gt; are some given fixed vectors. For example, if all &lt;span class="math"&gt;\(\vec{a}_i\)&lt;/span&gt; are equal to &lt;span class="math"&gt;\(\hat{x}\)&lt;/span&gt;, we want the orientation average of &lt;span class="math"&gt;\(v_x^k\)&lt;/span&gt;.&lt;/p&gt;
 &lt;h2&gt;Solution&lt;/h2&gt;
-&lt;p&gt;We&amp;#8217;ll evaluate our integral using parameter differentiation of the multivariate Gaussian integral. Let&lt;br&gt;
+&lt;p&gt;We&amp;#8217;ll evaluate our integral using parameter differentiation of the multivariate Gaussian integral.&amp;nbsp;Let
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \nonumber  
-I &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}  
-&amp;amp;=&amp;amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]  
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+I &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2} + \sum_{i=1}^k \alpha_i \vec{v} \cdot \vec{a}_i} d^nv \\ \tag{2} \label{2}
+&amp;amp;=&amp;amp; \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right]
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-The expression in the second line follows from completing the square in the exponent in the first &amp;#8212; for review, see our post on the normal distribution, &lt;a href="http://efavdb.com/normal-distributions/"&gt;here&lt;/a&gt;. Now, we consider a particular derivative of &lt;span class="math"&gt;\(I\)&lt;/span&gt; with respect to the &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; parameters. From the first line of (\ref{2}), we have&lt;br&gt;
+&lt;p&gt;
+The expression in the second line follows from completing the square in the exponent in the first &amp;#8212; for review, see our post on the normal distribution, &lt;a href="http://efavdb.github.io/normal-distributions"&gt;here&lt;/a&gt;. Now, we consider a particular derivative of &lt;span class="math"&gt;\(I\)&lt;/span&gt; with respect to the &lt;span class="math"&gt;\(\alpha\)&lt;/span&gt; parameters. From the first line of (\ref{2}), we&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}  
-\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\  
-&amp;amp;\equiv &amp;amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v \\  
-&amp;amp;=&amp;amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \frac{1}{(2 \pi)^{n/2}} \int e^{- \frac{\vert \vec{v} \vert^2}{2}} \prod_{i=1}^k \vec{v} \cdot \vec{a}_i d^n v \\
+&amp;amp;\equiv &amp;amp; \frac{1}{(2 \pi)^{n/2}} \int_0^{\infty} e^{- \frac{\vert \vec{v} \vert^2}{2}} v^{n + k -1} dv \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v \\
+&amp;amp;=&amp;amp; \frac{2^{k/2 - 1}}{\pi^{n/2}} \Gamma(\frac{n+k}{2}) \times \int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The second factor above is almost our desired orientation average &lt;span class="math"&gt;\(J\)&lt;/span&gt; &amp;#8212; the only thing it&amp;#8217;s missing is the normalization, which we can get by evaluating this integral without any &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s.&lt;/p&gt;
-&lt;p&gt;Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This gives,&lt;br&gt;
+&lt;p&gt;Next, we evaluate the parameter derivative considered above in a second way, using the second line of (\ref{2}). This&amp;nbsp;gives,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{4}  
-\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\  
-&amp;amp;=&amp;amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{4}
+\partial_{\alpha_1}\ldots \partial_{\alpha_k}I \vert_{\vec{\alpha}=0} &amp;amp;=&amp;amp; \partial_{\alpha_1}\ldots \partial_{\alpha_k} \exp \left [- \frac{1}{2} \vert \sum_{i=1}^k \alpha_i \vec{a}_i \vert^2 \right] \vert_{\vec{\alpha}=0} \\
+&amp;amp;=&amp;amp; \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The sum here is over all possible, unique pairings of the indices. You can see this is correct by carrying out the differentiation one parameter at a&amp;nbsp;time.&lt;/p&gt;
-&lt;p&gt;To complete the calculation, we equate (\ref{3}) and (\ref{4}). This gives&lt;br&gt;
+&lt;p&gt;To complete the calculation, we equate (\ref{3}) and (\ref{4}). This&amp;nbsp;gives
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{5}\label{5}  
-\int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5}\label{5}
+\int \prod_{i=1}^k \hat{v} \cdot \vec{a}_i d \Omega_v = \frac{\pi^{n/2}} {2^{k/2 - 1}\Gamma(\frac{n+k}{2})}\sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when &lt;span class="math"&gt;\(k = 0\)&lt;/span&gt;. This gives,&lt;br&gt;
+&lt;p&gt;
+Again, to get the desired average, we need to divide the above by the normalization factor. This is given by the value of the integral (\ref{5}) when &lt;span class="math"&gt;\(k = 0\)&lt;/span&gt;. This&amp;nbsp;gives,
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\tag{6}\label{6}  
-J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{6}\label{6}
+J = \frac{1}{2^{k/2}}\frac{\Gamma(n/2)}{\Gamma(\frac{n+k}{2})} \sum_{\text{pairings}} (\vec{a}_{i_1} \cdot \vec{a}_{i_2}) (\vec{a}_{i_3} \cdot \vec{a}_{i_4})\ldots (\vec{a}_{i_{k-1}} \cdot \vec{a}_{i_k})
 \end{eqnarray}&lt;/div&gt;
 &lt;h2&gt;Example&lt;/h2&gt;
-&lt;p&gt;Consider the case where &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt;. In this case, we note that the average of &lt;span class="math"&gt;\(\hat{v}_x^2\)&lt;/span&gt; is equal to the average along any other orientation. This means we have&lt;br&gt;
+&lt;p&gt;Consider the case where &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt;. In this case, we note that the average of &lt;span class="math"&gt;\(\hat{v}_x^2\)&lt;/span&gt; is equal to the average along any other orientation. This means we&amp;nbsp;have
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{7} \label{7}  
-\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{n} \sum_{i=1}^n \langle \hat{v}_x^2 + \hat{v}_y^2 + \ldots \rangle \\  
-&amp;amp;=&amp;amp; \frac{1}{n}  
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{7} \label{7}
+\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{n} \sum_{i=1}^n \langle \hat{v}_x^2 + \hat{v}_y^2 + \ldots \rangle \\
+&amp;amp;=&amp;amp; \frac{1}{n}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
-We get this same result from our more general formula: Plugging in &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt; into (\ref{6}), we obtain&lt;br&gt;
+&lt;p&gt;
+We get this same result from our more general formula: Plugging in &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{a}_1 = \vec{a}_2 = \hat{x}\)&lt;/span&gt; into (\ref{6}), we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{8} \label{8}  
-\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\  
-&amp;amp;=&amp;amp; \frac{1}{n}  
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber \tag{8} \label{8}
+\langle \hat{v}_x^2 \rangle &amp;amp;=&amp;amp; \frac{1}{2}\frac{\Gamma(n/2)}{\Gamma(\frac{n}{2} + 1)} \\
+&amp;amp;=&amp;amp; \frac{1}{n}
 \end{eqnarray}&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+&lt;p&gt;
 The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -334,7 +334,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://commons.wikimedia.org/wiki/File%3AAndrew_Ng.png" title="See page for author [CC BY 3.0 us (http://creativecommons.org/licenses/by/3.0/us/deed.en)], via Wikimedia Commons"&gt;&lt;img alt="Andrew Ng" src="//upload.wikimedia.org/wikipedia/commons/5/5c/Andrew_Ng.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Professor Ng covers SVMs in his excellent &lt;a href="https://www.coursera.org/learn/machine-learning"&gt;Machine Learning &lt;span class="caps"&gt;MOOC&lt;/span&gt;&lt;/a&gt;, a gateway for many into the realm of data science, but leaves out some details, motivating us to put together some notes here to answer the&amp;nbsp;question:&lt;/p&gt;
 &lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;What are the &lt;em&gt;support vectors&lt;/em&gt; in support vector&amp;nbsp;machines?&amp;#8221;&lt;/p&gt;
-&lt;p&gt;We also provide python &amp;#8220;`(https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn&amp;#8217;s svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive &lt;a href="#3dfig"&gt;plots&lt;/a&gt; in Part&amp;nbsp;3.&lt;/p&gt;
+&lt;p&gt;We also provide python (https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn&amp;#8217;s svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive plots in Part&amp;nbsp;3.&lt;/p&gt;
 &lt;p&gt;This post consists of three&amp;nbsp;sections:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Part 1 sets up the problem from a geometric point of view and then shows how it can be framed as an optimization&amp;nbsp;problem.&lt;/li&gt;
@@ -345,7 +345,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;h2&gt;Part 1: Defining the&amp;nbsp;margin&lt;/h2&gt;
 &lt;h3&gt;Maximizing the&amp;nbsp;margin&lt;/h3&gt;
 &lt;p&gt;The figure below is a binary classification problem (points labeled &lt;span class="math"&gt;\(y_i = \pm 1\)&lt;/span&gt;) that is linearly&amp;nbsp;separable.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="binary classes in 2d" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d-300x284.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;There are many possible decision boundaries that would perfectly separate the two classes, but an &lt;span class="caps"&gt;SVM&lt;/span&gt; will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the&amp;nbsp;boundary.&lt;/p&gt;
 &lt;p&gt;Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the&amp;nbsp;boundary.
  
@@ -354,7 +354,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;p&gt;Any point &lt;span class="math"&gt;\(\boldsymbol{x}\)&lt;/span&gt; lying on the separating hyperplane satisfies:
 &lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;
 &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is the vector normal to the plane, and &lt;span class="math"&gt;\(b\)&lt;/span&gt; is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is &lt;span class="math"&gt;\(b / \| \boldsymbol{w} \|\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="margin around decision boundary" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (&lt;span class="math"&gt;\(d_+ + d_-\)&lt;/span&gt;) and is restricted by the data points closest to the boundary, which lie on the&amp;nbsp;gutters.&lt;/p&gt;
 &lt;p&gt;The half-spaces bounded by the planes on the gutters&amp;nbsp;are:&lt;/p&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b \geq +a\)&lt;/span&gt;, for &lt;span class="math"&gt;\(y_i =&amp;nbsp;+1\)&lt;/span&gt;&lt;/p&gt;
@@ -375,7 +375,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 $$&lt;/div&gt;
 &lt;p&gt;Before we address how to solve this optimization problem in Part 2, let&amp;#8217;s first consider the case when data is&amp;nbsp;non-separable.&lt;/p&gt;
 &lt;h3&gt;Soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;: the non-separable problem and&amp;nbsp;regularization&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="softmargin" src="http://efavdb.com/wp-content/uploads/2015/05/softmargin-300x266.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt; and slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; that define the amount by which data points are on the wrong side of the&amp;nbsp;margin.&lt;/p&gt;
 &lt;div class="math"&gt;$$\tag{2} \label{regularization}
 \begin{align}

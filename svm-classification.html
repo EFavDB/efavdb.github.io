@@ -86,7 +86,7 @@
 <p><a href="http://commons.wikimedia.org/wiki/File%3AAndrew_Ng.png" title="See page for author [CC BY 3.0 us (http://creativecommons.org/licenses/by/3.0/us/deed.en)], via Wikimedia Commons"><img alt="Andrew Ng" src="//upload.wikimedia.org/wikipedia/commons/5/5c/Andrew_Ng.png"></a></p>
 <p>Professor Ng covers SVMs in his excellent <a href="https://www.coursera.org/learn/machine-learning">Machine Learning <span class="caps">MOOC</span></a>, a gateway for many into the realm of data science, but leaves out some details, motivating us to put together some notes here to answer the&nbsp;question:</p>
 <p><span class="dquo">&#8220;</span>What are the <em>support vectors</em> in support vector&nbsp;machines?&#8221;</p>
-<p>We also provide python &#8220;`(https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn&#8217;s svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive <a href="#3dfig">plots</a> in Part&nbsp;3.</p>
+<p>We also provide python (https://github.com/EFavDB/svm-classification/blob/master/svm.ipynb) using scikit-learn&#8217;s svm module to fit a binary classification problem using a custom kernel, along with code to generate the (awesome!) interactive plots in Part&nbsp;3.</p>
 <p>This post consists of three&nbsp;sections:</p>
 <ul>
 <li>Part 1 sets up the problem from a geometric point of view and then shows how it can be framed as an optimization&nbsp;problem.</li>
@@ -97,7 +97,7 @@
 <h2>Part 1: Defining the&nbsp;margin</h2>
 <h3>Maximizing the&nbsp;margin</h3>
 <p>The figure below is a binary classification problem (points labeled <span class="math">\(y_i = \pm 1\)</span>) that is linearly&nbsp;separable.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"><img alt="binary classes in 2d" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d-300x284.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"></a></p>
 <p>There are many possible decision boundaries that would perfectly separate the two classes, but an <span class="caps">SVM</span> will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the&nbsp;boundary.</p>
 <p>Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the&nbsp;boundary.
  
@@ -106,7 +106,7 @@
 <p>Any point <span class="math">\(\boldsymbol{x}\)</span> lying on the separating hyperplane satisfies:
 <span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)</span>
 <span class="math">\(\boldsymbol{w}\)</span> is the vector normal to the plane, and <span class="math">\(b\)</span> is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is <span class="math">\(b / \| \boldsymbol{w} \|\)</span>.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"><img alt="margin around decision boundary" src="http://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin-300x266.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"></a></p>
 <p>Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (<span class="math">\(d_+ + d_-\)</span>) and is restricted by the data points closest to the boundary, which lie on the&nbsp;gutters.</p>
 <p>The half-spaces bounded by the planes on the gutters&nbsp;are:</p>
 <p><span class="math">\(\boldsymbol{w} \cdot \boldsymbol{x} + b \geq +a\)</span>, for <span class="math">\(y_i =&nbsp;+1\)</span></p>
@@ -127,7 +127,7 @@
 $$</div>
 <p>Before we address how to solve this optimization problem in Part 2, let&#8217;s first consider the case when data is&nbsp;non-separable.</p>
 <h3>Soft margin <span class="caps">SVM</span>: the non-separable problem and&nbsp;regularization</h3>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"><img alt="softmargin" src="http://efavdb.com/wp-content/uploads/2015/05/softmargin-300x266.png"></a></p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"></a></p>
 <p>For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter <span class="math">\(C\)</span> and slack variables <span class="math">\(\xi_i\)</span> that define the amount by which data points are on the wrong side of the&nbsp;margin.</p>
 <div class="math">$$\tag{2} \label{regularization}
 \begin{align}

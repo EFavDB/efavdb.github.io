@@ -96,7 +96,7 @@ the formula&#8217;s accuracy with a simulation in&nbsp;python.</p>
 the amount of money lost relative to its maximum held capital up to
 that date. This is illustrated in the figure at right &#8212; a portfolio
 that once held $100 now holds only $90, so the drawdown is currently
-$10. <a href="http://efavdb.com/wp-content/uploads/2019/12/dd.png"><img alt="dd" src="http://efavdb.com/wp-content/uploads/2019/12/dd.png"></a></p>
+$10. <a href="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"><img alt="dd" src="https://efavdb.github.io/wp-content/uploads/2019/12/dd.png"></a></p>
 <p><span class="caps">CPPI</span> is a method that can be applied to guarantee that the maximum
 fractional drawdown is never more than some predetermined value &#8212; the
 idea is to simply squirrel away an appropriate portion of earnings
@@ -105,7 +105,7 @@ over from that point on. For example, to cap the max loss at 50%, one
 should only risk 50% of the initial capital and then continue to bank
 50% of any additional earnings whenever a new all time high is&nbsp;reached.</p>
 <p>According to Wikipedia, the first person to study <span class="caps">CPPI</span> was Perold, who derived the statistical properties of a <span class="caps">CPPI</span> portfolio&#8217;s value at time <span class="math">\(t\)</span>, assuming the underlying stochastic investment follows a Wiener process. I was introduced to the <span class="caps">CPPI</span> concept by the book &#8220;Algorithmic Trading&#8221; by Ernest Chan. This book implicitly poses the question of what the mean return is for general, discrete investment strategies. Here, I show that a universal formula applies in this case, valid at low to modest leverages and small unit investment Sharpe ratios &#8212; this result is given in equation (\ref{cppi_asymptotic_growth})&nbsp;below.</p>
-<p>The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my <a href="http://efavdb.com/universal-drawdown-statistics-in-investing/">prior post</a>.</p>
+<p>The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my <a href="http://efavdb.github.io/universal-drawdown-statistics-in-investing">prior post</a>.</p>
 <h2><span class="caps">CPPI</span> formulation and universal mean growth&nbsp;rate</h2>
 <p>In this section, I review the <span class="caps">CPPI</span> strategy and give the limiting mean return result. Consider a portfolio that at time <span class="math">\(t\)</span> has&nbsp;value,
 </p>

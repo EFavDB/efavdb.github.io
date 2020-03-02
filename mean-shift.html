@@ -204,7 +204,8 @@ The kernel (smearing) function here is required to satisfy the following two&nbs
 <li>Gaussian = <span class="math">\(K(\textbf{u}) = \frac{1}{\left(2\pi\right)^{d/2}} e^{-\frac{1}{2} \vert \textbf{u}&nbsp;\vert^2}\)</span></li>
 </ol>
 <p>Below we plot an example in 1-d using the gaussian kernel to estimate the density of some population along the x-axis. You can see that each sample point adds a small Gaussian to our estimate, centered about it: The equations above may look a bit intimidating, but the graphic here should clarify that the concept is pretty&nbsp;straightforward.</p>
-<p>[caption id=&#8221;attachment_1563&#8221; align=&#8221;aligncenter&#8221; width=&#8221;765&#8221;]<img alt="KDE plot" src="http://efavdb.com/wp-content/uploads/2015/03/KDE-plot-1024x675.png"> Example of a kernel density estimation using a gaussian kernel for each data point: Adding up small Gaussians about each example returns our net estimate for the total density, the black&nbsp;curve.[/caption]</p>
+<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/KDE-plot.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/03/KDE-plot.png"></a>
+Example of a kernel density estimation using a gaussian kernel for each data point: Adding up small Gaussians about each example returns our net estimate for the total density, the black&nbsp;curve.</p>
 <h4>Mean shift&nbsp;algorithm</h4>
 <p>Recall that the basic goal of the mean shift algorithm is to move particles in the direction of local increasing density. To obtain an estimate for this direction, a gradient is applied to the kernel density estimate discussed above. Assuming an angularly symmetric kernel function, <span class="math">\(K(\textbf{u}) = K(\vert \textbf{u} \vert)\)</span>, one can show that this gradient takes the&nbsp;form
 </p>

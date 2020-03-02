@@ -252,11 +252,11 @@ where &lt;span class="math"&gt;\(z\)&lt;/span&gt; again sets the size of the int
 &lt;p&gt;In this note, we have 1) reviewed how to fit a logistic regression model to a binary data set for classification purposes, and 2) have derived the expressions needed to return class membership probability confidence intervals for test&amp;nbsp;points.&lt;/p&gt;
 &lt;p&gt;Confidence intervals are typically not available for many out-of-the-box machine learning models, despite the fact that intervals can often provide significant utility. The fact that logistic regression allows for meaningful error bars to be returned with relative ease is therefore a notable, advantageous&amp;nbsp;property.&lt;/p&gt;
 &lt;h3&gt;Footnotes&lt;/h3&gt;
-&lt;p&gt;[&lt;span class="math"&gt;\(1\)&lt;/span&gt;] Our notes on the maximum-likelihood estimators can be found &lt;a href="http://efavdb.com/maximum-likelihood-asymptotics/"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;[&lt;span class="math"&gt;\(2\)&lt;/span&gt;] Our notes on covariance matrices and the multivariate Cramer-Rao theorem can be found &lt;a href="http://efavdb.com/multivariate-cramer-rao-bound/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[&lt;span class="math"&gt;\(1\)&lt;/span&gt;] Our notes on the maximum-likelihood estimators can be found &lt;a href="http://efavdb.github.io/maximum-likelihood-asymptotics"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[&lt;span class="math"&gt;\(2\)&lt;/span&gt;] Our notes on covariance matrices and the multivariate Cramer-Rao theorem can be found &lt;a href="http://efavdb.github.io/multivariate-cramer-rao-bound"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;[&lt;span class="math"&gt;\(3\)&lt;/span&gt;] The Cramer-Rao identity [&lt;span class="math"&gt;\(2\)&lt;/span&gt;] states that covariance matrix of the maximum-likelihood estimators approaches the Hessian matrix of the log-likelihood, evaluated at their true values. Here, we approximate this by evaluating the Hessian at the maximum-likelihood point&amp;nbsp;estimate.&lt;/p&gt;
-&lt;p&gt;[&lt;span class="math"&gt;\(4\)&lt;/span&gt;] Our notes on linear regression can be found &lt;a href="http://efavdb.com/linear-regression/"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;[&lt;span class="math"&gt;\(5\)&lt;/span&gt;] Our notes on Normal distributions can be found &lt;a href="http://efavdb.com/normal-distributions/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[&lt;span class="math"&gt;\(4\)&lt;/span&gt;] Our notes on linear regression can be found &lt;a href="http://efavdb.github.io/linear-regression"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;[&lt;span class="math"&gt;\(5\)&lt;/span&gt;] Our notes on Normal distributions can be found &lt;a href="http://efavdb.github.io/normal-distributions"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
