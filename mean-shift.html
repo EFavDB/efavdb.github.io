@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="The mean shift clustering algorithm "/>
-<meta property="og:url" content="https://efavdb.github.io/mean-shift" />
+<meta property="og:url" content="https://efavdb.com/mean-shift" />
 <meta property="og:description" content="Mean shift clustering Mean shift clustering is a general non-parametric cluster finding procedure — introduced by Fukunaga and Hostetler [1], and popular within the computer vision field. Nicely, and in contrast to the more-well-known K-means clustering algorithm, the output of mean shift does not depend on any explicit assumptions on the …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/mean-shift">
+            <a href="https://efavdb.com/mean-shift">
                 The mean shift clustering&nbsp;algorithm
             </a>
         </h1>
@@ -130,7 +130,7 @@
 
 
 <p>As you can see below, the algorithm has found clusters centered on each of the blobs we&nbsp;generated.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/plot1.png"><img alt="Plot 1" src="https://efavdb.github.io/wp-content/uploads/2015/03/plot1.png"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/plot1.png"><img alt="Plot 1" src="https://efavdb.com/wp-content/uploads/2015/03/plot1.png"></a></p>
 <h4>Segmenting a color&nbsp;photo</h4>
 <p>In the first example, we were using mean shift clustering to look for spatial clusters. In our second example, we will instead explore 3D color space, <span class="caps">RGB</span>, by considering pixel values taken from an image of a toy car. The procedure is similar &#8212; here, we cluster points in 3d, but instead of having data(x,y) we have data(r,g,b) taken from the image&#8217;s <span class="caps">RGB</span> pixel values. Clustering these color values in this 3d space returns a series of clusters, where the pixels in those clusters are similar in <span class="caps">RGB</span> space. Recoloring pixels according to their cluster, we obtain a segmentation of the original&nbsp;image.</p>
 <div class="highlight"><pre><span></span><span class="o">#%%</span> <span class="n">Part</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Color</span> <span class="n">image</span> <span class="n">segmentation</span> <span class="k">using</span> <span class="n">mean</span> <span class="n">shift</span>
@@ -161,7 +161,7 @@
 
 
 <p>The bottom image below illustrates that one can effectively use this approach to identify the key shapes within an image, all without doing any image processing to get rid of glare or background &#8212; pretty great!
-<a href="https://efavdb.github.io/wp-content/uploads/2015/03/test-e1428358370930.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/03/test-e1428358370930.png"></a></p>
+<a href="https://efavdb.com/wp-content/uploads/2015/03/test-e1428358370930.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2015/03/test-e1428358370930.png"></a></p>
 <h3>Discussion</h3>
 <p>Although mean shift is a reasonably versatile algorithm, it has primarily been applied to problems in computer vision, where it has been used for image segmentation, clustering, and video tracking. Application to big data problems can be challenging due to the fact the algorithm can become relatively slow in this limit. However, research is presently underway to speed up its convergence, which should enable its application to larger data&nbsp;sets.</p>
 <p>Mean shift&nbsp;pros:</p>
@@ -204,7 +204,7 @@ The kernel (smearing) function here is required to satisfy the following two&nbs
 <li>Gaussian = <span class="math">\(K(\textbf{u}) = \frac{1}{\left(2\pi\right)^{d/2}} e^{-\frac{1}{2} \vert \textbf{u}&nbsp;\vert^2}\)</span></li>
 </ol>
 <p>Below we plot an example in 1-d using the gaussian kernel to estimate the density of some population along the x-axis. You can see that each sample point adds a small Gaussian to our estimate, centered about it: The equations above may look a bit intimidating, but the graphic here should clarify that the concept is pretty&nbsp;straightforward.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/KDE-plot.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/03/KDE-plot.png"></a>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/KDE-plot.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2015/03/KDE-plot.png"></a>
 Example of a kernel density estimation using a gaussian kernel for each data point: Adding up small Gaussians about each example returns our net estimate for the total density, the black&nbsp;curve.</p>
 <h4>Mean shift&nbsp;algorithm</h4>
 <p>Recall that the basic goal of the mean shift algorithm is to move particles in the direction of local increasing density. To obtain an estimate for this direction, a gradient is applied to the kernel density estimate discussed above. Assuming an angularly symmetric kernel function, <span class="math">\(K(\textbf{u}) = K(\vert \textbf{u} \vert)\)</span>, one can show that this gradient takes the&nbsp;form
@@ -296,11 +296,11 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=The%20mean%20shift%20clustering%C2%A0algorithm&url=https%3A//efavdb.github.io/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=The%20mean%20shift%20clustering%C2%A0algorithm&url=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=The%20mean%20shift%20clustering%C2%A0algorithm&amp;body=https%3A//efavdb.github.io/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=The%20mean%20shift%20clustering%C2%A0algorithm&amp;body=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -329,8 +329,8 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/mean-shift"
-                   href="https://efavdb.github.io/mean-shift#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/mean-shift"
+                   href="https://efavdb.com/mean-shift#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -348,8 +348,8 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/mean-shift';
-    var disqus_url = 'https://efavdb.github.io/mean-shift';
+    var disqus_identifier = 'https://efavdb.com/mean-shift';
+    var disqus_url = 'https://efavdb.com/mean-shift';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -373,8 +373,8 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/nba-week-22-results-nba-season-review-mlb-week-1" title="Previous: NBA week 22 results, NBA season review, MLB week 1">NBA week 22 results, NBA season review, MLB week 1</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/mlb-week-2-review-week-3-predictions" title="Next: MLB week 2 review, week 3 predictions">MLB week 2 review, week 3 predictions</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/nba-week-22-results-nba-season-review-mlb-week-1" title="Previous: NBA week 22 results, NBA season review, MLB week 1">NBA week 22 results, NBA season review, MLB week 1</a></li>
+                <li class="next-article"><a href="https://efavdb.com/mlb-week-2-review-week-3-predictions" title="Next: MLB week 2 review, week 3 predictions">MLB week 2 review, week 3 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -383,7 +383,7 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-04-21T09:17:00-07:00">Apr 21, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

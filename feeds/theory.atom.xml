@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Theory</title><link href="https://efavdb.github.io/" rel="alternate"></link><link href="https://efavdb.github.io/feeds/theory.atom.xml" rel="self"></link><id>https://efavdb.github.io/</id><updated>2019-07-18T23:35:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Backpropagation in neural networks</title><link href="https://efavdb.github.io/backpropagation-in-neural-networks" rel="alternate"></link><published>2019-07-18T23:35:00-07:00</published><updated>2019-07-18T23:35:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.github.io,2019-07-18:/backpropagation-in-neural-networks</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Theory</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/theory.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2019-07-18T23:35:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Backpropagation in neural networks</title><link href="https://efavdb.com/backpropagation-in-neural-networks" rel="alternate"></link><published>2019-07-18T23:35:00-07:00</published><updated>2019-07-18T23:35:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2019-07-18:/backpropagation-in-neural-networks</id><summary type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix&amp;nbsp;multiplication.&lt;/p&gt;
 &lt;p&gt;We also hope this post will be a quick reference for those already familiar with the …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Overview&lt;/h2&gt;
 &lt;p&gt;We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix&amp;nbsp;multiplication.&lt;/p&gt;
 &lt;p&gt;We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on &lt;a href="https://www.coursera.org/learn/neural-networks-deep-learning/"&gt;&amp;#8220;Neural Networks and Deep Learning&amp;#8221;&lt;/a&gt;, the first in the deeplearning.ai series on Coursera. That course provides but doesn&amp;#8217;t derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same&amp;nbsp;notation.&lt;/p&gt;
 &lt;h2&gt;Introduction: neural&amp;nbsp;networks&lt;/h2&gt;
 &lt;h3&gt;A single neuron acting on a single training&amp;nbsp;example&lt;/h3&gt;
-&lt;p&gt;&lt;img alt="single neuron" src="https://efavdb.github.io/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="single neuron" src="https://efavdb.com/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"&gt;&lt;/p&gt;
 &lt;p&gt;The basic building block of a neural network is the composition of a nonlinear function (like a &lt;a href="https://en.wikipedia.org/wiki/Sigmoid_function"&gt;sigmoid&lt;/a&gt;, &lt;a href="http://mathworld.wolfram.com/HyperbolicTangent.html"&gt;tanh&lt;/a&gt;, or &lt;a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)"&gt;ReLU&lt;/a&gt;) &lt;span class="math"&gt;\(g(z)\)&lt;/span&gt;&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray} \nonumber
 a^{[l]} = g(z^{[l]})
@@ -35,9 +35,9 @@ Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
   &lt;span class="math"&gt;\(W^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt;)
   &lt;span class="math"&gt;\(b^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;,&amp;nbsp;1)&lt;/p&gt;
 &lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer&amp;nbsp;1.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="neural network" src="https://efavdb.github.io/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="neural network" src="https://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;&lt;/p&gt;
 &lt;p&gt;The matrix &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, &lt;span class="math"&gt;\(\vec{x} = (x_1, x_2)\)&lt;/span&gt;). Each row of &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer&amp;nbsp;1.&lt;/p&gt;
-&lt;p&gt;&lt;img alt="weights matrix" src="https://efavdb.github.io/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="weights matrix" src="https://efavdb.com/wp-content/uploads/2016/06/weights_matrix-e1563432287786.png"&gt;&lt;/p&gt;
 &lt;p&gt;The final output of the neural network is a prediction in the last layer &lt;span class="math"&gt;\(L\)&lt;/span&gt;, and the closeness of the prediction &lt;span class="math"&gt;\(A^{[L](i)}\)&lt;/span&gt; to the true label &lt;span class="math"&gt;\(y^{(i)}\)&lt;/span&gt; for training example &lt;span class="math"&gt;\(i\)&lt;/span&gt; is quantified by a loss function &lt;span class="math"&gt;\(\mathcal{L}(y^{(i)}, A^{[L](i)})\)&lt;/span&gt;, where superscript &lt;span class="math"&gt;\((i)\)&lt;/span&gt; denotes the &lt;span class="math"&gt;\(i\)&lt;/span&gt;th training example. For classification, the typical choice for &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; is the &lt;a href="https://en.wikipedia.org/wiki/Cross_entropy"&gt;cross-entropy loss&lt;/a&gt; (log&amp;nbsp;loss).&lt;/p&gt;
 &lt;p&gt;The cost &lt;span class="math"&gt;\(J\)&lt;/span&gt; is the average loss over all &lt;span class="math"&gt;\(m\)&lt;/span&gt; training examples in the&amp;nbsp;dataset.&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}
@@ -193,7 +193,7 @@ The second line is by the application of the chain rule (single variable since o
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>An orientational integral</title><link href="https://efavdb.github.io/an-orientational-integral" rel="alternate"></link><published>2019-07-02T07:04:00-07:00</published><updated>2019-07-02T07:04:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.github.io,2019-07-02:/an-orientational-integral</id><summary type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
+&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>An orientational integral</title><link href="https://efavdb.com/an-orientational-integral" rel="alternate"></link><published>2019-07-02T07:04:00-07:00</published><updated>2019-07-02T07:04:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-07-02:/an-orientational-integral</id><summary type="html">&lt;p&gt;We evaluate an integral having to do with vector averages over all
 orientations in an n-dimensional&amp;nbsp;space.&lt;/p&gt;
 &lt;h2&gt;Problem&amp;nbsp;definition&lt;/h2&gt;
 &lt;p&gt;Let &lt;span class="math"&gt;\(\hat{v}\)&lt;/span&gt; be a unit vector in &lt;span class="math"&gt;\(n\)&lt;/span&gt;-dimensions and consider the orientation average&amp;nbsp;of
@@ -322,7 +322,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>Support Vector Machines for classification</title><link href="https://efavdb.github.io/svm-classification" rel="alternate"></link><published>2015-10-22T14:24:00-07:00</published><updated>2015-10-22T14:24:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.github.io,2015-10-22:/svm-classification</id><summary type="html">&lt;p&gt;To whet your appetite for support vector machines, here&amp;#8217;s a quote from machine learning researcher Andrew&amp;nbsp;Ng:&lt;/p&gt;
+&lt;/script&gt;</content><category term="Theory"></category></entry><entry><title>Support Vector Machines for classification</title><link href="https://efavdb.com/svm-classification" rel="alternate"></link><published>2015-10-22T14:24:00-07:00</published><updated>2015-10-22T14:24:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2015-10-22:/svm-classification</id><summary type="html">&lt;p&gt;To whet your appetite for support vector machines, here&amp;#8217;s a quote from machine learning researcher Andrew&amp;nbsp;Ng:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;“SVMs are among the best (and many believe are indeed the best) ‘off-the-shelf’ supervised learning&amp;nbsp;algorithms.”&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -345,7 +345,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;h2&gt;Part 1: Defining the&amp;nbsp;margin&lt;/h2&gt;
 &lt;h3&gt;Maximizing the&amp;nbsp;margin&lt;/h3&gt;
 &lt;p&gt;The figure below is a binary classification problem (points labeled &lt;span class="math"&gt;\(y_i = \pm 1\)&lt;/span&gt;) that is linearly&amp;nbsp;separable.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;img alt="" src="https://efavdb.com/wp-content/uploads/2015/05/binaryclass_2d.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;There are many possible decision boundaries that would perfectly separate the two classes, but an &lt;span class="caps"&gt;SVM&lt;/span&gt; will choose the line in 2-d (or “hyperplane”, more generally) that maximizes the margin around the&amp;nbsp;boundary.&lt;/p&gt;
 &lt;p&gt;Intuitively, we can be very confident about the labels of points that fall far from the boundary, but we’re less confident about points near the&amp;nbsp;boundary.
  
@@ -354,7 +354,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 &lt;p&gt;Any point &lt;span class="math"&gt;\(\boldsymbol{x}\)&lt;/span&gt; lying on the separating hyperplane satisfies:
 &lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b = 0\)&lt;/span&gt;
 &lt;span class="math"&gt;\(\boldsymbol{w}\)&lt;/span&gt; is the vector normal to the plane, and &lt;span class="math"&gt;\(b\)&lt;/span&gt; is a constant that describes how much the plane is shifted relative to the origin.  The distance of the plane from the origin is &lt;span class="math"&gt;\(b / \| \boldsymbol{w} \|\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;img alt="" src="https://efavdb.com/wp-content/uploads/2015/05/binaryclass_margin.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Now draw parallel planes on either side of the decision boundary, so we have what looks like a road, with the decision boundary as the median, and the additional planes as gutters.  The margin, i.e. the width of the road, is (&lt;span class="math"&gt;\(d_+ + d_-\)&lt;/span&gt;) and is restricted by the data points closest to the boundary, which lie on the&amp;nbsp;gutters.&lt;/p&gt;
 &lt;p&gt;The half-spaces bounded by the planes on the gutters&amp;nbsp;are:&lt;/p&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(\boldsymbol{w} \cdot \boldsymbol{x} + b \geq +a\)&lt;/span&gt;, for &lt;span class="math"&gt;\(y_i =&amp;nbsp;+1\)&lt;/span&gt;&lt;/p&gt;
@@ -375,7 +375,7 @@ The two results&amp;nbsp;agree.&lt;/p&gt;
 $$&lt;/div&gt;
 &lt;p&gt;Before we address how to solve this optimization problem in Part 2, let&amp;#8217;s first consider the case when data is&amp;nbsp;non-separable.&lt;/p&gt;
 &lt;h3&gt;Soft margin &lt;span class="caps"&gt;SVM&lt;/span&gt;: the non-separable problem and&amp;nbsp;regularization&lt;/h3&gt;
-&lt;p&gt;&lt;a href="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="" src="https://efavdb.github.io/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;img alt="" src="https://efavdb.com/wp-content/uploads/2015/05/softmargin.png"&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;For non-separable data, we relax the constraints in (\ref{problem}) while penalizing misclassified points via a cost parameter &lt;span class="math"&gt;\(C\)&lt;/span&gt; and slack variables &lt;span class="math"&gt;\(\xi_i\)&lt;/span&gt; that define the amount by which data points are on the wrong side of the&amp;nbsp;margin.&lt;/p&gt;
 &lt;div class="math"&gt;$$\tag{2} \label{regularization}
 \begin{align}

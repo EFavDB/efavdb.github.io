@@ -12,7 +12,7 @@
 <meta name="keywords" content="machine learning, Case studies, " />
 
 <meta property="og:title" content="Machine learning for facial recognition "/>
-<meta property="og:url" content="https://efavdb.github.io/machine-learning-for-facial-recognition-3" />
+<meta property="og:url" content="https://efavdb.com/machine-learning-for-facial-recognition-3" />
 <meta property="og:description" content="A guest post, contributed by Damien Ramunno-Johnson (LinkedIn, bio-sketch) Introduction The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/machine-learning-for-facial-recognition-3">
+            <a href="https://efavdb.com/machine-learning-for-facial-recognition-3">
                 Machine learning for facial&nbsp;recognition
             </a>
         </h1>
@@ -192,7 +192,7 @@
 </pre></div>
 
 
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"><img alt="Screen Shot 2015-01-21 at 12.36.09 PM" src="https://efavdb.github.io/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"><img alt="Screen Shot 2015-01-21 at 12.36.09 PM" src="https://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"></a></p>
 <h4><strong>Training a&nbsp;model</strong></h4>
 <p>Now that we have reduced the dimensionality of the data it is time to go ahead and train a model. I am going to use the same <span class="caps">SVM</span> and GridSearchCV method I explained in my previous <a href="http://efavdb.github.io/machine-learning-with-wearable-sensors">post</a>. However, instead of using a linear kernel, as we did last time, I&#8217;ll use instead a <a href="http://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html">radial basis function (<span class="caps">RBF</span>)</a> kernel. The <span class="caps">RBF</span> kernel is a good choice here since we&#8217;d like to have non-linear decision boundaries &#8212; in general, it&#8217;s a reasonable idea to try this out whenever the number of training examples outnumbers the number of features characterizing those examples. The parameter C here acts as a regularization term: Small C values give you smooth decision boundaries, while large C values give complicated boundaries that attempt to fit/accommodate all training data. The gamma parameter defines how far the influence of a single point example extends (the width of the <span class="caps">RBF</span>&nbsp;kernel).</p>
 <div class="highlight"><pre><span></span><span class="p">#</span><span class="nn">Train</span> <span class="nt">a</span> <span class="nt">SVM</span> <span class="nt">classification</span> <span class="nt">model</span>
@@ -291,7 +291,7 @@
 </pre></div>
 
 
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/01/download.png"><img alt="download" src="https://efavdb.github.io/wp-content/uploads/2015/01/download.png"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/01/download.png"><img alt="download" src="https://efavdb.com/wp-content/uploads/2015/01/download.png"></a></p>
 <h4><strong>Discussion</strong></h4>
 <p>85% average accuracy shows that <span class="caps">PCA</span> (Eigenface analysis) can provide accurate face recognition results, given just a modest amount of training data. There are pros and cons to eigenfaces&nbsp;however:</p>
 <ul>
@@ -323,11 +323,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Machine%20learning%20for%20facial%C2%A0recognition&url=https%3A//efavdb.github.io/machine-learning-for-facial-recognition-3&hashtags=machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Machine%20learning%20for%20facial%C2%A0recognition&url=https%3A//efavdb.com/machine-learning-for-facial-recognition-3&hashtags=machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Machine%20learning%20for%20facial%C2%A0recognition&amp;body=https%3A//efavdb.github.io/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Machine%20learning%20for%20facial%C2%A0recognition&amp;body=https%3A//efavdb.com/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -356,8 +356,8 @@
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/machine-learning-for-facial-recognition-3"
-                   href="https://efavdb.github.io/machine-learning-for-facial-recognition-3#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/machine-learning-for-facial-recognition-3"
+                   href="https://efavdb.com/machine-learning-for-facial-recognition-3#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -375,8 +375,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/machine-learning-for-facial-recognition-3';
-    var disqus_url = 'https://efavdb.github.io/machine-learning-for-facial-recognition-3';
+    var disqus_identifier = 'https://efavdb.com/machine-learning-for-facial-recognition-3';
+    var disqus_url = 'https://efavdb.com/machine-learning-for-facial-recognition-3';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -400,8 +400,8 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/quick-tutorial-on-mysql" title="Previous: Quick tutorial on MySQL">Quick tutorial on MySQL</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/nba-week-11-summary-week-12-predictions" title="Next: NBA week 11 summary, week 12 predictions">NBA week 11 summary, week 12 predictions</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/quick-tutorial-on-mysql" title="Previous: Quick tutorial on MySQL">Quick tutorial on MySQL</a></li>
+                <li class="next-article"><a href="https://efavdb.com/nba-week-11-summary-week-12-predictions" title="Next: NBA week 11 summary, week 12 predictions">NBA week 11 summary, week 12 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -410,10 +410,10 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-01-21T17:12:00-08:00">Jan 21, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#case-studies-ref">Case studies</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#case-studies-ref">Case studies</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.github.io/tags.html#machine-learning-ref">machine learning
+                <li><a href="https://efavdb.com/tags.html#machine-learning-ref">machine learning
                     <span>6</span>
 </a></li>
             </ul>

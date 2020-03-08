@@ -12,7 +12,7 @@
 <meta name="keywords" content="linselect, methods, python, linselect, " />
 
 <meta property="og:title" content="Linear compression in python: PCA vs unsupervised feature selection "/>
-<meta property="og:url" content="https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect" />
+<meta property="og:url" content="https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect" />
 <meta property="og:description" content="We illustrate the application of two linear compression algorithms in python: Principal component analysis (PCA) and least-squares feature selection. Both can be used to compress a passed array, and they both work by stripping out redundant columns from the array. The two differ in that PCA operates in a particular …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect">
+            <a href="https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect">
                 Linear compression in python: <span class="caps">PCA</span> vs unsupervised feature&nbsp;selection
             </a>
         </h1>
@@ -82,11 +82,11 @@
             <p>We illustrate the application of two linear compression algorithms in python: Principal component analysis (<span class="caps">PCA</span>) and least-squares feature selection. Both can be used to compress a passed array, and they both work by stripping out redundant columns from the array. The two differ in that <span class="caps">PCA</span> operates in a particular rotated frame, while the feature selection solution operates directly on the original columns. As we illustrate below, <span class="caps">PCA</span> always gives a stronger compression. However, the feature selection solution is often comparably strong, and its output has the benefit of being relatively easy to interpret &#8212; a virtue that is important for many&nbsp;applications.</p>
 <p>We use our python package <code>linselect</code> to carry out efficient feature selection-based compression below &#8212; this is available on pypi (<code>pip install linselect</code>) and <a href="https://github.com/EFavDB/linselect">GitHub</a>.</p>
 <h2>Linear compression&nbsp;algorithms</h2>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2018/06/simple_line.jpg"><img alt="simple_line" src="https://efavdb.github.io/wp-content/uploads/2018/06/simple_line.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2018/06/simple_line.jpg"><img alt="simple_line" src="https://efavdb.com/wp-content/uploads/2018/06/simple_line.jpg"></a></p>
 <p>To compress a data array having <span class="math">\(n\)</span> columns, linear compression algorithms begin by fitting a <span class="math">\(k\)</span>-dimensional line, or <em>hyperplane</em>, to the data (with <span class="math">\(k &lt; n\)</span>). Any point in the hyperplane can be uniquely identified using a basis of <span class="math">\(k\)</span> components. Marking down each point&#8217;s projected location in the hyperplane using these components then gives a <span class="math">\(k\)</span>-column, compressed representation of the data. This idea is illustrated in Fig. 1 at right, where a line is fit to some two-component data. Projecting the points onto the line and then marking down how far along the line each projected point sits, we obtain a one-column compression. Carrying out this process can be useful if storage space is at a premium or if any operations need to be applied to the array (usually operations will run much faster on the compressed format). Further, compressed data is often easier to interpret and visualize, thanks to its reduced&nbsp;dimension.</p>
 <p>In this post, we consider two automated linear compression algorithms: principal component analysis (<span class="caps">PCA</span>) and least-squares unsupervised feature selection. These differ because they are obtained from different hyperplane fitting strategies: The <span class="caps">PCA</span> approach is obtained from the <span class="math">\(k\)</span>-dimensional hyperplane fit that minimizes the data&#8217;s total squared-projection error. In general, the independent variables of this fit &#8212; i.e., the <span class="math">\(k\)</span> components specifying locations in the fit plane &#8212; end up being some linear combinations of the original <span class="math">\(x_i\)</span><span class="quo">&#8216;</span>s. In contrast, the feature selection strategy intelligently picks a subset of the original array columns as predictors and then applies the usual least-squares fit to the others for compression [1]. These approaches are illustrated in the left and right panels of Fig. 2 below. The two fit lines there look very similar, but the encodings returned by these strategies differ qualitatively: The 1-d compression returned by <span class="caps">PCA</span> is how far along the <span class="math">\(PCA_1\)</span> direction a point sits (this is some linear combination of <span class="math">\(x_1\)</span> and <span class="math">\(x_2\)</span> &#8212; see figure), while the feature selection solution simply returns each point&#8217;s <span class="math">\(x_1\)</span> value. One of our goals here is to explain why this difference can favor the feature selection approach in certain&nbsp;applications.</p>
 <p>Our post proceeds as follows: In the next section, we consider two representative applications in python: (1) The compression of a data set of tech-sector stock price quotes, and (2) the visualization of some economic summary statistics on the G20 nations. Working through these applications, we are able to familiarize ourselves with the output of the two algorithms, and also through contrast to highlight their relative virtues. The discussion section summarizes what we learn. Finally, a short appendix covers some of the formal mathematics of compression. There, we prove that linear compression-decompression operators are always&nbsp;projections.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2018/06/pca_vs_linselect.jpg"><img alt="pca_vs_linselect" src="https://efavdb.github.io/wp-content/uploads/2018/06/pca_vs_linselect.jpg"></a>
+<p><a href="https://efavdb.com/wp-content/uploads/2018/06/pca_vs_linselect.jpg"><img alt="pca_vs_linselect" src="https://efavdb.com/wp-content/uploads/2018/06/pca_vs_linselect.jpg"></a>
 <strong>Fig. 2</strong>. A cartoon illustrating the projection that results when applying <span class="caps">PCA</span> (left) and unsupervised feature selection &#8212; via <code>linselect</code> (right): The original 2-d big dots are replaced by their small dot, effectively-1-d approximations &#8212; a&nbsp;projection.</p>
 <h2>Applications</h2>
 <p>Both data sets explored below are available on our Github, <a href="https://github.com/EFavDB/linselect_demos">here</a>.</p>
@@ -174,7 +174,7 @@
 
 <p>The printed lines above show that both algorithms capture more than <span class="math">\(50%\)</span> of the variance exhibited in the data using only 4 of the 50 stocks. The <span class="caps">PCA</span> compressions are stronger in each dimension because <span class="caps">PCA</span> is unconstrained &#8212; it can use any linear combination of the initial features for compression components, whereas the feature selector is constrained to use a subset of the original&nbsp;features.</p>
 <p>A plot of the values above across all compression dimensions is shown in Fig. 3 below. Looking at this plot, we see an elbow somewhere between <span class="math">\(5\)</span> and <span class="math">\(10\)</span> retained components. This implies that our <span class="math">\(50\)</span>-dimensional data set mostly lies within a subspace of dimension <span class="math">\(k \in (5, 10)\)</span>. Using any <span class="math">\(k\)</span> in that interval will provide a decent compression, and a satisfying large dimensional reduction &#8212; a typical result of applying these algorithms to large, raw data sets. Again, this is useful because it allows one to stop tracking redundant columns that offers little incremental&nbsp;value.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2018/06/cod_stocks.png"><img alt="cod_stocks" src="https://efavdb.github.io/wp-content/uploads/2018/06/cod_stocks.png"></a> <strong>Fig. 3</strong>. Plots of the compression strength (coefficient of determination or <span class="math">\(r^2\)</span>) for our two compression algorithms versus compression dimension. We see two things: (1) <span class="caps">PCA</span> gives a slightly stronger compression at each dimension, and (2) The full data set spans 50 dimensions, but the elbow in the plots suggests the data largely sits in a subspace having dimension between 5 to&nbsp;10.</p>
+<p><a href="https://efavdb.com/wp-content/uploads/2018/06/cod_stocks.png"><img alt="cod_stocks" src="https://efavdb.com/wp-content/uploads/2018/06/cod_stocks.png"></a> <strong>Fig. 3</strong>. Plots of the compression strength (coefficient of determination or <span class="math">\(r^2\)</span>) for our two compression algorithms versus compression dimension. We see two things: (1) <span class="caps">PCA</span> gives a slightly stronger compression at each dimension, and (2) The full data set spans 50 dimensions, but the elbow in the plots suggests the data largely sits in a subspace having dimension between 5 to&nbsp;10.</p>
 <h3>G20 economic summary&nbsp;stats</h3>
 <h4>Loading and compressing the&nbsp;data</h4>
 <p>In this section, we explore economic summary statistics on the 19 individual countries belonging to the G20 [5]. We scraped this data from data.un.org &#8212; for example, the link used for the United States can be found <a href="http://data.un.org/en/iso/us.html">here</a>. Our aim here will be to illustrate how compression algorithms can be used to aid in the visualization of a data set: Plotting the rows of a data set allows one to quickly get a sense for the relationship between them (here, the different G20 countries). Because we cannot plot in more than two or three dimensions, compression is a necessary first step in this&nbsp;process.</p>
@@ -228,7 +228,7 @@ Labour force participation(male) pop. %) 74.4
 <p>Examining the upper, feature selection plot of Fig. 4, a number of interesting insights can be found. One timely observation: International trade exports are a lower percentage of <span class="caps">GDP</span> for the <span class="caps">US</span> than for any other country considered (for imports, it is third, just after Argentina and Brazil). This observation might be related to the <span class="caps">US</span> administration&#8217;s recent willingness to engage in trading tariff increases with other countries. Nations in the same quadrant include Great Britain (gb), Japan (jp), and Australia (au) &#8212; each relatively industrialized and geographically isolated nations. In the opposite limits, we have Germany (de) and India (in). The former is relatively industrial and not isolated, while the latter&#8217;s economy weights agriculture relatively&nbsp;highly.</p>
 <h4>Summary</h4>
 <p>In this section, we illustrated a general analysis method that allows one to quickly gain insight into a data set: Visual study of the compressed data via a plot. Using this approach, we first found here that the G20 nations are best differentiated economically by considering how important international trade is to their economies and also the makeup of their economies (agricultural or other) &#8212; i.e., these are the two features that best explain the full data set of 17 columns that we started with. Plotting the data across these two variables and considering the commonalities of neighboring countries, we were able to identify some natural hypotheses influencing the individual economies. Specifically, geography appears to inform at least one of their key characteristics: more isolated countries often trade less. This is an interesting insight, and one that is quickly arrived at through the compression / plotting&nbsp;strategy.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2018/06/pca_linselect_g20.jpg"><img alt="pca_linselect_g20" src="https://efavdb.github.io/wp-content/uploads/2018/06/pca_linselect_g20.jpg"></a>
+<p><a href="https://efavdb.com/wp-content/uploads/2018/06/pca_linselect_g20.jpg"><img alt="pca_linselect_g20" src="https://efavdb.com/wp-content/uploads/2018/06/pca_linselect_g20.jpg"></a>
 <strong>Fig. 4</strong>. Plots of the compressed economic summary statistics on the G20 nations, taken from data.un.org: <code>linselect</code> unsupervised feature selection (upper) and <span class="caps">PCA</span>&nbsp;(lower).</p>
 <h2>Discussion</h2>
 <p>In this post, we have seen that carrying out compressions on a data set can provide insight into the original data. By examining the <span class="caps">PCA</span> components, we gain access to the collective fluctuations present within the data. The feature selection solution returns a minimal subset of the original features that captures the broad stroke information contained in the original full set &#8212; in cases where clusters are present, the minimal set contains a representative from each. Both methods allow one to determine the effective dimension of a given data set &#8212; when applied to raw data sets, this is often much lower than the apparent dimension due to heavy&nbsp;redundancy.</p>
@@ -272,7 +272,7 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
 <p>[1] For a discussion on how <span class="caps">PCA</span> selects its <span class="math">\(k\)</span> components, see our prior <a href="http://efavdb.github.io/principal-component-analysis">post</a> on the topic. To identify good feature subsets, <code>linselect</code> uses the stepwise selection strategy. This is described in its <a href="https://github.com/EFavDB/linselect">readme</a>. Here, we simply use the forward selection approach, but <code>linselect</code> supports fairly general stepwise search&nbsp;protocols.</p>
 <p>[2] The tickers included are: <span class="caps">AAPL</span>, <span class="caps">ADBE</span>, <span class="caps">ADP</span>, <span class="caps">ADSK</span>, <span class="caps">AMAT</span>, <span class="caps">AMZN</span>, <span class="caps">ASML</span>, <span class="caps">ATVI</span>, <span class="caps">AVGO</span>, <span class="caps">BABA</span>, <span class="caps">BIDU</span>, <span class="caps">CRM</span>, <span class="caps">CSCO</span>, <span class="caps">CTSH</span>, <span class="caps">EA</span>, <span class="caps">FB</span>, <span class="caps">GOOG</span>, <span class="caps">GPRO</span>, <span class="caps">HPE</span>, <span class="caps">HPQ</span>, <span class="caps">IBM</span>, <span class="caps">INFY</span>, <span class="caps">INTC</span>, <span class="caps">INTU</span>, <span class="caps">ITW</span>, <span class="caps">LRCX</span>, <span class="caps">MSFT</span>, <span class="caps">NFLX</span>, <span class="caps">NOK</span>, <span class="caps">NVDA</span>, <span class="caps">NXPI</span>, <span class="caps">OMC</span>, <span class="caps">ORCL</span>, <span class="caps">PANW</span>, <span class="caps">PYPL</span>, <span class="caps">QCOM</span>, <span class="caps">SAP</span>, <span class="caps">SNAP</span>, <span class="caps">SQ</span>, <span class="caps">SYMC</span>, T, <span class="caps">TSLA</span>, <span class="caps">TSM</span>, <span class="caps">TWTR</span>, <span class="caps">TXN</span>, <span class="caps">VMW</span>, <span class="caps">VZ</span>, <span class="caps">WDAY</span>, <span class="caps">WDC</span>, and <span class="caps">ZNGA</span>.</p>
 <p>[3] Workday (<span class="caps">WDAY</span>) is a SaaS company that offers a product to businesses, Paypal (<span class="caps">PYPL</span>) is a company that provides payments infrastructure supporting e-commerce, Amazon (<span class="caps">AMZN</span>) is an e-commerce company, Lam Research (<span class="caps">LRCX</span>) makes chips, and Hewlett-Packard (<span class="caps">HPQ</span>) makes computers. Each of these are representatives of a different&nbsp;sub-sector.</p>
-<p>[4] We can also get a sense of the compression error by plotting the compressed traces for one of the stocks. <a href="https://efavdb.github.io/wp-content/uploads/2018/06/sq.png"><img alt="sq" src="https://efavdb.github.io/wp-content/uploads/2018/06/sq.png"></a> The plot at right does this for Square inc. The ups and downs of <span class="caps">SQ</span> are largely captured by both methods. However, some refined details are lost in the compressions. Similar accuracy levels are seen for each of the other stocks in the full set (not shown&nbsp;here).</p>
+<p>[4] We can also get a sense of the compression error by plotting the compressed traces for one of the stocks. <a href="https://efavdb.com/wp-content/uploads/2018/06/sq.png"><img alt="sq" src="https://efavdb.com/wp-content/uploads/2018/06/sq.png"></a> The plot at right does this for Square inc. The ups and downs of <span class="caps">SQ</span> are largely captured by both methods. However, some refined details are lost in the compressions. Similar accuracy levels are seen for each of the other stocks in the full set (not shown&nbsp;here).</p>
 <p>[5] The missing twentieth member of the G20 is the <span class="caps">EU</span>. We don&#8217;t consider the <span class="caps">EU</span> here simply because the site we scraped from does not have a page dedicated to&nbsp;it.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -342,11 +342,11 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Linear%20compression%20in%20python%3A%20PCA%20vs%20unsupervised%20feature%C2%A0selection&url=https%3A//efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect&hashtags=linselect,methods,python" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Linear%20compression%20in%20python%3A%20PCA%20vs%20unsupervised%20feature%C2%A0selection&url=https%3A//efavdb.com/unsupervised-feature-selection-in-python-with-linselect&hashtags=linselect,methods,python" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/unsupervised-feature-selection-in-python-with-linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Linear%20compression%20in%20python%3A%20PCA%20vs%20unsupervised%20feature%C2%A0selection&amp;body=https%3A//efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Linear%20compression%20in%20python%3A%20PCA%20vs%20unsupervised%20feature%C2%A0selection&amp;body=https%3A//efavdb.com/unsupervised-feature-selection-in-python-with-linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -375,8 +375,8 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect"
-                   href="https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect"
+                   href="https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -394,8 +394,8 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect';
-    var disqus_url = 'https://efavdb.github.io/unsupervised-feature-selection-in-python-with-linselect';
+    var disqus_identifier = 'https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect';
+    var disqus_url = 'https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -419,8 +419,8 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/linselect-demo" title="Previous: linselect demo: a tech sector stock analysis">linselect demo: a tech sector stock analysis</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/the-speed-of-traffic" title="Next: The speed of traffic">The speed of traffic</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/linselect-demo" title="Previous: linselect demo: a tech sector stock analysis">linselect demo: a tech sector stock analysis</a></li>
+                <li class="next-article"><a href="https://efavdb.com/the-speed-of-traffic" title="Next: The speed of traffic">The speed of traffic</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -429,16 +429,16 @@ This result is easy enough to confirm using (\ref{A4}). What (\ref{A5}) means ge
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2018-08-11T07:30:00-07:00">Aug 11, 2018</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#linselect-ref">linselect</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#linselect-ref">linselect</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.github.io/tags.html#linselect-ref">linselect
+                <li><a href="https://efavdb.com/tags.html#linselect-ref">linselect
                     <span>2</span>
 </a></li>
-                <li><a href="https://efavdb.github.io/tags.html#methods-ref">methods
+                <li><a href="https://efavdb.com/tags.html#methods-ref">methods
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.github.io/tags.html#python-ref">python
+                <li><a href="https://efavdb.com/tags.html#python-ref">python
                     <span>3</span>
 </a></li>
             </ul>

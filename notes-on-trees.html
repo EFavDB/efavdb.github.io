@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Machine Learning Methods: Decision trees and forests "/>
-<meta property="og:url" content="https://efavdb.github.io/notes-on-trees" />
+<meta property="og:url" content="https://efavdb.com/notes-on-trees" />
 <meta property="og:description" content="This post contains our crib notes on the basics of decision trees and forests. We first discuss the construction of individual trees, and then introduce random and boosted forests. We also discuss efficient implementations of greedy tree construction algorithms, showing that a single tree can be constructed in \(O(k …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/notes-on-trees">
+            <a href="https://efavdb.com/notes-on-trees">
                 Machine Learning Methods: Decision trees and&nbsp;forests
             </a>
         </h1>
@@ -82,7 +82,7 @@
             <p>This post contains our crib notes on the basics of decision trees and forests. We first discuss the construction of individual trees, and then introduce random and boosted forests. We also discuss efficient implementations of greedy tree construction algorithms, showing that a single tree can be constructed in <span class="math">\(O(k \times n \log n)\)</span> time, given <span class="math">\(n\)</span> training examples having <span class="math">\(k\)</span> features each. We provide exercises on interesting related points and an appendix containing relevant python/sk-learn function&nbsp;calls.  </p>
 <h2><strong>Introduction</strong></h2>
 <p>Decision trees constitute a class of simple functions that are frequently used for carrying out regression and classification. They are constructed by hierarchically splitting a feature space into disjoint regions, where each split divides into two one of the already existing regions. In most common implementations, the splits are always taken along one of the feature axes, which causes the regions to be rectangular in shape. An example is shown in Fig. 1 below. In this example, a two-dimensional feature space is first split by a tree on <span class="math">\(f_1\)</span> &#8212; one of the two features characterizing the space &#8212; at value <span class="math">\(s_a\)</span>. This separates the space into two sets, that where <span class="math">\(f_1 &lt; s_a\)</span> and that where <span class="math">\(f_1 \geq s_a\)</span>. Next, the tree further splits the first of these sets on feature <span class="math">\(f_2\)</span> at value <span class="math">\(s_b\)</span>. With these combined splits, the tree partitions the space into three disjoint regions, labeled <span class="math">\(R_1, R_2,\)</span> and <span class="math">\(R_3\)</span>, where, e.g., <span class="math">\(R_1 = \{ \textbf{f} \vert f_1 &lt; s_a, f_2 &lt; s_b \}\)</span>.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/tree1.jpg"><img alt="tree1" src="https://efavdb.github.io/wp-content/uploads/2015/03/tree1.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/tree1.jpg"><img alt="tree1" src="https://efavdb.com/wp-content/uploads/2015/03/tree1.jpg"></a></p>
 <p>Once a decision tree is constructed, it can be used for making predictions on unlabeled feature vectors &#8212; i.e., points in feature space not included in our training set. This is done by first deciding which of the regions a new feature vector belongs to, and then returning as its hypothesis label an average over the training example labels within that region: The mean of the region&#8217;s training labels is returned for regression problems and the mode for classification problems. For instance, the tree in Fig. 1 would return an average of the five training examples in <span class="math">\(R_1\)</span> (represented by red dots) when asked to make a hypothesis for any and all other points in that&nbsp;region.</p>
 <p>The art and science of tree construction is in deciding how many splits should be taken and where those splits should take place. The goal is to find a tree that provides a reasonable, piece-wise constant approximation to the underlying distribution or function that has generated the training data provided. This can be attempted through choosing a tree that breaks space up into regions such that the examples in any given region have identical &#8212; or at least similar &#8212; labels. We discuss some common approaches to finding such trees in the next&nbsp;section.</p>
 <p>Individual trees have the important benefit of being easy to interpret and visualize, but they are often not as accurate as other common machine learning algorithms. However, individual trees can be used as simple building blocks with which to construct more complex, competitive models. In the third section of this note, we discuss three very popular constructions of this sort: bagging, random forests (a variant on bagging), and boosting. We then discuss the runtime complexity of tree/forest construction and conclude with a summary, exercises, and an appendix containing example python&nbsp;code.</p>
@@ -100,7 +100,7 @@ where <span class="math">\(\overline{y}_{R_i}\)</span> is the mean training labe
 <li><em>Greedy algorithm</em>: The tree is constructed recursively, one branching step at a time. At each step, one takes the split that will most significantly reduce the cost function <span class="math">\(J\)</span>, relative to its current value. In this way, after <span class="math">\(k-1\)</span> splits, a tree with <span class="math">\(k\)</span> regions (leaves) is obtained &#8212; Fig. 2 provides an illustration of this process. The algorithm terminates whenever some specified stopping criterion is satisfied, examples of which are given&nbsp;below.</li>
 <li><em>Randomized algorithm</em>: Randomized tree-search protocols can sometimes find global minima inaccessible to the gradient-descent-like greedy algorithm. These randomized protocols also proceed recursively. However, at each step, some randomization is introduced by hand. For example, one common approach is to select <span class="math">\(r\)</span> candidate splits through random sampling at each branching point. The candidate split that most significantly reduces <span class="math">\(J\)</span> is selected, and the process repeats. The benefit of this approach is that it can sometimes find paths that appear suboptimal in their first few steps, but are ultimately&nbsp;favorable.</li>
 </ul>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/treebuild.jpg"><img alt="treebuild" src="https://efavdb.github.io/wp-content/uploads/2015/03/treebuild.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/treebuild.jpg"><img alt="treebuild" src="https://efavdb.com/wp-content/uploads/2015/03/treebuild.jpg"></a></p>
 <h4><strong>Classification</strong></h4>
 <p>In classification problems, the training labels take on a discrete set of values, often having no numerical significance. This means that a squared-error cost function, like that in (\ref{treecost}) &#8212; cannot be directly applied as a useful accuracy score for guiding classification tree construction. Instead, three other cost functions are often considered, each providing a different measure of the class purity of the different regions &#8212; that is, they attempt to measure whether or not a given region consists of training examples that are mostly of the same class. These three measures are the error rate (<span class="math">\(E\)</span>), the Gini index (<span class="math">\(G\)</span>), and the cross-entropy (<span class="math">\(CE\)</span>): If we write <span class="math">\(N_i\)</span> for the number of training examples in region <span class="math">\(R_i\)</span>, and <span class="math">\(p_{i,j}\)</span> for the fraction of these that have class label <span class="math">\(j\)</span>, then these three cost functions are given by<br>
 </p>
@@ -111,7 +111,7 @@ CE &amp;=&amp; - \sum_{R_i, j} N_i \times p_{i,j} \log p_{i,j}.
 \end{eqnarray}</div>
 <p><br>
 Each of the summands here are plotted in Fig. 3 for the special case of binary classification (two labels only). Each is unfavorably maximized at the most mixed state, where <span class="math">\(p_1 = 0.5\)</span>, and minimized in the pure states, where <span class="math">\(p_1 = 0,1\)</span>.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/tree_errors.jpg"><img alt="tree_errors" src="https://efavdb.github.io/wp-content/uploads/2015/03/tree_errors.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/tree_errors.jpg"><img alt="tree_errors" src="https://efavdb.com/wp-content/uploads/2015/03/tree_errors.jpg"></a></p>
 <p>Although <span class="math">\(E\)</span> is perhaps the most intuitive of the three measures above (it&#8217;s simply the number of training examples misclassified by the tree &#8212; this follows from the fact that the tree returns as hypothesis the mode in each region) the latter two have the benefit of being characterized by negative curvature as a function of the <span class="math">\(p_{i,j}\)</span>. This property tends to enhance the favorability of splits that generate region pairs where at least one is highly pure. At times, this can simultaneously result in the other region of the pair ending up relatively impure &#8212; see Exercise 1 for details. Such moves are often ultimately beneficial, since any highly impure node that results can always be broken up in later splits anyways. The plot in Fig. 3 shows that the cross-entropy has the larger curvature of the two, and so should more highly favor such splits, at least in the binary classification case. Another nice feature of the Gini and cross-entropy functions is that &#8212; in contrast to the error rate &#8212; they are both smooth functions of the <span class="math">\(p_{i,j}\)</span>, which facilitates numerical optimization. For these reasons, one of these two functions is typically used to guide tree construction, even if <span class="math">\(E\)</span> is the quantity one would actually like to minimize. Tree construction proceeds as in the regression case, typically by a greedy or randomized construction, each step taken so as to minimize (\ref{gini}) or (\ref{crossentropy}), whichever is&nbsp;chosen.</p>
 <h4><strong>Bias-variance trade-off and stopping&nbsp;conditions</strong></h4>
 <p>Decision trees that are allowed to split indefinitely will have low bias but will over-fit their training data. Placing different stopping criteria on a tree&#8217;s growth can ameliorate this latter effect. Two typical conditions often used for this purpose are given by a) placing an upper bound on the number of levels permitted in the tree, or b) requiring that each region (tree leaf) retains at least some minimum number of training examples. To optimize over such constraints, one can apply&nbsp;cross-validation.</p>
@@ -142,7 +142,7 @@ Here, <span class="math">\(\alpha\)</span> is the scaling factor, or learning ra
 <p>Consider the problem of greedily training a single classification tree on a set of <span class="math">\(n\)</span> training examples having <span class="math">\(k\)</span> features. In order to construct our tree, we take as a first step the sorting of the <span class="math">\(n\)</span> training vectors along each of the <span class="math">\(k\)</span> directions, which will facilitate later optimal split searches. Recall that optimized algorithms, e.g. <a href="http://en.wikipedia.org/wiki/Merge_sort">merge-sort</a>, require <span class="math">\(O(n \log n)\)</span> time to sort along any one feature direction, so sorting along all <span class="math">\(k\)</span> will require <span class="math">\(O(k \times n \log n)\)</span> time. After this pre-sort step is complete, we must seek the currently optimal split, carry it out, and then iterate. We will show that &#8212; with care &#8212; the full iterative process can also be carried out in <span class="math">\(O(k \times n \log n)\)</span>&nbsp;time.</p>
 <p>Focus on an intermediate moment in the construction process where one particular node has just been split, resulting in two new regions, <span class="math">\(R_1\)</span> and <span class="math">\(R_2\)</span> containing <span class="math">\(n_{R_1}\)</span> and <span class="math">\(n_{R_2}\)</span> training examples, respectively. We can assume that we have already calculated and stored the optimal split for every other region in the tree during prior iterations. Therefore, to determine which region contains the next optimal split, the only new searches we need to carry out are within regions <span class="math">\(R_1\)</span> and <span class="math">\(R_2\)</span>. Focus on <span class="math">\(R_1\)</span> and suppose that we have been passed down the following information characterizing it: the number of training examples of each class that it contains, its total number of training examples <span class="math">\(n_{R_1}\)</span>, its cost function value <span class="math">\(J\)</span> (cross entropy, say), and for each of the <span class="math">\(k\)</span> feature directions, a separate list of the region&#8217;s examples, sorted along that direction. To find the optimal split, we must consider all <span class="math">\(k \times (n_{R_1}-1)\)</span> possible cuts of this region [<em>Aside</em>: We must check all possible cuts because the cost function can have many local minima. The precludes the use of gradient-descent-like algorithms to find the optimal split.], evaluating the cost function reduction for&nbsp;each.</p>
 <p>The left side of Fig. 4 illustrates one method for efficiently carrying out these test cuts: For each feature direction, we proceed sequentially through that direction&#8217;s ordered list, considering one cut at a time. In the first cut, we take only one example in the left sub-region induced, and all others on the right. In the second cut, we have the first two examples in the left sub-region, etc. Proceeding in this way, it turns out that the cost function of each new candidate split considered can always be evaluated in <span class="math">\(O(1)\)</span> time. This is because we start with knowledge of the cost function <span class="math">\(J\)</span> before any cut is taken, and the cost functions we consider here can each be updated in <span class="math">\(O(1)\)</span> time whenever only a single example is either added to or removed from a given region &#8212; see exercises 3 and 4 for details. Using this approach, we can therefore try all possible cuts of region <span class="math">\(R_1\)</span> in <span class="math">\(O(k \times n_{R_1})\)</span>&nbsp;time.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/tree_complexity.jpg"><img alt="tree_complexity" src="https://efavdb.github.io/wp-content/uploads/2015/03/tree_complexity.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/tree_complexity.jpg"><img alt="tree_complexity" src="https://efavdb.com/wp-content/uploads/2015/03/tree_complexity.jpg"></a></p>
 <p>The above analysis gives the time needed to search for the optimal split within <span class="math">\(R_1\)</span>, and a similar form holds for <span class="math">\(R_2\)</span>. Once these are determined, we can quickly select the current, globally-optimal split [<em>Aside</em>: Using a heap data structure, the global minimum can be obtained in at most <span class="math">\(O(\log n)\)</span> time. Summing this effort over all nodes of the tree will lead to roughly <span class="math">\(O(n \log n)\)</span> evaluations.]. Carrying out this split entails partitioning the region selected into two and passing the necessary information down to each. We leave as an exercise the fact that the passing of needed information &#8212; ordered lists, etc. &#8212; can be carried out in <span class="math">\(O(k \times n_s)\)</span> time, with <span class="math">\(n_s\)</span> the size of the parent region being split. The total tree construction time can now be obtained by summing up each node&#8217;s search and split work, which both require <span class="math">\(O(k \times n_s\)</span>) computations. Assuming a roughly balanced tree having about <span class="math">\(\log n\)</span> layers &#8212; see right side of Fig. 4 &#8212; we obtain <span class="math">\(O(k \times n \log n)\)</span>, the runtime scaling&nbsp;advertised.</p>
 <p>In summary, we see that achieving <span class="math">\(O(k \times n \log n)\)</span> scaling requires a) a pre-sort, b) a data structure for storing certain important facts about each region, including its optimal split, once determined, and also pointers to its parent and children, c) an efficient method for passing relevant information down to daughter regions during a split instance, d) a heap to enable quick selection of the currently optimal split, and e) a cost function that can be updated efficiently under single training example insertions or&nbsp;removals.</p>
 <h4><strong>Forests,&nbsp;parallelization</strong></h4>
@@ -151,7 +151,7 @@ Here, <span class="math">\(\alpha\)</span> is the scaling factor, or learning ra
 <p>In this note, we&#8217;ve quickly reviewed the basics of tree-based models and their constructions. Looking back over what we have learned, we can now consider some of the reasons why tree-based methods are so popular among practitioners. First &#8212; and very importantly &#8212; individual trees are often useful for gaining insight into the geometry of datasets in high dimensions. This is because tree structures can be visualized using simple diagrams, like that in Fig. 1. In contrast, most other machine learning algorithm outputs cannot be easily visualized &#8212; consider, e.g., support-vector machines, which return hyper-plane decision boundaries. A related point is that tree-based approaches are able to automatically fit non-linear decision boundaries. In contrast, linear algorithms can only fit such boundaries if appropriate non-linear feature combinations are constructed. This requires that one first identify these appropriate feature combinations, which can be a challenging task for feature spaces that cannot be directly visualized. Three additional positive qualities of decision trees are given by a) the fact that they are insensitive to feature scale, which reduces the need for related data preprocessing, b) the fact that they can make use of data missing certain feature values, and c) that they are relatively robust against outliers and noisy-labeling&nbsp;issues.</p>
 <p>Although boosted and random forests are not as easily visualized as individual decision trees, these ensemble methods are popular because they are often quite competitive. Boosted forests typically have a slightly lower generalization error than their random forest counterparts. For this reason, they are often used when accuracy is highly-valued &#8212; see Fig. 5 for an example learning curve consistent with this rule of thumb: Generalization error rate versus training set size for a hand-written digits learning problem. However, the individual trees in a bagged forest can be constructed in parallel. This benefit &#8212; not shared by boosted forests &#8212; can favor random forests as a go-to, out-of-box approach for treating large-scale machine learning&nbsp;problems.</p>
 <p>Exercises follow that detail some further points of interest relating to decision trees and their&nbsp;construction.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/tree_learning.jpg"><img alt="tree_learning" src="https://efavdb.github.io/wp-content/uploads/2015/03/tree_learning.jpg"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/tree_learning.jpg"><img alt="tree_learning" src="https://efavdb.com/wp-content/uploads/2015/03/tree_learning.jpg"></a></p>
 <h4><strong>References</strong></h4>
 <p>[1] <a href="http://statweb.stanford.edu/~tibs/ElemStatLearn/">Elements of Statistical Learning</a>, by Hastie, Tibshirani, Friedman<br>
 [2] <a href="http://www-bcf.usc.edu/~gareth/ISL/">An Introduction to Statistical Learning</a>, by James, Witten, Hastie, and Tibshirani<br>
@@ -365,11 +365,11 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Machine%20Learning%20Methods%3A%20Decision%20trees%20and%C2%A0forests&url=https%3A//efavdb.github.io/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Machine%20Learning%20Methods%3A%20Decision%20trees%20and%C2%A0forests&url=https%3A//efavdb.com/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Machine%20Learning%20Methods%3A%20Decision%20trees%20and%C2%A0forests&amp;body=https%3A//efavdb.github.io/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Machine%20Learning%20Methods%3A%20Decision%20trees%20and%C2%A0forests&amp;body=https%3A//efavdb.com/notes-on-trees" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -398,8 +398,8 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/notes-on-trees"
-                   href="https://efavdb.github.io/notes-on-trees#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/notes-on-trees"
+                   href="https://efavdb.com/notes-on-trees#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -417,8 +417,8 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/notes-on-trees';
-    var disqus_url = 'https://efavdb.github.io/notes-on-trees';
+    var disqus_identifier = 'https://efavdb.com/notes-on-trees';
+    var disqus_url = 'https://efavdb.com/notes-on-trees';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -442,8 +442,8 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/nba-week-17-summary-week-18-predictions" title="Previous: NBA week 17 summary, week 18 predictions">NBA week 17 summary, week 18 predictions</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/nba-week-18-summary-week-19-predictions" title="Next: NBA week 18 summary, week 19 predictions">NBA week 18 summary, week 19 predictions</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/nba-week-17-summary-week-18-predictions" title="Previous: NBA week 17 summary, week 18 predictions">NBA week 17 summary, week 18 predictions</a></li>
+                <li class="next-article"><a href="https://efavdb.com/nba-week-18-summary-week-19-predictions" title="Next: NBA week 18 summary, week 19 predictions">NBA week 18 summary, week 19 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -452,7 +452,7 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-03-13T09:40:00-07:00">Mar 13, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

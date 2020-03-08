@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Case studies, " />
 
 <meta property="og:title" content="Forecasting Bike Sharing Demand "/>
-<meta property="og:url" content="https://efavdb.github.io/bike-share-forecasting" />
+<meta property="og:url" content="https://efavdb.com/bike-share-forecasting" />
 <meta property="og:description" content="In today’s post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand — a problem posed in a recent Kagglecompetition. For those not familiar, Kaggle is a site where one can compete with other data scientists on various data challenges. Top scorers …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/bike-share-forecasting">
+            <a href="https://efavdb.com/bike-share-forecasting">
                 Forecasting Bike Sharing&nbsp;Demand
             </a>
         </h1>
@@ -299,7 +299,7 @@ Here,</p>
 </pre></div>
 
 
-<p><img alt="Error vs Number of Estimators" src="https://efavdb.github.io/wp-content/uploads/2015/03/figure_1-e1427234375629.png"></p>
+<p><img alt="Error vs Number of Estimators" src="https://efavdb.com/wp-content/uploads/2015/03/figure_1-e1427234375629.png"></p>
 <p>Notice in the plot that by the time the number estimators in our <span class="caps">GBM</span> reaches about 80, the error of our model as applied to the validation set starts to slowly increase, though the error on the training set continues to decrease steadily. The diagnosis is that the model begins to overfit at this point. Moving forward, we will set n_estimators to 80, rather than 500, the value we were using above. Reducing the number of estimators reduced the calculated error and moved us to a higher position on the&nbsp;leaderboard.</p>
 <h2><strong>Separate models for registered and casual&nbsp;users</strong></h2>
 <p>Reviewing the data, we see that we have info regarding two types of riders: casual and registered riders. It is plausible that each group&#8217;s behavior differs, and that we might be able to improve our performance by modeling each separately. Below, we carry this out, and then also merge the two group&#8217;s predicted values to obtain a net predicted demand. We also repeat the hyperparameter sweep steps covered above &#8212; this returned similar values. Resubmitting the resulting model, we found we had increased our standing in the competition by a few&nbsp;percent.</p>
@@ -327,7 +327,7 @@ Here,</p>
 
 
 <p>The last step is to submit a final set of model predictions, this time training on the full labeled dataset provided. With these simple steps, we ended up in the top 11% on the competition&#8217;s leaderboard with a rank of&nbsp;280/2467!</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2015/03/score.png"><img alt="score" src="https://efavdb.github.io/wp-content/uploads/2015/03/score.png"></a></p>
+<p><a href="https://efavdb.com/wp-content/uploads/2015/03/score.png"><img alt="score" src="https://efavdb.com/wp-content/uploads/2015/03/score.png"></a></p>
 <div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">pre</span><span class="o">&gt;</span>
 <span class="n">est_casual</span> <span class="o">=</span> <span class="n">ensemble</span><span class="o">.</span><span class="n">GradientBoostingRegressor</span><span class="p">(</span>
 <span class="n">n_estimators</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">learning_rate</span> <span class="o">=</span> <span class="o">.</span><span class="mi">05</span><span class="p">,</span> <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span><span class="n">min_samples_leaf</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span>
@@ -345,7 +345,7 @@ Here,</p>
 
 <p><strong><span class="caps">DISCUSSION</span></strong></p>
 <p>By iteratively tuning a <span class="caps">GBM</span>, we were able to quickly climb the leaderboard for this particular Kaggle competition. With further feature extraction work, we believe further improvements could readily be made. However, our goal here was only to practice our rapid development skills, so we won&#8217;t be spending much time on further fine-tuning. At any rate, our results have convinced us that simple boosted models can often provide excellent&nbsp;results.</p>
-<p><a href="https://github.com/EFavDB/bike-forecast" title="GitHub Repo"><img alt="Open GitHub Repo" src="https://efavdb.github.io/wp-content/uploads/2015/03/GitHub_Logo.png"></a>
+<p><a href="https://github.com/EFavDB/bike-forecast" title="GitHub Repo"><img alt="Open GitHub Repo" src="https://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"></a>
 Open GitHub&nbsp;Repo</p>
 <p>Note: With this post, we have begun to post our python scripts and data at GitHub. Clicking on the icon at left will take you to our repository. Feel free to stop by and take a&nbsp;look!</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -416,11 +416,11 @@ Open GitHub&nbsp;Repo</p>
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Forecasting%20Bike%20Sharing%C2%A0Demand&url=https%3A//efavdb.github.io/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Forecasting%20Bike%20Sharing%C2%A0Demand&url=https%3A//efavdb.com/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Forecasting%20Bike%20Sharing%C2%A0Demand&amp;body=https%3A//efavdb.github.io/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Forecasting%20Bike%20Sharing%C2%A0Demand&amp;body=https%3A//efavdb.com/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -449,8 +449,8 @@ Open GitHub&nbsp;Repo</p>
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/bike-share-forecasting"
-                   href="https://efavdb.github.io/bike-share-forecasting#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/bike-share-forecasting"
+                   href="https://efavdb.com/bike-share-forecasting#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -468,8 +468,8 @@ Open GitHub&nbsp;Repo</p>
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/bike-share-forecasting';
-    var disqus_url = 'https://efavdb.github.io/bike-share-forecasting';
+    var disqus_identifier = 'https://efavdb.com/bike-share-forecasting';
+    var disqus_url = 'https://efavdb.com/bike-share-forecasting';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -493,8 +493,8 @@ Open GitHub&nbsp;Repo</p>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/nba-week-18-summary-week-19-predictions" title="Previous: NBA week 18 summary, week 19 predictions">NBA week 18 summary, week 19 predictions</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/nba-week-19-summary-week-20-predictions" title="Next: NBA week 19 summary, week 20 predictions">NBA week 19 summary, week 20 predictions</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/nba-week-18-summary-week-19-predictions" title="Previous: NBA week 18 summary, week 19 predictions">NBA week 18 summary, week 19 predictions</a></li>
+                <li class="next-article"><a href="https://efavdb.com/nba-week-19-summary-week-20-predictions" title="Next: NBA week 19 summary, week 20 predictions">NBA week 19 summary, week 20 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -503,7 +503,7 @@ Open GitHub&nbsp;Repo</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-03-26T09:20:00-07:00">Mar 26, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#case-studies-ref">Case studies</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#case-studies-ref">Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

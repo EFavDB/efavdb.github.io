@@ -12,7 +12,7 @@
 <meta name="keywords" content="programming, visualization, Tools, " />
 
 <meta property="og:title" content="Processing and processing.js tips and tricks in WordPress "/>
-<meta property="og:url" content="https://efavdb.github.io/processing-and-processing-js-tips-and-tricks" />
+<meta property="og:url" content="https://efavdb.com/processing-and-processing-js-tips-and-tricks" />
 <meta property="og:description" content="We recently developed our NBA dashboard in the programming language Processing. In addition, we have Processing apps in our post on classification without negative examples as well as our weekly NBA predictions. Here, we will briefly describe (and recommend) Processing and discuss some tips and tricks we have discovered in …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Dustin McIntosh" />
@@ -25,10 +25,10 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.github.io/theme/css/custom.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
 
-        <link href="https://efavdb.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
 
 
     </head>
@@ -42,19 +42,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.github.io/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.github.io
+                                       https://efavdb.com
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.github.io/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.github.io/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.github.io/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.github.io/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.github.io/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.github.io/processing-and-processing-js-tips-and-tricks">
+            <a href="https://efavdb.com/processing-and-processing-js-tips-and-tricks">
                 Processing and processing.js tips and tricks in&nbsp;WordPress
             </a>
         </h1>
@@ -85,7 +85,7 @@
 <p><strong>Processing&nbsp;Intro</strong></p>
 <p>Your browser does not support the canvas&nbsp;tag.</p>
 <p>JavaScript is required to view the contents of this&nbsp;page.</p>
-<p>Processing is a high-level language built on top of java designed for producing neat interactive visualizations of ideas, data, and art.  A major benefit of Processing is that it is extremely accessible (see for example, <a href="http://it-ebooks.info/book/244/">this ebook</a> by <a href="http://reas.com/">Reas</a>and <a href="http://benfry.com/">Fry</a>): while it can now be used to produce considerably sophisticated visualizations, it was originally developed as a tool for teaching programming to people with little to no experience with computers (e.g., visual arts students). The little guy above is an example of a processing app. You can find the (remarkably simple) code for it <a href="https://efavdb.github.io/wp-content/uploads/sketches/testSketch2/testSketch2.pde">here</a> (we found this example in <a href="http://processingjs.org/articles/p5QuickStart.html">this tutorial</a>).</p>
+<p>Processing is a high-level language built on top of java designed for producing neat interactive visualizations of ideas, data, and art.  A major benefit of Processing is that it is extremely accessible (see for example, <a href="http://it-ebooks.info/book/244/">this ebook</a> by <a href="http://reas.com/">Reas</a>and <a href="http://benfry.com/">Fry</a>): while it can now be used to produce considerably sophisticated visualizations, it was originally developed as a tool for teaching programming to people with little to no experience with computers (e.g., visual arts students). The little guy above is an example of a processing app. You can find the (remarkably simple) code for it <a href="https://efavdb.com/wp-content/uploads/sketches/testSketch2/testSketch2.pde">here</a> (we found this example in <a href="http://processingjs.org/articles/p5QuickStart.html">this tutorial</a>).</p>
 <p>For people with technical backgrounds, you can be up and developing basic programs in a matter of hours (or perhaps even minutes). Here, our programming language of choice is typically Python and, fortunately, the people at Processing recently implemented <a href="http://py.processing.org">Python-mode</a> which made our transition all the more smooth (see Quirks below before you get too excited about this, however).  In just a couple of days we were able to build a quick prototype of our tool. Porting it to the web, however, we found to be a bit more&nbsp;difficult.</p>
 <p><strong>Processing in WordPress&nbsp;Tutorial</strong></p>
 <p>We spent some time trying to figure out how to get everything working in WordPress. We thought it would be useful to outline the steps below for others interested in getting some Processing-based dynamic content on their own blog. In the end it is very straight forward, but getting some more advanced features of Processing (e.g., importing external images or data files) to work on the web requires some tricks which we will tackle in the next&nbsp;section.</p>
@@ -96,7 +96,7 @@
 
 
 <p>You can change this file using your dashboard in the Appearance - Editor menu, selecting &#8220;Header (header.php)&#8221; for the Template (see this screenshot - the first line is a comment).
-<a href="https://efavdb.github.io/wp-content/uploads/2014/12/WordPressHeader.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2014/12/WordPressHeader.png"></a></p>
+<a href="https://efavdb.com/wp-content/uploads/2014/12/WordPressHeader.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2014/12/WordPressHeader.png"></a></p>
 <p>​3. Upload your pde script(s) to your server and they can be referenced using code like the following (replace the urls to point to your pde&nbsp;scripts):</p>
 <div class="highlight"><pre><span></span><span class="x">&lt;canvas id=&quot;testsketch&quot; class=&quot;alignright&quot; data-processing-sources=</span>
 <span class="x">&quot;{static}/wp-content/uploads/sketches/testSketch2/testSketch2.pde</span>
@@ -115,7 +115,7 @@
 <p>​2) In order to load images for display in your app (if applicable), you will have to use the <a href="http://processingjs.org/reference/preload/">preload directive</a> in your pde script.  This comes in the form a of a comment at the top of the script: <em>/</em> @pjs preload=&#8221;url_to_myimage.jpg&#8221;; <em>/</em>. The &#8220;@pjs&#8221; tags this comment for processing.js to read and execute before the rest of the script runs.  It forces the browser to complete downloading and caching of the image before attempting to use&nbsp;it.</p>
 <p>​3) We could not figure out a clean way of importing data from an external file (e.g., in csv or txt format).  Instead, we found that saving the external data in Javascript format in a separate pde file and running that file in addition to your main script (see step 3 from the tutorial above) worked well. As an example, <a href="http://efavdb.com/wp-content/uploads/nba/completed.pde">here</a> is a pde file that we use to feed in the results of <span class="caps">NBA</span> games that have already been played this season into our <span class="caps">NBA</span> dashboard. We scrape this data off the web and run a preprocessing python script to get the data in this format and save the completed.pde&nbsp;file.</p>
 <p>​4) As a security precaution, many browsers (e.g., Chrome) won’t run a sketch that links to images or data stored on a separate server. As a consequence, when developing a sketch on your computer that links to data on your server, it may appear to not be working, even if coded properly. It&#8217;s easy to misinterpret this issue as a bug, so keep it in mind. One way to avoid this is to try running your sketch in other browsers. Regardless, once a sketch is uploaded to your server, the sketch should work fine on any&nbsp;browser.</p>
-<p><a href="https://efavdb.github.io/wp-content/uploads/2014/12/mouseDisplacement.png"><img alt="" src="https://efavdb.github.io/wp-content/uploads/2014/12/mouseDisplacement.png"></a> 5) Interestingly, when logged in to WordPress, we have found that the Processing apps work, but function as if the mouse were several pixels lower than it actually is. This symptom is only apparent when logged in to WordPress and viewing the page (see example screenshot at&nbsp;right).</p>
+<p><a href="https://efavdb.com/wp-content/uploads/2014/12/mouseDisplacement.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2014/12/mouseDisplacement.png"></a> 5) Interestingly, when logged in to WordPress, we have found that the Processing apps work, but function as if the mouse were several pixels lower than it actually is. This symptom is only apparent when logged in to WordPress and viewing the page (see example screenshot at&nbsp;right).</p>
 <p>​6) Processing has two rendering modes, <a href="https://www.processing.org/reference/smooth_.html">smooth</a> and not smooth. I believe the latter requires less memory to implement, and that this is why it exists. We prefer smooth drawing, and tried to implement this from the start. However, we recently discovered that if you apply coordinate transformations in your processing sketch (translations or rotations), the program forces back to the not smooth mode. This came as a surprise to us, since it&#8217;s not mentioned in any of the basic documentation. Our original <a href="http://efavdb.github.io/nba-dash"><span class="caps">NBA</span> wheel sketch</a> made use of a translation; we&#8217;ve reimplemented that without it, and see a marked aesthetic&nbsp;improvement.</p>
 <p>​7) We noticed that running our first <a href="http://efavdb.github.io/nba-dash"><span class="caps">NBA</span> wheel sketch</a> would often cause a laptop to quickly heat up. This was due to the fact that we were having the sketch refresh with a frame rate of about 30 hz, which is totally unnecessary for this particular application. Changing the draw program so that the image refreshes only when some new information is requested totally fixed our heating&nbsp;issues.</p>
 
@@ -124,11 +124,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Processing%20and%20processing.js%20tips%20and%20tricks%20in%C2%A0WordPress&url=https%3A//efavdb.github.io/processing-and-processing-js-tips-and-tricks&hashtags=programming,visualization" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Processing%20and%20processing.js%20tips%20and%20tricks%20in%C2%A0WordPress&url=https%3A//efavdb.com/processing-and-processing-js-tips-and-tricks&hashtags=programming,visualization" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.github.io/processing-and-processing-js-tips-and-tricks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/processing-and-processing-js-tips-and-tricks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Processing%20and%20processing.js%20tips%20and%20tricks%20in%C2%A0WordPress&amp;body=https%3A//efavdb.github.io/processing-and-processing-js-tips-and-tricks" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Processing%20and%20processing.js%20tips%20and%20tricks%20in%C2%A0WordPress&amp;body=https%3A//efavdb.com/processing-and-processing-js-tips-and-tricks" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -157,8 +157,8 @@
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.github.io/processing-and-processing-js-tips-and-tricks"
-                   href="https://efavdb.github.io/processing-and-processing-js-tips-and-tricks#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/processing-and-processing-js-tips-and-tricks"
+                   href="https://efavdb.com/processing-and-processing-js-tips-and-tricks#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -176,8 +176,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.github.io/processing-and-processing-js-tips-and-tricks';
-    var disqus_url = 'https://efavdb.github.io/processing-and-processing-js-tips-and-tricks';
+    var disqus_identifier = 'https://efavdb.com/processing-and-processing-js-tips-and-tricks';
+    var disqus_url = 'https://efavdb.com/processing-and-processing-js-tips-and-tricks';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -201,8 +201,8 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.github.io/nba-week-8-results-week-9-predictions" title="Previous: NBA week 8 results, week 9 predictions">NBA week 8 results, week 9 predictions</a></li>
-                <li class="next-article"><a href="https://efavdb.github.io/nba-week-9-summary-week-10-predictions" title="Next: NBA week 9 summary, week 10 predictions">NBA week 9 summary, week 10 predictions</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/nba-week-8-results-week-9-predictions" title="Previous: NBA week 8 results, week 9 predictions">NBA week 8 results, week 9 predictions</a></li>
+                <li class="next-article"><a href="https://efavdb.com/nba-week-9-summary-week-10-predictions" title="Next: NBA week 9 summary, week 10 predictions">NBA week 9 summary, week 10 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -211,13 +211,13 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-01-05T00:12:00-08:00">Jan 5, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.github.io/categories.html#tools-ref">Tools</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#tools-ref">Tools</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.github.io/tags.html#programming-ref">programming
+                <li><a href="https://efavdb.com/tags.html#programming-ref">programming
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.github.io/tags.html#visualization-ref">visualization
+                <li><a href="https://efavdb.com/tags.html#visualization-ref">visualization
                     <span>1</span>
 </a></li>
             </ul>
