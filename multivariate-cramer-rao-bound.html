@@ -83,19 +83,20 @@
 <h3>Introduction and theorem&nbsp;statement</h3>
 <p>The analysis of data very frequently requires one to attempt to characterize a probability distribution. For instance, given some random, stationary process that generates samples <span class="math">\(\{x_i\}\)</span>, one might wish to estimate the mean <span class="math">\(\mu\)</span> of the probability distribution <span class="math">\(P\)</span> characterizing this process. To do this, one could construct an estimator function <span class="math">\(\hat{\mu}(\{x_i\})\)</span> &#8212; a function of some samples taken from <span class="math">\(P\)</span> &#8212; that is intended to provide an approximation to <span class="math">\(\mu\)</span>. Given <span class="math">\(n\)</span> samples, a natural choice is provided&nbsp;by
 </p>
-<div class="math">$$
+<div class="math">\begin{eqnarray}
 \hat{\mu}(\{x_i\}) = \frac{1}{n}\sum_{i = 1}^n x_i, \tag{1}
-$$</div>
+\end{eqnarray}</div>
 <p>
 the mean of the samples. This particular choice of estimator will always be unbiased given a stationary <span class="math">\(P\)</span> &#8212; meaning that it will return the correct result, on average. However, each particular sample set realization will return a slightly different mean estimate. This means that <span class="math">\(\hat{\mu}\)</span> is itself a random variable having its own distribution and&nbsp;width.</p>
 <p>More generally, one might be interested in a distribution characterized by a set of <span class="math">\(m\)</span> parameters <span class="math">\(\{\theta_i\}\)</span>. Consistently good estimates to these values require estimators with distributions that are tightly centered around the true <span class="math">\(\{\theta_i\}\)</span> values. The Cramer-Rao inequality tells us that there is a fundamental limit to how tightly centered such estimators can be, given only <span class="math">\(n\)</span> samples. We state the result&nbsp;below.</p>
-<p><strong>Theorem:</strong> <em>The multivariate Cramer-Rao inequality</em>.</p>
+<p><b>Theorem:</b> The multivariate Cramer-Rao&nbsp;inequality</p>
 <p>Let <span class="math">\(P\)</span> be a distribution characterized by a set of <span class="math">\(m\)</span> parameters <span class="math">\(\{\theta_i\}\)</span>, and let <span class="math">\(\{\hat{\theta_i}\equiv \hat{\theta_i}(\{x_i\})\}\)</span> be an unbiased set of estimator functions for these parameters. Then, the covariance matrix (see definition below) for the <span class="math">\(\hat{\{\theta_i\}}\)</span>&nbsp;satisfies,</p>
-<div class="math">$$ cov(\hat{\theta}, \hat{\theta}) \geq \frac{1}{n} \times \frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )}. \tag{2} \label{CR}
-$$</div>
+<div class="math">\begin{eqnarray} \tag{2} \label{cramer_rao_bound}
+cov(\hat{\theta}, \hat{\theta}) \geq \frac{1}{n} \times \frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )}.
+\end{eqnarray}</div>
 <p>Here, the inequality holds in the sense that left side of the above equation, minus the right, is positive semi-definite. We discuss the meaning and significance of this equation in the next&nbsp;section.</p>
 <h3>Interpretation of the&nbsp;result</h3>
-<p>To understand (\ref{<span class="caps">CR</span>}), we must first review a couple of definitions. These&nbsp;follow.</p>
+<p>To understand (\ref{cramer_rao_bound}), we must first review a couple of definitions. These&nbsp;follow.</p>
 <p><strong>Definition 1</strong>. Let <span class="math">\(\vec{u}\)</span> and <span class="math">\(\vec{v}\)</span> be two jointly-distributed vectors of stationary random variables. The covariance matrix of <span class="math">\(\vec{u}\)</span> and <span class="math">\(\vec{v}\)</span> is defined&nbsp;by
 </p>
 <div class="math">$$
@@ -110,7 +111,7 @@ where we use overlines for averages. In words, (\ref{cov}) states that <span cla
 $$</div>
 <p>
 for all real vectors <span class="math">\(\vec{a}\)</span>. It is positive definite if the &#8220;<span class="math">\(\geq\)</span>&#8221; above can be replaced by a &#8220;<span class="math">\(&gt;\)</span><span class="dquo">&#8220;</span>.</p>
-<p>The interesting consequences of (\ref{<span class="caps">CR</span>}) follow from the following&nbsp;observation:</p>
+<p>The interesting consequences of (\ref{cramer_rao_bound}) follow from the following&nbsp;observation:</p>
 <p><strong>Observation</strong>. For any constant vectors <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span>, we&nbsp;have
 </p>
 <div class="math">$$
@@ -118,15 +119,15 @@ cov(\vec{a}^T\cdot\vec{u}, \vec{b}^T \cdot \vec{v}) = \vec{a}^T \cdot cov(\vec{u
 $$</div>
 <p>
 This follows from the definition&nbsp;(\ref{cov}).</p>
-<p>Taking <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span> to both be along <span class="math">\(\hat{i}\)</span> in (\ref{fact}), and combining with (\ref{pd}), we see that (\ref{<span class="caps">CR</span>}) implies&nbsp;that
+<p>Taking <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span> to both be along <span class="math">\(\hat{i}\)</span> in (\ref{fact}), and combining with (\ref{pd}), we see that (\ref{cramer_rao_bound}) implies&nbsp;that
 </p>
 <div class="math">$$
 \sigma^2(\hat{\theta}_i^2) \geq \frac{1}{n} \times \left (\frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )} \right)_{ii},\tag{6}\label{CRsimple}
 $$</div>
 <p>
 where we use <span class="math">\(\sigma^2(x)\)</span> to represent the variance of <span class="math">\(x\)</span>. The left side of (\ref{CRsimple}) is the variance of the estimator function <span class="math">\(\hat{\theta}_i\)</span>, whereas the right side is a function of <span class="math">\(P\)</span> only. This tells us that there is fundamental &#8212; distribution-dependent &#8212; lower limit on the uncertainty one can achieve when attempting to estimate <em>any parameter characterizing a distribution</em>. In particular, (\ref{CRsimple}) states that the best variance one can achieve scales like <span class="math">\(O(1/n)\)</span>, where <span class="math">\(n\)</span> is the number of samples available<span class="math">\(^1\)</span> &#8212; very&nbsp;interesting!</p>
-<p>Why is there a relationship between the left and right matrices in (\ref{<span class="caps">CR</span>})? Basically, the right side relates to the inverse rate at which the probability of a given <span class="math">\(x\)</span> changes with <span class="math">\(\theta\)</span>: If <span class="math">\(P(x \vert \theta)\)</span> is highly peaked, the gradient of <span class="math">\(P(x \vert \theta)\)</span> will take on large values. In this case, a typical observation <span class="math">\(x\)</span> will provide significant information relating to the true <span class="math">\(\theta\)</span> value, allowing for unbiased <span class="math">\(\hat{\theta}\)</span> estimates that have low variance. In the opposite limit, where typical observations are not very <span class="math">\(\theta\)</span>-informative, unbiased <span class="math">\(\hat{\theta}\)</span> estimates must have large variance<span class="math">\(^2\)</span>.</p>
-<p>We now turn to the proof of (\ref{<span class="caps">CR</span>}).</p>
+<p>Why is there a relationship between the left and right matrices in (\ref{cramer_rao_bound})? Basically, the right side relates to the inverse rate at which the probability of a given <span class="math">\(x\)</span> changes with <span class="math">\(\theta\)</span>: If <span class="math">\(P(x \vert \theta)\)</span> is highly peaked, the gradient of <span class="math">\(P(x \vert \theta)\)</span> will take on large values. In this case, a typical observation <span class="math">\(x\)</span> will provide significant information relating to the true <span class="math">\(\theta\)</span> value, allowing for unbiased <span class="math">\(\hat{\theta}\)</span> estimates that have low variance. In the opposite limit, where typical observations are not very <span class="math">\(\theta\)</span>-informative, unbiased <span class="math">\(\hat{\theta}\)</span> estimates must have large variance<span class="math">\(^2\)</span>.</p>
+<p>We now turn to the proof of&nbsp;(\ref{cramer_rao_bound}).</p>
 <h3>Theorem&nbsp;proof</h3>
 <p>Our discussion here expounds on that in the <a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/mvahtmlframe74.html">online text</a> of Cízek, Härdle, and Weron. We start by deriving a few simple lemmas. We state and derive these sequentially&nbsp;below.</p>
 <p><strong>Lemma 1</strong> Let <span class="math">\(T_j(\{x_i\}) \equiv \partial_{\theta_j} \log P(\{x_i\}; \vec{\theta})\)</span> be a function of a set of independent sample values <span class="math">\(\{x_i\}\)</span>. Then, the average of <span class="math">\(T_j(\{x_i\})\)</span> is&nbsp;zero.</p>
@@ -160,7 +161,7 @@ where the last line follows from the fact that the <span class="math">\(\{x_i\}\
 <p><strong>Lemma 4</strong>. Let <span class="math">\(x\)</span> and <span class="math">\(y\)</span> be two scalar stationary random variables. Then, their correlation coefficient is defined to be <span class="math">\(\rho \equiv \frac{cov(x,y)}{\sigma(x) \sigma(y)}\)</span>. This&nbsp;satisfies
 </p>
 <div class="math">$$
--1 \leq \rho \leq 1 \label{CC} \tag{11}
+-1 \leq \rho \leq 1 \label{c_c} \tag{11}
 $$</div>
 <p><em>Proof:</em> Consider the variance of <span class="math">\(\frac{x}{\sigma(x)}+\frac{y}{\sigma(y)}\)</span>. This&nbsp;is
 </p>
@@ -171,7 +172,7 @@ var \left( \frac{x}{\sigma(x)}+\frac{y}{\sigma(y)} \right) &amp;= \frac{\sigma^2
 \end{align}
 $$</div>
 <p>
-This gives the left side of (\ref{<span class="caps">CC</span>}). Similarly, considering the variance of <span class="math">\(\frac{x}{\sigma(x)}-\frac{y}{\sigma(y)}\)</span> gives the right&nbsp;side.</p>
+This gives the left side of (\ref{c_c}). Similarly, considering the variance of <span class="math">\(\frac{x}{\sigma(x)}-\frac{y}{\sigma(y)}\)</span> gives the right&nbsp;side.</p>
 <p>We&#8217;re now ready to prove the Cramer-Rao&nbsp;result.</p>
 <p><strong>Proof of Cramer-Rao inequality</strong>. Consider the correlation coefficient of the two scalars <span class="math">\(\vec{a} \cdot \hat{\theta}\)</span> and <span class="math">\( \vec{b} \cdot \vec{T}\)</span>, with <span class="math">\(\vec{a}\)</span> and <span class="math">\(\vec{b}\)</span> some constant vectors. Using (\ref{fact}) and Lemma 2, this can be written&nbsp;as
 </p>
@@ -201,8 +202,8 @@ $$</div>
 <p>
 This holds for any \(\vec{a}\), implying that <span class="math">\(cov(\hat{\theta}, \hat{\theta}) - cov(\vec{T},\vec{T})^{-1}\)</span> is positive semi-definite &#8212; see (\ref{pd}). Applying Lemma 3, we obtain the result<span class="math">\(^3\)</span>. <span class="math">\(\blacksquare\)</span></p>
 <p>Thank you for reading &#8212; we hope you&nbsp;enjoyed.</p>
-<p>[1] More generally, (\ref{fact}) tells us that an observation similar to (\ref{CRsimple}) holds for any linear combination of the <span class="math">\(\{\theta_i\}\)</span>. Notice also that the proof we provide here could also be applied to any individual <span class="math">\(\theta_i\)</span>, giving <span class="math">\(\sigma^2(\hat{\theta}_i) \geq 1/n \times 1/\langle(\partial_{\theta_i} \log P)^2\rangle\)</span>. This is easier to apply than (\ref{<span class="caps">CR</span>}), but is less&nbsp;stringent.</p>
-<p>[2] It might be challenging to intuit the exact function that appears on the right side of <span class="math">\((\ref{CR})\)</span>. However, the appearance of <span class="math">\(\log P\)</span><span class="quo">&#8216;</span>s does make some intuitive sense, as it allows the derivatives involved to measure rates of change relative to typical values, <span class="math">\(\nabla_{\theta} P / P\)</span>.</p>
+<p>[1] More generally, (\ref{fact}) tells us that an observation similar to (\ref{CRsimple}) holds for any linear combination of the <span class="math">\(\{\theta_i\}\)</span>. Notice also that the proof we provide here could also be applied to any individual <span class="math">\(\theta_i\)</span>, giving <span class="math">\(\sigma^2(\hat{\theta}_i) \geq 1/n \times 1/\langle(\partial_{\theta_i} \log P)^2\rangle\)</span>. This is easier to apply than (\ref{cramer_rao_bound}), but is less&nbsp;stringent.</p>
+<p>[2] It might be challenging to intuit the exact function that appears on the right side of <span class="math">\((\ref{cramer_rao_bound})\)</span>. However, the appearance of <span class="math">\(\log P\)</span><span class="quo">&#8216;</span>s does make some intuitive sense, as it allows the derivatives involved to measure rates of change relative to typical values, <span class="math">\(\nabla_{\theta} P / P\)</span>.</p>
 <p>[3] The discussion here covers the &#8220;standard proof&#8221; of the Cramer-Rao result. Its brilliance is that it allows one to work with scalars. In contrast, when attempting to find my own proof, I began with the fact that all covariance matrices are positive definite. Applying this result to the covariance matrix of a linear combination of <span class="math">\(\hat{\theta}\)</span> and <span class="math">\(\vec{T}\)</span>, one can quickly get to results similar in form to the Cramer-Rao bound, but not quite identical. After significant work, I was eventually able to show that <span class="math">\(\sqrt{cov(\hat{\theta},\hat{\theta})} - 1/\sqrt{cov(\vec{T},\vec{T}) } \geq 0\)</span>. However, I have yet to massage my way to the final result using this approach &#8212; the difficulty being that the matrices involved don&#8217;t commute. By working with scalars from the start, the proof here cleanly avoids all such&nbsp;issues.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

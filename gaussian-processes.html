@@ -131,9 +131,9 @@ Here,
 <div class="math">\begin{eqnarray} \tag{6} \label{sigma_mat}
 \sigma^2 I_{00} \equiv
 \left( \begin{array}{cccc}
-\sigma_1^2 &amp; 0 &amp; \ldots &amp;0 \
-0 &amp; \sigma_2^2 &amp; \ldots &amp;0 \
-\ldots &amp; &amp; &amp; \
+\sigma_1^2 &amp; 0 &amp; \ldots &amp;0 \\
+0 &amp; \sigma_2^2 &amp; \ldots &amp;0 \\
+\ldots &amp; &amp; &amp; \\
 0 &amp; 0 &amp; \ldots &amp; \sigma_n^2
 \end{array} \right),
 \end{eqnarray}</div>
@@ -149,20 +149,20 @@ and <span class="math">\(\textbf{y}\)</span> is the length-<span class="math">\(
 <p>The code for our <code>SimpleGP</code> fitter class is available on our <a href="https://github.com/EFavDB/gaussian_processes">GitHub</a>. We&#8217;ll explain a bit how this works below, but those interested in the details should examine the code &#8212; it&#8217;s a short script and should be largely&nbsp;self-explanatory.</p>
 <h4>Intervals</h4>
 <p>The code snippet below initializes our <code>SimpleGP</code> class, defines some sample locations, values, and uncertainties, then evaluates the mean and standard deviation of the posterior at a set of test points. Briefly, this carried out as follows: The <code>fit</code> method evaluates the inverse matrix <span class="math">\(\left [ \sigma^2 I_{00} + \Sigma_{00} \right]^{-1}\)</span> that appears in (\ref{posterior}) and saves the result for later use &#8212; this allows us to avoid reevaluation of this inverse at each test point. Next, (\ref{posterior}) is evaluated once for each test point through the call to the <code>interval</code> method.</p>
-<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">Initialize</span> <span class="n">fitter</span> <span class="c1">-- set covariance parameters</span>
-<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
+<div class="highlight"><pre><span></span><span class="c1"># Initialize fitter -- set covariance parameters</span>
+<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">SimpleGP</span><span class="p">(</span><span class="n">WIDTH_SCALE</span><span class="p">,</span> <span class="n">LENGTH_SCALE</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="k">Insert</span> <span class="n">observed</span> <span class="n">sample</span> <span class="k">data</span> <span class="n">here</span><span class="p">,</span> <span class="n">fit</span>
-<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">.</span><span class="mi">5</span><span class="p">]</span>
-<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">25</span><span class="p">]</span>
-<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
+<span class="c1"># Insert observed sample data here, fit</span>
+<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">]</span>
+<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[</span><span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">]</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="k">Get</span> <span class="n">the</span> <span class="n">mean</span> <span class="k">and</span> <span class="n">std</span> <span class="k">at</span> <span class="k">each</span> <span class="n">point</span> <span class="k">in</span> <span class="n">x_test</span>
-<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">.</span><span class="mi">05</span><span class="p">)</span>
-<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nb">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
+<span class="c1"># Get the mean and std at each point in x_test</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">05</span><span class="p">)</span>
+<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
 </pre></div>
 
 
@@ -170,24 +170,24 @@ and <span class="math">\(\textbf{y}\)</span> is the length-<span class="math">\(
 <p><a href="https://efavdb.com/wp-content/uploads/2017/11/intervals.jpg"><img alt="intervals" src="https://efavdb.com/wp-content/uploads/2017/11/intervals.jpg"></a></p>
 <h4>Posterior&nbsp;samples</h4>
 <p>To sample actual functions from the posterior, we will simply evaluate the mean and covariance matrix in (\ref{posterior}) again, this time passing in the multiple test point locations at which we would like to know the resulting sampled functions. Once we have the mean and covariance matrix of the posterior at these test points, we can pull samples from (\ref{posterior}) using an external library for multivariate normal sampling &#8212; for this purpose, we used the python package numpy. The last step in the code snippet below carries out these&nbsp;steps.</p>
-<div class="highlight"><pre><span></span><span class="o">#</span> <span class="k">Insert</span> <span class="n">observed</span> <span class="n">sample</span> <span class="k">data</span> <span class="n">here</span><span class="p">.</span>
-<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">.</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">.</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">]</span>
-<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">25</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">01</span><span class="p">]</span>
+<div class="highlight"><pre><span></span><span class="c1"># Insert observed sample data here.</span>
+<span class="n">sample_x</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">]</span>
+<span class="n">sample_y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">.</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="n">sample_s</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]</span>
 
-<span class="o">#</span> <span class="k">Initialize</span> <span class="n">fitter</span> <span class="c1">-- set covariance parameters</span>
-<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
+<span class="c1"># Initialize fitter -- set covariance parameters</span>
+<span class="n">WIDTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">LENGTH_SCALE</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">SimpleGP</span><span class="p">(</span><span class="n">WIDTH_SCALE</span><span class="p">,</span> <span class="n">LENGTH_SCALE</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sample_x</span><span class="p">,</span> <span class="n">sample_y</span><span class="p">,</span> <span class="n">sample_s</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="k">Get</span> <span class="n">the</span> <span class="n">mean</span> <span class="k">and</span> <span class="n">std</span> <span class="k">at</span> <span class="k">each</span> <span class="n">point</span> <span class="k">in</span> <span class="n">test_x</span>
-<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">.</span><span class="mi">05</span><span class="p">)</span>
-<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="nb">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
+<span class="c1"># Get the mean and std at each point in test_x</span>
+<span class="n">test_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">.</span><span class="mi">05</span><span class="p">)</span>
+<span class="n">means</span><span class="p">,</span> <span class="n">stds</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">interval</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="n">Sample</span> <span class="n">here</span>
+<span class="c1"># Sample here</span>
 <span class="n">SAMPLES</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="n">samples</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">SAMPLES</span><span class="p">)</span>
+<span class="n">samples</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">test_x</span><span class="p">,</span> <span class="n">SAMPLES</span><span class="p">)</span>
 </pre></div>
 
 
@@ -364,15 +364,15 @@ The last two expressions are all that are needed to derive (\ref{posterior}). Th
 <span class="n">gp</span> <span class="o">=</span> <span class="n">GaussianProcessRegressor</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">kernel</span><span class="p">,</span> <span class="n">n_restarts_optimizer</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
 
 <span class="c1"># Some data</span>
-<span class="n">xobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="kp">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>
-<span class="n">yobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="kp">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">xobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.5</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]])</span>
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="c1"># Fit the model to the data (optimize hyper parameters)</span>
 <span class="n">gp</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">xobs</span><span class="p">,</span> <span class="n">yobs</span><span class="p">)</span>
 
 <span class="c1"># Plot points and predictions</span>
-<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="kp">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
-<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="kp">array</span><span class="p">([[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_set</span><span class="p">])</span>
+<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x_set</span><span class="p">])</span>
 <span class="n">means</span><span class="p">,</span> <span class="n">sigmas</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">return_std</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
@@ -380,8 +380,8 @@ The last two expressions are all that are needed to derive (\ref{posterior}). Th
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">means</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 <span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">colors</span><span class="p">:</span>
-<span class="n">y_set</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">sample_y</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="kp">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">y_set</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">y_set</span> <span class="o">=</span> <span class="n">gp</span><span class="o">.</span><span class="n">sample_y</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_set</span><span class="p">,</span> <span class="n">y_set</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
 
 

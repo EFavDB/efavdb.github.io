@@ -82,81 +82,92 @@
             <p>We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&nbsp;result.</p>
 <h3>Introduction</h3>
 <p>Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output&nbsp;follows:</p>
-<div class="highlight"><pre><span></span><span class="x">s = &#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&#39;  </span>
-<span class="x">print command_to_latex(s)</span>
+<div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&#39;</span>  
+<span class="nb">print</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-<span class="x">## output:  </span>
-<span class="x">\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt</span><span class="cp">{{</span><span class="m">2</span><span class="o">}</span><span class="err">^</span><span class="o">{</span><span class="nv">w</span><span class="cp">}}</span><span class="x"> \cdot \tanh \left (2 \cdot \pi \cdot x \right )  </span>
+<span class="c1">## output:  </span>
+\<span class="n">frac</span><span class="p">{</span><span class="n">f</span> \<span class="n">left</span> <span class="p">({</span><span class="n">x</span><span class="p">}</span><span class="n">_</span><span class="p">{</span><span class="mi">123</span><span class="p">}</span> <span class="p">,</span> <span class="mi">2</span> \<span class="n">right</span> <span class="p">)}{</span><span class="mi">2</span> <span class="o">+</span> \<span class="n">frac</span><span class="p">{</span><span class="mi">3</span><span class="p">}{</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span> \<span class="n">left</span> <span class="p">(</span> \<span class="n">sqrt</span><span class="p">{</span>\<span class="n">frac</span><span class="p">{</span><span class="n">x</span> <span class="o">+</span> <span class="mi">3</span><span class="p">}{</span><span class="mi">3</span><span class="p">}}</span> \<span class="n">right</span> <span class="p">)}}</span> <span class="o">+</span> \<span class="n">sqrt</span><span class="p">{{</span><span class="mi">2</span><span class="p">}</span><span class="o">^</span><span class="p">{</span><span class="n">w</span><span class="p">}}</span> \<span class="n">cdot</span> \<span class="n">tanh</span> \<span class="n">left</span> <span class="p">(</span><span class="mi">2</span> \<span class="n">cdot</span> \<span class="n">pi</span> \<span class="n">cdot</span> <span class="n">x</span> \<span class="n">right</span> <span class="p">)</span>  
 </pre></div>
 
 
 <p>If the output shown here is plugged into a LaTeX editor, we get the following&nbsp;result:</p>
-<div class="math">$$\tag{1}  
+<div class="math">\begin{eqnarray}\tag{1}  
 \frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt{{2}^{w}} \cdot \tanh \left (2 \cdot \pi \cdot x \right )  
-$$</div>
-<p><br>
+\end{eqnarray}</div>
+<p>
 Our Jupyter <a href="https://github.com/EFavDB/python_command_to_latex">notebook</a> automatically pretty prints to this&nbsp;form.</p>
 <p>We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python&nbsp;format.</p>
 <p>We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined &#8212; we illustrate this issue in the&nbsp;notebook.</p>
 <p>As usual, our code can be downloaded from our github page <a href="https://github.com/EFavDB/python_command_to_latex">here</a>.</p>
 <h3>Code</h3>
 <p>The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines&nbsp;below.</p>
-<div class="highlight"><pre><span></span><span class="x">def parse_simple_eqn(q):  </span>
-<span class="x">&quot;&quot;&quot; Return TeX equivalent of a command  </span>
-<span class="x">without parentheses. &quot;&quot;&quot;  </span>
-<span class="x"># Define replacement rules.  </span>
-<span class="x">simple_replacements = [[&#39; &#39;, &#39;&#39;],  </span>
-<span class="x">[&#39;**&#39;, &#39;^&#39;], [&#39;*&#39;, &#39; \cdot &#39;],  </span>
-<span class="x">[&#39;math.&#39;, &#39;&#39;], [&#39;np.&#39;, &#39;&#39;],  </span>
-<span class="x">[&#39;pi&#39;, &#39;\pi&#39;] , [&#39;tan&#39;, &#39;\tan&#39;],  </span>
-<span class="x">[&#39;cos&#39;, &#39;\cos&#39;], [&#39;sin&#39;, &#39;\sin&#39;],  </span>
-<span class="x">[&#39;sec&#39;, &#39;\sec&#39;], [&#39;csc&#39;, &#39;\csc&#39;]]  </span>
-<span class="x">complex_replacements = [[&#39;^&#39;, &#39;</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}^</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
-<span class="x">[&#39;_&#39;, &#39;</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}_</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
-<span class="x">[&#39;/&#39;, &#39;\frac</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i1</span><span class="cp">}}</span><span class="x">}</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;],  </span>
-<span class="x">[&#39;sqrt&#39;,&#39;\sqrt</span><span class="cp">{{</span><span class="o">{</span><span class="nv">i2</span><span class="cp">}}</span><span class="x">}&#39;]]  </span>
-<span class="x"># Carry out simple replacements  </span>
-<span class="x">for pair in simple_replacements:  </span>
-<span class="x">q = q.replace(pair[0], pair[1])  </span>
-<span class="x"># Now complex replacements  </span>
-<span class="x">for item in [&#39;*&#39;, &#39;/&#39;, &#39;+&#39;, &#39;-&#39;, &#39;^&#39;, &#39;_&#39;, &#39;,&#39;, &#39;sqrt&#39;]:  </span>
-<span class="x">q = q.replace(item, &#39; &#39; + item + &#39; &#39;)  </span>
-<span class="x">q_split = q.split()  </span>
-<span class="x">for index, item in enumerate(q_split):  </span>
-<span class="x">for pair in complex_replacements:  </span>
-<span class="x">if item == pair[0]:  </span>
-<span class="x">if item == &#39;sqrt&#39;:  </span>
-<span class="x">match_str = &quot; &quot;.join(q_split[index:index+2])  </span>
-<span class="x">else:  </span>
-<span class="x">match_str = &quot; &quot;.join(q_split[index-1:index+2])  </span>
-<span class="x">q = q.replace(match_str, pair[1].format(  </span>
-<span class="x">i1=q_split[index-1], i2=q_split[index+1]))  </span>
-<span class="x">return q</span>
+<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">parse_simple_eqn</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>  
+    <span class="sd">&quot;&quot;&quot; Return TeX equivalent of a command without parentheses. &quot;&quot;&quot;</span>  
+    <span class="c1"># Define replacement rules.  </span>
+    <span class="n">simple_replacements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;**&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39; \cdot &#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;math.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;np.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">,</span> <span class="s1">&#39;\pi&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;tan&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">an&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;cos&#39;</span><span class="p">,</span> <span class="s1">&#39;\cos&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;sin&#39;</span><span class="p">,</span> <span class="s1">&#39;\sin&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;sec&#39;</span><span class="p">,</span> <span class="s1">&#39;\sec&#39;</span><span class="p">],</span>
+        <span class="p">[</span><span class="s1">&#39;csc&#39;</span><span class="p">,</span> <span class="s1">&#39;\csc&#39;</span><span class="p">],</span>
+    <span class="p">]</span>  
+    <span class="n">complex_replacements</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;{{</span><span class="si">{i1}</span><span class="s1">}}^{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;{{</span><span class="si">{i1}</span><span class="s1">}}_{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\f</span><span class="s1">rac{{</span><span class="si">{i1}</span><span class="s1">}}{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>  
+        <span class="p">[</span><span class="s1">&#39;sqrt&#39;</span><span class="p">,</span><span class="s1">&#39;\sqrt{{</span><span class="si">{i2}</span><span class="s1">}}&#39;</span><span class="p">],</span>
+    <span class="p">]</span>  
 
-<span class="x">def command_to_latex(q, index=0):  </span>
-<span class="x">&quot;&quot;&quot; Recursively eliminate parentheses. Once  </span>
-<span class="x">removed, apply parse_simple_eqn. &quot;&quot;&quot;  </span>
-<span class="x">open_index, close_index = -1, -1  </span>
-<span class="x">for q_index, i in enumerate(q):  </span>
-<span class="x">if i == &#39;(&#39;:  </span>
-<span class="x">open_index = q_index  </span>
-<span class="x">elif i == &#39;)&#39;:  </span>
-<span class="x">close_index = q_index  </span>
-<span class="x">break  </span>
-<span class="x">if open_index != -1:  </span>
-<span class="x">o = q[:open_index] + &#39;@&#39; + str(index) + q[close_index + 1:]  </span>
-<span class="x">m = q[open_index + 1:close_index]  </span>
-<span class="x">o_tex = command_to_latex(o, index + 1)  </span>
-<span class="x">m_tex = command_to_latex(m, index + 1)  </span>
-<span class="x"># Clean up redundant parentheses at recombination  </span>
-<span class="x">r_index = o_tex.find(&#39;@&#39; + str(index))  </span>
-<span class="x">if o_tex[r_index - 1] == &#39;{&#39;:  </span>
-<span class="x">return o_tex.replace(&#39;@&#39;+str(index), m_tex)  </span>
-<span class="x">else:  </span>
-<span class="x">return o_tex.replace(&#39;@&#39;+str(index),  </span>
-<span class="x">&#39; \left (&#39; + m_tex + &#39; \right )&#39;)  </span>
-<span class="x">else:  </span>
-<span class="x">return parse_simple_eqn(q)  </span>
+    <span class="c1"># Carry out simple replacements  </span>
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">simple_replacements</span><span class="p">:</span>  
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>  
+
+    <span class="c1"># Now complex replacements  </span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">]:</span>  
+        <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">item</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>  
+        <span class="n">q_split</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>  
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">q_split</span><span class="p">):</span>  
+            <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">complex_replacements</span><span class="p">:</span>  
+                <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>  
+                    <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">:</span>  
+                        <span class="n">match_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>  
+                    <span class="k">else</span><span class="p">:</span>  
+                        <span class="n">match_str</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">index</span><span class="o">+</span><span class="mi">2</span><span class="p">])</span>  
+                    <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">match_str</span><span class="p">,</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>  
+                        <span class="n">i1</span><span class="o">=</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">i2</span><span class="o">=</span><span class="n">q_split</span><span class="p">[</span><span class="n">index</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>  
+        <span class="k">return</span> <span class="n">q</span>
+
+
+
+<span class="k">def</span> <span class="nf">command_to_latex</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>  
+    <span class="sd">&quot;&quot;&quot; Recursively eliminate parentheses, then apply parse_simple_eqn.&quot;&quot;&quot;</span>  
+    <span class="n">open_index</span><span class="p">,</span> <span class="n">close_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="k">for</span> <span class="n">q_index</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">q</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+            <span class="n">open_index</span> <span class="o">=</span> <span class="n">q_index</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+            <span class="n">close_index</span> <span class="o">=</span> <span class="n">q_index</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">open_index</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">o</span> <span class="o">=</span> <span class="n">q</span><span class="p">[:</span><span class="n">open_index</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">)</span> <span class="o">+</span> <span class="n">q</span><span class="p">[</span><span class="n">close_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="n">open_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">close_index</span><span class="p">]</span>
+        <span class="n">o_tex</span>  <span class="o">=</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">m_tex</span>  <span class="o">=</span> <span class="n">command_to_latex</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Clean up redundant parentheses at recombination</span>
+        <span class="n">r_index</span> <span class="o">=</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;@&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">o_tex</span><span class="p">[</span><span class="n">r_index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> <span class="n">m_tex</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">o_tex</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">index</span><span class="p">),</span> 
+                                 <span class="s1">&#39; </span><span class="se">\\</span><span class="s1">left (&#39;</span> <span class="o">+</span> <span class="n">m_tex</span> <span class="o">+</span> <span class="s1">&#39; </span><span class="se">\\</span><span class="s1">right )&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">parse_simple_eqn</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 
 

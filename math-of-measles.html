@@ -85,26 +85,15 @@
 <h4><strong>The&nbsp;model</strong></h4>
 <p>The equations describing our generalized <span class="caps">SIR</span> model&nbsp;are
 </p>
-<div class="math">$$\tag{1} \label{eq1}
-\begin{equation}
-\dot{S}_{U} = - b_{U} S_{U} I
-\end{equation}
-$$</div>
-<div class="math">$$\tag{2} \label{eq2}
-\begin{equation}
-\dot{S}_{U} = - b_{U} S_{U} I
-\end{equation}
-$$</div>
-<div class="math">$$\tag{3} \label{eq3}
-\begin{equation}
-\dot{R} = k I
-\end{equation}
-$$</div>
-<div class="math">$$\tag{4} \label{eq4}
-\begin{equation}
-1 = I + R + S_U + S_V
-\end{equation}
-$$</div>
+<div class="math">\begin{eqnarray}\tag{1} \label{eq1}
+\dot{S}_{U} &amp;=&amp; - b_{U} S_{U} I \\
+\tag{2} \label{eq2}
+\dot{S}_{U} &amp;=&amp; - b_{U} S_{U} I \\
+\tag{3} \label{eq3}
+\dot{R} &amp;=&amp; k I \\
+\tag{4} \label{eq4}
+1 &amp;=&amp; I + R + S_U + S_V
+\end{eqnarray}</div>
 <p>Here, <span class="math">\(S_{U}\)</span>, <span class="math">\(S_{V}\)</span>, <span class="math">\(I\)</span>, and <span class="math">\(R\)</span> are population fractions corresponding to those unvaccinated and as yet uninfected, vaccinated and as yet uninfected, currently infected and contagious, and once contagious but no longer (recovered, perhaps), respectively. The first two equations above are instances of the <a href="http://en.wikipedia.org/wiki/Law_of_mass_action">law of mass action</a>. They approximate the infection rates as being proportional to the rates of susceptible-infected individual encounters. We refer to <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> here as the <em>infection rate parameters</em> of the two subpopulations. The third equation above approximates the dynamics of recovery: The form chosen supposes that an infected individual has a fixed probability of returning to health each day. We will refer to <span class="math">\(k\)</span> as the <em>recovery rate parameter</em>. The final equation above simply states that the subpopulation fractions have to always sum to&nbsp;one.</p>
 <h4><strong>Parameter&nbsp;estimation</strong></h4>
 <p>We can estimate the values <span class="math">\(b_{U}\)</span> and <span class="math">\(b_{V}\)</span> by introducing a close contact number (<span class="math">\(ccn\)</span>) variable, which is the average number of close contacts that individual infected, contagious people make per day. As a rough ball park, let us suppose that <span class="math">\(ccn \approx 3\)</span>. According to the <span class="caps">CDC</span>, an un-vaccinated person making close contact with someone with measles has a 90<span class="math">\(%\)</span> chance of contracting the illness. On the other hand, those who have been vaccinated a single time have a 95<span class="math">\(%\)</span> chance of being immune to the disease. Let&#8217;s estimate that the combined population of individuals who have been vaccinated have a 1<span class="math">\(%\)</span> chance of contracting the illness upon close contact. These considerations&nbsp;suggest
@@ -171,21 +160,21 @@ This equation can be solved numerically to obtain the total contraction count as
 <div class="highlight"><pre><span></span><span class="c1">#Solving the SIR model for infectious disease. JSL 2/18/2015</span>
 <span class="kn">import</span> <span class="nn">math</span>
 
-<span class="n">ccn</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1">#\`\`close contact number&quot; = people per day</span>
+<span class="n">ccn</span> <span class="o">=</span> <span class="mi">3</span> <span class="c1"># &quot;close contact number&quot; = people per day</span>
 <span class="c1">#interacting closely with typical infected person</span>
 
-<span class="n">k</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mi">5</span> <span class="c1">#Rate of &#39;recovery&#39; [1].</span>
-<span class="n">b1</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.9</span> <span class="c1">#Approximate infection rate un-vaccinated [3].</span>
-<span class="n">b2</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.01</span> <span class="c1">#Approximate infection rate un-vaccinated [4].</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mf">1.</span><span class="o">/</span><span class="mi">5</span>       <span class="c1"># Rate of &#39;recovery&#39; [1].</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.9</span>   <span class="c1"># Approximate infection rate un-vaccinated [3].</span>
+<span class="n">b2</span> <span class="o">=</span> <span class="n">ccn</span><span class="o">*</span><span class="mf">0.01</span>  <span class="c1"># Approximate infection rate un-vaccinated [4].</span>
 
 <span class="c1">#Initial conditions (fraction of people in each category)</span>
-<span class="n">I0</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1">#initial population fraction infected.</span>
-<span class="n">S10</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c1">#population fraction unvaccinated.</span>
-<span class="n">S20</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">I0</span> <span class="o">-</span> <span class="n">S10</span> <span class="c1">#population fraction vacccinated.</span>
-<span class="n">R0</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c1">#intial recovered fraction.</span>
+<span class="n">I0</span> <span class="o">=</span> <span class="mf">0.001</span>          <span class="c1"># initial population fraction infected.</span>
+<span class="n">S10</span> <span class="o">=</span> <span class="mf">0.2</span>           <span class="c1"># population fraction unvaccinated.</span>
+<span class="n">S20</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">I0</span> <span class="o">-</span> <span class="n">S10</span>  <span class="c1"># population fraction vacccinated.</span>
+<span class="n">R0</span> <span class="o">=</span> <span class="mf">0.0</span>            <span class="c1"># intial recovered fraction.</span>
 
-<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="c1">#integration time step</span>
-<span class="n">days</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1">#total days considered</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01</span>           <span class="c1"># integration time step</span>
+<span class="n">days</span> <span class="o">=</span> <span class="mi">100</span>          <span class="c1"># total days considered</span>
 
 <span class="n">I</span> <span class="o">=</span> <span class="p">[</span><span class="n">I0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
 <span class="n">S1</span> <span class="o">=</span> <span class="p">[</span><span class="n">S10</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
@@ -193,7 +182,6 @@ This equation can be solved numerically to obtain the total contraction count as
 <span class="n">R</span> <span class="o">=</span> <span class="p">[</span><span class="n">R0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">))]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">days</span><span class="o">/</span><span class="n">dt</span><span class="p">)):</span>
-
     <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
     <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">b2</span> <span class="o">*</span> <span class="n">S2</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dt</span>
     <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">b1</span> <span class="o">*</span> <span class="n">S1</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> \
@@ -207,22 +195,24 @@ This equation can be solved numerically to obtain the total contraction count as
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">S1</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">S2</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">R</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;black&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">],[</span><span class="n">I0</span><span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">b1</span> <span class="o">*</span><span class="n">S10</span> <span class="o">+</span> <span class="n">b2</span><span class="o">*</span> <span class="n">S20</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> \
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">]],</span><span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;purple&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">I0</span><span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">exp</span><span class="p">((</span><span class="n">b1</span> <span class="o">*</span><span class="n">S10</span> <span class="o">+</span> <span class="n">b2</span><span class="o">*</span> <span class="n">S20</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span><span class="o">*</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time</span><span class="p">[:</span><span class="mi">1400</span><span class="p">]],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s1">&#39;purple&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span><span class="mi">1</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;time [days]&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;population %</span><span class="se">\&#39;</span><span class="s1">s&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
-<span class="c1">#[1] Measles patients are contagious for eight days</span>
+<span class="c1"># [1] Measles patients are contagious for eight days</span>
 <span class="c1"># four of which are before symptoms appear. [2]</span>
-<span class="c1">#[2] http://www.cdc.gov/measles/about/transmission.html</span>
-<span class="c1">#[3] Assume infected have close contact with five people/day.</span>
+<span class="c1"># [2] http://www.cdc.gov/measles/about/transmission.html</span>
+<span class="c1"># [3] Assume infected have close contact with five people/day.</span>
 <span class="c1"># 90% of the un-vaccinated get sick in such situations.</span>
-<span class="c1">#[4] Single vaccination gives ~95% immunity rate [5]. Many</span>
+<span class="c1"># [4] Single vaccination gives ~95% immunity rate [5]. Many</span>
 <span class="c1"># have two doses, which drops rate to very low.</span>
-<span class="c1">#[5] http://www.cdc.gov/mmwr/preview/mmwrhtml/00053391.htm</span>
+<span class="c1"># [5] http://www.cdc.gov/mmwr/preview/mmwrhtml/00053391.htm</span>
 </pre></div>
 
 

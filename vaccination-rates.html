@@ -189,76 +189,76 @@
 
 <h5><strong>Weighting to get averaged&nbsp;statistics</strong></h5>
 <p>We now have our data cleaned and ready to go. However, some additional work needs to be done before we can evaluate various statistics of interest. This is because the <span class="caps">CDC</span> data set is not a random sample, but instead a <a href="http://en.wikipedia.org/wiki/Stratified_sampling">stratified sample</a> &#8212; i.e. one geared towards obtaining reasonable accuracy among many minority groups, and not simply among the averaged population. The weight factors are the key to extracting averaged statistics from this data, as explained in the user guide. For example, the average is essentially just a weighted average, and the standard error can be calculated using a Taylor-Series approach. The easiest way to apply this to our data is to make use of custom functions. Once constructed, these can then be easily applied to different DataFrame&nbsp;groupings.</p>
-<div class="highlight"><pre><span></span><span class="n">#Lets</span><span class="w"> </span><span class="n">define</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">caluclate</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">vaccination</span><span class="w"> </span><span class="n">rate</span><span class="w"></span>
-<span class="n">#for</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">group</span><span class="w"> </span><span class="n">we</span><span class="w"> </span><span class="k">are</span><span class="w"> </span><span class="n">looking</span><span class="w"> </span><span class="k">at</span><span class="p">,</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">error</span><span class="w"></span>
-<span class="n">def</span><span class="w"> </span><span class="n">calculate_rate_and_error</span><span class="p">(</span><span class="k">data</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
-<span class="n">#The</span><span class="w"> </span><span class="n">rate</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">calucated</span><span class="w"> </span><span class="n">useing</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">weighted</span><span class="w"> </span><span class="n">average</span><span class="w"></span>
-<span class="n">rate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">data</span><span class="p">.</span><span class="n">MMR</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">weights_v</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">weights_v</span><span class="p">.</span><span class="nf">sum</span><span class="p">()</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Lets define a function to caluclate the vaccination rate</span>
+<span class="c1"># for the group we are looking at, and the standard error</span>
+<span class="k">def</span> <span class="nf">calculate_rate_and_error</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="c1"># The rate is calucated useing a weighted average</span>
+    <span class="n">rate</span> <span class="o">=</span> <span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">MMR</span> <span class="o">*</span> <span class="n">data</span><span class="o">.</span><span class="n">weights_v</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">weights_v</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-<span class="n">#The</span><span class="w"> </span><span class="n">error</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">calculated</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">formula</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="n">sheet</span><span class="w"></span>
-<span class="k">data</span><span class="o">[</span><span class="n">&#39;Z&#39;</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">weights_v</span><span class="o">*</span><span class="p">(</span><span class="k">data</span><span class="p">.</span><span class="n">MMR</span><span class="o">-</span><span class="n">rate</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">weights_v</span><span class="p">.</span><span class="nf">sum</span><span class="p">()</span><span class="w"></span>
-<span class="n">zhi</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">data</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="o">[</span><span class="n">&#39;stratum&#39;,&#39;house&#39;</span><span class="o">]</span><span class="p">).</span><span class="n">agg</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">sum</span><span class="p">).</span><span class="n">Z</span><span class="w"></span>
-<span class="n">zh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zhi</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">level</span><span class="o">=</span><span class="s1">&#39;stratum&#39;</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span><span class="w"></span>
-<span class="n">#Number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">households</span><span class="w"> </span><span class="n">per</span><span class="w"> </span><span class="n">stratum</span><span class="w"></span>
-<span class="n">nk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zhi</span><span class="p">.</span><span class="n">groupby</span><span class="p">(</span><span class="k">level</span><span class="o">=</span><span class="s1">&#39;stratum&#39;</span><span class="p">).</span><span class="nf">count</span><span class="p">()</span><span class="w"></span>
-<span class="n">zh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zh</span><span class="o">/</span><span class="n">nk</span><span class="w"></span>
+    <span class="c1"># The error is calculated using the formula from the data sheet</span>
+    <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Z&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">weights_v</span><span class="o">*</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">MMR</span><span class="o">-</span><span class="n">rate</span><span class="p">)</span> <span class="o">/</span> <span class="n">data</span><span class="o">.</span><span class="n">weights_v</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">zhi</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;stratum&#39;</span><span class="p">,</span><span class="s1">&#39;house&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">)</span><span class="o">.</span><span class="n">Z</span>
+    <span class="n">zh</span> <span class="o">=</span> <span class="n">zhi</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;stratum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="c1"># Number of households per stratum</span>
+    <span class="n">nk</span> <span class="o">=</span> <span class="n">zhi</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="s1">&#39;stratum&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+    <span class="n">zh</span> <span class="o">=</span> <span class="n">zh</span><span class="o">/</span><span class="n">nk</span>
 
-<span class="n">stratum_labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zh</span><span class="p">.</span><span class="k">index</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
-<span class="nf">var</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">nk</span><span class="p">))</span><span class="w"></span>
-<span class="n">ind</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
-<span class="k">for</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">stratum_labels</span><span class="p">:</span><span class="w"></span>
-<span class="n">delta2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">zhi</span><span class="p">.</span><span class="n">loc</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">zh</span><span class="o">[</span><span class="n">a</span><span class="o">]</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="w"></span>
-<span class="n">delta2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">delta2</span><span class="p">.</span><span class="nf">sum</span><span class="p">()</span><span class="w"></span>
-<span class="nf">var</span><span class="o">[</span><span class="n">ind</span><span class="o">]=</span><span class="p">(</span><span class="n">nk</span><span class="o">[</span><span class="n">a</span><span class="o">]/</span><span class="p">(</span><span class="n">nk</span><span class="o">[</span><span class="n">a</span><span class="o">]-</span><span class="mf">1.</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">delta2</span><span class="w"></span>
-<span class="n">ind</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"></span>
+    <span class="n">stratum_labels</span> <span class="o">=</span> <span class="n">zh</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">var</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nk</span><span class="p">))</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">stratum_labels</span><span class="p">:</span>
+        <span class="n">delta2</span> <span class="o">=</span> <span class="p">(</span><span class="n">zhi</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">-</span> <span class="n">zh</span><span class="p">[</span><span class="n">a</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+        <span class="n">delta2</span> <span class="o">=</span> <span class="n">delta2</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="n">var</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">nk</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">/</span><span class="p">(</span><span class="n">nk</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">-</span><span class="mf">1.</span><span class="p">))</span> <span class="o">*</span> <span class="n">delta2</span>
+        <span class="n">ind</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="n">standard_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="nf">sum</span><span class="p">(</span><span class="nf">var</span><span class="p">))</span><span class="w"></span>
-<span class="k">return</span><span class="w"> </span><span class="n">rate</span><span class="p">,</span><span class="w"> </span><span class="n">standard_error</span><span class="w"></span>
+    <span class="n">standard_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">rate</span><span class="p">,</span> <span class="n">standard_error</span>
 </pre></div>
 
 
 <p>If we apply this function to our whole DataFrame, we will get the national <span class="caps">MMR</span> vaccination rate and standard&nbsp;error.</p>
 <div class="highlight"><pre><span></span><span class="err">calculate_rate_and_error(data)</span>
-<span class="err">&amp;gt;&amp;gt;(0.90767842904073048, 0.0043003916851249895)</span>
+<span class="err"># output: (0.90767842904073048, 0.0043003916851249895)</span>
 </pre></div>
 
 
 <h5><strong>Data segmentation &#8212; stats by&nbsp;group</strong></h5>
 <p>But we can also do more! If we first apply the DateFrame&#8217;s groupby method, we can split the data along any feature of interest. For example, below we split the data along the state column. This generates subgroups for each state. Next, we use the apply method to run our custom function on all the different groups of data. We then clean up the output, unzip the tuple and generate a graph showing the <span class="caps">MMR</span> vaccination rate by state. It should be evident that with only modest effort, one can modify this code to group the data in many varying ways &#8212; all that needs to be done is to adjust the arguments of the groupby&nbsp;command.</p>
-<div class="highlight"><pre><span></span><span class="c1">#Now that we have our function it is easy to calculate values</span>
-<span class="c1">#for any group.</span>
+<div class="highlight"><pre><span></span><span class="c1"># Now that we have our function it is easy to calculate values</span>
+<span class="c1"># for any group.</span>
 
-<span class="c1">#To examine rates by state, we will group by state</span>
+<span class="c1"># To examine rates by state, we will group by state</span>
 <span class="n">grouped</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
 
-<span class="c1">#We then apply our function to the grouped data, and save</span>
-<span class="c1">#it as a data frame</span>
+<span class="c1"># We then apply our function to the grouped data, and save</span>
+<span class="c1"># it as a data frame</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">grouped</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">calculate_rate_and_error</span><span class="p">))</span>
 
-<span class="c1">#To conver the results from:</span>
-<span class="c1">#state</span>
-<span class="c1">#Alabama (0.931323319509, 0.017837146103)</span>
-<span class="c1">#Alaska (0.862202058663, 0.0257844894834)</span>
-<span class="c1">#to</span>
+<span class="c1"># To conver the results from:</span>
+<span class="c1"># state</span>
+<span class="c1"># Alabama (0.931323319509, 0.017837146103)</span>
+<span class="c1"># Alaska (0.862202058663, 0.0257844894834)</span>
+<span class="c1"># to</span>
 <span class="c1"># Rate Standard Error</span>
-<span class="c1">#state</span>
-<span class="c1">#Alabama 0.931323 0.017837</span>
-<span class="c1">#Alaska 0.862202 0.025784</span>
-<span class="c1">#We use the following code</span>
+<span class="c1"># state</span>
+<span class="c1"># Alabama 0.931323 0.017837</span>
+<span class="c1"># Alaska 0.862202 0.025784</span>
+<span class="c1"># We use the following code</span>
 
 <span class="n">new_col_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Rate&#39;</span><span class="p">,</span><span class="s1">&#39;Standard Error&#39;</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">new_col_list</span><span class="p">):</span>
     <span class="n">result</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">n</span><span class="p">])</span>
     <span class="n">result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="c1">#Make a sorted copy of the data</span>
+<span class="c1"># Make a sorted copy of the data</span>
 <span class="nb">sorted</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;Rate&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">result</span><span class="p">[</span><span class="s1">&#39;Rate&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">result</span><span class="p">[</span><span class="s1">&#39;Rate&#39;</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
 
-<span class="c1">#Save a csv file if wanted</span>
+<span class="c1"># Save a csv file if wanted</span>
 <span class="n">result</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;Rate 2012.csv&#39;</span><span class="p">,</span> <span class="n">float_format</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%5.2f</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="c1">#Generate an online plot</span>
+<span class="c1"># Generate an online plot</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">Data</span><span class="p">([</span>
     <span class="n">Bar</span><span class="p">(</span>
         <span class="n">y</span><span class="o">=</span><span class="nb">sorted</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span> <span class="p">,</span>

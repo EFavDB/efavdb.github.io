@@ -424,62 +424,64 @@ Here, in the last line we have made the &lt;span class="math"&gt;\(N\)&lt;/span&
 &lt;p&gt;Suppose the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer arrives at time &lt;span class="math"&gt;\(0\)&lt;/span&gt;, and let &lt;span class="math"&gt;\(P(t)\)&lt;/span&gt; be the probability that this customer has to wait a time &lt;span class="math"&gt;\(t\geq 0\)&lt;/span&gt; before being served. This wait time can be written in terms of the arrival and wait times of the previous customer: If this previous customer arrived at time &lt;span class="math"&gt;\(t^{\prime}\)&lt;/span&gt; and has to wait a time &lt;span class="math"&gt;\(w\)&lt;/span&gt; before being served, his service will conclude at time &lt;span class="math"&gt;\(t = t^{\prime} + w + 1\)&lt;/span&gt;. If this is greater than &lt;span class="math"&gt;\(0\)&lt;/span&gt;, the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer will have to wait before being served. In particular, he will wait &lt;span class="math"&gt;\(t\)&lt;/span&gt; if the previous customer waited &lt;span class="math"&gt;\(w = t - t^{\prime} - 1\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;The above considerations allow us to write down an equation satisfied by the wait time distribution. If we let the probability that the previous customer arrived at &lt;span class="math"&gt;\(t^{\prime}\)&lt;/span&gt; be &lt;span class="math"&gt;\(A(t^{\prime})\)&lt;/span&gt;, we have (for &lt;span class="math"&gt;\(t &amp;gt; 0\)&lt;/span&gt;)
 &lt;/p&gt;
-&lt;div class="math"&gt;$$
+&lt;div class="math"&gt;\begin{eqnarray}
 \tag{1} \label{int_eqn}
-P(t) = \int_{-\infty}^{0^-} A(t^{\prime}) P(t - t^{\prime} - 1) d t^{\prime}  \\
-= \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} P(t - t^{\prime} - 1) d t^{\prime}
-$$&lt;/div&gt;
+P(t) &amp;amp;=&amp;amp; \int_{-\infty}^{0^-} A(t^{\prime}) P(t - t^{\prime} - 1) d t^{\prime}  \\
+&amp;amp;=&amp;amp; \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} P(t - t^{\prime} - 1) d t^{\prime}
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 Here, in the first equality we&amp;#8217;re simply averaging over the possible arrival times of the previous customer (which had to occur before the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th, at &lt;span class="math"&gt;\(0\)&lt;/span&gt;), multiplying by the probability &lt;span class="math"&gt;\(P(t - t^{\prime} - 1)\)&lt;/span&gt; that this customer had to wait the amount of time &lt;span class="math"&gt;\(w\)&lt;/span&gt; needed so that the &lt;span class="math"&gt;\(N\)&lt;/span&gt;-th customer will wait &lt;span class="math"&gt;\(t\)&lt;/span&gt;. We also use the symmetry that each customer has the same wait time distribution at steady state. In the second equality, we have plugged in the arrival time distribution appropriate for our Poisson&amp;nbsp;model.&lt;/p&gt;
 &lt;p&gt;To proceed, we differentiate both sides of (\ref{int_eqn}) with respect to &lt;span class="math"&gt;\(t\)&lt;/span&gt;,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{2} \label{int2}
-P^{\prime}(t) = \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt}P(t - t^{\prime} - 1) d t^{\prime} \\= - \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt^{\prime}}P(t - t^{\prime} - 1) d t^{\prime}.
-$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{int2}
+P^{\prime}(t) &amp;amp;=&amp;amp; \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt}P(t - t^{\prime} - 1) d t^{\prime} \\
+&amp;amp;=&amp;amp; - \int_{-\infty}^{0^-} \lambda e^{\lambda t^{\prime}} \frac{d}{dt^{\prime}}P(t - t^{\prime} - 1) d t^{\prime}.
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 The second equality follows after noticing that we can switch the parameter being differentiated in the first. Integrating by parts, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$
+&lt;div class="math"&gt;\begin{eqnarray}
 P^{\prime}(t) = \lambda \left [P(t) - P(t-1) \right], \tag{3} \label{sol}
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 a delay differential equation for the wait time distribution. This could be integrated numerically to get the full solution. However, our interest here is primarily the mean waiting time &amp;#8212; as we show next, it&amp;#8217;s easy to extract this part of the solution&amp;nbsp;analytically.&lt;/p&gt;
 &lt;h3&gt;Probability of no wait and the mean wait&amp;nbsp;time&lt;/h3&gt;
 &lt;p&gt;We can obtain a series of useful relations by multiplying (\ref{sol}) by powers of &lt;span class="math"&gt;\(t\)&lt;/span&gt; and integrating. The first such expression is obtained by multiplying by &lt;span class="math"&gt;\(t^1\)&lt;/span&gt;. Doing this and integrating its left side, we&amp;nbsp;obtain
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{4} \label{int3}
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{int3}
 \int_{0^{+}}^{\infty} P^{\prime}(t) t dt = \left . P(t) t \right |_{0^{+}}^{\infty} - \int_{0^+}^{\infty} P(t) dt = 1 - P(0).
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 Similarly integrating its right side, we&amp;nbsp;obtain&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{5} \label{int4}
+&lt;div class="math"&gt;\begin{eqnarray}\tag{5} \label{int4}
 \lambda \int_{0^{+}}^{\infty} t \left [P(t) - P(t-1) \right] = \lambda [ \overline{t} - \overline{(t + 1)} ] = - \lambda.
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 Equating the last two lines, we obtain the probability of no&amp;nbsp;wait,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{6} \label{int5}
+&lt;div class="math"&gt;\begin{eqnarray} \tag{6} \label{int5}
 P(0) = 1 - \lambda.
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 This shows that when the arrival rate is low, the probability of no wait goes to one &amp;#8212; an intuitively reasonable result. On the other hand, as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/span&gt;, the probability of no wait approaches zero. In between, the idle time fraction of our staffer (which is equal to the probability of no wait, given a random arrival time) grows linearly, connecting these two&amp;nbsp;limits.&lt;/p&gt;
 &lt;p&gt;To obtain an expression for the average wait time, we carry out a similar analysis to that above, but multiply (\ref{sol}) by &lt;span class="math"&gt;\(t^2\)&lt;/span&gt; instead. The integral on left is&amp;nbsp;then
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{7} \label{int6}
+&lt;div class="math"&gt;\begin{eqnarray} \tag{7} \label{int6}
 \int_{0^{+}}^{\infty} P^{\prime}(t) t^2 dt = \left . P(t) t^2 \right |_{0^{+}}^{\infty} - 2\int_{0^+}^{\infty} P(t) t dt = - 2 \overline{t}.
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 Similarly, the integral at right&amp;nbsp;is
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{8} \label{fin_int}
-\lambda \int_{0^{+}}^{\infty} t^2 \left [P(t) - P(t-1) \right] = \lambda \overline{ t^2} - \overline{ (t + 1)^2} \\= - \lambda (2 \overline{t} +1).
-$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{8} \label{fin_int}
+\lambda \int_{0^{+}}^{\infty} t^2 \left [P(t) - P(t-1) \right] &amp;amp;=&amp;amp; \lambda \overline{ t^2} - \overline{ (t + 1)^2} \\
+&amp;amp;=&amp;amp; - \lambda (2 \overline{t} +1).
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 Equating the last two lines and rearranging gives our solution for the average&amp;nbsp;wait,
 &lt;/p&gt;
-&lt;div class="math"&gt;$$ \tag{9} \label{fin}
+&lt;div class="math"&gt;\begin{eqnarray} \tag{9} \label{fin}
 \overline{t} = \frac{\lambda}{2 (1 - \lambda)}.
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 As advertised, this diverges as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/span&gt;, see illustration in the plot below. It&amp;#8217;s very interesting that even as &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; approaches this extreme limit, the line is still empty a finite fraction of the time &amp;#8212; see (\ref{int5}). Evidently a finite idle time fraction can&amp;#8217;t be avoided, even as one approaches the divergent &lt;span class="math"&gt;\(\lambda = 1\)&lt;/span&gt;&amp;nbsp;limit.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="average wait time" src="https://efavdb.com/wp-content/uploads/2016/04/Screen-Shot-2016-04-23-at-5.02.38-PM.png"&gt;&lt;/p&gt;
@@ -547,8 +549,8 @@ As advertised, this diverges as &lt;span class="math"&gt;\(\lambda \to 1\)&lt;/s
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="Statistics"></category></entry><entry><title>Improved Bonferroni correction factors for multiple pairwise comparisons</title><link href="https://efavdb.com/bonferroni-correction-for-multiple-pairwise-comparison-tests" rel="alternate"></link><published>2016-04-10T07:58:00-07:00</published><updated>2016-04-10T07:58:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2016-04-10:/bonferroni-correction-for-multiple-pairwise-comparison-tests</id><summary type="html">&lt;p&gt;A common task in applied statistics is the pairwise comparison of the responses of &lt;span class="math"&gt;\(N\)&lt;/span&gt; treatment groups in some statistical test &amp;#8212; the goal being to decide which pairs exhibit differences that are statistically significant. Now, because there is one comparison being made for each pairing, a naive application of the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A common task in applied statistics is the pairwise comparison of the responses of &lt;span class="math"&gt;\(N\)&lt;/span&gt; treatment groups in some statistical test &amp;#8212; the goal being to decide which pairs exhibit differences that are statistically significant. Now, because there is one comparison being made for each pairing, a naive application of the Bonferroni correction analysis suggests that one should set the individual pairwise test sizes to &lt;span class="math"&gt;\(\alpha_i \to \alpha_f/{N \choose 2}\)&lt;/span&gt; in order to obtain a desired family-wise type 1 error rate of &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;. Indeed, this solution is suggested by many texts. However, implicit in the Bonferroni analysis is the assumption that the comparisons being made are each mutually independent. This is not the case here, and we show that as a consequence the naive approach often returns type 1 error rates far from those desired. We provide adjusted formulas that allow for error-free Bonferroni-like corrections to be&amp;nbsp;made.&lt;/p&gt;
-&lt;p&gt;[edit (7/4/2016): After posting this article, I&amp;#8217;ve since found that the method we suggest here is related to / is a generalization of Tukey&amp;#8217;s range test &amp;#8212; see &lt;a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test"&gt;here&lt;/a&gt;.]&lt;/p&gt;
-&lt;p&gt;[edit (6/11/2018): I&amp;#8217;ve added the notebook used below to our Github, &lt;a href="https://github.com/EFavDB/improved_bonferroni"&gt;here&lt;/a&gt;]&lt;/p&gt;
+&lt;p&gt;(edit (7/4/2016): After posting this article, I&amp;#8217;ve since found that the method we suggest here is related to / is a generalization of Tukey&amp;#8217;s range test &amp;#8212; see &lt;a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test"&gt;here&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;(edit (6/11/2018): I&amp;#8217;ve added the notebook used below to our Github, &lt;a href="https://github.com/EFavDB/improved_bonferroni"&gt;here&lt;/a&gt;)&lt;/p&gt;
 &lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;In this post, we consider a particular kind of statistical test where one examines &lt;span class="math"&gt;\(N\)&lt;/span&gt; different treatment groups, measures some particular response within each, and then decides which of the &lt;span class="math"&gt;\({N \choose 2}\)&lt;/span&gt; pairs appear to exhibit responses that differ significantly. This is called the pairwise comparison problem (or sometimes &amp;#8220;posthoc analysis&amp;#8221;). It comes up in many contexts, and in general it will be of interest whenever one is carrying out a multiple-treatment&amp;nbsp;test.&lt;/p&gt;
 &lt;p&gt;Our specific interest here is in identifying the appropriate individual measurement error bars needed to guarantee a given family-wise type 1 error rate, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt;. Briefly, &lt;span class="math"&gt;\(\alpha_f\)&lt;/span&gt; is the probability that we incorrectly make any assertion that two measurements differ significantly when the true effect sizes we&amp;#8217;re trying to measure are actually all the same. This can happen due to the nature of statistical fluctuations. For example, when measuring the heights of &lt;span class="math"&gt;\(N\)&lt;/span&gt; identical objects, measurement error can cause us to incorrectly think that some pair have slightly different heights, even though that&amp;#8217;s not the case. A classical approach to addressing this problem is given by the Bonferroni approximation: If we consider &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt; independent comparisons, and each has an individual type 1 error rate of &lt;span class="math"&gt;\(\alpha_i,\)&lt;/span&gt; then the family-wise probability of not making any type 1 errors is simply the product of the probabilities that we don&amp;#8217;t make any individual type 1&amp;nbsp;errors,
@@ -1167,12 +1169,12 @@ $$&lt;/div&gt;
 &lt;p&gt;
 Here, &lt;span class="math"&gt;\(\tilde{\mathcal{N}}\)&lt;/span&gt; is a normalization factor and &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; are some constants (we suggest methods for choosing their values in the discussion section). The function &lt;span class="math"&gt;\(P(p)\)&lt;/span&gt; specifies an initial guess &amp;#8212; in the absence of any reviews for an item &amp;#8212; for what we think the probability is that it will have up-vote rate &lt;span class="math"&gt;\(p\)&lt;/span&gt;. If item &lt;span class="math"&gt;\(i\)&lt;/span&gt; actually has been reviewed, we can update our guess for its distribution using &lt;a href="https://en.wikipedia.org/wiki/Bayes'_theorem"&gt;Bayes&amp;#8217; rule&lt;/a&gt;:
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\begin{align} \tag{4} \label{BR}
+&lt;div class="math"&gt;$$\begin{align} \tag{4} \label{bayes_rule}
 P(p \vert n_i(1), n_i(0)) =\frac{ P( n_i(1), n_i(0) \vert p ) P(p)}{P(n_i(1), n_i(0))} = \mathcal{N} p^{n_i(1)+a}(1-p)^{n_i(0)+b}.
 \end{align}
 $$&lt;/div&gt;
 &lt;p&gt;
-Here, we have evaluated &lt;span class="math"&gt;\( P( n(1), n(0) \vert p )\)&lt;/span&gt; using the &lt;a href="https://en.wikipedia.org/wiki/Binomial_distribution"&gt;binomial distribution&lt;/a&gt;, we&amp;#8217;ve plugged in (\ref{beta}) for &lt;span class="math"&gt;\(P(p)\)&lt;/span&gt;, and we&amp;#8217;ve collected all &lt;span class="math"&gt;\(p\)&lt;/span&gt;-independent factors into the new normalization factor &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt;. The formula (\ref{&lt;span class="caps"&gt;BR&lt;/span&gt;}) provides the basis for the three ranking methods discussed&amp;nbsp;below.&lt;/p&gt;
+Here, we have evaluated &lt;span class="math"&gt;\( P( n(1), n(0) \vert p )\)&lt;/span&gt; using the &lt;a href="https://en.wikipedia.org/wiki/Binomial_distribution"&gt;binomial distribution&lt;/a&gt;, we&amp;#8217;ve plugged in (\ref{beta}) for &lt;span class="math"&gt;\(P(p)\)&lt;/span&gt;, and we&amp;#8217;ve collected all &lt;span class="math"&gt;\(p\)&lt;/span&gt;-independent factors into the new normalization factor &lt;span class="math"&gt;\(\mathcal{N}\)&lt;/span&gt;. The formula (\ref{bayes_rule}) provides the basis for the three ranking methods discussed&amp;nbsp;below.&lt;/p&gt;
 &lt;h3&gt;Three Bayesian ranking&amp;nbsp;systems&lt;/h3&gt;
 &lt;p&gt;Let&amp;#8217;s&amp;nbsp;rank!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bayesian method 1:&lt;/strong&gt; Choose the ordering that is most&amp;nbsp;likely.&lt;/p&gt;
@@ -1182,12 +1184,12 @@ Here, we have evaluated &lt;span class="math"&gt;\( P( n(1), n(0) \vert p )\)&lt
 P(p_1 &amp;gt; p_2) = \int_0^1 dp_1 \int_0^{p_1} dp_2 P(p_1) P(p_2). \tag{5} \label{int}
 $$&lt;/div&gt;
 &lt;p&gt;
-Plugging in (\ref{&lt;span class="caps"&gt;BR&lt;/span&gt;}) for the &lt;span class="math"&gt;\(P(p_i)\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s, this can be evaluated numerically. Evaluating the probability for the opposite ordering, we can then choose that which is most likely to be&amp;nbsp;correct.&lt;/p&gt;
+Plugging in (\ref{bayes_rule}) for the &lt;span class="math"&gt;\(P(p_i)\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s, this can be evaluated numerically. Evaluating the probability for the opposite ordering, we can then choose that which is most likely to be&amp;nbsp;correct.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Pros:&lt;/em&gt; Approach directly optimizes for the object we&amp;#8217;re interested in, the ranking &amp;#8212; very&amp;nbsp;appealing!&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Cons:&lt;/em&gt; Given &lt;span class="math"&gt;\(N\)&lt;/span&gt; items, one has &lt;span class="math"&gt;\(N!\)&lt;/span&gt; integrals to carry out &amp;#8212; untenable for large &lt;span class="math"&gt;\(N\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Note:&lt;/em&gt; See posssiblywrong&amp;#8217;s post &lt;a href="https://possiblywrong.wordpress.com/2014/05/31/reddits-comment-ranking-algorithm-revisited/"&gt;here&lt;/a&gt; for some related, interesting&amp;nbsp;points.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bayesian method 2:&lt;/strong&gt; Rank item &lt;span class="math"&gt;\(i\)&lt;/span&gt; by its median &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value.&lt;/p&gt;
-&lt;p&gt;Sorting by an item score provides an approach that will scale well even at large &lt;span class="math"&gt;\(N\)&lt;/span&gt;. A natural score to consider is an item&amp;#8217;s median &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value: that which it has a &lt;span class="math"&gt;\(50/50\)&lt;/span&gt; shot of being larger (or smaller) than. Using (\ref{&lt;span class="caps"&gt;BR&lt;/span&gt;}), this&amp;nbsp;satisfies
+&lt;p&gt;Sorting by an item score provides an approach that will scale well even at large &lt;span class="math"&gt;\(N\)&lt;/span&gt;. A natural score to consider is an item&amp;#8217;s median &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value: that which it has a &lt;span class="math"&gt;\(50/50\)&lt;/span&gt; shot of being larger (or smaller) than. Using (\ref{bayes_rule}), this&amp;nbsp;satisfies
 &lt;/p&gt;
 &lt;div class="math"&gt;$$\tag{6}\label{m2}
 \frac{\int_0^{p_{med}} p^{n_i(1)+a}(1-p)^{n_i(0)+b} dp}{\int_0^{1} p^{n_i(1)+a}(1-p)^{n_i(0)+b} dp} = 1/2.
@@ -1198,7 +1200,7 @@ The integral at left actually has a name &amp;#8212; it&amp;#8217;s called the &
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Cons:&lt;/em&gt; Inverting (\ref{m2}) can be somewhat slow, e.g. &lt;span class="math"&gt;\(\sim 10^{-3}\)&lt;/span&gt; seconds in&amp;nbsp;Mathematica.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Note&lt;/em&gt;: &lt;span class="caps"&gt;EM&lt;/span&gt; also derived this score function, in a follow-up to his original post. However, he motivated it in a slightly different way &amp;#8212; see &lt;a href="http://www.evanmiller.org/bayesian-average-ratings.html"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Bayesian method 3:&lt;/strong&gt; Rank item &lt;span class="math"&gt;\(i\)&lt;/span&gt; by its most likely (aka &lt;a href="https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation"&gt;&lt;span class="caps"&gt;MAP&lt;/span&gt;&lt;/a&gt;) &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value.&lt;/p&gt;
-&lt;p&gt;The most likely &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value for each item provides another natural score function. To find this, we simply set the derivative of (\ref{&lt;span class="caps"&gt;BR&lt;/span&gt;}) to&amp;nbsp;zero,
+&lt;p&gt;The most likely &lt;span class="math"&gt;\(p\)&lt;/span&gt;-value for each item provides another natural score function. To find this, we simply set the derivative of (\ref{bayes_rule}) to&amp;nbsp;zero,
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
 \begin{align}
@@ -1212,7 +1214,7 @@ This form &lt;span class="math"&gt;\(\tilde{p}\)&lt;/span&gt; is interesting bec
 &lt;p&gt;&lt;em&gt;&lt;span class="math"&gt;\(\bullet\)&lt;/span&gt; Cons:&lt;/em&gt; Have to pick &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; &amp;#8212; see below for suggested&amp;nbsp;methods.&lt;/p&gt;
 &lt;h3&gt;Discussion&lt;/h3&gt;
 &lt;p&gt;We consider each of the four ranking methods we&amp;#8217;ve discussed here to be interesting and useful &amp;#8212; the three Bayesian ranking systems, as well as &lt;a href="http://www.evanmiller.org/how-not-to-sort-by-average-rating.html"&gt;&lt;span class="caps"&gt;EM&lt;/span&gt;&amp;#8217;s original system&lt;/a&gt;, which works well when one only needs to protect against false positives (again, we note that Bayesian method 2 was also considered by &lt;span class="caps"&gt;EM&lt;/span&gt; in a &lt;a href="http://www.evanmiller.org/bayesian-average-ratings.html"&gt;follow-up&lt;/a&gt; to his original post). In practice, the three Bayesian approaches will each tend to return similar, but sometimes slightly different rankings. With regards to &amp;#8220;correctness&amp;#8221;, the essential point is that each method is well-motivated and avoids the common pitfalls. However, the final method is the easiest to apply, so it might be the most&amp;nbsp;practical.&lt;/p&gt;
-&lt;p&gt;To apply the Bayesian methods, one must specify the &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; values defining the prior, (\ref{&lt;span class="caps"&gt;BR&lt;/span&gt;}). We suggest three methods for choosing these: 1) Choose these values to provide a good approximation to your actual distribution, fitting only to items for which you have good statistics. 2) A/B test to get the ranking that optimizes some quantity you are interested in, e.g. clicks. 3) Heuristics: For example, if simplicity is key, choose &lt;span class="math"&gt;\(a= b =1\)&lt;/span&gt;, which biases towards an up-vote rate of &lt;span class="math"&gt;\(0.5\)&lt;/span&gt;. If a conservative estimate is desired for new items, one can set &lt;span class="math"&gt;\(b\)&lt;/span&gt; larger than &lt;span class="math"&gt;\(a\)&lt;/span&gt;. Finally, if you want to raise the number of actual votes required before the sample rates dominate, simply increase the values of &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt;&amp;nbsp;accordingly.&lt;/p&gt;
+&lt;p&gt;To apply the Bayesian methods, one must specify the &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; values defining the prior, (\ref{bayes_rule}). We suggest three methods for choosing these: 1) Choose these values to provide a good approximation to your actual distribution, fitting only to items for which you have good statistics. 2) A/B test to get the ranking that optimizes some quantity you are interested in, e.g. clicks. 3) Heuristics: For example, if simplicity is key, choose &lt;span class="math"&gt;\(a= b =1\)&lt;/span&gt;, which biases towards an up-vote rate of &lt;span class="math"&gt;\(0.5\)&lt;/span&gt;. If a conservative estimate is desired for new items, one can set &lt;span class="math"&gt;\(b\)&lt;/span&gt; larger than &lt;span class="math"&gt;\(a\)&lt;/span&gt;. Finally, if you want to raise the number of actual votes required before the sample rates dominate, simply increase the values of &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt;&amp;nbsp;accordingly.&lt;/p&gt;
 &lt;p&gt;To conclude, we present some example output in the table below. We show values for the Wilson score &lt;span class="math"&gt;\(p_W\)&lt;/span&gt;, with &lt;span class="math"&gt;\(z_{\alpha/2}\)&lt;/span&gt; set to &lt;span class="math"&gt;\(1.281\)&lt;/span&gt; in (\ref{emsol}) (the value &lt;a href="https://github.com/reddit/reddit/blob/62db2373f2555df17ebeb13968e243fccfbeff5f/r2/r2/lib/db/_sorts.pyx"&gt;reddit uses&lt;/a&gt;), and the seed score &lt;span class="math"&gt;\(\tilde{p}\)&lt;/span&gt;, with &lt;span class="math"&gt;\(a\)&lt;/span&gt; and &lt;span class="math"&gt;\(b\)&lt;/span&gt; set to &lt;span class="math"&gt;\(1\)&lt;/span&gt; in (\ref{final}). Notice that the two scores are in near-agreement for the last item shown, which has already accumulated a fair number of votes. However, &lt;span class="math"&gt;\(p_W\)&lt;/span&gt; is significantly lower than &lt;span class="math"&gt;\(\tilde{p}\)&lt;/span&gt; for each of the first three items. For example, the third has an up-vote rate of &lt;span class="math"&gt;\(66%\)&lt;/span&gt;, but is only given a Wilson score of &lt;span class="math"&gt;\(0.32\)&lt;/span&gt;: This means that it would be ranked below any mature item having an up-vote rate at least this high &amp;#8212; including fairly unpopular items liked by only one in three! This observation explains why it is nearly impossible to have new comments noticed on a reddit thread that has already hit the front page. Were reddit to move to a ranking system that were less pessimistic of new comments, its mature threads might remain&amp;nbsp;dynamic.&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -1315,19 +1317,20 @@ This form &lt;span class="math"&gt;\(\tilde{p}\)&lt;/span&gt; is interesting bec
 &lt;h3&gt;Introduction and theorem&amp;nbsp;statement&lt;/h3&gt;
 &lt;p&gt;The analysis of data very frequently requires one to attempt to characterize a probability distribution. For instance, given some random, stationary process that generates samples &lt;span class="math"&gt;\(\{x_i\}\)&lt;/span&gt;, one might wish to estimate the mean &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; of the probability distribution &lt;span class="math"&gt;\(P\)&lt;/span&gt; characterizing this process. To do this, one could construct an estimator function &lt;span class="math"&gt;\(\hat{\mu}(\{x_i\})\)&lt;/span&gt; &amp;#8212; a function of some samples taken from &lt;span class="math"&gt;\(P\)&lt;/span&gt; &amp;#8212; that is intended to provide an approximation to &lt;span class="math"&gt;\(\mu\)&lt;/span&gt;. Given &lt;span class="math"&gt;\(n\)&lt;/span&gt; samples, a natural choice is provided&amp;nbsp;by
 &lt;/p&gt;
-&lt;div class="math"&gt;$$
+&lt;div class="math"&gt;\begin{eqnarray}
 \hat{\mu}(\{x_i\}) = \frac{1}{n}\sum_{i = 1}^n x_i, \tag{1}
-$$&lt;/div&gt;
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 the mean of the samples. This particular choice of estimator will always be unbiased given a stationary &lt;span class="math"&gt;\(P\)&lt;/span&gt; &amp;#8212; meaning that it will return the correct result, on average. However, each particular sample set realization will return a slightly different mean estimate. This means that &lt;span class="math"&gt;\(\hat{\mu}\)&lt;/span&gt; is itself a random variable having its own distribution and&amp;nbsp;width.&lt;/p&gt;
 &lt;p&gt;More generally, one might be interested in a distribution characterized by a set of &lt;span class="math"&gt;\(m\)&lt;/span&gt; parameters &lt;span class="math"&gt;\(\{\theta_i\}\)&lt;/span&gt;. Consistently good estimates to these values require estimators with distributions that are tightly centered around the true &lt;span class="math"&gt;\(\{\theta_i\}\)&lt;/span&gt; values. The Cramer-Rao inequality tells us that there is a fundamental limit to how tightly centered such estimators can be, given only &lt;span class="math"&gt;\(n\)&lt;/span&gt; samples. We state the result&amp;nbsp;below.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Theorem:&lt;/strong&gt; &lt;em&gt;The multivariate Cramer-Rao inequality&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Theorem:&lt;/b&gt; The multivariate Cramer-Rao&amp;nbsp;inequality&lt;/p&gt;
 &lt;p&gt;Let &lt;span class="math"&gt;\(P\)&lt;/span&gt; be a distribution characterized by a set of &lt;span class="math"&gt;\(m\)&lt;/span&gt; parameters &lt;span class="math"&gt;\(\{\theta_i\}\)&lt;/span&gt;, and let &lt;span class="math"&gt;\(\{\hat{\theta_i}\equiv \hat{\theta_i}(\{x_i\})\}\)&lt;/span&gt; be an unbiased set of estimator functions for these parameters. Then, the covariance matrix (see definition below) for the &lt;span class="math"&gt;\(\hat{\{\theta_i\}}\)&lt;/span&gt;&amp;nbsp;satisfies,&lt;/p&gt;
-&lt;div class="math"&gt;$$ cov(\hat{\theta}, \hat{\theta}) \geq \frac{1}{n} \times \frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )}. \tag{2} \label{CR}
-$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{cramer_rao_bound}
+cov(\hat{\theta}, \hat{\theta}) \geq \frac{1}{n} \times \frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )}.
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;Here, the inequality holds in the sense that left side of the above equation, minus the right, is positive semi-definite. We discuss the meaning and significance of this equation in the next&amp;nbsp;section.&lt;/p&gt;
 &lt;h3&gt;Interpretation of the&amp;nbsp;result&lt;/h3&gt;
-&lt;p&gt;To understand (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;}), we must first review a couple of definitions. These&amp;nbsp;follow.&lt;/p&gt;
+&lt;p&gt;To understand (\ref{cramer_rao_bound}), we must first review a couple of definitions. These&amp;nbsp;follow.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Definition 1&lt;/strong&gt;. Let &lt;span class="math"&gt;\(\vec{u}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{v}\)&lt;/span&gt; be two jointly-distributed vectors of stationary random variables. The covariance matrix of &lt;span class="math"&gt;\(\vec{u}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{v}\)&lt;/span&gt; is defined&amp;nbsp;by
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
@@ -1342,7 +1345,7 @@ where we use overlines for averages. In words, (\ref{cov}) states that &lt;span 
 $$&lt;/div&gt;
 &lt;p&gt;
 for all real vectors &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt;. It is positive definite if the &amp;#8220;&lt;span class="math"&gt;\(\geq\)&lt;/span&gt;&amp;#8221; above can be replaced by a &amp;#8220;&lt;span class="math"&gt;\(&amp;gt;\)&lt;/span&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;The interesting consequences of (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;}) follow from the following&amp;nbsp;observation:&lt;/p&gt;
+&lt;p&gt;The interesting consequences of (\ref{cramer_rao_bound}) follow from the following&amp;nbsp;observation:&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Observation&lt;/strong&gt;. For any constant vectors &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{b}\)&lt;/span&gt;, we&amp;nbsp;have
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
@@ -1350,15 +1353,15 @@ cov(\vec{a}^T\cdot\vec{u}, \vec{b}^T \cdot \vec{v}) = \vec{a}^T \cdot cov(\vec{u
 $$&lt;/div&gt;
 &lt;p&gt;
 This follows from the definition&amp;nbsp;(\ref{cov}).&lt;/p&gt;
-&lt;p&gt;Taking &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{b}\)&lt;/span&gt; to both be along &lt;span class="math"&gt;\(\hat{i}\)&lt;/span&gt; in (\ref{fact}), and combining with (\ref{pd}), we see that (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;}) implies&amp;nbsp;that
+&lt;p&gt;Taking &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{b}\)&lt;/span&gt; to both be along &lt;span class="math"&gt;\(\hat{i}\)&lt;/span&gt; in (\ref{fact}), and combining with (\ref{pd}), we see that (\ref{cramer_rao_bound}) implies&amp;nbsp;that
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
 \sigma^2(\hat{\theta}_i^2) \geq \frac{1}{n} \times \left (\frac{1}{ cov(\nabla_{\vec{\theta}} \log P(x),\nabla_{\vec{\theta}} \log P(x) )} \right)_{ii},\tag{6}\label{CRsimple}
 $$&lt;/div&gt;
 &lt;p&gt;
 where we use &lt;span class="math"&gt;\(\sigma^2(x)\)&lt;/span&gt; to represent the variance of &lt;span class="math"&gt;\(x\)&lt;/span&gt;. The left side of (\ref{CRsimple}) is the variance of the estimator function &lt;span class="math"&gt;\(\hat{\theta}_i\)&lt;/span&gt;, whereas the right side is a function of &lt;span class="math"&gt;\(P\)&lt;/span&gt; only. This tells us that there is fundamental &amp;#8212; distribution-dependent &amp;#8212; lower limit on the uncertainty one can achieve when attempting to estimate &lt;em&gt;any parameter characterizing a distribution&lt;/em&gt;. In particular, (\ref{CRsimple}) states that the best variance one can achieve scales like &lt;span class="math"&gt;\(O(1/n)\)&lt;/span&gt;, where &lt;span class="math"&gt;\(n\)&lt;/span&gt; is the number of samples available&lt;span class="math"&gt;\(^1\)&lt;/span&gt; &amp;#8212; very&amp;nbsp;interesting!&lt;/p&gt;
-&lt;p&gt;Why is there a relationship between the left and right matrices in (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;})? Basically, the right side relates to the inverse rate at which the probability of a given &lt;span class="math"&gt;\(x\)&lt;/span&gt; changes with &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;: If &lt;span class="math"&gt;\(P(x \vert \theta)\)&lt;/span&gt; is highly peaked, the gradient of &lt;span class="math"&gt;\(P(x \vert \theta)\)&lt;/span&gt; will take on large values. In this case, a typical observation &lt;span class="math"&gt;\(x\)&lt;/span&gt; will provide significant information relating to the true &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; value, allowing for unbiased &lt;span class="math"&gt;\(\hat{\theta}\)&lt;/span&gt; estimates that have low variance. In the opposite limit, where typical observations are not very &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;-informative, unbiased &lt;span class="math"&gt;\(\hat{\theta}\)&lt;/span&gt; estimates must have large variance&lt;span class="math"&gt;\(^2\)&lt;/span&gt;.&lt;/p&gt;
-&lt;p&gt;We now turn to the proof of (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;}).&lt;/p&gt;
+&lt;p&gt;Why is there a relationship between the left and right matrices in (\ref{cramer_rao_bound})? Basically, the right side relates to the inverse rate at which the probability of a given &lt;span class="math"&gt;\(x\)&lt;/span&gt; changes with &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;: If &lt;span class="math"&gt;\(P(x \vert \theta)\)&lt;/span&gt; is highly peaked, the gradient of &lt;span class="math"&gt;\(P(x \vert \theta)\)&lt;/span&gt; will take on large values. In this case, a typical observation &lt;span class="math"&gt;\(x\)&lt;/span&gt; will provide significant information relating to the true &lt;span class="math"&gt;\(\theta\)&lt;/span&gt; value, allowing for unbiased &lt;span class="math"&gt;\(\hat{\theta}\)&lt;/span&gt; estimates that have low variance. In the opposite limit, where typical observations are not very &lt;span class="math"&gt;\(\theta\)&lt;/span&gt;-informative, unbiased &lt;span class="math"&gt;\(\hat{\theta}\)&lt;/span&gt; estimates must have large variance&lt;span class="math"&gt;\(^2\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;We now turn to the proof of&amp;nbsp;(\ref{cramer_rao_bound}).&lt;/p&gt;
 &lt;h3&gt;Theorem&amp;nbsp;proof&lt;/h3&gt;
 &lt;p&gt;Our discussion here expounds on that in the &lt;a href="http://sfb649.wiwi.hu-berlin.de/fedc_homepage/xplore/tutorials/mvahtmlframe74.html"&gt;online text&lt;/a&gt; of Cízek, Härdle, and Weron. We start by deriving a few simple lemmas. We state and derive these sequentially&amp;nbsp;below.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Lemma 1&lt;/strong&gt; Let &lt;span class="math"&gt;\(T_j(\{x_i\}) \equiv \partial_{\theta_j} \log P(\{x_i\}; \vec{\theta})\)&lt;/span&gt; be a function of a set of independent sample values &lt;span class="math"&gt;\(\{x_i\}\)&lt;/span&gt;. Then, the average of &lt;span class="math"&gt;\(T_j(\{x_i\})\)&lt;/span&gt; is&amp;nbsp;zero.&lt;/p&gt;
@@ -1392,7 +1395,7 @@ where the last line follows from the fact that the &lt;span class="math"&gt;\(\{
 &lt;p&gt;&lt;strong&gt;Lemma 4&lt;/strong&gt;. Let &lt;span class="math"&gt;\(x\)&lt;/span&gt; and &lt;span class="math"&gt;\(y\)&lt;/span&gt; be two scalar stationary random variables. Then, their correlation coefficient is defined to be &lt;span class="math"&gt;\(\rho \equiv \frac{cov(x,y)}{\sigma(x) \sigma(y)}\)&lt;/span&gt;. This&amp;nbsp;satisfies
 &lt;/p&gt;
 &lt;div class="math"&gt;$$
--1 \leq \rho \leq 1 \label{CC} \tag{11}
+-1 \leq \rho \leq 1 \label{c_c} \tag{11}
 $$&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;Proof:&lt;/em&gt; Consider the variance of &lt;span class="math"&gt;\(\frac{x}{\sigma(x)}+\frac{y}{\sigma(y)}\)&lt;/span&gt;. This&amp;nbsp;is
 &lt;/p&gt;
@@ -1403,7 +1406,7 @@ var \left( \frac{x}{\sigma(x)}+\frac{y}{\sigma(y)} \right) &amp;amp;= \frac{\sig
 \end{align}
 $$&lt;/div&gt;
 &lt;p&gt;
-This gives the left side of (\ref{&lt;span class="caps"&gt;CC&lt;/span&gt;}). Similarly, considering the variance of &lt;span class="math"&gt;\(\frac{x}{\sigma(x)}-\frac{y}{\sigma(y)}\)&lt;/span&gt; gives the right&amp;nbsp;side.&lt;/p&gt;
+This gives the left side of (\ref{c_c}). Similarly, considering the variance of &lt;span class="math"&gt;\(\frac{x}{\sigma(x)}-\frac{y}{\sigma(y)}\)&lt;/span&gt; gives the right&amp;nbsp;side.&lt;/p&gt;
 &lt;p&gt;We&amp;#8217;re now ready to prove the Cramer-Rao&amp;nbsp;result.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Proof of Cramer-Rao inequality&lt;/strong&gt;. Consider the correlation coefficient of the two scalars &lt;span class="math"&gt;\(\vec{a} \cdot \hat{\theta}\)&lt;/span&gt; and &lt;span class="math"&gt;\( \vec{b} \cdot \vec{T}\)&lt;/span&gt;, with &lt;span class="math"&gt;\(\vec{a}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{b}\)&lt;/span&gt; some constant vectors. Using (\ref{fact}) and Lemma 2, this can be written&amp;nbsp;as
 &lt;/p&gt;
@@ -1433,8 +1436,8 @@ $$&lt;/div&gt;
 &lt;p&gt;
 This holds for any \(\vec{a}\), implying that &lt;span class="math"&gt;\(cov(\hat{\theta}, \hat{\theta}) - cov(\vec{T},\vec{T})^{-1}\)&lt;/span&gt; is positive semi-definite &amp;#8212; see (\ref{pd}). Applying Lemma 3, we obtain the result&lt;span class="math"&gt;\(^3\)&lt;/span&gt;. &lt;span class="math"&gt;\(\blacksquare\)&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;Thank you for reading &amp;#8212; we hope you&amp;nbsp;enjoyed.&lt;/p&gt;
-&lt;p&gt;[1] More generally, (\ref{fact}) tells us that an observation similar to (\ref{CRsimple}) holds for any linear combination of the &lt;span class="math"&gt;\(\{\theta_i\}\)&lt;/span&gt;. Notice also that the proof we provide here could also be applied to any individual &lt;span class="math"&gt;\(\theta_i\)&lt;/span&gt;, giving &lt;span class="math"&gt;\(\sigma^2(\hat{\theta}_i) \geq 1/n \times 1/\langle(\partial_{\theta_i} \log P)^2\rangle\)&lt;/span&gt;. This is easier to apply than (\ref{&lt;span class="caps"&gt;CR&lt;/span&gt;}), but is less&amp;nbsp;stringent.&lt;/p&gt;
-&lt;p&gt;[2] It might be challenging to intuit the exact function that appears on the right side of &lt;span class="math"&gt;\((\ref{CR})\)&lt;/span&gt;. However, the appearance of &lt;span class="math"&gt;\(\log P\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s does make some intuitive sense, as it allows the derivatives involved to measure rates of change relative to typical values, &lt;span class="math"&gt;\(\nabla_{\theta} P / P\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;[1] More generally, (\ref{fact}) tells us that an observation similar to (\ref{CRsimple}) holds for any linear combination of the &lt;span class="math"&gt;\(\{\theta_i\}\)&lt;/span&gt;. Notice also that the proof we provide here could also be applied to any individual &lt;span class="math"&gt;\(\theta_i\)&lt;/span&gt;, giving &lt;span class="math"&gt;\(\sigma^2(\hat{\theta}_i) \geq 1/n \times 1/\langle(\partial_{\theta_i} \log P)^2\rangle\)&lt;/span&gt;. This is easier to apply than (\ref{cramer_rao_bound}), but is less&amp;nbsp;stringent.&lt;/p&gt;
+&lt;p&gt;[2] It might be challenging to intuit the exact function that appears on the right side of &lt;span class="math"&gt;\((\ref{cramer_rao_bound})\)&lt;/span&gt;. However, the appearance of &lt;span class="math"&gt;\(\log P\)&lt;/span&gt;&lt;span class="quo"&gt;&amp;#8216;&lt;/span&gt;s does make some intuitive sense, as it allows the derivatives involved to measure rates of change relative to typical values, &lt;span class="math"&gt;\(\nabla_{\theta} P / P\)&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;[3] The discussion here covers the &amp;#8220;standard proof&amp;#8221; of the Cramer-Rao result. Its brilliance is that it allows one to work with scalars. In contrast, when attempting to find my own proof, I began with the fact that all covariance matrices are positive definite. Applying this result to the covariance matrix of a linear combination of &lt;span class="math"&gt;\(\hat{\theta}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\vec{T}\)&lt;/span&gt;, one can quickly get to results similar in form to the Cramer-Rao bound, but not quite identical. After significant work, I was eventually able to show that &lt;span class="math"&gt;\(\sqrt{cov(\hat{\theta},\hat{\theta})} - 1/\sqrt{cov(\vec{T},\vec{T}) } \geq 0\)&lt;/span&gt;. However, I have yet to massage my way to the final result using this approach &amp;#8212; the difficulty being that the matrices involved don&amp;#8217;t commute. By working with scalars from the start, the proof here cleanly avoids all such&amp;nbsp;issues.&lt;/p&gt;
 &lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -1503,26 +1506,15 @@ This holds for any \(\vec{a}\), implying that &lt;span class="math"&gt;\(cov(\ha
 &lt;h4&gt;&lt;strong&gt;The&amp;nbsp;model&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;The equations describing our generalized &lt;span class="caps"&gt;SIR&lt;/span&gt; model&amp;nbsp;are
 &lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{1} \label{eq1}
-\begin{equation}
-\dot{S}_{U} = - b_{U} S_{U} I
-\end{equation}
-$$&lt;/div&gt;
-&lt;div class="math"&gt;$$\tag{2} \label{eq2}
-\begin{equation}
-\dot{S}_{U} = - b_{U} S_{U} I
-\end{equation}
-$$&lt;/div&gt;
-&lt;div class="math"&gt;$$\tag{3} \label{eq3}
-\begin{equation}
-\dot{R} = k I
-\end{equation}
-$$&lt;/div&gt;
-&lt;div class="math"&gt;$$\tag{4} \label{eq4}
-\begin{equation}
-1 = I + R + S_U + S_V
-\end{equation}
-$$&lt;/div&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{1} \label{eq1}
+\dot{S}_{U} &amp;amp;=&amp;amp; - b_{U} S_{U} I \\
+\tag{2} \label{eq2}
+\dot{S}_{U} &amp;amp;=&amp;amp; - b_{U} S_{U} I \\
+\tag{3} \label{eq3}
+\dot{R} &amp;amp;=&amp;amp; k I \\
+\tag{4} \label{eq4}
+1 &amp;amp;=&amp;amp; I + R + S_U + S_V
+\end{eqnarray}&lt;/div&gt;
 &lt;p&gt;Here, &lt;span class="math"&gt;\(S_{U}\)&lt;/span&gt;, &lt;span class="math"&gt;\(S_{V}\)&lt;/span&gt;, &lt;span class="math"&gt;\(I\)&lt;/span&gt;, and &lt;span class="math"&gt;\(R\)&lt;/span&gt; are population fractions corresponding to those unvaccinated and as yet uninfected, vaccinated and as yet uninfected, currently infected and contagious, and once contagious but no longer (recovered, perhaps), respectively. The first two equations above are instances of the &lt;a href="http://en.wikipedia.org/wiki/Law_of_mass_action"&gt;law of mass action&lt;/a&gt;. They approximate the infection rates as being proportional to the rates of susceptible-infected individual encounters. We refer to &lt;span class="math"&gt;\(b_{U}\)&lt;/span&gt; and &lt;span class="math"&gt;\(b_{V}\)&lt;/span&gt; here as the &lt;em&gt;infection rate parameters&lt;/em&gt; of the two subpopulations. The third equation above approximates the dynamics of recovery: The form chosen supposes that an infected individual has a fixed probability of returning to health each day. We will refer to &lt;span class="math"&gt;\(k\)&lt;/span&gt; as the &lt;em&gt;recovery rate parameter&lt;/em&gt;. The final equation above simply states that the subpopulation fractions have to always sum to&amp;nbsp;one.&lt;/p&gt;
 &lt;h4&gt;&lt;strong&gt;Parameter&amp;nbsp;estimation&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;We can estimate the values &lt;span class="math"&gt;\(b_{U}\)&lt;/span&gt; and &lt;span class="math"&gt;\(b_{V}\)&lt;/span&gt; by introducing a close contact number (&lt;span class="math"&gt;\(ccn\)&lt;/span&gt;) variable, which is the average number of close contacts that individual infected, contagious people make per day. As a rough ball park, let us suppose that &lt;span class="math"&gt;\(ccn \approx 3\)&lt;/span&gt;. According to the &lt;span class="caps"&gt;CDC&lt;/span&gt;, an un-vaccinated person making close contact with someone with measles has a 90&lt;span class="math"&gt;\(%\)&lt;/span&gt; chance of contracting the illness. On the other hand, those who have been vaccinated a single time have a 95&lt;span class="math"&gt;\(%\)&lt;/span&gt; chance of being immune to the disease. Let&amp;#8217;s estimate that the combined population of individuals who have been vaccinated have a 1&lt;span class="math"&gt;\(%\)&lt;/span&gt; chance of contracting the illness upon close contact. These considerations&amp;nbsp;suggest
@@ -1589,21 +1581,21 @@ This equation can be solved numerically to obtain the total contraction count as
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;#Solving the SIR model for infectious disease. JSL 2/18/2015&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt;
 
-&lt;span class="n"&gt;ccn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="c1"&gt;#\`\`close contact number&amp;quot; = people per day&lt;/span&gt;
+&lt;span class="n"&gt;ccn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt; &lt;span class="c1"&gt;# &amp;quot;close contact number&amp;quot; = people per day&lt;/span&gt;
 &lt;span class="c1"&gt;#interacting closely with typical infected person&lt;/span&gt;
 
-&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt; &lt;span class="c1"&gt;#Rate of &amp;#39;recovery&amp;#39; [1].&lt;/span&gt;
-&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ccn&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.9&lt;/span&gt; &lt;span class="c1"&gt;#Approximate infection rate un-vaccinated [3].&lt;/span&gt;
-&lt;span class="n"&gt;b2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ccn&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.01&lt;/span&gt; &lt;span class="c1"&gt;#Approximate infection rate un-vaccinated [4].&lt;/span&gt;
+&lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;       &lt;span class="c1"&gt;# Rate of &amp;#39;recovery&amp;#39; [1].&lt;/span&gt;
+&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ccn&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.9&lt;/span&gt;   &lt;span class="c1"&gt;# Approximate infection rate un-vaccinated [3].&lt;/span&gt;
+&lt;span class="n"&gt;b2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ccn&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="mf"&gt;0.01&lt;/span&gt;  &lt;span class="c1"&gt;# Approximate infection rate un-vaccinated [4].&lt;/span&gt;
 
 &lt;span class="c1"&gt;#Initial conditions (fraction of people in each category)&lt;/span&gt;
-&lt;span class="n"&gt;I0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.001&lt;/span&gt; &lt;span class="c1"&gt;#initial population fraction infected.&lt;/span&gt;
-&lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.2&lt;/span&gt; &lt;span class="c1"&gt;#population fraction unvaccinated.&lt;/span&gt;
-&lt;span class="n"&gt;S20&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;I0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="c1"&gt;#population fraction vacccinated.&lt;/span&gt;
-&lt;span class="n"&gt;R0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt; &lt;span class="c1"&gt;#intial recovered fraction.&lt;/span&gt;
+&lt;span class="n"&gt;I0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.001&lt;/span&gt;          &lt;span class="c1"&gt;# initial population fraction infected.&lt;/span&gt;
+&lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.2&lt;/span&gt;           &lt;span class="c1"&gt;# population fraction unvaccinated.&lt;/span&gt;
+&lt;span class="n"&gt;S20&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;I0&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;S10&lt;/span&gt;  &lt;span class="c1"&gt;# population fraction vacccinated.&lt;/span&gt;
+&lt;span class="n"&gt;R0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;            &lt;span class="c1"&gt;# intial recovered fraction.&lt;/span&gt;
 
-&lt;span class="n"&gt;dt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt; &lt;span class="c1"&gt;#integration time step&lt;/span&gt;
-&lt;span class="n"&gt;days&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="c1"&gt;#total days considered&lt;/span&gt;
+&lt;span class="n"&gt;dt&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.01&lt;/span&gt;           &lt;span class="c1"&gt;# integration time step&lt;/span&gt;
+&lt;span class="n"&gt;days&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;          &lt;span class="c1"&gt;# total days considered&lt;/span&gt;
 
 &lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;I0&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dt&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt;
 &lt;span class="n"&gt;S1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dt&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt;
@@ -1611,7 +1603,6 @@ This equation can be solved numerically to obtain the total contraction count as
 &lt;span class="n"&gt;R&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;R0&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dt&lt;/span&gt;&lt;span class="p"&gt;))]&lt;/span&gt;
 
 &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;days&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;dt&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
-
     &lt;span class="n"&gt;S1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;S1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;S1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;dt&lt;/span&gt;
     &lt;span class="n"&gt;S2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;S2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;b2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;S2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;dt&lt;/span&gt;
     &lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;S1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; \
@@ -1625,22 +1616,24 @@ This equation can be solved numerically to obtain the total contraction count as
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;S1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;blue&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;S2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;green&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;R&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;black&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;1400&lt;/span&gt;&lt;span class="p"&gt;],[&lt;/span&gt;&lt;span class="n"&gt;I0&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;S20&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; \
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;1400&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;&lt;span class="n"&gt;color&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;purple&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;1400&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;I0&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;b1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;S10&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b2&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;S20&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;t&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="mi"&gt;1400&lt;/span&gt;&lt;span class="p"&gt;]],&lt;/span&gt;
+    &lt;span class="n"&gt;color&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;purple&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;axis&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yscale&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;log&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;time [days]&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;population %&lt;/span&gt;&lt;span class="se"&gt;\&amp;#39;&lt;/span&gt;&lt;span class="s1"&gt;s&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
-&lt;span class="c1"&gt;#[1] Measles patients are contagious for eight days&lt;/span&gt;
+&lt;span class="c1"&gt;# [1] Measles patients are contagious for eight days&lt;/span&gt;
 &lt;span class="c1"&gt;# four of which are before symptoms appear. [2]&lt;/span&gt;
-&lt;span class="c1"&gt;#[2] http://www.cdc.gov/measles/about/transmission.html&lt;/span&gt;
-&lt;span class="c1"&gt;#[3] Assume infected have close contact with five people/day.&lt;/span&gt;
+&lt;span class="c1"&gt;# [2] http://www.cdc.gov/measles/about/transmission.html&lt;/span&gt;
+&lt;span class="c1"&gt;# [3] Assume infected have close contact with five people/day.&lt;/span&gt;
 &lt;span class="c1"&gt;# 90% of the un-vaccinated get sick in such situations.&lt;/span&gt;
-&lt;span class="c1"&gt;#[4] Single vaccination gives ~95% immunity rate [5]. Many&lt;/span&gt;
+&lt;span class="c1"&gt;# [4] Single vaccination gives ~95% immunity rate [5]. Many&lt;/span&gt;
 &lt;span class="c1"&gt;# have two doses, which drops rate to very low.&lt;/span&gt;
-&lt;span class="c1"&gt;#[5] http://www.cdc.gov/mmwr/preview/mmwrhtml/00053391.htm&lt;/span&gt;
+&lt;span class="c1"&gt;# [5] http://www.cdc.gov/mmwr/preview/mmwrhtml/00053391.htm&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

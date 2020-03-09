@@ -9,30 +9,30 @@
 &lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;TimeMarker&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="fm"&gt;__init__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;print_markers&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]):&lt;/span&gt;  
-&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;zip&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;markers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]):&lt;/span&gt;  
+    &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;Here is a simple code&amp;nbsp;example:  &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;tm&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;TimeMarker&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
-&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
-&lt;span class="k"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
-&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
-&lt;span class="k"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
-&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;span class="nb"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;  
+&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mark&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 
-&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print_markers&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
-&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;output&lt;/span&gt;&lt;span class="p"&gt;...)&lt;/span&gt;  
-&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;9870223999&lt;/span&gt;&lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;05&lt;/span&gt;  
-&lt;span class="o"&gt;#&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;0279731750488&lt;/span&gt;  
+&lt;span class="n"&gt;tm&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print_markers&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+&lt;span class="c1"&gt;# (output...)  &lt;/span&gt;
+&lt;span class="c1"&gt;# 7.9870223999e-05  &lt;/span&gt;
+&lt;span class="c1"&gt;# 0.0279731750488  &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -41,81 +41,92 @@
 &lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&amp;nbsp;result.&lt;/p&gt;
 &lt;h3&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output&amp;nbsp;follows:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;s = &amp;#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&amp;#39;  &lt;/span&gt;
-&lt;span class="x"&gt;print command_to_latex(s)&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&amp;#39;&lt;/span&gt;  
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;command_to_latex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-&lt;span class="x"&gt;## output:  &lt;/span&gt;
-&lt;span class="x"&gt;\frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;}&lt;/span&gt;&lt;span class="err"&gt;^&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;w&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt; \cdot \tanh \left (2 \cdot \pi \cdot x \right )  &lt;/span&gt;
+&lt;span class="c1"&gt;## output:  &lt;/span&gt;
+\&lt;span class="n"&gt;frac&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt; \&lt;span class="n"&gt;left&lt;/span&gt; &lt;span class="p"&gt;({&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="n"&gt;_&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;123&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; \&lt;span class="n"&gt;right&lt;/span&gt; &lt;span class="p"&gt;)}{&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; \&lt;span class="n"&gt;frac&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;z&lt;/span&gt; \&lt;span class="n"&gt;left&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; \&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;\&lt;span class="n"&gt;frac&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;}{&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt; \&lt;span class="n"&gt;right&lt;/span&gt; &lt;span class="p"&gt;)}}&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; \&lt;span class="n"&gt;sqrt&lt;/span&gt;&lt;span class="p"&gt;{{&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="n"&gt;w&lt;/span&gt;&lt;span class="p"&gt;}}&lt;/span&gt; \&lt;span class="n"&gt;cdot&lt;/span&gt; \&lt;span class="n"&gt;tanh&lt;/span&gt; \&lt;span class="n"&gt;left&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; \&lt;span class="n"&gt;cdot&lt;/span&gt; \&lt;span class="n"&gt;pi&lt;/span&gt; \&lt;span class="n"&gt;cdot&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; \&lt;span class="n"&gt;right&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;  
 &lt;/pre&gt;&lt;/div&gt;
 
 
 &lt;p&gt;If the output shown here is plugged into a LaTeX editor, we get the following&amp;nbsp;result:&lt;/p&gt;
-&lt;div class="math"&gt;$$\tag{1}  
+&lt;div class="math"&gt;\begin{eqnarray}\tag{1}  
 \frac{f \left ({x}_{123} , 2 \right )}{2 + \frac{3}{1 + z \left ( \sqrt{\frac{x + 3}{3}} \right )}} + \sqrt{{2}^{w}} \cdot \tanh \left (2 \cdot \pi \cdot x \right )  
-$$&lt;/div&gt;
-&lt;p&gt;&lt;br&gt;
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
 Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;notebook&lt;/a&gt; automatically pretty prints to this&amp;nbsp;form.&lt;/p&gt;
 &lt;p&gt;We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python&amp;nbsp;format.&lt;/p&gt;
 &lt;p&gt;We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined &amp;#8212; we illustrate this issue in the&amp;nbsp;notebook.&lt;/p&gt;
 &lt;p&gt;As usual, our code can be downloaded from our github page &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Code&lt;/h3&gt;
 &lt;p&gt;The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines&amp;nbsp;below.&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="x"&gt;def parse_simple_eqn(q):  &lt;/span&gt;
-&lt;span class="x"&gt;&amp;quot;&amp;quot;&amp;quot; Return TeX equivalent of a command  &lt;/span&gt;
-&lt;span class="x"&gt;without parentheses. &amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
-&lt;span class="x"&gt;# Define replacement rules.  &lt;/span&gt;
-&lt;span class="x"&gt;simple_replacements = [[&amp;#39; &amp;#39;, &amp;#39;&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;**&amp;#39;, &amp;#39;^&amp;#39;], [&amp;#39;*&amp;#39;, &amp;#39; \cdot &amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;math.&amp;#39;, &amp;#39;&amp;#39;], [&amp;#39;np.&amp;#39;, &amp;#39;&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;pi&amp;#39;, &amp;#39;\pi&amp;#39;] , [&amp;#39;tan&amp;#39;, &amp;#39;\tan&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;cos&amp;#39;, &amp;#39;\cos&amp;#39;], [&amp;#39;sin&amp;#39;, &amp;#39;\sin&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;sec&amp;#39;, &amp;#39;\sec&amp;#39;], [&amp;#39;csc&amp;#39;, &amp;#39;\csc&amp;#39;]]  &lt;/span&gt;
-&lt;span class="x"&gt;complex_replacements = [[&amp;#39;^&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}^&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;_&amp;#39;, &amp;#39;&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}_&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;/&amp;#39;, &amp;#39;\frac&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i1&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;],  &lt;/span&gt;
-&lt;span class="x"&gt;[&amp;#39;sqrt&amp;#39;,&amp;#39;\sqrt&lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt;&lt;span class="o"&gt;{&lt;/span&gt;&lt;span class="nv"&gt;i2&lt;/span&gt;&lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;}&amp;#39;]]  &lt;/span&gt;
-&lt;span class="x"&gt;# Carry out simple replacements  &lt;/span&gt;
-&lt;span class="x"&gt;for pair in simple_replacements:  &lt;/span&gt;
-&lt;span class="x"&gt;q = q.replace(pair[0], pair[1])  &lt;/span&gt;
-&lt;span class="x"&gt;# Now complex replacements  &lt;/span&gt;
-&lt;span class="x"&gt;for item in [&amp;#39;*&amp;#39;, &amp;#39;/&amp;#39;, &amp;#39;+&amp;#39;, &amp;#39;-&amp;#39;, &amp;#39;^&amp;#39;, &amp;#39;_&amp;#39;, &amp;#39;,&amp;#39;, &amp;#39;sqrt&amp;#39;]:  &lt;/span&gt;
-&lt;span class="x"&gt;q = q.replace(item, &amp;#39; &amp;#39; + item + &amp;#39; &amp;#39;)  &lt;/span&gt;
-&lt;span class="x"&gt;q_split = q.split()  &lt;/span&gt;
-&lt;span class="x"&gt;for index, item in enumerate(q_split):  &lt;/span&gt;
-&lt;span class="x"&gt;for pair in complex_replacements:  &lt;/span&gt;
-&lt;span class="x"&gt;if item == pair[0]:  &lt;/span&gt;
-&lt;span class="x"&gt;if item == &amp;#39;sqrt&amp;#39;:  &lt;/span&gt;
-&lt;span class="x"&gt;match_str = &amp;quot; &amp;quot;.join(q_split[index:index+2])  &lt;/span&gt;
-&lt;span class="x"&gt;else:  &lt;/span&gt;
-&lt;span class="x"&gt;match_str = &amp;quot; &amp;quot;.join(q_split[index-1:index+2])  &lt;/span&gt;
-&lt;span class="x"&gt;q = q.replace(match_str, pair[1].format(  &lt;/span&gt;
-&lt;span class="x"&gt;i1=q_split[index-1], i2=q_split[index+1]))  &lt;/span&gt;
-&lt;span class="x"&gt;return q&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_simple_eqn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Return TeX equivalent of a command without parentheses. &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+    &lt;span class="c1"&gt;# Define replacement rules.  &lt;/span&gt;
+    &lt;span class="n"&gt;simple_replacements&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;**&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; \cdot &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;math.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;np.&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;pi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\pi&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;tan&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\t&lt;/span&gt;&lt;span class="s1"&gt;an&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;cos&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\cos&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\sin&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sec&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\sec&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;csc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;\csc&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;  
+    &lt;span class="n"&gt;complex_replacements&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;^&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{{&lt;/span&gt;&lt;span class="si"&gt;{i1}&lt;/span&gt;&lt;span class="s1"&gt;}}^{{&lt;/span&gt;&lt;span class="si"&gt;{i2}&lt;/span&gt;&lt;span class="s1"&gt;}}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{{&lt;/span&gt;&lt;span class="si"&gt;{i1}&lt;/span&gt;&lt;span class="s1"&gt;}}_{{&lt;/span&gt;&lt;span class="si"&gt;{i2}&lt;/span&gt;&lt;span class="s1"&gt;}}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\f&lt;/span&gt;&lt;span class="s1"&gt;rac{{&lt;/span&gt;&lt;span class="si"&gt;{i1}&lt;/span&gt;&lt;span class="s1"&gt;}}{{&lt;/span&gt;&lt;span class="si"&gt;{i2}&lt;/span&gt;&lt;span class="s1"&gt;}}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;  
+        &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;sqrt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\sqrt{{&lt;/span&gt;&lt;span class="si"&gt;{i2}&lt;/span&gt;&lt;span class="s1"&gt;}}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+    &lt;span class="p"&gt;]&lt;/span&gt;  
 
-&lt;span class="x"&gt;def command_to_latex(q, index=0):  &lt;/span&gt;
-&lt;span class="x"&gt;&amp;quot;&amp;quot;&amp;quot; Recursively eliminate parentheses. Once  &lt;/span&gt;
-&lt;span class="x"&gt;removed, apply parse_simple_eqn. &amp;quot;&amp;quot;&amp;quot;  &lt;/span&gt;
-&lt;span class="x"&gt;open_index, close_index = -1, -1  &lt;/span&gt;
-&lt;span class="x"&gt;for q_index, i in enumerate(q):  &lt;/span&gt;
-&lt;span class="x"&gt;if i == &amp;#39;(&amp;#39;:  &lt;/span&gt;
-&lt;span class="x"&gt;open_index = q_index  &lt;/span&gt;
-&lt;span class="x"&gt;elif i == &amp;#39;)&amp;#39;:  &lt;/span&gt;
-&lt;span class="x"&gt;close_index = q_index  &lt;/span&gt;
-&lt;span class="x"&gt;break  &lt;/span&gt;
-&lt;span class="x"&gt;if open_index != -1:  &lt;/span&gt;
-&lt;span class="x"&gt;o = q[:open_index] + &amp;#39;@&amp;#39; + str(index) + q[close_index + 1:]  &lt;/span&gt;
-&lt;span class="x"&gt;m = q[open_index + 1:close_index]  &lt;/span&gt;
-&lt;span class="x"&gt;o_tex = command_to_latex(o, index + 1)  &lt;/span&gt;
-&lt;span class="x"&gt;m_tex = command_to_latex(m, index + 1)  &lt;/span&gt;
-&lt;span class="x"&gt;# Clean up redundant parentheses at recombination  &lt;/span&gt;
-&lt;span class="x"&gt;r_index = o_tex.find(&amp;#39;@&amp;#39; + str(index))  &lt;/span&gt;
-&lt;span class="x"&gt;if o_tex[r_index - 1] == &amp;#39;{&amp;#39;:  &lt;/span&gt;
-&lt;span class="x"&gt;return o_tex.replace(&amp;#39;@&amp;#39;+str(index), m_tex)  &lt;/span&gt;
-&lt;span class="x"&gt;else:  &lt;/span&gt;
-&lt;span class="x"&gt;return o_tex.replace(&amp;#39;@&amp;#39;+str(index),  &lt;/span&gt;
-&lt;span class="x"&gt;&amp;#39; \left (&amp;#39; + m_tex + &amp;#39; \right )&amp;#39;)  &lt;/span&gt;
-&lt;span class="x"&gt;else:  &lt;/span&gt;
-&lt;span class="x"&gt;return parse_simple_eqn(q)  &lt;/span&gt;
+    &lt;span class="c1"&gt;# Carry out simple replacements  &lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;simple_replacements&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+        &lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+
+    &lt;span class="c1"&gt;# Now complex replacements  &lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;-&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;^&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;,&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sqrt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;  
+        &lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;  
+        &lt;span class="n"&gt;q_split&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;  
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q_split&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;complex_replacements&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+                &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;  
+                    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;item&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;sqrt&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+                        &lt;span class="n"&gt;match_str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q_split&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+                    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;  
+                        &lt;span class="n"&gt;match_str&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; &amp;quot;&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q_split&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+                    &lt;span class="n"&gt;q&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;match_str&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;  
+                        &lt;span class="n"&gt;i1&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;q_split&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;i2&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;q_split&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;  
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;
+
+
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;command_to_latex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Recursively eliminate parentheses, then apply parse_simple_eqn.&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
+    &lt;span class="n"&gt;open_index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;close_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;q_index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;(&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;open_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q_index&lt;/span&gt;
+        &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;)&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;close_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q_index&lt;/span&gt;
+            &lt;span class="k"&gt;break&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;open_index&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;o&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;open_index&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;@&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;close_index&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:]&lt;/span&gt;
+        &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;open_index&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;close_index&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="n"&gt;o_tex&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;command_to_latex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;o&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;m_tex&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;command_to_latex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="c1"&gt;# Clean up redundant parentheses at recombination&lt;/span&gt;
+        &lt;span class="n"&gt;r_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;o_tex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;@&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;o_tex&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;r_index&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;{&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;o_tex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;@&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;m_tex&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;o_tex&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;@&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+                                 &lt;span class="s1"&gt;&amp;#39; &lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s1"&gt;left (&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;m_tex&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &lt;/span&gt;&lt;span class="se"&gt;\\&lt;/span&gt;&lt;span class="s1"&gt;right )&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;parse_simple_eqn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

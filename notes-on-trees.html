@@ -90,7 +90,7 @@
 <h4><strong>Regression</strong></h4>
 <p>Regression tree construction typically proceeds by attempting to minimize a squared error cost function: Given a training set <span class="math">\(T \equiv \{t_j = (\textbf{f}_j, y_j) \}\)</span> of feature vectors and corresponding real-valued labels, this is given by<br>
 </p>
-<div class="math">\begin{eqnarray}\label{treecost}  
+<div class="math">\begin{eqnarray}\label{treecost} \tag{1} 
 J = \sum_{R_i} \sum_{t_j \in R_i } \left ( \overline{y}_{R_i} - y_j \right)^2,  
 \end{eqnarray}</div>
 <p><br>
@@ -104,9 +104,9 @@ where <span class="math">\(\overline{y}_{R_i}\)</span> is the mean training labe
 <h4><strong>Classification</strong></h4>
 <p>In classification problems, the training labels take on a discrete set of values, often having no numerical significance. This means that a squared-error cost function, like that in (\ref{treecost}) &#8212; cannot be directly applied as a useful accuracy score for guiding classification tree construction. Instead, three other cost functions are often considered, each providing a different measure of the class purity of the different regions &#8212; that is, they attempt to measure whether or not a given region consists of training examples that are mostly of the same class. These three measures are the error rate (<span class="math">\(E\)</span>), the Gini index (<span class="math">\(G\)</span>), and the cross-entropy (<span class="math">\(CE\)</span>): If we write <span class="math">\(N_i\)</span> for the number of training examples in region <span class="math">\(R_i\)</span>, and <span class="math">\(p_{i,j}\)</span> for the fraction of these that have class label <span class="math">\(j\)</span>, then these three cost functions are given by<br>
 </p>
-<div class="math">\begin{eqnarray}\label{errorrate}  
-E &amp;=&amp; \sum_{R_i} N_i \times \left ( 1 - \max_{j} p_{i,j}\right) \ \label{gini}  
-G &amp;=&amp; \sum_{R_i, j}N_i \times p_{i,j}\left ( 1 - p_{i,j} \right) \ \label{crossentropy}  
+<div class="math">\begin{eqnarray}\label{errorrate}  \tag{2} 
+E &amp;=&amp; \sum_{R_i} N_i \times \left ( 1 - \max_{j} p_{i,j}\right) \\ \label{gini} \tag{3} 
+G &amp;=&amp; \sum_{R_i, j}N_i \times p_{i,j}\left ( 1 - p_{i,j} \right) \\ \label{crossentropy} \tag{4} 
 CE &amp;=&amp; - \sum_{R_i, j} N_i \times p_{i,j} \log p_{i,j}.  
 \end{eqnarray}</div>
 <p><br>
@@ -120,7 +120,7 @@ Each of the summands here are plotted in Fig. 3 for the special case of binary c
 <h4><strong>Bagging and random&nbsp;forests</strong></h4>
 <p><em>Bootstrap aggregation</em>, or &#8220;bagging&#8221;, provides one common method for constructing ensemble tree models. In this approach, one samples with replacement to obtain <span class="math">\(k\)</span> separate bootstrapped training sets from the original training data. To obtain a bootstrapped subsample of a data set of size <span class="math">\(N\)</span>, one draws randomly from the set <span class="math">\(N\)</span> times with replacement. Because one samples with replacement, each bootstrapped set can contain multiple copies of some examples. The average number of unique examples in a given bootstrap is simply <span class="math">\(N\)</span> times the probability that any individual example makes it into the training set. This is<br>
 </p>
-<div class="math">\begin{eqnarray}  
+<div class="math">\begin{eqnarray} \tag{5} 
 N \left [ 1 - \left(\frac{N-1}{N} \right)^N \right ] \approx N (1 - e^{-1}) \approx 0.63N,  
 \end{eqnarray}</div>
 <p><br>
@@ -130,7 +130,7 @@ where the latter forms are accurate in the large <span class="math">\(N\)</span>
 <h4><strong>Boosting</strong></h4>
 <p>The final method we&#8217;ll discuss is <em>boosting</em>, which again consists of a set of individual trees that collectively determine the ultimate prediction returned by the model. However, in the boosting scenario, one fits each of the trees to the full data set, rather than to a small sample. Because they are fit to the full data set, these trees are usually restricted to being only two or three levels deep, so as to avoid over-fitting. Further, the individual trees in a boosted forest are constructed sequentially. For instance, in regression, the process typically works as follows: In the first step, a tree is fit to the full, original training set <span class="math">\(T = \{t_i = (\textbf{f}_i, y_i)\}\)</span>. Next, a second tree is constructed on the same training feature vectors, but with the original labels replaced by residuals. These residuals are obtained by subtracting out a scaled version of the predictions <span class="math">\(\hat{y}^1\)</span> returned by the first tree,<br>
 </p>
-<div class="math">\begin{eqnarray}  
+<div class="math">\begin{eqnarray} \tag{6} 
 y_i^{(1)} \equiv y_i - \alpha \hat{y}_i^1.  
 \end{eqnarray}</div>
 <p><br>
@@ -149,7 +149,7 @@ Here, <span class="math">\(\alpha\)</span> is the scaling factor, or learning ra
 <p>If a forest of <span class="math">\(N\)</span> trees is to be constructed, each will require <span class="math">\(O(k \times n \log n)\)</span> time to construct. Recall, however, that the trees of a bagged forest can be constructed independently of one another. This allows for bagged forest constructions to take advantage of parallelization, facilitating their application in the large <span class="math">\(N\)</span> limit. In contrast, the trees of a boosted forest are constructed in sequence and so cannot be parallelized in a similar manner. However, note that optimal split searches along different feature directions can always be run in parallel. This can speed up individual tree construction times in either&nbsp;case.</p>
 <h2><strong>Discussion</strong></h2>
 <p>In this note, we&#8217;ve quickly reviewed the basics of tree-based models and their constructions. Looking back over what we have learned, we can now consider some of the reasons why tree-based methods are so popular among practitioners. First &#8212; and very importantly &#8212; individual trees are often useful for gaining insight into the geometry of datasets in high dimensions. This is because tree structures can be visualized using simple diagrams, like that in Fig. 1. In contrast, most other machine learning algorithm outputs cannot be easily visualized &#8212; consider, e.g., support-vector machines, which return hyper-plane decision boundaries. A related point is that tree-based approaches are able to automatically fit non-linear decision boundaries. In contrast, linear algorithms can only fit such boundaries if appropriate non-linear feature combinations are constructed. This requires that one first identify these appropriate feature combinations, which can be a challenging task for feature spaces that cannot be directly visualized. Three additional positive qualities of decision trees are given by a) the fact that they are insensitive to feature scale, which reduces the need for related data preprocessing, b) the fact that they can make use of data missing certain feature values, and c) that they are relatively robust against outliers and noisy-labeling&nbsp;issues.</p>
-<p>Although boosted and random forests are not as easily visualized as individual decision trees, these ensemble methods are popular because they are often quite competitive. Boosted forests typically have a slightly lower generalization error than their random forest counterparts. For this reason, they are often used when accuracy is highly-valued &#8212; see Fig. 5 for an example learning curve consistent with this rule of thumb: Generalization error rate versus training set size for a hand-written digits learning problem. However, the individual trees in a bagged forest can be constructed in parallel. This benefit &#8212; not shared by boosted forests &#8212; can favor random forests as a go-to, out-of-box approach for treating large-scale machine learning&nbsp;problems.</p>
+<p>Although boosted and random forests are not as easily visualized as individual decision trees, these ensemble methods are popular because they are often quite competitive. Boosted forests typically have a slightly lower generalization error than their random forest counterparts. For this reason, they are often used when accuracy is highly-valued &#8212; see last figure for an example learning curve consistent with this rule of thumb: Generalization error rate versus training set size for a hand-written digits learning problem. However, the individual trees in a bagged forest can be constructed in parallel. This benefit &#8212; not shared by boosted forests &#8212; can favor random forests as a go-to, out-of-box approach for treating large-scale machine learning&nbsp;problems.</p>
 <p>Exercises follow that detail some further points of interest relating to decision trees and their&nbsp;construction.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2015/03/tree_learning.jpg"><img alt="tree_learning" src="https://efavdb.com/wp-content/uploads/2015/03/tree_learning.jpg"></a></p>
 <h4><strong>References</strong></h4>
@@ -161,7 +161,7 @@ Here, <span class="math">\(\alpha\)</span> is the scaling factor, or learning ra
 <h4>1) Jensen&#8217;s inequality and classification tree cost&nbsp;functions</h4>
 <p>​a) Consider a real function <span class="math">\(y(x)\)</span> with non-positive curvature. Consider sampling <span class="math">\(y\)</span> at values <span class="math">\(\{x_1, x_2, \ldots, x_m\}\)</span>. By considering graphically the centroid of the points <span class="math">\(\{(x_i, y(x_i))\}\)</span>, prove Jensen&#8217;s inequality,<br>
 </p>
-<div class="math">\begin{eqnarray}  
+<div class="math">\begin{eqnarray} \tag{7}
 y\left ( \frac{1}{m} \sum_i x_i \right) \geq \frac{1}{m}\sum_i y(x_i).  
 \end{eqnarray}</div>
 <p><br>
@@ -173,7 +173,7 @@ When does equality&nbsp;hold?</p>
 <h4>3) Classification tree construction runtime&nbsp;complexity</h4>
 <p>​a) Consider a region <span class="math">\(R\)</span> within a classification tree containing <span class="math">\(n_i\)</span> training examples of class <span class="math">\(i\)</span>, with <span class="math">\(\sum_i n_i = N\)</span>. Now, suppose a cut is considered in which a single training example of class <span class="math">\(1\)</span> is removed from the region. If the region&#8217;s cross-entropy before the cut is given by <span class="math">\(CE_0\)</span>, show that its entropy after the cut will be given by<br>
 </p>
-<div class="math">\begin{eqnarray}\label{DEntropy}  
+<div class="math">\begin{eqnarray}\label{DEntropy} \tag{8}
 CE_f = CE_0 - N \log\left (\frac{N}{N-1} \right) + \log \left (\frac{n_1}{N-1} \right) - (n_1 -1) \log \left (\frac{n_1 - 1}{n_1} \right).  
 \end{eqnarray}</div>
 <p><br>
@@ -182,7 +182,7 @@ If <span class="math">\(CE_0\)</span>, <span class="math">\(N\)</span>, and the 
 <h4>4)Regression tree construction runtime&nbsp;complexity.</h4>
 <p>Consider a region <span class="math">\(R\)</span> within a regression tree containing <span class="math">\(N\)</span> training examples, characterized by mean label value <span class="math">\(\overline{y}\)</span> and cost value (\ref{treecost}) given by <span class="math">\(J\)</span> (<span class="math">\( N\)</span> times the region&#8217;s label variance). Suppose a cut is considered in which a single training example having label <span class="math">\(y\)</span> is removed from the region. Show that after the cut is taken the new mean training label and cost function values within the region are given by<br>
 </p>
-<div class="math">\begin{eqnarray}  
+<div class="math">\begin{eqnarray} \tag{9}
 \overline{y}_f &amp;=&amp; \frac{1}{N-1} \left ( N \overline{y} - y \right) \ \label{regression_cost_change}  
 J_f &amp;=&amp; J - \frac{N}{N-1} \left ( \overline{y} - y\right)^2.  
 \end{eqnarray}</div>
@@ -192,28 +192,28 @@ These results allow for the cost function of a region to be updated in <span cla
 <p>Adapted from&nbsp;[3].</p>
 <p>​a) Let <span class="math">\(x\)</span> be a random variable with well-defined mean <span class="math">\(\mu\)</span> and variance <span class="math">\(\sigma^2\)</span>. Prove Chebychev&#8217;s inequality,<br>
 </p>
-<div class="math">\begin{eqnarray}\label{Cheby}  
+<div class="math">\begin{eqnarray}\label{Cheby} \tag{10}
 P(x \geq \mu + t) \leq \frac{\sigma^2}{t^2}.  
 \end{eqnarray}</div>
 <p>​b) Consider a binary classification problem aimed at fitting a sampled function <span class="math">\(y(\textbf{f})\)</span> that takes values in <span class="math">\(\{ 0,1\}\)</span>. Suppose a decision tree <span class="math">\(h_{\theta}(\textbf{f})\)</span> is constructed on the samples using a greedy, randomized approach, where the randomization is characterized by the parameter <span class="math">\(\theta\)</span>. Define the classifier&#8217;s <em>margin</em> <span class="math">\(m\)</span> at <span class="math">\(\textbf{f}\)</span> by<br>
 </p>
-<div class="math">\begin{eqnarray}\label{tree_margin_def}  
+<div class="math">\begin{eqnarray}\label{tree_margin_def} \tag{11}
 m(\theta, \textbf{f}) =-1 + 2 \left [ y * h_{\theta}+ (1- y) * (1 - h_{\theta}) \right ]  
 \end{eqnarray}</div>
 <p><br>
 This is equal to <span class="math">\(1\)</span> if <span class="math">\(h_{\theta}\)</span> and <span class="math">\(y\)</span> agree at <span class="math">\(\textbf{f}\)</span>, and <span class="math">\(-1\)</span> otherwise. Now, consider a random forest, consisting of many such trees, each obtained by sampling from the same <span class="math">\(\theta\)</span> distribution. Argue using (\ref{Cheby}), (\ref{tree_margin_def}), and the law of large numbers that the generalization error <span class="math">\(GE\)</span> of the forest is bounded by<br>
 </p>
-<div class="math">\begin{eqnarray}\label{rf_bound}  
+<div class="math">\begin{eqnarray}\label{rf_bound} \tag{12}
 GE \leq \frac{var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right)}{\langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }  
 \end{eqnarray}</div>
 <p>​c) Show that<br>
 </p>
-<div class="math">\begin{eqnarray}\label{margin_var}  
+<div class="math">\begin{eqnarray}\label{margin_var} \tag{13} 
 var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right) = \langle cov_{\textbf{f}}(m(\theta, \textbf{f}), m(\theta^{\prime},\textbf{f})) \rangle_{\theta, \theta^{\prime}}  
 \end{eqnarray}</div>
 <p>​d) Writing,<br>
 </p>
-<div class="math">\begin{eqnarray}  
+<div class="math">\begin{eqnarray} \tag{14} 
 \rho \equiv \frac{\langle cov_{\textbf{f}}(m(\theta, \textbf{f}), m(\theta^{\prime},\textbf{f})) \rangle_{\theta, \theta^{\prime}}}  
 {\langle \sqrt{var_{\textbf{f}}(m(\theta, \textbf{f}))} \rangle_{\theta}^2},  
 \end{eqnarray}</div>
@@ -226,22 +226,22 @@ var_{\textbf{f}}\left( \langle m(\theta, \textbf{f}) \rangle_{\theta} \right) \l
 <p><br>
 Combining with (\ref{rf_bound}), this gives<br>
 </p>
-<div class="math">\begin{eqnarray}\label{tree_bound_final}  
+<div class="math">\begin{eqnarray}\label{tree_bound_final} \tag{15} 
 GE \leq \rho \times \frac{ 1 - \langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }{ \langle m(\theta, \textbf{f}) \rangle_{\theta, \textbf{f}}^2 }.  
 \end{eqnarray}</div>
 <p><br>
 The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generalization error is reduced if the individual trees making up the forest have a large average margin, and also if the trees are relatively-uncorrelated with each&nbsp;other.</p>
 <p>Cover image by <a href="https://www.flickr.com/photos/roberts87/2798303714">roberts87</a>, <a href="https://creativecommons.org/licenses/by-nc-sa/2.0/legalcode">creative commons license</a>.</p>
 <h2><strong>Appendix: python/sk-learn&nbsp;implementations</strong></h2>
-<p>Here, we provide the python/sk-learn code used to construct Fig. 5 in the body of this note: Learning curves on sk-learn&#8217;s &#8220;digits&#8221; dataset for a single tree, a random forest, and a boosted&nbsp;forest.</p>
+<p>Here, we provide the python/sk-learn code used to construct the final figure in the body of this note: Learning curves on sk-learn&#8217;s &#8220;digits&#8221; dataset for a single tree, a random forest, and a boosted&nbsp;forest.</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_digits</span>  
 <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">DecisionTreeClassifier</span>  
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>  
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>  
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="c1">#load data: digits.data and digits.target,  </span>
-<span class="c1">#array of features and labels, resp.  </span>
+<span class="c1"># load data: digits.data and digits.target,  </span>
+<span class="c1"># array of features and labels, resp.  </span>
 <span class="n">digits</span> <span class="o">=</span> <span class="n">load_digits</span><span class="p">(</span><span class="n">n_class</span> <span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
 <span class="n">n_train</span> <span class="o">=</span> <span class="p">[]</span>  
@@ -249,8 +249,8 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
 <span class="n">t2_accuracy</span> <span class="o">=</span> <span class="p">[]</span>  
 <span class="n">t3_accuracy</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="c1">#below, we average over &quot;trials&quot; num of fits for each sample  </span>
-<span class="c1">#size in order to estimate the average generalization error.  </span>
+<span class="c1"># below, we average over &quot;trials&quot; num of fits for each sample  </span>
+<span class="c1"># size in order to estimate the average generalization error.  </span>
 <span class="n">trials</span> <span class="o">=</span> <span class="mi">25</span>
 
 <span class="n">clf</span> <span class="o">=</span> <span class="n">DecisionTreeClassifier</span><span class="p">()</span>  
@@ -259,38 +259,43 @@ The bound (\ref{tree_bound_final}) implies that a random forest&#8217;s generali
 
 <span class="n">num_test</span> <span class="o">=</span> <span class="mi">500</span>
 
-<span class="c1">#loop over different training set sizes  </span>
+<span class="c1"># loop over different training set sizes  </span>
 <span class="k">for</span> <span class="n">num_train</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">)</span><span class="o">-</span><span class="n">num_test</span><span class="p">,</span><span class="mi">25</span><span class="p">):</span>
 
 <span class="n">acc1</span><span class="p">,</span> <span class="n">acc2</span><span class="p">,</span> <span class="n">acc3</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span>
 
 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">trials</span><span class="p">):</span>  
-<span class="n">perm</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
-<span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]]))</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span>  
-<span class="n">perm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="kp">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
+    <span class="n">perm</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
+    <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]]))</span><span class="o">&lt;</span><span class="mi">2</span><span class="p">:</span>  
+        <span class="n">perm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">))</span>
 
-<span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span> \  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
-<span class="n">acc1</span> <span class="o">+=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span> \  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+    <span class="n">clf</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc1</span> <span class="o">+=</span> <span class="n">clf</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
 
-<span class="n">clf2</span> <span class="o">=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>\  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
-<span class="n">acc2</span> <span class="o">+=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>\  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+    <span class="n">clf2</span> <span class="o">=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc2</span> <span class="o">+=</span> <span class="n">clf2</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
 
-<span class="n">clf3</span> <span class="o">=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>\  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
-<span class="n">acc3</span> <span class="o">+=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>\  
-<span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
+    <span class="n">clf3</span> <span class="o">=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[:</span><span class="n">num_train</span><span class="p">]])</span>  
+    <span class="n">acc3</span> <span class="o">+=</span> <span class="n">clf3</span><span class="o">.</span><span class="n">score</span><span class="p">(</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]],</span>
+        <span class="n">digits</span><span class="o">.</span><span class="n">target</span><span class="p">[</span><span class="n">perm</span><span class="p">[</span><span class="o">-</span><span class="n">num_test</span><span class="p">:]])</span>
 
-<span class="n">n_train</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>  
-<span class="n">t1_accuracy</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">acc1</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
-<span class="n">t2_accuracy</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">acc2</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
-<span class="n">t3_accuracy</span><span class="o">.</span><span class="kp">append</span><span class="p">(</span><span class="n">acc3</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>
+    <span class="n">n_train</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_train</span><span class="p">)</span>  
+    <span class="n">t1_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc1</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
+    <span class="n">t2_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc2</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>  
+    <span class="n">t3_accuracy</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc3</span><span class="o">/</span><span class="n">trials</span><span class="p">)</span>
 
 <span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>
-
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t1_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">)</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t2_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">n_train</span><span class="p">,</span><span class="n">t3_accuracy</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">)</span>  

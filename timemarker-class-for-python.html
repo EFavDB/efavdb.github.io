@@ -87,30 +87,30 @@
 <span class="k">class</span> <span class="nc">TimeMarker</span><span class="p">():</span>
 
 <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
-<span class="bp">self</span><span class="o">.</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">markers</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
-<span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
 
 <span class="k">def</span> <span class="nf">print_markers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  
-<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>  
-<span class="k">print</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
+    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">markers</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>  
+    <span class="nb">print</span> <span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
 </pre></div>
 
 
 <p>Here is a simple code&nbsp;example:  </p>
 <div class="highlight"><pre><span></span><span class="n">tm</span> <span class="o">=</span> <span class="n">TimeMarker</span><span class="p">()</span>
 
-<span class="n">tm</span><span class="p">.</span><span class="n">mark</span><span class="p">()</span>  
-<span class="k">sum</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>  
-<span class="n">tm</span><span class="p">.</span><span class="n">mark</span><span class="p">()</span>  
-<span class="k">sum</span><span class="p">(</span><span class="n">range</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">))</span>  
-<span class="n">tm</span><span class="p">.</span><span class="n">mark</span><span class="p">()</span>
+<span class="n">tm</span><span class="o">.</span><span class="n">mark</span><span class="p">()</span>  
+<span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>  
+<span class="n">tm</span><span class="o">.</span><span class="n">mark</span><span class="p">()</span>  
+<span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="mi">6</span><span class="p">))</span>  
+<span class="n">tm</span><span class="o">.</span><span class="n">mark</span><span class="p">()</span>
 
-<span class="n">tm</span><span class="p">.</span><span class="n">print_markers</span><span class="p">()</span>  
-<span class="o">#</span> <span class="p">(</span><span class="k">output</span><span class="p">...)</span>  
-<span class="o">#</span> <span class="mi">7</span><span class="p">.</span><span class="mi">9870223999</span><span class="n">e</span><span class="o">-</span><span class="mi">05</span>  
-<span class="o">#</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0279731750488</span>  
+<span class="n">tm</span><span class="o">.</span><span class="n">print_markers</span><span class="p">()</span>  
+<span class="c1"># (output...)  </span>
+<span class="c1"># 7.9870223999e-05  </span>
+<span class="c1"># 0.0279731750488  </span>
 </pre></div>
 
 

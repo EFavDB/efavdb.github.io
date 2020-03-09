@@ -105,7 +105,7 @@
 <span class="c1"># load the data, print out a sample  </span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stocks.csv&#39;</span><span class="p">)</span>  
 <span class="nb">print</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">3</span><span class="p">,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>  
-<span class="nb">print</span> <span class="n">df</span><span class="o">.</span><span class="kp">shape</span>
+<span class="nb">print</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span>
 
 <span class="c1"># date AAPL ADBE ADP ADSK  </span>
 <span class="c1"># 0 2017-04-18 -0.004442 -0.001385 0.000687 0.004884  </span>
@@ -129,34 +129,35 @@
 </ul>
 <h3>Forward selection applied to <span class="caps">AAPL</span></h3>
 <p>The code snippet below uses our forward selection class, <code>FwdSelect</code> to seek the best feature subsets to fit <span class="caps">AAPL</span>&#8217;s&nbsp;performance.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
-<span class="n">def</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
-<span class="n">all_tickers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="o">[</span><span class="n">:, 1:</span><span class="o">]</span><span class="p">.</span><span class="n">columns</span><span class="w">  </span>
-<span class="k">return</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">c</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">all_tickers</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">targets</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<span class="k">def</span> <span class="nf">get_feature_tickers</span><span class="p">(</span><span class="n">targets</span><span class="p">):</span>  
+    <span class="n">all_tickers</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">columns</span>  
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_tickers</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">)</span>
 
-<span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;AAPL&#39;</span><span class="o">]</span><span class="w">  </span>
-<span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w"></span>
+<span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AAPL&#39;</span><span class="p">]</span>  
+<span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>
 
-<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">FEATURE_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w">  </span>
-<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">TARGET_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">FEATURE_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">TARGET_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="n">step</span><span class="o">-</span><span class="n">wise</span><span class="w"> </span><span class="n">selection</span><span class="w">  </span>
-<span class="n">selector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FwdSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Forward step-wise selection  </span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">FwdSelect</span><span class="p">()</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="k">Print</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="n">main</span><span class="w"> </span><span class="n">results</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">selection</span><span class="w"> </span><span class="n">process</span><span class="w"> </span><span class="p">(</span><span class="n">ordered</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="n">indices</span><span class="p">,</span><span class="w"> </span><span class="n">CODs</span><span class="p">)</span><span class="w">  </span>
-<span class="k">print</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">ordered_features</span><span class="o">[</span><span class="n">:3</span><span class="o">]</span><span class="w">  </span>
-<span class="k">print</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">ordered_cods</span><span class="o">[</span><span class="n">:3</span><span class="o">]</span><span class="w"></span>
+<span class="c1"># Print out main results of selection process (ordered feature indices, CODs)  </span>
+<span class="nb">print</span> <span class="n">selector</span><span class="o">.</span><span class="n">ordered_features</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>  
+<span class="nb">print</span> <span class="n">selector</span><span class="o">.</span><span class="n">ordered_cods</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
 
-<span class="err">#</span><span class="w"> </span><span class="o">[</span><span class="n">25, 7, 41</span><span class="o">]</span><span class="w">  </span>
-<span class="err">#</span><span class="w"> </span><span class="o">[</span><span class="n">0.43813848, 0.54534304, 0.58577418</span><span class="o">]</span><span class="w">  </span>
+<span class="c1"># [25, 7, 41]  </span>
+<span class="c1"># [0.43813848, 0.54534304, 0.58577418]  </span>
 </pre></div>
 
 
 <p>The last two lines above print out the main outputs of <code>FwdSelect</code>:</p>
 <ul>
 <li>The <code>ordered_features</code> list provides the indices of the features, ranked by the algorithm. The first index shown provides the best possible single feature fit to <span class="caps">AAPL</span>, the second index provides the next best addition, etc. Note that we can get the tickers corresponding to these indices using:<br>
-<code>print [FEATURE_TICKERS[i] for i in selector.ordered_features[:3]]  
+<code>python  
+    print [FEATURE_TICKERS[i] for i in selector.ordered_features[:3]]  
     # ['MSFT' 'AVGO' 'TSM']</code><br>
     A little thought plus a Google search rationalizes why these might be the top three predictors for <span class="caps">AAPL</span>: First, Microsoft is probably a good representative of the large-scale tech sector, and second the latter two companies work closely with Apple. <span class="caps">AVGO</span> (Qualcomm) made Apple&#8217;s modem chips until very recently, while <span class="caps">TSM</span> (Taiwan semi-conductor) makes the processors for iphones and ipads &#8212; and may perhaps soon also provide the CPUs for all Apple computers. Apparently, we can predict <span class="caps">APPL</span> performance using only a combination of (a) a read on the tech sector at large, plus (b) a bit of idiosyncratic information also present in <span class="caps">APPL</span>&#8217;s partner&nbsp;stocks.</li>
 <li>The <code>ordered_cods</code> list records the coefficient of determination (<span class="caps">COD</span> or R^2) of the fits in question &#8212; the first number gives the <span class="caps">COD</span> obtained with just <span class="caps">MSFT</span>, the second with <span class="caps">MSFT</span> and <span class="caps">AVGO</span>,&nbsp;etc.</li>
@@ -168,20 +169,20 @@
 <h3>Compare forward and reverse selection applied to <span class="caps">TSLA</span></h3>
 <p>The code snippet below applies both <code>FwdSelect</code> and <code>RevSelect</code> to seek minimal subsets that fit Tesla&#8217;s daily lifts well. The outputs are plotted below this. This shows that <code>FwdSelect</code> performs slightly better when two or fewer features are included here, but that <code>RevSelect</code> finds better subsets after&nbsp;that.</p>
 <p><strong>Lesson</strong>: In general, we expect forward selection to work better when looking for small subsets and reverse selection to perform better at large&nbsp;subsets.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
-<span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;TSLA&#39;</span><span class="o">]</span><span class="w">  </span>
-<span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TSLA&#39;</span><span class="p">]</span>  
+<span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>
 
-<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">FEATURE_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w">  </span>
-<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">TARGET_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">FEATURE_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">TARGET_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="n">step</span><span class="o">-</span><span class="n">wise</span><span class="w"> </span><span class="n">selection</span><span class="w">  </span>
-<span class="n">selector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FwdSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Forward step-wise selection  </span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">FwdSelect</span><span class="p">()</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="nf">Reverse</span><span class="w"> </span><span class="n">step</span><span class="o">-</span><span class="n">wise</span><span class="w"> </span><span class="n">selection</span><span class="w">  </span>
-<span class="n">selector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RevSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector2</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">  </span>
+<span class="c1"># Reverse step-wise selection  </span>
+<span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
+<span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
 </pre></div>
 
 
@@ -189,20 +190,20 @@
 <h2>3 - FwdSelect and RevSelect; supervised, multiple&nbsp;targets</h2>
 <p>In the code below, we seek feature subsets that perform well when fitting multiple targets&nbsp;simultaneously.</p>
 <p><strong>Lesson</strong>: <code>linselect</code> can be used to find minimal feature subsets useful for fitting multiple targets. The optimal, &#8220;perfect score&#8221; <span class="caps">COD</span> in this case is equal to number of targets (three in our&nbsp;example).</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="n">variables</span><span class="w">  </span>
-<span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;TSLA&#39;, &#39;ADP&#39;, &#39;NFLX&#39;</span><span class="o">]</span><span class="w">  </span>
-<span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TSLA&#39;</span><span class="p">,</span> <span class="s1">&#39;ADP&#39;</span><span class="p">,</span> <span class="s1">&#39;NFLX&#39;</span><span class="p">]</span>  
+<span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>
 
-<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">FEATURE_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w">  </span>
-<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">TARGET_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">FEATURE_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>  
+<span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">TARGET_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Forward</span><span class="w"> </span><span class="n">step</span><span class="o">-</span><span class="n">wise</span><span class="w"> </span><span class="n">selection</span><span class="w">  </span>
-<span class="n">selector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FwdSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Forward step-wise selection  </span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">FwdSelect</span><span class="p">()</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="nf">Reverse</span><span class="w"> </span><span class="n">step</span><span class="o">-</span><span class="n">wise</span><span class="w"> </span><span class="n">selection</span><span class="w">  </span>
-<span class="n">selector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RevSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector2</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w">  </span>
+<span class="c1"># Reverse step-wise selection  </span>
+<span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
+<span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
 </pre></div>
 
 
@@ -212,16 +213,16 @@
 <p>(Note: See [1] for more examples like this. There, I show that if you try to fit smoothed versions of the stock performances, very good, small subsets can be found. Without smoothing, noise obscures this&nbsp;point).</p>
 <p><strong>Lesson</strong>: Unsupervised selection seeks to find those features that best describe the full data set &#8212; a feature selection analog of <span class="caps">PCA</span>.</p>
 <p><strong>Lesson</strong>: Again, a perfect <span class="caps">COD</span> score is equal to the number of targets. In the unsupervised case, this is also the number of features (50 in our&nbsp;example).</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">full</span><span class="w"> </span><span class="k">data</span><span class="w"> </span><span class="k">set</span><span class="p">.</span><span class="w">  </span>
-<span class="n">ALL_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list</span><span class="p">(</span><span class="n">df</span><span class="p">.</span><span class="n">iloc</span><span class="o">[</span><span class="n">:, 1:</span><span class="o">]</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span><span class="w">  </span>
-<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">ALL_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Set X equal to full data set.  </span>
+<span class="n">ALL_TICKERS</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ALL_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Stepwise</span><span class="w"> </span><span class="n">regressions</span><span class="w">  </span>
-<span class="n">selector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FwdSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Stepwise regressions  </span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">FwdSelect</span><span class="p">()</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
 
-<span class="n">selector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RevSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector2</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w">  </span>
+<span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
+<span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
 </pre></div>
 
 
@@ -246,75 +247,75 @@
 <h3>Use GenSelect to carry out a forward sweep for <span class="caps">TSLA</span></h3>
 <p>The code below carries out a single forward sweep for <span class="caps">TSLA</span>. Note that the <code>protocol</code> argument of <code>search</code> is set to <code>(1, 0)</code>, which gives a forward search (see docstrings). For this reason, our results match those of <code>FwdSelect</code> at this&nbsp;point.</p>
 <p><strong>Lesson</strong>: Setting up a basic <code>GenSelect</code> call requires defining a few input&nbsp;parameters.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">X</span><span class="w">  </span>
-<span class="n">X</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="o">[</span><span class="n">ALL_TICKERS</span><span class="o">]</span><span class="p">.</span><span class="k">values</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Define X  </span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ALL_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Define</span><span class="w"> </span><span class="n">targets</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">mobile</span><span class="w"> </span><span class="k">Boolean</span><span class="w"> </span><span class="n">arrays</span><span class="w">  </span>
-<span class="n">TARGET_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;TSLA&#39;</span><span class="o">]</span><span class="w">  </span>
-<span class="n">FEATURE_TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w">  </span>
-<span class="n">targets</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">,</span><span class="w"> </span><span class="n">TARGET_TICKERS</span><span class="p">)</span><span class="w">  </span>
-<span class="n">mobile</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">,</span><span class="w"> </span><span class="n">FEATURE_TICKERS</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Define targets and mobile Boolean arrays  </span>
+<span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TSLA&#39;</span><span class="p">]</span>  
+<span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>  
+<span class="n">targets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">,</span> <span class="n">TARGET_TICKERS</span><span class="p">)</span>  
+<span class="n">mobile</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">,</span> <span class="n">FEATURE_TICKERS</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="k">Set</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="k">search</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">initial</span><span class="w"> </span><span class="err">\`</span><span class="k">position</span><span class="err">\`</span><span class="p">.</span><span class="w"> </span><span class="k">Then</span><span class="w"> </span><span class="k">search</span><span class="p">.</span><span class="w">  </span>
-<span class="n">selector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="k">position</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">mobile</span><span class="o">=</span><span class="n">mobile</span><span class="p">,</span><span class="w"> </span><span class="n">targets</span><span class="o">=</span><span class="n">targets</span><span class="p">)</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="k">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">steps</span><span class="o">=</span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Set up search with an initial \`position\`. Then search.  </span>
+<span class="n">selector</span> <span class="o">=</span> <span class="n">GenSelect</span><span class="p">()</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">mobile</span><span class="o">=</span><span class="n">mobile</span><span class="p">,</span> <span class="n">targets</span><span class="o">=</span><span class="n">targets</span><span class="p">)</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Review</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">found</span><span class="w">  </span>
-<span class="k">print</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)</span><span class="o">[</span><span class="n">selector.best_results[3</span><span class="o">][</span><span class="n">&#39;s&#39;</span><span class="o">]</span><span class="err">]</span><span class="p">,</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="o">[</span><span class="n">3</span><span class="o">][</span><span class="n">&#39;cod&#39;</span><span class="o">]</span><span class="w"></span>
+<span class="c1"># Review best 3 feature set found  </span>
+<span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]],</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">]</span>
 
-<span class="err">#</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;ATVI&#39; &#39;AVGO&#39; &#39;CTSH&#39;</span><span class="o">]</span><span class="w"> </span><span class="mf">0.225758</span><span class="w">  </span>
+<span class="c1"># [&#39;ATVI&#39; &#39;AVGO&#39; &#39;CTSH&#39;] 0.225758  </span>
 </pre></div>
 
 
 <h3>Continue the search&nbsp;above</h3>
 <p>A <code>GenSelect</code> instance always retains a summary of the best results it has seen so far. This means that we can continue a search where we left off after a <code>search</code> call completes. Below, we reposition our search and sweep back and forth to better explore a particular region. Note that this slightly improves our&nbsp;result.</p>
 <p><strong>Lesson</strong>: We can carry out general search protocols using <code>GenSelect</code><span class="quo">&#8216;</span>s <code>position</code> and <code>search</code> methods.</p>
-<div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">Reposition</span> <span class="n">back</span> <span class="k">to</span> <span class="n">the</span> <span class="n">best</span> <span class="n">fit</span> <span class="k">of</span> <span class="k">size</span> <span class="mi">3</span> <span class="n">seen</span> <span class="n">above</span><span class="p">.</span>  
-<span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
-<span class="n">selector</span><span class="p">.</span><span class="k">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="c1"># Reposition back to the best fit of size 3 seen above.  </span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="n">Now</span> <span class="n">sweep</span> <span class="n">back</span> <span class="k">and</span> <span class="n">forth</span> <span class="n">around</span> <span class="n">there</span> <span class="n">a</span> <span class="n">few</span> <span class="n">times</span><span class="p">.</span>  
+<span class="c1"># Now sweep back and forth around there a few times.  </span>
 <span class="n">STEPS</span> <span class="o">=</span> <span class="mi">10</span>  
 <span class="n">SWEEPS</span> <span class="o">=</span> <span class="mi">3</span>
 
-<span class="n">selector</span><span class="p">.</span><span class="k">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">STEPS</span><span class="p">)</span>  
-<span class="n">selector</span><span class="p">.</span><span class="k">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">SWEEPS</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">)</span>
+<span class="n">selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">STEPS</span><span class="p">)</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">protocol</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">),</span> <span class="n">steps</span><span class="o">=</span><span class="n">SWEEPS</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">STEPS</span><span class="p">)</span>
 
-<span class="o">#</span> <span class="n">Review</span> <span class="n">best</span> <span class="n">results</span> <span class="k">found</span> <span class="n">now</span> <span class="k">with</span> <span class="n">exactly</span> <span class="n">N_RETAINED</span> <span class="n">features</span> <span class="p">(</span><span class="n">different</span> <span class="k">from</span> <span class="k">first</span> <span class="n">pass</span> <span class="k">in</span> <span class="n">cell</span> <span class="n">above</span><span class="o">?</span><span class="p">)</span>  
-<span class="n">print</span> <span class="n">np</span><span class="p">.</span><span class="nb">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]],</span> <span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">]</span>
+<span class="c1"># Review best results found now with exactly N_RETAINED features (different from first pass in cell above?)  </span>
+<span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]],</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">]</span>
 
-<span class="o">#</span> <span class="p">[</span><span class="s1">&#39;AMZN&#39;</span> <span class="s1">&#39;NVDA&#39;</span> <span class="s1">&#39;ZNGA&#39;</span><span class="p">]</span> <span class="mi">0</span><span class="p">.</span><span class="mi">229958</span>  
+<span class="c1"># [&#39;AMZN&#39; &#39;NVDA&#39; &#39;ZNGA&#39;] 0.229958  </span>
 </pre></div>
 
 
 <h3>Compare to forward and reverse search&nbsp;results</h3>
 <p>Below, we compare the <span class="caps">COD</span> values of our three&nbsp;classes.</p>
 <p><strong>Lesson</strong>: <code>GenSelect</code> can be used to do a more thorough search than <code>FwdSelect</code> and <code>RevSelect</code>, and so can sometimes find better feature&nbsp;subsets.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="k">Get</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="n">COD</span><span class="w"> </span><span class="k">values</span><span class="w"> </span><span class="n">seen</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">size</span><span class="w"> </span><span class="k">from</span><span class="w"> </span><span class="n">GenSelect</span><span class="w"> </span><span class="k">search</span><span class="w">  </span>
-<span class="n">gen_select_cods</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span><span class="w">  </span>
-<span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="k">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">)</span><span class="err">:</span><span class="w">  </span>
-<span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="nl">best_results</span><span class="p">:</span><span class="w">  </span>
-<span class="k">break</span><span class="w">  </span>
-<span class="n">gen_select_cods</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="o">[</span><span class="n">i</span><span class="o">][</span><span class="n">&#39;cod&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Get the best COD values seen for each feature set size from GenSelect search  </span>
+<span class="n">gen_select_cods</span> <span class="o">=</span> <span class="p">[]</span>  
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  
+    <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">:</span>  
+        <span class="k">break</span>  
+    <span class="n">gen_select_cods</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">])</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Plot</span><span class="w"> </span><span class="n">cod</span><span class="w"> </span><span class="n">versus</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="k">size</span><span class="p">.</span><span class="w">  </span>
-<span class="n">fig</span><span class="p">,</span><span class="w"> </span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gen_select_cods</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;GenSelect&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># Plot cod versus feature set size.  </span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">gen_select_cods</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;GenSelect&#39;</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">FwdSelect</span><span class="w"> </span><span class="n">again</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="k">corresponding</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="w">  </span>
-<span class="n">selector2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FwdSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector2</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">[</span><span class="n">:, mobile</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">[</span><span class="n">:, targets</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">selector2</span><span class="p">.</span><span class="n">ordered_cods</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;FwdSelect&#39;</span><span class="p">)</span><span class="w"></span>
+<span class="c1"># FwdSelect again to get corresponding results.  </span>
+<span class="n">selector2</span> <span class="o">=</span> <span class="n">FwdSelect</span><span class="p">()</span>  
+<span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">mobile</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">targets</span><span class="p">])</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">selector2</span><span class="o">.</span><span class="n">ordered_cods</span><span class="p">,</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;FwdSelect&#39;</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">RevSelect</span><span class="w"> </span><span class="n">again</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">get</span><span class="w"> </span><span class="k">corresponding</span><span class="w"> </span><span class="n">results</span><span class="p">.</span><span class="w">  </span>
-<span class="n">selector3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RevSelect</span><span class="p">()</span><span class="w">  </span>
-<span class="n">selector3</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="o">[</span><span class="n">:, mobile</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">[</span><span class="n">:, targets</span><span class="o">]</span><span class="p">)</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">selector3</span><span class="p">.</span><span class="n">ordered_cods</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-.&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;RevSelect&#39;</span><span class="p">)</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Coefficient of Determination (COD or R^2) for {target} vs features retained&#39;</span><span class="p">.</span><span class="nf">format</span><span class="p">(</span><span class="w">  </span>
-<span class="n">target</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="p">.</span><span class="k">join</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)))</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span><span class="w">  </span>
+<span class="c1"># RevSelect again to get corresponding results.  </span>
+<span class="n">selector3</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
+<span class="n">selector3</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="n">mobile</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="n">targets</span><span class="p">])</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">selector3</span><span class="o">.</span><span class="n">ordered_cods</span><span class="p">,</span> <span class="s1">&#39;-.&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;RevSelect&#39;</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Coefficient of Determination (COD or R^2) for </span><span class="si">{target}</span><span class="s1"> vs features retained&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>  
+<span class="n">target</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)))</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
 </pre></div>
 
 
@@ -322,20 +323,20 @@
 <h3>Examine the cost of removing a feature from the predictor&nbsp;set</h3>
 <p>Below, we reposition to the best feature set of size 10 seen so far. We then apply the method <code>reverse_cods</code> to expose the cost of removing each of these individuals from the predictor set at this point. Were we to take a reverse step, the feature with the least cost would be the one taken (looks like <span class="caps">FB</span> from the&nbsp;plot).</p>
 <p><strong>Lesson</strong>: We can easily access the costs associated with removing individual features from our current location. We can also access the <span class="caps">COD</span> gains associated with adding in new features by calling the <code>forward_cods</code> method.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">Reposition</span><span class="w">  </span>
-<span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">best_results</span><span class="o">[</span><span class="n">10</span><span class="o">][</span><span class="n">&#39;s&#39;</span><span class="o">]</span><span class="w">  </span>
-<span class="n">selector</span><span class="p">.</span><span class="k">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><span class="c1"># Reposition  </span>
+<span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
+<span class="n">selector</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
 
-<span class="err">#</span><span class="w"> </span><span class="k">Get</span><span class="w"> </span><span class="n">costs</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="p">(</span><span class="n">see</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="err">\`</span><span class="n">forward_cods</span><span class="err">\`</span><span class="w"> </span><span class="k">method</span><span class="p">)</span><span class="w">  </span>
-<span class="n">costs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">selector</span><span class="p">.</span><span class="n">reverse_cods</span><span class="p">()</span><span class="o">[</span><span class="n">s</span><span class="o">]</span><span class="w">  </span>
-<span class="n">TICKERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">np</span><span class="p">.</span><span class="k">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)</span><span class="o">[</span><span class="n">selector.best_results[10</span><span class="o">][</span><span class="n">&#39;s&#39;</span><span class="o">]</span><span class="err">]</span><span class="w"></span>
+<span class="c1"># Get costs to remove a feature (see also \`forward_cods\` method)  </span>
+<span class="n">costs</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">reverse_cods</span><span class="p">()[</span><span class="n">s</span><span class="p">]</span>  
+<span class="n">TICKERS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]]</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">Plot</span><span class="w"> </span><span class="n">costs</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">remove</span><span class="w"> </span><span class="k">each</span><span class="w"> </span><span class="n">feature</span><span class="w"> </span><span class="n">given</span><span class="w"> </span><span class="k">current</span><span class="w"> </span><span class="k">position</span><span class="w">  </span>
-<span class="n">fig</span><span class="p">,</span><span class="w"> </span><span class="n">ax</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)),</span><span class="w"> </span><span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span><span class="w">  </span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)</span><span class="w">  </span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span><span class="w">  </span>
+<span class="c1"># Plot costs to remove each feature given current position  </span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">costs</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>  
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)</span>  
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
 </pre></div>
 
 
