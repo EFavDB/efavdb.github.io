@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Dustin McIntosh" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="python, statistics, world wandering dudes, World Wandering Dudes, " />
+
+<meta property="og:title" content="A Framework for Studying Population Dynamics "/>
+<meta property="og:url" content="https://efavdb.com/world-wandering-dudes" />
+<meta property="og:description" content="In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably more. World Wandering Dudes is a simulation framework in which you initiate a “world” which consists of a “field” and a set of …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Dustin McIntosh" />
+<meta property="og:article:published_time" content="2020-03-08T00:00:00-08:00" />
+<meta name="twitter:title" content="A Framework for Studying Population Dynamics ">
+<meta name="twitter:description" content="In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably more. World Wandering Dudes is a simulation framework in which you initiate a “world” which consists of a “field” and a set of …">
+
+        <title>A Framework for Studying Population Dynamics  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.com
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.com/world-wandering-dudes">
+                A Framework for Studying Population&nbsp;Dynamics
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&nbsp;more.</p>
+<p><a href="https://github.com/dustinmcintosh/world_wandering_dudes">World Wandering Dudes</a> is a simulation framework in which you initiate a “world” which consists of a “field” and a set of “creatures” (dudes). The field has food on it. Each day, the creatures run around gathering the food which they need to survive and&nbsp;reproduce.</p>
+<h3>Example</h3>
+<p>Here’s an example of a few days passing in a world where food randomly sprouts each day, never spoiling, initiated with a single creature (particular note: after day 1 passes and there are two creatures, one of them doesn&#8217;t store enough food to reproduce at the end of the day):
+<img alt="" src="https://efavdb.com/images/the_first_days.gif"></p>
+<p>Taking a snapshot of the world at the end of each day for the first 20 or so days you can see the creatures take over the full field before coming to some general equilibrium state.
+<img alt="" src="https://efavdb.com/images/each_day.gif"></p>
+<h3>How the world&nbsp;works</h3>
+<p>A. Each day consists of a number of discrete time steps.  During each time step, the creatures move around the field randomly, if they find food they grab it from the field and store&nbsp;it.</p>
+<p>B. At the end of the day, a few things&nbsp;happen:</p>
+<ol>
+<li>
+<p>Each creature must eat some food.  If they don’t have enough stored, they&nbsp;die.</p>
+</li>
+<li>
+<p>If they have enough food after eating, they may also reproduce.  Offspring may have mutated properties (e.g., they may move a little faster each time step - speedy creatures - or they may eat less food - efficient&nbsp;creatures)</p>
+</li>
+<li>
+<p>The food may spoil throughout the world (or not) and new food may sprout on the&nbsp;field.</p>
+</li>
+</ol>
+<h3>Examining the historical&nbsp;record</h3>
+<p>You can also look at this historical recordfor the field and examine some metrics including total creature count, birth/death rate, the mutation composition of the creatures, amount of stored food, amount of ungathered food, and more:
+<img alt="" src="https://efavdb.com/images/example_history.png">
+Some phenomenological notes on this particular case (more details on the math behind some of this in future&nbsp;posts):</p>
+<ul>
+<li>The dynamics of the world are stochastic. For example, sometimes the first creature doesn’t find any food and dies&nbsp;immediately.</li>
+<li>The population initially grows roughly exponentially as food becomes plentiful across the&nbsp;map.</li>
+<li>With the accumulated food on the field from the initial low-population days, the creatures grow in numbers beyond a sustainable population and a period of starvation and population culling follows.&nbsp;:(</li>
+<li>The population reaches an equilibrium at which the number of creatures is nearly the same as the amount of food sprouted each day (it’s not exactly&nbsp;equal!).</li>
+<li>At equilibrium, the rate at which creatures are being born is equal to the rate at which they die (on average) and both appear to be about a third of the total population (it’s not a&nbsp;third!).</li>
+<li>As mentioned above, upon reproduction the creatures will mutate and the fitter creatures may take over the world. In this particular case, efficient creatures come about first and quickly take over the population. The world can actually sustain a higher population of efficient vs normal/speedy creatures, so the total population increases accordingly. Shortly thereafter, a few speedy creatures start to show up and they, slowly, take over the world, out-competing the efficient creatures and slowly suppressing the overall&nbsp;population.</li>
+</ul>
+<p>More to come on extensions of this project and understanding the math behind it in the&nbsp;future.</p>
+<h1>Check it out&nbsp;yourself</h1>
+<p>The github repository is <a href="https://github.com/dustinmcintosh/world_wandering_dudes">here</a>.</p>
+<p>You’ll need git and a github account, python 3, and a bunch of the usual python packages for data&nbsp;science.</p>
+<div class="highlight"><pre><span></span>git clone https://github.com/dustinmcintosh/world_wandering_dudes
+
+<span class="nb">cd</span> world_wandering_dudes
+</pre></div>
+
+
+<p>Update the directory for saving figures in <code>SET_ME.py</code> if you&#8217;d like to store them somewhere&nbsp;special.</p>
+<p>Run the sample&nbsp;code:</p>
+<div class="highlight"><pre><span></span>python scripts/basic_simulation.py
+</pre></div>
+
+
+<p>You can recycle the same world again&nbsp;using:</p>
+<div class="highlight"><pre><span></span>python scripts/basic_simulation.py -wp my_world.pkl
+</pre></div>
+
+
+             
+ 
+                <p id="post-share-links">
+    Like this post?  Share on:
+    <a href="https://twitter.com/intent/tweet?text=A%20Framework%20for%20Studying%20Population%C2%A0Dynamics&url=https%3A//efavdb.com/world-wandering-dudes&hashtags=python,statistics,world-wandering-dudes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    ❄
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/world-wandering-dudes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    ❄
+    <a href="mailto:?subject=A%20Framework%20for%20Studying%20Population%C2%A0Dynamics&amp;body=https%3A//efavdb.com/world-wandering-dudes" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
+            <span class="author_name">Dustin McIntosh</span>
+        </a>
+        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.com/world-wandering-dudes"
+                   href="https://efavdb.com/world-wandering-dudes#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.com/world-wandering-dudes';
+    var disqus_url = 'https://efavdb.com/world-wandering-dudes';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.com/multiarmed-bandits" title="Previous: Multiarmed bandits in the context of reinforcement learning">Multiarmed bandits in the context of reinforcement learning</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2020-03-08T00:00:00-08:00">Mar 8, 2020</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.com/categories.html#world-wandering-dudes-ref">World Wandering Dudes</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://efavdb.com/tags.html#python-ref">python
+                    <span>4</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags.html#statistics-ref">statistics
+                    <span>6</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags.html#world-wandering-dudes-ref">world wandering dudes
+                    <span>1</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
