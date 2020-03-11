@@ -1,5 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-08T00:00:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>A Framework for Studying Population Dynamics</title><link href="https://efavdb.com/world-wandering-dudes" rel="alternate"></link><published>2020-03-08T00:00:00-08:00</published><updated>2020-03-08T00:00:00-08:00</updated><author><name>Dustin McIntosh</name></author><id>tag:efavdb.com,2020-03-08:/world-wandering-dudes</id><summary type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-11T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Introduction to reinforcement learning by example</title><link href="https://efavdb.com/intro-rl-toy-example" rel="alternate"></link><published>2020-03-11T00:00:00-07:00</published><updated>2020-03-11T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-11:/intro-rl-toy-example</id><summary type="html">&lt;p&gt;We take a top-down approach to introducing reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) by starting with a toy example: a student going through college.  In order to frame the problem from the &lt;span class="caps"&gt;RL&lt;/span&gt; point-of-view, we&amp;#8217;ll walk through the following&amp;nbsp;steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Setting up a model of the problem&lt;/strong&gt; as a Markov Decision Process …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;We take a top-down approach to introducing reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) by starting with a toy example: a student going through college.  In order to frame the problem from the &lt;span class="caps"&gt;RL&lt;/span&gt; point-of-view, we&amp;#8217;ll walk through the following&amp;nbsp;steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Setting up a model of the problem&lt;/strong&gt; as a Markov Decision Process, the framework that underpins the &lt;span class="caps"&gt;RL&lt;/span&gt; approach to sequential decision-making&amp;nbsp;problems&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Deciding on an objective&lt;/strong&gt;: maximize&amp;nbsp;rewards&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Writing down an equation whose solution is our objective&lt;/strong&gt;: Bellman&amp;nbsp;equations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;David Silver walks through this example in his &lt;a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html"&gt;lecture notes&lt;/a&gt; on &lt;span class="caps"&gt;RL&lt;/span&gt;, but as far as we can tell, does not provide code, so we&amp;#8217;re sharing our implementation,&amp;nbsp;comprising:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;the student&amp;#8217;s college &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/discrete_limit_env.py"&gt;environment&lt;/a&gt; using the OpenAI gym&amp;nbsp;package.&lt;/li&gt;
+&lt;li&gt;a &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP.ipynb"&gt;jupyter notebook&lt;/a&gt; sampling from the&amp;nbsp;model&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Student in toy&amp;nbsp;college&lt;/h2&gt;
+&lt;p&gt;We model the student as an agent in a college environment who can move between five states: &lt;span class="caps"&gt;CLASS&lt;/span&gt; 1, 2, 3, the &lt;span class="caps"&gt;FACEBOOK&lt;/span&gt; state, and &lt;span class="caps"&gt;SLEEP&lt;/span&gt; state.  The states are represented by the four circles and square.  The &lt;span class="caps"&gt;SLEEP&lt;/span&gt; state &amp;#8212; the square with no outward bound arrows &amp;#8212; is a terminal state, i.e. once a student reaches that state, her journey is&amp;nbsp;finished.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP" src="https://efavdb.com/images/student_mdp.png"&gt;&lt;/p&gt;
+&lt;p&gt;Actions that a student can take in her current state are labeled in red (facebook/quit/study/sleep/pub) and influence which state she’ll find herself in&amp;nbsp;next.&lt;/p&gt;
+&lt;p&gt;In this model, most state transitions are deterministic functions of the action in the current state, e.g. if she decides to study in &lt;span class="caps"&gt;CLASS&lt;/span&gt; 1, then she’ll definitely advance to &lt;span class="caps"&gt;CLASS&lt;/span&gt; 2.  The single non-deterministic state transition is if she goes pubbing while in &lt;span class="caps"&gt;CLASS&lt;/span&gt; 3, where the pubbing action is indicated by a solid dot; she can end up in &lt;span class="caps"&gt;CLASS&lt;/span&gt; 1, 2 or back in 3 with probability 0.2, 0.4, or 0.4, respectively, depending on how reckless the pubbing&amp;nbsp;was.&lt;/p&gt;
+&lt;p&gt;The model also specifies the reward &lt;span class="math"&gt;\(R\)&lt;/span&gt; associated with acting in one state and ending up in the next.  In this example, the dynamics &lt;span class="math"&gt;\(p(s’,r|s,a)\)&lt;/span&gt;, are given to us, i.e. we have a full model of the environment, and, hopefully, the rewards have been designed to capture the actual end goal of the&amp;nbsp;student.&lt;/p&gt;
+&lt;h2&gt;Markov Decision&amp;nbsp;Process&lt;/h2&gt;
+&lt;p&gt;Formally, we’ve modeled the student’s college experience as a finite Markov Decision Process (&lt;span class="caps"&gt;MDP&lt;/span&gt;).  The dynamics are Markov because the probability of ending up in the next state depends only on the current state and action, not on any history leading up to the current state.  The Markov property is integral to the simplification of the equations that describe the model, which we&amp;#8217;ll see in a&amp;nbsp;bit.&lt;/p&gt;
+&lt;p&gt;The components of an &lt;span class="caps"&gt;MDP&lt;/span&gt;&amp;nbsp;are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(S\)&lt;/span&gt; - the set of possible&amp;nbsp;states&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(R\)&lt;/span&gt; - the set of (scalar)&amp;nbsp;rewards&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(A\)&lt;/span&gt; - the set of possible actions in each&amp;nbsp;state&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The dynamics of the system are described by the probabilities of receiving a reward in the next state given the current state and action taken, &lt;span class="math"&gt;\(p(s’,r|s,a)\)&lt;/span&gt;.  In this example, the &lt;span class="caps"&gt;MDP&lt;/span&gt; is finite because there are a finite number of states, rewards, and&amp;nbsp;actions.&lt;/p&gt;
+&lt;p&gt;The student’s agency in this environment comes from how she decides to act in each state.  The mapping of a state to actions is the &lt;strong&gt;policy&lt;/strong&gt;, &lt;span class="math"&gt;\(\pi(a|s) := p(a|s)\)&lt;/span&gt;, and can be a deterministic or stochastic function of her&amp;nbsp;state.&lt;/p&gt;
+&lt;p&gt;Suppose we have an indifferent student who always chooses actions randomly.  We can sample from the &lt;span class="caps"&gt;MDP&lt;/span&gt; to get some example trajectories the student might experience with this policy.  In the sample trajectories below, the states are enclosed in parentheses &lt;code&gt;(STATE)&lt;/code&gt;, and actions enclosed in square brackets &lt;code&gt;[action]&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Sample trajectories&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;CLASS1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c1"&gt;--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[quit]--&amp;gt;(CLASS1)--[facebook]--&amp;gt;(FACEBOOK)--[quit]--&amp;gt;(CLASS1)--[study]--&amp;gt;(CLASS2)--[sleep]--&amp;gt;(SLEEP)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FACEBOOK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c1"&gt;--[quit]--&amp;gt;(CLASS1)--[study]--&amp;gt;(CLASS2)--[study]--&amp;gt;(CLASS3)--[study]--&amp;gt;(SLEEP)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;SLEEP&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;CLASS1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c1"&gt;--[facebook]--&amp;gt;(FACEBOOK)--[quit]--&amp;gt;(CLASS1)--[study]--&amp;gt;(CLASS2)--[sleep]--&amp;gt;(SLEEP)&lt;/span&gt;
+
+&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FACEBOOK&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="c1"&gt;--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[facebook]--&amp;gt;(FACEBOOK)--[quit]--&amp;gt;(CLASS1)--[facebook]--&amp;gt;(FACEBOOK)--[quit]--&amp;gt;(CLASS1)--[study]--&amp;gt;(CLASS2)--[study]--&amp;gt;(CLASS3)--[pub]--&amp;gt;(CLASS2)--[study]--&amp;gt;(CLASS3)--[study]--&amp;gt;(SLEEP)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;Rewards following a random policy&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;Under this random policy, what total reward would the student expect when starting from any of the states?  We can estimate the expected rewards by summing up the rewards per trajectory and plotting the distributions of total rewards per starting&amp;nbsp;state:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="histogram of sampled returns" src="https://efavdb.com/images/intro_rl_histogram_sampled_returns.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Maximizing rewards: discounted return and value&amp;nbsp;functions&lt;/h2&gt;
+&lt;p&gt;We’ve just seen how we can estimate rewards starting from each state given a random policy.  Next, we’ll formalize our goal in terms of maximizing&amp;nbsp;returns.&lt;/p&gt;
+&lt;h3&gt;Returns&lt;/h3&gt;
+&lt;p&gt;We simply summed the rewards from the sample trajectories above, but the quantity we often want to maximize in practice is the &lt;strong&gt;discounted return &lt;span class="math"&gt;\(G_t\)&lt;/span&gt;&lt;/strong&gt;, which is a sum of the weighted&amp;nbsp;rewards:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{return} \tag{1}
+G_t := R_{t+1} + \gamma R_{t+2} + … = \sum_{k=0}^\infty \gamma^k R_{t+k+1}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(0 \leq \gamma \leq 1\)&lt;/span&gt;.  &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; is the &lt;em&gt;discount rate&lt;/em&gt; which characterizes how much we weight rewards now vs. later.  Discounting is mathematically useful for avoiding infinite returns in MDPs without a terminal state and allows us to account for uncertainty in the future when we don’t have a perfect model of the&amp;nbsp;environment.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Aside&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;The discount factor introduces a time scale since it says that we don&amp;#8217;t care about rewards that are far in the future.  The half-life (actually, the &lt;span class="math"&gt;\(1/e\)&lt;/span&gt; life) of a reward in units of time steps is &lt;span class="math"&gt;\(1/(1-\gamma)\)&lt;/span&gt;, which comes from a definition of &lt;span class="math"&gt;\(1/e\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+\frac{1}{e} = \lim_{n \rightarrow \infty} \left(1 - \frac{1}{n} \right)^n
+\end{align}&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\gamma = 0.99\)&lt;/span&gt; is often used in practice, which corresponds to a half-life of 100 timesteps since &lt;span class="math"&gt;\(0.99^{100} = (1 - 1/100)^{100} \approx 1/e\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h3&gt;Value&amp;nbsp;functions&lt;/h3&gt;
+&lt;p&gt;Earlier, we were able to estimate the expected undiscounted returns starting from each state by sampling from the &lt;span class="caps"&gt;MDP&lt;/span&gt; under a random policy.  Value functions formalize this notion of the &amp;#8220;goodness&amp;#8221; of being in a&amp;nbsp;state.&lt;/p&gt;
+&lt;h4&gt;State value function &lt;span class="math"&gt;\(v\)&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;The &lt;strong&gt;state value function&lt;/strong&gt; &lt;span class="math"&gt;\(v_{\pi}(s)\)&lt;/span&gt; is the expected return when starting in state &lt;span class="math"&gt;\(s\)&lt;/span&gt;, following policy &lt;span class="math"&gt;\(\pi\)&lt;/span&gt;.&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value} \tag{2}
+v_{\pi}(s) = \mathbb{E}_{\pi}[G_t | S_t = s]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The state value function can be written as a recursive relationship, the Bellman expectation equation, expressing the value of a state in terms of the values of its neighors by making use of the Markov&amp;nbsp;property.&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value-bellman} \tag{3}
+v_{\pi}(s) &amp;amp;=&amp;amp; \mathbb{E}_{\pi}[G_t | S_t = s] \\
+       &amp;amp;=&amp;amp; \mathbb{E}_{\pi}[R_{t+1} + \gamma G_{t+2} | S_t = s] \\
+       &amp;amp;=&amp;amp; \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_{\pi}(s’) ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;This equation expresses the value of a state as an average over the discounted value of its neighbor / successor states, plus the expected reward transitioning from &lt;span class="math"&gt;\(s\)&lt;/span&gt; to &lt;span class="math"&gt;\(s’\)&lt;/span&gt;, and &lt;span class="math"&gt;\(v_{\pi}\)&lt;/span&gt; is the unique&lt;a href="#unique"&gt;*&lt;/a&gt; solution.  The distribution of rewards depends on the student’s policy since her actions influence her future&amp;nbsp;rewards.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note on terminology&lt;/em&gt;:
+Policy &lt;em&gt;evaluation&lt;/em&gt; uses the Bellman expectation equation to solve for the value function given a policy &lt;span class="math"&gt;\(\pi\)&lt;/span&gt; and environment dynamics &lt;span class="math"&gt;\(p(s’, r | s, a)\)&lt;/span&gt;.  This is different from policy iteration and value iteration, which are concerned with finding an optimal&amp;nbsp;policy.&lt;/p&gt;
+&lt;p&gt;We can solve the Bellman equation for the value function as an alternative to the sampling we did earlier for the student toy example.  Since the problem has a small number of states and actions, and we have full knowledge of the environment, an exact solution is feasible by directly solving the system of linear equations or iteratively using dynamic programming.  Here is the solution to (\ref{state-value-bellman}) for &lt;span class="math"&gt;\(v\)&lt;/span&gt; under a random policy in the student example (compare to the sample means in the histogram of&amp;nbsp;returns):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP value function random policy" src="https://efavdb.com/images/student_mdp_values_random_policy.png"&gt;&lt;/p&gt;
+&lt;p&gt;We can verify that the solution is self-consistent by spot checking the value of a state in terms of the values of its neighboring states according to the Bellman equation, e.g. the &lt;span class="caps"&gt;CLASS1&lt;/span&gt; state with &lt;span class="math"&gt;\(v_{\pi}(\text{CLASS1}) = -1.3\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;$$
+v_{\pi}(\text{CLASS1}) = 0.5 [-2 + 2.7] + 0.5 [-1 + -2.3] = -1.3
+$$&lt;/div&gt;
+&lt;h4&gt;Action value function &lt;span class="math"&gt;\(q\)&lt;/span&gt;&lt;/h4&gt;
+&lt;p&gt;Another value function is the action value function &lt;span class="math"&gt;\(q_{\pi}(s, a)\)&lt;/span&gt;, which is the expected return from a state &lt;span class="math"&gt;\(s\)&lt;/span&gt; if we follow a policy &lt;span class="math"&gt;\(\pi\)&lt;/span&gt; after taking an action &lt;span class="math"&gt;\(a\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{action-value} \tag{4}
+q_{\pi}(s, a) := \mathbb{E}_{\pi} [ G_t | S_t = s, A = a ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;We can also write &lt;span class="math"&gt;\(v\)&lt;/span&gt; and &lt;span class="math"&gt;\(q\)&lt;/span&gt; in terms of each other.  For example, the state value function can be viewed as an average over the action value functions for that state, weighted by the probability of taking each action, &lt;span class="math"&gt;\(\pi\)&lt;/span&gt;, from that&amp;nbsp;state:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value-one-step-backup} \tag{5}
+v_{\pi}(s) = \sum_{a} \pi(a|s) q_{\pi}(s, a)
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Rewriting &lt;span class="math"&gt;\(v\)&lt;/span&gt; in terms of &lt;span class="math"&gt;\(q\)&lt;/span&gt; in (\ref{state-value-one-step-backup}) is useful later for thinking about the &amp;#8220;advantage&amp;#8221;, &lt;span class="math"&gt;\(A(s,a)\)&lt;/span&gt;, of taking an action in a state, namely how much better is an action in that state than the&amp;nbsp;average?&lt;/p&gt;
+&lt;div class="math"&gt;\begin{align}
+A(s,a) \equiv q(s,a) - v(s)
+\end{align}&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;strong&gt;Why &lt;span class="math"&gt;\(q\)&lt;/span&gt; in addition to &lt;span class="math"&gt;\(v\)&lt;/span&gt;?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Looking ahead, we almost never have access to the environment dynamics in real world problems, but solving for &lt;span class="math"&gt;\(q\)&lt;/span&gt; instead of &lt;span class="math"&gt;\(v\)&lt;/span&gt; lets us get around this problem; we can figure out the best action to take in a state solely using &lt;span class="math"&gt;\(q\)&lt;/span&gt; (we further expand on this in our &lt;a href="#optimalq"&gt;discussion&lt;/a&gt; below on the Bellman optimality equation for &lt;span class="math"&gt;\(q_*\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;A concrete example of using &lt;span class="math"&gt;\(q\)&lt;/span&gt; is provided in our &lt;a href="https://efavdb.com/multiarmed-bandits"&gt;post&lt;/a&gt; on multiarmed bandits (an example of a simple single-state &lt;span class="caps"&gt;MDP&lt;/span&gt;), which discusses agents/algorithms that don&amp;#8217;t have access to the true environment dynamics.  The strategy amounts to estimating the action value function of the slot machine and using those estimates to inform which slot machine arms to pull in order to maximize&amp;nbsp;rewards.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Optimal value and&amp;nbsp;policy&lt;/h2&gt;
+&lt;p&gt;The crux of the &lt;span class="caps"&gt;RL&lt;/span&gt; problem is finding a policy that maximizes the expected return.  A policy &lt;span class="math"&gt;\(\pi\)&lt;/span&gt; is defined to be better than another policy &lt;span class="math"&gt;\(\pi’\)&lt;/span&gt; if &lt;span class="math"&gt;\(v_{\pi}(s) &amp;gt; v_{\pi’}(s)\)&lt;/span&gt; for all states.  We are guaranteed&lt;a href="#unique"&gt;*&lt;/a&gt; an optimal state value function &lt;span class="math"&gt;\(v_*\)&lt;/span&gt; which corresponds to one or more optimal policies &lt;span class="math"&gt;\(\pi*\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Recall that the value function for an arbitrary policy can be written in terms of an average over the action values for that state (\ref{state-value-one-step-backup}).  In contrast, the optimal value function &lt;span class="math"&gt;\(v_*\)&lt;/span&gt; must be consistent with following a policy that selects the action that maximizes the action value functions from a state, i.e. taking a &lt;span class="math"&gt;\(\max\)&lt;/span&gt; (\ref{state-value-bellman-optimality}) instead of an average (\ref{state-value-one-step-backup}) over &lt;span class="math"&gt;\(q\)&lt;/span&gt;, leading to the &lt;strong&gt;Bellman optimality equation&lt;/strong&gt; for &lt;span class="math"&gt;\(v_*\)&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value-bellman-optimality} \tag{6}
+v_*(s) &amp;amp;=&amp;amp; \max_a q_{\pi*}(s, a) \\
+    &amp;amp;=&amp;amp; \max_a \mathbb{E}_{\pi*} [R_{t+1} + \gamma v_*(S_{t+1}) | S_t = s, A_t = a] \\
+    &amp;amp;=&amp;amp; \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_*(s’) ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The optimal policy immediately follows: take the action in a state that maximizes the right hand side of (\ref{state-value-bellman-optimality}).  The &lt;a href="https://en.wikipedia.org/wiki/Bellman_equation#Bellman's_Principle_of_Optimality"&gt;principle of optimality&lt;/a&gt;, which applies to the Bellman optimality equation, means that this greedy policy actually corresponds to the optimal policy!  Note: Unlike the Bellman expectation equations, the Bellman optimality equations are a nonlinear system of equations due to taking the&amp;nbsp;max.&lt;/p&gt;
+&lt;p&gt;The Bellman optimality equation for the action value function &lt;span class="math"&gt;\(q_*(s,a)\)&lt;/span&gt;&lt;a name="optimalq"&gt;&lt;/a&gt;&amp;nbsp;is:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{action-value-bellman-optimality} \tag{7}
+q_*(s, a) &amp;amp;=&amp;amp; \mathbb{E}_{\pi*} [R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}', a') | S_t = s, A_t = a] \\
+          &amp;amp;=&amp;amp; \sum_{s', r} p(s', r | s, a) [r + \gamma \max_{a'} q_*(s', a') ]
+\end{eqnarray}&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;Looking ahead: In practice, without a knowledge of the environment dynamics, &lt;span class="caps"&gt;RL&lt;/span&gt; algorithms based on solving value functions can approximate the expectation in (\ref{action-value-bellman-optimality}) by sampling, i.e. interacting with the environment, and iteratively selecting the action that corresponds to maximizing &lt;span class="math"&gt;\(q\)&lt;/span&gt; in each state that the agent lands in along its trajectory, which is possible since the maximum occurs &lt;strong&gt;inside&lt;/strong&gt; the summation in (\ref{action-value-bellman-optimality}).   In contrast, this sampling approach doesn&amp;#8217;t work for (\ref{state-value-bellman-optimality}) because of the maximum &lt;strong&gt;outside&lt;/strong&gt; the summation in&amp;#8230;that&amp;#8217;s why action value functions are so useful when we lack a model of the&amp;nbsp;environment!&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Here is the optimal state value function and policy for the student example, which we solve for in a later&amp;nbsp;post:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP optimal value function" src="https://efavdb.com/images/student_mdp_optimal_values.png"&gt;&lt;/p&gt;
+&lt;p&gt;Comparing the values per state under the optimal policy vs the random policy, the value in every state under the optimal policy exceeds the value under the random&amp;nbsp;policy.&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;We’ve discussed how the problem of sequential decision making can be framed as an &lt;span class="caps"&gt;MDP&lt;/span&gt; using the student toy &lt;span class="caps"&gt;MDP&lt;/span&gt; as an example.  The goal in &lt;span class="caps"&gt;RL&lt;/span&gt; is to figure out a policy &amp;#8212; what actions to take in each state &amp;#8212; that maximizes our&amp;nbsp;returns.&lt;/p&gt;
+&lt;p&gt;MDPs provide a framework for approaching the problem by defining the value of each state, the value functions, and using the value functions to define what a “best policy” means.  The value functions are unique solutions to the Bellman equations, and the &lt;span class="caps"&gt;MDP&lt;/span&gt; is “solved” when we know the optimal value&amp;nbsp;function.&lt;/p&gt;
+&lt;p&gt;Much of reinforcement learning centers around trying to solve these equations under different conditions, e.g. unknown environment dynamics and large &amp;#8212; possibly continuous &amp;#8212; states and/or action spaces that require approximations to the value&amp;nbsp;functions.&lt;/p&gt;
+&lt;p&gt;We&amp;#8217;ll discuss how we arrived at the solutions for this toy problem in a future&amp;nbsp;post!&lt;/p&gt;
+&lt;h3&gt;Example&amp;nbsp;code&lt;/h3&gt;
+&lt;p&gt;Code for sampling from the student environment under a random policy in order to generate the trajectories and histograms of returns is available in this &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP.ipynb"&gt;jupyter notebook&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/discrete_limit_env.py"&gt;code&lt;/a&gt; for the student environment creates an environment with an &lt;span class="caps"&gt;API&lt;/span&gt; that is compatible with OpenAI gym &amp;#8212; specifically, it is derived from the &lt;code&gt;gym.envs.toy_text.DiscreteEnv&lt;/code&gt; environment.&lt;/p&gt;
+&lt;p&gt;&lt;a name="unique"&gt;&lt;em&gt;&lt;/a&gt;The uniqueness of the solution to the Bellman equations for finite MDPs is stated without proof in Ref [2], but Ref [1] motivates it briefly via the &lt;/em&gt;contraction mapping&amp;nbsp;theorem*.&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;[1] David Silver&amp;#8217;s &lt;span class="caps"&gt;RL&lt;/span&gt; Course Lecture 2 - (&lt;a href="https://www.youtube.com/watch?v=lfHX2hHRMVQ"&gt;video&lt;/a&gt;,
+  &lt;a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching_files/MDP.pdf"&gt;slides&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;[2] Sutton and Barto -
+  &lt;a href="http://incompleteideas.net/book/RLbook2018.pdf"&gt;Reinforcement Learning: An Introduction&lt;/a&gt; - Chapter 3: Finite Markov Decision&amp;nbsp;Processes&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Machine learning"></category><category term="reinforcement learning"></category><category term="machine learning"></category><category term="OpenAI"></category></entry><entry><title>A Framework for Studying Population Dynamics</title><link href="https://efavdb.com/world-wandering-dudes" rel="alternate"></link><published>2020-03-08T00:00:00-08:00</published><updated>2020-03-08T00:00:00-08:00</updated><author><name>Dustin McIntosh</name></author><id>tag:efavdb.com,2020-03-08:/world-wandering-dudes</id><summary type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dustinmcintosh/world_wandering_dudes"&gt;World Wandering Dudes&lt;/a&gt; is a simulation framework in which you initiate a “world” which consists of a “field” and a set of …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dustinmcintosh/world_wandering_dudes"&gt;World Wandering Dudes&lt;/a&gt; is a simulation framework in which you initiate a “world” which consists of a “field” and a set of “creatures” (dudes). The field has food on it. Each day, the creatures run around gathering the food which they need to survive and&amp;nbsp;reproduce.&lt;/p&gt;
 &lt;h3&gt;Example&lt;/h3&gt;
