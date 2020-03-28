@@ -1,5 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Machine learning</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/machine-learning.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-11T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Introduction to reinforcement learning by example</title><link href="https://efavdb.com/intro-rl-toy-example" rel="alternate"></link><published>2020-03-11T00:00:00-07:00</published><updated>2020-03-11T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-11:/intro-rl-toy-example</id><summary type="html">&lt;p&gt;We take a top-down approach to introducing reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) by starting with a toy example: a student going through college.  In order to frame the problem from the &lt;span class="caps"&gt;RL&lt;/span&gt; point-of-view, we&amp;#8217;ll walk through the following&amp;nbsp;steps:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Machine learning</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/machine-learning.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-28T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Dynamic programming in reinforcement learning</title><link href="https://efavdb.com/reinforcement-learning-dynamic-programming" rel="alternate"></link><published>2020-03-28T00:00:00-07:00</published><updated>2020-03-28T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-28:/reinforcement-learning-dynamic-programming</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;We discuss how to use dynamic programming (&lt;span class="caps"&gt;DP&lt;/span&gt;) to solve reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) problems where we have a perfect model of the environment.  &lt;span class="caps"&gt;DP&lt;/span&gt; is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&amp;nbsp;problem …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;We discuss how to use dynamic programming (&lt;span class="caps"&gt;DP&lt;/span&gt;) to solve reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) problems where we have a perfect model of the environment.  &lt;span class="caps"&gt;DP&lt;/span&gt; is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&amp;nbsp;problem.&lt;/p&gt;
+&lt;p&gt;We’ll use a toy model, taken from [1], of a student transitioning between five states in college, which we also used in our &lt;a href="https://efavdb.com/intro-rl-toy-example.html"&gt;introduction&lt;/a&gt; to &lt;span class="caps"&gt;RL&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP" src="https://efavdb.com/images/student_mdp.png"&gt;&lt;/p&gt;
+&lt;p&gt;The model (dynamics) of the environment describe the probabilities of receiving a reward &lt;span class="math"&gt;\(r\)&lt;/span&gt; in the next state &lt;span class="math"&gt;\(s'\)&lt;/span&gt; given the current state &lt;span class="math"&gt;\(s\)&lt;/span&gt; and action &lt;span class="math"&gt;\(a\)&lt;/span&gt; taken, &lt;span class="math"&gt;\(p(s’, r | s, a)\)&lt;/span&gt;.  We can read these dynamics off the diagram of the student Markov Decision Process (&lt;span class="caps"&gt;MDP&lt;/span&gt;), for&amp;nbsp;example:&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(p(s'=\text{CLASS2}, r=-2 | s=\text{CLASS1}, a=\text{study}) =&amp;nbsp;1.0\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(p(s'=\text{CLASS2}, r=1 | s=\text{CLASS3}, a=\text{pub}) =&amp;nbsp;0.4\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;If you&amp;#8217;d like to jump straight to code, see this &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb"&gt;jupyter notebook&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;The role of value functions in &lt;span class="caps"&gt;RL&lt;/span&gt;&lt;/h3&gt;
+&lt;p&gt;The agent’s (student’s) policy maps states to actions, &lt;span class="math"&gt;\(\pi(a|s) := p(a|s)\)&lt;/span&gt;. 
+The goal is to find the optimal policy &lt;span class="math"&gt;\(\pi_*\)&lt;/span&gt; that will maximize the expected cumulative rewards, the discounted return &lt;span class="math"&gt;\(G_t\)&lt;/span&gt;, in each state &lt;span class="math"&gt;\(s\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The value functions, &lt;span class="math"&gt;\(v_{\pi}(s)\)&lt;/span&gt; and &lt;span class="math"&gt;\(q_{\pi}(s, a)\)&lt;/span&gt;, in MDPs formalize this&amp;nbsp;goal.&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+v_{\pi}(s) &amp;amp;=&amp;amp; \mathbb{E}_{\pi}[G_t | S_t = s] \\
+q_{\pi}(s, a) &amp;amp;=&amp;amp; \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;We want to be able to calculate the value function for an arbitrary policy, i.e. &lt;em&gt;prediction&lt;/em&gt;, as well as use the value functions to find an optimal policy, i.e. the &lt;em&gt;control&lt;/em&gt;&amp;nbsp;problem.&lt;/p&gt;
+&lt;h2&gt;Policy&amp;nbsp;evaluation&lt;/h2&gt;
+&lt;p&gt;Policy evaluation deals with the problem of calculating the value function for some arbitrary policy.  In our introduction to &lt;span class="caps"&gt;RL&lt;/span&gt; &lt;a href="https://efavdb.com/intro-rl-toy-example.html"&gt;post&lt;/a&gt;, we showed that the value functions obey self-consistent, recursive relations, that make them amenable to &lt;span class="caps"&gt;DP&lt;/span&gt; approaches given a model of the&amp;nbsp;environment.&lt;/p&gt;
+&lt;p&gt;These recursive relations are the Bellman expectation equations, which write the value of each state in terms of an average over the values of its successor / neighboring states, along with the expected reward along the&amp;nbsp;way.&lt;/p&gt;
+&lt;p&gt;The Bellman expectation equation for &lt;span class="math"&gt;\(v_{\pi}(s)\)&lt;/span&gt;&amp;nbsp;is&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value-bellman} \tag{1}
+v_{\pi}(s) = \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_{\pi}(s’) ],
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; is the discount factor &lt;span class="math"&gt;\(0 \leq \gamma \leq 1\)&lt;/span&gt; that weights the importance of future vs. current returns. &lt;strong&gt;&lt;span class="caps"&gt;DP&lt;/span&gt; turns (\ref{state-value-bellman}) into an update rule&lt;/strong&gt; (\ref{policy-evaluation}), &lt;span class="math"&gt;\(\{v_k(s’)\} \rightarrow v_{k+1}(s)\)&lt;/span&gt;, which iteratively converges towards the solution, &lt;span class="math"&gt;\(v_\pi(s)\)&lt;/span&gt;, for&amp;nbsp;(\ref{state-value-bellman}):&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{policy-evaluation} \tag{2}
+v_{k+1}(s) = \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Applying policy evaluation to our student model for an agent with a random policy, we arrive at the following state value function (see &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb"&gt;jupyter notebook&lt;/a&gt; for&amp;nbsp;implementation):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP value function random policy" src="https://efavdb.com/images/student_mdp_values_random_policy.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Finding the optimal value functions and&amp;nbsp;policy&lt;/h2&gt;
+&lt;h3&gt;Policy&amp;nbsp;iteration&lt;/h3&gt;
+&lt;p&gt;We can evaluate the value functions for a given policy by turning the Bellman expectation equation (\ref{state-value-bellman}) into an update equation with the iterative policy evaluation&amp;nbsp;algorithm.&lt;/p&gt;
+&lt;p&gt;But how do we use value functions to achieve our end goal of finding an optimal policy that corresponds to the optimal value&amp;nbsp;functions?&lt;/p&gt;
+&lt;p&gt;Imagine we know the value function for a policy.  If taking the greedy action, corresponding to taking &lt;span class="math"&gt;\(\text{arg} \max_a q_{\pi}(s,a)\)&lt;/span&gt;, from any state in that policy is not consistent with that policy, or, equivalently, &lt;span class="math"&gt;\(\max_a q_{\pi}(s,a) &amp;gt; v_\pi(s)\)&lt;/span&gt;, then the policy is not optimal since we can improve the policy by taking the greedy action in that state and then onwards following the original&amp;nbsp;policy.&lt;/p&gt;
+&lt;p&gt;The &lt;em&gt;policy iteration&lt;/em&gt; algorithm involves taking turns calculating the value function for a policy (policy evaluation) and improving on the policy (policy improvement) by taking the greedy action in each state for that value function until converging to &lt;span class="math"&gt;\(\pi_*\)&lt;/span&gt; and &lt;span class="math"&gt;\(v_*\)&lt;/span&gt; (see [2] for pseudocode for policy&amp;nbsp;iteration).&lt;/p&gt;
+&lt;h3&gt;Value&amp;nbsp;iteration&lt;/h3&gt;
+&lt;p&gt;Unlike policy iteration, the value iteration algorithm does not require complete convergence of policy evaluation before policy improvement, and, in fact, makes use of just a single iteration of policy evaluation.  Just as policy evaluation could be viewed as turning the Bellman expectation equation into an update, value iteration turns the Bellman optimality equation into an&amp;nbsp;update.&lt;/p&gt;
+&lt;p&gt;In our previous &lt;a href="https://efavdb.com/intro-rl-toy-example.html"&gt;post&lt;/a&gt; introducing &lt;span class="caps"&gt;RL&lt;/span&gt; using the student example, we saw that the optimal value functions are the solutions to the Bellman optimality equation, e.g. for the optimal state-value&amp;nbsp;function:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{state-value-bellman-optimality} \tag{3}
+v_*(s) &amp;amp;=&amp;amp; \max_a q_{\pi*}(s, a) \\
+    &amp;amp;=&amp;amp; \max_a \mathbb{E} [R_{t+1} + \gamma v_*(S_{t+1}) | S_t = s, A_t = a] \\
+    &amp;amp;=&amp;amp; \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_*(s’) ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;As a &lt;span class="caps"&gt;DP&lt;/span&gt; update equation, (\ref{state-value-bellman-optimality})&amp;nbsp;becomes:
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{value-iteration} \tag{4}
+v_{k+1}(s) = \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Value iteration combines (truncated) policy evaluation with policy improvement in a single step; the state-value functions are updated with the averages of the value functions of the neighbor states that can occur from a greedy action, i.e. the action that maximizes the right hand side of&amp;nbsp;(\ref{value-iteration}).&lt;/p&gt;
+&lt;p&gt;Applying value iteration to our student model, we arrive at the following optimal state value function, with the optimal policy delineated by red arrows (see &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb"&gt;jupyter notebook&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="student MDP optimal policy and value function" src="https://efavdb.com/images/student_mdp_optimal_policy.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;We’ve discussed how to solve for (a) the value functions of an arbitrary policy, (b) the optimal value functions and optimal policy.  Solving for (a) involves turning the Bellman expectation equations into an update, whereas (b) involves turning the Bellman optimality equations into an update.  These algorithms are guaranteed to converge (see [1] for notes on how the contraction mapping theorem guarantees&amp;nbsp;convergence).&lt;/p&gt;
+&lt;p&gt;You can see the application of both policy evaluation and value iteration to the student model problem in this &lt;a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb"&gt;jupyter notebook&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;&lt;a name="References"&gt;References&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;[1] David Silver&amp;#8217;s &lt;span class="caps"&gt;RL&lt;/span&gt; Course Lecture 3 - Planning by Dynamic Programming (&lt;a href="https://www.youtube.com/watch?v=Nd1-UUMVfz4"&gt;video&lt;/a&gt;,
+  &lt;a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching_files/DP.pdf"&gt;slides&lt;/a&gt;)&lt;/p&gt;
+&lt;p&gt;[2] Sutton and Barto -
+  &lt;a href="http://incompleteideas.net/book/RLbook2018.pdf"&gt;Reinforcement Learning: An Introduction&lt;/a&gt; - Chapter 4: Dynamic&amp;nbsp;Programming&lt;/p&gt;
+&lt;p&gt;[3] Denny Britz’s &lt;a href="https://github.com/dennybritz/reinforcement-learning/tree/master/DP"&gt;notes&lt;/a&gt; on &lt;span class="caps"&gt;RL&lt;/span&gt; and &lt;span class="caps"&gt;DP&lt;/span&gt;, including crisp implementations in code of policy evaluation, policy iteration, and value iteration for the gridworld example discussed in&amp;nbsp;[2].&lt;/p&gt;
+&lt;p&gt;[4] Deep &lt;span class="caps"&gt;RL&lt;/span&gt; Bootcamp Lecture 1: Motivation + Overview + Exact Solution Methods, by Pieter Abbeel (&lt;a href="https://www.youtube.com/watch?v=qaMdN6LS9rA"&gt;video&lt;/a&gt;, &lt;a href="https://drive.google.com/open?id=0BxXI_RttTZAhVXBlMUVkQ1BVVDQ"&gt;slides&lt;/a&gt;) - a very compressed&amp;nbsp;intro.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Machine learning"></category><category term="reinforcement learning"></category><category term="machine learning"></category></entry><entry><title>Introduction to reinforcement learning by example</title><link href="https://efavdb.com/intro-rl-toy-example" rel="alternate"></link><published>2020-03-11T00:00:00-07:00</published><updated>2020-03-11T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-11:/intro-rl-toy-example</id><summary type="html">&lt;p&gt;We take a top-down approach to introducing reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) by starting with a toy example: a student going through college.  In order to frame the problem from the &lt;span class="caps"&gt;RL&lt;/span&gt; point-of-view, we&amp;#8217;ll walk through the following&amp;nbsp;steps:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Setting up a model of the problem&lt;/strong&gt; as a Markov Decision Process …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;We take a top-down approach to introducing reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) by starting with a toy example: a student going through college.  In order to frame the problem from the &lt;span class="caps"&gt;RL&lt;/span&gt; point-of-view, we&amp;#8217;ll walk through the following&amp;nbsp;steps:&lt;/p&gt;
 &lt;ul&gt;

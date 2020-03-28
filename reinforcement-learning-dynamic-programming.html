@@ -4,23 +4,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Dustin McIntosh" />
+        <meta name="author" content="Cathy Yeh" />
 
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Machine Learning, traffic, Case studies, " />
+<meta name="keywords" content="reinforcement learning, machine learning, Machine learning, " />
 
-<meta property="og:title" content="Traffic patterns of the year: 2014 edition "/>
-<meta property="og:url" content="https://efavdb.com/traffic-patterns-of-the-year-2014-edition" />
-<meta property="og:description" content="As we mentioned in the last post, there are currently over 2000 active speed loop detectors within the Bay Area highway system. The information provided by these loops is often highly redundant because speeds at neighboring sites typically differ little from one another. This observation suggests that a higher level …" />
+<meta property="og:title" content="Dynamic programming in reinforcement learning "/>
+<meta property="og:url" content="https://efavdb.com/reinforcement-learning-dynamic-programming" />
+<meta property="og:description" content="Background We discuss how to use dynamic programming (DP) to solve reinforcement learning (RL) problems where we have a perfect model of the environment. DP is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall problem …" />
 <meta property="og:site_name" content="EFAVDB" />
-<meta property="og:article:author" content="Dustin McIntosh" />
-<meta property="og:article:published_time" content="2014-10-21T23:47:00-07:00" />
-<meta name="twitter:title" content="Traffic patterns of the year: 2014 edition ">
-<meta name="twitter:description" content="As we mentioned in the last post, there are currently over 2000 active speed loop detectors within the Bay Area highway system. The information provided by these loops is often highly redundant because speeds at neighboring sites typically differ little from one another. This observation suggests that a higher level …">
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2020-03-28T00:00:00-07:00" />
+<meta name="twitter:title" content="Dynamic programming in reinforcement learning ">
+<meta name="twitter:description" content="Background We discuss how to use dynamic programming (DP) to solve reinforcement learning (RL) problems where we have a perfect model of the environment. DP is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall problem …">
 
-        <title>Traffic patterns of the year: 2014 edition  · EFAVDB
+        <title>Dynamic programming in reinforcement learning  · EFAVDB
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
@@ -76,8 +76,8 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/traffic-patterns-of-the-year-2014-edition">
-                Traffic patterns of the year: 2014&nbsp;edition
+            <a href="https://efavdb.com/reinforcement-learning-dynamic-programming">
+                Dynamic programming in reinforcement&nbsp;learning
             </a>
         </h1>
     </header>
@@ -87,11 +87,68 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p><a href="https://efavdb.com/wp-content/uploads/2014/10/Mode1.png"><img alt="Mode1" src="https://efavdb.com/wp-content/uploads/2014/10/Mode1.png"></a></p>
-<p><a href="https://efavdb.com/wp-content/uploads/2014/10/Mode2.png"><img alt="Mode2" src="https://efavdb.com/wp-content/uploads/2014/10/Mode2.png"></a></p>
-<p>As we mentioned in the last post, there are currently over 2000 active speed loop detectors within the Bay Area highway system.  The information provided by these loops is often highly redundant because speeds at neighboring sites typically differ little from one another.  This observation suggests that a higher level, “macro” picture of traffic conditions could provide more insight:  Rather than stating the speed at each detector, we might instead offer info like “101S is rather slow right now”.   In fact, we aim to characterize traffic conditions as efficiently as possible.  To move towards this goal, we have carried out a principal component analysis (<span class="caps">PCA</span>)<span class="math">\(^1\)</span> of the full 2014 (year to date) <span class="caps">PEMS</span> data&nbsp;set.</p>
-<p>As described in [1] below, <span class="caps">PCA</span> provides us with a slick, automated method for identifying the most common “traffic patterns” or “modes” that get excited in our system.  By adding together these patterns — with appropriate time-specific amplitudes — we can reconstruct the site-by-site traffic conditions observed at any particular moment.  Importantly, summing over only the most significant modes will provide us with a system-tailored, minimal-loss method of data compression that will simplify our later prediction analysis. We will discuss this compression benefit further in the next post. Here, we present the two dominant modes of the Bay Area traffic system (see figures above). Notice that the first is fairly uniform, which presumably captures some nearly-site-independent changes in mean speed associated with night vs. daytime driving. In contrast, the second mode captures some interesting structure, showing slowdowns for some highways/directions and speedups for others. Evidently, this structure is the second most highly exhibited pattern in the Bay Area system; We couldn’t have intuited this pattern, but it has been captured automatically via our <span class="caps">PCA</span>.</p>
-<p>[1]  *Statistical physics of <span class="caps">PCA</span>:  *  One way of thinking about <span class="caps">PCA</span> as applied here is to imagine that the traffic system is harmonic.  That is, we suppose that the traffic dynamics observed can be characterized by an energy cost function that is quadratic in the speeds of the different loops, measured relative to their average values, <span class="math">\(E = \frac{\beta^{-1}}{2} \delta \textbf{v}^{T}  \cdot H \cdot \delta \textbf{v}.\)</span>   Here, <span class="math">\(\delta v_i = v_i - \langle v_i \rangle $ and $H\)</span> is a matrix Hamiltonian.  Under some effective, <a href="http://en.wikipedia.org/wiki/Partition_function_(statistical_mechanics)#Canonical_partition_function">thermal driving</a>, the pair correlation for two sites will be given by <span class="math">\(\langle \delta v_a  \delta v_b \rangle \equiv<div class="math">$$ \frac{1}{Z} \int_{{\delta \textbf{v}_i }} e^{- \frac{1}{2} \delta \textbf{v}^{T}  \cdot H \cdot \delta \textbf{v}} \delta v_a  \delta v_b =$$</div> H^{-1}_{ab}\)</span>.  It is this pair correlation function that is measured when one carries out a <span class="caps">PCA</span> analysis, and the matrix <span class="math">\(H^{-1}\)</span> is called the covariance matrix.  Its eigenvectors are the modes of the system — the independent traffic patterns that we discuss above.  The low lying modes are those with a larger <span class="math">\(H^{-1}\)</span> eigenvalue.  These have low energy, are consequently often highly excited, and generally dominate the traffic conditions that we&nbsp;observe.</p>
+            <h2>Background</h2>
+<p>We discuss how to use dynamic programming (<span class="caps">DP</span>) to solve reinforcement learning (<span class="caps">RL</span>) problems where we have a perfect model of the environment.  <span class="caps">DP</span> is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&nbsp;problem.</p>
+<p>We’ll use a toy model, taken from [1], of a student transitioning between five states in college, which we also used in our <a href="https://efavdb.com/intro-rl-toy-example.html">introduction</a> to <span class="caps">RL</span>:</p>
+<p><img alt="student MDP" src="https://efavdb.com/images/student_mdp.png"></p>
+<p>The model (dynamics) of the environment describe the probabilities of receiving a reward <span class="math">\(r\)</span> in the next state <span class="math">\(s'\)</span> given the current state <span class="math">\(s\)</span> and action <span class="math">\(a\)</span> taken, <span class="math">\(p(s’, r | s, a)\)</span>.  We can read these dynamics off the diagram of the student Markov Decision Process (<span class="caps">MDP</span>), for&nbsp;example:</p>
+<p><span class="math">\(p(s'=\text{CLASS2}, r=-2 | s=\text{CLASS1}, a=\text{study}) =&nbsp;1.0\)</span></p>
+<p><span class="math">\(p(s'=\text{CLASS2}, r=1 | s=\text{CLASS3}, a=\text{pub}) =&nbsp;0.4\)</span></p>
+<p>If you&#8217;d like to jump straight to code, see this <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>.</p>
+<h3>The role of value functions in <span class="caps">RL</span></h3>
+<p>The agent’s (student’s) policy maps states to actions, <span class="math">\(\pi(a|s) := p(a|s)\)</span>. 
+The goal is to find the optimal policy <span class="math">\(\pi_*\)</span> that will maximize the expected cumulative rewards, the discounted return <span class="math">\(G_t\)</span>, in each state <span class="math">\(s\)</span>.</p>
+<p>The value functions, <span class="math">\(v_{\pi}(s)\)</span> and <span class="math">\(q_{\pi}(s, a)\)</span>, in MDPs formalize this&nbsp;goal.</p>
+<div class="math">\begin{eqnarray}
+v_{\pi}(s) &amp;=&amp; \mathbb{E}_{\pi}[G_t | S_t = s] \\
+q_{\pi}(s, a) &amp;=&amp; \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a]
+\end{eqnarray}</div>
+<p>We want to be able to calculate the value function for an arbitrary policy, i.e. <em>prediction</em>, as well as use the value functions to find an optimal policy, i.e. the <em>control</em>&nbsp;problem.</p>
+<h2>Policy&nbsp;evaluation</h2>
+<p>Policy evaluation deals with the problem of calculating the value function for some arbitrary policy.  In our introduction to <span class="caps">RL</span> <a href="https://efavdb.com/intro-rl-toy-example.html">post</a>, we showed that the value functions obey self-consistent, recursive relations, that make them amenable to <span class="caps">DP</span> approaches given a model of the&nbsp;environment.</p>
+<p>These recursive relations are the Bellman expectation equations, which write the value of each state in terms of an average over the values of its successor / neighboring states, along with the expected reward along the&nbsp;way.</p>
+<p>The Bellman expectation equation for <span class="math">\(v_{\pi}(s)\)</span>&nbsp;is</p>
+<div class="math">\begin{eqnarray}\label{state-value-bellman} \tag{1}
+v_{\pi}(s) = \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_{\pi}(s’) ],
+\end{eqnarray}</div>
+<p>where <span class="math">\(\gamma\)</span> is the discount factor <span class="math">\(0 \leq \gamma \leq 1\)</span> that weights the importance of future vs. current returns. <strong><span class="caps">DP</span> turns (\ref{state-value-bellman}) into an update rule</strong> (\ref{policy-evaluation}), <span class="math">\(\{v_k(s’)\} \rightarrow v_{k+1}(s)\)</span>, which iteratively converges towards the solution, <span class="math">\(v_\pi(s)\)</span>, for&nbsp;(\ref{state-value-bellman}):</p>
+<div class="math">\begin{eqnarray}\label{policy-evaluation} \tag{2}
+v_{k+1}(s) = \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
+\end{eqnarray}</div>
+<p>Applying policy evaluation to our student model for an agent with a random policy, we arrive at the following state value function (see <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a> for&nbsp;implementation):</p>
+<p><img alt="student MDP value function random policy" src="https://efavdb.com/images/student_mdp_values_random_policy.png"></p>
+<h2>Finding the optimal value functions and&nbsp;policy</h2>
+<h3>Policy&nbsp;iteration</h3>
+<p>We can evaluate the value functions for a given policy by turning the Bellman expectation equation (\ref{state-value-bellman}) into an update equation with the iterative policy evaluation&nbsp;algorithm.</p>
+<p>But how do we use value functions to achieve our end goal of finding an optimal policy that corresponds to the optimal value&nbsp;functions?</p>
+<p>Imagine we know the value function for a policy.  If taking the greedy action, corresponding to taking <span class="math">\(\text{arg} \max_a q_{\pi}(s,a)\)</span>, from any state in that policy is not consistent with that policy, or, equivalently, <span class="math">\(\max_a q_{\pi}(s,a) &gt; v_\pi(s)\)</span>, then the policy is not optimal since we can improve the policy by taking the greedy action in that state and then onwards following the original&nbsp;policy.</p>
+<p>The <em>policy iteration</em> algorithm involves taking turns calculating the value function for a policy (policy evaluation) and improving on the policy (policy improvement) by taking the greedy action in each state for that value function until converging to <span class="math">\(\pi_*\)</span> and <span class="math">\(v_*\)</span> (see [2] for pseudocode for policy&nbsp;iteration).</p>
+<h3>Value&nbsp;iteration</h3>
+<p>Unlike policy iteration, the value iteration algorithm does not require complete convergence of policy evaluation before policy improvement, and, in fact, makes use of just a single iteration of policy evaluation.  Just as policy evaluation could be viewed as turning the Bellman expectation equation into an update, value iteration turns the Bellman optimality equation into an&nbsp;update.</p>
+<p>In our previous <a href="https://efavdb.com/intro-rl-toy-example.html">post</a> introducing <span class="caps">RL</span> using the student example, we saw that the optimal value functions are the solutions to the Bellman optimality equation, e.g. for the optimal state-value&nbsp;function:</p>
+<div class="math">\begin{eqnarray}\label{state-value-bellman-optimality} \tag{3}
+v_*(s) &amp;=&amp; \max_a q_{\pi*}(s, a) \\
+    &amp;=&amp; \max_a \mathbb{E} [R_{t+1} + \gamma v_*(S_{t+1}) | S_t = s, A_t = a] \\
+    &amp;=&amp; \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_*(s’) ]
+\end{eqnarray}</div>
+<p>As a <span class="caps">DP</span> update equation, (\ref{state-value-bellman-optimality})&nbsp;becomes:
+</p>
+<div class="math">\begin{eqnarray}\label{value-iteration} \tag{4}
+v_{k+1}(s) = \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
+\end{eqnarray}</div>
+<p>Value iteration combines (truncated) policy evaluation with policy improvement in a single step; the state-value functions are updated with the averages of the value functions of the neighbor states that can occur from a greedy action, i.e. the action that maximizes the right hand side of&nbsp;(\ref{value-iteration}).</p>
+<p>Applying value iteration to our student model, we arrive at the following optimal state value function, with the optimal policy delineated by red arrows (see <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>):</p>
+<p><img alt="student MDP optimal policy and value function" src="https://efavdb.com/images/student_mdp_optimal_policy.png"></p>
+<h2>Summary</h2>
+<p>We’ve discussed how to solve for (a) the value functions of an arbitrary policy, (b) the optimal value functions and optimal policy.  Solving for (a) involves turning the Bellman expectation equations into an update, whereas (b) involves turning the Bellman optimality equations into an update.  These algorithms are guaranteed to converge (see [1] for notes on how the contraction mapping theorem guarantees&nbsp;convergence).</p>
+<p>You can see the application of both policy evaluation and value iteration to the student model problem in this <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>.</p>
+<h2><a name="References">References</a></h2>
+<p>[1] David Silver&#8217;s <span class="caps">RL</span> Course Lecture 3 - Planning by Dynamic Programming (<a href="https://www.youtube.com/watch?v=Nd1-UUMVfz4">video</a>,
+  <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching_files/DP.pdf">slides</a>)</p>
+<p>[2] Sutton and Barto -
+  <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction</a> - Chapter 4: Dynamic&nbsp;Programming</p>
+<p>[3] Denny Britz’s <a href="https://github.com/dennybritz/reinforcement-learning/tree/master/DP">notes</a> on <span class="caps">RL</span> and <span class="caps">DP</span>, including crisp implementations in code of policy evaluation, policy iteration, and value iteration for the gridworld example discussed in&nbsp;[2].</p>
+<p>[4] Deep <span class="caps">RL</span> Bootcamp Lecture 1: Motivation + Overview + Exact Solution Methods, by Pieter Abbeel (<a href="https://www.youtube.com/watch?v=qaMdN6LS9rA">video</a>, <a href="https://drive.google.com/open?id=0BxXI_RttTZAhVXBlMUVkQ1BVVDQ">slides</a>) - a very compressed&nbsp;intro.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -160,20 +217,20 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Traffic%20patterns%20of%20the%20year%3A%202014%C2%A0edition&url=https%3A//efavdb.com/traffic-patterns-of-the-year-2014-edition&hashtags=machine-learning,traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Dynamic%20programming%20in%20reinforcement%C2%A0learning&url=https%3A//efavdb.com/reinforcement-learning-dynamic-programming&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     ❄
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/traffic-patterns-of-the-year-2014-edition" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/reinforcement-learning-dynamic-programming" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     ❄
-    <a href="mailto:?subject=Traffic%20patterns%20of%20the%20year%3A%202014%C2%A0edition&amp;body=https%3A//efavdb.com/traffic-patterns-of-the-year-2014-edition" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Dynamic%20programming%20in%20reinforcement%C2%A0learning&amp;body=https%3A//efavdb.com/reinforcement-learning-dynamic-programming" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
     <div class="author_blurb">
         <a href="" target="_blank" rel="nofollow noopener noreferrer">
-            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
-            <span class="author_name">Dustin McIntosh</span>
+            <img src=/images/cy_efavdb_headshot.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
         </a>
-        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. After stints in a translational modeling group at Pfizer in San Diego, Driver (a no longer extant startup trying to match cancer patients to clinical trials) in San Francisco, and Square, she is currently participating in the OpenAI Scholars program.
     </div>
 
             
@@ -193,8 +250,8 @@
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/traffic-patterns-of-the-year-2014-edition"
-                   href="https://efavdb.com/traffic-patterns-of-the-year-2014-edition#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/reinforcement-learning-dynamic-programming"
+                   href="https://efavdb.com/reinforcement-learning-dynamic-programming#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -212,8 +269,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.com/traffic-patterns-of-the-year-2014-edition';
-    var disqus_url = 'https://efavdb.com/traffic-patterns-of-the-year-2014-edition';
+    var disqus_identifier = 'https://efavdb.com/reinforcement-learning-dynamic-programming';
+    var disqus_url = 'https://efavdb.com/reinforcement-learning-dynamic-programming';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -237,24 +294,23 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/obtaining-and-visualizing-traffic-data" title="Previous: Obtaining and visualizing traffic data">Obtaining and visualizing traffic data</a></li>
-                <li class="next-article"><a href="https://efavdb.com/data-reduction-by-pca" title="Next: Data reduction by PCA">Data reduction by PCA</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/intro-rl-toy-example" title="Previous: Introduction to reinforcement learning by example">Introduction to reinforcement learning by example</a></li>
             </ul>
             </nav>
             </aside>
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-10-21T23:47:00-07:00">Oct 21, 2014</time>
+            <time itemprop="dateCreated" datetime="2020-03-28T00:00:00-07:00">Mar 28, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#case-studies-ref">Case studies</a>
+            <a class="category-link" href="https://efavdb.com/categories#machine-learning-ref">Machine learning</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#machine-learning-ref">Machine Learning
+                <li><a href="https://efavdb.com/tags#machine-learning-ref">machine learning
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#traffic-ref">traffic
-                    <span>6</span>
+                <li><a href="https://efavdb.com/tags#reinforcement-learning-ref">reinforcement learning
+                    <span>4</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
