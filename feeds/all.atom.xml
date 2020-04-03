@@ -1,5 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-28T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Dynamic programming in reinforcement learning</title><link href="https://efavdb.com/reinforcement-learning-dynamic-programming" rel="alternate"></link><published>2020-03-28T00:00:00-07:00</published><updated>2020-03-28T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-28:/reinforcement-learning-dynamic-programming</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-29T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Sample pooling to reduce needed disease screening test counts</title><link href="https://efavdb.com/pooling" rel="alternate"></link><published>2020-03-29T00:00:00-07:00</published><updated>2020-03-29T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-03-29:/pooling</id><summary type="html">&lt;p&gt;Pooling of test samples can be used to reduce the mean number of test counts
+required to determine who in a set of subjects carries a disease. E.g., if the
+blood samples of a set of office workers are combined and tested, and the test
+comes back negative, then …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Pooling of test samples can be used to reduce the mean number of test counts
+required to determine who in a set of subjects carries a disease. E.g., if the
+blood samples of a set of office workers are combined and tested, and the test
+comes back negative, then the full office can be ruled out as disease carriers
+using just a single test (whereas the naive approach would require testing each
+separately).  However, if the test comes back positive, then a refined search
+through the workers must be carried out to decide which have the disease and
+which do&amp;nbsp;not.&lt;/p&gt;
+&lt;p&gt;Here, we consider two methods for refined search when a group is flagged
+positive, and provide python code that can be used to find the optimal pooling
+strategy.  This depends on the frequency of disease within the testing
+population, &lt;span class="math"&gt;\(p\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Impact summary of pooling&amp;nbsp;concept: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(p = O(1)\)&lt;/span&gt;, so that many people have the illness, pooling doesn&amp;#8217;t&amp;nbsp;help. &lt;/li&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(p = 0.1\)&lt;/span&gt;, perhaps typical of people being screened with symptoms, we can
+   reduce the test count needed by about &lt;span class="math"&gt;\(\sim 0.6\)&lt;/span&gt; using pooling, and the two refined
+search methods we consider perform similarly&amp;nbsp;here.&lt;/li&gt;
+&lt;li&gt;If &lt;span class="math"&gt;\(p = 0.001\)&lt;/span&gt;, so that positive cases are rare &amp;#8212; perhaps useful for
+   screening an office of workers expected to be healthy, then we can cut the
+mean test count by a factor of &lt;span class="math"&gt;\(50\)&lt;/span&gt;, and the bisection method for refined search performs best here (details&amp;nbsp;below).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Code for this analysis can be found at our github (&lt;a href="https://github.com/EFavDB/pooling/blob/master/pooling_samples.ipynb"&gt;link&lt;/a&gt;).&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;&lt;span class="caps"&gt;COVID19&lt;/span&gt; background, strategies considered&amp;nbsp;here&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;The idea of pooling is an old one, but I happened on the idea when an article
+was posted about it to the statistics subreddit this past week (&lt;a
+href="https://www.reddit.com/r/statistics/comments/fl3dlw/q_if_you_could_test_batches_of_64_samples_for/"&gt;link&lt;/a&gt;).
+There the question was posed what the optimal pooling count would be,
+motivating this&amp;nbsp;post.&lt;/p&gt;
+&lt;p&gt;I imagine pooling may be useful for &lt;span class="caps"&gt;COVID19&lt;/span&gt; under two conditions:  (1)
+situations where testing capactity is the limiting factor (as opposed to speed
+of diagnosis, say), and (2) Situations where a great many people need to be
+screened and it is unlikely that any of them have it &amp;#8212; e.g., daily tests
+within a large office&amp;nbsp;buiding.&lt;/p&gt;
+&lt;p&gt;We consider two pooling methods here:  (1) A simple method where if the test
+on the group comes back positive, we immediately screen each individual.  (2) A
+bisection method, where if a group comes back positive, we split it in two and
+run the test on each subgroup, repeating from there recursively.  E.g., in a
+group of size 16 with one positive, the recursive approach generates the following
+set of test subsets (see notebook on our github linked above for&amp;nbsp;code)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;seq&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;generate_random_seq&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;test_counts_needed&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;test_count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;seq&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="n"&gt;size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, the 13th individual had the disease, and the bisection method required a
+total of 9 tests (one for each row above) to determine the full set of diagnoses.  Note that
+9 is less than 16, the number needed when we screen everyone from the&amp;nbsp;start.&lt;/p&gt;
+&lt;p&gt;Our purpose is to provide code and equations that can be used to select from these two
+methods should anyone want to apply this idea.  Caveat:  We currently ignore
+any possibility of error in the tests.  This may make the approach invalid for
+some or all of the current covid19 tests.  Error rates should be studied next
+where&amp;nbsp;appropriate.&lt;/p&gt;
+&lt;h4&gt;&lt;strong&gt;Model and&amp;nbsp;results&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;We posit that we have a pool&amp;nbsp;of
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+N = 2^{\mathbb{K}} \tag{1} \label{count_pop}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt; 
+people to be tested.  In the first round, we pool all their samples and test the
+group.  If the group comes back positive, we then run one of the refined methods to
+figure out which people exactly have the illness.  Each person is supposed to have a probability &lt;span class="math"&gt;\(p\)&lt;/span&gt; of having the disease.
+Below, we ask how to set &lt;span class="math"&gt;\(\mathbb{K}\)&lt;/span&gt; &amp;#8212; which determines the pooling size &amp;#8212;
+so as to minimize the mean number of tests needed divided by &lt;span class="math"&gt;\(N\)&lt;/span&gt;, which can be
+considered the pooling reduction&amp;nbsp;factor.&lt;/p&gt;
+&lt;p&gt;The mean number of tests needed from the simple strategy&amp;nbsp;is
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{simple_result}
+\overline{N}_{simple} = (1 - p)^N\times 1 + \left [1 - (1-p)^N \right] \times (1 + N)
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The mean number needed in the bisection strategy&amp;nbsp;is
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{bisection_result}
+\overline{N}_{bisection} = 1 +  2 \sum_{k=0}^{\mathbb{K}} 2^k \left (1 - (1 -p)^{2^{\mathbb{K}-k}} \right)
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The proof of (\ref{simple_result}) is straightforward and we give an argument for
+(\ref{bisection_result}) in an appendix. A cell of our notebook checks this
+and confirms its&amp;nbsp;accuracy.&lt;/p&gt;
+&lt;p&gt;Using the above results, our code produces plots of the mean number of tests
+needed to screen a population vs &lt;span class="math"&gt;\(\mathbb{K}\)&lt;/span&gt;.  This then finds the optimal
+number for each type.  The plots below give the results for the three &lt;span class="math"&gt;\(p\)&lt;/span&gt; values
+noted in the&amp;nbsp;abstract.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Case 1: &lt;span class="math"&gt;\(p = 0.5\)&lt;/span&gt;, large fraction of disease carriers.  Main result: The
+pooling strategies both cause the mean number of tests to be larger than if
+we just screened each individual from the start (seen here because the y-axis
+values are always bigger than 1).  The approach is not useful here.
+&lt;img alt="![parameter study]({static}/images/pooling_05.png)" src="https://efavdb.com/images/pooling_05.png"&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Case 2: &lt;span class="math"&gt;\(p = 0.1\)&lt;/span&gt;, modest fraction of disease carriers.  Main result: The two
+methods both give comparable benefits.  It is optimal to pool using
+&lt;span class="math"&gt;\(\mathbb{K}=2\)&lt;/span&gt;, which gives groups of &lt;span class="math"&gt;\(N = 4\)&lt;/span&gt; patients. This cuts the number of
+needed tests by a factor of &lt;span class="math"&gt;\(0.6\)&lt;/span&gt;.
+&lt;img alt="![parameter study]({static}/images/pooling_01.png)" src="https://efavdb.com/images/pooling_01.png"&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Case 3: &lt;span class="math"&gt;\(p = 0.001\)&lt;/span&gt;, small fraction of disease carriers.  Main result:
+Bisection wins, the optimal &lt;span class="math"&gt;\(\mathbb{K} = 9\)&lt;/span&gt; here, which gives a pooling
+group of size &lt;span class="math"&gt;\(512\)&lt;/span&gt;.  We cut the test count needed by a factor of &lt;span class="math"&gt;\(50\)&lt;/span&gt;.  Note:
+We also show here a histogram showing the number of tests needed when we run a
+simulated system like this.  We see that we often only need one test, and there
+is another peak around &lt;span class="math"&gt;\(20\)&lt;/span&gt; tests, with a long tail after that. 
+&lt;img alt="![parameter study]({static}/images/pooling_01.png)" src="https://efavdb.com/images/pooling_0001.png"&gt;
+&lt;img alt="![parameter study]({static}/images/pooling_hist.png)" src="https://efavdb.com/images/pooling_hist.png"&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The code to generate the optimal &lt;span class="math"&gt;\(\mathbb{K}\)&lt;/span&gt; plots above is given below.  This
+can be used to generate generalized plots like those above for any &lt;span class="math"&gt;\(p\)&lt;/span&gt;. The
+histogram plot is contained in our github repo, linked in our abstract.  Our
+appendix&amp;nbsp;follows.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;pylab&lt;/span&gt; &lt;span class="n"&gt;inline&lt;/span&gt;
+
+&lt;span class="n"&gt;K&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;
+&lt;span class="n"&gt;P_POSITIVE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.05&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;theory_bisection&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;P_POSITIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;K&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;K&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;theory_simple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;P_POSITIVE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;K&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;n&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;K&lt;/span&gt;
+    &lt;span class="n"&gt;p0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+    &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;p0&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;p0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Bisection: fraction of full testing: &lt;/span&gt;&lt;span class="si"&gt;%2.2f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;theory_bisection&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Simple: fraction of full testing: &lt;/span&gt;&lt;span class="si"&gt;%2.2f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;theory_simple&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+&lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;theory_bisection&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;span class="n"&gt;min_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argmin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;o--&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;bisection (min = &lt;/span&gt;&lt;span class="si"&gt;%2.2f&lt;/span&gt;&lt;span class="s1"&gt;)&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;ro&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;theory_simple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;span class="n"&gt;min_index&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argmin&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;o--&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;label&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;simple (min = &lt;/span&gt;&lt;span class="si"&gt;%2.2f&lt;/span&gt;&lt;span class="s1"&gt;)&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;min_index&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;go&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;alpha&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;legend&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Test count reduction vs log_2 pooling size, p = &lt;/span&gt;&lt;span class="si"&gt;%0.3f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xlabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;log_2 pooling size&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ylabel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;mean tests / pooling size&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4&gt;&lt;strong&gt;Appendix: Derivation of&amp;nbsp;(\ref{bisection_result})&lt;/strong&gt;&lt;/h4&gt;
+&lt;p&gt;Consider a binary tree with the root node being the initial test. Each node
+has two children that correspond to the tests of the two subgroups for a given
+test.  We must test these if the parent is positive.  Level &lt;span class="math"&gt;\(0\)&lt;/span&gt; is the initial
+test and &lt;span class="math"&gt;\(k\)&lt;/span&gt; rows down we call the level &lt;span class="math"&gt;\(k\)&lt;/span&gt; of tests.  There are total of &lt;span class="math"&gt;\(2^k\)&lt;/span&gt;
+posible tests to run at this level, and there are a total of &lt;span class="math"&gt;\(\mathbb{K}\)&lt;/span&gt;&amp;nbsp;levels.&lt;/p&gt;
+&lt;p&gt;The number of tests that need to be run at level &lt;span class="math"&gt;\(k\)&lt;/span&gt; is set by the number of
+positive tests at level &lt;span class="math"&gt;\(k-1\)&lt;/span&gt;.  We&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\text{Number of tests} = 1 + \sum_{k=0}^{\mathbb{K} - 1} \text{number positive level k}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Averaging this equation&amp;nbsp;gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\overline{\text{Number of tests}} &amp;amp;=&amp;amp; 1 + \sum_{k=0}^{\mathbb{K} - 1} 2^k \times prob(\text{test at level k positive}) \\
+&amp;amp;=&amp;amp; 1 +  \sum_{k=0}^{\mathbb{K} - 1} 2^k \times [ 1- (1 - p)^{2^{\mathbb{K} - k}}]. 
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The inner factor here is the probability that a given test of the size being
+considered comes back positive &amp;#8212; this has &lt;span class="math"&gt;\(N / 2^k = 2^{\mathbb{K} - k}\)&lt;/span&gt; people
+in it.  This is the result shown above in&amp;nbsp;(\ref{bisection_result}).&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Statistics"></category></entry><entry><title>Dynamic programming in reinforcement learning</title><link href="https://efavdb.com/reinforcement-learning-dynamic-programming" rel="alternate"></link><published>2020-03-28T00:00:00-07:00</published><updated>2020-03-28T00:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-03-28:/reinforcement-learning-dynamic-programming</id><summary type="html">&lt;h2&gt;Background&lt;/h2&gt;
 &lt;p&gt;We discuss how to use dynamic programming (&lt;span class="caps"&gt;DP&lt;/span&gt;) to solve reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) problems where we have a perfect model of the environment.  &lt;span class="caps"&gt;DP&lt;/span&gt; is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&amp;nbsp;problem …&lt;/p&gt;</summary><content type="html">&lt;h2&gt;Background&lt;/h2&gt;
 &lt;p&gt;We discuss how to use dynamic programming (&lt;span class="caps"&gt;DP&lt;/span&gt;) to solve reinforcement learning (&lt;span class="caps"&gt;RL&lt;/span&gt;) problems where we have a perfect model of the environment.  &lt;span class="caps"&gt;DP&lt;/span&gt; is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&amp;nbsp;problem.&lt;/p&gt;
 &lt;p&gt;We’ll use a toy model, taken from [1], of a student transitioning between five states in college, which we also used in our &lt;a href="https://efavdb.com/intro-rl-toy-example.html"&gt;introduction&lt;/a&gt; to &lt;span class="caps"&gt;RL&lt;/span&gt;:&lt;/p&gt;
