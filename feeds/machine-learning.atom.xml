@@ -4,7 +4,7 @@
 &lt;p&gt;We begin with some historical context, then provide an overview of value function methods / Q-learning, and conclude with a discussion of &lt;span class="caps"&gt;DQN&lt;/span&gt;.&lt;/p&gt;
 &lt;p&gt;If you want to skip straight to code, the implementation of &lt;span class="caps"&gt;DQN&lt;/span&gt; that we used to train the agent playing Atari Breakout below is available &lt;a href="https://github.com/frangipane/reinforcement-learning/tree/master/DQN"&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;img src="images/atari_breakout.gif/" alt="Atari Breakout" style="width:250px;"&gt;
+&lt;img src="images/atari_breakout.gif" alt="Atari Breakout" style="width:250px;"&gt;
 &lt;/p&gt;
 
 &lt;p&gt;If you watch the video long enough, you&amp;#8217;ll see the agent has learned a strategy that favors breaking bricks at the edges so the ball &amp;#8220;breaks out&amp;#8221; to the upper side, resulting in a cascade of&amp;nbsp;points.&lt;/p&gt;
