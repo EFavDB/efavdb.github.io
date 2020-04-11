@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Dustin McIntosh" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="statistics, python, Statistics, " />
+
+<meta property="og:title" content="2-D Random Walks are special "/>
+<meta property="og:url" content="https://efavdb.com/random-walk-scaling" />
+<meta property="og:description" content="Here, we examine the statistics behind discrete random walks on square lattices in \(M\) dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. \(R\), the final distance traveled from origin (measured by the Euclidean norm) and 2. \(N_{unique}\), the number of unique locations …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Dustin McIntosh" />
+<meta property="og:article:published_time" content="2020-04-10T00:00:00-07:00" />
+<meta name="twitter:title" content="2-D Random Walks are special ">
+<meta name="twitter:description" content="Here, we examine the statistics behind discrete random walks on square lattices in \(M\) dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. \(R\), the final distance traveled from origin (measured by the Euclidean norm) and 2. \(N_{unique}\), the number of unique locations …">
+
+        <title>2-D Random Walks are special  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-57405119-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.com
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.com/random-walk-scaling">
+                2-D Random Walks are&nbsp;special
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Here, we examine the statistics behind discrete random walks on square lattices in <span class="math">\(M\)</span> dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. <span class="math">\(R\)</span>, the final distance traveled from origin (measured by the Euclidean norm) and 2. <span class="math">\(N_{unique}\)</span>, the number of unique locations visited on the&nbsp;lattice.</p>
+<p align="center">
+     <img src="images/example_rw.png">
+</p>
+
+<p>We envision a single random walker on an <span class="math">\(M\)</span>-D lattice and allow it to wander randomly throughout the lattice, taking <span class="math">\(N\)</span> steps. We’ll examine how the distributions of <span class="math">\(R\)</span> and <span class="math">\(N_{unique}\)</span> vary with <span class="math">\(M\)</span> and <span class="math">\(N\)</span>; we&#8217;ll show that their averages, <span class="math">\(\langle R \rangle\)</span> and <span class="math">\(\langle N_{unique} \rangle\)</span>, and their standard deviations, <span class="math">\(\sigma_R\)</span> and <span class="math">\(\sigma_{N_{unique}}\)</span>, scale as power laws with <span class="math">\(N\)</span>.  The dependence of the exponents and scaling factors on <span class="math">\(M\)</span> is interesting and can be only partially reconciled with&nbsp;theory.</p>
+<p>A simple simulation of random walks is easy to write in python for arbitrary dimensions (see code in <a
+href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf">this colab notebook</a>, <a href="https://github.com/dustinmcintosh/random-walks">github</a>).</p>
+<p>Here’s a look at the distribution of our two metrics for <span class="math">\(N = 1000\)</span> for a few different&nbsp;dimensionalities:</p>
+<p align="center">
+     <img src="images/unique_locations_visited_1000.png">
+</p>
+
+<p>Let’s make some high-level sense of these&nbsp;results:</p>
+<ul>
+<li>
+<p><span class="math">\(\langle R \rangle\)</span> depends only weakly on <span class="math">\(M\)</span> while <span class="math">\(\langle N_{unique} \rangle\)</span> clearly increases with <span class="math">\(M\)</span>. Both of these results make sense: In 1-D, the walker always has an equal chance to step further away from the origin or closer to it.  It also always has at least a 50% chance of backtracking to a position it has already visited. As you add dimensions, it becomes less likely to step immediately closer or further from the origin and more likely to wander in an orthogonal direction, increasing the distance from the origin by roughly the same amount independent of <em>which</em> orthogonal direction, while also visiting completely new parts of the&nbsp;lattice.</p>
+</li>
+<li>
+<p>In 1-D, if you take an even number of steps, <span class="math">\(R\)</span> is always an even integer, so the distribution of <span class="math">\(R\)</span> appears “stripe-y” above. In this case, <span class="math">\(R\)</span> can be understood as something like a <a href="https://en.wikipedia.org/wiki/Folded_normal_distribution">folded normal distribution</a> for large <span class="math">\(N\)</span>.</p>
+</li>
+<li>
+<p>As <span class="math">\(M\)</span> gets larger, the distribution of <span class="math">\(R\)</span> tightens up. We are essentially taking <span class="math">\(M\)</span> 1-D random walks, each with <span class="math">\(\sim N/M\)</span> steps and adding the results in quadrature. The result of this is that our walker is less likely to be very close to the origin and simultaneously less likely to wander too far afield as it is more likely to have traveled a little bit in many orthogonal&nbsp;dimensions.</p>
+</li>
+<li>
+<p>The width of the <span class="math">\(N_{unique}\)</span> distribution, <span class="math">\(\sigma_{N_{unique}}\)</span> depends in an interesting way on <span class="math">\(M\)</span>, increasing from 1-D to 2-D and thereafter decreasing. This seems because the distribution is centered most distant from the extremes of 0 or <span class="math">\(N\)</span>.</p>
+</li>
+</ul>
+<p>Let’s take a look at the means of our two metrics as a function of <span class="math">\(M\)</span> as a function of <span class="math">\(N\)</span> for various <span class="math">\(M\)</span> (apologies for using a gif here, but it helps with 1. keeping this post concise and 2. comparing the plots as $M changes incrementally.  If you prefer static images, I’ve included them at <a href="https://github.com/dustinmcintosh/random-walks">github</a>):</p>
+<p align="center">
+     <img src="images/R_and_Nu_vs_n.gif">
+</p>
+
+<p>Note, this is a <a href="https://en.wikipedia.org/wiki/Log%E2%80%93log_plot">log-log plot</a>; power laws show up as straight lines.  One of the first things you’ll notice is that the variation in dependence on <span class="math">\(N\)</span> across different <span class="math">\(M\)</span> is fairly banal for <span class="math">\(R\)</span>, but much more interesting for <span class="math">\(N_{unique}\)</span>.  In fact, it is a well-known result (see, e.g., <a href="https://math.stackexchange.com/questions/103142/expected-value-of-random-walk">here</a>) that <span class="math">\(\langle R \rangle \sim N^\alpha\)</span> with <span class="math">\(\alpha = 0.5\)</span> for all <span class="math">\(M\)</span>.  <span class="math">\(\langle N_{unique} \rangle\)</span>, on the other hand, seems similar to <span class="math">\(\langle R \rangle\)</span> in 1-D, but the dependence on <span class="math">\(N\)</span> increases dramatically thereafter and approaches <span class="math">\(\langle N_{unique} \rangle \approx N^\beta\)</span> with <span class="math">\(\beta=1\)</span> at higher dimensions.  If you look closely, you’ll note that 2-D is particularly special (more on that&nbsp;shortly).</p>
+<p>We can also look at the widths (standard deviations) of the two distributions (again, you’ll note that 2-D is particularly&nbsp;interesting):</p>
+<p align="center">
+     <img src="images/std_vs_N.gif">
+</p>
+
+<p>First note that all 4 of the quantities describing the distributions of <span class="math">\(R\)</span> and <span class="math">\(N_{unique}\)</span> plotted above are well-described by power-law fits.  Thus, we can extract eight parameters to describe them (four exponents and four scaling factors) as a function of <span class="math">\(M\)</span>:</p>
+<div class="math">\begin{eqnarray}
+\langle R \rangle &amp;\approx&amp; R_0 * N^\alpha \\
+\langle N_{unique} \rangle &amp;\approx&amp; N_0 * N^\beta \\
+\sigma_R &amp;\approx&amp; \sigma_{R,0} * N^\gamma \\
+\sigma_{N_{unique}} &amp;\approx&amp; \sigma_{N_{unique},0} * N^\delta \\
+\end{eqnarray}</div>
+<p align="center">
+     <img src="images/exponents_scaling_vs_M.png">
+</p>
+
+<p>I’ve plotted all the theoretical results that I could find for these parameters as lines&nbsp;above:</p>
+<ul>
+<li>
+<p>As mentioned, <span class="math">\(\alpha = 0.5\)</span> for all <span class="math">\(M\)</span>. (blue line top&nbsp;plot)</p>
+</li>
+<li>
+<p><span class="math">\(R_0\)</span> gives <span class="math">\(\langle R \rangle\)</span> its weak dependence on <span class="math">\(M\)</span>, varying according to an elegant ratio of Gamma functions as described <a href="https://math.stackexchange.com/questions/103142/expected-value-of-random-walk">here</a>.  (blue dash-dot line bottom&nbsp;plot)</p>
+</li>
+<li>
+<p>It has been shown that <span class="math">\(\beta = 0.5\)</span> for <span class="math">\(M=1\)</span> and <span class="math">\(\beta = 1\)</span> for all <span class="math">\(M&gt;3\)</span>.  (orange dash and line in the top plot)  I found these theoretical results in this <a href="https://www.osti.gov/servlets/purl/4637387">wonderful paper</a>, which you should really glance at, if not read, just to see an interesting piece of history - it’s by George H. Vineyard in 1963 (no so long ago for such a fundamental math problem!) at Brookhaven National Lab for the <span class="caps">US</span> Atomic Energy Commission. Written on a typewriter, here is a sample equation, complete with hand-written scribbles to indicate the vectors and a clearly corrected typo on the first&nbsp;cosine:</p>
+</li>
+</ul>
+<p align="center">
+     <img src="images/Vineyard_pic.png">
+</p>
+
+<ul>
+<li>In the same paper, Vineyard derives that <span class="math">\(N_{unique, 0} = \sqrt{8/\pi}\)</span> in 1-D and <span class="math">\(N_{unique, 0} \approx 0.659462670\)</span> (yes with all those sig. figs.) in 3-D as derived from evaluating Watson’s Integrals (which, I take it, is what the integrals in the image above are called). (orange dashes in bottom&nbsp;plot)</li>
+</ul>
+<p>The most interesting thing about all this, to me, is that there is no known theoretical result for <span class="math">\(\beta\)</span> in 2-D. From our data, we get <span class="math">\(\beta = 0.87 \pm 0.02\)</span>.  An interesting phenomenological argument for <span class="math">\(\beta\)</span>’s dependence on <span class="math">\(M\)</span>: The random walker spends most of it’s time roaming around within a distance of <span class="math">\(\sim N^{\alpha}\)</span> (recall <span class="math">\(\alpha = 0.5\)</span> independent of <span class="math">\(M\)</span>) from the origin.  In 1-D, there are only <span class="math">\(\sim 2 N^{1/2}\)</span> sites within this distance, so the number of unique sites visited scales with <span class="math">\(N^{1/2}\)</span>. In 3 dimensions, there are <span class="math">\(\sim \frac{4}{3} \pi N^{3/2}\)</span> sites in the sphere of radius <span class="math">\(N^{1/2}\)</span>, which is <span class="math">\(\gg N\)</span>, so the walker explores <span class="math">\(\sim N\)</span> sites (as it can visit no more than it walks), similar for larger <span class="math">\(M\)</span>.</p>
+<p><strong>This is what makes 2-D random walks special</strong>: the number of sites within <span class="math">\(N^{1/2}\)</span> distance of the origin is <span class="math">\(\sim N\)</span>, scaling as the number of steps taken - so, the scaling arguments above no longer apply, leaving us somewhere between <span class="math">\(1/2 &lt; \beta &lt; 1\)</span>.</p>
+<p>A few final notes on the exponents and scaling factors that I don’t understand in terms of&nbsp;theory:</p>
+<ul>
+<li>We don’t get exactly <span class="math">\(\beta=1\)</span> from the data in 3-D above, but that may be because some of our <span class="math">\(N\)</span> are not quite large&nbsp;enough.</li>
+<li>I have not seen any theory for <span class="math">\(\sigma_{R,0}\)</span>, <span class="math">\(\sigma_{N_{unique},0}\)</span>, <span class="math">\(\gamma\)</span>, or <span class="math">\(\delta\)</span>.</li>
+<li><span class="math">\(\gamma\)</span> appears to also be independent of <span class="math">\(M\)</span> at 0.5. Surely this isn&#8217;t hard to&nbsp;derive?</li>
+<li><span class="math">\(\delta\)</span> increase dramatically from 1-D to 2-D (again, 2-D is the most extreme case) and slowly settles back down to 0.5 at large <span class="math">\(M\)</span>.</li>
+<li><span class="math">\(\sigma_{N_{unique},0}\)</span> has a strange effect for <span class="math">\(M=2\)</span> also, dipping before going back up and then finally decaying towards zero for <span class="math">\(M&gt;4\)</span>.</li>
+<li>For large <span class="math">\(M\)</span>, the data indicate that <span class="math">\(\sigma_{R,0} \approx \sigma_{N_{unique},0}\)</span> and <span class="math">\(\gamma \approx \delta \approx 0.5\)</span>, indicating that <span class="math">\(\sigma_{R} \approx \sigma_{N_{unique}}\)</span>.  Further, not shown here, but in <a href="https://github.com/dustinmcintosh/random-walks/blob/master/figures/scaling_of_std_dev_vs_m.png">github</a>,  <span class="math">\(\sigma_{R,0} \approx \sigma_{N_{unique},0} \sim \sqrt{1/M}\)</span>. Or, in total, <span class="math">\(\sigma_{R} \approx \sigma_{N_{unique}} \sim \sqrt{N/M}\)</span> for large <span class="math">\(M\)</span>.</li>
+</ul>
+<p>I really enjoyed working on this post from end-to-end: writing the random walker class, finding a great python jackknife function from astropy (see the <a href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf">colab notebook</a>), hacking my way through matplotlib, discovering the amazing Vineyard paper, and just generally exploring this incredibly rich problem that is so easy to state yet difficult to theoretically solve.  I’ll also note that the 2-D results are of particular note to me given their applicability to the <a href="https://www.efavdb.com/world-wandering-dudes">World Wandering Dudes</a> project that I have been working&nbsp;on.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+             
+ 
+                <p id="post-share-links">
+    Like this post?  Share on:
+    <a href="https://twitter.com/intent/tweet?text=2-D%20Random%20Walks%20are%C2%A0special&url=https%3A//efavdb.com/random-walk-scaling&hashtags=statistics,python" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    ❄
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/random-walk-scaling" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    ❄
+    <a href="mailto:?subject=2-D%20Random%20Walks%20are%C2%A0special&amp;body=https%3A//efavdb.com/random-walk-scaling" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
+            <span class="author_name">Dustin McIntosh</span>
+        </a>
+        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.com/random-walk-scaling"
+                   href="https://efavdb.com/random-walk-scaling#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.com/random-walk-scaling';
+    var disqus_url = 'https://efavdb.com/random-walk-scaling';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.com/dqn" title="Previous: Q-learning and DQN">Q-learning and DQN</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2020-04-10T00:00:00-07:00">Apr 10, 2020</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://efavdb.com/tags#python-ref">python
+                    <span>5</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#statistics-ref">statistics
+                    <span>7</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>
