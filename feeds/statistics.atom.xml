@@ -27,7 +27,7 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
 &lt;p&gt;The width of the &lt;span class="math"&gt;\(N_{unique}\)&lt;/span&gt; distribution, &lt;span class="math"&gt;\(\sigma_{N_{unique}}\)&lt;/span&gt; depends in an interesting way on &lt;span class="math"&gt;\(M\)&lt;/span&gt;, increasing from 1-D to 2-D and thereafter decreasing. This seems because the distribution is centered most distant from the extremes of 0 or &lt;span class="math"&gt;\(N\)&lt;/span&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Let’s take a look at the means of our two metrics as a function of &lt;span class="math"&gt;\(M\)&lt;/span&gt; as a function of &lt;span class="math"&gt;\(N\)&lt;/span&gt; for various &lt;span class="math"&gt;\(M\)&lt;/span&gt; (apologies for using a gif here, but it helps with 1. keeping this post concise and 2. comparing the plots as $M changes incrementally.  If you prefer static images, I’ve included them at &lt;a href="https://github.com/dustinmcintosh/random-walks"&gt;github&lt;/a&gt;):&lt;/p&gt;
+&lt;p&gt;Let’s take a look at the means of our two metrics as a function of &lt;span class="math"&gt;\(N\)&lt;/span&gt; for various &lt;span class="math"&gt;\(M\)&lt;/span&gt; (apologies for using a gif here, but it helps with 1. keeping this post concise and 2. comparing the plots as &lt;span class="math"&gt;\(M\)&lt;/span&gt; changes incrementally.  If you prefer static images, I’ve included them at &lt;a href="https://github.com/dustinmcintosh/random-walks"&gt;github&lt;/a&gt;):&lt;/p&gt;
 &lt;p align="center"&gt;
      &lt;img src="images/R_and_Nu_vs_n.gif"&gt;
 &lt;/p&gt;
