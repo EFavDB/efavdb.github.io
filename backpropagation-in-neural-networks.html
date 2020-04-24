@@ -121,12 +121,32 @@ A^{[l]} = g(Z^{[l]})
 Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
 \end{eqnarray}</div>
 <p>The outputs or activations, <span class="math">\(A^{[l-1]}\)</span>, of the previous layer serve as inputs for the linear functions, <span class="math">\(z^{[l]}\)</span>. If <span class="math">\(n_l\)</span> denotes the number of neurons in layer <span class="math">\(l\)</span>, and <span class="math">\(m\)</span> denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices&nbsp;are:</p>
-<p>Variable&nbsp;Dimensions</p>
-<hr>
-<p><span class="math">\(A^{[l]}\)</span>   (<span class="math">\(n_l\)</span>, <span class="math">\(m\)</span>)
-  <span class="math">\(Z^{[l]}\)</span>   (<span class="math">\(n_l\)</span>, <span class="math">\(m\)</span>)
-  <span class="math">\(W^{[l]}\)</span>   (<span class="math">\(n_l\)</span>, <span class="math">\(n_{l-1}\)</span>)
-  <span class="math">\(b^{[l]}\)</span>   (<span class="math">\(n_l\)</span>,&nbsp;1)</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Dimensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="math">\(A^{[l]}\)</span></td>
+<td>(<span class="math">\(n_l\)</span>, <span class="math">\(m\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math">\(Z^{[l]}\)</span></td>
+<td>(<span class="math">\(n_l\)</span>, <span class="math">\(m\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math">\(W^{[l]}\)</span></td>
+<td>(<span class="math">\(n_l\)</span>, <span class="math">\(n_{l-1}\)</span>)</td>
+</tr>
+<tr>
+<td><span class="math">\(b^{[l]}\)</span></td>
+<td>(<span class="math">\(n_l\)</span>, 1)</td>
+</tr>
+</tbody>
+</table>
 <p>For example, this neural network consists of only a single hidden layer with 3 neurons in layer&nbsp;1.</p>
 <p><img alt="neural network" src="https://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"></p>
 <p>The matrix <span class="math">\(W^{[1]}\)</span> has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, <span class="math">\(\vec{x} = (x_1, x_2)\)</span>). Each row of <span class="math">\(W^{[1]}\)</span> corresponds to a vector of weights for a neuron in layer&nbsp;1.</p>

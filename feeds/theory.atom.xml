@@ -28,12 +28,32 @@ A^{[l]} = g(Z^{[l]})
 Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
 \end{eqnarray}&lt;/div&gt;
 &lt;p&gt;The outputs or activations, &lt;span class="math"&gt;\(A^{[l-1]}\)&lt;/span&gt;, of the previous layer serve as inputs for the linear functions, &lt;span class="math"&gt;\(z^{[l]}\)&lt;/span&gt;. If &lt;span class="math"&gt;\(n_l\)&lt;/span&gt; denotes the number of neurons in layer &lt;span class="math"&gt;\(l\)&lt;/span&gt;, and &lt;span class="math"&gt;\(m\)&lt;/span&gt; denotes the number of training examples in one (mini)batch pass through the neural network, then the dimensions of these matrices&amp;nbsp;are:&lt;/p&gt;
-&lt;p&gt;Variable&amp;nbsp;Dimensions&lt;/p&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(A^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)
-  &lt;span class="math"&gt;\(Z^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)
-  &lt;span class="math"&gt;\(W^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt;)
-  &lt;span class="math"&gt;\(b^{[l]}\)&lt;/span&gt;   (&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;,&amp;nbsp;1)&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Variable&lt;/th&gt;
+&lt;th&gt;Dimensions&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(A^{[l]}\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;(&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(Z^{[l]}\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;(&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(m\)&lt;/span&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(W^{[l]}\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;(&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{l-1}\)&lt;/span&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(b^{[l]}\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;(&lt;span class="math"&gt;\(n_l\)&lt;/span&gt;, 1)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
 &lt;p&gt;For example, this neural network consists of only a single hidden layer with 3 neurons in layer&amp;nbsp;1.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="neural network" src="https://efavdb.com/wp-content/uploads/2019/07/2layer_nn-e1563432145388.png"&gt;&lt;/p&gt;
 &lt;p&gt;The matrix &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; has dimensions (3, 2) because there are 3 neurons in layer 1 and 2 inputs from the previous layer (in this example, the inputs are the raw data, &lt;span class="math"&gt;\(\vec{x} = (x_1, x_2)\)&lt;/span&gt;). Each row of &lt;span class="math"&gt;\(W^{[1]}\)&lt;/span&gt; corresponds to a vector of weights for a neuron in layer&amp;nbsp;1.&lt;/p&gt;
