@@ -96,7 +96,7 @@
             
             <p>Our <a href="http://efavdb.github.io/linear-regression">last post</a> showed how to obtain the least-squares solution for linear regression and discussed the idea of sampling variability in the best estimates for the coefficients. In this post, we continue the discussion about uncertainty in linear regression &#8212; both in the estimates of individual linear regression coefficients and the quality of the overall&nbsp;fit.</p>
 <p>Specifically, we&#8217;ll discuss how to calculate the 95% confidence intervals and p-values from hypothesis tests that are output by many statistical packages like python&#8217;s statsmodels or R. An example with code is provided at the&nbsp;end.</p>
-<h2>Review</h2>
+<h2 id="review">Review</h2>
 <p>We wish to predict a scalar response variable <span class="math">\(y_i\)</span> given a vector of predictors <span class="math">\(\vec{x}_i\)</span> of dimension <span class="math">\(K\)</span>. In linear regression, we assume that <span class="math">\(y_i\)</span> is a linear function of <span class="math">\(\vec{x}_i\)</span>, parameterized by a set of coefficients <span class="math">\(\vec{\beta}\)</span> and an error term <span class="math">\(\epsilon_i\)</span>. The linear model (in matrix format and dropping the arrows over the vectors) for predicting <span class="math">\(N\)</span> response variables&nbsp;is
 </p>
 <div class="math">\begin{align}\tag{1}
@@ -114,7 +114,7 @@ y = X\beta + \epsilon.
 <div class="math">\begin{align}\tag{3}\label{cov}
 cov(\hat{\beta}, \hat{\beta}) = \sigma^2 (X'X)^{-1}.
 \end{align}</div>
-<h2>Goodness of fit - <span class="math">\(R^2\)</span></h2>
+<h2 id="goodness-of-fit-r2">Goodness of fit - <span class="math">\(R^2\)</span></h2>
 <p>To get a better feel for (\ref{cov}), it&#8217;s helpful to rewrite it in terms of the coefficient of determination <span class="math">\(R^2\)</span>. <span class="math">\(R^2\)</span> measures how much of the variation in the response variable <span class="math">\(y\)</span> is explained by variation in the regressors <span class="math">\(X\)</span> (as opposed to the unexplained variation from <span class="math">\(\epsilon\)</span>).</p>
 <p>The variation in <span class="math">\(y\)</span>, i.e. the &#8220;total sum of squares&#8221; <span class="math">\(SST\)</span>, can be partitioned into the sum of two terms, &#8220;regression sum of squares&#8221; and &#8220;error sum of squares&#8221;: <span class="math">\(SST = SSR + SSE\)</span>.</p>
 <p>For convenience, let&#8217;s center <span class="math">\(y\)</span> and <span class="math">\(X\)</span> around their means, e.g. <span class="math">\(y \rightarrow y - \bar{y}\)</span> so that the mean <span class="math">\(\bar{y}=0\)</span> for the centered variables.&nbsp;Then,
@@ -138,7 +138,7 @@ var(\hat{\beta}_k) &amp;= \sigma^2 (X'X)_{kk}^{-1} \\ &amp;= \frac{\sigma^2}{(1 
 <p>The key observation from (\ref{cov2}) is that the precision in the estimator decreases if the fit is made over highly correlated regressors, for which <span class="math">\(R_k^2\)</span> approaches 1. This problem of multicollinearity in linear regression will be manifested in our simulated&nbsp;example.</p>
 <p>(\ref{cov2}) is also consistent with the observation from our previous post that, all things being equal, the precision in the estimator increases if the fit is made over a direction of greater variance in the&nbsp;data.</p>
 <p>In the next section, <span class="math">\(R^2\)</span> will again be useful for interpreting the behavior of one of our test&nbsp;statistics.</p>
-<h2>Calculating test&nbsp;statistics</h2>
+<h2 id="calculating-test-statistics">Calculating test&nbsp;statistics</h2>
 <p>If we assume that the vector of residuals has a multivariate normal distribution, <span class="math">\(\epsilon \sim N(0, \sigma^2I)\)</span>, then we can construct test statistics to characterize the uncertainty in the regression. In this section, we&#8217;ll&nbsp;calculate</p>
 <p>​(a) <strong>confidence intervals</strong> - random intervals around individual estimators <span class="math">\(\hat{\beta}_k\)</span> that, if constructed for regressions over multiple samples, would contain the true population parameter, <span class="math">\(\beta_k\)</span>, a certain fraction, e.g. 95%, of the time.
 (b) <strong>p-value</strong> - the probability of events as extreme or more extreme than an observed value (a test statistic) occurring under the null hypothesis. If the p-value is less than a given significance level <span class="math">\(\alpha\)</span> (a common choice is <span class="math">\(\alpha = 0.05\)</span>), then the null hypothesis is rejected, e.g. a regression coefficient is said to be&nbsp;significant.</p>
@@ -172,14 +172,14 @@ s(\hat{\beta}_k)^2 = \hat{\sigma}^2 (X'X)_{kk}^{-1},
 <div class="math">\begin{align}\tag{12}
 \hat{\sigma}^2 = \frac{\epsilon'\epsilon}{n - K}.
 \end{align}</div>
-<h3>Confidence intervals around regression&nbsp;coefficients</h3>
+<h3 id="confidence-intervals-around-regression-coefficients">Confidence intervals around regression&nbsp;coefficients</h3>
 <p>The <span class="math">\((1-\alpha)\)</span> confidence interval around an estimator, <span class="math">\(\hat{\beta}_k \pm \Delta\)</span>, is defined such that the probability of a random interval containing the true population parameter is <span class="math">\((1-\alpha)\)</span>:
 </p>
 <div class="math">\begin{align}\tag{13}
 P[\hat{\beta}_k - \Delta &lt; \beta_k &lt; \hat{\beta}_k + \Delta ] = 1 - \alpha,
 \end{align}</div>
 <p> where <span class="math">\(\Delta = t_{1-\alpha/2, n-K} s(\hat{\beta}_k)\)</span>, and <span class="math">\(t_{1-\alpha/2, n-K}\)</span> is the <span class="math">\(\alpha/2\)</span>-level critical value for the t-distribution with <span class="math">\(n-K\)</span> degrees of&nbsp;freedom.</p>
-<h3>t-test for the significance of a&nbsp;predictor</h3>
+<h3 id="t-test-for-the-significance-of-a-predictor">t-test for the significance of a&nbsp;predictor</h3>
 <p>Directly related to the calculation of confidence intervals is testing whether a regressor, <span class="math">\(\hat{\beta}_k\)</span>, is statistically significant. The t-statistic for the kth regression coefficient under the null hypothesis that <span class="math">\(x_k\)</span> and <span class="math">\(y\)</span> are independent follows a t-distribution with n-K degrees of freedom, c.f. (\ref{tstat}) with <span class="math">\(\beta_k = 0\)</span>:
 </p>
 <div class="math">\begin{align}\tag{14}
@@ -187,7 +187,7 @@ t = \frac{\hat{\beta}_k - 0}{s(\hat{\beta}_k)} \sim t_{n-K}.
 \end{align}</div>
 <p>We reject the null-hypothesis if <span class="math">\(P[t] &lt; \alpha\)</span>.</p>
 <p>According to (\ref{cov2}), <span class="math">\(s(\hat{\beta}_k)\)</span> increases with multicollinearity. Hence, the estimator must be more &#8220;extreme&#8221; in order to be statistically significant in the presence of&nbsp;multicollinearity.</p>
-<h3>F-test for the significance of the&nbsp;regression</h3>
+<h3 id="f-test-for-the-significance-of-the-regression">F-test for the significance of the&nbsp;regression</h3>
 <p>Whereas the t-test considers the significance of a single regressor, the F-test evaluates the significance of the entire regression, where the null hypothesis is that <em>all</em> the regressors except the constant are equal to zero: <span class="math">\(\hat{\beta}_1 = \hat{\beta}_2 = ... = \hat{\beta}_{K-1} = 0\)</span>.</p>
 <p>The F-statistic under the null hypothesis follows an F-distribution with {K-1, N-K} degrees of freedom <a href="#ref1">[1]</a>:
 </p>
@@ -200,7 +200,7 @@ F = \frac{SSR/(K-1)}{SSE/(N-K)} \sim F_{K-1, N-K}.
 F = \frac{(N-K) R^2}{(K-1) (1-R^2)}
 \end{align}</div>
 <p>Notice how, for fixed <span class="math">\(R^2\)</span>, the F-statistic decreases with an increasing number of predictors <span class="math">\(K\)</span>. Adding uninformative predictors to the model will decrease the significance of the regression, which motivates parsimony in constructing linear&nbsp;models.</p>
-<h2>Example</h2>
+<h2 id="example">Example</h2>
 <p>With these formulas in hand, let&#8217;s consider the problem of predicting the weight of adult women using some simulated data (loosely based on reality). We&#8217;ll look at two models:
 (1) <strong>weight ~ height</strong>.
 As expected, height will be a strong predictor of weight, corroborated by a significant p-value for the coefficient of height in the model.
@@ -385,13 +385,13 @@ Height and shoe size are strongly correlated in the simulated data, while height
 
 
 <p>The full code is available as an <a href="https://github.com/EFavDB/linear-regression">IPython notebook on github</a>.</p>
-<h2>Summary</h2>
+<h2 id="summary">Summary</h2>
 <p>Assuming a multivariate normal distribution for the residuals in linear regression allows us to construct test statistics and therefore specify uncertainty in our&nbsp;fits.</p>
 <p>A t-test judges the explanatory power of a predictor in isolation, although the standard error that appears in the calculation of the t-statistic is a function of the other predictors in the model. On the other hand, an F-test is a global test that judges the explanatory power of all the predictors together, and we&#8217;ve seen that parsimony in choosing predictors can improve the quality of the overall&nbsp;regression.</p>
 <p>We&#8217;ve also seen that multicollinearity can throw off the results of individual t-tests as well as obscure the interpretation of the signs of the fitted coefficients. A symptom of multicollinearity is when none of the individual coefficients are significant but the overall F-test is&nbsp;significant.</p>
-<h3>Reference</h3>
+<h3 id="reference">Reference</h3>
 <p>[1] Greene, W., Econometric Analysis, Seventh edition, Prentice Hall, 2011 - <a href="http://people.stern.nyu.edu/wgreene/MathStat/Outline.htm">chapters available&nbsp;online</a></p>
-<h3>Appendix</h3>
+<h3 id="appendix">Appendix</h3>
 <p>[A1]
 We specifically want the kth diagonal element from the inverse moment matrix, <span class="math">\((X'X)^{-1}\)</span>. The matrix <span class="math">\(X\)</span> can be <a href="https://en.wikipedia.org/wiki/Block_matrix">partitioned</a>&nbsp;as </p>
 <div class="math">$$[X_{(k)} \vec{x}_k],$$</div>
@@ -500,11 +500,11 @@ X_{(k)}'X_{(k)} &amp; X_{(k)}'\vec{x}_k \
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Interpreting%20the%20results%20of%20linear%C2%A0regression&url=https%3A//efavdb.com/interpret-linear-regression&hashtags=statistics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/interpret-linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Interpreting%20the%20results%20of%20linear%C2%A0regression&amp;body=https%3A//efavdb.com/interpret-linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -631,7 +631,7 @@ X_{(k)}'X_{(k)} &amp; X_{(k)}'\vec{x}_k \
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

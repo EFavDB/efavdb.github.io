@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We use a simple argument to estimate the speed of traffic on a highway as a function of the density of cars. The idea is to simply calculate the maximum speed that traffic could go without supporting a growing traffic&nbsp;jam.</p>
-<h3>Jam dissipation&nbsp;argument</h3>
+<h3 id="jam-dissipation-argument">Jam dissipation&nbsp;argument</h3>
 <p>To estimate the speed of traffic as a function of density, we&#8217;ll calculate an upper bound and argue that actual traffic speeds must be described by an equation similar to that obtained. To derive our upper bound, we&#8217;ll consider what happens when a small traffic jam forms. If the speed of cars is such that the rate of exit from the jam is larger than the rate at which new cars enter the jam, then the jam will dissipate. On the other hand, if this doesn&#8217;t hold, the jam will grow, causing the speed to drop until a speed is obtained that allows the jam to dissipate. This sets the bound. Although we consider a jam to make the argument simple, what we really have in mind is any other sort of modest slow-down that may&nbsp;occur.</p>
 <p>To begin, we introduce some definitions. (1) Let <span class="math">\(\lambda\)</span> be the density of cars in units of <span class="math">\([cars / mile]\)</span>. (2) Next we consider the rate of exit from a jam: Note that when traffic is stopped, a car cannot move until the car in front of it does. Because a human is driving the car, there is a slight delay between the time that one car moves and the car behind it moves. Let <span class="math">\(T\)</span> be this delay time in <span class="math">\([hours]\)</span>. (3) Let <span class="math">\(v\)</span> be the speed of traffic outside the jam in units of <span class="math">\([miles / hour]\)</span>.</p>
 <p>With the above definitions, we now consider the rate at which cars exit a jam. This is the number of cars that can exit the jam per hour, which is simply<br>
@@ -117,7 +117,7 @@ v &lt; \frac{1}{\lambda T}.
 \end{eqnarray}</div>
 <p><br>
 This is our bound and estimate for the speed of traffic. We note that this form for <span class="math">\(v\)</span> follows from dimensional analysis, so the actual rate of traffic must have the same algebraic form as our upper bound (\ref{3}) &#8212; it can differ by a constant factor in front, but should have the same <span class="math">\(\lambda\)</span> and <span class="math">\(T\)</span>&nbsp;dependence.</p>
-<h3>Plugging in&nbsp;numbers</h3>
+<h3 id="plugging-in-numbers">Plugging in&nbsp;numbers</h3>
 <p>I estimate <span class="math">\(T\)</span>, the delay time between car movements to be about one second, which in hours is<br>
 </p>
 <div class="math">\begin{eqnarray} \tag{4} \label{4}  
@@ -137,7 +137,7 @@ v \lesssim \frac{1}{0.00028 * 50} \approx 70\ [mile / hour],
 \end{eqnarray}</div>
 <p><br>
 quite close to our typical highway traffic speeds (and speed&nbsp;limits).</p>
-<h3>Final&nbsp;comments</h3>
+<h3 id="final-comments">Final&nbsp;comments</h3>
 <p>The above bound clearly depends on what values you plug in &#8212; I picked numbers that seemed reasonable, but admit I adjusted them a bit till I got the final number I wanted for <span class="math">\(v\)</span>. Anecdotally, I&#8217;ve found the result to work well at other densities: For example, when traffic is slow on the highway near my house, if I see that there is a car every 5 car lengths, the speed tends to be about <span class="math">\(30 [miles / hour]\)</span> &#8212; so scaling rule seems to work. The last thing I should note is that wikipedia has an article outlining some of the extensive research literature that&#8217;s been done on traffic flows &#8212; you can see that <a href="https://en.wikipedia.org/wiki/Traffic_flow">here</a>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -206,11 +206,11 @@ quite close to our typical highway traffic speeds (and speed&nbsp;limits).</p>
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=The%20speed%20of%C2%A0traffic&url=https%3A//efavdb.com/the-speed-of-traffic&hashtags=theory,traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/the-speed-of-traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=The%20speed%20of%C2%A0traffic&amp;body=https%3A//efavdb.com/the-speed-of-traffic" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -340,7 +340,7 @@ quite close to our typical highway traffic speeds (and speed&nbsp;limits).</p>
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

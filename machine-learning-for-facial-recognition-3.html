@@ -95,11 +95,11 @@
         <div class="span8 offset2 article-content">
             
             <p>A guest post, contributed by Damien Ramunno-Johnson (<a href="https://www.linkedin.com/profile/view?id=60223336&amp;authType=NAME_SEARCH&amp;authToken=LOV_&amp;locale=en_US&amp;trk=tyah2&amp;trkInfo=tarId%3A1420748440448%2Ctas%3Adamien%2Cidx%3A1-1-1">LinkedIn</a>, <a href="https://efavdb.github.io/pages/authors.html">bio-sketch</a>)</p>
-<h4><strong>Introduction</strong></h4>
+<h4 id="introduction"><strong>Introduction</strong></h4>
 <p>The ability to identify faces is a skill that people develop very early in life and can apply almost effortlessly. One reason for this is that our brains are very well adapted for pattern recognition. In contrast, facial recognition can be a somewhat difficult problem for computers. Today, given a full frontal image of a face, computer facial recognition software works well. However, problems can arise given large camera angles, poor lighting, or exaggerated facial expressions: Computers have a ways to go before they catch up with us in this&nbsp;arena.</p>
 <p>Although facial recognition algorithms remain imperfect, the methods that exist now are already quite useful and are being applied by many different companies. Two examples, first up Facebook: When you upload pictures to their website, it will now automatically suggest names for the people in your photos. This application is well-suited for machine learning for two reasons. First, every tagged photo already uploaded to the site provides labeled examples on which to train an algorithm, and second, people often post full face images in decent lighting. A second example is provided by Google&#8217;s Android phone <span class="caps">OS</span>, which has a face unlock mode. To get this to work, you first have to train your phone by taking images of your face in different lighting conditions and from different angles. After training, the phone can attempt to recognize you. This is another cool application that also often works&nbsp;well.</p>
 <p>In this post, we&#8217;re going to develop our own basic facial learning algorithm. We&#8217;ll find that it is actually pretty straightforward to set one up that is reasonably accurate. Our post follows and expands upon the tutorial found <a href="http://scikit-learn.org/stable/auto_examples/applications/face_recognition.html">here</a>.</p>
-<h4><strong>Loading packages and&nbsp;data</strong></h4>
+<h4 id="loading-packages-and-data"><strong>Loading packages and&nbsp;data</strong></h4>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
 
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">time</span>
@@ -165,7 +165,7 @@
 
 
 <p>Looking above we see that our dataset currently has 1288 images. Each image has 1850 pixels, or features. We also have 7 classes, meaning images of 7 different&nbsp;people.</p>
-<h4><strong>Data segmentation and dimensional&nbsp;reduction</strong></h4>
+<h4 id="data-segmentation-and-dimensional-reduction"><strong>Data segmentation and dimensional&nbsp;reduction</strong></h4>
 <p>At this point we need to segment our data. We are going to use <a href="http://scikit-learn.org/stable/modules/generated/sklearn.cross_validation.train_test_split.html">train_test_split</a>, which will take care of splitting our data into random training and testing data sets. Next, we note that we have a lot of features and that there are advantages to having fewer: First, the computational cost is reduced. Second, having fewer features reduces the data’s dimension which can also reduce the complexity of the model and help avoid overfitting. Instead of dropping individual pixels outright, we will carry out a dimensional reduction via a Principle Component Analysis <a href="http://en.wikipedia.org/wiki/Principal_component_analysis"><span class="caps">PCA</span></a>. <span class="caps">PCA</span> works by attempting to represent the variance in the training data with as few dimensions as possible. So instead of dropping features, as we did in our <a href="http://efavdb.github.io/machine-learning-with-wearable-sensors">wearable sensor example</a> analysis, here we will compress features together, and then use only the most important feature combinations. When this is done to images, the features returned by <span class="caps">PCA</span> are commonly called eigenfaces (some examples are given&nbsp;below).</p>
 <p>The function we are going to use to carry out our <span class="caps">PCA</span> is <a href="http://scikit-learn.org/stable/modules/generated/sklearn.decomposition.RandomizedPCA.html">RandomizedPCA</a>. We&#8217;ll keep the top 150 eigenfaces, and we&#8217;ll also whiten the data &#8212; ie normalize our new, principal component feature set. The goal of whitening is to make the input less redundant. Whitening is performed by rotating into the coordinate space of the principal components, dividing each dimension by square root of variance in that direction (giving the feature unit variance), and then rotating back to pixel&nbsp;space.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">split</span> <span class="k">into</span> <span class="n">a</span> <span class="n">training</span> <span class="k">and</span> <span class="n">testing</span> <span class="k">set</span>
@@ -183,7 +183,7 @@
 </pre></div>
 
 
-<h4><strong>Visualizing the&nbsp;eigenfaces</strong></h4>
+<h4 id="visualizing-the-eigenfaces"><strong>Visualizing the&nbsp;eigenfaces</strong></h4>
 <p>Let&#8217;s now take a moment to examine the dataset&#8217;s principal eigenfaces: the set of images that we will project each example onto to obtain independent features. To do that we will use the following helper function to make life easier &#8212; visual&nbsp;follows.</p>
 <div class="highlight"><pre><span></span><span class="err">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">helper</span><span class="w"> </span><span class="k">function</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">plots</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">faces</span><span class="w"></span>
 <span class="n">def</span><span class="w"> </span><span class="n">plot_gallery</span><span class="p">(</span><span class="n">images</span><span class="p">,</span><span class="w"> </span><span class="n">titles</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">n_row</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">n_col</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
@@ -208,7 +208,7 @@
 
 
 <p><a href="https://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"><img alt="Screen Shot 2015-01-21 at 12.36.09 PM" src="https://efavdb.com/wp-content/uploads/2015/01/Screen-Shot-2015-01-21-at-12.36.09-PM.png"></a></p>
-<h4><strong>Training a&nbsp;model</strong></h4>
+<h4 id="training-a-model"><strong>Training a&nbsp;model</strong></h4>
 <p>Now that we have reduced the dimensionality of the data it is time to go ahead and train a model. I am going to use the same <span class="caps">SVM</span> and GridSearchCV method I explained in my previous <a href="http://efavdb.github.io/machine-learning-with-wearable-sensors">post</a>. However, instead of using a linear kernel, as we did last time, I&#8217;ll use instead a <a href="http://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html">radial basis function (<span class="caps">RBF</span>)</a> kernel. The <span class="caps">RBF</span> kernel is a good choice here since we&#8217;d like to have non-linear decision boundaries &#8212; in general, it&#8217;s a reasonable idea to try this out whenever the number of training examples outnumbers the number of features characterizing those examples. The parameter C here acts as a regularization term: Small C values give you smooth decision boundaries, while large C values give complicated boundaries that attempt to fit/accommodate all training data. The gamma parameter defines how far the influence of a single point example extends (the width of the <span class="caps">RBF</span>&nbsp;kernel).</p>
 <div class="highlight"><pre><span></span><span class="p">#</span><span class="nn">Train</span> <span class="nt">a</span> <span class="nt">SVM</span> <span class="nt">classification</span> <span class="nt">model</span>
 
@@ -235,7 +235,7 @@
 </pre></div>
 
 
-<h4><strong>Model&nbsp;validation</strong></h4>
+<h4 id="model-validation"><strong>Model&nbsp;validation</strong></h4>
 <p>That&#8217;s it for training! Next we&#8217;ll validate our model on the testing data set. Below, we first use our <span class="caps">PCA</span> model to transform the testing data into our current feature space. Then, we apply our model to make predictions on this set. To get a feel for how well the model is doing, we print a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">classification_report</a> and a <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.confusion_matrix.html">confusion matrix</a>.</p>
 <div class="highlight"><pre><span></span><span class="o">#</span><span class="n">Quantitative</span> <span class="n">evaluation</span> <span class="k">of</span> <span class="n">the</span> <span class="n">model</span> <span class="n">quality</span> <span class="k">on</span> <span class="n">the</span> <span class="n">test</span> <span class="k">set</span>
 <span class="o">#</span><span class="n">Validate</span> <span class="n">the</span> <span class="k">data</span>
@@ -307,7 +307,7 @@
 
 
 <p><a href="https://efavdb.com/wp-content/uploads/2015/01/download.png"><img alt="download" src="https://efavdb.com/wp-content/uploads/2015/01/download.png"></a></p>
-<h4><strong>Discussion</strong></h4>
+<h4 id="discussion"><strong>Discussion</strong></h4>
 <p>85% average accuracy shows that <span class="caps">PCA</span> (Eigenface analysis) can provide accurate face recognition results, given just a modest amount of training data. There are pros and cons to eigenfaces&nbsp;however:</p>
 <ul>
 <li>Pros<ol>
@@ -337,11 +337,11 @@
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Machine%20learning%20for%20facial%C2%A0recognition&url=https%3A//efavdb.com/machine-learning-for-facial-recognition-3&hashtags=machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Machine%20learning%20for%20facial%C2%A0recognition&amp;body=https%3A//efavdb.com/machine-learning-for-facial-recognition-3" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -468,7 +468,7 @@
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

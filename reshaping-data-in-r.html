@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>Today, we&#8217;ll talk about reshaping data in R. At the same time, we&#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&nbsp;loop.</p>
-<h3>The&nbsp;Task</h3>
+<h3 id="the-task">The&nbsp;Task</h3>
 <p>Suppose you&#8217;re given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its&nbsp;id.</p>
 <p>Day&nbsp;1</p>
 <table>
@@ -195,7 +195,7 @@
 </tbody>
 </table>
 <p>This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you&#8217;re in first grade. So, we&#8217;re going to take a little time to write a script now in order to save a lot of time in the&nbsp;future.</p>
-<h3>The code broken&nbsp;down</h3>
+<h3 id="the-code-broken-down">The code broken&nbsp;down</h3>
 <p>First, let&#8217;s load some libraries that are useful for reshaping&nbsp;data.</p>
 <div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="s">&quot;plyr&quot;</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="s">&quot;reshape2&quot;</span><span class="p">)</span>
@@ -247,7 +247,7 @@
 
 
 <p><code>mapply</code> allows functions with multiple arguments to be applied in a loop. Here, we&#8217;ve defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of <em>x</em> is given by list_dfpergroup, and <em>y</em> is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup<span class="math">\(_i\)</span> to a file named outnames<span class="math">\(_i\)</span>.</p>
-<h3>The code in one&nbsp;piece</h3>
+<h3 id="the-code-in-one-piece">The code in one&nbsp;piece</h3>
 <p>Now here&#8217;s the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing <code>ldply</code>.</p>
 <div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="s">&quot;plyr&quot;</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="s">&quot;reshape2&quot;</span><span class="p">)</span>
@@ -336,11 +336,11 @@
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Reshaping%20Data%20in%C2%A0R&url=https%3A//efavdb.com/reshaping-data-in-r&hashtags=programming,r" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/reshaping-data-in-r" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Reshaping%20Data%20in%C2%A0R&amp;body=https%3A//efavdb.com/reshaping-data-in-r" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -470,7 +470,7 @@
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

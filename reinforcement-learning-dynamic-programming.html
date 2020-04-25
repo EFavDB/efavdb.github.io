@@ -94,7 +94,7 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <h2>Background</h2>
+            <h2 id="background">Background</h2>
 <p>We discuss how to use dynamic programming (<span class="caps">DP</span>) to solve reinforcement learning (<span class="caps">RL</span>) problems where we have a perfect model of the environment.  <span class="caps">DP</span> is a general approach to solving problems by breaking them into subproblems that can be solved separately, cached, then combined to solve the overall&nbsp;problem.</p>
 <p>We’ll use a toy model, taken from [1], of a student transitioning between five states in college, which we also used in our <a href="https://efavdb.com/intro-rl-toy-example.html">introduction</a> to <span class="caps">RL</span>:</p>
 <p><img alt="student MDP" src="https://efavdb.com/images/student_mdp.png"></p>
@@ -102,7 +102,7 @@
 <p><span class="math">\(p(s'=\text{CLASS2}, r=-2 | s=\text{CLASS1}, a=\text{study}) =&nbsp;1.0\)</span></p>
 <p><span class="math">\(p(s'=\text{CLASS2}, r=1 | s=\text{CLASS3}, a=\text{pub}) =&nbsp;0.4\)</span></p>
 <p>If you&#8217;d like to jump straight to code, see this <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>.</p>
-<h3>The role of value functions in <span class="caps">RL</span></h3>
+<h3 id="the-role-of-value-functions-in-rl">The role of value functions in <span class="caps">RL</span></h3>
 <p>The agent’s (student’s) policy maps states to actions, <span class="math">\(\pi(a|s) := p(a|s)\)</span>. 
 The goal is to find the optimal policy <span class="math">\(\pi_*\)</span> that will maximize the expected cumulative rewards, the discounted return <span class="math">\(G_t\)</span>, in each state <span class="math">\(s\)</span>.</p>
 <p>The value functions, <span class="math">\(v_{\pi}(s)\)</span> and <span class="math">\(q_{\pi}(s, a)\)</span>, in MDPs formalize this&nbsp;goal.</p>
@@ -111,7 +111,7 @@ v_{\pi}(s) &amp;=&amp; \mathbb{E}_{\pi}[G_t | S_t = s] \\
 q_{\pi}(s, a) &amp;=&amp; \mathbb{E}_{\pi}[G_t | S_t = s, A_t = a]
 \end{eqnarray}</div>
 <p>We want to be able to calculate the value function for an arbitrary policy, i.e. <em>prediction</em>, as well as use the value functions to find an optimal policy, i.e. the <em>control</em>&nbsp;problem.</p>
-<h2>Policy&nbsp;evaluation</h2>
+<h2 id="policy-evaluation">Policy&nbsp;evaluation</h2>
 <p>Policy evaluation deals with the problem of calculating the value function for some arbitrary policy.  In our introduction to <span class="caps">RL</span> <a href="https://efavdb.com/intro-rl-toy-example.html">post</a>, we showed that the value functions obey self-consistent, recursive relations, that make them amenable to <span class="caps">DP</span> approaches given a model of the&nbsp;environment.</p>
 <p>These recursive relations are the Bellman expectation equations, which write the value of each state in terms of an average over the values of its successor / neighboring states, along with the expected reward along the&nbsp;way.</p>
 <p>The Bellman expectation equation for <span class="math">\(v_{\pi}(s)\)</span>&nbsp;is</p>
@@ -124,13 +124,13 @@ v_{k+1}(s) = \sum_{a} \pi(a|s) \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(
 \end{eqnarray}</div>
 <p>Applying policy evaluation to our student model for an agent with a random policy, we arrive at the following state value function (see <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a> for&nbsp;implementation):</p>
 <p><img alt="student MDP value function random policy" src="https://efavdb.com/images/student_mdp_values_random_policy.png"></p>
-<h2>Finding the optimal value functions and&nbsp;policy</h2>
-<h3>Policy&nbsp;iteration</h3>
+<h2 id="finding-the-optimal-value-functions-and-policy">Finding the optimal value functions and&nbsp;policy</h2>
+<h3 id="policy-iteration">Policy&nbsp;iteration</h3>
 <p>We can evaluate the value functions for a given policy by turning the Bellman expectation equation (\ref{state-value-bellman}) into an update equation with the iterative policy evaluation&nbsp;algorithm.</p>
 <p>But how do we use value functions to achieve our end goal of finding an optimal policy that corresponds to the optimal value&nbsp;functions?</p>
 <p>Imagine we know the value function for a policy.  If taking the greedy action, corresponding to taking <span class="math">\(\text{arg} \max_a q_{\pi}(s,a)\)</span>, from any state in that policy is not consistent with that policy, or, equivalently, <span class="math">\(\max_a q_{\pi}(s,a) &gt; v_\pi(s)\)</span>, then the policy is not optimal since we can improve the policy by taking the greedy action in that state and then onwards following the original&nbsp;policy.</p>
 <p>The <em>policy iteration</em> algorithm involves taking turns calculating the value function for a policy (policy evaluation) and improving on the policy (policy improvement) by taking the greedy action in each state for that value function until converging to <span class="math">\(\pi_*\)</span> and <span class="math">\(v_*\)</span> (see [2] for pseudocode for policy&nbsp;iteration).</p>
-<h3>Value&nbsp;iteration</h3>
+<h3 id="value-iteration">Value&nbsp;iteration</h3>
 <p>Unlike policy iteration, the value iteration algorithm does not require complete convergence of policy evaluation before policy improvement, and, in fact, makes use of just a single iteration of policy evaluation.  Just as policy evaluation could be viewed as turning the Bellman expectation equation into an update, value iteration turns the Bellman optimality equation into an&nbsp;update.</p>
 <p>In our previous <a href="https://efavdb.com/intro-rl-toy-example.html">post</a> introducing <span class="caps">RL</span> using the student example, we saw that the optimal value functions are the solutions to the Bellman optimality equation, e.g. for the optimal state-value&nbsp;function:</p>
 <div class="math">\begin{eqnarray}\label{state-value-bellman-optimality} \tag{3}
@@ -146,12 +146,12 @@ v_{k+1}(s) = \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
 <p>Value iteration combines (truncated) policy evaluation with policy improvement in a single step; the state-value functions are updated with the averages of the value functions of the neighbor states that can occur from a greedy action, i.e. the action that maximizes the right hand side of&nbsp;(\ref{value-iteration}).</p>
 <p>Applying value iteration to our student model, we arrive at the following optimal state value function, with the optimal policy delineated by red arrows (see <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>):</p>
 <p><img alt="student MDP optimal policy and value function" src="https://efavdb.com/images/student_mdp_optimal_policy.png"></p>
-<h2>Summary</h2>
+<h2 id="summary">Summary</h2>
 <p>We’ve discussed how to solve for (a) the value functions of an arbitrary policy, (b) the optimal value functions and optimal policy.  Solving for (a) involves turning the Bellman expectation equations into an update, whereas (b) involves turning the Bellman optimality equations into an update.  These algorithms are guaranteed to converge (see [1] for notes on how the contraction mapping theorem guarantees&nbsp;convergence).</p>
 <p>You can see the application of both policy evaluation and value iteration to the student model problem in this <a href="https://github.com/frangipane/reinforcement-learning/blob/master/02-dynamic-programming/student_MDP_dynamic_programming_solutions.ipynb">jupyter notebook</a>.</p>
-<h2><a name="References">References</a></h2>
+<h2 id="references"><a name="References">References</a></h2>
 <p>[1] David Silver&#8217;s <span class="caps">RL</span> Course Lecture 3 - Planning by Dynamic Programming (<a href="https://www.youtube.com/watch?v=Nd1-UUMVfz4">video</a>,
-  <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching_files/DP.pdf">slides</a>)</p>
+  <a href="https://www.davidsilver.uk/wp-content/uploads/2020/03/DP.pdf">slides</a>)</p>
 <p>[2] Sutton and Barto -
   <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction</a> - Chapter 4: Dynamic&nbsp;Programming</p>
 <p>[3] Denny Britz’s <a href="https://github.com/dennybritz/reinforcement-learning/tree/master/DP">notes</a> on <span class="caps">RL</span> and <span class="caps">DP</span>, including crisp implementations in code of policy evaluation, policy iteration, and value iteration for the gridworld example discussed in&nbsp;[2].</p>
@@ -223,11 +223,11 @@ v_{k+1}(s) = \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Dynamic%20programming%20in%20reinforcement%C2%A0learning&url=https%3A//efavdb.com/reinforcement-learning-dynamic-programming&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/reinforcement-learning-dynamic-programming" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Dynamic%20programming%20in%20reinforcement%C2%A0learning&amp;body=https%3A//efavdb.com/reinforcement-learning-dynamic-programming" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -357,7 +357,7 @@ v_{k+1}(s) = \max_a \sum_{s’, r} p(s’, r | s, a) [r + \gamma v_k(s’) ]
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

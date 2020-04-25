@@ -94,11 +94,11 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <h2>Overview</h2>
+            <h2 id="overview">Overview</h2>
 <p>We give a short introduction to neural networks and the backpropagation algorithm for training neural networks. Our overview is brief because we assume familiarity with partial derivatives, the chain rule, and matrix&nbsp;multiplication.</p>
 <p>We also hope this post will be a quick reference for those already familiar with the notation used by Andrew Ng in his course on <a href="https://www.coursera.org/learn/neural-networks-deep-learning/">&#8220;Neural Networks and Deep Learning&#8221;</a>, the first in the deeplearning.ai series on Coursera. That course provides but doesn&#8217;t derive the vectorized form of the backpropagation equations, so we hope to fill in that small gap while using the same&nbsp;notation.</p>
-<h2>Introduction: neural&nbsp;networks</h2>
-<h3>A single neuron acting on a single training&nbsp;example</h3>
+<h2 id="introduction-neural-networks">Introduction: neural&nbsp;networks</h2>
+<h3 id="a-single-neuron-acting-on-a-single-training-example">A single neuron acting on a single training&nbsp;example</h3>
 <p><img alt="single neuron" src="https://efavdb.com/wp-content/uploads/2019/07/single_neuron-e1563431237482.png"></p>
 <p>The basic building block of a neural network is the composition of a nonlinear function (like a <a href="https://en.wikipedia.org/wiki/Sigmoid_function">sigmoid</a>, <a href="http://mathworld.wolfram.com/HyperbolicTangent.html">tanh</a>, or <a href="https://en.wikipedia.org/wiki/Rectifier_(neural_networks)">ReLU</a>) <span class="math">\(g(z)\)</span></p>
 <div class="math">\begin{eqnarray} \nonumber
@@ -110,7 +110,7 @@ a^{[l]} = g(z^{[l]})
 z^{[l]} = w^{[l]T} a^{[l-1]} + b^{[l]}
 \end{eqnarray}</div>
 <p>These building blocks, i.e. &#8220;nodes&#8221; or &#8220;neurons&#8221; of the neural network, are arranged in layers, with the layer denoted by superscript square brackets, e.g. <span class="math">\([l]\)</span> for the <span class="math">\(l\)</span>th layer. <span class="math">\(n_l\)</span> denotes the number of neurons in layer <span class="math">\(l\)</span>.</p>
-<h3>Forward&nbsp;propagation</h3>
+<h3 id="forward-propagation">Forward&nbsp;propagation</h3>
 <p>Forward propagation is the computation of the multiple linear and nonlinear transformations of the neural network on the input data. We can rewrite the above equations in vectorized form to handle multiple training examples and neurons per layer&nbsp;as</p>
 <div class="math">\begin{eqnarray} \tag{1} \label{1}
 A^{[l]} = g(Z^{[l]})
@@ -156,7 +156,7 @@ Z^{[l]} = W^{[l]} A^{[l-1]} + b^{[l]}
 <div class="math">\begin{eqnarray} \tag{3} \label{3}
 J = \frac{1}{m} \sum_{i=1}^m \mathcal{L}(y^{(i)}, A^{[L](i)})
 \end{eqnarray}</div>
-<h3>Minimizing the cost with gradient&nbsp;descent</h3>
+<h3 id="minimizing-the-cost-with-gradient-descent">Minimizing the cost with gradient&nbsp;descent</h3>
 <p>The task of training a neural network is to find the set of parameters <span class="math">\(W\)</span> and <span class="math">\(b\)</span> (with different <span class="math">\(W\)</span> and <span class="math">\(b\)</span> for different nodes in the network) that will give us the best predictions, i.e. minimize the cost&nbsp;(\ref{3}).</p>
 <p>Gradient descent is the workhorse that we employ for this optimization problem. We randomly initialize the parameters <span class="math">\(W\)</span> and <span class="math">\(b\)</span> for each node, then iteratively update the parameters by moving them in the direction that is opposite to the gradient of the&nbsp;cost.</p>
 <div class="math">\begin{eqnarray} \nonumber
@@ -165,7 +165,7 @@ b_\text{new} &amp;=&amp; b_\text{previous} - \alpha \frac{\partial J}{\partial b
 \end{eqnarray}</div>
 <p>
 <span class="math">\(\alpha\)</span> is the learning rate, a hyperparameter that needs to be tuned during the training process. The gradient of the cost is calculated by the backpropagation&nbsp;algorithm.</p>
-<h2>Backpropagation&nbsp;equations</h2>
+<h2 id="backpropagation-equations">Backpropagation&nbsp;equations</h2>
 <p>These are the vectorized backpropagation (<span class="caps">BP</span>) equations which we wish to&nbsp;derive:</p>
 <div class="math">\begin{eqnarray} \nonumber
 dW^{[l]} &amp;\equiv&amp; \frac{\partial J}{\partial W^{[l]}} = \frac{1}{m} dZ^{[l]}A^{[l-1]T} \tag{BP1} \label{BP1} \\
@@ -176,7 +176,7 @@ dZ^{[l]} &amp;\equiv&amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}} = dA^{[l
 <p>
 The <span class="math">\(*\)</span> in the last line denotes element-wise&nbsp;multiplication.</p>
 <p><span class="math">\(W\)</span> and <span class="math">\(b\)</span> are the parameters we want to learn (update), but the <span class="caps">BP</span> equations include two additional expressions for the partial derivative of the loss in terms of linear and nonlinear activations per training example since they are intermediate terms that appear in the calculation of <span class="math">\(dW\)</span> and <span class="math">\(db\)</span>.</p>
-<h3>Chain&nbsp;rule</h3>
+<h3 id="chain-rule">Chain&nbsp;rule</h3>
 <p>We&#8217;ll need the chain rule for <a href="https://en.wikipedia.org/wiki/Total_derivative">total derivatives</a>, which describes how the change in a function <span class="math">\(f\)</span> with respect to a variable <span class="math">\(x\)</span> can be calculated as a sum over the contributions from intermediate functions <span class="math">\(u_i\)</span> that depend on <span class="math">\(x\)</span>:</p>
 <div class="math">\begin{eqnarray} \nonumber
 \frac{\partial f(u_1, u_2, ..., u_k)}{\partial x} = \sum_{i}^k \frac{\partial f}{\partial u_i} \frac{\partial u_i}{\partial x}
@@ -184,7 +184,7 @@ The <span class="math">\(*\)</span> in the last line denotes element-wise&nbsp;m
 <p>
 where the <span class="math">\(u_i\)</span> are functions of <span class="math">\(x\)</span>. This expression reduces to the single variable chain rule when only one <span class="math">\(u_i\)</span> is a function of <span class="math">\(x\)</span>.</p>
 <p>The gradients for every node can be calculated in a single backward pass through the network, starting with the last layer and working backwards, towards the input layer. As we work backwards, we cache the values of <span class="math">\(dZ\)</span> and <span class="math">\(dA\)</span> from previous calculations, which are then used to compute the derivative for variables that are further upstream in the computation graph. The dependency of the derivatives of upstream variables on downstream variables, i.e. cached derivatives, is manifested in the <span class="math">\(\frac{\partial f}{\partial u_i}\)</span> term in the chain rule. (Backpropagation is a dynamic programming&nbsp;algorithm!)</p>
-<h3>The chain rule applied to&nbsp;backpropagation</h3>
+<h3 id="the-chain-rule-applied-to-backpropagation">The chain rule applied to&nbsp;backpropagation</h3>
 <p>In this section, we apply the chain rule to derive the vectorized form of equations <span class="caps">BP</span>(1-4). Without loss of generality, we&#8217;ll index an element of the matrix or vector on the left hand side of <span class="caps">BP</span>(1-4); the notation for applying the chain rule is therefore straightforward because the derivatives are just with respect to&nbsp;scalars.</p>
 <p><strong><span class="caps">BP1</span></strong>
 The partial derivative of the cost with respect to the <span class="math">\(s\)</span>th component (corresponding to the <span class="math">\(s\)</span>th input) of <span class="math">\(\vec{w}\)</span> in the <span class="math">\(r\)</span>th node in layer <span class="math">\(l\)</span>&nbsp;is:</p>
@@ -239,7 +239,7 @@ dZ^{[l]}_{ri} &amp;\equiv&amp; \frac{\partial \mathcal{L}}{\partial Z^{[l]}_{ri}
 \end{eqnarray}</div>
 <p>
 The second line is by the application of the chain rule (single variable since only a single nonlinear activation depends on directly on <span class="math">\(Z^{[l]}_{ri}\)</span>). <span class="math">\(g'(Z)\)</span> is the derivative of the nonlinear activation function with respect to its input, which depends on the nonlinear activation function that is assigned to that particular node, e.g. sigmoid vs. tanh vs.&nbsp;ReLU.</p>
-<h3>Conclusion</h3>
+<h3 id="conclusion">Conclusion</h3>
 <p>Backpropagation efficiently executes gradient descent for updating the parameters of a neural network by ordering and caching the calculations of the gradient of the cost with respect to the parameters in the nodes. This post is a little heavy on notation since the focus is on deriving the vectorized formulas for backpropagation, but we hope it complements the lectures in Week 3 of Andrew Ng&#8217;s <a href="https://www.coursera.org/learn/neural-networks-deep-learning/">&#8220;Neural Networks and Deep Learning&#8221;</a> course as well as the excellent, but even more notation-heavy, resources on matrix calculus for backpropagation that are linked&nbsp;below.</p>
 <hr>
 <p><strong>More resources on vectorized backpropagation</strong>
@@ -312,11 +312,11 @@ The second line is by the application of the chain rule (single variable since o
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Backpropagation%20in%20neural%C2%A0networks&url=https%3A//efavdb.com/backpropagation-in-neural-networks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/backpropagation-in-neural-networks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Backpropagation%20in%20neural%C2%A0networks&amp;body=https%3A//efavdb.com/backpropagation-in-neural-networks" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -437,7 +437,7 @@ The second line is by the application of the chain rule (single variable since o
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

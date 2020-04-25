@@ -95,11 +95,11 @@
         <div class="span8 offset2 article-content">
             
             <p>I review &#8212; and provide derivations for &#8212; some basic properties of Normal distributions. Topics currently covered: (i) Their normalization, (ii) Samples from a univariate Normal, (iii) Multivariate Normal distributions, (iv) Central limit&nbsp;theorem.</p>
-<h3>Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p><a href="https://efavdb.com/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"><img alt="carl-f-gauss-4" src="https://efavdb.com/wp-content/uploads/2017/05/carl-f-gauss-4.jpg"></a></p>
 <p>This post contains a running list of properties (with derivations) relating to Normal (Gaussian) distributions. Normal distributions are important for two principal reasons: Their significance a la the central limit theorem and their appearance in saddle point approximations to more general integrals. As usual, the results here assume familiarity with calculus and linear&nbsp;algebra.</p>
 <p>Pictured at right is an image of Gauss &#8212; &#8220;Few, but&nbsp;ripe.&#8221;</p>
-<h3>Normalization</h3>
+<h3 id="normalization">Normalization</h3>
 <ul>
 <li>Consider the integral
     <div class="math">\begin{align} \tag{1}
@@ -112,7 +112,7 @@
     \end{align}</div>
     Here, I have used the usual trick of transforming the integral over the plane to one over polar <span class="math">\((r, \theta)\)</span> coordinates. The result above gives the normalization for the Normal&nbsp;distribution.</li>
 </ul>
-<h3>Samples from a univariate&nbsp;normal</h3>
+<h3 id="samples-from-a-univariate-normal">Samples from a univariate&nbsp;normal</h3>
 <ul>
 <li>
 <p>Suppose <span class="math">\(N\)</span> independent samples are taken from a Normal distribution. The sample mean is defined as <span class="math">\(\hat{\mu} = \frac{1}{N}\sum x_i\)</span> and the sample variance as <span class="math">\(\hat{S}^2 \equiv \frac{1}{N-1} \sum (x_i - \hat{\mu})^2\)</span>. These two statistics are independent. Further, the former is Normal distributed with variance <span class="math">\(\sigma^2/N\)</span> and the latter is proportional to a <span class="math">\(\chi_{N-1}^2.\)</span></p>
@@ -143,7 +143,7 @@
     \end{align}</div>
     This is the ratio of two independent <span class="math">\(\chi^2\)</span> variables, resulting in what is referred to as an <span class="math">\(F\)</span>-distributed variable. Like (\ref{t-var}), we often cannot evaluate (\ref{f-var}) numerically. Instead, we use a tabulated cdf of the <span class="math">\(F\)</span>-distribution to derive confidence intervals for the ratio of the two underlying variances. Aside: The <span class="math">\(F\)</span>-distribution arises in the analysis of both <span class="caps">ANOVA</span> and linear regression. Note also that the square of a <span class="math">\(t\)</span>-distributed variable (Normal over the square root of a <span class="math">\(\chi^2\)</span> variable) is <span class="math">\(F\)</span>-distributed.</li>
 </ul>
-<h3>Multivariate&nbsp;Normals</h3>
+<h3 id="multivariate-normals">Multivariate&nbsp;Normals</h3>
 <ul>
 <li>Consider a set of jointly-distributed variables <span class="math">\(x\)</span> having normal distribution
     <div class="math">\begin{align} \tag{7}
@@ -273,7 +273,7 @@ The last term above must be zero since the length of <span class="math">\(v_{\al
     \end{align}</div>
     Using a similar calculation, we find that the diagonal terms of the <span class="caps">CDF</span> covariance matrix are <span class="math">\(1/12\)</span>.</li>
 </ul>
-<h3>Central Limit&nbsp;Theorem</h3>
+<h3 id="central-limit-theorem">Central Limit&nbsp;Theorem</h3>
 <ul>
 <li>
 <p>Let <span class="math">\(x_1, x_2, \ldots, x_N\)</span> be <span class="caps">IID</span> random variables with an mgf that exists near <span class="math">\(0\)</span>. Let <span class="math">\(E(x_i) = \mu\)</span> and <span class="math">\(\text{var}(x_i) = \sigma^2\)</span>. Then the variable <span class="math">\(\frac{\overline{x} - \mu}{\sigma / \sqrt{N}}\)</span> approaches standard normal as <span class="math">\(N \to \infty\)</span>.</p>
@@ -367,11 +367,11 @@ where the latter form is the fixed <span class="math">\(t\)</span> limit as <spa
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Normal%C2%A0Distributions&url=https%3A//efavdb.com/normal-distributions&hashtags=theory,statistics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/normal-distributions" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Normal%C2%A0Distributions&amp;body=https%3A//efavdb.com/normal-distributions" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -501,7 +501,7 @@ where the latter form is the fixed <span class="math">\(t\)</span> limit as <spa
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

@@ -96,7 +96,7 @@
             
             <p>We review classical linear regression using vector-matrix notation. In particular, we derive a) the least-squares solution, b) the fit&#8217;s coefficient covariance matrix &#8212; showing that the coefficient estimates are most precise along directions that have been sampled over a large range of values (the high variance directions, a la <span class="caps">PCA</span>), and c) an unbiased estimate for the underlying sample variance (assuming normal sample variance in this last case). We then review how these last two results can be used to provide confidence intervals / hypothesis tests for the coefficient estimates. Finally, we show that similar results follow from a Bayesian&nbsp;approach.</p>
 <p>Last edited July 23,&nbsp;2016.</p>
-<h3>Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p>Here, we consider the problem of fitting a linear curve to <span class="math">\(N\)</span> data points of the form <span class="math">\((\vec{x}_i, y_i),\)</span> where the <span class="math">\(\{\vec{x}_i\}\)</span> are column vectors of predictors that sit in an <span class="math">\(L\)</span>-dimensional space and the <span class="math">\(\{y_i\}\)</span> are the response values we wish to predict given the <span class="math">\(\{x_i\}\)</span>. The linear approximation will be defined by a set of coefficients, <span class="math">\(\{\beta_j\}\)</span> so&nbsp;that
 </p>
 <div class="math">\begin{align}
@@ -110,7 +110,7 @@ J = \sum_i \left ( y_i - \hat{y}_i \right)^2 = \sum_i \left (y_i - \vec{x}_i^T \
 \end{align}</div>
 <p>
 It turns out that this is a problem where one can easily derive an analytic expression for the optimal solution. It&#8217;s also possible to derive an expression for the variance in the optimal solution &#8212; that is, how much we might expect the optimal parameter estimates to change were we to start with some other <span class="math">\(N\)</span> data points instead. These estimates can then be used to generate confidence intervals for the coefficient estimates. Here, we review these results, give a simple interpretation to the theoretical variance, and finally show that the same results follow from a Bayesian&nbsp;approach.</p>
-<h3>Optimal&nbsp;solution</h3>
+<h3 id="optimal-solution">Optimal&nbsp;solution</h3>
 <p>We seek the coefficient vector that minimizes (\ref{2}). We can find this by differentiating this cost function with respect to <span class="math">\(\vec{\beta}\)</span>, setting the result to zero. This&nbsp;gives,
 </p>
 <div class="math">\begin{align} \tag{3}
@@ -132,7 +132,7 @@ X^T X \cdot \vec{\beta} = X^T \cdot \vec{y} \to
 \end{align}</div>
 <p>
 This is the squared-error-minimizing&nbsp;solution.</p>
-<h3>Parameter covariance&nbsp;matrix</h3>
+<h3 id="parameter-covariance-matrix">Parameter covariance&nbsp;matrix</h3>
 <p>Now, when one carries out a linear fit to some data, the best line often does not go straight through all of the data. Here, we consider the case where the reason for the discrepancy is not that the posited linear form is incorrect, but that there are some hidden variables not measured that the <span class="math">\(y\)</span>-values also depend on. Assuming our data points represent random samples over these hidden variables, we can model their effect as adding a random noise term to the form (\ref{1}), so&nbsp;that
 </p>
 <div class="math">\begin{align}\tag{6} \label{noise}
@@ -159,7 +159,7 @@ In the third line here, note that we have assumed that the <span class="math">\(
 <p>
 <a href="https://efavdb.com/wp-content/uploads/2016/05/scatter.jpg"><img alt="margin around decision boundary" src="https://efavdb.com/wp-content/uploads/2016/05/scatter.jpg"></a> That is, <span class="math">\(X^T X\)</span> is proportional to the correlation matrix of our <span class="math">\(x\)</span> values. This correlation matrix is real and symmetric, and thus has an orthonormal set of eigenvectors. The eigenvalue corresponding to the <span class="math">\(k\)</span>-th eigenvector gives the variance of our data set&#8217;s <span class="math">\(k\)</span>-th component values in this basis &#8212; details can be found in our <a href="http://efavdb.github.io/principal-component-analysis">article on <span class="caps">PCA</span></a>. This implies a simple interpretation of (\ref{cov}): The variance in the <span class="math">\(\vec{\beta}\)</span> coefficients will be lowest for predictors parallel to the highest variance <span class="caps">PCA</span> components (eg <span class="math">\(x_1\)</span> in the figure shown) and highest for predictors parallel to the lowest variance <span class="caps">PCA</span> components (<span class="math">\(x_2\)</span> in the figure). This observation can often be exploited during an experiment&#8217;s design: If a particular coefficient is desired to high accuracy, one should make sure to sample the corresponding predictor over a wide&nbsp;range.</p>
 <p>[Note: Cathy gives an interesting, alternative interpretation for the parameter estimate variances in a follow-up post, <a href="http://efavdb.github.io/interpret-linear-regression">here</a>.]</p>
-<h3>Unbiased estimator for <span class="math">\(\sigma^2\)</span></h3>
+<h3 id="unbiased-estimator-for-sigma2">Unbiased estimator for <span class="math">\(\sigma^2\)</span></h3>
 <p>The result (\ref{cov}) gives an expression for the variance of the parameter coefficients in terms of the underlying sample variance <span class="math">\(\sigma^2\)</span>. In practice, <span class="math">\(\sigma^2\)</span> is often not provided and must be estimated from the observations at hand. Assuming that the <span class="math">\(\{\epsilon_i\}\)</span> in (\ref{noise}) are independent <span class="math">\(\mathcal{N}(0, \sigma^2)\)</span> random variables, we now show that the following provides an unbiased estimate for this&nbsp;variance:
 </p>
 <div class="math">$$
@@ -206,7 +206,7 @@ X \cdot \vec{\beta} = X \cdot \vec{\beta}_{true} + \mathbb{P} \cdot \vec{\epsilo
 $$</div>
 <p>
 where we have used (\ref{projection}). Comparing (\ref{beta2}) and (\ref{S3}), we see that the components of <span class="math">\(\vec{\epsilon}\)</span> that inform <span class="math">\(\vec{\beta}\)</span> are in the subspace fixed by <span class="math">\(\mathbb{P}\)</span>. This is the space complementary to that informing <span class="math">\(S^2\)</span>, implying that <span class="math">\(S^2\)</span> is independent of <span class="math">\(\vec{\beta}\)</span>.</p>
-<h3>Confidence intervals and hypothesis&nbsp;tests</h3>
+<h3 id="confidence-intervals-and-hypothesis-tests">Confidence intervals and hypothesis&nbsp;tests</h3>
 <p>The results above immediately provide us with a method for generating confidence intervals for the individual coefficient estimates (continuing with our Normal error assumption): From (\ref{beta3}), it follows that the coefficients are themselves Normal random variables, with variance given by (\ref{cov}). Further, <span class="math">\(S^2\)</span> provides an unbiased estimate for <span class="math">\(\sigma^2\)</span>, proportional to a <span class="math">\(\chi^2_{N-L}\)</span> random variable. Combining these results&nbsp;gives
 </p>
 <div class="math">$$
@@ -221,7 +221,7 @@ $$</div>
 <p>
 where <span class="math">\(\beta_i\)</span> is obtained from the solution (\ref{optimal}). The interval above can be inverted to generate level <span class="math">\(\alpha\)</span> hypothesis tests. In particular, we note that a test of the null &#8212; that a particular coefficient is actually zero &#8212; would not be rejected if (\ref{interval}) contains the origin. This approach is often used to test whether some data is consistent with the assertion that a predictor is linearly related to the&nbsp;response.</p>
 <p>[Again, see Cathy&#8217;s follow-up post <a href="http://efavdb.github.io/interpret-linear-regression">here</a> for an alternate take on these&nbsp;results.]</p>
-<h3>Bayesian&nbsp;analysis</h3>
+<h3 id="bayesian-analysis">Bayesian&nbsp;analysis</h3>
 <p>The final thing we wish to do here is consider the problem from a Bayesian perspective, using a flat prior on the <span class="math">\(\vec{\beta}\)</span>. In this case, assuming a Gaussian form for the <span class="math">\(\epsilon_i\)</span> in (\ref{noise})&nbsp;gives
 </p>
 <div class="math">\begin{align}\tag{18} \label{18}
@@ -243,7 +243,7 @@ where <span class="math">\(\Sigma^2\)</span> is the covariance matrix for the co
 \end{align}</div>
 <p>
 In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, in agreement with the classical expression&nbsp;(\ref{cov}).</p>
-<h3>Summary</h3>
+<h3 id="summary">Summary</h3>
 <p>In summary, we&#8217;ve gone through one quick derivation of linear fit solution that minimizes the sum of squared <span class="math">\(y\)</span> errors for a given set of data. We&#8217;ve also considered the variance of this solution, showing that the resulting form is closely related to the principal components of the predictor variables sampled. The covariance solution (\ref{cov}) tells us that all parameters have standard deviations that decrease like <span class="math">\(1/\sqrt{N}\)</span>, with <span class="math">\(N\)</span> the number of samples. However, the predictors that are sampled over wider ranges always have coefficient estimates that more precise. This is due to the fact that sampling over many different values allows one to get a better read on how the underlying function being fit varies with a predictor. Following this, assuming normal errors, we showed that <span class="math">\(S^2\)</span> provides an unbiased estimate, chi-squared estimator for the sample variance &#8212; one that is independent of parameter estimates. This allowed us to then write down a confidence interval for the <span class="math">\(i\)</span>-th coefficient. The final thing we have shown is that the Bayesian, Gaussian approximation gives similar results: In this approach, the posterior that results is centered about the classical solution, and has a covariance matrix equal to that obtained by classical&nbsp;approach.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -312,11 +312,11 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Linear%C2%A0Regression&url=https%3A//efavdb.com/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Linear%C2%A0Regression&amp;body=https%3A//efavdb.com/linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -437,7 +437,7 @@ In other words, <span class="math">\(\Sigma^2 = \sigma^2 (X^T X)^{-1}\)</span>, 
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

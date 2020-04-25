@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We review the Metropolis algorithm &#8212; a simple Markov Chain Monte Carlo (<span class="caps">MCMC</span>) sampling method &#8212; and its application to estimating posteriors in Bayesian statistics. A simple python example is&nbsp;provided.</p>
-<h2>Introduction</h2>
+<h2 id="introduction">Introduction</h2>
 <p>One of the central aims of statistics is to identify good methods for fitting models to data. One way to do this is through the use of Bayes&#8217; rule: If <span class="math">\(\textbf{x}\)</span> is a vector of <span class="math">\(k\)</span> samples from a distribution and <span class="math">\(\textbf{z}\)</span> is a vector of model parameters, Bayes&#8217; rule&nbsp;gives
 </p>
 <div class="math">\begin{align} \tag{1} \label{Bayes}
@@ -108,14 +108,14 @@ Here, the probability at left, <span class="math">\(p(\textbf{z} \vert \textbf{x
 <p><span class="math">\(p(\textbf{z})\)</span> &#8212; the &#8220;prior&#8221;. This is something we insert by hand before taking any data. We choose its form so that it covers the values we expect are reasonable for the parameters in&nbsp;question.</p>
 <p><span class="math">\(p(\textbf{x})\)</span> &#8212; the denominator. Notice that this doesn&#8217;t depend on <span class="math">\(\textbf{z}\)</span>, and so represents a normalization constant for the&nbsp;posterior.</p>
 <p>It turns out that the last term above can sometimes be difficult to evaluate analytically, and so we must often resort to numerical methods for estimating the posterior. Monte Carlo sampling is one of the most common approaches taken for doing this. The idea behind Monte Carlo is to take many samples <span class="math">\(\{\textbf{z}_i\}\)</span> from the posterior (\ref{Bayes}). Once these are obtained, we can approximate population averages by averages over the samples. For example, the true posterior average <span class="math">\(\langle\textbf{z} \rangle \equiv \int \textbf{z} p(\textbf{z} \vert \textbf{x}) d \textbf{z}\)</span> can be approximated by <span class="math">\(\overline{\textbf{z}} \equiv \frac{1}{N}\sum_i \textbf{z}_i\)</span>, the sample average. By the law of large numbers, the sample averages are guaranteed to approach the distribution averages as <span class="math">\(N \to \infty\)</span>. This means that Monte Carlo can always be used to obtain very accurate parameter estimates, provided we take <span class="math">\(N\)</span> sufficiently large &#8212; and that we can find a convenient way to sample from the posterior. In this post, we review one simple variant of Monte Carlo that allows for posterior sampling: the Metropolis&nbsp;algorithm.</p>
-<h2>Metropolis&nbsp;Algorithm</h2>
-<h3>Iterative&nbsp;Procedure</h3>
+<h2 id="metropolis-algorithm">Metropolis&nbsp;Algorithm</h2>
+<h3 id="iterative-procedure">Iterative&nbsp;Procedure</h3>
 <p>Metropolis is an iterative, try-accept algorithm. We initialize the algorithm by selecting a parameter vector <span class="math">\(\textbf{z}\)</span> at random. Following this, we repeatedly carry out the following two steps to obtain additional posterior&nbsp;samples:</p>
 <ol>
 <li>Identify a next candidate sample <span class="math">\(\textbf{z}_j\)</span> via some random process. This candidate selection step can be informed by the current sample&#8217;s position, <span class="math">\(\textbf{z}_i\)</span>. For example, one could require that the next candidate be selected from those parameter vectors a given step-size distance from the current sample, <span class="math">\(\textbf{z}_j \in \{\textbf{z}_k: \vert \textbf{z}_i - \textbf{z}_k \vert = \delta \}\)</span>. However, while the candidate selected can depend on the current sample, it must not depend on any prior history of the sampling process. Whatever the process chosen (there&#8217;s some flexibility here), we write <span class="math">\(t_{i,j}\)</span> for the rate of selecting <span class="math">\(\textbf{z}_j\)</span> as the next candidate given the current sample is <span class="math">\(\textbf{z}_i\)</span>.</li>
 <li>Once a candidate is identified, we either accept or reject it via a second random process. If it is accepted, we mark it down as the next sample, then go back to step one, using the current sample to inform the next candidate selection. Otherwise, we mark the current sample down again, taking it as a repeat sample, and then use it to return to candidate search step, as above. Here, we write <span class="math">\(A_{i,j}\)</span> for the rate of accepting <span class="math">\(\textbf{z}_j\)</span>, given that it was selected as the next candidate, starting from <span class="math">\(\textbf{z}_i\)</span>.</li>
 </ol>
-<h3>Selecting the trial and acceptance&nbsp;rates</h3>
+<h3 id="selecting-the-trial-and-acceptance-rates">Selecting the trial and acceptance&nbsp;rates</h3>
 <p><a href="https://efavdb.com/wp-content/uploads/2016/08/Untitled-1.jpg"><img alt="Untitled-1" src="https://efavdb.com/wp-content/uploads/2016/08/Untitled-1.jpg"></a></p>
 <p>In order to ensure that our above process selects samples according to the distribution (\ref{Bayes}), we need to appropriately set the <span class="math">\(\{t_{i,j}\}\)</span> and <span class="math">\(\{A_{i,j}\}\)</span> values. To do that, note that at equilibrium one must see the same number of hops from <span class="math">\(\textbf{z}_i\)</span> to <span class="math">\(\textbf{z}_j\)</span> as hops from <span class="math">\(\textbf{z}_j\)</span> from <span class="math">\(\textbf{z}_i\)</span> (if this did not hold, one would see a net shifting of weight from one to the other over time, contradicting the assumption of equilibrium). If <span class="math">\(\rho_i\)</span> is the fraction of samples the process takes from state <span class="math">\(i\)</span>, this condition can be written&nbsp;as
 </p>
@@ -140,7 +140,7 @@ A_{i,j} = \begin{cases}
 $$</div>
 <p>
 This last equation says that we choose to always accept a candidate sample if it is more likely than the current one. However, if the candidate is less likely, we only accept a fraction of the time &#8212; with rate equal to the relative probability ratio of the two states. For example, if the candidate is only <span class="math">\(80%\)</span> as likely as the current sample, we accept it <span class="math">\(80%\)</span> of the time. That&#8217;s it for Metropolis &#8212; a simple <span class="caps">MCMC</span> algorithm, guaranteed to satisfy (\ref{cond}), and to therefore equilibrate to (\ref{Bayes})! An example&nbsp;follows.</p>
-<h3>Coding&nbsp;example</h3>
+<h3 id="coding-example">Coding&nbsp;example</h3>
 <p>The following python snippet illustrates the Metropolis algorithm in action. Here, we take 15 samples from a Normal distribution of variance one and true mean also equal to one. We pretend not to know the mean (but assume we do know the variance), assume a uniform prior for the mean, and then run the algorithm to obtain two hundred thousand samples from the mean&#8217;s posterior. <a href="https://efavdb.com/wp-content/uploads/2016/08/result-1.png"><img alt="result" src="https://efavdb.com/wp-content/uploads/2016/08/result-1.png"></a> The histogram at right summarizes the results, obtained by dropping the first 1% of the samples (to protect against bias towards the initialization value). Averaging over the samples returns a mean estimate of <span class="math">\(\mu \approx 1.4 \pm 0.5\)</span> (95% confidence interval), consistent with the true value of <span class="math">\(1\)</span>.</p>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -185,7 +185,7 @@ This last equation says that we choose to always accept a candidate sample if it
 </pre></div>
 
 
-<h3>Summary</h3>
+<h3 id="summary">Summary</h3>
 <p>To summarize, we have reviewed the application of <span class="caps">MCMC</span> to Bayesian statistics. <span class="caps">MCMC</span> is a general tool for obtaining samples from a probability distribution. It can be applied whenever one can conveniently specify the relative probability of two states &#8212; and so is particularly apt for situations where only the normalization constant of a distribution is difficult to evaluate, precisely the problem with the posterior (\ref{Bayes}). The method entails carrying out an iterative try-accept algorithm, where the rates of trial and acceptance can be adjusted, but must be balanced so that the equilibrium distribution that results approaches the desired form. The key equation enabling us to strike this balance is (\ref{inter}) &#8212; the zero flux condition (aka the <em>detailed balance</em> condition to physicists) that holds between states at&nbsp;equilibrium.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -254,11 +254,11 @@ This last equation says that we choose to always accept a candidate sample if it
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Bayesian%20Statistics%3A%20MCMC&url=https%3A//efavdb.com/metropolis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/metropolis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Bayesian%20Statistics%3A%20MCMC&amp;body=https%3A//efavdb.com/metropolis" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -379,7 +379,7 @@ This last equation says that we choose to always accept a candidate sample if it
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

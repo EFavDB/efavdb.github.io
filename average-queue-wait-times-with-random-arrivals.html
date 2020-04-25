@@ -95,11 +95,11 @@
         <div class="span8 offset2 article-content">
             
             <p>Queries ping a certain computer server at random times, on average <span class="math">\(\lambda\)</span> arriving per second. The server can respond to one per second and those that can&#8217;t be serviced immediately are queued up. What is the average wait time per query? Clearly if <span class="math">\(\lambda \ll 1\)</span>, the average wait time is zero. But if <span class="math">\(\lambda &gt; 1\)</span>, the queue grows indefinitely and the answer is infinity! Here, we give a simple derivation of the general result &#8212; (9)&nbsp;below.</p>
-<h3>Introduction</h3>
+<h3 id="introduction">Introduction</h3>
 <p>The mathematics of queue waiting times &#8212; first worked out by <a href="https://en.wikipedia.org/wiki/Erlang_(unit)">Agner Krarup Erlang</a> &#8212; is interesting for two reasons. First, as noted above, queues can exhibit phase-transition like behaviors: If the average arrival time is shorter than the average time it takes to serve a customer, the line will grow indefinitely, causing the average wait time to diverge. Second, when the average arrival time is less than the service time, waiting times are governed entirely by fluctuations &#8212; and so can&#8217;t be estimated well using mean-field arguments. For example, in the very low arrival rate limit, the only situation where anyone would ever have to wait at all is that where someone else happens to arrive just before them &#8212; an unlucky, rare&nbsp;event.</p>
 <p>Besides being interesting from a theoretical perspective, an understanding of queue formation phenomena is also critical for many practical applications &#8212; both in computer science and in wider industry settings. Optimal staffing of a queue requires a careful estimate of the expected customer arrival rate. If too many workers are staffed, the average wait time will be nicely low, but workers will largely be idle. Staff too few, and the business could enter into the divergent queue length regime &#8212; certainly resulting in unhappy customers and lost business (or dropped queries). Staffing just the right amount requires a sensitive touch &#8212; and in complex cases, a good understanding of the&nbsp;theory.</p>
 <p>In order to derive the average wait time for queues of different sorts, one often works within the framework of Markov processes. This approach is very general and elementary, but requires a bit of effort to develop the machinery needed get to the end results. Here, we demonstrate an alternative, sometimes faster approach that is based on writing down an integral equation for the wait time distribution. We consider only a simple case &#8212; that where the queue is serviced by only one staff member, the customers arrive at random times via a Poisson process, and each customer requires the same time to service, one&nbsp;second.</p>
-<h3>Integral equation&nbsp;formulation</h3>
+<h3 id="integral-equation-formulation">Integral equation&nbsp;formulation</h3>
 <p>Suppose the <span class="math">\(N\)</span>-th customer arrives at time <span class="math">\(0\)</span>, and let <span class="math">\(P(t)\)</span> be the probability that this customer has to wait a time <span class="math">\(t\geq 0\)</span> before being served. This wait time can be written in terms of the arrival and wait times of the previous customer: If this previous customer arrived at time <span class="math">\(t^{\prime}\)</span> and has to wait a time <span class="math">\(w\)</span> before being served, his service will conclude at time <span class="math">\(t = t^{\prime} + w + 1\)</span>. If this is greater than <span class="math">\(0\)</span>, the <span class="math">\(N\)</span>-th customer will have to wait before being served. In particular, he will wait <span class="math">\(t\)</span> if the previous customer waited <span class="math">\(w = t - t^{\prime} - 1\)</span>.</p>
 <p>The above considerations allow us to write down an equation satisfied by the wait time distribution. If we let the probability that the previous customer arrived at <span class="math">\(t^{\prime}\)</span> be <span class="math">\(A(t^{\prime})\)</span>, we have (for <span class="math">\(t &gt; 0\)</span>)
 </p>
@@ -124,7 +124,7 @@ P^{\prime}(t) = \lambda \left [P(t) - P(t-1) \right], \tag{3} \label{sol}
 \end{eqnarray}</div>
 <p>
 a delay differential equation for the wait time distribution. This could be integrated numerically to get the full solution. However, our interest here is primarily the mean waiting time &#8212; as we show next, it&#8217;s easy to extract this part of the solution&nbsp;analytically.</p>
-<h3>Probability of no wait and the mean wait&nbsp;time</h3>
+<h3 id="probability-of-no-wait-and-the-mean-wait-time">Probability of no wait and the mean wait&nbsp;time</h3>
 <p>We can obtain a series of useful relations by multiplying (\ref{sol}) by powers of <span class="math">\(t\)</span> and integrating. The first such expression is obtained by multiplying by <span class="math">\(t^1\)</span>. Doing this and integrating its left side, we&nbsp;obtain
 </p>
 <div class="math">\begin{eqnarray} \tag{4} \label{int3}
@@ -164,7 +164,7 @@ Equating the last two lines and rearranging gives our solution for the average&n
 <p>
 As advertised, this diverges as <span class="math">\(\lambda \to 1\)</span>, see illustration in the plot below. It&#8217;s very interesting that even as <span class="math">\(\lambda\)</span> approaches this extreme limit, the line is still empty a finite fraction of the time &#8212; see (\ref{int5}). Evidently a finite idle time fraction can&#8217;t be avoided, even as one approaches the divergent <span class="math">\(\lambda = 1\)</span>&nbsp;limit.</p>
 <p><img alt="average wait time" src="https://efavdb.com/wp-content/uploads/2016/04/Screen-Shot-2016-04-23-at-5.02.38-PM.png"></p>
-<h3>Conclusions and&nbsp;extensions</h3>
+<h3 id="conclusions-and-extensions">Conclusions and&nbsp;extensions</h3>
 <p>To carry this approach further, one could consider the case where the queue feeds <span class="math">\(k\)</span> staff, rather than just one. I&#8217;ve made progress on this effort in certain cases, but have been stumped on the general problem. One interesting thing you can intuit about this <span class="math">\(k\)</span>-staff version is that one approaches the mean-field analysis as <span class="math">\(k\to \infty\)</span> (adding more staff tends to smooth things over, resulting in a diminishing of the importance of the randomness of the arrival times). This means that as <span class="math">\(k\)</span> grows, we&#8217;ll have very little average wait time for any <span class="math">\(\lambda&lt;1\)</span>, but again divergent wait times for any <span class="math">\(\lambda \geq 1\)</span> &#8212; like an infinite step function. Another direction one could pursue is to allow the service times to follow a distribution. Both cases can also be worked out using the Markov approach &#8212; references to such work can be found in the link provided in the&nbsp;introduction.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -233,11 +233,11 @@ As advertised, this diverges as <span class="math">\(\lambda \to 1\)</span>, see
              
  
                 <p id="post-share-links">
-    Like this post?  Share on:
+    Share this post on:
     <a href="https://twitter.com/intent/tweet?text=Average%20queue%20wait%20times%20with%20random%C2%A0arrivals&url=https%3A//efavdb.com/average-queue-wait-times-with-random-arrivals" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
-    ❄
+    |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/average-queue-wait-times-with-random-arrivals" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
-    ❄
+    |
     <a href="mailto:?subject=Average%20queue%20wait%20times%20with%20random%C2%A0arrivals&amp;body=https%3A//efavdb.com/average-queue-wait-times-with-random-arrivals" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
@@ -358,7 +358,7 @@ As advertised, this diverges as <span class="math">\(\lambda \to 1\)</span>, see
 <footer>
 
     <div>
-        <span class="site-name">EFAVDB</span> - Everybody's Favorite Data Blog
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

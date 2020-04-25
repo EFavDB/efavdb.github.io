@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Programming</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/programming.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2019-09-14T22:31:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>TimeMarker class for python</title><link href="https://efavdb.com/timemarker-class-for-python" rel="alternate"></link><published>2019-09-14T22:31:00-07:00</published><updated>2019-09-14T22:31:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-09-14:/timemarker-class-for-python</id><summary type="html">&lt;p&gt;We give a simple class for marking the time at different points in a code block and then printing out the time gaps between adjacent marked points. This is useful for identifying slow spots in&amp;nbsp;code.&lt;/p&gt;
-&lt;h2&gt;The TimeMarker&amp;nbsp;class&lt;/h2&gt;
+&lt;h2 id="the-timemarker-class"&gt;The TimeMarker&amp;nbsp;class&lt;/h2&gt;
 &lt;p&gt;In the past, whenever I needed to speed up a block …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We give a simple class for marking the time at different points in a code block and then printing out the time gaps between adjacent marked points. This is useful for identifying slow spots in&amp;nbsp;code.&lt;/p&gt;
-&lt;h2&gt;The TimeMarker&amp;nbsp;class&lt;/h2&gt;
+&lt;h2 id="the-timemarker-class"&gt;The TimeMarker&amp;nbsp;class&lt;/h2&gt;
 &lt;p&gt;In the past, whenever I needed to speed up a block of python code, the first thing I would do was import the time package, then manually insert a set of lines of the form &lt;code&gt;t1 = time.time()&lt;/code&gt;, &lt;code&gt;t2 = time.time()&lt;/code&gt;, etc. Then at the end, &lt;code&gt;print t2 - t1, t3 -t2, ...&lt;/code&gt;, etc. This works reasonably well, but I found it annoying and time consuming to have to save each time point to a different variable name. In particular, this prevented quick copy and paste of the time marker line. I finally thought to fix it this evening: Behold the &lt;code&gt;TimeMarker&lt;/code&gt; class, which solves this problem for&amp;nbsp;me:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt;
 
@@ -37,9 +37,9 @@
 
 
 &lt;p&gt;The key here is that I can quickly paste the &lt;code&gt;tm.mark()&lt;/code&gt; repeatedly throughout my code and quickly check where the slow part&amp;nbsp;sits.&lt;/p&gt;</content><category term="Programming"></category><category term="programming"></category><category term="python"></category><category term="tools"></category></entry><entry><title>Simple python to LaTeX parser</title><link href="https://efavdb.com/simple-python-to-latex-parser" rel="alternate"></link><published>2016-11-18T12:59:00-08:00</published><updated>2016-11-18T12:59:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2016-11-18:/simple-python-to-latex-parser</id><summary type="html">&lt;p&gt;We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&amp;nbsp;result.&lt;/p&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We demo a script that converts python numerical commands to LaTeX format. A notebook available on our GitHub page will take this and pretty print the&amp;nbsp;result.&lt;/p&gt;
-&lt;h3&gt;Introduction&lt;/h3&gt;
+&lt;h3 id="introduction"&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;Here, we provide a simple script that accepts numerical python commands in string format and converts them into LaTeX markup. An example input / output&amp;nbsp;follows:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;f(x_123, 2) / (2 + 3/(1 + z(np.sqrt((x + 3)/3)))) + np.sqrt(2 ** w) * np.tanh(2 * math.pi* x)&amp;#39;&lt;/span&gt;  
 &lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;command_to_latex&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -58,7 +58,7 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;p&gt;We provide the script here as it may be useful for two sorts of applications: 1) facilitating write-ups of completed projects, and 2) visualizing typed-up formulas to aid checks of their accuracy. The latter is particularly helpful for lengthy commands, which are often hard to read in python&amp;nbsp;format.&lt;/p&gt;
 &lt;p&gt;We note that the python package sympy also provides a simple command-to-latex parser. However, I have had trouble getting it to output results if any functions appear that have not been defined &amp;#8212; we illustrate this issue in the&amp;nbsp;notebook.&lt;/p&gt;
 &lt;p&gt;As usual, our code can be downloaded from our github page &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;h3&gt;Code&lt;/h3&gt;
+&lt;h3 id="code"&gt;Code&lt;/h3&gt;
 &lt;p&gt;The main code segment follows. The method command_to_latex recursively computes the LaTeX for any combinations of variables grouped together via parentheses. The base case occurs when there are no parentheses left, at which point the method parse_simple_eqn is called, which converts simple commands to LaTeX. The results are then recombined within the recursive method. Additional replacements can be easily added in the appropriate lines&amp;nbsp;below.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;parse_simple_eqn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;q&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;  
     &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot; Return TeX equivalent of a command without parentheses. &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;  
@@ -233,9 +233,9 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;p&gt;So the next time you have to extract a file &lt;code&gt;some_file.tar.bz2&lt;/code&gt;, just type &lt;code&gt;extract some_file.tar.bz2&lt;/code&gt; in bash. (This example was found in this &lt;a href="https://github.com/webpro/dotfiles/blob/master/system/.function_fs#L23"&gt;dotfiles repo&lt;/a&gt;.)&lt;/p&gt;
 &lt;p&gt;The structure of my dotfiles takes after the &lt;a href="https://github.com/webpro/dotfiles"&gt;repo&lt;/a&gt; described by Lars Kappert in the article &lt;a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.eis4hwbff"&gt;&amp;#8220;Getting Started With Dotfiles&amp;#8221;&lt;/a&gt;. However, my repo is pared down significantly, with minor modifications for my Linux Mint system (his is &lt;span class="caps"&gt;OS&lt;/span&gt; X) and a focus on packages for data&amp;nbsp;science.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;A framework for data&amp;nbsp;science&lt;/h2&gt;
+&lt;h2 id="a-framework-for-data-science"&gt;A framework for data&amp;nbsp;science&lt;/h2&gt;
 &lt;p&gt;This starter environment only has a few parts. We need a text editor &amp;#8212; preferably one that can support multiple languages encountered in data science &amp;#8212; and a way to manage scientific/statistical software&amp;nbsp;packages.&lt;/p&gt;
-&lt;h3&gt;Components&lt;/h3&gt;
+&lt;h3 id="components"&gt;Components&lt;/h3&gt;
 &lt;p&gt;The setup consists&amp;nbsp;of:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://www.gnu.org/software/emacs/"&gt;Emacs&lt;/a&gt; &amp;#8212; a powerful text editor that can be customized to provide an &lt;span class="caps"&gt;IDE&lt;/span&gt;-like experience for both python and R, while providing syntax highlighting for other languages, e.g. markdown, LaTeX, shell, lisp, and so on. (More on customizing Emacs in a future&amp;nbsp;post.)&lt;/li&gt;
@@ -248,7 +248,7 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;/ul&gt;
 &lt;p&gt;I use the system package manager (i.e. &lt;code&gt;apt-get install ...&lt;/code&gt;) to install a few packages like git, but otherwise rely on Conda to install Python (multiple versions are okay!), R, and their&amp;nbsp;libraries.&lt;/p&gt;
 &lt;p&gt;I like how clean the conda installation feels. Any packages installed by Conda, as well as different versions of Python itself, are neatly organized under the &lt;code&gt;miniconda3&lt;/code&gt; directory in my home directory. In contrast, my previous Linux setups were littered with software installations from various package managers, along with sometimes unsuccessful attempts to compile software from&amp;nbsp;source.&lt;/p&gt;
-&lt;h3&gt;Workflow&lt;/h3&gt;
+&lt;h3 id="workflow"&gt;Workflow&lt;/h3&gt;
 &lt;p&gt;My workflow with Conda follows this helpful &lt;a href="http://stiglerdiet.com/blog/2015/Nov/24/my-python-environment-workflow-with-conda/"&gt;post&lt;/a&gt; by Tim Hopper. Each project gets its own directory and is associated with an environment whose dependencies are specified by an &lt;code&gt;environment.yml&lt;/code&gt; file.&lt;/p&gt;
 &lt;p&gt;For example, create a folder for a project, my_proj. Within the project folder, create a bare-bones &lt;code&gt;environment.yml&lt;/code&gt; file to specify a dependency on python 3 and&amp;nbsp;matplotlib:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my_proj&lt;/span&gt;
@@ -270,7 +270,7 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;li&gt;&lt;code&gt;cd my_proj&lt;/code&gt; # autoenv automatically activates environment (using the file .env) when you re-enter the&amp;nbsp;directory&lt;/li&gt;
 &lt;/ol&gt;
 &lt;hr&gt;
-&lt;h2&gt;The dotfiles&amp;nbsp;layout&lt;/h2&gt;
+&lt;h2 id="the-dotfiles-layout"&gt;The dotfiles&amp;nbsp;layout&lt;/h2&gt;
 &lt;p&gt;Below is the layout of the directories and files (generated by the &lt;code&gt;tree&lt;/code&gt; command) in the &lt;a href="https://github.com/EFavDB/dotfiles"&gt;dotfiles repo&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;
 &lt;span class="err"&gt;├── install&lt;/span&gt;
@@ -291,7 +291,7 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;Configuration&lt;/h3&gt;
+&lt;h3 id="configuration"&gt;Configuration&lt;/h3&gt;
 &lt;p&gt;There any number of dotfiles that can be configured (for example, see the collection &lt;a href="http://dotfiles.github.io/"&gt;here&lt;/a&gt;), but this repo only provides customizations for the dotfiles &lt;code&gt;.profile&lt;/code&gt;, &lt;code&gt;.bash_profile&lt;/code&gt;, and &lt;code&gt;.bashrc&lt;/code&gt; &amp;#8212; located in the directory, &lt;code&gt;runcom&lt;/code&gt; (which stands for &amp;#8220;run commands&amp;#8221;) &amp;#8212; that contain commands that are executed at login or during interactive non-login shell sessions. For details about the role of shell initialization dotfiles, see the &lt;a href="#aside"&gt;end&lt;/a&gt; of this&amp;nbsp;post.&lt;/p&gt;
 &lt;p&gt;Instead of putting all our customizations in one long, unwieldy dotfile, it&amp;#8217;s helpful to divide them into chunks, which we keep in the subfolder, &lt;code&gt;system&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;The files &lt;code&gt;env&lt;/code&gt;, &lt;code&gt;functions&lt;/code&gt;, &lt;code&gt;path&lt;/code&gt; are sourced in a loop by the dotfiles in &lt;code&gt;runcom&lt;/code&gt;. For example, &lt;code&gt;.bashrc&lt;/code&gt; sources &lt;code&gt;functions&lt;/code&gt; and &lt;code&gt;env&lt;/code&gt;:&lt;/p&gt;
@@ -349,7 +349,7 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;Installation&lt;/h3&gt;
+&lt;h3 id="installation"&gt;Installation&lt;/h3&gt;
 &lt;p&gt;In addition to setting up dotfiles symlinks, &lt;code&gt;install.sh&lt;/code&gt; automates the installation of all our data science tools via calls to each of the scripts in the &lt;code&gt;install&lt;/code&gt; subfolder. Each script is named after the mechanism of installation (i.e. &lt;code&gt;apt-get&lt;/code&gt;, &lt;code&gt;conda&lt;/code&gt;, &lt;code&gt;git&lt;/code&gt;) or purpose (to install Miniconda and&amp;nbsp;Emacs).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;apt-get.sh&lt;/strong&gt; - installs a handful of programs using the system package manager, including &lt;code&gt;build-essentials&lt;/code&gt;, which is needed to compile programs from source. Also enables source-code repositories (not enabled by default in Linux Mint 17), to be used for compiling emacs from&amp;nbsp;source.&lt;/li&gt;
@@ -359,11 +359,11 @@ Our Jupyter &lt;a href="https://github.com/EFavDB/python_command_to_latex"&gt;no
 &lt;li&gt;&lt;strong&gt;git.sh&lt;/strong&gt; - Install &lt;a href="https://github.com/kennethreitz/autoenv"&gt;autoenv&lt;/a&gt; for working with virtual environment directories. Also clone the configurations from my &lt;a href="https://github.com/frangipane/emacs"&gt;Emacs repo&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;hr&gt;
-&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;h3 id="conclusion"&gt;Conclusion&lt;/h3&gt;
 &lt;p&gt;The &lt;a href="https://github.com/EFavDB/dotfiles"&gt;dotfiles repo&lt;/a&gt; discussed in this post will remain in this minimal state on GitHub so that it can be easily parsed and built upon. It&amp;#8217;s the most straightforward to adopt if you are on a similar system (Linux Mint or Ubuntu 14.04), as I haven&amp;#8217;t put in checks for &lt;span class="caps"&gt;OSX&lt;/span&gt;. If you don&amp;#8217;t like Emacs, feel free to comment out the relevant lines in &lt;code&gt;install.sh&lt;/code&gt; and &lt;code&gt;install/git.sh&lt;/code&gt;, and replace with your editor of&amp;nbsp;choice.&lt;/p&gt;
 &lt;p&gt;Also take a look at other collections of &lt;a href="https://github.com/webpro/awesome-dotfiles"&gt;awesome dotfiles&lt;/a&gt; for nuggets (like the &lt;code&gt;extract()&lt;/code&gt; function) to co-opt. And enjoy the peace of mind that comes with having dotfiles&amp;nbsp;insurance!&lt;/p&gt;
 &lt;hr&gt;
-&lt;h3&gt;&lt;em&gt;Notes on shell initialization&amp;nbsp;dotfiles&lt;/em&gt;&lt;/h3&gt;
+&lt;h3 id="notes-on-shell-initialization-dotfiles"&gt;&lt;em&gt;Notes on shell initialization&amp;nbsp;dotfiles&lt;/em&gt;&lt;/h3&gt;
 &lt;p&gt;The handling of the dotfiles .profile, .bash_profile, and .bashrc is frequently a source of &lt;a href="http://superuser.com/questions/183870/difference-between-bashrc-and-bash-profile"&gt;confusion&lt;/a&gt; that we&amp;#8217;ll try to clear up&amp;nbsp;here.&lt;/p&gt;
 &lt;p&gt;For example, .profile and .bash_profile are both recommended for setting environment variables, so what&amp;#8217;s the point of having&amp;nbsp;both?&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;.profile&lt;/strong&gt;&lt;br&gt;
@@ -403,9 +403,9 @@ Definitions of alias, functions, and other settings you&amp;#8217;d want in an i
 &lt;li&gt;This post was partially inspired by Tom Augspurger&amp;#8217;s Pandas &lt;a href="https://github.com/tomaugspurger/pydataseattle"&gt;tutorial&lt;/a&gt;, which has a &lt;a href="https://www.youtube.com/watch?v=otCriSKVV_8"&gt;youtube video&lt;/a&gt; that can be viewed along side it. We also suggest some other excellent resource materials &amp;#8212; where relevant &amp;#8212;&amp;nbsp;below.&lt;/li&gt;
 &lt;li&gt;The notebook we use below can be downloaded from our &lt;a href="https://github.com/EFavDB/Pandas"&gt;github page&lt;/a&gt;. Feel free to grab it and follow&amp;nbsp;along.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;Jupyter (Formally IPython) notebook&amp;nbsp;tips&lt;/h3&gt;
+&lt;h3 id="jupyter-formally-ipython-notebook-tips"&gt;Jupyter (Formally IPython) notebook&amp;nbsp;tips&lt;/h3&gt;
 &lt;p&gt;All the exercises I will be referring to here were carried out using IPython notebooks. To start off, here&amp;#8217;s a few quick tips on notebook navigation that can help make life easier:  First, the notebook has two modes, command and edit. If you are in edit mode you have the cursor in one of the cells (boxes) where you can enter code or text.  To enter command mode press the &lt;strong&gt;Esc&lt;/strong&gt; key and the cursor will disappear, but the cell will still be highlighted.  In command mode you have a variety of keyboard shortcuts, and you can see all of them if you press &lt;strong&gt;h&lt;/strong&gt;. &lt;strong&gt;a&lt;/strong&gt; and &lt;strong&gt;b &lt;/strong&gt;will make new empty cells below and above the current cell.  &lt;strong&gt;j &lt;/strong&gt;/ &lt;strong&gt;k&lt;/strong&gt; will navigate through the notebook. &lt;strong&gt;Shift + Enter&lt;/strong&gt; will execute the current cell and move to the next one, while &lt;strong&gt;Ctrl + Enter&lt;/strong&gt; will execute the cell but does not move to the next cell. This is nice if you are still tweaking the code in that&amp;nbsp;cell.&lt;/p&gt;
-&lt;h3&gt;Pandas is built on top of&amp;nbsp;NumPy&lt;/h3&gt;
+&lt;h3 id="pandas-is-built-on-top-of-numpy"&gt;Pandas is built on top of&amp;nbsp;NumPy&lt;/h3&gt;
 &lt;p&gt;To understand Pandas, you gotta understand NumPy, as Pandas is built on top of it. Here, we cover some of its NumPy&amp;#8217;s basic&amp;nbsp;properties.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Ndarray&lt;/strong&gt;: ndarrays are central to NumPy, and are homogeneous N-dimensional arrays of fixed-size. NumPy also provides fast methods for the ndarrary that are written in C, often making use of vectorized operations such as element wise addition and multiplication. These methods provide a major resource for code speedup, and Pandas takes full advantage of them where possible. In addition to the fast methods, ndarray also requires less memory than a python list because python lists are an array of pointers to Python objects &amp;#8212; this is what allows lists to hold mixed data types.  This overhead combined with the overhead of the Python objects vs a numpy object can add up quickly. The variabilities in data type also makes it difficult to implement efficient C-loops because every iteration would need to make a call to Python to check the data type. This leads us to the next&amp;nbsp;point.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Data types&lt;/strong&gt;: As mentioned earlier, unlike Python&amp;#8217;s list object, NumPy arrays can only contain one data type at a time.  Giving up mixed data types allows us to achieve much better performance through efficient C-loops.  One important thing to note is that missing values (NaN) will cast integer or boolean arrays to&amp;nbsp;floats.&lt;/p&gt;
@@ -435,7 +435,7 @@ Definitions of alias, functions, and other settings you&amp;#8217;d want in an i
 
 
 &lt;p&gt;For those interested, I recommend Jake Vanderplas&amp;#8217;s &lt;a href="https://www.youtube.com/watch?v=EEUXKG97YRw"&gt;talk&lt;/a&gt; for learning more about how one can reduce loop usage in your own code using&amp;nbsp;NumPy.&lt;/p&gt;
-&lt;h3&gt;Pandas Data&amp;nbsp;Structures&lt;/h3&gt;
+&lt;h3 id="pandas-data-structures"&gt;Pandas Data&amp;nbsp;Structures&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Series&lt;/strong&gt;
 We now move to the Pandas-specific data types. First up are Series, which are one-dimensional labeled arrays. Unlike ndarrays, these are capable of holding mixed data types. The cells of the series are labeled via the series &lt;strong&gt;Index&lt;/strong&gt;. We will discuss indices more in a bit. The general method of creating a series is as&amp;nbsp;follows.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;s = Series(data, index=index)&lt;/span&gt;
@@ -643,7 +643,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;Reading files into&amp;nbsp;Pandas&lt;/h3&gt;
+&lt;h3 id="reading-files-into-pandas"&gt;Reading files into&amp;nbsp;Pandas&lt;/h3&gt;
 &lt;p&gt;At this point, we require a larger data set in order to demonstrate other Pandas capabilities.  For that purpose, I decided to use unemployment data from (&lt;a href="http://data.bls.gov/"&gt;http://data.bls.gov/&lt;/a&gt;).  The data file is available in our Github repository along with the notebook that generated the examples above. I saved the data as a csv file. To read into the notebook, we&amp;#8217;ll make use of Pandas&amp;#8217; read_csv method &amp;#8212; a fast, simple method for directly reading csv files into a&amp;nbsp;DataFrame.&lt;/p&gt;
 &lt;p&gt;After reading in the data, we see that each row corresponds to one unemployment measurement with a different column for each time point. The first column has a numeric id, so the first thing to do is to replace those with human readable strings.  Next, we see that we have incomplete data for Jan 2000, so we drop that column.  Setting the inplace flag to true here causes the modified DataFrame to replace the original &amp;#8212; in this way, we avoid having to copy the&amp;nbsp;original.&lt;/p&gt;
 &lt;p&gt;Next, we assign our IDs to the DataFrame index using &lt;code&gt;set_index&lt;/code&gt;, and then drop the column since it is no longer needed.  Lastly we transpose the table so that each row corresponds to a different time point and the columns to the separate&amp;nbsp;measures.&lt;/p&gt;
@@ -762,7 +762,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3&gt;Working with the&amp;nbsp;data&lt;/h3&gt;
+&lt;h3 id="working-with-the-data"&gt;Working with the&amp;nbsp;data&lt;/h3&gt;
 &lt;p&gt;Now that we have the data in a nicely formatted within DataFrame, we can easily visualize it using the Pandas plot method. For example, to plot the general unemployment rate, we&amp;nbsp;write&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;Rate&amp;#39;].plot()&lt;/span&gt;
 &lt;span class="err"&gt;plt.ylabel(&amp;#39;Unemployment Rate (%)&amp;#39;)&lt;/span&gt;
@@ -777,7 +777,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 
 &lt;p&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/07/fig2.png"&gt;&lt;img alt="fig2" src="https://efavdb.com/wp-content/uploads/2015/07/fig2.png"&gt;&lt;/a&gt;
 Interestingly, these unemployment rates seem to evolve in a similar manner. Notice that both the green and the red curves seem to have doubled during the recent&amp;nbsp;slow-down.&lt;/p&gt;
-&lt;h3&gt;GroupBy&lt;/h3&gt;
+&lt;h3 id="groupby"&gt;GroupBy&lt;/h3&gt;
 &lt;p&gt;You can also used Pandas GroupBy functionality to do analysis on subsets of the data.  For this example we &lt;a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html"&gt;GroupBy&lt;/a&gt; year, and then make a plot showing the mean unemployment per year. GroupBy allows one to easily split the data, apply a function to each group, and then combine the results. It is a very useful&amp;nbsp;feature!&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;df[&amp;#39;Year&amp;#39;]=(df.index.to_datetime()).year&lt;/span&gt;
 &lt;span class="err"&gt;years = df.groupby(&amp;#39;Year&amp;#39;)&lt;/span&gt;
@@ -785,7 +785,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"&gt;&lt;img alt="fig3" src="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"&gt;&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id="_1"&gt;&lt;a href="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"&gt;&lt;img alt="fig3" src="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"&gt;&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;There are some functions like mean, and describe that can be run directly on a grouped&amp;nbsp;object.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;years.get_group(2005)[&amp;#39;Rate&amp;#39;].describe()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -941,7 +941,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h3&gt;Boolean&amp;nbsp;Indexing&lt;/h3&gt;
+&lt;h3 id="boolean-indexing"&gt;Boolean&amp;nbsp;Indexing&lt;/h3&gt;
 &lt;p&gt;Another common operation is the use of boolean vectors to filter data. This allows one to easily select subsets of data. It also provides a quick method for counting &amp;#8212; this works because True and False are represented as 1 and 0, respectively, when&amp;nbsp;adding.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;sum(df[&amp;#39;Rate&amp;#39;] &amp;gt; 7)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -951,7 +951,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;String&amp;nbsp;Methods&lt;/h3&gt;
+&lt;h3 id="string-methods"&gt;String&amp;nbsp;Methods&lt;/h3&gt;
 &lt;p&gt;Pandas has very useful string methods which can be access via &lt;code&gt;str.&lt;/code&gt; This makes it easy to look for patterns in the text, do filtering, replacements, and so on. I have a couple of examples below but I highly recommend taking a look at the documentation page for many &lt;a href="http://pandas.pydata.org/pandas-docs/stable/text.html"&gt;examples&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="err"&gt;s = pd.Series([&amp;#39;Dog&amp;#39;, &amp;#39;Bat&amp;#39;, &amp;#39;Coon&amp;#39;, &amp;#39;cAke&amp;#39;, &amp;#39;bAnk&amp;#39;, &amp;#39;CABA&amp;#39;, &amp;#39;dog&amp;#39;, &amp;#39;cat&amp;#39;])&lt;/span&gt;
 &lt;span class="err"&gt;s[s.str.contains(&amp;#39;B&amp;#39;)]&lt;/span&gt;
@@ -978,8 +978,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;&lt;/h3&gt;
-&lt;h3&gt;Wrap&amp;nbsp;Up&lt;/h3&gt;
+&lt;h3 id="_2"&gt;&lt;/h3&gt;
+&lt;h3 id="wrap-up"&gt;Wrap&amp;nbsp;Up&lt;/h3&gt;
 &lt;p&gt;Pandas is a very useful library that I highly recommend. Although it can have a bit of a steep learning curve, it&amp;#8217;s actually pretty easy to pick up once you get started. Give it a shot, and you won&amp;#8217;t regret&amp;nbsp;it!&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/EFavDB/Pandas" title="GitHub Repo"&gt;&lt;img alt="Open GitHub Repo" src="https://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"&gt;&lt;/a&gt;&lt;/p&gt;</content><category term="Programming"></category><category term="methods"></category><category term="programming"></category><category term="tools"></category></entry><entry><title>Build a web scraper for a literature search - from soup to nuts</title><link href="https://efavdb.com/build-a-web-scraper-lit-search" rel="alternate"></link><published>2015-08-25T17:43:00-07:00</published><updated>2015-08-25T17:43:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2015-08-25:/build-a-web-scraper-lit-search</id><summary type="html">&lt;p&gt;&lt;em&gt;Code, references, and examples of this project are on &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper"&gt;Github&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;In this post, I&amp;#8217;ll describe the soup to nuts process of automating a literature search in &lt;a href="http://www.ncbi.nlm.nih.gov/pmc/"&gt;Pubmed Central&lt;/a&gt; using&amp;nbsp;R.&lt;/p&gt;
@@ -1001,7 +1001,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;p&gt;&lt;span class="caps"&gt;TGI&lt;/span&gt; plots for several drugs (image credit: Qi&amp;nbsp;2011)&lt;/p&gt;
 &lt;p&gt;Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform&amp;nbsp;format.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;I. Set up the the&amp;nbsp;database&lt;/h2&gt;
+&lt;h2 id="i-set-up-the-the-database"&gt;I. Set up the the&amp;nbsp;database&lt;/h2&gt;
 &lt;p&gt;This project called for data storage beyond the scope of data frames and external flat files, e.g. Excel spreadsheets or csv files, since the following attributes were required of the&amp;nbsp;data:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Persistence outside the R environment =&amp;gt; data frames&amp;nbsp;unsuitable&lt;/li&gt;
@@ -1010,7 +1010,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/ul&gt;
 &lt;p&gt;With a view towards expediency, we cover just enough to get things up and running and leave the finer details of relational database design to the&amp;nbsp;experts.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.sqlite.org/about.html" title="SQLite"&gt;SQLite&lt;/a&gt; is well-suited for this small project; it&amp;#8217;s self-contained and doesn&amp;#8217;t require fussing with servers. To lower the barrier even further, the &lt;a href="http://cran.r-project.org/web/packages/RSQLite/index.html" title="RSQLite"&gt;RSQLite&lt;/a&gt; package embeds SQLite in R (no separate installation needed) and allows you to very easily interface with your database within the R environment. The database itself is stored in a single file on your hard disk and easily&amp;nbsp;transferred.&lt;/p&gt;
-&lt;h3&gt;What data will be&amp;nbsp;collected?&lt;/h3&gt;
+&lt;h3 id="what-data-will-be-collected"&gt;What data will be&amp;nbsp;collected?&lt;/h3&gt;
 &lt;p&gt;The first step is to decide what data should be collected during the web scraping process. We want to aggregate images of plots in a (html)&amp;nbsp;report.&lt;/p&gt;
 &lt;p&gt;However, downloading the images themselves is inefficient; instead, we&amp;#8217;ll just grab the image URLs on Pubmed Central. (The image URLs are useful because they can be referred to by markdown code to embed the images in the html&amp;nbsp;report.)&lt;/p&gt;
 &lt;p&gt;The image urls should be captured, along with associated information&amp;nbsp;below:&lt;/p&gt;
@@ -1020,7 +1020,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
   &lt;strong&gt;search criteria met by the image&lt;/strong&gt;   topic/drug, type of&amp;nbsp;plot&lt;/p&gt;
 &lt;hr&gt;
 &lt;p&gt;The last point addresses the foreseeable need to be able to modify the search parameters. In the next section, we allow for the possibility that the same image might show up for more than one kind of drug or plot&amp;nbsp;type.&lt;/p&gt;
-&lt;h3&gt;Decide on a layout for the&amp;nbsp;database&lt;/h3&gt;
+&lt;h3 id="decide-on-a-layout-for-the-database"&gt;Decide on a layout for the&amp;nbsp;database&lt;/h3&gt;
 &lt;p&gt;After pinning down the content itself, the next step is to decide how it should be arranged in the database.&amp;nbsp;Namely,&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;What tables are&amp;nbsp;needed?&lt;/li&gt;
@@ -1203,7 +1203,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;p&gt;The table &amp;#8220;figure&amp;#8221; is not in second normal form (&lt;span class="caps"&gt;2NF&lt;/span&gt;) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and&amp;nbsp;img_url}.&lt;/p&gt;
 &lt;p&gt;Although the normalization rules sound a bit intimidating, they are just guidelines&amp;#8212;apparently, one can even get carried away with&amp;nbsp;over-normalizing.&lt;/p&gt;
 &lt;p&gt;The database has held up fine so far, but any suggestions on how to improve the design are very&amp;nbsp;welcome!&lt;/p&gt;
-&lt;h3&gt;Creating a SQLite database in&amp;nbsp;R&lt;/h3&gt;
+&lt;h3 id="creating-a-sqlite-database-in-r"&gt;Creating a SQLite database in&amp;nbsp;R&lt;/h3&gt;
 &lt;p&gt;With a schema in hand, creating the SQLite database in R is a matter of minutes. First, we load the packages for interfacing with the&amp;nbsp;database.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;DBI&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RSQLite&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1241,9 +1241,9 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 &lt;p&gt;The SQLite database is now ready to be used! The script above is available on github as &lt;code&gt;createSQLiteDatabase.R&lt;/code&gt;&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;&lt;span class="caps"&gt;II&lt;/span&gt;. Scrape Pubmed Central&amp;nbsp;articles&lt;/h2&gt;
+&lt;h2 id="ii-scrape-pubmed-central-articles"&gt;&lt;span class="caps"&gt;II&lt;/span&gt;. Scrape Pubmed Central&amp;nbsp;articles&lt;/h2&gt;
 &lt;p&gt;The script &lt;code&gt;pubmedcentral_scraper.R&lt;/code&gt; is where the action happens. It takes input from the user to query the Pubmed Central Database, scrape articles, and load the extracted information into the&amp;nbsp;database.&lt;/p&gt;
-&lt;h3&gt;Input keywords for literature search and labels in&amp;nbsp;database&lt;/h3&gt;
+&lt;h3 id="input-keywords-for-literature-search-and-labels-in-database"&gt;Input keywords for literature search and labels in&amp;nbsp;database&lt;/h3&gt;
 &lt;p&gt;The user input section is shown&amp;nbsp;below.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;## &amp;lt;---------USER INPUT STARTS HERE---------&amp;gt;&lt;/span&gt;
 
@@ -1300,7 +1300,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 &lt;p&gt;&lt;code&gt;%&amp;gt;%&lt;/code&gt; is a pipe operator for chaining commands (from the &lt;a href="https://cran.r-project.org/web/packages/magrittr/index.html"&gt;magrittr&lt;/a&gt;&amp;nbsp;package).&lt;/p&gt;
 &lt;p&gt;The URLs of the html article can be simply constructed from their &lt;span class="caps"&gt;PMC&lt;/span&gt; ids. For example, the html version of the article with &lt;span class="caps"&gt;PMC&lt;/span&gt; id 3792566 is found at:&amp;nbsp;http://www.ncbi.nlm.nih.gov/pmc/articles/3792566&lt;/p&gt;
-&lt;h3&gt;Scrape &lt;span class="caps"&gt;HTML&lt;/span&gt;&amp;nbsp;articles&lt;/h3&gt;
+&lt;h3 id="scrape-html-articles"&gt;Scrape &lt;span class="caps"&gt;HTML&lt;/span&gt;&amp;nbsp;articles&lt;/h3&gt;
 &lt;p&gt;The scraping of the &lt;span class="caps"&gt;HTML&lt;/span&gt; article is performed by &lt;code&gt;scrapeArticle.R&lt;/code&gt;. Note, &lt;span class="caps"&gt;PMC&lt;/span&gt; ids returned by ESearch which have already been scraped for that particular combination of search terms are&amp;nbsp;skipped.&lt;/p&gt;
 &lt;p&gt;The html version of the &lt;span class="caps"&gt;PMC&lt;/span&gt; articles only show excerpts of captions, so we have to extract the individual figure URLs in order to scrape their full captions (and search for keyword matches). In order to extract a data element from an html document, we need to identify the tag associated with that&amp;nbsp;element.&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://selectorgadget.com/"&gt;SelectorGadget&lt;/a&gt; is a nifty tool to help you hone in on the &lt;span class="caps"&gt;CSS&lt;/span&gt; selectors of interest. Installation is ridiculously easy: just drag the link on the SelectorGadget page to your browser bookmark&amp;nbsp;bar!&lt;/p&gt;
@@ -1322,7 +1322,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 &lt;p&gt;With some more parsing and filtering similar to the above, the full image captions can be grepped for keywords. Caption and image metadata for keyword matches are stored in the SQLite database by &lt;code&gt;pubmedcentral_scraper.R&lt;/code&gt;.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2&gt;&lt;span class="caps"&gt;III&lt;/span&gt;. Generate a report of the scraped&amp;nbsp;results&lt;/h2&gt;
+&lt;h2 id="iii-generate-a-report-of-the-scraped-results"&gt;&lt;span class="caps"&gt;III&lt;/span&gt;. Generate a report of the scraped&amp;nbsp;results&lt;/h2&gt;
 &lt;p&gt;The results of the scraping can be examined by directly querying the SQLite&amp;nbsp;database.&lt;/p&gt;
 &lt;p&gt;I also put together an R script, &lt;code&gt;markdown_and_plot.R&lt;/code&gt;, that automatically creates an html report in the simple case where only one topic and plot_type need to be included. The user only has to input the topic and plot_type, and the report is subsequently&amp;nbsp;generated.&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;markdown_and_plot.R&lt;/code&gt; calls on &lt;code&gt;generate_markdown_code.R&lt;/code&gt;, which extracts the image URLs from the&amp;nbsp;database:&lt;/p&gt;
@@ -1358,8 +1358,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;hr&gt;
 &lt;p&gt;A look at the example report shows that there are a few false positives, i.e. images that don&amp;#8217;t actually correspond to plots of &lt;span class="caps"&gt;TGI&lt;/span&gt;, but the simplistic grep-keyword-method works well overall. There&amp;#8217;s plenty of room for improving the code, but as it stands, this code sure beats compiling reports by&amp;nbsp;hand!&lt;/p&gt;
 &lt;p&gt;We&amp;#8217;ve talked about the thought process behind building the program, but to put it to use, check it out on &lt;a href="https://github.com/EFavDB/PubmedCentral_Scraper"&gt;Github&lt;/a&gt;.&lt;/p&gt;</content><category term="Programming,"></category><category term="methods"></category><category term="tools"></category><category term="database"></category><category term="R"></category><category term="SQL"></category><category term="web scraping"></category></entry><entry><title>Reshaping Data in R</title><link href="https://efavdb.com/reshaping-data-in-r" rel="alternate"></link><published>2015-06-06T19:17:00-07:00</published><updated>2015-06-06T19:17:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2015-06-06:/reshaping-data-in-r</id><summary type="html">&lt;p&gt;Today, we&amp;#8217;ll talk about reshaping data in R. At the same time, we&amp;#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&amp;nbsp;loop.&lt;/p&gt;
-&lt;h3&gt;The&amp;nbsp;Task …&lt;/h3&gt;</summary><content type="html">&lt;p&gt;Today, we&amp;#8217;ll talk about reshaping data in R. At the same time, we&amp;#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&amp;nbsp;loop.&lt;/p&gt;
-&lt;h3&gt;The&amp;nbsp;Task&lt;/h3&gt;
+&lt;h3 id="the-task"&gt;The&amp;nbsp;Task …&lt;/h3&gt;</summary><content type="html">&lt;p&gt;Today, we&amp;#8217;ll talk about reshaping data in R. At the same time, we&amp;#8217;ll see how for-loops can be avoided by using R functionals (functions of functions). Functionals are faster than for-loops and make code easier to read by clearly laying out the intent of a&amp;nbsp;loop.&lt;/p&gt;
+&lt;h3 id="the-task"&gt;The&amp;nbsp;Task&lt;/h3&gt;
 &lt;p&gt;Suppose you&amp;#8217;re given the two tables below, saved as individual .csv files.  Each table contains measurements of plant height on specific days. The plants are split into fertilizer treatment groups A and B, and each plant can be uniquely identified by its&amp;nbsp;id.&lt;/p&gt;
 &lt;p&gt;Day&amp;nbsp;1&lt;/p&gt;
 &lt;table&gt;
@@ -1459,7 +1459,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;This example can be manually formatted in Excel pretty quickly, but in real life, data only looks like this if you&amp;#8217;re in first grade. So, we&amp;#8217;re going to take a little time to write a script now in order to save a lot of time in the&amp;nbsp;future.&lt;/p&gt;
-&lt;h3&gt;The code broken&amp;nbsp;down&lt;/h3&gt;
+&lt;h3 id="the-code-broken-down"&gt;The code broken&amp;nbsp;down&lt;/h3&gt;
 &lt;p&gt;First, let&amp;#8217;s load some libraries that are useful for reshaping&amp;nbsp;data.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;plyr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;reshape2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1511,7 +1511,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 
 
 &lt;p&gt;&lt;code&gt;mapply&lt;/code&gt; allows functions with multiple arguments to be applied in a loop. Here, we&amp;#8217;ve defined an anonymous, i.e. unnamed, function within mapply that has two arguments: the value of &lt;em&gt;x&lt;/em&gt; is given by list_dfpergroup, and &lt;em&gt;y&lt;/em&gt; is given by the character vector outnames. In other words, mapply steps through the list and vector simultaneously, writing list_dfpergroup&lt;span class="math"&gt;\(_i\)&lt;/span&gt; to a file named outnames&lt;span class="math"&gt;\(_i\)&lt;/span&gt;.&lt;/p&gt;
-&lt;h3&gt;The code in one&amp;nbsp;piece&lt;/h3&gt;
+&lt;h3 id="the-code-in-one-piece"&gt;The code in one&amp;nbsp;piece&lt;/h3&gt;
 &lt;p&gt;Now here&amp;#8217;s the code all in one piece. Note that the core reshaping takes place in three lines, starting at the line containing &lt;code&gt;ldply&lt;/code&gt;.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;plyr&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="nf"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;reshape2&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
