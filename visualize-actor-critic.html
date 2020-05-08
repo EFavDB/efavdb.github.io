@@ -4,23 +4,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Dustin McIntosh" />
+        <meta name="author" content="Cathy Yeh" />
 
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="NBA, programming, NBA prediction project, " />
+<meta name="keywords" content="programming, tools, python, reinforcement learning, Programming, " />
 
-<meta property="og:title" content="NBA week 6 results, week 7 predictions, intro to dash "/>
-<meta property="og:url" content="https://efavdb.com/nba-week-6-predictions-week-7-predictions" />
-<meta property="og:description" content="\(37/55 = 67.2%\) accuracy this week. Summary by point spread is at right. This week, we have posted a beta of our NBA dashboard. A screenshot is given below — the interactive version is linked to in our page’s header. We developed the tool using the programming language processing …" />
+<meta property="og:title" content="Visualizing an actor critic algorithm in real time "/>
+<meta property="og:url" content="https://efavdb.com/visualize-actor-critic" />
+<meta property="og:description" content="Deep reinforcement learning algorithms can be hard to debug, so it helps to visualize as much as possible in the absence of a stack trace [1]. How do we know if the learned policy and value functions make sense? Seeing these quantities plotted in real time as an agent is …" />
 <meta property="og:site_name" content="EFAVDB" />
-<meta property="og:article:author" content="Dustin McIntosh" />
-<meta property="og:article:published_time" content="2014-12-19T10:44:00-08:00" />
-<meta name="twitter:title" content="NBA week 6 results, week 7 predictions, intro to dash ">
-<meta name="twitter:description" content="\(37/55 = 67.2%\) accuracy this week. Summary by point spread is at right. This week, we have posted a beta of our NBA dashboard. A screenshot is given below — the interactive version is linked to in our page’s header. We developed the tool using the programming language processing …">
+<meta property="og:article:author" content="Cathy Yeh" />
+<meta property="og:article:published_time" content="2020-05-07T12:00:00-07:00" />
+<meta name="twitter:title" content="Visualizing an actor critic algorithm in real time ">
+<meta name="twitter:description" content="Deep reinforcement learning algorithms can be hard to debug, so it helps to visualize as much as possible in the absence of a stack trace [1]. How do we know if the learned policy and value functions make sense? Seeing these quantities plotted in real time as an agent is …">
 
-        <title>NBA week 6 results, week 7 predictions, intro to dash  · EFAVDB
+        <title>Visualizing an actor critic algorithm in real time  · EFAVDB
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
@@ -83,8 +83,8 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/nba-week-6-predictions-week-7-predictions">
-                <span class="caps">NBA</span> week 6 results, week 7 predictions, intro to&nbsp;dash
+            <a href="https://efavdb.com/visualize-actor-critic">
+                Visualizing an actor critic algorithm in real&nbsp;time
             </a>
         </h1>
     </header>
@@ -94,93 +94,45 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p><a href="https://efavdb.com/wp-content/uploads/2014/12/week6Table.png"><img alt="week6Table" src="https://efavdb.com/wp-content/uploads/2014/12/week6Table.png"></a></p>
-<p><span class="math">\(37/55 = 67.2%\)</span> accuracy this week. Summary by point spread is at&nbsp;right.</p>
-<p>This week, we have posted a beta of our <a href="http://efavdb.github.io/nba-dash"><span class="caps">NBA</span> dashboard</a>.  A screenshot is given below &#8212; the interactive version is linked to in our page&#8217;s header.  We developed the tool using the programming language <a href="https://processing.org/">processing</a> and displayed on the web using <a href="http://processingjs.org/">processing.js</a>. Our thanks to <a href="http://annmh.com/">Ann Hermundstad</a> for introducing us to this tool, which we have really enjoyed!   The wheel design of the dashboard was inspired by Jawbone&#8217;s correlated food <a href="https://jawbone.com/blog/jawbone-up-common-pairings/">visual</a>, by <a href="https://twitter.com/eminomura">Emi Nomura</a>.  We think this approach does a good job of quickly conveying the state of the league: both what has happened in prior games already, and what we think will happen in upcoming&nbsp;games.</p>
-<p>Predictions for week 7 are now up.  They can now also be viewed on the dashboard using the third&nbsp;&#8220;Mode&#8221;.</p>
-<p><a href="http://efavdb.github.io/nba-dash"><img alt="NBADashScreenShot" src="https://efavdb.com/wp-content/uploads/2014/12/NBADashScreenShot.png"></a></p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
+            <p>Deep reinforcement learning algorithms can be hard to debug, so it helps to visualize as much as possible in the absence of a stack trace [1].  How do we know if the learned policy and value functions make sense?  Seeing these quantities plotted in real time as an agent is interacting with an environment can help us answer that&nbsp;question.</p>
+<p>Here’s an example of an agent wandering around a custom <a href="https://github.com/frangipane/gym-minigrid">gridworld</a> environment.  When the agent executes the <code>toggle</code> action in front of an unopened red gift, it receives a reward of 1 point, and the gift turns&nbsp;grey/inactive.</p>
+<iframe width="640" height="360" src="https://www.youtube.com/embed/M3PMwPFRoc8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
+<p>The model is an actor critic, a type of policy gradient algorithm (for a nice introduction, see Jonathan’s <a href="https://efavdb.com/battleship">battleship</a> post or [2]) that uses a neural network to parametrize its policy and value&nbsp;functions.</p>
+<p>This agent barely &#8220;meets expectations&#8221; &#8212; notably getting stuck at an opened gift between frames 5-35 &#8212; but the values and policy mostly make sense.  For example, we tend to see spikes in value when the agent is immediately in front of an unopened gift while the policy simultaneously outputs a much higher probability of taking the appropriate <code>toggle</code> action in front of the unopened gift.  (We&#8217;d achieve better performance by incorporating some memory into the model in the form of an <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/"><span class="caps">LSTM</span></a>).</p>
+<p>We’re sharing a little helper code to generate the matplotlib plots of the value and policy functions that are shown in the&nbsp;video.</p>
+<script src="https://gist.github.com/frangipane/4adca6481bf55f2260ff215c5686851b.js"></script>
 
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
+<p><strong>Comments</strong></p>
+<ul>
+<li>Training of the model is not included.  You&#8217;ll need to load a trained actor critic model, along with access to its policy and value functions for plotting.  Here, the trained model has been loaded into <code>agent</code> with a <code>get_action</code> method that returns the <code>action</code> to take, along with a numpy array of <code>policy</code> probabilities and a scalar <code>value</code> for the observation at the current time&nbsp;step.</li>
+<li>The minigridworld environment conforms to the OpenAI gym <span class="caps">API</span>, and the <code>for</code> loop is a standard implementation for interacting with the&nbsp;environment.</li>
+<li>The gridworld environment already has a built in method for rendering the environment in iteractive mode <code>env.render('human')</code>.</li>
+<li>Matplotlib&#8217;s <code>autoscale_view</code> and <code>relim</code> functions are used to make updates to the figures at each step.  In particular, this allows us to show what appears to be a sliding window over time of the value function line plot.  When running the script, the plots pop up as three separate&nbsp;figures.</li>
+</ul>
+<h3 id="references">References</h3>
+<p>[1] Berkeley Deep <span class="caps">RL</span> bootcamp - Core Lecture 6 Nuts and Bolts of Deep <span class="caps">RL</span> Experimentation &#8212; John Schulman (<a href="https://youtu.be/8EcdaCk9KaQ">video</a> | <a href="https://drive.google.com/open?id=0BxXI_RttTZAhc2ZsblNvUHhGZDA">slides</a>) - great advice on the debugging process, things to&nbsp;plot</p>
+<p>[2] OpenAI Spinning Up: <a href="https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html">Intro to policy&nbsp;optimization</a></p>
 
 
              
  
                 <p id="post-share-links">
     Share this post on:
-    <a href="https://twitter.com/intent/tweet?text=NBA%20week%206%20results%2C%20week%207%20predictions%2C%20intro%20to%C2%A0dash&url=https%3A//efavdb.com/nba-week-6-predictions-week-7-predictions&hashtags=nba,programming" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&url=https%3A//efavdb.com/visualize-actor-critic&hashtags=programming,tools,python,reinforcement-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/nba-week-6-predictions-week-7-predictions" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=NBA%20week%206%20results%2C%20week%207%20predictions%2C%20intro%20to%C2%A0dash&amp;body=https%3A//efavdb.com/nba-week-6-predictions-week-7-predictions" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&amp;body=https%3A//efavdb.com/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
     <div class="author_blurb">
         <a href="" target="_blank" rel="nofollow noopener noreferrer">
-            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
-            <span class="author_name">Dustin McIntosh</span>
+            <img src=/images/cy_efavdb_headshot.jpg alt="Cathy Yeh Avatar" title="Cathy Yeh">
+            <span class="author_name">Cathy Yeh</span>
         </a>
-        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+        Cathy Yeh got a PhD at UC Santa Barbara studying soft-matter/polymer physics. After stints in a translational modeling group at Pfizer in San Diego, Driver (a no longer extant startup trying to match cancer patients to clinical trials) in San Francisco, and Square, she is currently participating in the OpenAI Scholars program.
     </div>
 
             
@@ -200,8 +152,8 @@
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/nba-week-6-predictions-week-7-predictions"
-                   href="https://efavdb.com/nba-week-6-predictions-week-7-predictions#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/visualize-actor-critic"
+                   href="https://efavdb.com/visualize-actor-critic#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -219,8 +171,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.com/nba-week-6-predictions-week-7-predictions';
-    var disqus_url = 'https://efavdb.com/nba-week-6-predictions-week-7-predictions';
+    var disqus_identifier = 'https://efavdb.com/visualize-actor-critic';
+    var disqus_url = 'https://efavdb.com/visualize-actor-critic';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -244,24 +196,29 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/nba-week-5-summary-week-6-predictions" title="Previous: NBA week 5 summary, week 6 predictions">NBA week 5 summary, week 6 predictions</a></li>
-                <li class="next-article"><a href="https://efavdb.com/methods-regression-without-negative-examples" title="Next: Machine Learning Methods: Classification without negative examples">Machine Learning Methods: Classification without negative examples</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/random-walk-scaling" title="Previous: 2-D random walks are special">2-D random walks are special</a></li>
             </ul>
             </nav>
             </aside>
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-12-19T10:44:00-08:00">Dec 19, 2014</time>
+            <time itemprop="dateCreated" datetime="2020-05-07T12:00:00-07:00">May 7, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#nba-prediction-project-ref">NBA prediction project</a>
+            <a class="category-link" href="https://efavdb.com/categories#programming-ref">Programming</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#nba-ref">NBA
-                    <span>13</span>
-</a></li>
                 <li><a href="https://efavdb.com/tags#programming-ref">programming
                     <span>9</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#python-ref">python
+                    <span>6</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#reinforcement-learning-ref">reinforcement learning
+                    <span>6</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#tools-ref">tools
+                    <span>5</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
