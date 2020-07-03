@@ -1,5 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-06-29T12:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Long term credit assignment with temporal reward transport</title><link href="https://efavdb.com/ltca" rel="alternate"></link><published>2020-06-29T12:00:00-07:00</published><updated>2020-06-29T12:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-06-29:/ltca</id><summary type="html">
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-07-03T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>2 + 1 = 4, by quinoa</title><link href="https://efavdb.com/quinoa%20packing" rel="alternate"></link><published>2020-07-03T00:00:00-07:00</published><updated>2020-07-03T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-07-03:/quinoa packing</id><summary type="html">&lt;p align="center"&gt;
+         &lt;img src="images/quinoa.jpg"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;I was struck the other day by the following:  The cooking instructions on my
+Bob&amp;#8217;s tri-colored quinoa package said to combine 2 cups of water with 1 cup of
+dried quinoa, which would ultimately create 4 cups of cooked quinoa.  See image&amp;nbsp;above.&lt;/p&gt;
+&lt;p&gt;My first reaction was to believe …&lt;/p&gt;</summary><content type="html">&lt;p align="center"&gt;
+         &lt;img src="images/quinoa.jpg"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;I was struck the other day by the following:  The cooking instructions on my
+Bob&amp;#8217;s tri-colored quinoa package said to combine 2 cups of water with 1 cup of
+dried quinoa, which would ultimately create 4 cups of cooked quinoa.  See image&amp;nbsp;above.&lt;/p&gt;
+&lt;p&gt;My first reaction was to believe that some error had been made.  However, I
+then realized that the explanation was packing:  When one packs spheres or
+awkward solid geometric shapes into a container, they cannot fill the space
+completely.  Little pockets of air sit between the spheres.  A quick google
+search for the packing fraction of spheres gives a value of &lt;span class="math"&gt;\(0.75\)&lt;/span&gt; for a
+crystalline structure and about &lt;span class="math"&gt;\(0.64\)&lt;/span&gt; for random packings &amp;#8212; apparently a
+universal&amp;nbsp;law.&lt;/p&gt;
+&lt;p&gt;We can get a similar number out from my quinoa instructions: Suppose that
+before the quinoa is cooked, the water fills its volume completely.  However,
+after cooking, the water is absorbed into the quinoa.  For simplicity, assume
+the quinoa is spherical before and after cooking.  In this case, the quinoa
+solids themselves should have the same packing fraction before and after.
+However, the two cups of water went from being fully space filling to being
+sucked into the quinoa &amp;#8212; forced to share its packing fraction. This implies&amp;nbsp;that
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}
+2 = \rho \times 3,
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; is the packing fraction of the quinoa &amp;#8220;spheres&amp;#8221;.  We have &lt;span class="math"&gt;\(3\)&lt;/span&gt; on
+the right as the solids in the quinoa continue to make up for the same volume
+before and after.  We conclude that the packing fraction is &lt;span class="math"&gt;\(\rho = 2/3\)&lt;/span&gt;, very
+close to the googled value of &lt;span class="math"&gt;\(\rho = 0.64\)&lt;/span&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Cooking math"></category></entry><entry><title>Long term credit assignment with temporal reward transport</title><link href="https://efavdb.com/ltca" rel="alternate"></link><published>2020-06-29T12:00:00-07:00</published><updated>2020-06-29T12:00:00-07:00</updated><author><name>Cathy Yeh</name></author><id>tag:efavdb.com,2020-06-29:/ltca</id><summary type="html">
 &lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
 &lt;p&gt;Standard reinforcement learning algorithms struggle with poor sample efficiency in the presence of sparse rewards with long temporal delays between action and effect. To address the long term credit assignment problem, we build on the work of [1] to use “temporal reward transport” (&lt;span class="caps"&gt;TRT&lt;/span&gt;) to augment the immediate rewards …&lt;/p&gt;</summary><content type="html">
 &lt;h1 id="summary"&gt;Summary&lt;/h1&gt;
