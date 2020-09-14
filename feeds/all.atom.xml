@@ -1,5 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-07-03T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>2 + 1 = 4, by quinoa</title><link href="https://efavdb.com/quinoa%20packing" rel="alternate"></link><published>2020-07-03T00:00:00-07:00</published><updated>2020-07-03T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-07-03:/quinoa packing</id><summary type="html">&lt;p align="center"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/all.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-09-13T09:24:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Utility engines</title><link href="https://efavdb.com/utility-engines" rel="alternate"></link><published>2020-09-13T09:24:00-07:00</published><updated>2020-09-13T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-09-13:/utility-engines</id><summary type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
+also on the rate of change of their lot.  This is because a person&amp;#8217;s prior
+history informs their expectations.  Here, we build a model that highlights
+this emotional &amp;#8220;path-dependence&amp;#8221; quality of utility.  Interestingly, we …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
+also on the rate of change of their lot.  This is because a person&amp;#8217;s prior
+history informs their expectations.  Here, we build a model that highlights
+this emotional &amp;#8220;path-dependence&amp;#8221; quality of utility.  Interestingly, we find
+that it can be gamed: One can increase net happiness via a process of gradual
+increased deprivation, followed by sudden jolts in increased consumption, as
+shown in the cartoon below &amp;#8212; this is the best approach.  In particular, it
+beats the steady consumption rate&amp;nbsp;strategy.&lt;/p&gt;
+&lt;p align="center"&gt;
+         &lt;img src="images/engine.png"&gt;
+&lt;/p&gt;
+
+&lt;h3 id="the-utility-function-model"&gt;The utility function&amp;nbsp;model&lt;/h3&gt;
+&lt;p&gt;In this post, we assume that the utility realized by a person over a time &lt;span class="math"&gt;\(T\)&lt;/span&gt;
+is given&amp;nbsp;by
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  U(t) = \int_0^T \left (a \vert
+x^{\prime}(t) \vert + b \vert x^{\prime}(t) \vert^2 \right)
+\text{sign}(x^{\prime}(t)) dt.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; is a measure of consumption (one&amp;#8217;s &amp;#8220;lot in life&amp;#8221;) at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;.
+Our model here is a natural Taylor expansion, relevant for small changes in
+&lt;span class="math"&gt;\(x(t)\)&lt;/span&gt;.  It is positive when consumption is going up and negative when
+consumption is going down. We&amp;#8217;ll be interested to learn whether varying &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt;
+subject to a fixed average constraint can result in increased net happiness,
+relative to the steady state consumption solution.  The answer is yes, and this
+can be understood qualitatively by considering the two terms&amp;nbsp;above:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;First term,  &lt;span class="math"&gt;\(a \vert x^{\prime}(t) \vert \text{sign}(x^{\prime}(t))\)&lt;/span&gt;:  This
+  term is proportional to the rate of change of consumption.
+  We assume that &lt;span class="math"&gt;\(a &amp;gt; 0\)&lt;/span&gt;, so that as we start to consume less, it is negative,
+as we go back up it is positive.  We will be interested in cycles that repeat
+here, so will assume that our &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; is periodic with period &lt;span class="math"&gt;\(T\)&lt;/span&gt;.   In this
+case, the linear term &amp;#8212; while possibly acutely felt at each moment &amp;#8212; will
+integrate to an average of zero over the long&amp;nbsp;term.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Second term, &lt;span class="math"&gt;\(b \vert x^{\prime}(t) \vert^2 \text{sign}(x^{\prime}(t))\)&lt;/span&gt;: This
+  term is non-linear.  It is very weak for small rates of change but kicks in
+strongly whenever we have an abrupt change.  We again assume that &lt;span class="math"&gt;\(b&amp;gt;0\)&lt;/span&gt; so that
+big drops in consumption are very painful,&amp;nbsp;etc.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;With the above comments in place, we can now see how our figure gives a net
+gain in utility:  On average, only the quadratic term matters and this will
+effectively only contribute during sudden jumps.  The declines in our figure
+are gradual, and so contribute only weakly in this term.  However, the
+increases are sudden and each give a significant utility &amp;#8220;fix&amp;#8221; as a&amp;nbsp;consequence.&lt;/p&gt;
+&lt;p&gt;For those interested, we walk through the simple mathematics needed to exactly
+optimize our utility function in an appendix.  Concluding comments on the
+practical application of these ideas are covered&amp;nbsp;next.&lt;/p&gt;
+&lt;h3 id="practical-considerations"&gt;Practical&amp;nbsp;considerations&lt;/h3&gt;
+&lt;p&gt;A few&amp;nbsp;comments:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Many people treat themselves on occasion &amp;#8212; with chocolates, vacations, etc.
+  &amp;#8212; perhaps empirically realizing that varying things improves their long
+  term happiness.  It is interesting to consider the possibility of optimizing
+  this effect, which we do with our toy model here:  In this model, we do not
+  want to live in a steady state salted with occasional treats:  Instead, we
+  want the saw-tooth shape of consumption shown in our&amp;nbsp;figure.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;A sad fact of life is that progress tends to be gradual, while set backs tend
+  to occur suddenly &amp;#8212; e.g., stocks tend to move in patterns like this.  This
+  is the worst way things could go, according to our&amp;nbsp;model.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;True, human utility functions are certainly more complex than what we have
+  considered&amp;nbsp;here.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It is interesting to contrast models of utility with conservative physical
+  systems, where the energy of a state is not path dependent, but depends only
+on the current state.  Path dependence means that two identical people in the
+same current situation can have very different valuations of their lot in&amp;nbsp;life.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The appendix below discusses the mathematical optimization of&amp;nbsp;(\ref{1}).&lt;/p&gt;
+&lt;h3 id="appendix-optimizing-ref1"&gt;Appendix &amp;#8212; optimizing&amp;nbsp;(\ref{1})&lt;/h3&gt;
+&lt;p&gt;For simplicity, we consider a path that goes down from &lt;span class="math"&gt;\(t=0\)&lt;/span&gt; to &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; &amp;#8212; making
+its way down by &lt;span class="math"&gt;\(\Delta x\)&lt;/span&gt;, then goes back up to where it started from &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; to
+&lt;span class="math"&gt;\(T\)&lt;/span&gt;.  It is easy to see that the first term integrates to zero in this case,
+provided we start and end at the same value of &lt;span class="math"&gt;\(x\)&lt;/span&gt;.  Now, consider the second
+term.  On the way down, we&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} 
+\int_0^{t_0} \vert x^{\prime} \vert^2 dt &amp;amp;\equiv &amp;amp; t_0 \langle \vert x^{\prime}
+\vert^2 \rangle_{t_0}
+\\ &amp;amp;\geq &amp;amp; t_0 \langle \vert x^{\prime} \vert \rangle^2_{t_0}
+\\
+&amp;amp;=&amp;amp; t_0 \left( \frac{\Delta x}{t_0} \right)^2
+\tag{2}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The inequality here is equivalent to the statement that the variance of the
+rate of change of our consumption is positive.  We get equality &amp;#8212; and minimal
+loss from the quadratic term on the way down &amp;#8212; if the slope is constant
+throughout.  That is, we want a linear drop in &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; from &lt;span class="math"&gt;\(0\)&lt;/span&gt; to &lt;span class="math"&gt;\(t_0\)&lt;/span&gt;.  With
+this choice, we&amp;nbsp;get
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\int_0^{t_0} \vert x^{\prime} \vert^2 dt = \frac{\Delta x^2}{t_0}.  \tag{3}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+On the way back up, we&amp;#8217;d like to max out the inequality analogous to above.
+This is achieved by having the recovery occur as quickly as possible, say over
+a window of time &lt;span class="math"&gt;\(t_{r}\)&lt;/span&gt; with &lt;span class="math"&gt;\(r\)&lt;/span&gt; standing for recovery.  We can decrease our
+loss by increasing &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; up to &lt;span class="math"&gt;\(t_0 \to T\)&lt;/span&gt;.  In this case, our integral of
+the quadratic over all time goes&amp;nbsp;to
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\text{gain} = b \Delta x^2 \left (\frac{1}{t_r} - \frac{1}{T} \right)
+\tag{4}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This gives the optimal lift possible &amp;#8212; that realized by the saw-tooth approach
+shown in our first figure&amp;nbsp;above. &lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Case studies"></category></entry><entry><title>2 + 1 = 4, by quinoa</title><link href="https://efavdb.com/quinoa%20packing" rel="alternate"></link><published>2020-07-03T00:00:00-07:00</published><updated>2020-07-03T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-07-03:/quinoa packing</id><summary type="html">&lt;p align="center"&gt;
          &lt;img src="images/quinoa.jpg"&gt;
 &lt;/p&gt;
 
@@ -2638,191 +2822,7 @@ These two factors may look similar, but they represent exponential growth with d
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="Finance"></category></entry><entry><title>Utility engines</title><link href="https://efavdb.com/utility-engines" rel="alternate"></link><published>2019-06-21T09:24:00-07:00</published><updated>2019-06-21T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-06-21:/utility-engines</id><summary type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
-also on its rate of change.  This is because the prior history of the person
-informs what their baseline is for what they can expect.  Here, we build a
-model that highlights this &amp;#8220;path-dependence&amp;#8221; quality …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
-also on its rate of change.  This is because the prior history of the person
-informs what their baseline is for what they can expect.  Here, we build a
-model that highlights this &amp;#8220;path-dependence&amp;#8221; quality.  Interestingly, we find
-that it can be exploited:  One can increase net happiness via a process of
-gradual increased deprivation, followed by sudden jolts in increased
-consumption rate, as shown in the cartoon below &amp;#8212; this beats the approach of
-a steady consumption&amp;nbsp;rate.&lt;/p&gt;
-&lt;p align="center"&gt;
-         &lt;img src="images/engine.png"&gt;
-&lt;/p&gt;
-
-&lt;h3 id="the-utility-function-model"&gt;The utility function&amp;nbsp;model&lt;/h3&gt;
-&lt;p&gt;In this post, we assume that the utility realized by a person over a time &lt;span class="math"&gt;\(T\)&lt;/span&gt;
-is given&amp;nbsp;by
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{1}  U(t) = \int_0^T \left (a \vert
-x^{\prime}(t) \vert + b \vert x^{\prime}(t) \vert^2 \right)
-\text{sign}(x^{\prime}(t)) dt.
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;
-Here, &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; is a measure of consumption (one&amp;#8217;s &amp;#8220;lot in life&amp;#8221;) at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;.
-Our model here is a natural Taylor expansion, relevant for small changes in
-&lt;span class="math"&gt;\(x(t)\)&lt;/span&gt;.  It is positive when consumption is going up and negative when
-consumption is going down. We&amp;#8217;ll be interested to learn whether varying &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt;
-subject to a fixed average constraint can result in increased net happiness,
-relative to the steady state consumption solution.  The answer is yes, and this
-can be understood qualitatively by considering the two terms&amp;nbsp;above:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;First term,  &lt;span class="math"&gt;\(a \vert x^{\prime}(t) \vert \text{sign}(x^{\prime}(t))\)&lt;/span&gt;:  This
-  term is proportional to the rate of change of consumption.
-  We assume that &lt;span class="math"&gt;\(a &amp;gt; 0\)&lt;/span&gt;, so that as we start to consume less, it is negative,
-as we go back up it is positive.  We will be interested in cycles that repeat
-here, so will assume that our &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; is periodic with period &lt;span class="math"&gt;\(T\)&lt;/span&gt;.   In this
-case, the linear term &amp;#8212; while possibly acutely felt at each moment &amp;#8212; will
-integrate to an average of zero over the long&amp;nbsp;term.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Second term, &lt;span class="math"&gt;\(b \vert x^{\prime}(t) \vert^2 \text{sign}(x^{\prime}(t))\)&lt;/span&gt;: This
-  term is non-linear.  It is very weak for small rates of change but kicks in
-strongly whenever we have an abrupt change.  We again assume that &lt;span class="math"&gt;\(b&amp;gt;0\)&lt;/span&gt; so that
-big drops in consumption are very painful,&amp;nbsp;etc.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;With the above comments in place, we can now see how our figure gives a net
-gain in utility:  On average, only the quadratic term matters and this will
-effectively only contribute during sudden jumps.  The declines in our figure
-are gradual, and so contribute only weakly in this term.  However, the
-increases are sudden and each give a significant utility &amp;#8220;fix&amp;#8221; as a&amp;nbsp;consequence.&lt;/p&gt;
-&lt;p&gt;For those interested, we walk through the simple mathematics needed to exactly
-optimize our utility function in an appendix.  Concluding comments on the
-practical application of these ideas are covered&amp;nbsp;next.&lt;/p&gt;
-&lt;h3 id="practical-considerations"&gt;Practical&amp;nbsp;considerations&lt;/h3&gt;
-&lt;p&gt;A few&amp;nbsp;comments:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Many people treat themselves on occasion &amp;#8212; with chocolates, vacations, etc.
-  &amp;#8212; perhaps empirically realizing that varying things improves their long
-  term happiness.  It is interesting to consider the possibility of optimizing
-  this effect, which we do with our toy model here:  In this model, we do not
-  want to live in a steady state salted with occasional treats:  Instead, we
-  want the saw-tooth shape of consumption shown in our&amp;nbsp;figure.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;A sad fact of life is that progress tends to be gradual, while set backs tend
-  to occur suddenly &amp;#8212; e.g., stocks tend to move in patterns like this.  This
-  is the worst way things could go, according to our&amp;nbsp;model.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;True, human utility functions are certainly more complex than what we have
-  considered&amp;nbsp;here.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;It is interesting to contrast models of utility with conservative physical
-  systems, where the energy of a state is not path dependent, but depends only
-on the current state.  Path dependence means that two identical people in the
-same current situation can have very different valuations of their lot in&amp;nbsp;life.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The appendix below discusses the mathematical optimization of&amp;nbsp;(\ref{1}).&lt;/p&gt;
-&lt;h3 id="appendix-optimizing-ref1"&gt;Appendix &amp;#8212; optimizing&amp;nbsp;(\ref{1})&lt;/h3&gt;
-&lt;p&gt;For simplicity, we consider a path that goes down from &lt;span class="math"&gt;\(t=0\)&lt;/span&gt; to &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; &amp;#8212; making
-its way down by &lt;span class="math"&gt;\(\Delta x\)&lt;/span&gt;, then goes back up to where it started from &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; to
-&lt;span class="math"&gt;\(T\)&lt;/span&gt;.  It is easy to see that the first term integrates to zero in this case,
-provided we start and end at the same value of &lt;span class="math"&gt;\(x\)&lt;/span&gt;.  Now, consider the second
-term.  On the way down, we&amp;nbsp;have
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray} 
-\int_0^{t_0} \vert x^{\prime} \vert^2 dt &amp;amp;\equiv &amp;amp; t_0 \langle \vert x^{\prime}
-\vert^2 \rangle_{t_0}
-\\ &amp;amp;\geq &amp;amp; t_0 \langle \vert x^{\prime} \vert \rangle^2_{t_0}
-\\
-&amp;amp;=&amp;amp; t_0 \left( \frac{\Delta x}{t_0} \right)^2
-\tag{2}
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;
-The inequality here is equivalent to the statement that the variance of the
-rate of change of our consumption is positive.  We get equality &amp;#8212; and minimal
-loss from the quadratic term on the way down &amp;#8212; if the slope is constant
-throughout.  That is, we want a linear drop in &lt;span class="math"&gt;\(x(t)\)&lt;/span&gt; from &lt;span class="math"&gt;\(0\)&lt;/span&gt; to &lt;span class="math"&gt;\(t_0\)&lt;/span&gt;.  With
-this choice, we&amp;nbsp;get
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}
-\int_0^{t_0} \vert x^{\prime} \vert^2 dt = \frac{\Delta x^2}{t_0}.  \tag{3}
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;
-On the way back up, we&amp;#8217;d like to max out the inequality analogous to above.
-This is achieved by having the recovery occur as quickly as possible, say over
-a window of time &lt;span class="math"&gt;\(t_{r}\)&lt;/span&gt; with &lt;span class="math"&gt;\(r\)&lt;/span&gt; standing for recovery.  We can decrease our
-loss by increasing &lt;span class="math"&gt;\(t_0\)&lt;/span&gt; up to &lt;span class="math"&gt;\(t_0 \to T\)&lt;/span&gt;.  In this case, our integral of
-the quadratic over all time goes&amp;nbsp;to
-&lt;/p&gt;
-&lt;div class="math"&gt;\begin{eqnarray}
-\text{gain} = b \Delta x^2 \left (\frac{1}{t_r} - \frac{1}{T} \right)
-\tag{4}.
-\end{eqnarray}&lt;/div&gt;
-&lt;p&gt;
-This gives the optimal lift possible &amp;#8212; that realized by the saw-tooth approach
-shown in our first figure&amp;nbsp;above. &lt;/p&gt;
-&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width &lt; 768) ? "left" : align;
-        indent = (screen.width &lt; 768) ? "0em" : indent;
-        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-&lt;/script&gt;</content><category term="Case studies"></category></entry><entry><title>Utility functions and immigration</title><link href="https://efavdb.com/utility-functions-and-immigration" rel="alternate"></link><published>2019-06-21T09:24:00-07:00</published><updated>2019-06-21T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-06-21:/utility-functions-and-immigration</id><summary type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
+&lt;/script&gt;</content><category term="Finance"></category></entry><entry><title>Utility functions and immigration</title><link href="https://efavdb.com/utility-functions-and-immigration" rel="alternate"></link><published>2019-06-21T09:24:00-07:00</published><updated>2019-06-21T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-06-21:/utility-functions-and-immigration</id><summary type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
 &lt;h3 id="the-utility-function-and-benefit-per-person"&gt;The utility function and benefit per&amp;nbsp;person&lt;/h3&gt;
 &lt;p&gt;In this post, we will consider …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
 &lt;h3 id="the-utility-function-and-benefit-per-person"&gt;The utility function and benefit per&amp;nbsp;person&lt;/h3&gt;
