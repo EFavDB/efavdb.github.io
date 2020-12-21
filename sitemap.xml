@@ -5,28 +5,28 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.com/</loc>
-<lastmod>2020-09-14T03:07:04-00:00</lastmod>
+<lastmod>2020-12-21T04:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.com/archives.html</loc>
-<lastmod>2020-09-14T03:07:04-00:00</lastmod>
+<lastmod>2020-12-21T04:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.com/tags.html</loc>
-<lastmod>2020-09-14T03:07:04-00:00</lastmod>
+<lastmod>2020-12-21T04:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://efavdb.com/categories.html</loc>
-<lastmod>2020-09-14T03:07:04-00:00</lastmod>
+<lastmod>2020-12-21T04:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -36,6 +36,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <lastmod>2020-01-01T00:00:00-08:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.75</priority>
+</url>
+
+<url>
+<loc>https://efavdb.com/pricing-dividend-stocks</loc>
+<lastmod>2020-12-20T00:00:00-08:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.99</priority>
 </url>
 
 <url>
@@ -789,7 +796,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.com/category/finance.html</loc>
-<lastmod>2019-12-09T16:14:00-07:53</lastmod>
+<lastmod>2020-12-20T00:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -1153,7 +1160,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://efavdb.com/author/jonathan-landy.html</loc>
-<lastmod>2020-09-13T09:24:00-07:53</lastmod>
+<lastmod>2020-12-20T00:00:00-07:53</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

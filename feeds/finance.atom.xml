@@ -1,5 +1,212 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Finance</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/finance.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2019-12-09T16:14:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Universal limiting mean return of CPPI investment portfolios</title><link href="https://efavdb.com/universal-mean-return-formula-of-the-cppi-investment-strategy" rel="alternate"></link><published>2019-12-09T16:14:00-08:00</published><updated>2019-12-09T16:14:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-12-09:/universal-mean-return-formula-of-the-cppi-investment-strategy</id><summary type="html">&lt;p&gt;&lt;span class="caps"&gt;CPPI&lt;/span&gt;* is a risk management tactic that can be applied to
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Finance</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/finance.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-12-20T00:00:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Pricing dividend stocks</title><link href="https://efavdb.com/pricing-dividend-stocks" rel="alternate"></link><published>2020-12-20T00:00:00-08:00</published><updated>2020-12-20T00:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-12-20:/pricing-dividend-stocks</id><summary type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs to the model also allows us to explore how its price might adjust to changes in company&amp;nbsp;performance.&lt;/p&gt;
+&lt;h2 id="discounted-revenue-equations"&gt;Discounted revenue&amp;nbsp;equations&lt;/h2&gt;
+&lt;p&gt;In this note, we&amp;#8217;ll consider the value of a stock that generates a discrete set of dividends, with dividend &lt;span class="math"&gt;\(D_t\)&lt;/span&gt; paid out at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, for &lt;span class="math"&gt;\(t \in \{1, 2, \ldots\}\)&lt;/span&gt;.  To estimate a fair price &lt;span class="math"&gt;\(V_0\)&lt;/span&gt; for the stock today (assumed to be just after the most recent dividend payout at &lt;span class="math"&gt;\(t=0\)&lt;/span&gt;), we&amp;#8217;ll consider how the value evolves over time.  If we purchase and hold the stock now, then at period &lt;span class="math"&gt;\(1\)&lt;/span&gt;, we&amp;#8217;ll still have the stock but also a dividend.  The total expected fair value at that time will then sum&amp;nbsp;to
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{ev_step}
+\text{expected value at period 1} \equiv E(V_1 + D_1).
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Of course, because there is some risk in our investment, the expected value above may not be realized.  To take this into account &amp;#8212; as well as the fact that inflation and other concerns cause us to prefer money now over money later &amp;#8212; we will assert that we are only willing to pay a fraction &lt;span class="math"&gt;\(d\)&lt;/span&gt; of (\ref{ev_step}) above to acquire and hold the stock now.  That is, we will define the fair price now&amp;nbsp;as
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{discount} \tag{2}
+V_0 = d \times E(V_1 + D_1).
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Note that at this point, we still don&amp;#8217;t know the values of &lt;span class="math"&gt;\(V_0\)&lt;/span&gt; or &lt;span class="math"&gt;\(V_1\)&lt;/span&gt; in the above equation.  However, we can make progress if we assume that the same &lt;span class="math"&gt;\(d\)&lt;/span&gt; factor can be applied between any two periods.  In this case, we also have for general &lt;span class="math"&gt;\(i\)&lt;/span&gt;,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3}
+E(V_i) = d \times  E(V_{i+1} + D_{i+1}).
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+If we plug this into (\ref{discount}) we&amp;nbsp;obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{value}
+V_0 = \sum_{i=1}^{\infty} d^i E(D_i)
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This is an expression for the current price that depends only on the future dividends &amp;#8212; quantities that we can attempt to forecast via extrapolations of recent dividend values, or through a thorough analysis of the company&amp;#8217;s prospects.  To simplify our result further, we&amp;#8217;ll assume a steady growth for the dividends at rate &lt;span class="math"&gt;\(g\)&lt;/span&gt;, so&amp;nbsp;that
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{div_growth} \tag{5}
+E(D_{t}) = D_0 g^i
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Plugging this form into (\ref{value}), we&amp;nbsp;get
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+V_0 &amp;amp;=&amp;amp; \sum_{i=1}^{\infty} d^i D_0 g^i \\
+&amp;amp;=&amp;amp; D_0 \frac{dg}{1 - dg} \tag{6} \label{value_geometric}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Formula (\ref{value_geometric}) is the result that we will use below to approximately price dividend-bearing stocks.  Note that it is a function of only three quantities:  &lt;span class="math"&gt;\(D_0\)&lt;/span&gt; &amp;#8212; the most recent dividend value, &lt;span class="math"&gt;\(g\)&lt;/span&gt; &amp;#8212; the assumed growth rate of the dividends, and &lt;span class="math"&gt;\(d\)&lt;/span&gt; &amp;#8212; the &amp;#8220;discount rate&amp;#8221;, which in principle could vary person to person.  To price a stock, one need only plug in values for these three quantities.  To set &lt;span class="math"&gt;\(D_0\)&lt;/span&gt;, we can simply look up the value of the most recent dividend. To set &lt;span class="math"&gt;\(g\)&lt;/span&gt;, we can forecast the business prospects of the company.  To set &lt;span class="math"&gt;\(d\)&lt;/span&gt;, we should pick a value that reflects both how risk-averse we are and also how much risk the company in question carries:  &lt;span class="math"&gt;\(d\)&lt;/span&gt; should be set smaller for more risk averse individuals and for companies carrying more&amp;nbsp;risk.&lt;/p&gt;
+&lt;p&gt;In the next two sections, we &lt;em&gt;(i)&lt;/em&gt; show how one can use the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;) to estimate the &amp;#8220;market&amp;#8221; value of &lt;span class="math"&gt;\(d\)&lt;/span&gt;, and &lt;em&gt;(ii)&lt;/em&gt; use our results to estimate a fair market price for &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T&amp;#8217;s&amp;nbsp;stock.&lt;/p&gt;
+&lt;h2 id="capm-discount-rate"&gt;&lt;span class="caps"&gt;CAPM&lt;/span&gt; discount&amp;nbsp;rate&lt;/h2&gt;
+&lt;p&gt;The &lt;span class="caps"&gt;CAPM&lt;/span&gt; provides a method for estimating the return one should expect from a stock.  Combining this with our analysis above, we can get an estimate for discount rate &lt;span class="math"&gt;\(d\)&lt;/span&gt; the market applies to a stock.  Plugging this into (\ref{value_geometric}) then gives a self-consistent estimate for the stock&amp;#8217;s fair market price.  To make the connection, we first note that (\ref{discount}) implies that the expected return on holding the stock for one period is given&amp;nbsp;by
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+E(r_{stock}) &amp;amp;\equiv &amp;amp; \log \left ( \frac{E(V_{1} + D_{1})}{V_0}\right)\\ 
+&amp;amp;=&amp;amp;  \log (1/d)
+\tag{8}\label{grow_at_d_inv}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Next, we quote the &lt;span class="caps"&gt;CAPM&lt;/span&gt;&amp;#8217;s estimate for the return of a stock&lt;span class="math"&gt;\(^1\)&lt;/span&gt; 
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{9} \label{capm}
+E(r_{stock, capm}) = r_{risk free} + \beta \times \left (r_{market} - r_{risk free} \right).
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, &lt;span class="math"&gt;\(r_{risk free}\)&lt;/span&gt; is typically taken as the rate of growth of short-term treasury bonds, &lt;span class="math"&gt;\(r_{market}\)&lt;/span&gt; is the mean growth rate of the market as a whole &amp;#8212; often the historical growth rate of the S&amp;amp;P500 is used here, and &lt;span class="math"&gt;\(\beta\)&lt;/span&gt; is the slope in a fit of the stock&amp;#8217;s past total returns to those of the market.  Tests of this prediction have been carried out, and the model has been found to be fairly accurate.  We can therefore approximate the market&amp;#8217;s expectation for the return on the stock to be that given by &lt;span class="caps"&gt;CAPM&lt;/span&gt;.  Equating &lt;span class="math"&gt;\(E(r_{stock})\)&lt;/span&gt; and &lt;span class="math"&gt;\(E(r_{stock, capm})\)&lt;/span&gt; from the last two lines gives the &lt;span class="caps"&gt;CAPM&lt;/span&gt; approximation for the market discount&amp;nbsp;rate,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+d_{market} &amp;amp;\approx&amp;amp; \exp \left (-E(r_{stock, capm}) \right) \\
+&amp;amp;=&amp;amp; \exp \left ( - r_{risk free} - \beta \times \left (r_{market} - r_{risk free} \right) \right)
+ \tag{10} \label{market_d}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+These equations give us a reasonable method for setting &lt;span class="math"&gt;\(d\)&lt;/span&gt;, enabling us to estimate what the market as a whole should think is a fair price for a given stock.  We turn now to our application, the pricing of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T&amp;#8217;s common&amp;nbsp;stock.&lt;/p&gt;
+&lt;h1 id="application-att-ticker-t"&gt;Application: &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T (ticker&amp;nbsp;T)&lt;/h1&gt;
+&lt;p&gt;We are now ready to consider the fair market value of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T&amp;#8217;s common stock.  Recall that we need three quantities to price the stock, &lt;span class="math"&gt;\(D_0\)&lt;/span&gt;, &lt;span class="math"&gt;\(d\)&lt;/span&gt;, and &lt;span class="math"&gt;\(g\)&lt;/span&gt;. We consider each of these&amp;nbsp;below.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;span class="caps"&gt;THE&lt;/span&gt; &lt;span class="caps"&gt;MOST&lt;/span&gt; &lt;span class="caps"&gt;RECENT&lt;/span&gt; &lt;span class="caps"&gt;DIVIDEND&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;A quick online search for the dividend history of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T&amp;#8217;s shows that a &lt;span class="math"&gt;\(52\)&lt;/span&gt; cent dividend was payed in October 2020 &amp;#8212; &lt;a href="https://www.nasdaq.com/market-activity/stocks/t/dividend-history"&gt;link&lt;/a&gt;.&amp;nbsp;Therefore,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+D_0 = 0.52 \tag{10}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This company pays out dividends&amp;nbsp;quarterly.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;span class="caps"&gt;THE&lt;/span&gt; &lt;span class="caps"&gt;DIVIDEND&lt;/span&gt; &lt;span class="caps"&gt;GROWTH&lt;/span&gt; &lt;span class="caps"&gt;RATE&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The link above also shows that the dividend paid by &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T in 2015 was &lt;span class="math"&gt;\(47\)&lt;/span&gt; cents per quarter.  The historical quarterly growth rate of the dividend over this period has therefore&amp;nbsp;been
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+g_{historical} &amp;amp;=&amp;amp; (52 / 47)^{1 / 20} \\
+&amp;amp;\approx &amp;amp; 1.005 \tag{11}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, the exponent was one over the number of quarters considered between October 2015 and October 2020 &amp;#8212; 20&amp;nbsp;quarters.&lt;/p&gt;
+&lt;p&gt;It is important to note that the historical growth rate is not necessarily that which we can expect going forward.  In fact, &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T has already declared a dividend for January 2021 of &lt;span class="math"&gt;\(52\)&lt;/span&gt; cents, the same value as was distributed each quarter in 2020.  In each of the past five years, the company raised dividends with each new year.  The upcoming dividend therefore signals a change in growth rate &amp;#8212; at least in the short-term.  If a value near &lt;span class="math"&gt;\(g\approx 1.000\)&lt;/span&gt; better describes the behavior of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T in the near term, this will significantly affect its stock price.  We estimate prices for a set of &lt;span class="math"&gt;\(g\)&lt;/span&gt; values below to highlight this&amp;nbsp;dependence.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;span class="caps"&gt;THE&lt;/span&gt; &lt;span class="caps"&gt;MARKET&lt;/span&gt; &lt;span class="caps"&gt;DISCOUNT&lt;/span&gt; &lt;span class="caps"&gt;RATE&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;To evaluate the &lt;span class="caps"&gt;CAPM&lt;/span&gt; market discount rate, we need to know a stock&amp;#8217;s beta.  This can be obtained through a regression or it can simply be looked up online.   Doing this for &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T we see a current value quoted near &lt;span class="math"&gt;\(0.7\)&lt;/span&gt;.  However, over the last five years the value has varied, going as low as &lt;span class="math"&gt;\(0.3\)&lt;/span&gt; or so in 2016 &amp;#8212; &lt;a href="https://www.zacks.com/stock/chart/T/fundamental/beta"&gt;link&lt;/a&gt;.  Since the value has fluctuated over time, we&amp;#8217;ll quote values below for a few possible forward looking betas, &lt;span class="math"&gt;\(\{0.3, 0.5, 0.7, 0.9\}\)&lt;/span&gt;.  To convert these to discount rates, we used the &lt;code&gt;capm_d_quarterly&lt;/code&gt; method below &amp;#8212; python code that implements (\ref{market_d}).  You can see that we assume a risk-free rate of &lt;span class="math"&gt;\(0.07\%\)&lt;/span&gt;, and a market growth rate of &lt;span class="math"&gt;\(9.8\%\)&lt;/span&gt; &amp;#8212; these are the current short-term treasury rates and historical average S&amp;amp;P500 rates, according to an online search.  The discount rates that result for our chosen betas&amp;nbsp;are &lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+d_{beta = 0.3} &amp;amp;=&amp;amp; 0.993 \\
+d_{beta = 0.5}  &amp;amp;=&amp;amp; 0.988 \\
+d_{beta = 0.7}  &amp;amp;=&amp;amp; 0.983 \\
+d_{beta = 0.9}  &amp;amp;=&amp;amp; 0.978 
+ \tag{12} \label{discounting_macys}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;&lt;span class="caps"&gt;FINAL&lt;/span&gt; &lt;span class="caps"&gt;CAPM&lt;/span&gt; &lt;span class="caps"&gt;PRICES&lt;/span&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;We now have everything we need to estimate a fair market price for &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T.  We simply need to plug the values for &lt;span class="math"&gt;\(D_0\)&lt;/span&gt;, &lt;span class="math"&gt;\(g\)&lt;/span&gt;, and &lt;span class="math"&gt;\(d\)&lt;/span&gt; we have obtained above into the pricing equation, (\ref{value_geometric}).  Our code snippet below takes care of this for us and the values that it provides are printed&amp;nbsp;underneath.&lt;/p&gt;
+&lt;p&gt;Reviewing the output, we see a large range of possible price values as we vary our degrees of freedom &amp;#8212; the values range from &lt;span class="math"&gt;\(18\)&lt;/span&gt; to over &lt;span class="math"&gt;\(200\)&lt;/span&gt;! (The NaN value in the table corresponds to a situation where the growth rate is larger than the discount rate, which is not possible long term).  These results indicate that there is strong sensitivity in the price of a stock to its growth rate and beta.  E.g., we note that if we plug in today&amp;#8217;s values of &lt;span class="math"&gt;\(\beta = 0.7\)&lt;/span&gt; and &lt;span class="math"&gt;\(g = 1.000\)&lt;/span&gt; (marked with an * in the table below), we get a value of &lt;span class="math"&gt;\(29.39\)&lt;/span&gt; dollars  &amp;#8212;  amazingly close to the last traded value of &lt;span class="math"&gt;\(29.40\)&lt;/span&gt; on 12/18 (not bad!).  However, we note that if the company were able to quickly return to the old steady growth rate of &lt;span class="math"&gt;\(1.005\)&lt;/span&gt;, we&amp;#8217;d move to the cell just right of the current value, giving a price of &lt;span class="math"&gt;\(41\)&lt;/span&gt; dollars &amp;#8212; an impressive&amp;nbsp;gain.&lt;/p&gt;
+&lt;p&gt;Should we buy the stock?  That&amp;#8217;s for you to decide &amp;#8212; hopefully the results here have helped provide a mental framework useful for thinking through that&amp;nbsp;question.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;pandas&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pd&lt;/span&gt;
+
+&lt;span class="n"&gt;R_RISK_FREE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0007&lt;/span&gt;
+&lt;span class="n"&gt;R_MARKET&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.098&lt;/span&gt;
+&lt;span class="n"&gt;D_0&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.51&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;capm_d_quarterly&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r_risk_free&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;R_RISK_FREE&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r_market&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;R_MARKET&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Return the discount rate from CAPM, on a quaterly basis.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;r_annual&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r_risk_free&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;beta&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r_market&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;r_risk_free&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;r_quarterly&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r_annual&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt;
+    &lt;span class="n"&gt;d_quarterly&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;r_quarterly&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;d_quarterly&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;capm_price&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;D_0&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Price of stock given its beta, dividend growth rate, and most recent dividend in dollars.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;capm_d_quarterly&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="kc"&gt;None&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;D_0&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;results&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;beta&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.9&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;0.99&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.995&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.005&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;1.01&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;beta&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;g&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+            &lt;span class="s1"&gt;&amp;#39;price&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;capm_price&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;beta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;g&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;D_0&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;D_0&lt;/span&gt;&lt;span class="p"&gt;)})&lt;/span&gt;
+&lt;span class="n"&gt;df&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;DataFrame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;results&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;print&lt;/span&gt; &lt;span class="n"&gt;pd&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pivot_table&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;df&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;values&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;price&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;beta&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;g&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="c1"&gt;# # output&lt;/span&gt;
+&lt;span class="c1"&gt;# g         0.990      0.995      1.000       1.005       1.010&lt;/span&gt;
+&lt;span class="c1"&gt;# beta                                                         &lt;/span&gt;
+&lt;span class="c1"&gt;# 0.3   28.850623  40.594413  67.995569  204.979922         NaN&lt;/span&gt;
+&lt;span class="c1"&gt;# 0.5   22.526179  29.140479  41.082910   69.133459  213.387273&lt;/span&gt;
+&lt;span class="c1"&gt;# 0.7   18.459807  22.703362  29.392585*  41.497605   70.069095&lt;/span&gt;
+&lt;span class="c1"&gt;# 0.9   15.625393  18.579209  22.856848   29.605283   41.834554&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1 id="footnotes"&gt;Footnotes&lt;/h1&gt;
+&lt;p&gt;[1]  For a simple derivation of &lt;span class="caps"&gt;CAPM&lt;/span&gt;&amp;#8217;s main results, see Derman, &amp;#8220;A boys guide to pricing and hedging&amp;#8221;.  As a caveat, we note that one of the primary assumptions of &lt;span class="caps"&gt;CAPM&lt;/span&gt; is that market prices are set by rational market&amp;nbsp;participants.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Finance"></category></entry><entry><title>Universal limiting mean return of CPPI investment portfolios</title><link href="https://efavdb.com/universal-mean-return-formula-of-the-cppi-investment-strategy" rel="alternate"></link><published>2019-12-09T16:14:00-08:00</published><updated>2019-12-09T16:14:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-12-09:/universal-mean-return-formula-of-the-cppi-investment-strategy</id><summary type="html">&lt;p&gt;&lt;span class="caps"&gt;CPPI&lt;/span&gt;* is a risk management tactic that can be applied to
 any investment portfolio. The approach entails banking a percentage of
 profits whenever a new all time high wealth is achieved, thereby
 ensuring that a portfolio&amp;#8217;s drawdown never goes below some maximum
