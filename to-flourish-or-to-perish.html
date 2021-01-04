@@ -9,18 +9,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="statistics, python, Statistics, " />
+<meta name="keywords" content="python, statistics, world wandering dudes, World Wandering Dudes, " />
 
-<meta property="og:title" content="2-D random walks are special "/>
-<meta property="og:url" content="https://efavdb.com/random-walk-scaling" />
-<meta property="og:description" content="Here, we examine the statistics behind discrete random walks on square lattices in \(M\) dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. \(R\), the final distance traveled from origin (measured by the Euclidean norm) and 2. \(N_{unique}\), the number of unique locations …" />
+<meta property="og:title" content="To Flourish or to Perish "/>
+<meta property="og:url" content="https://efavdb.com/to-flourish-or-to-perish" />
+<meta property="og:description" content="In this post, I explore some basic math behind the World Wandering Dudes framework previously introduced in this post. To briefly reintroduce the system: imagine a field, a 2-D square lattice of \(M\) sites with food distributed randomly at a density \(\rho_{food}\). Creatures wander across the field taking \(N …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Dustin McIntosh" />
-<meta property="og:article:published_time" content="2020-04-10T00:00:00-07:00" />
-<meta name="twitter:title" content="2-D random walks are special ">
-<meta name="twitter:description" content="Here, we examine the statistics behind discrete random walks on square lattices in \(M\) dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. \(R\), the final distance traveled from origin (measured by the Euclidean norm) and 2. \(N_{unique}\), the number of unique locations …">
+<meta property="og:article:published_time" content="2021-01-03T00:00:00-08:00" />
+<meta name="twitter:title" content="To Flourish or to Perish ">
+<meta name="twitter:description" content="In this post, I explore some basic math behind the World Wandering Dudes framework previously introduced in this post. To briefly reintroduce the system: imagine a field, a 2-D square lattice of \(M\) sites with food distributed randomly at a density \(\rho_{food}\). Creatures wander across the field taking \(N …">
 
-        <title>2-D random walks are special  · EFAVDB
+        <title>To Flourish or to Perish  · EFAVDB
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
@@ -83,8 +83,8 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/random-walk-scaling">
-                2-D random walks are&nbsp;special
+            <a href="https://efavdb.com/to-flourish-or-to-perish">
+                To Flourish or to&nbsp;Perish
             </a>
         </h1>
     </header>
@@ -94,87 +94,85 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>Here, we examine the statistics behind discrete random walks on square lattices in <span class="math">\(M\)</span> dimensions, with focus on two metrics (see figure below for an example in 2-D): 1. <span class="math">\(R\)</span>, the final distance traveled from origin (measured by the Euclidean norm) and 2. <span class="math">\(N_{unique}\)</span>, the number of unique locations visited on the&nbsp;lattice.</p>
-<p align="center">
-     <img src="images/example_rw.png">
-</p>
-
-<p>We envision a single random walker on an <span class="math">\(M\)</span>-D lattice and allow it to wander randomly throughout the lattice, taking <span class="math">\(N\)</span> steps. We’ll examine how the distributions of <span class="math">\(R\)</span> and <span class="math">\(N_{unique}\)</span> vary with <span class="math">\(M\)</span> and <span class="math">\(N\)</span>; we&#8217;ll show that their averages, <span class="math">\(\langle R \rangle\)</span> and <span class="math">\(\langle N_{unique} \rangle\)</span>, and their standard deviations, <span class="math">\(\sigma_R\)</span> and <span class="math">\(\sigma_{N_{unique}}\)</span>, scale as power laws with <span class="math">\(N\)</span>. The dependence of the exponents and scaling factors on <span class="math">\(M\)</span> is interesting and can be only partially reconciled with&nbsp;theory.</p>
-<p>A simple simulation of random walks is easy to write in python for arbitrary dimensions (see <a
-href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf">this colab notebook</a>, <a href="https://github.com/dustinmcintosh/random-walks">github</a>).</p>
-<p>Here’s a look at the distribution of our two metrics for <span class="math">\(N = 1000\)</span> for a few different&nbsp;dimensionalities:</p>
-<p align="center">
-     <img src="images/unique_locations_visited_1000.png">
-</p>
-
-<p>Let’s make some high-level sense of these&nbsp;results:</p>
+            <p>In this post, I explore some basic math behind the World Wandering Dudes framework previously introduced in <a href="https://www.efavdb.com/world-wandering-dudes">this post</a>.</p>
+<p>To briefly reintroduce the system: imagine a field, a 2-D square lattice of <span class="math">\(M\)</span> sites with food distributed randomly at a density <span class="math">\(\rho_{food}\)</span>.  Creatures wander across the field taking <span class="math">\(N\)</span> steps per day via random walk, gathering any food they come across.  At the end of each day, if a creature has no food it dies, if a creature has exactly 1 food it survives, and if a creature has 2 or more food it survives and reproduces.  The food will then resprout at random&nbsp;locations.</p>
+<p>For the purposes of this post, to make the modeling simpler, we introduce the following&nbsp;properties:</p>
 <ul>
 <li>
-<p><span class="math">\(\langle R \rangle\)</span> depends only weakly on <span class="math">\(M\)</span> while <span class="math">\(\langle N_{unique} \rangle\)</span> clearly increases with <span class="math">\(M\)</span>. Both of these results make sense: In 1-D, the walker always has an equal chance to step further away from the origin or closer to it.  It also always has at least a 50% chance of backtracking to a position it has already visited. As you add dimensions, it becomes less likely to step immediately closer or further from the origin and more likely to wander in an orthogonal direction, increasing the distance from the origin by roughly the same amount independent of <em>which</em> orthogonal direction, while also visiting completely new parts of the&nbsp;lattice.</p>
+<p>All food spoils at the end of each day before resprouting - creatures cannot store it and it does not accumulate on the&nbsp;field.</p>
 </li>
 <li>
-<p>In 1-D, if you take an even number of steps, <span class="math">\(R\)</span> is always an even integer, so the distribution of <span class="math">\(R\)</span> appears “stripe-y” above. <span class="math">\(R(M=1)\)</span> can be understood as something like a <a href="https://en.wikipedia.org/wiki/Folded_normal_distribution">folded normal distribution</a> for large <span class="math">\(N\)</span>.</p>
+<p>All creatures teleport to a random field position at the end of each day, preventing creatures from consistently competing for food with their&nbsp;children.</p>
 </li>
 <li>
-<p>As <span class="math">\(M\)</span> gets larger, the distribution of <span class="math">\(R\)</span> tightens up. We are essentially taking <span class="math">\(M\)</span> 1-D random walks, each with <span class="math">\(\sim N/M\)</span> steps and adding the results in quadrature. The result of this is that our walker is less likely to be very close to the origin and simultaneously less likely to wander too far afield as it is more likely to have traveled a little bit in many orthogonal&nbsp;dimensions.</p>
-</li>
-<li>
-<p>The width of the <span class="math">\(N_{unique}\)</span> distribution, <span class="math">\(\sigma_{N_{unique}}\)</span>, depends in an interesting way on <span class="math">\(M\)</span>, increasing from 1-D to 2-D and thereafter decreasing. This seems because the distribution is centered most distant from the extremes of 0 or <span class="math">\(N\)</span>.</p>
+<p>Periodic boundary conditions on the field with <span class="math">\(M \gg N\)</span> such that creatures do not wander “around the world” within a single&nbsp;day.</p>
 </li>
 </ul>
-<p>Let’s take a look at the means of our two metrics as a function of <span class="math">\(N\)</span> for various <span class="math">\(M\)</span> (apologies for using a gif here, but it helps with 1. keeping this post concise and 2. comparing the plots as <span class="math">\(M\)</span> changes incrementally.  If you prefer static images, I’ve included them at <a href="https://github.com/dustinmcintosh/random-walks">github</a>):</p>
-<p align="center">
-     <img src="images/R_and_Nu_vs_n.gif">
-</p>
-
-<p>Note, this is a <a href="https://en.wikipedia.org/wiki/Log%E2%80%93log_plot">log-log plot</a>; power laws show up as straight lines.  One of the first things you’ll notice is that the variation in dependence on <span class="math">\(N\)</span> across different <span class="math">\(M\)</span> is fairly banal for <span class="math">\(R\)</span>, but much more interesting for <span class="math">\(N_{unique}\)</span>.  In fact, it is a well-known result (see, e.g., <a href="https://math.stackexchange.com/questions/103142/expected-value-of-random-walk">here</a>) that <span class="math">\(\langle R \rangle \sim N^\alpha\)</span> with <span class="math">\(\alpha = 0.5\)</span> for all <span class="math">\(M\)</span>.  <span class="math">\(\langle N_{unique} \rangle\)</span>, on the other hand, seems similar to <span class="math">\(\langle R \rangle\)</span> in 1-D, but the dependence on <span class="math">\(N\)</span> increases dramatically thereafter and approaches <span class="math">\(\langle N_{unique} \rangle \approx N^\beta\)</span> with <span class="math">\(\beta=1\)</span> at higher dimensions.  If you look closely, you’ll note that 2-D is particularly special (more on that&nbsp;shortly).</p>
-<p>We can also look at the widths (standard deviations) of the two distributions (again, you’ll note that 2-D is particularly&nbsp;interesting):</p>
-<p align="center">
-     <img src="images/std_vs_N.gif">
-</p>
-
-<p>First, note that all 4 of the quantities describing the distributions of <span class="math">\(R\)</span> and <span class="math">\(N_{unique}\)</span> plotted above are well-described by power laws. Thus, we can extract eight parameters to describe them (four exponents and four scaling factors) as a function of <span class="math">\(M\)</span>:</p>
-<div class="math">\begin{eqnarray}
-\langle R \rangle &amp;\approx&amp; R_0 * N^\alpha \\
-\langle N_{unique} \rangle &amp;\approx&amp; N_0 * N^\beta \\
-\sigma_R &amp;\approx&amp; \sigma_{R,0} * N^\gamma \\
-\sigma_{N_{unique}} &amp;\approx&amp; \sigma_{N_{unique},0} * N^\delta \\
+<p>First, let’s imagine a single creature alone on the field. After taking <span class="math">\(N\)</span> steps, the creature will explore <span class="math">\(N_{unique}\)</span> unique sites on the lattice, where <span class="math">\(\langle N_{unique} \rangle \sim N^\beta\)</span>, with <span class="math">\(\beta \approx 0.87\)</span> (see <a href="https://www.efavdb.com/random-walk-scaling">this post</a> for more details). The number of food that this creature will gather by the end of the day is <span class="math">\(x \sim \text{Binom}(N_{unique}, \rho_{food})\)</span>. We’ll represent the probability the creature gets <span class="math">\(x\)</span> food&nbsp;as</p>
+<div class="math">\begin{eqnarray} \tag{1} \label{binom}
+p_x = {N_{unique} \choose x} {\rho_{food}}^x (1-\rho_{food})^{N_{unique}-x}. \\
 \end{eqnarray}</div>
+<p>For very small <span class="math">\(N\)</span>, <span class="math">\(p_0\)</span> is large and <span class="math">\(p_{2+} = 1 - p_0 - p_1\)</span> is small - the creature is likely to perish without reproducing.  The larger <span class="math">\(N\)</span>, the larger <span class="math">\(N_{unique}\)</span>, resulting in smaller <span class="math">\(p_0\)</span> and larger <span class="math">\(p_{2+}\)</span>. There is a specific <span class="math">\(N\)</span> for which <span class="math">\(p_0 = p_{2+}\)</span> - at this critical point <span class="math">\(N_c\)</span>, the creature is equally likely to reproduce and to die. For <span class="math">\(\rho_{food} = 0.03\)</span>, the relevant probabilities along with this critical point are plotted&nbsp;below.</p>
 <p align="center">
-     <img src="images/exponents_scaling_vs_M.png">
+     <img src="images/binomial_random_walk.png">
 </p>
 
-<p>I’ve plotted all the theoretical results that I could find for these parameters as lines&nbsp;above:</p>
+<p>A couple of interesting&nbsp;notes:</p>
 <ul>
 <li>
-<p>As mentioned, <span class="math">\(\alpha = 0.5\)</span> for all <span class="math">\(M\)</span>. (blue line top&nbsp;plot)</p>
+<p>At <span class="math">\(N_c\)</span>, the creature is most likely to get exactly 1 food and barely survive, it dies or reproduces with equal probability <span class="math">\(\approx 0.315 &lt; 1/3\)</span>.</p>
 </li>
 <li>
-<p><span class="math">\(R_0\)</span> gives <span class="math">\(\langle R \rangle\)</span> its weak dependence on <span class="math">\(M\)</span>, varying according to an elegant ratio of Gamma functions as described <a href="https://math.stackexchange.com/questions/103142/expected-value-of-random-walk">here</a>.  (blue dash-dot line bottom&nbsp;plot)</p>
-</li>
-<li>
-<p>It has been shown that <span class="math">\(\beta = 0.5\)</span> for <span class="math">\(M=1\)</span> and <span class="math">\(\beta = 1\)</span> for all <span class="math">\(M \geq 3\)</span>.  (orange dash and line in the top plot)  I found these theoretical results in this <a href="https://www.osti.gov/servlets/purl/4637387">wonderful paper</a>, which you should really glance at, if not read, just to see an interesting piece of history - it’s by George H. Vineyard in 1963 (no so long ago for such a fundamental math problem!) at Brookhaven National Lab for the <span class="caps">US</span> Atomic Energy Commission. Written on a typewriter, here is a sample equation, complete with hand-written scribbles to indicate the vectors and a clearly corrected typo on the first&nbsp;cosine:</p>
+<p><span class="math">\(N_{unique, c} &gt; 1/\rho_{food}\)</span> - the creature must be, on average, gathering more than 1 food in order for it to not die&nbsp;off.</p>
 </li>
 </ul>
+<p>We can reproduce <span class="math">\(N_c\)</span> from the simulation framework as well.  We ran numerous simulations, holding <span class="math">\(\rho_{food} = 0.03\)</span> constant and varying <span class="math">\(N\)</span> for a few creatures (code <a href="https://github.com/dustinmcintosh/world_wandering_dudes/blob/master/scripts/lifetime_study.py">here</a>). For each <span class="math">\(N\)</span>, we plot the fraction of simulations that still had creatures after 200&nbsp;days:</p>
 <p align="center">
-     <img src="images/Vineyard_pic.png">
+     <img src="images/frac_survive.png">
 </p>
 
+<p>For sufficiently large fields, the transition from long-term survival to population collapse is sharp at <span class="math">\(N_c(\rho_{food} = 0.03) \approx 72\)</span> as predicted by the binomial probabilities above, creatures that walk longer than this survive and multiply, creatures that walk shorter, die off.  Smaller fields show propensity for population collapse at even higher <span class="math">\(N\)</span> which can be attributed to inherent instability of relatively small populations (<span class="math">\(n &lt; 10\)</span> or&nbsp;so).</p>
+<p>We can extend this understanding to a population of <span class="math">\(n\)</span> creatures: Based on the rules outlined at the beginning of the post, the number of creatures on day <span class="math">\(i+1\)</span>, <span class="math">\(n_{i+1}\)</span>, will&nbsp;be:</p>
+<div class="math">\begin{eqnarray} \tag{2} \label{dt}
+n_{i+1} = n_{i} - n_{i}(x=0) + n_{i}(x \geq 2), \\
+\end{eqnarray}</div>
+<p>where <span class="math">\(n_{i}(x=j)\)</span> is the number of creatures getting <span class="math">\(j\)</span> food in the previous day (creatures tomorrow = creatures today - deaths today + births today).  In equilibrium, <span class="math">\(\langle n_{i+1} \rangle = \langle n_i \rangle\)</span>, implying <span class="math">\(\langle n_{i}(x=0) \rangle = \langle n_{i}(x&gt;=2) \rangle\)</span> (births=deaths).  With well-separated creatures, we’ll&nbsp;find</p>
+<div class="math">\begin{eqnarray}
+\langle n_{i}(x=0) \rangle &amp;=&amp; \langle n_{i} \rangle p_0 \\
+\langle n_{i}(x \geq 2) \rangle &amp;=&amp; \langle n_{i} \rangle p_{2+}. \tag{3} \label{birthdeath}
+\end{eqnarray}</div>
+<p>Again, equilibrium is only achieved at <span class="math">\(p_0 = p_{2+}\)</span> as discussed&nbsp;above.</p>
+<p>However, if the creatures are thriving, they will multiply to the point that they are no longer in isolation and start to “steal” each other&#8217;s food.  This will then curb the population’s growth. To explore this, for simulations with creatures that survived their first 200 days, we look at the average number of creatures on the field from day 100 to 200 (to isolate the equilibrium condition).  We plot <span class="math">\(\langle n \rangle / \rho_{food} M\)</span> (average creatures as a fraction of the daily food sprout&nbsp;rate):</p>
+<p align="center">
+     <img src="images/equil_n.png">
+</p>
+
+<p>The trend generally makes sense, creatures with longer walks gather more food and can maintain larger populations. Near the critical point <span class="math">\(N_c\)</span>, the stable populations are very low relative to the amount of food on the field, but they are stable (for sufficiently large fields).  In this case, interactions between creatures are rare occurrences, but there are enough to keep the population from growing at the very slow rate that it would if all its creatures were in isolation (<span class="math">\(p_{2+}\)</span> is only marginally larger here than <span class="math">\(p_0\)</span>).</p>
+<p>The remainder of this post is a discussion of the theoretical line in the figure&nbsp;above.</p>
+<p>In order to approximate the impact of creature food “stealing” on the equilibrium population level, we must return to equations (\ref{birthdeath}) and add a term to account for these interactions to each.  Some creatures that would have otherwise reproduced will lose this ability due to displaced food.  Likewise, some creatures that would have barely survived will die.  As an approximation, we’ll only model the impact on creatures that would have gotten exactly 1 (or 2) food as these creatures are the most at risk of losing the ability to survive (or reproduce) as a result of food displacement.  The probability of the average creature having an interaction with one of the other creatures scales as <span class="math">\(    n_{i} (\langle N_{unique} \rangle/M)\)</span> (the number of other creatures times their relative footprint on the field), So, we can modify equations (\ref{birthdeath}), reducing births and supplementing&nbsp;deaths:</p>
+<div class="math">\begin{eqnarray}
+\langle n_{i}(x=0) \rangle &amp;=&amp; \langle n_{i} \rangle  (p_0 + p_1 \frac{A \langle N_{unique} \rangle}{M} \langle n_{i} \rangle) \\
+\langle n_{i}(x \geq 2) \rangle &amp;=&amp; \langle n_{i} \rangle (p_{2+} - p_2 \frac{A \langle N_{unique} \rangle}{M} \langle n_{i} \rangle) , \tag{4} \label{birthdeathint}
+\end{eqnarray}</div>
+<p>where <span class="math">\(A\)</span> is some constant of proportionality having to do with some of the geometry of the system and the fraction of food displaced as a result of the average&nbsp;interaction.</p>
+<p>Again, equilibrium will be reached when the two quantities in equations (\ref{birthdeathint}) are equal, which leads to a unique solution for the average number of creatures at&nbsp;equilibrium:</p>
+<div class="math">\begin{eqnarray} \tag{5} \label{equilN}
+\frac{\langle n_{i} \rangle}{\rho_{food} M} = \frac{1}{A \rho_{food}}\frac{p_{2+}-p_0}{p_1 + p_2}.
+\end{eqnarray}</div>
+<p>The line in the figure above is for <span class="math">\(A = 3/4\)</span>, which was a fit by eye. Not shown here, but we have confirmed that this prediction (with <span class="math">\(A = 3/4\)</span>) works reasonbly well for other values of <span class="math">\(\rho_{food}\)</span> as&nbsp;well.</p>
+<p>This discussed model has some&nbsp;limitations:</p>
 <ul>
-<li>In the same paper, Vineyard derives that <span class="math">\(N_{unique, 0} = \sqrt{8/\pi}\)</span> in 1-D and <span class="math">\(N_{unique, 0} \approx 0.659462670\)</span> (yes with all those sig. figs.) in 3-D as derived from evaluating Watson’s Integrals (which, I take it, is what the integrals in the image above are called). (orange dashes in bottom&nbsp;plot)</li>
+<li>
+<p>It considers only creatures with exactly 1(2) food to be at risk of dying (failing to reproduce) as a result of interactions, while actually creatures that get 3+ food without interactions have a chance to have enough stolen to not reproduce or even to not even&nbsp;survive.</p>
+</li>
+<li>
+<p>It fails to consider 3+ -body interactions (a creature with a trajectory overlapping with 2 or more other&nbsp;creatures).</p>
+</li>
+<li>
+<p>It neglects the distribution of <span class="math">\(N_{unique}\)</span>, essentially mapping <span class="math">\(N_{unique} \rightarrow \langle N_{unique} \rangle\)</span>.</p>
+</li>
 </ul>
-<p>The most interesting thing about all this, to me, is that there is no known theoretical result for <span class="math">\(\beta\)</span> in 2-D. From our data, we get <span class="math">\(\beta = 0.87 \pm 0.02\)</span>.  An interesting phenomenological argument for <span class="math">\(\beta\)</span>’s dependence on <span class="math">\(M\)</span>: The random walker spends most of it’s time roaming around within a distance of <span class="math">\(\langle R \rangle \sim N^{\alpha}\)</span> from the origin (where <span class="math">\(\alpha=1/2\)</span>, independent of <span class="math">\(M\)</span>), as that is where it is going to end up.  In 1-D, there are only <span class="math">\(\sim 2 N^{1/2}\)</span> sites within this distance, so the number of unique sites visited scales with <span class="math">\(N^{1/2}\)</span>. In 3-D, there are <span class="math">\(\sim \frac{4}{3} \pi N^{3/2}\)</span> sites in the sphere of radius <span class="math">\(N^{1/2}\)</span>, which is <span class="math">\(\gg N\)</span>, so the walker explores <span class="math">\(\sim N\)</span> sites (as it can visit no more than it walks), similar for larger <span class="math">\(M\)</span>.</p>
-<p><strong>This is what makes 2-D random walks special</strong>: the number of sites within <span class="math">\(N^{1/2}\)</span> distance of the origin is <span class="math">\(\sim N\)</span>, scaling as the number of steps taken - so, the scaling arguments above no longer apply, leaving us somewhere between <span class="math">\(1/2 &lt; \beta &lt; 1\)</span>.</p>
-<p>A few final notes on the exponents and scaling factors that I don’t understand in terms of&nbsp;theory:</p>
-<ul>
-<li>We don’t get exactly <span class="math">\(\beta=1\)</span> from the data in 3-D above, but that may be because some of our <span class="math">\(N\)</span> are not quite large&nbsp;enough.</li>
-<li>I have not seen any theory for <span class="math">\(\sigma_{R,0}\)</span>, <span class="math">\(\sigma_{N_{unique},0}\)</span>, <span class="math">\(\gamma\)</span>, or <span class="math">\(\delta\)</span>.</li>
-<li><span class="math">\(\gamma\)</span> appears to also be independent of <span class="math">\(M\)</span> at 0.5. Surely this isn&#8217;t hard to&nbsp;derive?</li>
-<li><span class="math">\(\delta\)</span> increases dramatically from 1-D to 2-D (again, 2-D appears the most interesting case) and slowly settles back down to 0.5 at large <span class="math">\(M\)</span>.</li>
-<li><span class="math">\(\sigma_{N_{unique},0}\)</span> has a strange effect for <span class="math">\(M=2\)</span> also, dipping before going back up and then finally decaying towards zero for <span class="math">\(M&gt;4\)</span>.</li>
-<li>For large <span class="math">\(M\)</span>, the data indicate that <span class="math">\(\sigma_{R,0} \approx \sigma_{N_{unique},0}\)</span> and <span class="math">\(\gamma \approx \delta \approx 0.5\)</span>, indicating that <span class="math">\(\sigma_{R} \approx \sigma_{N_{unique}}\)</span>.  Further, not shown here, but in <a href="https://github.com/dustinmcintosh/random-walks/blob/master/figures/scaling_of_std_dev_vs_m.png">github</a>,  <span class="math">\(\sigma_{R,0} \approx \sigma_{N_{unique},0} \sim \sqrt{1/M}\)</span>. Or, in total, <span class="math">\(\sigma_{R} \approx \sigma_{N_{unique}} \sim \sqrt{N/M}\)</span> for large <span class="math">\(M\)</span> and <span class="math">\(N\)</span>.</li>
-</ul>
-<p>I really enjoyed working on this post from end-to-end: writing the random walker class, finding a great python jackknife function from astropy (see the <a href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf">colab notebook</a>), hacking my way through matplotlib, discovering the amazing Vineyard paper, and just generally exploring this incredibly rich problem that is so easy to state yet difficult to theoretically solve.  I’ll also note that the 2-D results are of particular interest to me given their applicability to the <a href="https://www.efavdb.com/world-wandering-dudes">World Wandering Dudes</a> project that I have been working&nbsp;on.</p>
+<p>The model is thus not correct, but simple and captures the core of the problem. It reminds me vaguely of the Flory approximation in polymer physics (see discussion <a href="https://ethz.ch/content/dam/ethz/special-interest/mavt/process-engineering/macro-dam/documents/NetworkGels_Lecture6.pdf">here</a>).</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -243,11 +241,11 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
  
                 <p id="post-share-links">
     Share this post on:
-    <a href="https://twitter.com/intent/tweet?text=2-D%20random%20walks%20are%C2%A0special&url=https%3A//efavdb.com/random-walk-scaling&hashtags=statistics,python" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=To%20Flourish%20or%20to%C2%A0Perish&url=https%3A//efavdb.com/to-flourish-or-to-perish&hashtags=python,statistics,world-wandering-dudes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/random-walk-scaling" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/to-flourish-or-to-perish" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=2-D%20random%20walks%20are%C2%A0special&amp;body=https%3A//efavdb.com/random-walk-scaling" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=To%20Flourish%20or%20to%C2%A0Perish&amp;body=https%3A//efavdb.com/to-flourish-or-to-perish" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -276,8 +274,8 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/random-walk-scaling"
-                   href="https://efavdb.com/random-walk-scaling#comment_thread"
+                   data-disqus-identifier="https://efavdb.com/to-flourish-or-to-perish"
+                   href="https://efavdb.com/to-flourish-or-to-perish#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -295,8 +293,8 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://efavdb.com/random-walk-scaling';
-    var disqus_url = 'https://efavdb.com/random-walk-scaling';
+    var disqus_identifier = 'https://efavdb.com/to-flourish-or-to-perish';
+    var disqus_url = 'https://efavdb.com/to-flourish-or-to-perish';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -320,17 +318,16 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/dqn" title="Previous: Q-learning and DQN">Q-learning and DQN</a></li>
-                <li class="next-article"><a href="https://efavdb.com/visualize-actor-critic" title="Next: Visualizing an actor critic algorithm in real time">Visualizing an actor critic algorithm in real time</a> »</li>
+                <li class="previous-article">« <a href="https://efavdb.com/pricing-dividend-stocks" title="Previous: Pricing dividend stocks">Pricing dividend stocks</a></li>
             </ul>
             </nav>
             </aside>
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2020-04-10T00:00:00-07:00">Apr 10, 2020</time>
+            <time itemprop="dateCreated" datetime="2021-01-03T00:00:00-08:00">Jan 3, 2021</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <a class="category-link" href="https://efavdb.com/categories#world-wandering-dudes-ref">World Wandering Dudes</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://efavdb.com/tags#python-ref">python
@@ -338,6 +335,9 @@ href="https://colab.research.google.com/drive/13GYlaTvO-Wu_3ep_Pa0mRZo-CYelDFmf"
 </a></li>
                 <li><a href="https://efavdb.com/tags#statistics-ref">statistics
                     <span>8</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#world-wandering-dudes-ref">world wandering dudes
+                    <span>2</span>
 </a></li>
             </ul>
 <h4>Contact</h4>

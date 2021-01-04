@@ -1,5 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - World Wandering Dudes</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/world-wandering-dudes.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-03-08T00:00:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>A Framework for Studying Population Dynamics</title><link href="https://efavdb.com/world-wandering-dudes" rel="alternate"></link><published>2020-03-08T00:00:00-08:00</published><updated>2020-03-08T00:00:00-08:00</updated><author><name>Dustin McIntosh</name></author><id>tag:efavdb.com,2020-03-08:/world-wandering-dudes</id><summary type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - World Wandering Dudes</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/world-wandering-dudes.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2021-01-03T00:00:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>To Flourish or to Perish</title><link href="https://efavdb.com/to-flourish-or-to-perish" rel="alternate"></link><published>2021-01-03T00:00:00-08:00</published><updated>2021-01-03T00:00:00-08:00</updated><author><name>Dustin McIntosh</name></author><id>tag:efavdb.com,2021-01-03:/to-flourish-or-to-perish</id><summary type="html">&lt;p&gt;In this post, I explore some basic math behind the World Wandering Dudes framework previously introduced in &lt;a href="https://www.efavdb.com/world-wandering-dudes"&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To briefly reintroduce the system: imagine a field, a 2-D square lattice of &lt;span class="math"&gt;\(M\)&lt;/span&gt; sites with food distributed randomly at a density &lt;span class="math"&gt;\(\rho_{food}\)&lt;/span&gt;.  Creatures wander across the field taking &lt;span class="math"&gt;\(N …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post, I explore some basic math behind the World Wandering Dudes framework previously introduced in &lt;a href="https://www.efavdb.com/world-wandering-dudes"&gt;this post&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To briefly reintroduce the system: imagine a field, a 2-D square lattice of &lt;span class="math"&gt;\(M\)&lt;/span&gt; sites with food distributed randomly at a density &lt;span class="math"&gt;\(\rho_{food}\)&lt;/span&gt;.  Creatures wander across the field taking &lt;span class="math"&gt;\(N\)&lt;/span&gt; steps per day via random walk, gathering any food they come across.  At the end of each day, if a creature has no food it dies, if a creature has exactly 1 food it survives, and if a creature has 2 or more food it survives and reproduces.  The food will then resprout at random&amp;nbsp;locations.&lt;/p&gt;
+&lt;p&gt;For the purposes of this post, to make the modeling simpler, we introduce the following&amp;nbsp;properties:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;All food spoils at the end of each day before resprouting - creatures cannot store it and it does not accumulate on the&amp;nbsp;field.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;All creatures teleport to a random field position at the end of each day, preventing creatures from consistently competing for food with their&amp;nbsp;children.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Periodic boundary conditions on the field with &lt;span class="math"&gt;\(M \gg N\)&lt;/span&gt; such that creatures do not wander “around the world” within a single&amp;nbsp;day.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;First, let’s imagine a single creature alone on the field. After taking &lt;span class="math"&gt;\(N\)&lt;/span&gt; steps, the creature will explore &lt;span class="math"&gt;\(N_{unique}\)&lt;/span&gt; unique sites on the lattice, where &lt;span class="math"&gt;\(\langle N_{unique} \rangle \sim N^\beta\)&lt;/span&gt;, with &lt;span class="math"&gt;\(\beta \approx 0.87\)&lt;/span&gt; (see &lt;a href="https://www.efavdb.com/random-walk-scaling"&gt;this post&lt;/a&gt; for more details). The number of food that this creature will gather by the end of the day is &lt;span class="math"&gt;\(x \sim \text{Binom}(N_{unique}, \rho_{food})\)&lt;/span&gt;. We’ll represent the probability the creature gets &lt;span class="math"&gt;\(x\)&lt;/span&gt; food&amp;nbsp;as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1} \label{binom}
+p_x = {N_{unique} \choose x} {\rho_{food}}^x (1-\rho_{food})^{N_{unique}-x}. \\
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;For very small &lt;span class="math"&gt;\(N\)&lt;/span&gt;, &lt;span class="math"&gt;\(p_0\)&lt;/span&gt; is large and &lt;span class="math"&gt;\(p_{2+} = 1 - p_0 - p_1\)&lt;/span&gt; is small - the creature is likely to perish without reproducing.  The larger &lt;span class="math"&gt;\(N\)&lt;/span&gt;, the larger &lt;span class="math"&gt;\(N_{unique}\)&lt;/span&gt;, resulting in smaller &lt;span class="math"&gt;\(p_0\)&lt;/span&gt; and larger &lt;span class="math"&gt;\(p_{2+}\)&lt;/span&gt;. There is a specific &lt;span class="math"&gt;\(N\)&lt;/span&gt; for which &lt;span class="math"&gt;\(p_0 = p_{2+}\)&lt;/span&gt; - at this critical point &lt;span class="math"&gt;\(N_c\)&lt;/span&gt;, the creature is equally likely to reproduce and to die. For &lt;span class="math"&gt;\(\rho_{food} = 0.03\)&lt;/span&gt;, the relevant probabilities along with this critical point are plotted&amp;nbsp;below.&lt;/p&gt;
+&lt;p align="center"&gt;
+     &lt;img src="images/binomial_random_walk.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;A couple of interesting&amp;nbsp;notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;At &lt;span class="math"&gt;\(N_c\)&lt;/span&gt;, the creature is most likely to get exactly 1 food and barely survive, it dies or reproduces with equal probability &lt;span class="math"&gt;\(\approx 0.315 &amp;lt; 1/3\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(N_{unique, c} &amp;gt; 1/\rho_{food}\)&lt;/span&gt; - the creature must be, on average, gathering more than 1 food in order for it to not die&amp;nbsp;off.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We can reproduce &lt;span class="math"&gt;\(N_c\)&lt;/span&gt; from the simulation framework as well.  We ran numerous simulations, holding &lt;span class="math"&gt;\(\rho_{food} = 0.03\)&lt;/span&gt; constant and varying &lt;span class="math"&gt;\(N\)&lt;/span&gt; for a few creatures (code &lt;a href="https://github.com/dustinmcintosh/world_wandering_dudes/blob/master/scripts/lifetime_study.py"&gt;here&lt;/a&gt;). For each &lt;span class="math"&gt;\(N\)&lt;/span&gt;, we plot the fraction of simulations that still had creatures after 200&amp;nbsp;days:&lt;/p&gt;
+&lt;p align="center"&gt;
+     &lt;img src="images/frac_survive.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;For sufficiently large fields, the transition from long-term survival to population collapse is sharp at &lt;span class="math"&gt;\(N_c(\rho_{food} = 0.03) \approx 72\)&lt;/span&gt; as predicted by the binomial probabilities above, creatures that walk longer than this survive and multiply, creatures that walk shorter, die off.  Smaller fields show propensity for population collapse at even higher &lt;span class="math"&gt;\(N\)&lt;/span&gt; which can be attributed to inherent instability of relatively small populations (&lt;span class="math"&gt;\(n &amp;lt; 10\)&lt;/span&gt; or&amp;nbsp;so).&lt;/p&gt;
+&lt;p&gt;We can extend this understanding to a population of &lt;span class="math"&gt;\(n\)&lt;/span&gt; creatures: Based on the rules outlined at the beginning of the post, the number of creatures on day &lt;span class="math"&gt;\(i+1\)&lt;/span&gt;, &lt;span class="math"&gt;\(n_{i+1}\)&lt;/span&gt;, will&amp;nbsp;be:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{2} \label{dt}
+n_{i+1} = n_{i} - n_{i}(x=0) + n_{i}(x \geq 2), \\
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(n_{i}(x=j)\)&lt;/span&gt; is the number of creatures getting &lt;span class="math"&gt;\(j\)&lt;/span&gt; food in the previous day (creatures tomorrow = creatures today - deaths today + births today).  In equilibrium, &lt;span class="math"&gt;\(\langle n_{i+1} \rangle = \langle n_i \rangle\)&lt;/span&gt;, implying &lt;span class="math"&gt;\(\langle n_{i}(x=0) \rangle = \langle n_{i}(x&amp;gt;=2) \rangle\)&lt;/span&gt; (births=deaths).  With well-separated creatures, we’ll&amp;nbsp;find&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\langle n_{i}(x=0) \rangle &amp;amp;=&amp;amp; \langle n_{i} \rangle p_0 \\
+\langle n_{i}(x \geq 2) \rangle &amp;amp;=&amp;amp; \langle n_{i} \rangle p_{2+}. \tag{3} \label{birthdeath}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Again, equilibrium is only achieved at &lt;span class="math"&gt;\(p_0 = p_{2+}\)&lt;/span&gt; as discussed&amp;nbsp;above.&lt;/p&gt;
+&lt;p&gt;However, if the creatures are thriving, they will multiply to the point that they are no longer in isolation and start to “steal” each other&amp;#8217;s food.  This will then curb the population’s growth. To explore this, for simulations with creatures that survived their first 200 days, we look at the average number of creatures on the field from day 100 to 200 (to isolate the equilibrium condition).  We plot &lt;span class="math"&gt;\(\langle n \rangle / \rho_{food} M\)&lt;/span&gt; (average creatures as a fraction of the daily food sprout&amp;nbsp;rate):&lt;/p&gt;
+&lt;p align="center"&gt;
+     &lt;img src="images/equil_n.png"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;The trend generally makes sense, creatures with longer walks gather more food and can maintain larger populations. Near the critical point &lt;span class="math"&gt;\(N_c\)&lt;/span&gt;, the stable populations are very low relative to the amount of food on the field, but they are stable (for sufficiently large fields).  In this case, interactions between creatures are rare occurrences, but there are enough to keep the population from growing at the very slow rate that it would if all its creatures were in isolation (&lt;span class="math"&gt;\(p_{2+}\)&lt;/span&gt; is only marginally larger here than &lt;span class="math"&gt;\(p_0\)&lt;/span&gt;).&lt;/p&gt;
+&lt;p&gt;The remainder of this post is a discussion of the theoretical line in the figure&amp;nbsp;above.&lt;/p&gt;
+&lt;p&gt;In order to approximate the impact of creature food “stealing” on the equilibrium population level, we must return to equations (\ref{birthdeath}) and add a term to account for these interactions to each.  Some creatures that would have otherwise reproduced will lose this ability due to displaced food.  Likewise, some creatures that would have barely survived will die.  As an approximation, we’ll only model the impact on creatures that would have gotten exactly 1 (or 2) food as these creatures are the most at risk of losing the ability to survive (or reproduce) as a result of food displacement.  The probability of the average creature having an interaction with one of the other creatures scales as &lt;span class="math"&gt;\(    n_{i} (\langle N_{unique} \rangle/M)\)&lt;/span&gt; (the number of other creatures times their relative footprint on the field), So, we can modify equations (\ref{birthdeath}), reducing births and supplementing&amp;nbsp;deaths:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\langle n_{i}(x=0) \rangle &amp;amp;=&amp;amp; \langle n_{i} \rangle  (p_0 + p_1 \frac{A \langle N_{unique} \rangle}{M} \langle n_{i} \rangle) \\
+\langle n_{i}(x \geq 2) \rangle &amp;amp;=&amp;amp; \langle n_{i} \rangle (p_{2+} - p_2 \frac{A \langle N_{unique} \rangle}{M} \langle n_{i} \rangle) , \tag{4} \label{birthdeathint}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;where &lt;span class="math"&gt;\(A\)&lt;/span&gt; is some constant of proportionality having to do with some of the geometry of the system and the fraction of food displaced as a result of the average&amp;nbsp;interaction.&lt;/p&gt;
+&lt;p&gt;Again, equilibrium will be reached when the two quantities in equations (\ref{birthdeathint}) are equal, which leads to a unique solution for the average number of creatures at&amp;nbsp;equilibrium:&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{5} \label{equilN}
+\frac{\langle n_{i} \rangle}{\rho_{food} M} = \frac{1}{A \rho_{food}}\frac{p_{2+}-p_0}{p_1 + p_2}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;The line in the figure above is for &lt;span class="math"&gt;\(A = 3/4\)&lt;/span&gt;, which was a fit by eye. Not shown here, but we have confirmed that this prediction (with &lt;span class="math"&gt;\(A = 3/4\)&lt;/span&gt;) works reasonbly well for other values of &lt;span class="math"&gt;\(\rho_{food}\)&lt;/span&gt; as&amp;nbsp;well.&lt;/p&gt;
+&lt;p&gt;This discussed model has some&amp;nbsp;limitations:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;It considers only creatures with exactly 1(2) food to be at risk of dying (failing to reproduce) as a result of interactions, while actually creatures that get 3+ food without interactions have a chance to have enough stolen to not reproduce or even to not even&amp;nbsp;survive.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It fails to consider 3+ -body interactions (a creature with a trajectory overlapping with 2 or more other&amp;nbsp;creatures).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;It neglects the distribution of &lt;span class="math"&gt;\(N_{unique}\)&lt;/span&gt;, essentially mapping &lt;span class="math"&gt;\(N_{unique} \rightarrow \langle N_{unique} \rangle\)&lt;/span&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The model is thus not correct, but simple and captures the core of the problem. It reminds me vaguely of the Flory approximation in polymer physics (see discussion &lt;a href="https://ethz.ch/content/dam/ethz/special-interest/mavt/process-engineering/macro-dam/documents/NetworkGels_Lecture6.pdf"&gt;here&lt;/a&gt;).&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="World Wandering Dudes"></category><category term="python"></category><category term="statistics"></category><category term="world wandering dudes"></category></entry><entry><title>A Framework for Studying Population Dynamics</title><link href="https://efavdb.com/world-wandering-dudes" rel="alternate"></link><published>2020-03-08T00:00:00-08:00</published><updated>2020-03-08T00:00:00-08:00</updated><author><name>Dustin McIntosh</name></author><id>tag:efavdb.com,2020-03-08:/world-wandering-dudes</id><summary type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dustinmcintosh/world_wandering_dudes"&gt;World Wandering Dudes&lt;/a&gt; is a simulation framework in which you initiate a “world” which consists of a “field” and a set of …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this post, I want to briefly introduce a new side project for the blog with applications to understanding population dynamics, natural selection, game theory, and probably&amp;nbsp;more.&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://github.com/dustinmcintosh/world_wandering_dudes"&gt;World Wandering Dudes&lt;/a&gt; is a simulation framework in which you initiate a “world” which consists of a “field” and a set of “creatures” (dudes). The field has food on it. Each day, the creatures run around gathering the food which they need to survive and&amp;nbsp;reproduce.&lt;/p&gt;
 &lt;h3 id="example"&gt;Example&lt;/h3&gt;
