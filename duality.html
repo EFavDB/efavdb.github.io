@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content=", optimization, " />
+
+<meta property="og:title" content="Physics-based proof of the duality theorem for linear programs "/>
+<meta property="og:url" content="https://efavdb.com/duality" />
+<meta property="og:description" content="Textbook proofs of the duality theorem often apply abstract arguments that offer little tangible insight into the relationship between a linear program and its dual. Here, we map the general linear program onto a simple mechanics problem. In this context, the significance of the theorem is relatively clear. The general …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2021-02-14T09:24:00-08:00" />
+<meta name="twitter:title" content="Physics-based proof of the duality theorem for linear programs ">
+<meta name="twitter:description" content="Textbook proofs of the duality theorem often apply abstract arguments that offer little tangible insight into the relationship between a linear program and its dual. Here, we map the general linear program onto a simple mechanics problem. In this context, the significance of the theorem is relatively clear. The general …">
+
+        <title>Physics-based proof of the duality theorem for linear programs  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-57405119-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
+        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
+        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.com
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.com/duality">
+                Physics-based proof of the duality theorem for linear&nbsp;programs
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>Textbook proofs of the duality theorem often apply abstract arguments that
+offer little tangible insight into the relationship between a linear program
+and its dual. Here, we map the general linear program onto a simple mechanics
+problem. In this context, the significance of the theorem is relatively&nbsp;clear.</p>
+<h4 id="the-general-linear-program-and-its-dual">The general linear program and its&nbsp;dual</h4>
+<p>The goal of a linear program is to optimize a linear objective function subject
+to some linear constraints.  By introducing slack and other auxiliary
+variables, the general linear program can be expressed as&nbsp;[1]
+</p>
+<div class="math">\begin{eqnarray}  \tag{1} \label{primal}
+\text{max}_{\textbf{x} \in \mathbb{R}_n}  \textbf{c}^T \cdot \textbf{x},
+\text{subject to: } A \cdot \textbf{x} \leq  \textbf{b}.
+\end{eqnarray}</div>
+<p>Here, the optimization is over <span class="math">\(\textbf{x} \in \mathbb{R}_n\)</span>, <span class="math">\(A\)</span> is a given <span class="math">\(m
+\times n\)</span> real matrix, <span class="math">\(\textbf{b}\)</span> and <span class="math">\(\textbf{c}\)</span> are given real vectors,
+and the inequality holds component-wise.  Any <span class="math">\(\textbf{x}\)</span> that satisfies the
+inequality constraints above is called a <em>feasible solution</em> to
+(\ref{primal}) and if a point can be found with finite components that
+optimizes the objective it is called an <em>optimal solution</em>.  Associated
+with (\ref{primal}) is the dual linear&nbsp;program,
+</p>
+<div class="math">\begin{eqnarray} \label{dual} \tag{2}
+\text{min}_{\textbf{w} \in \mathbb{R}_m} \textbf{b}^T \cdot \textbf{w} ,
+\text{subject to: } A^T \cdot \textbf{w} = \textbf{c}, \textbf{w} \geq
+\textbf{0}.  \end{eqnarray}</div>
+<p>
+The optimization here is over <span class="math">\(\textbf{w} \in \mathbb{R}_m\)</span>, and <span class="math">\(A\)</span>,
+<span class="math">\(\textbf{b}\)</span>, and <span class="math">\(\textbf{c}\)</span> are the same variables present in
+(\ref{primal}).  In this post, we apply some simple ideas from classical
+mechanics to prove the following theorem, one of the central results connecting
+the two linear programs&nbsp;above:</p>
+<h5 id="duality-theorem">Duality&nbsp;theorem</h5>
+<p>If  (\ref{primal}) has an optimal solution at <span class="math">\(\textbf{x}^*\)</span>, then (\ref{dual})
+will also have an optimal solution at some point <span class="math">\(\textbf{w}^*\)</span>, and these
+points&nbsp;satisfy
+</p>
+<div class="math">\begin{eqnarray}\label{strong_law} \tag{3}
+\textbf{c}^T \cdot \textbf{x}^*= \textbf{b}^T \cdot \textbf{w}^*.
+\end{eqnarray}</div>
+<p>
+That is, the optimal objectives of (\ref{primal}) and (\ref{dual})&nbsp;agree.</p>
+<h5 id="proof"><em>Proof:</em></h5>
+<p>To begin we assume that  <span class="math">\(\textbf{x}^*\)</span>  is an optimal solution to
+(\ref{primal}).  We also assume for simplicity that (i) we have chosen a
+coordinate system so that <span class="math">\(\textbf{x} =  \textbf{0}\)</span> is a feasible solution of
+(\ref{primal}) and that (ii) each row <span class="math">\(\hat{\textbf{A}}_i\)</span> of <span class="math">\(A\)</span> has been
+normalized to unit&nbsp;length. </p>
+<p>Next, we introduce a physical system relevant to (\ref{primal}) and
+(\ref{dual}):  We consider a mobile point particle that interacts with a set of
+<span class="math">\(m\)</span> fixed walls, all sitting in <span class="math">\(\mathbb{R}_n\)</span>.   The particle&#8217;s coordinate
+<span class="math">\(\textbf{x}_p\)</span> is initially set to <span class="math">\(\textbf{x}_p = \textbf{0}\)</span>.  The fixed
+<span class="math">\(i\)</span>-th wall sits at those points <span class="math">\(\textbf{x}\)</span> that satisfy <span class="math">\(\hat{\textbf{A}}_i
+\cdot \textbf{x} = b_i\)</span>.   We take the force on the particle from wall <span class="math">\(i\)</span> to
+have two parts:  (i) a constant, long range force, <span class="math">\(w_i \hat{\textbf{A}}_i\)</span>,
+normal to the wall, and (ii)  a  &#8220;hard core&#8221; force, <span class="math">\(-n_i(\textbf{x}_p)
+\hat{\textbf{A}}_i\)</span>, also normal to the wall.  The hard core force makes the
+wall impenetrable to the particle, but otherwise allows the particle to move
+freely:   Its magnitude is zero when the particle does not touch the wall, but
+on contact it scales up to whatever value is needed to prevent the particle
+from passing through&nbsp;it.</p>
+<p>To relate the physical system to our linear programs, we&#8217;ll require
+<span class="math">\(\textbf{x}_p\)</span> to be a feasible solution to (\ref{primal}) and the vector of
+long range force magnitudes <span class="math">\(\textbf{w}\)</span> to be a feasible solution to
+(\ref{dual}).  A point <span class="math">\(\textbf{x}_p\)</span> is a feasible solution to (\ref{primal})
+if and only if the particle is within the interior space bounded by the set of
+walls.  Further, the equality constraint of (\ref{dual}) is equivalent to the
+condition that all feasible <span class="math">\(\textbf{w}\)</span> result in a total long range force
+acting on the particle of <span class="math">\(\sum_i  w_i \hat{\textbf{A}}_i = \textbf{c}\)</span>.   The
+non-negativity condition on feasible <span class="math">\(\textbf{w}\)</span> vectors in (\ref{dual})
+further requires that the long range forces each be either attractive or zero.
+A simple example of the sort of physical system we&#8217;ve described here is shown
+in Fig.&nbsp;1a.</p>
+<hr>
+<p><figure class="image">
+  <img src="images/duality.png">
+</figure>
+<b>Fig. 1:</b> An example system:  (a) A particle at <span class="math">\(\textbf{x}_p=\textbf{0}\)</span>
+interacts with three walls.  The total long range force on the particle is
+<span class="math">\(\sum_i w_i \hat{\textbf{A}}_i = \textbf{c}\)</span>. (b) The particle sits at its long
+range potential minimum, <span class="math">\(\textbf{x}^*\)</span>, with walls <span class="math">\(2\)</span> and <span class="math">\(3\)</span> <span class="dquo">&#8220;</span>binding&#8221;.
+The hard core normal forces from these walls must point inward and sum to
+<span class="math">\(-\textbf{c}\)</span> &#8212; otherwise, there would be a net force on the particle, and it
+would continue to move, but that won&#8217;t happen once it sits at its potential
+minimum.  Wall <span class="math">\(1\)</span> is not binding and is now a distance <span class="math">\(d_1(\textbf{x}^*)\)</span>
+away from the particle.  This results in a positive difference between the dual
+and primal objectives (\ref{gap}), unless we can find a feasible <span class="math">\(\textbf{w}\)</span>
+for which <span class="math">\(w_1=0\)</span>.  Setting <span class="math">\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)</span> &#8212;  the
+vector of hard-core normal force magnitudes at <span class="math">\(\textbf{x}^*\)</span> &#8212; provides such
+a solution.  This is non-negative, zero for non-binding walls, and results in a
+total long range force of <span class="math">\(\textbf{c}\)</span> &#8212; a consequence of the point above that
+the particle must remain at rest at its potential minimum.  This choice for
+<span class="math">\(\textbf{w}\)</span> optimizes (\ref{dual}) and gives an objective matching that of
+(\ref{primal}) at
+<span class="math">\(\textbf{x}^*\)</span>.</p>
+<hr>
+<p>When we assert the conditions above, the potential associated with the long
+range forces in our physical system ends up being related to the objective
+functions of (\ref{primal}) and (\ref{dual}).  Up to a constant, the potential
+of a force <span class="math">\(\textbf{f}(\textbf{x})\)</span> is defined to be&nbsp;[2] 
+</p>
+<div class="math">\begin{eqnarray}\label{potential} \tag{4}
+U(\textbf{x}) \equiv -\int \textbf{f}(\textbf{x}) \cdot d\textbf{x}
+\end{eqnarray}</div>
+<p>
+In our case, the long range force between the wall <span class="math">\(i\)</span> and the particle is a
+constant and normal to the wall.  Its potential is therefore&nbsp;simply
+</p>
+<div class="math">\begin{eqnarray}\label{potential_i} \tag{5}
+U_i(\textbf{x}_p) = w_i d_i(\textbf{x}_p),
+\end{eqnarray}</div>
+<p>
+where 
+</p>
+<div class="math">\begin{eqnarray}\label{perp_distance} \tag{6}
+d_{i}(\textbf{x}_p)  \equiv b_i - \hat{\textbf{A}}_i \cdot \textbf{x}_p.
+\end{eqnarray}</div>
+<p>
+ This is the perpendicular distance between the particle and the wall <span class="math">\(i\)</span>.  The
+physical significance of (\ref{potential_i}) is that it is the total energy it
+takes to separate the particle from wall <span class="math">\(i\)</span> by a distance <span class="math">\(d_i\)</span>, working
+against the attractive force <span class="math">\(w_i\)</span>.  Notice that if we plug
+(\ref{perp_distance}) into (\ref{potential_i}), the total long range potential
+at <span class="math">\(\textbf{x}_p\)</span> can be written&nbsp;as
+</p>
+<div class="math">\begin{eqnarray}\nonumber
+\sum_i w_i d_i(\textbf{x}_p)&amp;=&amp; \sum_i w_i  \left (b_i - \hat{\textbf{A}}_i
+\cdot \textbf{x}_p  \right) 
+\\ &amp;=&amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c} \cdot \textbf{x}_p. \tag{7}
+ \label{potential_as_objective_difference}
+\end{eqnarray}</div>
+<p>
+Here, we have used one of the feasibility conditions on <span class="math">\(\textbf{w}\)</span> to get the
+last line.   The right side of (\ref{potential_as_objective_difference}) is the
+difference between the dual and primal objectives.  This will be minimized at
+the feasible point <span class="math">\(\textbf{x}_p\)</span> that maximizes <span class="math">\(\textbf{c}\cdot \textbf{x}_p\)</span>
+&#8212; the primal objective &#8212; and at that feasible <span class="math">\(\textbf{w}\)</span> that minimizes
+<span class="math">\(\textbf{w}^T \cdot \textbf{b}\)</span> &#8212; the dual objective.  In other words, we see
+that both our programs independently contribute to the common goal of
+minimizing the particle&#8217;s long range potential,
+(\ref{potential_as_objective_difference}), subject to our system&#8217;s&nbsp;constraints.</p>
+<p>The last preperatory remark we must make relates to the fact that we have
+assumed that <span class="math">\(\textbf{x}^*\)</span> is an optimal solution to (\ref{primal}) &#8212; i.e.,
+it is a point that is as far &#8220;down&#8221; in the <span class="math">\(\textbf{c}\)</span> direction as possible
+within the feasible set.  This must mean that <span class="math">\(\textbf{x}^*\)</span> sits somewhere at
+the boundary of the primal feasible set, with some of the constraints of
+(\ref{primal}) binding &#8212; i.e., satisfied as equalities.  Further, if we place
+and release the particle gently at <span class="math">\(\textbf{x}^*\)</span>, it must stay at rest as it
+can fall no further &#8212; just as a particle acted on by gravity stays at rest
+when it is placed in the bottom of a bucket. To stay at rest, there must be no
+net force on the particle, which means that the hard core normal forces <span class="math">\(-n_i
+\hat{\textbf{A}}_i\)</span> from the binding walls at <span class="math">\(\textbf{x}^*\)</span>  must sum to
+exactly <span class="math">\(-\textbf{c}\)</span>, fully countering the constant long range force.   The
+set of forces acting on the particle at <span class="math">\(\textbf{x}^*\)</span> is illustrated Fig. 1b
+for our simple&nbsp;example.</p>
+<p>To complete the argument, we note that the long range potential at
+<span class="math">\(\textbf{x}^*\)</span> is given from (\ref{potential_as_objective_difference})&nbsp;by
+</p>
+<div class="math">\begin{eqnarray} \label{gap} \tag{8} 
+\sum_i w_i d_i(\textbf{x}^*) &amp;=&amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c}
+\cdot \textbf{x}^*.
+\end{eqnarray}</div>
+<p>
+This is non-negative because  <span class="math">\(\textbf{w} \geq \textbf{0}\)</span> and
+<span class="math">\(d_i(\textbf{x}^*) &gt;0\)</span> for each non-binding wall.   It follows that the dual
+objective is always bounded from below by the optimal primal objective.
+Further, the gap between the two &#8212; the left side of (\ref{gap}) &#8212; can only be
+zero if the long range interaction strengths are zero for each non-binding wall
+at <span class="math">\(\textbf{x}^*\)</span> &#8212; i.e., if the particle is not actually attracted to the
+walls that are not binding at <span class="math">\(\textbf{x}^*\)</span>.   The vector
+<span class="math">\(\textbf{n}(\textbf{x}^*)\)</span> of hard core normal force magnitudes at
+<span class="math">\(\textbf{x}^*\)</span> provides such a solution for <span class="math">\(\textbf{w}\)</span>:  This is a feasible
+<span class="math">\(\textbf{w}\)</span>  because it is non-negative and results in normal forces that sum
+to <span class="math">\(\textbf{c}\)</span>.  Further, it is non-zero only for the binding constraints.  It
+follows that <span class="math">\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)</span> gives an optimal
+solution to the dual, at which point its objective matches that of the optimal
+primal solution.  This argument is summarized in the caption to Fig.&nbsp;1.</p>
+<h4 id="references">References</h4>
+<p>[1] Matousek, J., and Ga ̈rtner, B. Understanding and using linear programming.
+Springer&nbsp;(2007)</p>
+<p>[2] Marion, Jerry B. Classical dynamics of particles and systems. Academic
+Press,&nbsp;(2013).</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+             
+ 
+                <p id="post-share-links">
+    Share this post on:
+    <a href="https://twitter.com/intent/tweet?text=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&url=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    |
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    |
+    <a href="mailto:?subject=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&amp;body=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.com/duality"
+                   href="https://efavdb.com/duality#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.com/duality';
+    var disqus_url = 'https://efavdb.com/duality';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.com/to-flourish-or-to-perish" title="Previous: To Flourish or to Perish">To Flourish or to Perish</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2021-02-14T09:24:00-08:00">Feb 14, 2021</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.com/categories#optimization-ref">optimization</a>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

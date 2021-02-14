@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - optimization</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/optimization.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2021-02-14T09:24:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Physics-based proof of the duality theorem for linear programs</title><link href="https://efavdb.com/duality" rel="alternate"></link><published>2021-02-14T09:24:00-08:00</published><updated>2021-02-14T09:24:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2021-02-14:/duality</id><summary type="html">&lt;p&gt;Textbook proofs of the duality theorem often apply abstract arguments that
+offer little tangible insight into the relationship between a linear program
+and its dual. Here, we map the general linear program onto a simple mechanics
+problem. In this context, the significance of the theorem is relatively&amp;nbsp;clear.&lt;/p&gt;
+&lt;h4 id="the-general-linear-program-and-its-dual"&gt;The general …&lt;/h4&gt;</summary><content type="html">&lt;p&gt;Textbook proofs of the duality theorem often apply abstract arguments that
+offer little tangible insight into the relationship between a linear program
+and its dual. Here, we map the general linear program onto a simple mechanics
+problem. In this context, the significance of the theorem is relatively&amp;nbsp;clear.&lt;/p&gt;
+&lt;h4 id="the-general-linear-program-and-its-dual"&gt;The general linear program and its&amp;nbsp;dual&lt;/h4&gt;
+&lt;p&gt;The goal of a linear program is to optimize a linear objective function subject
+to some linear constraints.  By introducing slack and other auxiliary
+variables, the general linear program can be expressed as&amp;nbsp;[1]
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}  \tag{1} \label{primal}
+\text{max}_{\textbf{x} \in \mathbb{R}_n}  \textbf{c}^T \cdot \textbf{x},
+\text{subject to: } A \cdot \textbf{x} \leq  \textbf{b}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Here, the optimization is over &lt;span class="math"&gt;\(\textbf{x} \in \mathbb{R}_n\)&lt;/span&gt;, &lt;span class="math"&gt;\(A\)&lt;/span&gt; is a given &lt;span class="math"&gt;\(m
+\times n\)&lt;/span&gt; real matrix, &lt;span class="math"&gt;\(\textbf{b}\)&lt;/span&gt; and &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt; are given real vectors,
+and the inequality holds component-wise.  Any &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; that satisfies the
+inequality constraints above is called a &lt;em&gt;feasible solution&lt;/em&gt; to
+(\ref{primal}) and if a point can be found with finite components that
+optimizes the objective it is called an &lt;em&gt;optimal solution&lt;/em&gt;.  Associated
+with (\ref{primal}) is the dual linear&amp;nbsp;program,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{dual} \tag{2}
+\text{min}_{\textbf{w} \in \mathbb{R}_m} \textbf{b}^T \cdot \textbf{w} ,
+\text{subject to: } A^T \cdot \textbf{w} = \textbf{c}, \textbf{w} \geq
+\textbf{0}.  \end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The optimization here is over &lt;span class="math"&gt;\(\textbf{w} \in \mathbb{R}_m\)&lt;/span&gt;, and &lt;span class="math"&gt;\(A\)&lt;/span&gt;,
+&lt;span class="math"&gt;\(\textbf{b}\)&lt;/span&gt;, and &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt; are the same variables present in
+(\ref{primal}).  In this post, we apply some simple ideas from classical
+mechanics to prove the following theorem, one of the central results connecting
+the two linear programs&amp;nbsp;above:&lt;/p&gt;
+&lt;h5 id="duality-theorem"&gt;Duality&amp;nbsp;theorem&lt;/h5&gt;
+&lt;p&gt;If  (\ref{primal}) has an optimal solution at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;, then (\ref{dual})
+will also have an optimal solution at some point &lt;span class="math"&gt;\(\textbf{w}^*\)&lt;/span&gt;, and these
+points&amp;nbsp;satisfy
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{strong_law} \tag{3}
+\textbf{c}^T \cdot \textbf{x}^*= \textbf{b}^T \cdot \textbf{w}^*.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+That is, the optimal objectives of (\ref{primal}) and (\ref{dual})&amp;nbsp;agree.&lt;/p&gt;
+&lt;h5 id="proof"&gt;&lt;em&gt;Proof:&lt;/em&gt;&lt;/h5&gt;
+&lt;p&gt;To begin we assume that  &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;  is an optimal solution to
+(\ref{primal}).  We also assume for simplicity that (i) we have chosen a
+coordinate system so that &lt;span class="math"&gt;\(\textbf{x} =  \textbf{0}\)&lt;/span&gt; is a feasible solution of
+(\ref{primal}) and that (ii) each row &lt;span class="math"&gt;\(\hat{\textbf{A}}_i\)&lt;/span&gt; of &lt;span class="math"&gt;\(A\)&lt;/span&gt; has been
+normalized to unit&amp;nbsp;length. &lt;/p&gt;
+&lt;p&gt;Next, we introduce a physical system relevant to (\ref{primal}) and
+(\ref{dual}):  We consider a mobile point particle that interacts with a set of
+&lt;span class="math"&gt;\(m\)&lt;/span&gt; fixed walls, all sitting in &lt;span class="math"&gt;\(\mathbb{R}_n\)&lt;/span&gt;.   The particle&amp;#8217;s coordinate
+&lt;span class="math"&gt;\(\textbf{x}_p\)&lt;/span&gt; is initially set to &lt;span class="math"&gt;\(\textbf{x}_p = \textbf{0}\)&lt;/span&gt;.  The fixed
+&lt;span class="math"&gt;\(i\)&lt;/span&gt;-th wall sits at those points &lt;span class="math"&gt;\(\textbf{x}\)&lt;/span&gt; that satisfy &lt;span class="math"&gt;\(\hat{\textbf{A}}_i
+\cdot \textbf{x} = b_i\)&lt;/span&gt;.   We take the force on the particle from wall &lt;span class="math"&gt;\(i\)&lt;/span&gt; to
+have two parts:  (i) a constant, long range force, &lt;span class="math"&gt;\(w_i \hat{\textbf{A}}_i\)&lt;/span&gt;,
+normal to the wall, and (ii)  a  &amp;#8220;hard core&amp;#8221; force, &lt;span class="math"&gt;\(-n_i(\textbf{x}_p)
+\hat{\textbf{A}}_i\)&lt;/span&gt;, also normal to the wall.  The hard core force makes the
+wall impenetrable to the particle, but otherwise allows the particle to move
+freely:   Its magnitude is zero when the particle does not touch the wall, but
+on contact it scales up to whatever value is needed to prevent the particle
+from passing through&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;To relate the physical system to our linear programs, we&amp;#8217;ll require
+&lt;span class="math"&gt;\(\textbf{x}_p\)&lt;/span&gt; to be a feasible solution to (\ref{primal}) and the vector of
+long range force magnitudes &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; to be a feasible solution to
+(\ref{dual}).  A point &lt;span class="math"&gt;\(\textbf{x}_p\)&lt;/span&gt; is a feasible solution to (\ref{primal})
+if and only if the particle is within the interior space bounded by the set of
+walls.  Further, the equality constraint of (\ref{dual}) is equivalent to the
+condition that all feasible &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; result in a total long range force
+acting on the particle of &lt;span class="math"&gt;\(\sum_i  w_i \hat{\textbf{A}}_i = \textbf{c}\)&lt;/span&gt;.   The
+non-negativity condition on feasible &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; vectors in (\ref{dual})
+further requires that the long range forces each be either attractive or zero.
+A simple example of the sort of physical system we&amp;#8217;ve described here is shown
+in Fig.&amp;nbsp;1a.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;figure class="image"&gt;
+  &lt;img src="images/duality.png"&gt;
+&lt;/figure&gt;
+&lt;b&gt;Fig. 1:&lt;/b&gt; An example system:  (a) A particle at &lt;span class="math"&gt;\(\textbf{x}_p=\textbf{0}\)&lt;/span&gt;
+interacts with three walls.  The total long range force on the particle is
+&lt;span class="math"&gt;\(\sum_i w_i \hat{\textbf{A}}_i = \textbf{c}\)&lt;/span&gt;. (b) The particle sits at its long
+range potential minimum, &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;, with walls &lt;span class="math"&gt;\(2\)&lt;/span&gt; and &lt;span class="math"&gt;\(3\)&lt;/span&gt; &lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;binding&amp;#8221;.
+The hard core normal forces from these walls must point inward and sum to
+&lt;span class="math"&gt;\(-\textbf{c}\)&lt;/span&gt; &amp;#8212; otherwise, there would be a net force on the particle, and it
+would continue to move, but that won&amp;#8217;t happen once it sits at its potential
+minimum.  Wall &lt;span class="math"&gt;\(1\)&lt;/span&gt; is not binding and is now a distance &lt;span class="math"&gt;\(d_1(\textbf{x}^*)\)&lt;/span&gt;
+away from the particle.  This results in a positive difference between the dual
+and primal objectives (\ref{gap}), unless we can find a feasible &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt;
+for which &lt;span class="math"&gt;\(w_1=0\)&lt;/span&gt;.  Setting &lt;span class="math"&gt;\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)&lt;/span&gt; &amp;#8212;  the
+vector of hard-core normal force magnitudes at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; &amp;#8212; provides such
+a solution.  This is non-negative, zero for non-binding walls, and results in a
+total long range force of &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt; &amp;#8212; a consequence of the point above that
+the particle must remain at rest at its potential minimum.  This choice for
+&lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; optimizes (\ref{dual}) and gives an objective matching that of
+(\ref{primal}) at
+&lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;When we assert the conditions above, the potential associated with the long
+range forces in our physical system ends up being related to the objective
+functions of (\ref{primal}) and (\ref{dual}).  Up to a constant, the potential
+of a force &lt;span class="math"&gt;\(\textbf{f}(\textbf{x})\)&lt;/span&gt; is defined to be&amp;nbsp;[2] 
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{potential} \tag{4}
+U(\textbf{x}) \equiv -\int \textbf{f}(\textbf{x}) \cdot d\textbf{x}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+In our case, the long range force between the wall &lt;span class="math"&gt;\(i\)&lt;/span&gt; and the particle is a
+constant and normal to the wall.  Its potential is therefore&amp;nbsp;simply
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{potential_i} \tag{5}
+U_i(\textbf{x}_p) = w_i d_i(\textbf{x}_p),
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where 
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{perp_distance} \tag{6}
+d_{i}(\textbf{x}_p)  \equiv b_i - \hat{\textbf{A}}_i \cdot \textbf{x}_p.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+ This is the perpendicular distance between the particle and the wall &lt;span class="math"&gt;\(i\)&lt;/span&gt;.  The
+physical significance of (\ref{potential_i}) is that it is the total energy it
+takes to separate the particle from wall &lt;span class="math"&gt;\(i\)&lt;/span&gt; by a distance &lt;span class="math"&gt;\(d_i\)&lt;/span&gt;, working
+against the attractive force &lt;span class="math"&gt;\(w_i\)&lt;/span&gt;.  Notice that if we plug
+(\ref{perp_distance}) into (\ref{potential_i}), the total long range potential
+at &lt;span class="math"&gt;\(\textbf{x}_p\)&lt;/span&gt; can be written&amp;nbsp;as
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\nonumber
+\sum_i w_i d_i(\textbf{x}_p)&amp;amp;=&amp;amp; \sum_i w_i  \left (b_i - \hat{\textbf{A}}_i
+\cdot \textbf{x}_p  \right) 
+\\ &amp;amp;=&amp;amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c} \cdot \textbf{x}_p. \tag{7}
+ \label{potential_as_objective_difference}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, we have used one of the feasibility conditions on &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; to get the
+last line.   The right side of (\ref{potential_as_objective_difference}) is the
+difference between the dual and primal objectives.  This will be minimized at
+the feasible point &lt;span class="math"&gt;\(\textbf{x}_p\)&lt;/span&gt; that maximizes &lt;span class="math"&gt;\(\textbf{c}\cdot \textbf{x}_p\)&lt;/span&gt;
+&amp;#8212; the primal objective &amp;#8212; and at that feasible &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt; that minimizes
+&lt;span class="math"&gt;\(\textbf{w}^T \cdot \textbf{b}\)&lt;/span&gt; &amp;#8212; the dual objective.  In other words, we see
+that both our programs independently contribute to the common goal of
+minimizing the particle&amp;#8217;s long range potential,
+(\ref{potential_as_objective_difference}), subject to our system&amp;#8217;s&amp;nbsp;constraints.&lt;/p&gt;
+&lt;p&gt;The last preperatory remark we must make relates to the fact that we have
+assumed that &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; is an optimal solution to (\ref{primal}) &amp;#8212; i.e.,
+it is a point that is as far &amp;#8220;down&amp;#8221; in the &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt; direction as possible
+within the feasible set.  This must mean that &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; sits somewhere at
+the boundary of the primal feasible set, with some of the constraints of
+(\ref{primal}) binding &amp;#8212; i.e., satisfied as equalities.  Further, if we place
+and release the particle gently at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;, it must stay at rest as it
+can fall no further &amp;#8212; just as a particle acted on by gravity stays at rest
+when it is placed in the bottom of a bucket. To stay at rest, there must be no
+net force on the particle, which means that the hard core normal forces &lt;span class="math"&gt;\(-n_i
+\hat{\textbf{A}}_i\)&lt;/span&gt; from the binding walls at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;  must sum to
+exactly &lt;span class="math"&gt;\(-\textbf{c}\)&lt;/span&gt;, fully countering the constant long range force.   The
+set of forces acting on the particle at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; is illustrated Fig. 1b
+for our simple&amp;nbsp;example.&lt;/p&gt;
+&lt;p&gt;To complete the argument, we note that the long range potential at
+&lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; is given from (\ref{potential_as_objective_difference})&amp;nbsp;by
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \label{gap} \tag{8} 
+\sum_i w_i d_i(\textbf{x}^*) &amp;amp;=&amp;amp; \textbf{w}^T \cdot \textbf{b} - \textbf{c}
+\cdot \textbf{x}^*.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This is non-negative because  &lt;span class="math"&gt;\(\textbf{w} \geq \textbf{0}\)&lt;/span&gt; and
+&lt;span class="math"&gt;\(d_i(\textbf{x}^*) &amp;gt;0\)&lt;/span&gt; for each non-binding wall.   It follows that the dual
+objective is always bounded from below by the optimal primal objective.
+Further, the gap between the two &amp;#8212; the left side of (\ref{gap}) &amp;#8212; can only be
+zero if the long range interaction strengths are zero for each non-binding wall
+at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; &amp;#8212; i.e., if the particle is not actually attracted to the
+walls that are not binding at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;.   The vector
+&lt;span class="math"&gt;\(\textbf{n}(\textbf{x}^*)\)&lt;/span&gt; of hard core normal force magnitudes at
+&lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt; provides such a solution for &lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt;:  This is a feasible
+&lt;span class="math"&gt;\(\textbf{w}\)&lt;/span&gt;  because it is non-negative and results in normal forces that sum
+to &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt;.  Further, it is non-zero only for the binding constraints.  It
+follows that &lt;span class="math"&gt;\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)&lt;/span&gt; gives an optimal
+solution to the dual, at which point its objective matches that of the optimal
+primal solution.  This argument is summarized in the caption to Fig.&amp;nbsp;1.&lt;/p&gt;
+&lt;h4 id="references"&gt;References&lt;/h4&gt;
+&lt;p&gt;[1] Matousek, J., and Ga ̈rtner, B. Understanding and using linear programming.
+Springer&amp;nbsp;(2007)&lt;/p&gt;
+&lt;p&gt;[2] Marion, Jerry B. Classical dynamics of particles and systems. Academic
+Press,&amp;nbsp;(2013).&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="optimization"></category></entry></feed>
