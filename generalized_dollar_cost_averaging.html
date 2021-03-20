@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="Jonathan Landy" />
+
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary">
+
+<meta name="keywords" content="theory, statistics, Finance, " />
+
+<meta property="og:title" content="Generalized Dollar Cost Averaging "/>
+<meta property="og:url" content="https://efavdb.com/generalized_dollar_cost_averaging" />
+<meta property="og:description" content="In this note, I consider a generalization of Dollar Cost Averaging — a popular investing strategy that involves gradually building up one’s holding in a stock over a pre-specified period of time. The generalization I consider can guarantee better prices paid per share — relative to the standard approach — but its …" />
+<meta property="og:site_name" content="EFAVDB" />
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2021-03-20T00:00:00-07:00" />
+<meta name="twitter:title" content="Generalized Dollar Cost Averaging ">
+<meta name="twitter:description" content="In this note, I consider a generalization of Dollar Cost Averaging — a popular investing strategy that involves gradually building up one’s holding in a stock over a pre-specified period of time. The generalization I consider can guarantee better prices paid per share — relative to the standard approach — but its …">
+
+        <title>Generalized Dollar Cost Averaging  · EFAVDB
+</title>
+        <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
+        <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
+
+        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-57405119-1', 'auto');
+    ga('send', 'pageview');
+</script>
+
+
+        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
+        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
+        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+    </head>
+    <body>
+        <div id="content">
+            <div class="navbar navbar-static-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <div class="nav-collapse collapse">
+                            <ul class="nav pull-right top-menu">
+                                <li >
+                                    <a href=
+                                       https://efavdb.com
+                                    >Home</a>
+                                </li>
+                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
+                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class="span1"></div>
+                    <div class="span10">
+<article itemscope>
+<div class="row-fluid">
+    <header class="page-header span8 offset2">
+        <h1>
+            <a href="https://efavdb.com/generalized_dollar_cost_averaging">
+                Generalized Dollar Cost&nbsp;Averaging
+            </a>
+        </h1>
+    </header>
+    <div class="span2"></div>
+</div>
+
+<div class="row-fluid">
+        <div class="span8 offset2 article-content">
+            
+            <p>In this note, I consider a generalization of Dollar Cost Averaging &#8212; a popular
+investing strategy that involves gradually building up one&#8217;s holding in a stock
+over a pre-specified period of time.  The generalization I consider can
+guarantee better prices paid per share &#8212; relative to the standard approach &#8212;
+but its use comes at the cost of requiring one to have a flexible budget. The
+idea essentially boils down to leaning in more heavily on low price&nbsp;periods.</p>
+<h3 id="model-system-and-results">Model system and&nbsp;results</h3>
+<p>In this post, we will assume a scenario where one wants to enter into a stock
+over a set of <span class="math">\(K\)</span> equally spaced periods.  These periods could be separated by
+minutes, hours, or days, etc.  The price of the stock at period <span class="math">\(i\)</span> will be
+written as <span class="math">\(p_i\)</span> and the number of shares purchased then will&nbsp;be
+</p>
+<div class="math">\begin{eqnarray}
+N_i = A \frac{1}{p_i^{\gamma}}, \tag{1} \label{1}
+\end{eqnarray}</div>
+<p> 
+where <span class="math">\(A\)</span> and <span class="math">\(\gamma\)</span> are constants that are set before beginning.  The total
+number of shares purchased, total money spent, and price per share realized are
+then given&nbsp;by,
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{2}
+N_{total} &amp;=&amp; \sum_{i=1}^K N_i \\
+\tag{3} \label{3}
+\text{total money spent} &amp;=&amp; \sum_{i=1}^K p_i N_i \\
+\tag{4} \label{4}
+\text{price per share} &amp;=&amp; \frac{\sum_{i=1}^K p_i N_i}{\sum_{i=1}^K N_i},
+\end{eqnarray}</div>
+<p>
+respectively.</p>
+<p>The green curve in the figure below records the price paid per share under our
+strategy as a function of <span class="math">\(\gamma\)</span> for the example price series shown in black
+(this has a hidden, separate x-axis).
+<p align="center">
+<img src="images/price_per_share.png" alt="price paid" style="width:100%">
+</p>
+This figure illustrates a number of general points about our&nbsp;strategy:</p>
+<ul>
+<li>
+<p>If <span class="math">\(\gamma = 0\)</span>, we purchase a fixed number of shares each day, <span class="math">\(A\)</span>.  The
+  resulting price paid per share (\ref{4}) is then the arithmetic mean of the
+period&nbsp;prices.</p>
+</li>
+<li>
+<p>If <span class="math">\(\gamma =1\)</span>, we spend an equal amount of money each day.  This is the
+  standard dollar cost averaging method.  Plugging this choice into (\ref{4}),
+one finds that the price paid per share in this case is the harmonic mean of
+the prices over the&nbsp;series.</p>
+</li>
+<li>
+<p>The arithmetic-harmonic means inequality implies that the <span class="math">\(\gamma=1\)</span>
+  necessarily beats the <span class="math">\(\gamma=0\)</span> approach when it comes to price per share
+paid.  This can be understood as follows:  The <span class="math">\(\gamma=1\)</span> method results in
+relatively more shares being purchased on low price periods, which  causes
+these periods to be more heavily weighted in the relevant&nbsp;average.</p>
+</li>
+<li>
+<p>More generally, we prove in an appendix below that increasing <span class="math">\(\gamma\)</span> always
+  causes the price per share to go down.  This holds for all possible price
+series &#8212; including that shown in our figure above, where we see the green
+curve is monotonically decreasing.  This result holds because increasing
+<span class="math">\(\gamma\)</span> causes one lean in even harder on low price&nbsp;periods. </p>
+</li>
+<li>
+<p>As <span class="math">\(\gamma \to \infty\)</span>, our purchase strategy is dominated by the lowest
+price period, and this is the price we end up paying per share on&nbsp;average.</p>
+</li>
+<li>
+<p>As <span class="math">\(\gamma \to -\infty\)</span>, our strategy is dominated by the highest price
+  period, and this is the price we pay.  This limit is attractive when we want
+to exit / sell a&nbsp;holding.</p>
+</li>
+<li>
+<p>The downside of our strategy &#8212; relative to the standard dollar cost
+  averaging method &#8212; is that it requires a flexible budget.  However, for
+<span class="math">\(\gamma\)</span> not too large, we can often get a meaningful reduction in price per
+share without dramatically increasing the variance in amount spent: e.g., a one
+percent drop in price per share might be possible if one is willing to have a
+ten percent flexibility in one&#8217;s budget.  We give numerical examples in the
+next&nbsp;section.</p>
+</li>
+<li>
+<p>If the stock is drifting over the <span class="math">\(K\)</span> periods in question, all dollar cost
+  averaging methods may give a higher price than simply purchasing everything
+on the first period.  For this reason &#8212; when a cheaper price per share is the
+objective &#8212; I suggest using these strategies over short time frames only &#8212;
+say, over a day or week.  That&#8217;s because stock price variance typically
+dominates drift over short&nbsp;periods.</p>
+</li>
+</ul>
+<p>We now turn to a quick numerical study, and then conclude with our appendix
+covering the proof of&nbsp;monotonicity.</p>
+<h3 id="numerical-study">Numerical&nbsp;study</h3>
+<p>In this section, we provide some helper python code that allows one to simulate
+price series and check the results of running our strategy (\ref{1}) on top
+of them.  The following two code blocks (1) generate log normal random walk
+price series, and (2) carry out our&nbsp;strategy.</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">simulated_price_series</span><span class="p">(</span><span class="n">initial_price</span><span class="p">,</span> <span class="n">drift</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">steps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a simulated price series asserting the log of the</span>
+<span class="sd">    price takes a random walk with drift and variance, as</span>
+<span class="sd">    passed. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">drifts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span> <span class="o">*</span> <span class="n">drift</span>
+    <span class="n">random_factors</span> <span class="o">=</span> <span class="n">std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">steps</span><span class="p">)</span>
+    <span class="n">random_factors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">returns</span> <span class="o">=</span> <span class="n">drifts</span> <span class="o">+</span> <span class="n">random_factors</span>
+    <span class="k">return</span> <span class="n">initial_price</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">returns</span><span class="p">)</span> 
+
+<span class="k">def</span> <span class="nf">simulated_series_and_purchases</span><span class="p">(</span>
+        <span class="n">gamma</span><span class="p">,</span>
+        <span class="n">initial_price</span><span class="p">,</span>
+        <span class="n">drift</span><span class="p">,</span>
+        <span class="n">std</span><span class="p">,</span>
+        <span class="n">steps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulate price trajectory of length steps and then apply the</span>
+<span class="sd">    generalized dollar cost averaging method -- this entails buying</span>
+<span class="sd">    N_i shares at step i, with N_i ~ 1 / p_i ^ gamma.</span>
+
+<span class="sd">    Return the total money spent, shares purchased, and average price</span>
+<span class="sd">    per share.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">price_series</span> <span class="o">=</span> <span class="n">simulated_price_series</span><span class="p">(</span><span class="n">initial_price</span><span class="p">,</span> <span class="n">drift</span><span class="p">,</span> <span class="n">std</span><span class="p">,</span> <span class="n">steps</span><span class="p">)</span>
+    <span class="n">shares_series</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">/</span> <span class="p">((</span><span class="n">price_series</span><span class="o">/</span><span class="n">price_series</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">**</span> <span class="n">gamma</span><span class="p">)</span>
+    <span class="n">money_spent_series</span> <span class="o">=</span> <span class="n">price_series</span> <span class="o">*</span> <span class="n">shares_series</span>
+
+    <span class="c1"># summary stats</span>
+    <span class="n">shares</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">shares_series</span><span class="p">)</span>
+    <span class="n">money_spent</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">money_spent_series</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">shares</span><span class="p">,</span> <span class="n">money_spent</span><span class="p">,</span> <span class="n">money_spent</span> <span class="o">/</span> <span class="n">shares</span>
+</pre></div>
+
+
+<p>With these in place, I ran 40k simulation with the following parameters for
+the price&nbsp;series:</p>
+<div class="highlight"><pre><span></span><span class="n">initial_price</span> <span class="o">=</span> <span class="mf">10.0</span>
+<span class="n">steps</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">drift</span> <span class="o">=</span> <span class="mf">0.0</span>
+<span class="n">std</span> <span class="o">=</span> <span class="mf">0.05</span>
+</pre></div>
+
+
+<p>In the simulations, I considered <span class="math">\(\gamma=5\)</span>, <span class="math">\(10\)</span>, and <span class="math">\(1\)</span> &#8212; the last being
+the standard dollar cost averaging method.  Histograms of the resulting spends
+are shown below for each case.  The titles give the mean and standard deviation
+of the amount spent over the traces, and the legends give the mean prices per
+share, averaging over traces.  We can see that we can get a fairly significant
+improvement in mean price as we lift <span class="math">\(\gamma\)</span>, but doing this requires that
+we occassionally spend a lot more&nbsp;money.</p>
+<p>One can mitigate the very large spend events by capping the amount spent per
+day.  For example, if one caps the daily spend at fifty percent above that on
+the first day, the <span class="math">\(\gamma=10\)</span> case here gives a spend distribution of <span class="math">\(10194
+\pm 2069\)</span>, and a mean price per share of <span class="math">\(9.86\)</span>.</p>
+<p align="center">
+<img src="images/spend_distributions.png" alt="price paid" style="width:100%">
+</p>
+
+<h3 id="appendix-average-price-per-share-monotonicity">Appendix: Average price per share&nbsp;monotonicity</h3>
+<p>In this appendix, we give a proof that increasing <span class="math">\(\gamma\)</span> in (\ref{1}), always
+results in a decreasing average price per share (more precisely, it can&#8217;t
+result in an&nbsp;increase).</p>
+<p>To begin, we recall our definitions:  The number of shares purchased at <span class="math">\(p_i\)</span>
+is assumed to&nbsp;be
+</p>
+<div class="math">\begin{eqnarray} \tag{A1}
+N_i = A p_i^{-\gamma}.
+\end{eqnarray}</div>
+<p>
+The total number of shares purchased is then obtained by summing&nbsp;this
+</p>
+<div class="math">\begin{eqnarray} \tag{A2}
+N_{total} = \sum_{i=1}^k N_i
+\end{eqnarray}</div>
+<p>
+The average price per share is&nbsp;then
+</p>
+<div class="math">\begin{eqnarray} \tag{A3} \label{A3}
+\overline{p} = \sum_{i=1}^k w_i p_i
+\end{eqnarray}</div>
+<p>
+where
+</p>
+<div class="math">\begin{eqnarray}
+w_j &amp;\equiv &amp; \frac{N_j}{N_{total}} \\
+&amp;=&amp; \frac{p_j^{-\gamma}}{\sum_{i=1}^k p_i^{-\gamma}} \tag{A4}
+\end{eqnarray}</div>
+<p>
+is the normalized weight applied to price <span class="math">\(p_j\)</span>.  Plugging this last line into
+(\ref{A3}), we get a simple expression for the average price per&nbsp;share
+</p>
+<div class="math">\begin{eqnarray}\label{A5}\tag{A5}
+\overline{p} = \frac{\langle p_i^{-\gamma + 1} \rangle}{\langle p_i^{-\gamma}
+\rangle} 
+\end{eqnarray}</div>
+<p>
+Here, we use brackets for equal weight averages over the price series.  This
+formula shows that the mean paid price per share is related to the ratio of two
+adjacent moments of the price series.  We will now argue that this is monotic
+in <span class="math">\(\gamma\)</span> [Aside:  It looks like one might be able to provide an alternative
+proof of our result from the ratio of moments expression above, combining that
+with one of the Chebychev inequalities.  However, I haven&#8217;t been able to get
+that to work just&nbsp;yet].</p>
+<p>To show that (\ref{A3}) is monotonic in <span class="math">\(\gamma\)</span>, we first note that the
+relative weight applied to any two prices is given&nbsp;by
+</p>
+<div class="math">\begin{eqnarray}\label{A6}\tag{A6}
+\frac{w_i}{w_j} = \left(\frac{p_i}{p_j}\right)^{-\gamma}
+\end{eqnarray}</div>
+<p>
+If <span class="math">\(p_i\)</span> is the minimum price in the series this is necessarily an increasing
+function of <span class="math">\(\gamma\)</span> for any other <span class="math">\(p_j\)</span>.  In order for the weights to continue
+to be normalized to one, this implies that the weight applied to the smallest
+price must always increase as we increase <span class="math">\(\gamma\)</span>.</p>
+<p>Next, we note that with the above observation, our result is trivially true
+when <span class="math">\(k=1\)</span> and <span class="math">\(k=2\)</span>.  Suppose then that the result holds up to <span class="math">\(k-1\)</span> periods
+and the consider the case at <span class="math">\(k\)</span>.  If we order the <span class="math">\(p_i\)</span> values from largest to
+smallest, we then&nbsp;have
+</p>
+<div class="math">\begin{eqnarray}\label{A7} \tag{A7}
+\overline{p} = \left ( 1 - w_k \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i+ w_k
+p_k
+\end{eqnarray}</div>
+<p>
+The sum above is the weighted average we&#8217;d realize if we only invested on the
+first <span class="math">\(k-1\)</span> ordered prices, and the <span class="math">\(\tilde{w}_i\)</span> are the effective weights
+we&#8217;d apply in that case. By assumption, this inner sum is necessarily
+non-increasing with <span class="math">\(\gamma\)</span>.   Therefore, if we let <span class="math">\(w^{\prime}\)</span> be the weight
+applied at some <span class="math">\(\gamma^{\prime} &gt; \gamma\)</span>, we&nbsp;have
+</p>
+<div class="math">\begin{eqnarray}
+\overline{p}^{\prime} &amp;=&amp; \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1}
+\tilde{w}_i^{\prime} p_i + w_k^{\prime} p_k \\
+&amp;\leq &amp;  \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i +
+w_k^{\prime} p_k \label{A8} \tag{A8}
+\end{eqnarray}</div>
+<p>
+But this last line is just like the <span class="math">\(k=2\)</span> case: We move from one weighted
+average of two values (namely, <span class="math">\(p_k\)</span> and the weighted sum of the first <span class="math">\(k-1\)</span>
+prices with weights fixed as at <span class="math">\(\gamma\)</span> &#8212; which is necessarily not smaller
+than <span class="math">\(p_k\)</span>) to another that applies more weight to the smaller of the two
+values &#8212; ultimately giving a smaller result.  Continuing with the last line,
+then, we&nbsp;have
+</p>
+<div class="math">\begin{eqnarray}
+\overline{p}^{\prime} &amp;\leq&amp; \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1}
+\tilde{w}_i p_i + w_k^{\prime} p_k \\
+&amp;\leq&amp; \left ( 1 - w_k \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i + w_k p_k \\
+&amp;\equiv&amp; \overline{p}. \label{A9} \tag{A9}
+\end{eqnarray}</div>
+<p> 
+This completes our&nbsp;proof.</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+
+
+             
+ 
+                <p id="post-share-links">
+    Share this post on:
+    <a href="https://twitter.com/intent/tweet?text=Generalized%20Dollar%20Cost%C2%A0Averaging&url=https%3A//efavdb.com/generalized_dollar_cost_averaging&hashtags=theory,statistics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    |
+    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/generalized_dollar_cost_averaging" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    |
+    <a href="mailto:?subject=Generalized%20Dollar%20Cost%C2%A0Averaging&amp;body=https%3A//efavdb.com/generalized_dollar_cost_averaging" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    </p>
+
+                <hr />
+    <div class="author_blurb">
+        <a href="" target="_blank" rel="nofollow noopener noreferrer">
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
+        </a>
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+    </div>
+
+            
+
+
+
+
+
+
+<section>
+    <h6 style="display:none;">Comments</h6>
+    <p id="comment-message"> </p>
+
+    <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle disqus-comment-count comment-count"
+                   data-toggle="collapse"
+                   data-parent="#accordion2"
+                   data-disqus-identifier="https://efavdb.com/generalized_dollar_cost_averaging"
+                   href="https://efavdb.com/generalized_dollar_cost_averaging#comment_thread"
+                   id="comment-accordion-toggle">
+                    Comments
+                </a>
+            </div>
+            <div id="comment_thread" class="accordion-body collapse">
+                <div class="accordion-inner">
+                    <div class="comments">
+                        <div id="disqus_thread"></div>
+                        <script>
+    var disqus_shortname = 'efavdb2';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+
+    var disqus_identifier = 'https://efavdb.com/generalized_dollar_cost_averaging';
+    var disqus_url = 'https://efavdb.com/generalized_dollar_cost_averaging';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+
+<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+            <hr/>
+            <aside>
+            <nav>
+            <ul class="articles-timeline">
+                <li class="previous-article">« <a href="https://efavdb.com/duality" title="Previous: Physics-based proof of the duality theorem for linear programs">Physics-based proof of the duality theorem for linear programs</a></li>
+            </ul>
+            </nav>
+            </aside>
+        </div>
+        <section id="article-sidebar" class="span2">
+            <h4>Published</h4>
+            <time itemprop="dateCreated" datetime="2021-03-20T00:00:00-07:00">Mar 20, 2021</time>
+            <h4>Category</h4>
+            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <h4>Tags</h4>
+            <ul class="list-of-tags tags-in-article">
+                <li><a href="https://efavdb.com/tags#statistics-ref">statistics
+                    <span>9</span>
+</a></li>
+                <li><a href="https://efavdb.com/tags#theory-ref">theory
+                    <span>5</span>
+</a></li>
+            </ul>
+<h4>Contact</h4>
+<div id="sidebar-social-link">
+    <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="Twitter" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1da1f3"/><path fill="#fff" d="M437 152a72 72 0 0 1-40 12 72 72 0 0 0 32-40 72 72 0 0 1-45 17 72 72 0 0 0-122 65 200 200 0 0 1-145-74 72 72 0 0 0 22 94 72 72 0 0 1-32-7 72 72 0 0 0 56 69 72 72 0 0 1-32 1 72 72 0 0 0 67 50 200 200 0 0 1-105 29 200 200 0 0 0 309-179 200 200 0 0 0 35-37"/></svg>
+    </a>
+    <a href="https://github.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="GitHub" role="img" viewBox="0 0 512 512"><rect width="512" height="512" rx="15%" fill="#1B1817"/><path fill="#fff" d="M335 499c14 0 12 17 12 17H165s-2-17 12-17c13 0 16-6 16-12l-1-50c-71 16-86-28-86-28-12-30-28-37-28-37-24-16 1-16 1-16 26 2 40 26 40 26 22 39 59 28 74 22 2-17 9-28 16-35-57-6-116-28-116-126 0-28 10-51 26-69-3-6-11-32 3-67 0 0 21-7 70 26 42-12 86-12 128 0 49-33 70-26 70-26 14 35 6 61 3 67 16 18 26 41 26 69 0 98-60 120-117 126 10 8 18 24 18 48l-1 70c0 6 3 12 16 12z"/></svg>
+    </a>
+    <a href="https://www.youtube.com/channel/UClfvjoSiu0VvWOh5OpnuusA" title="" target="_blank" rel="nofollow noopener noreferrer">
+        <svg xmlns="http://www.w3.org/2000/svg" aria-label="YouTube" role="img" viewBox="0 0 512 512" fill="#ed1d24"><rect width="512" height="512" rx="15%"/><path d="m427 169c-4-15-17-27-32-31-34-9-239-10-278 0-15 4-28 16-32 31-9 38-10 135 0 174 4 15 17 27 32 31 36 10 241 10 278 0 15-4 28-16 32-31 9-36 9-137 0-174" fill="#fff"/><path d="m220 203v106l93-53"/></svg>
+    </a>
+</div>
+            
+
+
+
+
+
+            
+
+
+
+
+
+        </section>
+</div>
+</article>
+                        <button onclick="topFunction()" id="myBtn" title="Go to top">&#x25B2;</button>
+                    </div>
+                    <div class="span1"></div>
+                </div>
+            </div>
+        </div>
+<footer>
+
+    <div>
+        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+    </div>
+
+
+
+    <!-- <div id="fpowered"> -->
+    <!--     Powered by: <a href="http://getpelican.com/" title="Pelican Home Page" target="_blank" rel="nofollow noopener noreferrer">Pelican</a> -->
+    <!--     Theme: <a href="https://elegant.oncrashreboot.com/" title="Theme Elegant Home Page" target="_blank" rel="nofollow noopener noreferrer">Elegant</a> -->
+    <!--      -->
+    <!-- </div> -->
+</footer>            <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+        <script>
+            function validateForm(query)
+            {
+                return (query.length > 0);
+            }
+        </script>
+        <script>
+            //** Scroll to top button **
+            //Get the button:
+            mybutton = document.getElementById("myBtn");
+
+            // When the user scrolls down 30px from the top of the document, show the button
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+              if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
+                mybutton.style.display = "block";
+              } else {
+                mybutton.style.display = "none";
+              }
+            }
+
+            // When the user clicks on the button, scroll to the top of the document
+            function topFunction() {
+              document.body.scrollTop = 0; // For Safari
+              document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            }
+        </script>
+
+    <script>
+    (function () {
+        if (window.location.hash.match(/^#comment-\d+$/)) {
+            $('#comment_thread').collapse('show');
+        }
+    })();
+    window.onhashchange=function(){
+        if (window.location.hash.match(/^#comment-\d+$/))
+            window.location.reload(true);
+    }
+    $('#comment_thread').on('shown', function () {
+        var link = document.getElementById('comment-accordion-toggle');
+        var old_innerHTML = link.innerHTML;
+        $(link).fadeOut(200, function() {
+            $(this).text('Click here to hide comments').fadeIn(200);
+        });
+        $('#comment_thread').on('hidden', function () {
+            $(link).fadeOut(200, function() {
+                $(this).text(old_innerHTML).fadeIn(200);
+            });
+        })
+    })
+</script>
+
+    </body>
+    <!-- Theme: Elegant built for Pelican
+        License : MIT -->
+</html>

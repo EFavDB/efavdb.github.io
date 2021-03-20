@@ -1,5 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Finance</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/finance.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-12-20T00:00:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Pricing dividend stocks</title><link href="https://efavdb.com/pricing-dividend-stocks" rel="alternate"></link><published>2020-12-20T00:00:00-08:00</published><updated>2020-12-20T00:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-12-20:/pricing-dividend-stocks</id><summary type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs to the model also allows us to explore how its price might adjust to changes in company&amp;nbsp;performance.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Finance</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/finance.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2021-03-20T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Generalized Dollar Cost Averaging</title><link href="https://efavdb.com/generalized_dollar_cost_averaging" rel="alternate"></link><published>2021-03-20T00:00:00-07:00</published><updated>2021-03-20T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2021-03-20:/generalized_dollar_cost_averaging</id><summary type="html">&lt;p&gt;In this note, I consider a generalization of Dollar Cost Averaging &amp;#8212; a popular
+investing strategy that involves gradually building up one&amp;#8217;s holding in a stock
+over a pre-specified period of time.  The generalization I consider can
+guarantee better prices paid per share &amp;#8212; relative to the standard approach &amp;#8212;
+but its …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In this note, I consider a generalization of Dollar Cost Averaging &amp;#8212; a popular
+investing strategy that involves gradually building up one&amp;#8217;s holding in a stock
+over a pre-specified period of time.  The generalization I consider can
+guarantee better prices paid per share &amp;#8212; relative to the standard approach &amp;#8212;
+but its use comes at the cost of requiring one to have a flexible budget. The
+idea essentially boils down to leaning in more heavily on low price&amp;nbsp;periods.&lt;/p&gt;
+&lt;h3 id="model-system-and-results"&gt;Model system and&amp;nbsp;results&lt;/h3&gt;
+&lt;p&gt;In this post, we will assume a scenario where one wants to enter into a stock
+over a set of &lt;span class="math"&gt;\(K\)&lt;/span&gt; equally spaced periods.  These periods could be separated by
+minutes, hours, or days, etc.  The price of the stock at period &lt;span class="math"&gt;\(i\)&lt;/span&gt; will be
+written as &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; and the number of shares purchased then will&amp;nbsp;be
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+N_i = A \frac{1}{p_i^{\gamma}}, \tag{1} \label{1}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt; 
+where &lt;span class="math"&gt;\(A\)&lt;/span&gt; and &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; are constants that are set before beginning.  The total
+number of shares purchased, total money spent, and price per share realized are
+then given&amp;nbsp;by,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2} \label{2}
+N_{total} &amp;amp;=&amp;amp; \sum_{i=1}^K N_i \\
+\tag{3} \label{3}
+\text{total money spent} &amp;amp;=&amp;amp; \sum_{i=1}^K p_i N_i \\
+\tag{4} \label{4}
+\text{price per share} &amp;amp;=&amp;amp; \frac{\sum_{i=1}^K p_i N_i}{\sum_{i=1}^K N_i},
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+respectively.&lt;/p&gt;
+&lt;p&gt;The green curve in the figure below records the price paid per share under our
+strategy as a function of &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; for the example price series shown in black
+(this has a hidden, separate x-axis).
+&lt;p align="center"&gt;
+&lt;img src="images/price_per_share.png" alt="price paid" style="width:100%"&gt;
+&lt;/p&gt;
+This figure illustrates a number of general points about our&amp;nbsp;strategy:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;If &lt;span class="math"&gt;\(\gamma = 0\)&lt;/span&gt;, we purchase a fixed number of shares each day, &lt;span class="math"&gt;\(A\)&lt;/span&gt;.  The
+  resulting price paid per share (\ref{4}) is then the arithmetic mean of the
+period&amp;nbsp;prices.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If &lt;span class="math"&gt;\(\gamma =1\)&lt;/span&gt;, we spend an equal amount of money each day.  This is the
+  standard dollar cost averaging method.  Plugging this choice into (\ref{4}),
+one finds that the price paid per share in this case is the harmonic mean of
+the prices over the&amp;nbsp;series.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The arithmetic-harmonic means inequality implies that the &lt;span class="math"&gt;\(\gamma=1\)&lt;/span&gt;
+  necessarily beats the &lt;span class="math"&gt;\(\gamma=0\)&lt;/span&gt; approach when it comes to price per share
+paid.  This can be understood as follows:  The &lt;span class="math"&gt;\(\gamma=1\)&lt;/span&gt; method results in
+relatively more shares being purchased on low price periods, which  causes
+these periods to be more heavily weighted in the relevant&amp;nbsp;average.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;More generally, we prove in an appendix below that increasing &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; always
+  causes the price per share to go down.  This holds for all possible price
+series &amp;#8212; including that shown in our figure above, where we see the green
+curve is monotonically decreasing.  This result holds because increasing
+&lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; causes one lean in even harder on low price&amp;nbsp;periods. &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As &lt;span class="math"&gt;\(\gamma \to \infty\)&lt;/span&gt;, our purchase strategy is dominated by the lowest
+price period, and this is the price we end up paying per share on&amp;nbsp;average.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As &lt;span class="math"&gt;\(\gamma \to -\infty\)&lt;/span&gt;, our strategy is dominated by the highest price
+  period, and this is the price we pay.  This limit is attractive when we want
+to exit / sell a&amp;nbsp;holding.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The downside of our strategy &amp;#8212; relative to the standard dollar cost
+  averaging method &amp;#8212; is that it requires a flexible budget.  However, for
+&lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; not too large, we can often get a meaningful reduction in price per
+share without dramatically increasing the variance in amount spent: e.g., a one
+percent drop in price per share might be possible if one is willing to have a
+ten percent flexibility in one&amp;#8217;s budget.  We give numerical examples in the
+next&amp;nbsp;section.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;If the stock is drifting over the &lt;span class="math"&gt;\(K\)&lt;/span&gt; periods in question, all dollar cost
+  averaging methods may give a higher price than simply purchasing everything
+on the first period.  For this reason &amp;#8212; when a cheaper price per share is the
+objective &amp;#8212; I suggest using these strategies over short time frames only &amp;#8212;
+say, over a day or week.  That&amp;#8217;s because stock price variance typically
+dominates drift over short&amp;nbsp;periods.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;We now turn to a quick numerical study, and then conclude with our appendix
+covering the proof of&amp;nbsp;monotonicity.&lt;/p&gt;
+&lt;h3 id="numerical-study"&gt;Numerical&amp;nbsp;study&lt;/h3&gt;
+&lt;p&gt;In this section, we provide some helper python code that allows one to simulate
+price series and check the results of running our strategy (\ref{1}) on top
+of them.  The following two code blocks (1) generate log normal random walk
+price series, and (2) carry out our&amp;nbsp;strategy.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;simulated_price_series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;initial_price&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;drift&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Returns a simulated price series asserting the log of the&lt;/span&gt;
+&lt;span class="sd"&gt;    price takes a random walk with drift and variance, as&lt;/span&gt;
+&lt;span class="sd"&gt;    passed. &lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;drifts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;drift&lt;/span&gt;
+    &lt;span class="n"&gt;random_factors&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;randn&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;random_factors&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+
+    &lt;span class="n"&gt;returns&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;drifts&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;random_factors&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;initial_price&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;exp&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;returns&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;simulated_series_and_purchases&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="n"&gt;gamma&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;initial_price&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;drift&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    Simulate price trajectory of length steps and then apply the&lt;/span&gt;
+&lt;span class="sd"&gt;    generalized dollar cost averaging method -- this entails buying&lt;/span&gt;
+&lt;span class="sd"&gt;    N_i shares at step i, with N_i ~ 1 / p_i ^ gamma.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    Return the total money spent, shares purchased, and average price&lt;/span&gt;
+&lt;span class="sd"&gt;    per share.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="n"&gt;price_series&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;simulated_price_series&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;initial_price&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;drift&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;steps&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;shares_series&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;100&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;price_series&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;price_series&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;gamma&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;money_spent_series&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;price_series&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;shares_series&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# summary stats&lt;/span&gt;
+    &lt;span class="n"&gt;shares&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;shares_series&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;money_spent&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;money_spent_series&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;shares&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;money_spent&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;money_spent&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;shares&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With these in place, I ran 40k simulation with the following parameters for
+the price&amp;nbsp;series:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;initial_price&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;10.0&lt;/span&gt;
+&lt;span class="n"&gt;steps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;
+&lt;span class="n"&gt;drift&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0&lt;/span&gt;
+&lt;span class="n"&gt;std&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.05&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;In the simulations, I considered &lt;span class="math"&gt;\(\gamma=5\)&lt;/span&gt;, &lt;span class="math"&gt;\(10\)&lt;/span&gt;, and &lt;span class="math"&gt;\(1\)&lt;/span&gt; &amp;#8212; the last being
+the standard dollar cost averaging method.  Histograms of the resulting spends
+are shown below for each case.  The titles give the mean and standard deviation
+of the amount spent over the traces, and the legends give the mean prices per
+share, averaging over traces.  We can see that we can get a fairly significant
+improvement in mean price as we lift &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt;, but doing this requires that
+we occassionally spend a lot more&amp;nbsp;money.&lt;/p&gt;
+&lt;p&gt;One can mitigate the very large spend events by capping the amount spent per
+day.  For example, if one caps the daily spend at fifty percent above that on
+the first day, the &lt;span class="math"&gt;\(\gamma=10\)&lt;/span&gt; case here gives a spend distribution of &lt;span class="math"&gt;\(10194
+\pm 2069\)&lt;/span&gt;, and a mean price per share of &lt;span class="math"&gt;\(9.86\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p align="center"&gt;
+&lt;img src="images/spend_distributions.png" alt="price paid" style="width:100%"&gt;
+&lt;/p&gt;
+
+&lt;h3 id="appendix-average-price-per-share-monotonicity"&gt;Appendix: Average price per share&amp;nbsp;monotonicity&lt;/h3&gt;
+&lt;p&gt;In this appendix, we give a proof that increasing &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; in (\ref{1}), always
+results in a decreasing average price per share (more precisely, it can&amp;#8217;t
+result in an&amp;nbsp;increase).&lt;/p&gt;
+&lt;p&gt;To begin, we recall our definitions:  The number of shares purchased at &lt;span class="math"&gt;\(p_i\)&lt;/span&gt;
+is assumed to&amp;nbsp;be
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A1}
+N_i = A p_i^{-\gamma}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The total number of shares purchased is then obtained by summing&amp;nbsp;this
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A2}
+N_{total} = \sum_{i=1}^k N_i
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The average price per share is&amp;nbsp;then
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A3} \label{A3}
+\overline{p} = \sum_{i=1}^k w_i p_i
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+w_j &amp;amp;\equiv &amp;amp; \frac{N_j}{N_{total}} \\
+&amp;amp;=&amp;amp; \frac{p_j^{-\gamma}}{\sum_{i=1}^k p_i^{-\gamma}} \tag{A4}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+is the normalized weight applied to price &lt;span class="math"&gt;\(p_j\)&lt;/span&gt;.  Plugging this last line into
+(\ref{A3}), we get a simple expression for the average price per&amp;nbsp;share
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{A5}\tag{A5}
+\overline{p} = \frac{\langle p_i^{-\gamma + 1} \rangle}{\langle p_i^{-\gamma}
+\rangle} 
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, we use brackets for equal weight averages over the price series.  This
+formula shows that the mean paid price per share is related to the ratio of two
+adjacent moments of the price series.  We will now argue that this is monotic
+in &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; [Aside:  It looks like one might be able to provide an alternative
+proof of our result from the ratio of moments expression above, combining that
+with one of the Chebychev inequalities.  However, I haven&amp;#8217;t been able to get
+that to work just&amp;nbsp;yet].&lt;/p&gt;
+&lt;p&gt;To show that (\ref{A3}) is monotonic in &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt;, we first note that the
+relative weight applied to any two prices is given&amp;nbsp;by
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{A6}\tag{A6}
+\frac{w_i}{w_j} = \left(\frac{p_i}{p_j}\right)^{-\gamma}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+If &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; is the minimum price in the series this is necessarily an increasing
+function of &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; for any other &lt;span class="math"&gt;\(p_j\)&lt;/span&gt;.  In order for the weights to continue
+to be normalized to one, this implies that the weight applied to the smallest
+price must always increase as we increase &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Next, we note that with the above observation, our result is trivially true
+when &lt;span class="math"&gt;\(k=1\)&lt;/span&gt; and &lt;span class="math"&gt;\(k=2\)&lt;/span&gt;.  Suppose then that the result holds up to &lt;span class="math"&gt;\(k-1\)&lt;/span&gt; periods
+and the consider the case at &lt;span class="math"&gt;\(k\)&lt;/span&gt;.  If we order the &lt;span class="math"&gt;\(p_i\)&lt;/span&gt; values from largest to
+smallest, we then&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\label{A7} \tag{A7}
+\overline{p} = \left ( 1 - w_k \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i+ w_k
+p_k
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The sum above is the weighted average we&amp;#8217;d realize if we only invested on the
+first &lt;span class="math"&gt;\(k-1\)&lt;/span&gt; ordered prices, and the &lt;span class="math"&gt;\(\tilde{w}_i\)&lt;/span&gt; are the effective weights
+we&amp;#8217;d apply in that case. By assumption, this inner sum is necessarily
+non-increasing with &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt;.   Therefore, if we let &lt;span class="math"&gt;\(w^{\prime}\)&lt;/span&gt; be the weight
+applied at some &lt;span class="math"&gt;\(\gamma^{\prime} &amp;gt; \gamma\)&lt;/span&gt;, we&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\overline{p}^{\prime} &amp;amp;=&amp;amp; \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1}
+\tilde{w}_i^{\prime} p_i + w_k^{\prime} p_k \\
+&amp;amp;\leq &amp;amp;  \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i +
+w_k^{\prime} p_k \label{A8} \tag{A8}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+But this last line is just like the &lt;span class="math"&gt;\(k=2\)&lt;/span&gt; case: We move from one weighted
+average of two values (namely, &lt;span class="math"&gt;\(p_k\)&lt;/span&gt; and the weighted sum of the first &lt;span class="math"&gt;\(k-1\)&lt;/span&gt;
+prices with weights fixed as at &lt;span class="math"&gt;\(\gamma\)&lt;/span&gt; &amp;#8212; which is necessarily not smaller
+than &lt;span class="math"&gt;\(p_k\)&lt;/span&gt;) to another that applies more weight to the smaller of the two
+values &amp;#8212; ultimately giving a smaller result.  Continuing with the last line,
+then, we&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\overline{p}^{\prime} &amp;amp;\leq&amp;amp; \left ( 1 - w_k^{\prime} \right) \sum_{i=1}^{k-1}
+\tilde{w}_i p_i + w_k^{\prime} p_k \\
+&amp;amp;\leq&amp;amp; \left ( 1 - w_k \right) \sum_{i=1}^{k-1} \tilde{w}_i p_i + w_k p_k \\
+&amp;amp;\equiv&amp;amp; \overline{p}. \label{A9} \tag{A9}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt; 
+This completes our&amp;nbsp;proof.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Finance"></category><category term="theory"></category><category term="statistics"></category></entry><entry><title>Pricing dividend stocks</title><link href="https://efavdb.com/pricing-dividend-stocks" rel="alternate"></link><published>2020-12-20T00:00:00-08:00</published><updated>2020-12-20T00:00:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-12-20:/pricing-dividend-stocks</id><summary type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (&lt;span class="caps"&gt;CAPM&lt;/span&gt;).  As an example, we consider the price of &lt;span class="caps"&gt;AT&lt;/span&gt;&amp;amp;T common stock.  The model result matches the current market price quite well.  Varying inputs to the model also allows us to explore how its price might adjust to changes in company&amp;nbsp;performance.&lt;/p&gt;
 &lt;h2 id="discounted-revenue-equations"&gt;Discounted revenue&amp;nbsp;equations&lt;/h2&gt;
 &lt;p&gt;In this note, we&amp;#8217;ll consider the value of a stock that generates a discrete set of dividends, with dividend &lt;span class="math"&gt;\(D_t\)&lt;/span&gt; paid out at time &lt;span class="math"&gt;\(t\)&lt;/span&gt;, for &lt;span class="math"&gt;\(t \in \{1, 2, \ldots\}\)&lt;/span&gt;.  To estimate a fair price &lt;span class="math"&gt;\(V_0\)&lt;/span&gt; for the stock today (assumed to be just after the most recent dividend payout at &lt;span class="math"&gt;\(t=0\)&lt;/span&gt;), we&amp;#8217;ll consider how the value evolves over time.  If we purchase and hold the stock now, then at period &lt;span class="math"&gt;\(1\)&lt;/span&gt;, we&amp;#8217;ll still have the stock but also a dividend.  The total expected fair value at that time will then sum&amp;nbsp;to
 &lt;/p&gt;
