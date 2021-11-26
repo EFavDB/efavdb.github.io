@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,13 +95,13 @@
         <div class="span8 offset2 article-content">
             
             <p>This note addresses the typical applied problem of estimating from data how a target &#8220;conversion rate&#8221; function varies with some available scalar score function &#8212; e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the rate function; differentiating this gives the rate function. The method is a variation on a standard technique for estimating pdfs via fits to empirical&nbsp;cdfs.</p>
-<h3 id="problem-definition-and-naive-binning-solution">Problem definition and naive binning&nbsp;solution</h3>
+<h3>Problem definition and naive binning&nbsp;solution</h3>
 <p>Here, we are interested in estimating a rate function, <span class="math">\(p \equiv p(x)\)</span>, representing the probability of some &#8220;conversion&#8221; event as a function of <span class="math">\(x\)</span>, some scalar model score. To do this, we assume we have access to a finite set of score-outcome data of the form <span class="math">\(\{(x_i, n_i), i= 1, \ldots ,k\}\)</span>. Here, <span class="math">\(x_i\)</span> is the score for example <span class="math">\(i\)</span> and <span class="math">\(n_i \in \{0,1\}\)</span> is its conversion&nbsp;indicator.</p>
 <p>There are a number of standard methods for estimating rate functions. For example, if the score <span class="math">\(x\)</span> is a prior estimate for the conversion rate, a trivial mapping <span class="math">\(p(x) = x\)</span> may work. This won&#8217;t work if the score function in question is not an estimate for <span class="math">\(p\)</span>. A more general approach is to bin together example data points that have similar scores: The observed conversion rate within each bin can then be used as an estimate for the true conversion rate in the bin&#8217;s score range. An example output of this approach is shown in Fig. 1. Another option is to create a moving average, analogous to the binned&nbsp;solution.</p>
 <p>The simple binning approach introduces two inefficiencies: (1) Binning coarsens a data set, resulting in a loss of information. (2) The data in one bin does not affect the data in the other bins, precluding exploitation of any global smoothness constraints that could be placed on <span class="math">\(p\)</span> as a function of <span class="math">\(x\)</span>. The running average approach is also subject to these issues. The method we discuss below alleviates both&nbsp;inefficiencies.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2018/03/image17.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2018/03/image17.png"></a><br>
 Fig. 1. Binned probability estimate approach: All data with scores in a given range are grouped together, and the outcomes from those data points are used to estimate the conversion rate in each bin. Here, the x-axis represents score range, data was grouped into six bins, and mean and standard deviation of the outcome probabilities were estimated from the observed outcomes within each&nbsp;bin.</p>
-<h3 id="efficient-estimates-by-integration">Efficient estimates by&nbsp;integration</h3>
+<h3>Efficient estimates by&nbsp;integration</h3>
 <p>It can be difficult to directly fit a rate function p(x) using score-outcome data because data of this type does not lie on a continuous curve (the y-values alternate between 0 and 1, depending on the outcome for each example). However, if we consider the empirical integral of the available data, we obtain a smooth, increasing function that is much easier to&nbsp;fit.</p>
 <p>To evaluate the empirical integral, we assume the samples are first sorted by <span class="math">\(x\)</span> and define<br>
 </p>
@@ -125,7 +125,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
 <p>The example in Fig. 2 has no error bar shown. One way to obtain error bars would be to work with a particular fit form. The uncertainty in the fit coefficients could then be used to estimate uncertainties in the values at each&nbsp;point.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2018/03/image16-1.png"><img alt="image16" src="https://efavdb.com/wp-content/uploads/2018/03/image16-1.png"></a></p>
 <p>Fig. 2. (Left) A plot of the empirical integral of the data used to generate Fig. 1 is in blue. A quadratic fit is shown in red. (Right) The derivative of the red fit function at left is shown, an estimate for the rate function in question, <span class="math">\(p\equiv p(x)\)</span>.</p>
-<h3 id="example-python-code">Example python&nbsp;code</h3>
+<h3>Example python&nbsp;code</h3>
 <p>The code snippet below carries out the procedure described above on a simple example. One example output is shown in Fig. 3 at the bottom of the section. Running the code multiple times gives one a sense of the error that is present in the predictions. In practical applications, this can&#8217;t be done so carrying out the error analysis procedure suggested above should be done to get a better sense of the error&nbsp;involved.</p>
 <div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>  
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
@@ -241,7 +241,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Integration%20method%20to%20map%20model%20scores%20to%20conversion%20rates%20from%20example%C2%A0data&url=https%3A//efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -255,7 +255,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -329,7 +329,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2018-03-03T17:53:00-08:00">Mar 3, 2018</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

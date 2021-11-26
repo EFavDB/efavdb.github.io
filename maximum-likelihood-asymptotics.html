@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>In this post, we review two facts about maximum-likelihood estimators: 1) They are consistent, meaning that they converge to the correct values given a large number of samples, <span class="math">\(N\)</span>, and 2) They satisfy the <a href="http://efavdb.github.io/multivariate-cramer-rao-bound">Cramer-Rao</a> lower bound for unbiased parameter estimates in this same limit &#8212; that is, they have the lowest possible variance of any unbiased estimator, in the <span class="math">\(N\gg 1\)</span>&nbsp;limit.</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>We begin with a simple example maximum-likelihood inference problem: Suppose one has obtained <span class="math">\(N\)</span> independent samples <span class="math">\(\{x_1, x_2, \ldots, x_N\}\)</span> from a Gaussian distribution of unknown mean <span class="math">\(\mu\)</span> and variance <span class="math">\(\sigma^2\)</span>. In order to obtain a maximum-likelihood estimate for these parameters, one asks which <span class="math">\(\hat{\mu}\)</span> and <span class="math">\(\hat{\sigma}^2\)</span> would be most likely to generate the samples observed. To find these, we first write down the probability of observing the samples, given our model. This is&nbsp;simply
 </p>
 <div class="math">$$
@@ -111,7 +111,7 @@ To obtain the maximum-likelihood estimates, we maximize (\ref{1}): Setting its d
 <p>
 These are mean and variance values that would be most likely to generate our observation set <span class="math">\(\{x_i\}\)</span>. Our solutions show that they are both functions of the random observation set. Because of this, <span class="math">\(\hat{\mu}\)</span> and <span class="math">\(\hat{\sigma}^2\)</span> are themselves random variables, changing with each sample set that happens to be observed. Their distributions can be characterized by their mean values, variances,&nbsp;etc.</p>
 <p>The average squared error of a parameter estimator is determined entirely by its bias and variance &#8212; see eq (2) of <a href="http://efavdb.github.io/bayesian-linear-regression">prior post</a>. Now, one can show that the <span class="math">\(\hat{\mu}\)</span> estimate of (\ref{mean}) is unbiased, but this is not the case for the variance estimator (\ref{varhat}) &#8212; one should (famously) divide by <span class="math">\(N-1\)</span> instead of <span class="math">\(N\)</span> here to obtain an unbiased estimator<span class="math">\(^1\)</span>. This shows that maximum-likelihood estimators need not be unbiased. Why then are they so popular? One reason is that these estimators are guaranteed to be unbiased when <span class="math">\(N\)</span>, the sample size, is large. Further, in this same limit, these estimators achieve the minimum possible variance for any unbiased parameter estimate &#8212; as set by the fundamental <a href="http://efavdb.github.io/multivariate-cramer-rao-bound">Cramer-Rao</a> bound. The purpose of this post is to review simple proofs of these latter two facts about maximum-likelihood estimators<span class="math">\(^2\)</span>.</p>
-<h3 id="consistency">Consistency</h3>
+<h3>Consistency</h3>
 <p>Let <span class="math">\(P(x \vert \theta^*)\)</span> be some distribution characterized by a parameter <span class="math">\(\theta^*\)</span> that is unknown. We will show that the maximum-likelihood estimator converges to <span class="math">\(\theta^*\)</span> when <span class="math">\(N\)</span> is large: As in (\ref{1}), the maximum-likelihood solution is that <span class="math">\(\theta\)</span> that&nbsp;maximizes
 </p>
 <div class="math">$$\tag{4} \label{4}
@@ -135,7 +135,7 @@ J(\theta) - J(\theta^*) &amp; = \int_x P(x \vert \theta^*) \log \left ( \frac{P(
 $$</div>
 <p>
 Here, we have used <span class="math">\(\log t \leq t-1\)</span> in the second line. Rearranging the above shows that <span class="math">\(J(\theta^*) \geq J(\theta)\)</span> for all <span class="math">\(\theta\)</span> &#8212; when <span class="math">\(N \gg 1\)</span>, meaning that <span class="math">\(J\)</span> is maximized at <span class="math">\(\theta^*\)</span>. That is, the maximum-likelihood estimator <span class="math">\(\hat{\theta} \to \theta^*\)</span> in this limit<span class="math">\(^3\)</span>.</p>
-<h3 id="optimal-variance">Optimal&nbsp;variance</h3>
+<h3>Optimal&nbsp;variance</h3>
 <p>To derive the variance of a general maximum-likelihood estimator, we will see how its average value changes upon introduction of a small Bayesian prior, <span class="math">\(P(\theta) \sim \exp(\Lambda \theta)\)</span>. The trick will be to evaluate the change in two separate ways &#8212; this takes a few lines, but is quite straightforward. In the first approach, we do a direct maximization: The quantity to be maximized is&nbsp;now
 </p>
 <div class="math">$$ \label{7}
@@ -185,7 +185,7 @@ var(\hat{\theta}) = - \frac{1}{N} \times \frac{1}{\langle \partial_{\theta}^2 \l
 $$</div>
 <p>
 This is the lowest possible value for any unbiased estimator, as set by the Cramer-Rao bound. The proof shows that maximum-likelihood estimators always saturate this bound, in the large <span class="math">\(N\)</span> limit &#8212; a remarkable result. We discuss the intuitive meaning of the Cramer-Rao bound in a <a href="http://efavdb.github.io/multivariate-cramer-rao-bound">prior post</a>.</p>
-<h3 id="footnotes">Footnotes</h3>
+<h3>Footnotes</h3>
 <p>[1] To see that (\ref{varhat}) is biased, we just need to evaluate the average of <span class="math">\(\sum_i (x_i - \hat{\mu})^2\)</span>. This&nbsp;is</p>
 <div class="math">$$
 \overline{\sum_i x_i^2 - 2 \sum_{i,j} \frac{x_i x_j}{N} + \sum_{i,j,k} \frac{x_j x_k}{N^2}} = N \overline{x^2} - (N-1) \overline{x}^2 - \overline{x^2} \\
@@ -263,7 +263,7 @@ Dividing through by <span class="math">\(N\)</span>, we see that <span class="ma
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Maximum-likelihood%C2%A0asymptotics&url=https%3A//efavdb.com/maximum-likelihood-asymptotics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/maximum-likelihood-asymptotics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -277,7 +277,7 @@ Dividing through by <span class="math">\(N\)</span>, we see that <span class="ma
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -351,7 +351,7 @@ Dividing through by <span class="math">\(N\)</span>, we see that <span class="ma
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-12-30T00:01:00-08:00">Dec 30, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#statistics-ref">Statistics</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

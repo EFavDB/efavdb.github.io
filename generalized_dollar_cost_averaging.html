@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -100,7 +100,7 @@ over a pre-specified period of time.  The generalization I consider can
 guarantee better prices paid per share &#8212; relative to the standard approach &#8212;
 but its use comes at the cost of requiring one to have a flexible budget. The
 idea essentially boils down to leaning in more heavily on low price&nbsp;periods.</p>
-<h3 id="model-system-and-results">Model system and&nbsp;results</h3>
+<h3>Model system and&nbsp;results</h3>
 <p>In this post, we will assume a scenario where one wants to enter into a stock
 over a set of <span class="math">\(K\)</span> equally spaced periods.  These periods could be separated by
 minutes, hours, or days, etc.  The price of the stock at period <span class="math">\(i\)</span> will be
@@ -185,7 +185,7 @@ dominates drift over short&nbsp;periods.</p>
 </ul>
 <p>We now turn to a quick numerical study, and then conclude with our appendix
 covering the proof of&nbsp;monotonicity.</p>
-<h3 id="numerical-study">Numerical&nbsp;study</h3>
+<h3>Numerical&nbsp;study</h3>
 <p>In this section, we provide some helper python code that allows one to simulate
 price series and check the results of running our strategy (\ref{1}) on top
 of them.  The following two code blocks (1) generate log normal random walk
@@ -254,7 +254,7 @@ the first day, the <span class="math">\(\gamma=10\)</span> case here gives a spe
 <img src="images/spend_distributions.png" alt="price paid" style="width:100%">
 </p>
 
-<h3 id="appendix-average-price-per-share-monotonicity">Appendix: Average price per share&nbsp;monotonicity</h3>
+<h3>Appendix: Average price per share&nbsp;monotonicity</h3>
 <p>In this appendix, we give a proof that increasing <span class="math">\(\gamma\)</span> in (\ref{1}), always
 results in a decreasing average price per share (more precisely, it can&#8217;t
 result in an&nbsp;increase).</p>
@@ -415,7 +415,7 @@ This completes our&nbsp;proof.</p>
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Generalized%20Dollar%20Cost%C2%A0Averaging&url=https%3A//efavdb.com/generalized_dollar_cost_averaging&hashtags=theory,statistics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/generalized_dollar_cost_averaging" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -429,7 +429,7 @@ This completes our&nbsp;proof.</p>
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -494,6 +494,7 @@ This completes our&nbsp;proof.</p>
             <nav>
             <ul class="articles-timeline">
                 <li class="previous-article">« <a href="https://efavdb.com/duality" title="Previous: Physics-based proof of the duality theorem for linear programs">Physics-based proof of the duality theorem for linear programs</a></li>
+                <li class="next-article"><a href="https://efavdb.com/change" title="Next: Counting the number of ways to make change for a trillion dollars">Counting the number of ways to make change for a trillion dollars</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -502,13 +503,13 @@ This completes our&nbsp;proof.</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2021-03-20T00:00:00-07:00">Mar 20, 2021</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#statistics-ref">statistics
+                <li><a href="https://efavdb.com/tags.html#statistics-ref">statistics
                     <span>9</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#theory-ref">theory
+                <li><a href="https://efavdb.com/tags.html#theory-ref">theory
                     <span>5</span>
 </a></li>
             </ul>

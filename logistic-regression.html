@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
             
             <p>We review binary logistic regression. In particular, we derive a) the equations needed to fit the algorithm via gradient descent, b) the maximum likelihood fit&#8217;s asymptotic coefficient covariance matrix, and c) expressions for model test point class membership probability confidence intervals. We also provide python code implementing a minimal &#8220;LogisticRegressionWithError&#8221; class whose &#8220;predict_proba&#8221; method returns prediction confidence intervals alongside its point&nbsp;estimates.</p>
 <p>Our python code can be downloaded from our github page, <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a>. Its use requires the jupyter, numpy, sklearn, and matplotlib&nbsp;packages.</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>The logistic regression model is a linear classification model that can be used to fit binary data &#8212; data where the label one wishes to predict can take on one of two values &#8212; e.g., <span class="math">\(0\)</span> or <span class="math">\(1\)</span>. Its linear form makes it a convenient choice of model for fits that are required to be interpretable. Another of its virtues is that it can &#8212; with relative ease &#8212; be set up to return both point estimates and also confidence intervals for test point class membership probabilities. The availability of confidence intervals allows one to flag test points where the model prediction is not precise, which can be useful for some applications &#8212; eg fraud&nbsp;detection.</p>
 <p>In this note, we derive the expressions needed to fit the logistic model to a training data set. We assume the training data consists of a set of <span class="math">\(n\)</span> feature vector- label pairs, <span class="math">\(\{(\vec{x}_i, y_i)\)</span>, for <span class="math">\(i = 1, 2, \ldots, n\}\)</span>, where the feature vectors <span class="math">\(\vec{x}_i\)</span> belong to some <span class="math">\(m\)</span>-dimensional space and the labels are binary, <span class="math">\(y_i \in \{0, 1\}.\)</span> The logistic model states that the probability of belonging to class <span class="math">\(1\)</span> is given&nbsp;by
 </p>
@@ -115,7 +115,7 @@ The latter equality above follows from simplifying algebra, after plugging in (\
 <p><a href="https://efavdb.com/wp-content/uploads/2017/07/errorbar.png"><img alt="errorbar" src="https://efavdb.com/wp-content/uploads/2017/07/errorbar.png"></a></p>
 <p>On our GitHub <a href="https://github.com/EFavDB/logistic-regression-with-error">page</a>, we provide a Jupyter notebook that contains some minimal code extending the SKLearn LogisticRegression class. This extension makes use of the results presented here and allows for class probability confidence intervals to be returned for individual test points. In the notebook, we apply the algorithm to the SKLearn Iris dataset. The figure at right illustrates the output of the algorithm along a particular cut through the Iris data set parameter space. The y-axis represents the probability of a given test point belong to Iris class <span class="math">\(1\)</span>. The error bars in the plot provide insight that is completely missed when considering the point estimates only. For example, notice that the error bars are quite large for each of the far right points, despite the fact that the point estimates there are each near <span class="math">\(1\)</span>. Without the error bars, the high probability of these point estimates might easily be misinterpreted as implying high model&nbsp;confidence.</p>
 <p>Our derivations below rely on some prerequisites: Properties of covariance matrices, the multivariate Cramer-Rao theorem, and properties of maximum likelihood estimators. These concepts are covered in two of our prior posts [<span class="math">\(1\)</span>, <span class="math">\(2\)</span>].</p>
-<h3 id="optimization-by-gradient-descent">Optimization by gradient&nbsp;descent</h3>
+<h3>Optimization by gradient&nbsp;descent</h3>
 <p>In this section, we derive expressions for the gradient of the negative-log likelihood loss function and also demonstrate that this loss is everywhere convex. The latter result is important because it implies that gradient descent can be used to find the maximum likelihood&nbsp;solution.</p>
 <p>Again, to fit the logistic model to a training set, our aim is to find &#8212; and also to set the parameter vector to &#8212; the maximum likelihood value. Assuming the training set samples are independent, the likelihood of observing the training set labels is given&nbsp;by
 </p>
@@ -160,7 +160,7 @@ We can prove that this is positive semi-definite using the fact that a matrix <s
 \end{eqnarray}</div>
 <p>
 The last form follows from the fact that both <span class="math">\(p(y= 0 \vert \vec{x}_k)\)</span> and <span class="math">\(p(y= 1 \vert \vec{x}_k)\)</span> are non-negative. This holds for any <span class="math">\(\vec{\beta}\)</span> and any <span class="math">\(\vec{s}\)</span>, which implies that our Hessian is everywhere positive semi-definite. Because of this, convex optimization strategies &#8212; e.g., gradient descent &#8212; can always be applied to find the global maximum-likelihood&nbsp;solution.</p>
-<h3 id="coefficient-uncertainty-and-significance-tests">Coefficient uncertainty and significance&nbsp;tests</h3>
+<h3>Coefficient uncertainty and significance&nbsp;tests</h3>
 <p>The solution <span class="math">\(\vec{\beta}^*\)</span> that minimizes <span class="math">\(J\)</span> &#8212; which can be found by gradient descent &#8212; is a maximum likelihood estimate. In the asymptotic limit of a large number of samples, maximum-likelihood parameter estimates satisfy the Cramer-Rao lower bound [<span class="math">\(2\)</span>]. That is, the parameter covariance matrix satisfies [<span class="math">\(3\)</span>],
 </p>
 <div class="math">\begin{eqnarray}
@@ -185,7 +185,7 @@ In the asymptotic limit, the maximum-likelihood parameters will be Normally-dist
 \end{eqnarray}</div>
 <p>
 where the value of <span class="math">\(z\)</span> sets the size of the interval. For example, choosing <span class="math">\(z = 2\)</span> gives an interval construction procedure that will cover the true value approximately <span class="math">\(95%\)</span> of the time &#8212; a result of Normal statistics [<span class="math">\(5\)</span>]. Checking which intervals do not cross zero provides a method for identifying which features contribute significantly to a given&nbsp;fit.</p>
-<h3 id="prediction-confidence-intervals">Prediction confidence&nbsp;intervals</h3>
+<h3>Prediction confidence&nbsp;intervals</h3>
 <p>The probability of class <span class="math">\(1\)</span> for a test point <span class="math">\(\vec{x}\)</span> is given by (\ref{model1}). Notice that this depends on <span class="math">\(\vec{x}\)</span> and <span class="math">\(\vec{\beta}\)</span> only through the dot product <span class="math">\(\vec{x} \cdot \vec{\beta}\)</span>. At fixed <span class="math">\(\vec{x}\)</span>, the variance (uncertainty) in this dot product follows from the coefficient covariance matrix above: We have [<span class="math">\(2\)</span>],
 </p>
 <div class="math">\begin{eqnarray}
@@ -202,10 +202,10 @@ p(y=1 \vert \vec{x}) \in \left ( \frac{1}{1 + e^{- \vec{x} \cdot \vec{\beta}^* +
 <p>
 where <span class="math">\(z\)</span> again sets the size of the interval as above (<span class="math">\(z=2\)</span> gives a <span class="math">\(95%\)</span> confidence interval, etc. [<span class="math">\(5\)</span>]), and <span class="math">\(\sigma_{\vec{x} \cdot \vec{\beta}^*}\)</span> is obtained from (\ref{covariance}) and&nbsp;(\ref{logit_var}).</p>
 <p>The results (\ref{covariance}), (\ref{logit_var}), and (\ref{prob_interval}) are used in our Jupyter notebook. There we provide code for a minimal Logistic Regression class implementation that returns both point estimates and prediction confidence intervals for each test point. We used this code to generate the plot shown in the post introduction. Again, the code can be downloaded <a href="https://github.com/EFavDB/logistic-regression-with-error">here</a> if you are interested in trying it&nbsp;out.</p>
-<h3 id="summary">Summary</h3>
+<h3>Summary</h3>
 <p>In this note, we have 1) reviewed how to fit a logistic regression model to a binary data set for classification purposes, and 2) have derived the expressions needed to return class membership probability confidence intervals for test&nbsp;points.</p>
 <p>Confidence intervals are typically not available for many out-of-the-box machine learning models, despite the fact that intervals can often provide significant utility. The fact that logistic regression allows for meaningful error bars to be returned with relative ease is therefore a notable, advantageous&nbsp;property.</p>
-<h3 id="footnotes">Footnotes</h3>
+<h3>Footnotes</h3>
 <p>[<span class="math">\(1\)</span>] Our notes on the maximum-likelihood estimators can be found <a href="http://efavdb.github.io/maximum-likelihood-asymptotics">here</a>.</p>
 <p>[<span class="math">\(2\)</span>] Our notes on covariance matrices and the multivariate Cramer-Rao theorem can be found <a href="http://efavdb.github.io/multivariate-cramer-rao-bound">here</a>.</p>
 <p>[<span class="math">\(3\)</span>] The Cramer-Rao identity [<span class="math">\(2\)</span>] states that covariance matrix of the maximum-likelihood estimators approaches the Hessian matrix of the log-likelihood, evaluated at their true values. Here, we approximate this by evaluating the Hessian at the maximum-likelihood point&nbsp;estimate.</p>
@@ -278,7 +278,7 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Logistic%C2%A0Regression&url=https%3A//efavdb.com/logistic-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/logistic-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -292,7 +292,7 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -366,7 +366,7 @@ where <span class="math">\(z\)</span> again sets the size of the interval as abo
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2017-07-29T19:10:00-07:00">Jul 29, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

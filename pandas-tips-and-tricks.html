@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -109,9 +109,9 @@
 <li>This post was partially inspired by Tom Augspurger&#8217;s Pandas <a href="https://github.com/tomaugspurger/pydataseattle">tutorial</a>, which has a <a href="https://www.youtube.com/watch?v=otCriSKVV_8">youtube video</a> that can be viewed along side it. We also suggest some other excellent resource materials &#8212; where relevant &#8212;&nbsp;below.</li>
 <li>The notebook we use below can be downloaded from our <a href="https://github.com/EFavDB/Pandas">github page</a>. Feel free to grab it and follow&nbsp;along.</li>
 </ul>
-<h3 id="jupyter-formally-ipython-notebook-tips">Jupyter (Formally IPython) notebook&nbsp;tips</h3>
+<h3>Jupyter (Formally IPython) notebook&nbsp;tips</h3>
 <p>All the exercises I will be referring to here were carried out using IPython notebooks. To start off, here&#8217;s a few quick tips on notebook navigation that can help make life easier:  First, the notebook has two modes, command and edit. If you are in edit mode you have the cursor in one of the cells (boxes) where you can enter code or text.  To enter command mode press the <strong>Esc</strong> key and the cursor will disappear, but the cell will still be highlighted.  In command mode you have a variety of keyboard shortcuts, and you can see all of them if you press <strong>h</strong>. <strong>a</strong> and <strong>b </strong>will make new empty cells below and above the current cell.  <strong>j </strong>/ <strong>k</strong> will navigate through the notebook. <strong>Shift + Enter</strong> will execute the current cell and move to the next one, while <strong>Ctrl + Enter</strong> will execute the cell but does not move to the next cell. This is nice if you are still tweaking the code in that&nbsp;cell.</p>
-<h3 id="pandas-is-built-on-top-of-numpy">Pandas is built on top of&nbsp;NumPy</h3>
+<h3>Pandas is built on top of&nbsp;NumPy</h3>
 <p>To understand Pandas, you gotta understand NumPy, as Pandas is built on top of it. Here, we cover some of its NumPy&#8217;s basic&nbsp;properties.</p>
 <p><strong>Ndarray</strong>: ndarrays are central to NumPy, and are homogeneous N-dimensional arrays of fixed-size. NumPy also provides fast methods for the ndarrary that are written in C, often making use of vectorized operations such as element wise addition and multiplication. These methods provide a major resource for code speedup, and Pandas takes full advantage of them where possible. In addition to the fast methods, ndarray also requires less memory than a python list because python lists are an array of pointers to Python objects &#8212; this is what allows lists to hold mixed data types.  This overhead combined with the overhead of the Python objects vs a numpy object can add up quickly. The variabilities in data type also makes it difficult to implement efficient C-loops because every iteration would need to make a call to Python to check the data type. This leads us to the next&nbsp;point.</p>
 <p><strong>Data types</strong>: As mentioned earlier, unlike Python&#8217;s list object, NumPy arrays can only contain one data type at a time.  Giving up mixed data types allows us to achieve much better performance through efficient C-loops.  One important thing to note is that missing values (NaN) will cast integer or boolean arrays to&nbsp;floats.</p>
@@ -141,7 +141,7 @@
 
 
 <p>For those interested, I recommend Jake Vanderplas&#8217;s <a href="https://www.youtube.com/watch?v=EEUXKG97YRw">talk</a> for learning more about how one can reduce loop usage in your own code using&nbsp;NumPy.</p>
-<h3 id="pandas-data-structures">Pandas Data&nbsp;Structures</h3>
+<h3>Pandas Data&nbsp;Structures</h3>
 <p><strong>Series</strong>
 We now move to the Pandas-specific data types. First up are Series, which are one-dimensional labeled arrays. Unlike ndarrays, these are capable of holding mixed data types. The cells of the series are labeled via the series <strong>Index</strong>. We will discuss indices more in a bit. The general method of creating a series is as&nbsp;follows.</p>
 <div class="highlight"><pre><span></span><span class="err">s = Series(data, index=index)</span>
@@ -349,7 +349,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 </pre></div>
 
 
-<h3 id="reading-files-into-pandas">Reading files into&nbsp;Pandas</h3>
+<h3>Reading files into&nbsp;Pandas</h3>
 <p>At this point, we require a larger data set in order to demonstrate other Pandas capabilities.  For that purpose, I decided to use unemployment data from (<a href="http://data.bls.gov/">http://data.bls.gov/</a>).  The data file is available in our Github repository along with the notebook that generated the examples above. I saved the data as a csv file. To read into the notebook, we&#8217;ll make use of Pandas&#8217; read_csv method &#8212; a fast, simple method for directly reading csv files into a&nbsp;DataFrame.</p>
 <p>After reading in the data, we see that each row corresponds to one unemployment measurement with a different column for each time point. The first column has a numeric id, so the first thing to do is to replace those with human readable strings.  Next, we see that we have incomplete data for Jan 2000, so we drop that column.  Setting the inplace flag to true here causes the modified DataFrame to replace the original &#8212; in this way, we avoid having to copy the&nbsp;original.</p>
 <p>Next, we assign our IDs to the DataFrame index using <code>set_index</code>, and then drop the column since it is no longer needed.  Lastly we transpose the table so that each row corresponds to a different time point and the columns to the separate&nbsp;measures.</p>
@@ -468,7 +468,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 </tr>
 </tbody>
 </table>
-<h3 id="working-with-the-data">Working with the&nbsp;data</h3>
+<h3>Working with the&nbsp;data</h3>
 <p>Now that we have the data in a nicely formatted within DataFrame, we can easily visualize it using the Pandas plot method. For example, to plot the general unemployment rate, we&nbsp;write</p>
 <div class="highlight"><pre><span></span><span class="err">df[&#39;Rate&#39;].plot()</span>
 <span class="err">plt.ylabel(&#39;Unemployment Rate (%)&#39;)</span>
@@ -483,7 +483,7 @@ We now move to the Pandas-specific data types. First up are Series, which are on
 
 <p><a href="https://efavdb.com/wp-content/uploads/2015/07/fig2.png"><img alt="fig2" src="https://efavdb.com/wp-content/uploads/2015/07/fig2.png"></a>
 Interestingly, these unemployment rates seem to evolve in a similar manner. Notice that both the green and the red curves seem to have doubled during the recent&nbsp;slow-down.</p>
-<h3 id="groupby">GroupBy</h3>
+<h3>GroupBy</h3>
 <p>You can also used Pandas GroupBy functionality to do analysis on subsets of the data.  For this example we <a href="http://pandas.pydata.org/pandas-docs/stable/groupby.html">GroupBy</a> year, and then make a plot showing the mean unemployment per year. GroupBy allows one to easily split the data, apply a function to each group, and then combine the results. It is a very useful&nbsp;feature!</p>
 <div class="highlight"><pre><span></span><span class="err">df[&#39;Year&#39;]=(df.index.to_datetime()).year</span>
 <span class="err">years = df.groupby(&#39;Year&#39;)</span>
@@ -491,7 +491,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </pre></div>
 
 
-<h3 id="_1"><a href="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"><img alt="fig3" src="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"></a></h3>
+<h3><a href="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"><img alt="fig3" src="https://efavdb.com/wp-content/uploads/2015/07/fig3.png"></a></h3>
 <p>There are some functions like mean, and describe that can be run directly on a grouped&nbsp;object.</p>
 <div class="highlight"><pre><span></span><span class="err">years.get_group(2005)[&#39;Rate&#39;].describe()</span>
 </pre></div>
@@ -647,7 +647,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </tr>
 </tbody>
 </table>
-<h3 id="boolean-indexing">Boolean&nbsp;Indexing</h3>
+<h3>Boolean&nbsp;Indexing</h3>
 <p>Another common operation is the use of boolean vectors to filter data. This allows one to easily select subsets of data. It also provides a quick method for counting &#8212; this works because True and False are represented as 1 and 0, respectively, when&nbsp;adding.</p>
 <div class="highlight"><pre><span></span><span class="err">sum(df[&#39;Rate&#39;] &gt; 7)</span>
 </pre></div>
@@ -657,7 +657,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </pre></div>
 
 
-<h3 id="string-methods">String&nbsp;Methods</h3>
+<h3>String&nbsp;Methods</h3>
 <p>Pandas has very useful string methods which can be access via <code>str.</code> This makes it easy to look for patterns in the text, do filtering, replacements, and so on. I have a couple of examples below but I highly recommend taking a look at the documentation page for many <a href="http://pandas.pydata.org/pandas-docs/stable/text.html">examples</a>.</p>
 <div class="highlight"><pre><span></span><span class="err">s = pd.Series([&#39;Dog&#39;, &#39;Bat&#39;, &#39;Coon&#39;, &#39;cAke&#39;, &#39;bAnk&#39;, &#39;CABA&#39;, &#39;dog&#39;, &#39;cat&#39;])</span>
 <span class="err">s[s.str.contains(&#39;B&#39;)]</span>
@@ -684,8 +684,8 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
 </pre></div>
 
 
-<h3 id="_2"></h3>
-<h3 id="wrap-up">Wrap&nbsp;Up</h3>
+<h3></h3>
+<h3>Wrap&nbsp;Up</h3>
 <p>Pandas is a very useful library that I highly recommend. Although it can have a bit of a steep learning curve, it&#8217;s actually pretty easy to pick up once you get started. Give it a shot, and you won&#8217;t regret&nbsp;it!</p>
 <p><a href="https://github.com/EFavDB/Pandas" title="GitHub Repo"><img alt="Open GitHub Repo" src="https://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"></a></p>
 
@@ -693,7 +693,7 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Getting%20started%20with%C2%A0Pandas&url=https%3A//efavdb.com/pandas-tips-and-tricks&hashtags=methods,programming,tools" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/pandas-tips-and-tricks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -781,16 +781,16 @@ Interestingly, these unemployment rates seem to evolve in a similar manner. Noti
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-10-05T12:00:00-07:00">Oct 5, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#programming-ref">Programming</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#programming-ref">Programming</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#methods-ref">methods
+                <li><a href="https://efavdb.com/tags.html#methods-ref">methods
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#programming-ref">programming
+                <li><a href="https://efavdb.com/tags.html#programming-ref">programming
                     <span>9</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#tools-ref">tools
+                <li><a href="https://efavdb.com/tags.html#tools-ref">tools
                     <span>5</span>
 </a></li>
             </ul>

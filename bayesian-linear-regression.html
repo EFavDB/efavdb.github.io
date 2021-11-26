@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
             
             <p>Here, we review parameter regularization, which is a method for improving regression models through the penalization of non-zero parameter estimates. Why is this effective? Biasing parameters towards zero will (of course!) unfavorably bias a model, but it will also reduce its variance. At times the latter effect can win out, resulting in a net reduction in generalization error. We also review Bayesian regressions &#8212; in effect, these generalize the regularization approach, biasing model parameters to any specified prior estimates, not necessarily&nbsp;zero.</p>
 <p>This is the second of a series of posts expounding on topics discussed in the text, <a href="http://www-bcf.usc.edu/~gareth/ISL/">&#8220;An Introduction to Statistical Learning&#8221;</a>. Here, we cover material from its Chapters 2 and 6. See prior post <a href="http://efavdb.github.io/leave-one-out-cross-validation">here</a>.</p>
-<h3 id="introduction-and-overview">Introduction and&nbsp;overview</h3>
+<h3>Introduction and&nbsp;overview</h3>
 <p>In this post, we will be concerned with the problem of fitting a function of the&nbsp;form
 </p>
 <div class="math">$$\label{function}
@@ -107,7 +107,7 @@ where <span class="math">\(f\)</span> is the function&#8217;s systematic part an
 <p>The primary concern when carrying out a regression is often to find a fit that will be accurate when applied to points not included in the training set. There are two sources of error that one has to grapple with: Bias in the algorithm &#8212; sometimes the result of using an algorithm that has insufficient flexibility to capture the nature of the function being fit, and variance &#8212; this relates to how sensitive the resulting fit is to the samples chosen for the training set. The latter issue is closely related to the concept of <a href="https://en.wikipedia.org/wiki/Overfitting">overfitting</a>.</p>
 <p>To mitigate overfitting, <a href="https://en.wikipedia.org/wiki/Regularization_(mathematics)">parameter regularization</a> is often applied. As we detail below, this entails penalizing non-zero parameter estimates. Although this can favorably reduce the variance of the resulting model, it will also introduce bias. The optimal amount of regularization is therefore determined by appropriately balancing these two&nbsp;effects.</p>
 <p>In the following, we carefully review the mathematical definitions of model bias and variance, as well as how these effects contribute to the error of an algorithm. We then show that regularization is equivalent to assuming a particular form of Bayesian prior that causes the parameters to be somewhat &#8220;sticky&#8221; around zero &#8212; this stickiness is what results in model variance reduction. Because standard regularization techniques bias towards zero, they work best when the underlying true feature dependences are sparse. When this is not true, one should attempt an analogous variance reduction through application of the more general Bayesian regression&nbsp;framework.</p>
-<h3 id="squared-error-decomposition">Squared error&nbsp;decomposition</h3>
+<h3>Squared error&nbsp;decomposition</h3>
 <p>The first step to understanding regression error is the following identity: Given any fixed <span class="math">\(\vec{x}\)</span>, we&nbsp;have
 </p>
 <div class="math">$$
@@ -145,7 +145,7 @@ The middle term here is zero. To see this, note that it is the average of the pr
 $$</div>
 <p>
 The middle term here is again zero. This is because its second factor is a constant, while the first averages to zero, by definition. The first and third terms above are the algorithm&#8217;s variance and squared bias, respectively. Combining these observations with (\ref{detail}), we obtain&nbsp;(\ref{error_decomp}).</p>
-<h3 id="bayesian-regression">Bayesian&nbsp;regression</h3>
+<h3>Bayesian&nbsp;regression</h3>
 <p>In order to introduce Bayesian regression, we focus on the special case of least-squares regressions. In this context, one posits that the samples generated take the form (\ref{function}), with the error <span class="math">\(\epsilon_i\)</span> terms now iid, Gaussian distributed with mean zero and standard deviation <span class="math">\(\sigma\)</span>. Under this assumption, the probability of observing values <span class="math">\((y_1, y_2,\ldots, y_N)\)</span> at <span class="math">\((\vec{x}_1, \vec{x}_2,\ldots,\vec{x}_N)\)</span> is given&nbsp;by
 </p>
 <div class="math">$$
@@ -187,7 +187,7 @@ F(\theta) \equiv (\vec{y} - \vec{\theta} \cdot \vec{x})^2 +(\vec{\theta} - \vec{
 $$</div>
 <p>
 a Bayesian generalization of the usual squared error. With this, our heavy-lifting is at an end. We now move to a quick review of regularization, which will appear as a simple application of the Bayesian&nbsp;method.</p>
-<h3 id="parameter-regularization-as-special-cases">Parameter regularization as special&nbsp;cases</h3>
+<h3>Parameter regularization as special&nbsp;cases</h3>
 <p>The most common forms of regularization are the so-called &#8220;ridge&#8221; and &#8220;lasso&#8221;. In the context of least-squares fits, the former involves minimization of the quadratic&nbsp;form
 </p>
 <div class="math">$$
@@ -205,7 +205,7 @@ $$</div>
 The terms proportional to <span class="math">\(\Lambda\)</span> above are the so-called regularization terms. In elementary courses, these are generally introduced to least-squares fits in an ad-hoc manner: Conceptually, it is suggested that these terms serve to penalize the inclusion of too many parameters in the model, with individual parameters now taking on large values only if they are really essential to the&nbsp;fit.</p>
 <p>While the conceptual argument above may be correct, the framework we&#8217;ve reviewed here allows for a more sophisticated understanding of regularization: (\ref{ridge}) is a special case of (\ref{9}), with <span class="math">\(\vec{\theta}_0\)</span> set to <span class="math">\((0,0,\ldots, 0)\)</span>. Further, the lasso form (\ref{lasso}) is also a special-case form of Bayesian regression, with the prior set to <span class="math">\(P(\vec{\theta}) \propto \exp \left (- \frac{\Lambda}{2 \sigma^2} \sum_i \vert \theta_i \vert \right)\)</span>. As advertised, regularization is a form of Bayesian&nbsp;regression.</p>
 <p>Why then does regularization &#8220;work&#8221;? For the same reason any other Bayesian approach does: Introduction of a prior will bias a model (if chosen well, hopefully not by much), but will also effect a reduction in its variance. The appropriate amount of regularization balances these two effects. Sometimes &#8212; but not always &#8212; a non-zero amount of bias is&nbsp;required.</p>
-<h3 id="discussion">Discussion</h3>
+<h3>Discussion</h3>
 <p>In summary, our main points here were three-fold: (i) We carefully reviewed the mathematical definitions of model bias and variance, deriving (\ref{error_decomp}). (ii) We reviewed how one can inject Bayesian priors to regressions: The key is to use the random error terms to write down the probability of seeing a particular observational data point. (iii) We reviewed the fact that the ridge and lasso &#8212; (\ref{ridge}) and (\ref{lasso}) &#8212; can be considered Bayesian&nbsp;priors.</p>
 <p>Intuitively, one might think introduction of a prior serves to reduce the bias in a model: Outside information is injected into a model, nudging its parameters towards values considered reasonable ahead of time. In fact, this nudging introduces bias! Bayesian methods work through reduction in variance, not bias &#8212; A good prior is one that does not introduce too much&nbsp;bias.</p>
 <p>When, then, should one use regularization? Only when one expects the optimal model to be largely sparse. This is often the case when working on machine learning algorithms, as one has the freedom there to throw a great many feature variables into a model, expecting only a small (a prior, unknown) minority of them to really prove informative. However, when not working in high-dimensional feature spaces, sparseness should not be expected. In this scenario, one should reason some other form of prior, and attempt a variance reduction through the more general Bayesian&nbsp;framework.</p>
@@ -276,7 +276,7 @@ The terms proportional to <span class="math">\(\Lambda\)</span> above are the so
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=A%20review%20of%20parameter%20regularization%20and%20Bayesian%C2%A0regression&url=https%3A//efavdb.com/bayesian-linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/bayesian-linear-regression" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -290,7 +290,7 @@ The terms proportional to <span class="math">\(\Lambda\)</span> above are the so
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -364,7 +364,7 @@ The terms proportional to <span class="math">\(\Lambda\)</span> above are the so
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-10-11T00:01:00-07:00">Oct 11, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#statistics-ref">Statistics</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

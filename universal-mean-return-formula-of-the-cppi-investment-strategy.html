@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -106,7 +106,7 @@ depend in detail on the statistics of the investment in question, but
 instead only on its mean return and standard deviation. I illustrate
 the formula&#8217;s accuracy with a simulation in&nbsp;python.</p>
 <p>*<span class="caps">CPPI</span> = &#8220;Constant Proportion Portfolio&nbsp;Insurance&#8221;</p>
-<h2 id="introduction">Introduction</h2>
+<h2>Introduction</h2>
 <p>The drawdown of an investment portfolio at a given date is equal to
 the amount of money lost relative to its maximum held capital up to
 that date. This is illustrated in the figure at right &#8212; a portfolio
@@ -121,7 +121,7 @@ should only risk 50% of the initial capital and then continue to bank
 50% of any additional earnings whenever a new all time high is&nbsp;reached.</p>
 <p>According to Wikipedia, the first person to study <span class="caps">CPPI</span> was Perold, who derived the statistical properties of a <span class="caps">CPPI</span> portfolio&#8217;s value at time <span class="math">\(t\)</span>, assuming the underlying stochastic investment follows a Wiener process. I was introduced to the <span class="caps">CPPI</span> concept by the book &#8220;Algorithmic Trading&#8221; by Ernest Chan. This book implicitly poses the question of what the mean return is for general, discrete investment strategies. Here, I show that a universal formula applies in this case, valid at low to modest leverages and small unit investment Sharpe ratios &#8212; this result is given in equation (\ref{cppi_asymptotic_growth})&nbsp;below.</p>
 <p>The post proceeds as follows: In the next section, I define some notation and then write down the limiting result. In the following section, I give a numerical example in python. Finally, an appendix contains a derivation of the main result. This makes use of the universal limiting drawdown distribution result from my <a href="http://efavdb.github.io/universal-drawdown-statistics-in-investing">prior post</a>.</p>
-<h2 id="cppi-formulation-and-universal-mean-growth-rate"><span class="caps">CPPI</span> formulation and universal mean growth&nbsp;rate</h2>
+<h2><span class="caps">CPPI</span> formulation and universal mean growth&nbsp;rate</h2>
 <p>In this section, I review the <span class="caps">CPPI</span> strategy and give the limiting mean return result. Consider a portfolio that at time <span class="math">\(t\)</span> has&nbsp;value,
 </p>
 <div class="math">$$
@@ -164,7 +164,7 @@ This result can be used to estimate the mean growth of a portfolio to which <spa
 </ol>
 <p>Notice that we can&#8217;t find solutions for all <span class="math">\(\phi_0\)</span> &#8212; it&#8217;s not possible to match the mean return for high leverages at full exposure when we force protection of some of our&nbsp;assets.</p>
 <p>We now turn to a simulation&nbsp;example.</p>
-<h2 id="python-cppi-simulation">Python <span class="caps">CPPI</span>&nbsp;simulation</h2>
+<h2>Python <span class="caps">CPPI</span>&nbsp;simulation</h2>
 <p>In the code below, we consider a system where in each step we either &#8220;win&#8221; or &#8220;lose&#8221;: If we win, the money we risk grows by a factor of <span class="math">\(f \times 1.02\)</span>, and if we lose, it goes down by a factor of <span class="math">\(f \times 1 / 1.02\)</span>. We take the probability of winning to be <span class="math">\(0.65\)</span>. This game has a Sharpe ratio of <span class="math">\(0.32\)</span>, small enough that our approximation should work well. The code below carries out a simulated repeated investment game over 100 trials &#8212; we hope that it is clear what is happening at each&nbsp;step.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -236,7 +236,7 @@ This result can be used to estimate the mean growth of a portfolio to which <spa
 <p>The last lines above show the output of our print statements. In particular, the last two lines show the mean growth rate observed over the 100 trials and the theoretical value (\ref{cppi_asymptotic_growth}) &#8212; these agree to three decimal&nbsp;places.</p>
 <p>Using a loop over <span class="math">\(\phi\)</span> values, I used the code above to obtain the plot below of mean returns vs <span class="math">\(\phi\)</span>. This shows that the limiting result works quite well over most <span class="math">\(\phi\)</span> &#8212; though there is some systematic, modest discrepancy at small <span class="math">\(\phi\)</span>. This is expected as the quadratic expansion for log wealth used below starts to break down at high exposures. Nevertheless, the fit is qualitatively quite good at all <span class="math">\(\phi\)</span>. This suggests that our result (\ref{cppi_asymptotic_growth}) can be used for quick mean return forecasts for most practical, applied cases of <span class="caps">CPPI</span>.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2019/12/mean_cppi_growth_rate.png"><img alt="mean_cppi_growth_rate" src="https://efavdb.com/wp-content/uploads/2019/12/mean_cppi_growth_rate.png"></a></p>
-<h2 id="appendix-derivation-of-mean-return">Appendix: Derivation of mean&nbsp;return</h2>
+<h2>Appendix: Derivation of mean&nbsp;return</h2>
 <p>We give a rough sketch here of a proof of (\ref{cppi_asymptotic_growth}). Our aim is to quickly get the universal form in a relatively clean way. Note that these results may be new, or perhaps well known to finance theorists &#8212; I&#8217;m not&nbsp;sure.</p>
 <p>To begin let us&nbsp;define
 </p>
@@ -410,7 +410,7 @@ We won&#8217;t show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\r
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Universal%20limiting%20mean%20return%20of%20CPPI%20investment%C2%A0portfolios&url=https%3A//efavdb.com/universal-mean-return-formula-of-the-cppi-investment-strategy" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/universal-mean-return-formula-of-the-cppi-investment-strategy" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -424,7 +424,7 @@ We won&#8217;t show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\r
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -498,7 +498,7 @@ We won&#8217;t show the details, but if you plug (\ref{A2}), (\ref{A3}), and (\r
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2019-12-09T16:14:00-08:00">Dec 9, 2019</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

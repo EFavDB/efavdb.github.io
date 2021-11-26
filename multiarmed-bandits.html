@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -96,24 +96,24 @@
             
             <p><a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction</a> by Sutton and Barto[1] is a book that is universally recommended to beginners in their <span class="caps">RL</span> studies.  The first chapter is an extended text-heavy introduction. The second chapter deals with multiarmed bandits, i.e. slot machines with multiple arms, and is the subject of today&#8217;s&nbsp;post.</p>
 <p>Before getting into the <em>what</em> and <em>how</em> of bandits, I&#8217;d like to address the <strong>why</strong>, since the &#8220;why&#8221; can guard against getting lost in the details / not seeing the forest for the&nbsp;trees.</p>
-<h1 id="why-discuss-multiarmed-bandits">Why discuss multiarmed&nbsp;bandits?</h1>
+<h1>Why discuss multiarmed&nbsp;bandits?</h1>
 <p><span class="caps">RL</span> treats the problem of trying to achieve a goal in an environment where an agent is <em>not</em> instructed about which actions to take to achieve that goal, in contrast to supervised learning problems.  Learning the best actions to take is a complicated problem, since the best actions depend on what state an agent is in, e.g. an agent trying to get to a goalpost east of its current location as quickly as possible may find that moving east is a generally good policy, but not if there is a fire-breathing dragon in the way, in which case, it might make sense to move up or down to navigate around the&nbsp;obstacle.</p>
 <p>Multiarmed bandits are simpler problem: a single state system.  No matter which action an agent takes, i.e. which slot machine arm the agent pulls, the agent ends up back in the same state; the distribution of rewards as a consequence of the agent&#8217;s action remains the same, assuming a stationary distribution of rewards, and actions have no effect on subsequent states or rewards.  This simple case study is useful for building intuition and introducing <span class="caps">RL</span> concepts that will be expanded on in later chapters of&nbsp;[1].</p>
-<h1 id="key-rl-concepts-introduced-by-the-multiarmed-bandit-problem">Key <span class="caps">RL</span> concepts introduced by the multiarmed bandit&nbsp;problem</h1>
-<h2 id="the-nature-of-the-problem">The nature of the&nbsp;problem</h2>
+<h1>Key <span class="caps">RL</span> concepts introduced by the multiarmed bandit&nbsp;problem</h1>
+<h2>The nature of the&nbsp;problem</h2>
 <p><strong>Agent has a goal</strong>: In <span class="caps">RL</span> and multiarmed bandit problems, we want to figure out the strategy, or &#8220;policy&#8221; in <span class="caps">RL</span> lingo, that will maximize our rewards.  For the simple bandit problem, this goal is equivalent to maximizing the reward &#8212; literally, money! &#8212; for each arm&nbsp;pull.</p>
 <p><strong>Unlike supervised learning, no ground truth is supplied</strong>: Each slot has a different distribution of rewards, but the agent playing the machine does not know that distribution.  Instead, the agent has to try different actions and evaluate how good the actions are.  The goodness of an action is straightforwardly determined by its immediate reward in the bandit&nbsp;case.</p>
 <p><strong>Exploration vs. exploitation</strong>:  Based on a few trials, one arm may appear to yield the highest rewards, but the agent may decide to try others occasionally to improve its estimates of the rewards, an example of balancing exploration and exploitation.  The various algorithms handle exploration vs. exploitation differently, but this example introduces one method that is simple but widely-used in practice: the epsilon-greedy algorithm, which takes greedy actions most of the time (exploits) but takes random actions (explores) a fraction epsilon of the&nbsp;time.</p>
-<h3 id="different-approaches-to-learning-a-policy">Different approaches to learning a&nbsp;policy</h3>
+<h3>Different approaches to learning a&nbsp;policy</h3>
 <p><strong>model-free</strong>:  All the strategies discussed in [1] for solving the bandit problem are &#8220;model-free&#8221; strategies.  In real world applications, a model of the world is rarely available, and the agent has to figure out how to act based on sampled experience, and the same applies to the bandit case; even though bandits are a simpler single state system (we don&#8217;t have to model transitions from state to state), an agent still does not know the model that generates the probability of a reward <span class="math">\(r\)</span> given an action <span class="math">\(a\)</span>, <span class="math">\(P(r|a)\)</span> and has to figure that out from trial and&nbsp;error.</p>
 <p>There <em>are</em> model-based algorithms that attempt to model the environment&#8217;s transition dynamics from data, but many popular algorithms today are model-free because of the difficulty of modeling those&nbsp;dynamics.</p>
-<h4 id="learning-action-values">Learning&nbsp;action-values</h4>
+<h4>Learning&nbsp;action-values</h4>
 <p>The bandit problem introduces the idea of estimating the expected value associated with each action, namely the <em>action-value function</em> in <span class="caps">RL</span> terms.  The concept is very intuitive &#8212; as an agent pulls on different bandit arms, it will accumulate rewards associated with each arm.  A simple way to estimate the expected value per arm is just to average the rewards generated by pulling on each slot.  The policy that follows is then implicit, namely, take the action / pull on the arm with the highest estimated&nbsp;action-value!</p>
 <p>Historically, <span class="caps">RL</span> formalism has dealt with estimating value functions and using them to figure out a policy, which includes the Q-Learning (&#8220;Q&#8221; stands for action-value!) approach we mentioned in our earlier <a href="https://efavdb.com/openai-scholars-intro">post</a>.</p>
-<h4 id="learning-policies-directly">Learning policies&nbsp;directly</h4>
+<h4>Learning policies&nbsp;directly</h4>
 <p>[1] also use the bandit problem to introduce a type of algorithm that approaches the problem, not indirectly by learning a value function and deriving the policy from those value functions, but by parameterizing the policy directly and learning the parameters that optimize the rewards.  This class of algorithm is a &#8220;policy gradient method&#8221; and is very popular today for its nice convergence properties.  After the foreshadowing in the bandit problem, policy gradients only reappear very late in [1] &#8212; chapter&nbsp;13!</p>
 <p>We now provide code for&nbsp;concreteness.</p>
-<h1 id="ground-truth-is-hidden-in-our-multiarmed-bandit">Ground truth is hidden in our multiarmed&nbsp;bandit</h1>
+<h1>Ground truth is hidden in our multiarmed&nbsp;bandit</h1>
 <p>The <code>Bandit</code> class initializes a multiarmed bandit. The distribution of rewards per arm follows a Gaussian distribution with some mean dollar&nbsp;amount.</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Bandit</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;N-armed bandit with stationary distribution of rewards per arm.</span>
@@ -134,7 +134,7 @@
 
 <p>Implementation detail: the means per arm, stored in <code>self.action_values</code>, are drawn from a Gaussian distribution upon&nbsp;initialization).</p>
 <p>The agent doesn&#8217;t know the true mean rewards per arm &#8212; it only sees a sample reward when he takes the action of pulling on a particular bandit arm (<code>__call__</code>).</p>
-<h1 id="action-reward-update-strategy">Action, reward, update&nbsp;strategy</h1>
+<h1>Action, reward, update&nbsp;strategy</h1>
 <p>For every action the agent takes, it gets a reward.  With each additional interaction with the bandit, the agent has a new data point it can use to update its strategy (whether indirectly, via an updated action-value estimate, or directly in the policy&nbsp;gradient).</p>
 <div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseBanditAlgo</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Base class for algorithms to maximize the rewards </span>
@@ -165,7 +165,7 @@
 </pre></div>
 
 
-<h2 id="two-types-of-strategies-value-based-and-policy-based">Two types of strategies: value based and policy&nbsp;based</h2>
+<h2>Two types of strategies: value based and policy&nbsp;based</h2>
 <ol>
 <li>value based - agents try to directly estimate the value of
    each action (and whose policies, i.e. probability of selecting an
@@ -248,7 +248,7 @@ reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivatio
 </pre></div>
 
 
-<h1 id="extra-total-rewards-for-different-bandit-algorithms">Extra: Total rewards for different bandit&nbsp;algorithms</h1>
+<h1>Extra: Total rewards for different bandit&nbsp;algorithms</h1>
 <p>We have discussed a bunch of different bandit algorithms, but haven&#8217;t seen what rewards they yield in&nbsp;practice!</p>
 <p>In this
 <a href="https://github.com/frangipane/reinforcement-learning/blob/master/00-Introduction/multiarmed_bandits.ipynb">Jupyter notebook</a>,
@@ -258,7 +258,7 @@ averaged across many trials of different bandits to smooth things
 out).  In the end, we arrive at a plot of the parameter study, that
 reproduces Figure 2.6 in&nbsp;[1].</p>
 <p><img alt="![parameter study]({static}/images/reproduce_multiarmed_bandit_parameter_study.png)" src="https://efavdb.com/images/reproduce_multiarmed_bandit_parameter_study.png"></p>
-<h1 id="references">References</h1>
+<h1>References</h1>
 <p>[1] Sutton and Barto - <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction (2nd&nbsp;Edition)</a></p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -327,7 +327,7 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&url=https%3A//efavdb.com/multiarmed-bandits&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -415,13 +415,13 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2020-02-25T12:00:00-08:00">Feb 25, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#machine-learning-ref">Machine learning</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#machine-learning-ref">Machine learning</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#machine-learning-ref">machine learning
+                <li><a href="https://efavdb.com/tags.html#machine-learning-ref">machine learning
                     <span>10</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#reinforcement-learning-ref">reinforcement learning
+                <li><a href="https://efavdb.com/tags.html#reinforcement-learning-ref">reinforcement learning
                     <span>7</span>
 </a></li>
             </ul>

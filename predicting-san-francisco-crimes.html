@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,10 +95,10 @@
         <div class="span8 offset2 article-content">
             
             <p>In today&#8217;s post, we document our submission to the recent <a href="https://www.kaggle.com/c/sf-crime">Kaggle</a> competition aimed at predicting the category of San Francisco crimes, given only their time and location of occurrence. As a reminder, Kaggle is a site where one can compete with other data scientists on various data challenges.  We took this competition as an opportunity to explore the Naive Bayes algorithm. With the few steps discussed below, we were able to quickly move from the middle of the pack to the top 33% on the competition leader board, all the while continuing with this simple&nbsp;model!</p>
-<h2 id="introduction">Introduction</h2>
+<h2>Introduction</h2>
 <p>As in all cities, crime is a reality San Francisco: Everyone who lives in San Francisco seems to know someone whose car window has been smashed in, or whose bicycle was stolen within the past year or two. Even Prius&#8217; car batteries are apparently considered <a href="http://abc7news.com/news/exclusive-car-battery-thefts-from-hybrid-cars-on-the-rise-in-san-francisco-/725532/">fair game</a> by the city&#8217;s diligent thieves.  The challenge we tackle today involves attempting to guess the class of a crime committed within the city, given the time and location it took place. Such studies are representative of efforts by many police forces today: Using machine learning approaches, one can get an improved understanding of which crimes occur where and when in a city &#8212; this then allows for better, <a href="http://www.forbes.com/sites/emc/2014/06/03/data-analysis-helps-police-departments-fight-crime/">dynamic allocation of police resources</a>. To aid in the <span class="caps">SF</span> <a href="https://www.kaggle.com/c/sf-crime">challenge</a>, Kaggle has provided about 12 years of crime reports from all over the city &#8212; a data set that is pretty interesting to comb&nbsp;through.</p>
 <p>Here, we outline our approach to tackling this problem, using the Naive Bayes classifier. This is one of the simplest classification algorithms, the essential ingredients of which include combining <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem" title="Bayes' theorem">Bayes&#8217; theorem</a> with an independence assumption on the features (this is the &#8220;naive&#8221; part).  Although simple, it is still a popular method for text categorization. For example, using word frequencies as features, this approach can accurately classify emails as spam, or whether a particular a piece of text was written by a specific author.  In fact, with careful preprocessing, the algorithm is often <a href="http://people.csail.mit.edu/jrennie/papers/icml03-nb.pdf">competitive</a> with more advanced methods, including support vector&nbsp;machines.</p>
-<h2 id="loading-package-and-data"><strong>Loading package and&nbsp;data</strong></h2>
+<h2><strong>Loading package and&nbsp;data</strong></h2>
 <p>Below, we show the relevant commands needed to load all the packages and training/test data we will be using. As in previous posts, we will work with <a href="http://pandas.pydata.org/">Pandas</a> for quick and easy data loading and wrangling. We will be having a post dedicated to Pandas in the near future, so stay tuned! We start off with using the parse_dates method to convert the Dates column of our provided data &#8212; which can be downloaded <a href="https://www.kaggle.com/c/sf-crime/data">here</a>&#8212; from string to datetime&nbsp;format.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -124,7 +124,7 @@
 <strong><em>Address</em></strong> - Street address of crime.
 <strong><em>X and Y</em></strong> - <span class="caps">GPS</span> coordinates of&nbsp;crime.</p>
 <p>As we mentioned earlier, the provided data spans almost 12 years, and both the training data set and the testing data set each have about 900k records. At this point we have all the data in memory. However, the majority of this data is categorical in nature, and so will require some more&nbsp;preprocessing.</p>
-<h2 id="how-to-handle-categorical-data">How to handle categorical&nbsp;data</h2>
+<h2>How to handle categorical&nbsp;data</h2>
 <p>Many machine learning algorithms &#8212; including that which we apply below &#8212; will not accept categorical, or text, features. What is the best way to convert such data into numerical values? A natural idea is to convert each unique string to a unique value.  For example, in our data set we might take the crime category value to correspond to one numerical feature, with Larceny set to 1, Homicide to 2, etc.  However, this scheme can cause problems for many algorithms, because they will incorrectly assume that nearby numerical values imply some sort of similarity between the underlying categorical&nbsp;values.</p>
 <p>To avoid the problem noted above, we will instead binarize our categorical data, using vectors of 1&#8217;s and 0&#8217;s. For example, we will&nbsp;write</p>
 <div class="highlight"><pre><span></span><span class="err">larceny = 1,0,0,0,...</span>
@@ -162,9 +162,9 @@
 </pre></div>
 
 
-<h2 id="model-development"><strong>Model&nbsp;development</strong></h2>
+<h2><strong>Model&nbsp;development</strong></h2>
 <p>For this competition the metric used to rate the performance of the model is the multi-class <a href="http://scikit-learn.org/stable/modules/generated/sklearn.metrics.log_loss.html">log_loss</a> &#8212; smaller values of this loss correspond to improved&nbsp;performance.</p>
-<h4 id="first-pass">First&nbsp;pass</h4>
+<h4>First&nbsp;pass</h4>
 <p>For our first quick pass, we used just the day of the week and district for features in our classifier training. We also carried out a Logistic Regression (<span class="caps">LR</span>) on the data in order to get a feel for how the Naive Bayes (<span class="caps">NB</span>) model was performing. The results from the <span class="caps">NB</span> model gave us a log-loss of 2.62, while <span class="caps">LR</span> after tuning was able to give 2.62. However, <span class="caps">LR</span> took 60 seconds to run, while <span class="caps">NB</span> took only 1.5 seconds! As a reference, the current top score on the leader board is about 2.27, while the worst is around 35. Not bad&nbsp;performance!</p>
 <div class="highlight"><pre><span></span><span class="n">features</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">&#39;Friday&#39;, &#39;Monday&#39;, &#39;Saturday&#39;, &#39;Sunday&#39;, &#39;Thursday&#39;, &#39;Tuesday&#39;,</span>
 <span class="n">&#39;Wednesday&#39;, &#39;BAYVIEW&#39;, &#39;CENTRAL&#39;, &#39;INGLESIDE&#39;, &#39;MISSION&#39;,</span>
@@ -184,7 +184,7 @@
 </pre></div>
 
 
-<h4 id="submission-code">Submission&nbsp;code</h4>
+<h4>Submission&nbsp;code</h4>
 <div class="highlight"><pre><span></span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">BernoulliNB</span><span class="p">()</span><span class="w"></span>
 <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_data</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">train_data</span><span class="o">[</span><span class="n">&#39;crime&#39;</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
 <span class="n">predicted</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">test_data</span><span class="o">[</span><span class="n">features</span><span class="o">]</span><span class="p">)</span><span class="w"></span>
@@ -196,7 +196,7 @@
 
 
 <p>With the above model performing well, we used our code to write out our predictions on the test set to csv format, and submitted this to Kaggle. It turns out we got a score of 2.61 which is slightly better than our validation set estimate. The was a good enough score to put us in the to 50%. Pretty good for a first&nbsp;try!</p>
-<h4 id="second-pass">Second&nbsp;pass</h4>
+<h4>Second&nbsp;pass</h4>
 <p>To improve the model further, we next added the time to the feature list used in training. This clearly provides some relevant information, as some types of crime happen more during the day than the night. For example, we expect public drunkenness to probably go up in the late evening.  Adding this feature we were able to push our log-loss score down to 2.58 &#8212; quick and easy progress!  As a side note, we also tried leaving the hours as a continuous variable, but this did not lead to any score improvements.  After training on the whole data set again, we also get 2.58 on the test date. This moved us up another 32 spots, giving a final placement of&nbsp;76/226!</p>
 <div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Friday&#39;</span><span class="p">,</span> <span class="s1">&#39;Monday&#39;</span><span class="p">,</span> <span class="s1">&#39;Saturday&#39;</span><span class="p">,</span> <span class="s1">&#39;Sunday&#39;</span><span class="p">,</span> <span class="s1">&#39;Thursday&#39;</span><span class="p">,</span> <span class="s1">&#39;Tuesday&#39;</span><span class="p">,</span>
 <span class="s1">&#39;Wednesday&#39;</span><span class="p">,</span> <span class="s1">&#39;BAYVIEW&#39;</span><span class="p">,</span> <span class="s1">&#39;CENTRAL&#39;</span><span class="p">,</span> <span class="s1">&#39;INGLESIDE&#39;</span><span class="p">,</span> <span class="s1">&#39;MISSION&#39;</span><span class="p">,</span>
@@ -207,7 +207,7 @@
 </pre></div>
 
 
-<h2 id="discussion">Discussion</h2>
+<h2>Discussion</h2>
 <p>Although Naive Bayes is a fairly simple model, properly wielded it can give great results.  In fact, in this competition our results were competitive with teams who were using much more complicated models, e.g. neural nets. We also learned a few other interesting things here: For example, Pandas&#8217; get_dummies() method looks like it will be a huge timesaver when dealing with categorical data. Till next time &#8212; keep your Prius safe!
 <a href="https://github.com/EFavDB/SF-Crime" title="GitHub Repo"><img alt="Open GitHub Repo" src="https://efavdb.com/wp-content/uploads/2015/03/GitHub_Logo.png"></a></p>
 
@@ -215,7 +215,7 @@
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Machine%20learning%20to%20predict%20San%20Francisco%C2%A0crime&url=https%3A//efavdb.com/predicting-san-francisco-crimes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/predicting-san-francisco-crimes" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -303,7 +303,7 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-07-20T03:01:00-07:00">Jul 20, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#case-studies-ref">Case studies</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#case-studies-ref">Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

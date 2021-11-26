@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -111,7 +111,7 @@
 <p><span class="caps">TGI</span> plots for several drugs (image credit: Qi&nbsp;2011)</p>
 <p>Since the scraper was intended for a casual (non-exhaustive) literature search, I decided to confine the search to online articles in Pubmed Central (as opposed to Pubmed in general) since they are entirely open-access and available in a mostly uniform&nbsp;format.</p>
 <hr>
-<h2 id="i-set-up-the-the-database">I. Set up the the&nbsp;database</h2>
+<h2>I. Set up the the&nbsp;database</h2>
 <p>This project called for data storage beyond the scope of data frames and external flat files, e.g. Excel spreadsheets or csv files, since the following attributes were required of the&nbsp;data:</p>
 <ul>
 <li>Persistence outside the R environment =&gt; data frames&nbsp;unsuitable</li>
@@ -120,7 +120,7 @@
 </ul>
 <p>With a view towards expediency, we cover just enough to get things up and running and leave the finer details of relational database design to the&nbsp;experts.</p>
 <p><a href="http://www.sqlite.org/about.html" title="SQLite">SQLite</a> is well-suited for this small project; it&#8217;s self-contained and doesn&#8217;t require fussing with servers. To lower the barrier even further, the <a href="http://cran.r-project.org/web/packages/RSQLite/index.html" title="RSQLite">RSQLite</a> package embeds SQLite in R (no separate installation needed) and allows you to very easily interface with your database within the R environment. The database itself is stored in a single file on your hard disk and easily&nbsp;transferred.</p>
-<h3 id="what-data-will-be-collected">What data will be&nbsp;collected?</h3>
+<h3>What data will be&nbsp;collected?</h3>
 <p>The first step is to decide what data should be collected during the web scraping process. We want to aggregate images of plots in a (html)&nbsp;report.</p>
 <p>However, downloading the images themselves is inefficient; instead, we&#8217;ll just grab the image URLs on Pubmed Central. (The image URLs are useful because they can be referred to by markdown code to embed the images in the html&nbsp;report.)</p>
 <p>The image urls should be captured, along with associated information&nbsp;below:</p>
@@ -130,7 +130,7 @@
   <strong>search criteria met by the image</strong>   topic/drug, type of&nbsp;plot</p>
 <hr>
 <p>The last point addresses the foreseeable need to be able to modify the search parameters. In the next section, we allow for the possibility that the same image might show up for more than one kind of drug or plot&nbsp;type.</p>
-<h3 id="decide-on-a-layout-for-the-database">Decide on a layout for the&nbsp;database</h3>
+<h3>Decide on a layout for the&nbsp;database</h3>
 <p>After pinning down the content itself, the next step is to decide how it should be arranged in the database.&nbsp;Namely,</p>
 <ul>
 <li>What tables are&nbsp;needed?</li>
@@ -313,7 +313,7 @@
 <p>The table &#8220;figure&#8221; is not in second normal form (<span class="caps">2NF</span>) because of a partial key dependency; the pmcid field only depends on img_url, rather than the entire composite key {topic, plot_type, and&nbsp;img_url}.</p>
 <p>Although the normalization rules sound a bit intimidating, they are just guidelines&#8212;apparently, one can even get carried away with&nbsp;over-normalizing.</p>
 <p>The database has held up fine so far, but any suggestions on how to improve the design are very&nbsp;welcome!</p>
-<h3 id="creating-a-sqlite-database-in-r">Creating a SQLite database in&nbsp;R</h3>
+<h3>Creating a SQLite database in&nbsp;R</h3>
 <p>With a schema in hand, creating the SQLite database in R is a matter of minutes. First, we load the packages for interfacing with the&nbsp;database.</p>
 <div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">DBI</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">RSQLite</span><span class="p">)</span>
@@ -351,9 +351,9 @@
 
 <p>The SQLite database is now ready to be used! The script above is available on github as <code>createSQLiteDatabase.R</code></p>
 <hr>
-<h2 id="ii-scrape-pubmed-central-articles"><span class="caps">II</span>. Scrape Pubmed Central&nbsp;articles</h2>
+<h2><span class="caps">II</span>. Scrape Pubmed Central&nbsp;articles</h2>
 <p>The script <code>pubmedcentral_scraper.R</code> is where the action happens. It takes input from the user to query the Pubmed Central Database, scrape articles, and load the extracted information into the&nbsp;database.</p>
-<h3 id="input-keywords-for-literature-search-and-labels-in-database">Input keywords for literature search and labels in&nbsp;database</h3>
+<h3>Input keywords for literature search and labels in&nbsp;database</h3>
 <p>The user input section is shown&nbsp;below.</p>
 <div class="highlight"><pre><span></span><span class="c1">## &lt;---------USER INPUT STARTS HERE---------&gt;</span>
 
@@ -410,7 +410,7 @@
 
 <p><code>%&gt;%</code> is a pipe operator for chaining commands (from the <a href="https://cran.r-project.org/web/packages/magrittr/index.html">magrittr</a>&nbsp;package).</p>
 <p>The URLs of the html article can be simply constructed from their <span class="caps">PMC</span> ids. For example, the html version of the article with <span class="caps">PMC</span> id 3792566 is found at:&nbsp;http://www.ncbi.nlm.nih.gov/pmc/articles/3792566</p>
-<h3 id="scrape-html-articles">Scrape <span class="caps">HTML</span>&nbsp;articles</h3>
+<h3>Scrape <span class="caps">HTML</span>&nbsp;articles</h3>
 <p>The scraping of the <span class="caps">HTML</span> article is performed by <code>scrapeArticle.R</code>. Note, <span class="caps">PMC</span> ids returned by ESearch which have already been scraped for that particular combination of search terms are&nbsp;skipped.</p>
 <p>The html version of the <span class="caps">PMC</span> articles only show excerpts of captions, so we have to extract the individual figure URLs in order to scrape their full captions (and search for keyword matches). In order to extract a data element from an html document, we need to identify the tag associated with that&nbsp;element.</p>
 <p><a href="http://selectorgadget.com/">SelectorGadget</a> is a nifty tool to help you hone in on the <span class="caps">CSS</span> selectors of interest. Installation is ridiculously easy: just drag the link on the SelectorGadget page to your browser bookmark&nbsp;bar!</p>
@@ -432,7 +432,7 @@
 
 <p>With some more parsing and filtering similar to the above, the full image captions can be grepped for keywords. Caption and image metadata for keyword matches are stored in the SQLite database by <code>pubmedcentral_scraper.R</code>.</p>
 <hr>
-<h2 id="iii-generate-a-report-of-the-scraped-results"><span class="caps">III</span>. Generate a report of the scraped&nbsp;results</h2>
+<h2><span class="caps">III</span>. Generate a report of the scraped&nbsp;results</h2>
 <p>The results of the scraping can be examined by directly querying the SQLite&nbsp;database.</p>
 <p>I also put together an R script, <code>markdown_and_plot.R</code>, that automatically creates an html report in the simple case where only one topic and plot_type need to be included. The user only has to input the topic and plot_type, and the report is subsequently&nbsp;generated.</p>
 <p><code>markdown_and_plot.R</code> calls on <code>generate_markdown_code.R</code>, which extracts the image URLs from the&nbsp;database:</p>
@@ -473,7 +473,7 @@
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Build%20a%20web%20scraper%20for%20a%20literature%20search%20-%20from%20soup%20to%C2%A0nuts&url=https%3A//efavdb.com/build-a-web-scraper-lit-search&hashtags=methods,tools,database,r,sql,web-scraping" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/build-a-web-scraper-lit-search" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -561,25 +561,25 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-08-25T17:43:00-07:00">Aug 25, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#programming-ref">Programming,</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#programming-ref">Programming,</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#database-ref">database
+                <li><a href="https://efavdb.com/tags.html#database-ref">database
                     <span>1</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#methods-ref">methods
+                <li><a href="https://efavdb.com/tags.html#methods-ref">methods
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#r-ref">R
+                <li><a href="https://efavdb.com/tags.html#r-ref">R
                     <span>2</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#sql-ref">SQL
+                <li><a href="https://efavdb.com/tags.html#sql-ref">SQL
                     <span>1</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#tools-ref">tools
+                <li><a href="https://efavdb.com/tags.html#tools-ref">tools
                     <span>5</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#web-scraping-ref">web scraping
+                <li><a href="https://efavdb.com/tags.html#web-scraping-ref">web scraping
                     <span>1</span>
 </a></li>
             </ul>

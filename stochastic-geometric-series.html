@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -102,7 +102,7 @@ $$</div>
 <p>
 Notice that if the <span class="math">\(a_i\)</span> were all the same, <span class="math">\(S\)</span> would be a regular geometric series, with value <span class="math">\(S = \frac{1}{1-a}\)</span>. How will the introduction of <span class="math">\(a_i\)</span> randomness change this sum? Will <span class="math">\(S\)</span> necessarily converge? How is <span class="math">\(S\)</span> distributed? In this post, we discuss some simple techniques to answer these&nbsp;questions.</p>
 <p>Note: This post covers work done in collaboration with my aged p, S.&nbsp;Landy.</p>
-<h3 id="introduction-a-stock-dividend-problem">Introduction &#8212; a stock dividend&nbsp;problem</h3>
+<h3>Introduction &#8212; a stock dividend&nbsp;problem</h3>
 <p>To motivate the sum (\ref{problem}), consider the problem of evaluating the total output of a stock that pays dividends each year in proportion to its present value &#8212; say <span class="math">\(x %\)</span>. The price dynamics of a typical stock can be reasonably modeled as a geometric random walk<span class="math">\(^1\)</span>:
 </p>
 <div class="math">$$\label{prod} \tag{2}
@@ -117,7 +117,7 @@ $$</div>
 <p>
 The inner term in parentheses here is precisely (\ref{problem}). More generally, a series of this form will be of interest pretty much whenever geometric series are: Population growth problems, the length of a cylindrical bacterium at a series of time steps<span class="math">\(^2\)</span>, etc. Will the nature of these sums change dramatically through the introduction of growth&nbsp;variance?</p>
 <p>To characterize these types of stochastic geometric series, we will start below by considering their moments: This will allow us to determine the average value of (\ref{problem}), it&#8217;s variance etc. This approach will also allow us to determine a condition that is both necessary and sufficient for the sum&#8217;s convergence. Following this, we will introduce an integral equation satisfied by the <span class="math">\(P(S)\)</span> distribution. We demonstrate its application by solving the equation for a simple&nbsp;example.</p>
-<h3 id="the-moments-of-s">The moments of <span class="math">\(S\)</span></h3>
+<h3>The moments of <span class="math">\(S\)</span></h3>
 <p>To solve for the moments of <span class="math">\(S\)</span>, we use a trick similar to that used to sum the regular geometric series: We&nbsp;write
 </p>
 <div class="math">$$\tag{4} \label{trick}
@@ -146,7 +146,7 @@ $$</div>
 As one might intuit, the variance of <span class="math">\(S\)</span> is proportional to the variance of <span class="math">\(a\)</span>.</p>
 <p>Expressions (\ref{mean}) and (\ref{var}) are the most practical results of this post: They provide formal general expressions for the mean and variance for a sum of form (\ref{problem}). They can be used to provide a statistical estimate and error bar for a sum of form <span class="math">\(S\)</span> in any practical context. It is interesting/nice that the mean takes such a natural looking form &#8212; one that many people likely make use of already, without putting much thought&nbsp;into.</p>
 <p>The expressions above are also of some theoretical interest: Note, for example, that as <span class="math">\(\overline{a} \to 1\)</span> from below, the average value of <span class="math">\(S\)</span> diverges, and then becomes negative as <span class="math">\(a\)</span> goes above this value. This is clearly impossible, as <span class="math">\(S\)</span> is a sum of positive terms. This indicates that <span class="math">\(S\)</span> has no first moment whenever <span class="math">\(\overline{a} \geq 1\)</span>, while (\ref{mean}) holds whenever <span class="math">\(\overline{a} &lt; 1\)</span>. Similarly, (\ref{var}) indicates that the second moment of <span class="math">\(S\)</span> exists and is finite whenever <span class="math">\(\overline{a^2} &lt; 1\)</span>. In fact, this pattern continues for all <span class="math">\(k\)</span>: <span class="math">\(\overline{S^k}\)</span> exists and is finite if and only if <span class="math">\(\overline{a^k} &lt; 1\)</span> &#8212; a result that can be obtained from (\ref{moments}). A rigorous and elementary proof of these statements can be found in an earlier work by Szabados and Szekeley<span class="math">\(^3\)</span>. The simple moment equation (\ref{moments}) can also be found&nbsp;there.</p>
-<h3 id="condition-for-the-convergence-of-s">Condition for the convergence of <span class="math">\(S\)</span></h3>
+<h3>Condition for the convergence of <span class="math">\(S\)</span></h3>
 <p>A simple condition for the convergence of <span class="math">\(S\)</span> can also be obtained using (\ref{moments}). The trick is to consider the limit as <span class="math">\(k\)</span> goes to zero of the <span class="math">\(k\)</span>-th moments. This gives, for example, the average of <span class="math">\(1\)</span> with respect to <span class="math">\(P(S)\)</span>. If this is finite, then the distribution of <span class="math">\(P\)</span> is normalizable. Otherwise, <span class="math">\(S\)</span> must diverge: Setting <span class="math">\(k = \epsilon\)</span> in (\ref{moments}), expanding to first order in <span class="math">\(\epsilon\)</span>&nbsp;gives
 </p>
 <div class="math">$$\tag{8} \label{approximate_log}
@@ -160,7 +160,7 @@ Solving for <span class="math">\(\overline{1}_S\)</span>, the average of <span c
 $$</div>
 <p>
 Like the integer moment expressions above, the right side here is finite up to the point where its denominator diverges. That is, the series will converge, if and only if <span class="math">\(\overline{\log a} &lt; 0\)</span>, a very simple condition<span class="math">\(^4\)</span>.</p>
-<h3 id="integral-equation-for-the-distribution-ps">Integral equation for the distribution <span class="math">\(P(S)\)</span></h3>
+<h3>Integral equation for the distribution <span class="math">\(P(S)\)</span></h3>
 <p>We have also found that one can sometimes go beyond solving for the moments of <span class="math">\(S\)</span>, and instead solve directly for its full distribution: Integrating (\ref{trick}) over <span class="math">\(a\)</span>&nbsp;gives
 </p>
 <div class="math">\begin{eqnarray}
@@ -197,10 +197,10 @@ $$</div>
 where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.</p>
 <p>In practice, to find <span class="math">\(J\)</span> one can solve (\ref{delay}) numerically, requiring <span class="math">\(P(S)\)</span> to be normalized. The figure below compares the result to a simulation estimate, obtained via binning the results of 250,000 random sums of form (\ref{problem}). The two agree&nbsp;nicely.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2015/08/Screen-Shot-2015-08-16-at-10.34.46-PM.png"><img alt="Screen Shot 2015-08-16 at 10.34.46 PM" src="https://efavdb.com/wp-content/uploads/2015/08/Screen-Shot-2015-08-16-at-10.34.46-PM.png"></a></p>
-<h3 id="discussion">Discussion</h3>
+<h3>Discussion</h3>
 <p>Consideration of this problem was motivated by a geometric series of type (\ref{problem}) that arose in my work at Square. In this case, I was interested in understanding the bias and variance in the natural estimate (\ref{mean}) to this problem. After some weeks of tinkering with S Landy, I was delighted to find that rigorous, simple results could be obtained to characterize these sums, the simplest being the moment and convergence results above. We now realize that these particular issues have already been well- (and better-)studied, by others<span class="math">\(^3\)</span>.</p>
 <p>As for the integral equation approach, we have not found any other works aimed at solving this problem in general. The method discussed in the example above can be used for any <span class="math">\(P_0(a)\)</span> that is uniform over a finite segment. We have also found solutions for a few other cases. Unfortunately, we have so far been unable to obtain a formal, general solution in closed form. However, we note that standard iterative approaches can always be used to estimate the solution to (\ref{int}). Finally, in cases where all moments exist, these can also be used to determine <span class="math">\(P\)</span>.</p>
-<h4 id="references-and-comments">References and&nbsp;comments</h4>
+<h4>References and&nbsp;comments</h4>
 <p>[1] For a discussion on the geometric random walk model for stocks, see <a href="http://people.duke.edu/~rnau/411georw.htm">here</a>.</p>
 <p>[2] Elongated bacteria &#8212; eg., e. coli &#8212; grow longer at an exponential rate &#8212; see my <a href="https://www.sites.google.com/site/Jonathan Landy/%282014%29cellgrowth.pdf?attredirects=0&amp;d=1">paper on how cell shape affects growth rates</a>. Due to randomness inherent in the growth rates, bacteria populations will have a length distribution, similar in form to <span class="math">\(P(S)\)</span>.</p>
 <p>[3] &#8220;An exponential functional of random walks&#8221; by Szabados and Szekeley, Journal of Applied Probability&nbsp;2003.</p>
@@ -273,7 +273,7 @@ where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.</p>
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Stochastic%20geometric%C2%A0series&url=https%3A//efavdb.com/stochastic-geometric-series&hashtags=statistics" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/stochastic-geometric-series" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -287,7 +287,7 @@ where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.</p>
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -361,10 +361,10 @@ where <span class="math">\(Li_2\)</span> is the polylogarithm&nbsp;function.</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-09-13T06:00:00-07:00">Sep 13, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#statistics-ref">statistics
+                <li><a href="https://efavdb.com/tags.html#statistics-ref">statistics
                     <span>9</span>
 </a></li>
             </ul>

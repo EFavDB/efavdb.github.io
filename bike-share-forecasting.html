@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -96,10 +96,10 @@
             
             <p>In today&#8217;s post, we document our efforts at applying a gradient boosted trees model to forecast bike sharing demand &#8212; a problem posed in a recent <a href="https://www.kaggle.com/c/bike-sharing-demand">Kaggle</a>competition. For those not familiar, Kaggle is a site where one can compete with other data scientists on various data challenges. Top scorers often win prize money, but the site more generally serves as a great place to grab interesting datasets to explore and play with. With the simple optimization steps discussed below, we managed to quickly move from the bottom 10% of the competition &#8212; our first-pass attempt&#8217;s score &#8212; to the top 10%: no&nbsp;sweat!</p>
 <p>Our work here was inspired by a <a href="http://blog.dato.com/using-gradient-boosted-trees-to-predict-bike-sharing-demand">post</a> by the people at <a href="http://blog.dato.com/">Dato.com</a>, who used the bike sharing competition as an opportunity to demonstrate their software. Here, we go through a similar, but more detailed discussion using the python package <a href="http://scikit-learn.org/stable/">SKlearn</a>.</p>
-<h2 id="introduction">Introduction</h2>
+<h2>Introduction</h2>
 <p>Bike sharing systems are gaining popularity around the world &#8212; there are over 500 different programs currently operating in various cities, and counting!  These programs are generally funded through rider membership fees, or through pay-to-ride one time rental fees. Key to the convenience of these programs is the fact that riders who pick up a bicycle from one station can return the bicycle to any other in the network.  These systems generate a great deal of data relating to various ride details, including travel time, departure location, arrival location, and so on.  This data has the potential to be very useful for studying city mobility. The data we look at today comes from Washington D. C.&#8217;s <a href="https://www.capitalbikeshare.com/">Capital Bikeshare</a> program. The goal of the Kaggle competition is to leverage the historical data provided in order to forecast future bike rental demand within the&nbsp;city.</p>
 <p>As we detailed in an earlier <a href="http://efavdb.github.io/notes-on-trees">post</a>, boosting provides a general method for increasing a machine learning algorithm&#8217;s performance. Here, in order to model the Capital Bikeshare program&#8217;s demand curves, we&#8217;ll be applying a gradient boosted trees model (<span class="caps">GBM</span>).  Simply put, <span class="caps">GBM</span>&#8217;s are constructed by iteratively fitting a series of simple trees to a training set, where each new tree attempts to fit the residuals, or errors, of the trees that came before it. With the addition of each new tree the training error is further reduced, typically asymptoting to a reasonably accurate model &#8212; but one must watch out for overfitting &#8212; see&nbsp;below!</p>
-<h2 id="loading-package-and-data"><strong>Loading package and&nbsp;data</strong></h2>
+<h2><strong>Loading package and&nbsp;data</strong></h2>
 <p>Below, we show the relevant commands needed to load all the packages and training/test data we will be using. We work with the package <a href="http://pandas.pydata.org/">Pandas</a>, whose DataFrame data structure enables quick and easy data loading and wrangling. We take advantage of this package immediately below, where in the last lines we use its parse_dates method to convert the first column of our provided data &#8212; which can be downloaded <a href="https://www.kaggle.com/c/bike-sharing-demand">here</a> &#8212; from string to datetime&nbsp;format.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -160,7 +160,7 @@
 </pre></div>
 
 
-<h2 id="evaluation-metric"><strong>Evaluation&nbsp;metric</strong></h2>
+<h2><strong>Evaluation&nbsp;metric</strong></h2>
 <p>The evaluation metric that Kaggle uses to rank competing algorithms is the Root Mean Squared Logarithmic Error (<span class="caps">RMSLE</span>).</p>
 <div class="math">\begin{eqnarray}
 J = \sqrt{\frac{1}{n} \sum_{i=1}^n [\ln(p_i + 1) - \ln(a_i+1)]^2 }
@@ -182,8 +182,8 @@ Here,</p>
 
 
 <p>Notice that in the code above we use the <span class="math">\(log1p()\)</span> function instead of the more familiar <span class="math">\(log(1+x)\)</span>. For large values of <span class="math">\(x\)</span>, these two functions are actually equivalent. However, at very small values of <span class="math">\(x\)</span>, the two can disagree. The source of the discrepancy is floating point error: For very small <span class="math">\(x\)</span>, python will send <span class="math">\(1+x \to 1\)</span>, which when supplied as an argument to <span class="math">\(log(1+x)\)</span> will return <span class="math">\(log(1)=0\)</span>. The function <span class="math">\(log1p(x) \sim x\)</span> in this limit. The difference is not very important when the result is being added to other numbers, but can be very important in a multiplicative operation. We use this function instead for this reason. The inverse of <span class="math">\(log(x+1)\)</span> is <span class="math">\(e^{x} -1\)</span> &#8212; an operation we will also need to make use of later, in order to return linear-scale demand values. We&#8217;ll use an analog of the <span class="math">\(log1p()\)</span> function, numpy&#8217;s <span class="math">\(expm1()\)</span> function, to carry out this&nbsp;inversion.</p>
-<h2 id="model-development"><strong>Model&nbsp;development</strong></h2>
-<h4 id="a-first-pass"><strong>A first&nbsp;pass</strong></h4>
+<h2><strong>Model&nbsp;development</strong></h2>
+<h4><strong>A first&nbsp;pass</strong></h4>
 <p>The Gradient Boosting Machine (<span class="caps">GBM</span>) we will be using has some associated hyperparameters that will eventually need to be optimized. These&nbsp;include:</p>
 <ul>
 <li>n_estimators = the number of boosting stages, or trees, to&nbsp;use.</li>
@@ -226,7 +226,7 @@ Here,</p>
 </tr>
 </tbody>
 </table>
-<h4 id="hyperparameter-tuning"><strong>Hyperparameter&nbsp;tuning</strong></h4>
+<h4><strong>Hyperparameter&nbsp;tuning</strong></h4>
 <p>We now turn to the challenge of tuning our <span class="caps">GBM</span>&#8217;s hyperparameters. In order to carry this out, we segmented our training data into a training set and a validation set. The validation set allowed us to check the accuracy of our model locally, without having to submit to Kaggle. This also helped us to avoid overfitting&nbsp;issues.</p>
 <p>As mentioned earlier, the training data provided covers the first 19 days of each month. In segmenting this data, we opted to use days 17-19 for validation. We then used this validation set to optimize the model&#8217;s hyperparameters. As a first-pass at this, we again chose an ad hoc value for n_estimators, but optimized over the remaining degrees of freedom. The code follows, where we make use of GridSearchCV() to perform our parameter&nbsp;sweep.</p>
 <div class="highlight"><pre><span></span><span class="c1">#Split data into training and validation sets</span>
@@ -284,7 +284,7 @@ Here,</p>
 </tbody>
 </table>
 <p>The optimized parameters are shown above. Submitting the resulting model to Kaggle, we found that we had moved from the bottom 10% of models to the top 20%!  An awesome improvement, but we still have one final hyperparameter to&nbsp;optimize.</p>
-<h4 id="tuning-the-number-of-estimators"><strong>Tuning the number of&nbsp;estimators</strong></h4>
+<h4><strong>Tuning the number of&nbsp;estimators</strong></h4>
 <p>In boosted models, training set performance will always improve as the number of estimators is increased. However, at large estimator number, overfitting can start to become an issue. Learning curves provide a method for optimization. These are constructed by plotting the error on both the training and validation sets as a function of the number of estimators used. The code below generates such a curve for our&nbsp;model.</p>
 <div class="highlight"><pre><span></span><span class="n">error_train</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">error_validation</span><span class="o">=</span><span class="p">[]</span>
@@ -316,7 +316,7 @@ Here,</p>
 
 <p><img alt="Error vs Number of Estimators" src="https://efavdb.com/wp-content/uploads/2015/03/figure_1-e1427234375629.png"></p>
 <p>Notice in the plot that by the time the number estimators in our <span class="caps">GBM</span> reaches about 80, the error of our model as applied to the validation set starts to slowly increase, though the error on the training set continues to decrease steadily. The diagnosis is that the model begins to overfit at this point. Moving forward, we will set n_estimators to 80, rather than 500, the value we were using above. Reducing the number of estimators reduced the calculated error and moved us to a higher position on the&nbsp;leaderboard.</p>
-<h2 id="separate-models-for-registered-and-casual-users"><strong>Separate models for registered and casual&nbsp;users</strong></h2>
+<h2><strong>Separate models for registered and casual&nbsp;users</strong></h2>
 <p>Reviewing the data, we see that we have info regarding two types of riders: casual and registered riders. It is plausible that each group&#8217;s behavior differs, and that we might be able to improve our performance by modeling each separately. Below, we carry this out, and then also merge the two group&#8217;s predicted values to obtain a net predicted demand. We also repeat the hyperparameter sweep steps covered above &#8212; this returned similar values. Resubmitting the resulting model, we found we had increased our standing in the competition by a few&nbsp;percent.</p>
 <div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">merge_predict</span><span class="p">(</span><span class="n">model1</span><span class="p">,</span> <span class="n">model2</span><span class="p">,</span> <span class="n">test_data</span><span class="p">):</span>
   <span class="c1"># Combine the predictions of two separately trained models.</span>
@@ -430,7 +430,7 @@ Open GitHub&nbsp;Repo</p>
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Forecasting%20Bike%20Sharing%C2%A0Demand&url=https%3A//efavdb.com/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/bike-share-forecasting" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -518,7 +518,7 @@ Open GitHub&nbsp;Repo</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-03-26T09:20:00-07:00">Mar 26, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#case-studies-ref">Case studies</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#case-studies-ref">Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

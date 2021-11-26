@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one &#8220;remix&#8221; them in some prescribed way to isolate the individual conversations? Yes! In this post, we review one simple approach to solving this type of problem, Independent Component Analysis (<span class="caps">ICA</span>). We share an ipython document implementing <span class="caps">ICA</span> and link to a youtube video illustrating its application to audio&nbsp;de-mixing.</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>To formalize the problem posed in the abstract, let two desired conversation signals be represented by <span class="math">\(c_1(t)\)</span> and <span class="math">\(c_2(t)\)</span>, and two mixed microphone recordings of these by <span class="math">\(m_1(t)\)</span> and <span class="math">\(m_2(t)\)</span>. We&#8217;ll assume that the latter are both linear combinations of the former,&nbsp;with
 </p>
 <div class="math">\begin{align} \label{mean}
@@ -108,7 +108,7 @@ Here, we stress that the <span class="math">\(a_i\)</span> coefficients in (\ref
 <p>Amazingly, it turns out that with the introduction of a modest assumption, a simple solution to our problem can be obtained: We need only assume that the desired <span class="math">\(c_i\)</span> are mutually independent<span class="math">\(^1\)</span>. This assumption is helpful because it turns out that when two independent signals are added together, the resulting mixture is always &#8220;more Gaussian&#8221; than either of the individual, independent signals (a la the central limit theorem). Seeking linear combinations of the available <span class="math">\(m_i\)</span> that locally extremize their non-Gaussian character therefore provides a way to identify the pure, unmixed signals. This approach to solving the problem is called &#8220;Independent Component Analysis&#8221;, or <span class="caps">ICA</span>.</p>
 <p>Here, we demonstrate the principle of <span class="caps">ICA</span> through consideration of the audio de-mixing problem. This is a really impressive application. However, one should strive to remember that the algorithm is not a one-trick-pony. <span class="caps">ICA</span> is an unsupervised machine learning algorithm of general applicability &#8212; similar in nature, and complementary to, the more familiar <a href="http://efavdb.github.io/principal-component-analysis"><span class="caps">PCA</span></a> algorithm. Whereas in <span class="caps">PCA</span> we seek the feature-space directions that maximize captured variance, in <span class="caps">ICA</span> we seek those directions that maximize the &#8220;interestingness&#8221; of the distribution &#8212; i.e., the non-Gaussian character of the resulting projections. It can be fruitfully applied in many contexts<span class="math">\(^2\)</span>.</p>
 <p>We turn now to the problem of audio de-mixing via <span class="caps">ICA</span>.</p>
-<h3 id="audio-de-mixing">Audio&nbsp;de-mixing</h3>
+<h3>Audio&nbsp;de-mixing</h3>
 <p>In this post, we use the kurtosis of a signal to quantify its degree of &#8220;non-Gaussianess&#8221;. For a given signal <span class="math">\(x(t)\)</span>, this is defined&nbsp;as
 </p>
 <div class="math">$$
@@ -144,9 +144,9 @@ where brackets represent an average over time (or index). It turns out that the 
 
 <p>This code finds the index where the kurtosis was maximized, generates the corresponding remix, and plots the result. Applying this, the bottom figure at right popped out. It worked! &#8212; and with just a few lines of code, which makes it seem all the more amazing. In summary, we looked for linear combinations of the <span class="math">\(m_i\)</span> shown in the introduction that resulted in a stationary kurtosis &#8212; plotting these combinations, we found that these were precisely the pure signals we sought<span class="math">\(^4\)</span>.</p>
 <p>A second application to actual audio clips is demoed in our youtube video linked below. The full ipython file utilized in the video can be downloaded on our github page, <a href="https://github.com/EFavDB/ICA">here</a><span class="math">\(^5\)</span>.</p>
-<h3 id="conclusion">Conclusion</h3>
+<h3>Conclusion</h3>
 <p>We hope this little post has you convinced that <span class="caps">ICA</span> is a powerful, yet straightforward algorithm<span class="math">\(^6\)</span>. Although we&#8217;ve only discussed one application here, many others can be found online: Analysis of financial data, an idea to use <span class="caps">ICA</span> to isolate a desired wifi signal from a crowded frequency band, and the analysis of brain waves &#8212; see discussion in the article mentioned in reference 2 &#8212; etc. In general, the potential application set of <span class="caps">ICA</span> may be as large as that for <span class="caps">PCA</span>. Next time you need to do some unsupervised learning or data compression, definitely keep it in&nbsp;mind.</p>
-<h3 id="footnotes-and-references">Footnotes and&nbsp;references</h3>
+<h3>Footnotes and&nbsp;references</h3>
 <p>[1] Formally, saying that two signals are independent means that the evolution of one conveys no information about that of the&nbsp;other.</p>
 <p>[2] For those interested in further reading on the theory and applications of <span class="caps">ICA</span>, we can recommend the review article by Hyvärinen and Oja &#8212; &#8220;Independent Component Analysis: Algorithms and Applications&#8221; &#8212; available for free&nbsp;online.</p>
 <p>[3] Other metrics can also be used in the application of <span class="caps">ICA</span>. The kurtosis is easy to evaluate and is also well-motivated because of the fact that it is zero for any Gaussian. However, there are non-Gaussian distributions that also have zero kurtosis. Further, as seen in our linked youtube video, peaks in the kurtosis plot need not always correspond to the pure signals. A much more rigorous approach is to use the mutual information of the signals as your score. This function is zero if and only if you&#8217;ve found a projection that results in a fully independent set of signals. Thus, it will always work. The problem with this choice is that it is much harder to evaluate &#8212; thus, simpler scores are often used in practice, even though they aren&#8217;t necessarily rigorously correct. The article mentioned in footnote 2 gives a good review of some other popular score function&nbsp;choices.</p>
@@ -221,7 +221,7 @@ where brackets represent an average over time (or index). It turns out that the 
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Independent%20component%C2%A0analysis&url=https%3A//efavdb.com/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -235,7 +235,7 @@ where brackets represent an average over time (or index). It turns out that the 
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -309,7 +309,7 @@ where brackets represent an average over time (or index). It turns out that the 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-02-14T00:00:00-08:00">Feb 14, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

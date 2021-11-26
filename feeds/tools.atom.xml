@@ -15,8 +15,8 @@
 &lt;code&gt;vagrant box add malthejorgensen/caffe-deeplearning&lt;/code&gt;&lt;/p&gt;
 &lt;p&gt;If you don&amp;#8217;t already have VirtualBox and Vagrant installed, you can find instructions online, or look at my &lt;a href="#vagrant_install"&gt;dotfiles&lt;/a&gt; to get an&amp;nbsp;idea.&lt;/p&gt;
 &lt;hr&gt;
-&lt;h2 id="gotchas"&gt;Gotchas&lt;/h2&gt;
-&lt;h3 id="ssh-authentication-failure"&gt;&lt;span class="caps"&gt;SSH&lt;/span&gt; authentication&amp;nbsp;failure&lt;/h3&gt;
+&lt;h2&gt;Gotchas&lt;/h2&gt;
+&lt;h3&gt;&lt;span class="caps"&gt;SSH&lt;/span&gt; authentication&amp;nbsp;failure&lt;/h3&gt;
 &lt;p&gt;For me, the box had the wrong public key in &lt;code&gt;/home/vagrant/.ssh/authorized_keys file&lt;/code&gt;, which gave me “authentication failure” upon starting up the box with &lt;code&gt;vagrant up&lt;/code&gt;. This was fixed&amp;nbsp;by:&lt;/p&gt;
 &lt;p&gt;Manually ssh into the box: &lt;code&gt;vagrant ssh&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Then type (key taken from &lt;a href="https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub"&gt;here&lt;/a&gt;):&lt;/p&gt;
@@ -25,7 +25,7 @@
 
 
 &lt;p&gt;Log out of the box, reload the box with &lt;code&gt;vagrant reload&lt;/code&gt;, and hopefully the ssh authentication error is&amp;nbsp;fixed.&lt;/p&gt;
-&lt;h3 id="jupyter-notebook-server"&gt;Jupyter notebook&amp;nbsp;server&lt;/h3&gt;
+&lt;h3&gt;Jupyter notebook&amp;nbsp;server&lt;/h3&gt;
 &lt;p&gt;By default, the box has a notebook server on port 8003 that starts up from the /home/vagrant/caffe/examples directory, to be used in conjunction with port forwarding set in the Vagrant file:
 &lt;code&gt;config.vm.network "forwarded_port", guest: 8003, host: 8003&lt;/code&gt;
 With the default setup, go to &lt;code&gt;http://localhost:8003&lt;/code&gt; in your browser to access&amp;nbsp;/home/vagrant/caffe/examples.&lt;/p&gt;
@@ -38,7 +38,7 @@ With the default setup, go to &lt;code&gt;http://localhost:8003&lt;/code&gt; in 
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3 id="vagrantfile"&gt;Vagrantfile&lt;/h3&gt;
+&lt;h3&gt;Vagrantfile&lt;/h3&gt;
 &lt;p&gt;Here&amp;#8217;s the vagrant file that worked for&amp;nbsp;me:&lt;/p&gt;
 &lt;hr&gt;
 &lt;ul&gt;
@@ -107,7 +107,7 @@ With the default setup, go to &lt;code&gt;http://localhost:8003&lt;/code&gt; in 
 &lt;p&gt;&lt;strong&gt; If you followed the CS231n tutorial exactly and forgot to supply user data, you can still use this script. First modify the security configuration of your instance according to step &lt;/strong&gt;3**. Then use the &lt;code&gt;scp&lt;/code&gt; command to copy the script from your local computer to your instance, &lt;code&gt;ssh&lt;/code&gt; into your instance, then execute the script: &lt;code&gt;source jupyter_userdata.sh&lt;/code&gt;. If you need help with using &lt;code&gt;scp&lt;/code&gt;, see &amp;#8220;To use &lt;span class="caps"&gt;SCP&lt;/span&gt; to transfer a file&amp;#8221; in this &lt;a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstancesLinux.html"&gt;guide&lt;/a&gt;.&lt;/p&gt;</content><category term="Tools"></category><category term="AWS"></category><category term="bash"></category><category term="cloud"></category><category term="deep learning"></category><category term="Jupyter"></category></entry><entry><title>Quick tutorial on MySQL</title><link href="https://efavdb.com/quick-tutorial-on-mysql" rel="alternate"></link><published>2015-01-16T16:07:00-08:00</published><updated>2015-01-16T16:07:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2015-01-16:/quick-tutorial-on-mysql</id><summary type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here, we give a quick (&amp;lt; 30 mins) introduction to the open source database software package MySQL. The post is intended to be useful for folks totally new to the program, as well as for those who find that they often need reminders on its basic syntax (that is, people like&amp;nbsp;us).&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://twitter.com/efavdb"&gt;Follow&amp;nbsp;@efavdb&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Follow us on twitter for new submission&amp;nbsp;alerts!&lt;/p&gt;
-&lt;h4 id="getting-started"&gt;&lt;strong&gt;Getting&amp;nbsp;started&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4&gt;&lt;strong&gt;Getting&amp;nbsp;started&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;MySQL is a database software package that allows users to quickly access subsets of data contained within tables, and also to carry out simple operations on this data. The software is quite powerful, but it can be surprisingly unintuitive for beginners. The best way to get the hang of it is to play around with it a bit. This post provides a set of commands that should help you get a feel for how it works. If you&amp;#8217;re a beginner reading this, we suggest &lt;a href="http://dev.mysql.com/doc/refman/5.5/en/installing.html"&gt;installing&lt;/a&gt; it on your personal computer or server, and following along by trying each of the commands we go through here. Once it&amp;#8217;s installed and you have its server running, you can often access MySQL from the command line by&amp;nbsp;typing&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mysql
 &lt;/pre&gt;&lt;/div&gt;
@@ -139,7 +139,7 @@ you can select one of interest with the &lt;code&gt;USE&lt;/code&gt; command. Fo
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4 id="table-creation-and-alteration"&gt;&lt;strong&gt;Table creation and&amp;nbsp;alteration&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4&gt;&lt;strong&gt;Table creation and&amp;nbsp;alteration&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;&lt;span class="caps"&gt;SQL&lt;/span&gt; tables have a name and a set of rows and columns. The columns have types that are defined upon table creation (&lt;code&gt;INT, BIGINT, FLOAT, DOUBLE, CHAR, VARCHAR&lt;/code&gt;, etc.). The rows correspond to individual table entries. To illustrate, we’ll now create a table called “MyPets”, with a column for pet name, species, and age. This is done with the&amp;nbsp;command&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;CREATE&lt;/span&gt; &lt;span class="k"&gt;TABLE&lt;/span&gt; &lt;span class="n"&gt;MyPets&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
     &lt;span class="n"&gt;species&lt;/span&gt; &lt;span class="nb"&gt;VARCHAR&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;age&lt;/span&gt; &lt;span class="nb"&gt;INT&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
@@ -194,7 +194,7 @@ the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; comma
 
 
 &lt;p&gt;&lt;em&gt;Caveat:&lt;/em&gt; While row addition and removal can always be carried out quickly, addition and removal of columns scales linearly with table size. The reason is that these operations are generally carried out by copying the original table into a second table having the desired new structure. For this reason, it is generally a good idea to plan ahead and make sure any new table has all the columns you foresee might be&amp;nbsp;needed.&lt;/p&gt;
-&lt;h4 id="selection-queries-learn-by-example"&gt;&lt;strong&gt;&lt;span class="caps"&gt;SELECTION&lt;/span&gt; queries &amp;#8212; learn by&amp;nbsp;example&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4&gt;&lt;strong&gt;&lt;span class="caps"&gt;SELECTION&lt;/span&gt; queries &amp;#8212; learn by&amp;nbsp;example&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;Example conditional&amp;nbsp;commands:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;What is the name and age each of my&amp;nbsp;pets?&lt;/li&gt;
@@ -277,7 +277,7 @@ the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; comma
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4 id="actions-on-multiple-tables"&gt;&lt;strong&gt;Actions on multiple&amp;nbsp;tables&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4&gt;&lt;strong&gt;Actions on multiple&amp;nbsp;tables&lt;/strong&gt;&lt;/h4&gt;
 &lt;ol&gt;
 &lt;li&gt;To solidify what we&amp;#8217;ve learned above, try to now create a second table, called &lt;code&gt;PetDetails&lt;/code&gt;, like that above but with different age and species values. You can add other columns to it if you like. Once that&amp;#8217;s done, apply the &lt;code&gt;SHOW TABLES&lt;/code&gt; command to see that both tables are available. Next, learn to copy specific values from this new table into the first one, using commands&amp;nbsp;like&lt;/li&gt;
 &lt;/ol&gt;
@@ -337,7 +337,7 @@ the &lt;code&gt;ALTER&lt;/code&gt; and &lt;code&gt;ADD COLUMN&lt;/code&gt; comma
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h4 id="other-tips"&gt;&lt;strong&gt;Other&amp;nbsp;tips&lt;/strong&gt;&lt;/h4&gt;
+&lt;h4&gt;&lt;strong&gt;Other&amp;nbsp;tips&lt;/strong&gt;&lt;/h4&gt;
 &lt;p&gt;Lastly, a few one-off tips that can be very&amp;nbsp;helpful.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;em&gt;Creating a new table similar another.&lt;/em&gt; The following command can come in handy when you’re dealing with tables that have many&amp;nbsp;columns:&lt;/li&gt;

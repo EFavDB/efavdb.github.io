@@ -3,11 +3,11 @@
 offer little tangible insight into the relationship between a linear program
 and its dual. Here, we map the general linear program onto a simple mechanics
 problem. In this context, the significance of the theorem is relatively&amp;nbsp;clear.&lt;/p&gt;
-&lt;h4 id="the-general-linear-program-and-its-dual"&gt;The general …&lt;/h4&gt;</summary><content type="html">&lt;p&gt;Textbook proofs of the duality theorem often apply abstract arguments that
+&lt;h4&gt;The general …&lt;/h4&gt;</summary><content type="html">&lt;p&gt;Textbook proofs of the duality theorem often apply abstract arguments that
 offer little tangible insight into the relationship between a linear program
 and its dual. Here, we map the general linear program onto a simple mechanics
 problem. In this context, the significance of the theorem is relatively&amp;nbsp;clear.&lt;/p&gt;
-&lt;h4 id="the-general-linear-program-and-its-dual"&gt;The general linear program and its&amp;nbsp;dual&lt;/h4&gt;
+&lt;h4&gt;The general linear program and its&amp;nbsp;dual&lt;/h4&gt;
 &lt;p&gt;The goal of a linear program is to optimize a linear objective function subject
 to some linear constraints.  By introducing slack and other auxiliary
 variables, the general linear program can be expressed as&amp;nbsp;[1]
@@ -34,7 +34,7 @@ The optimization here is over &lt;span class="math"&gt;\(\textbf{w} \in \mathbb{
 (\ref{primal}).  In this post, we apply some simple ideas from classical
 mechanics to prove the following theorem, one of the central results connecting
 the two linear programs&amp;nbsp;above:&lt;/p&gt;
-&lt;h5 id="duality-theorem"&gt;Duality&amp;nbsp;theorem&lt;/h5&gt;
+&lt;h5&gt;Duality&amp;nbsp;theorem&lt;/h5&gt;
 &lt;p&gt;If  (\ref{primal}) has an optimal solution at &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;, then (\ref{dual})
 will also have an optimal solution at some point &lt;span class="math"&gt;\(\textbf{w}^*\)&lt;/span&gt;, and these
 points&amp;nbsp;satisfy
@@ -44,7 +44,7 @@ points&amp;nbsp;satisfy
 \end{eqnarray}&lt;/div&gt;
 &lt;p&gt;
 That is, the optimal objectives of (\ref{primal}) and (\ref{dual})&amp;nbsp;agree.&lt;/p&gt;
-&lt;h5 id="proof"&gt;&lt;em&gt;Proof:&lt;/em&gt;&lt;/h5&gt;
+&lt;h5&gt;&lt;em&gt;Proof:&lt;/em&gt;&lt;/h5&gt;
 &lt;p&gt;To begin we assume that  &lt;span class="math"&gt;\(\textbf{x}^*\)&lt;/span&gt;  is an optimal solution to
 (\ref{primal}).  We also assume for simplicity that (i) we have chosen a
 coordinate system so that &lt;span class="math"&gt;\(\textbf{x} =  \textbf{0}\)&lt;/span&gt; is a feasible solution of
@@ -179,7 +179,7 @@ to &lt;span class="math"&gt;\(\textbf{c}\)&lt;/span&gt;.  Further, it is non-zer
 follows that &lt;span class="math"&gt;\(\textbf{w}^* = \textbf{n}(\textbf{x}^*)\)&lt;/span&gt; gives an optimal
 solution to the dual, at which point its objective matches that of the optimal
 primal solution.  This argument is summarized in the caption to Fig.&amp;nbsp;1.&lt;/p&gt;
-&lt;h4 id="references"&gt;References&lt;/h4&gt;
+&lt;h4&gt;References&lt;/h4&gt;
 &lt;p&gt;[1] Matousek, J., and Ga ̈rtner, B. Understanding and using linear programming.
 Springer&amp;nbsp;(2007)&lt;/p&gt;
 &lt;p&gt;[2] Marion, Jerry B. Classical dynamics of particles and systems. Academic

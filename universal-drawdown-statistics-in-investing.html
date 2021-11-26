@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We consider the equilibrium drawdown distribution for a biased random walk &#8212; in the context of a repeated investment game, the drawdown at a given time is how much has been lost relative to the maximum capital held up to that time. We show that in the tail, this is exponential. Further, when mean drift is small, this has an exponent that is universal in form, depending only on the mean and standard deviation of the step distribution. We give simulation examples in python consistent with the&nbsp;results.</p>
-<h2 id="introduction-and-main-results">Introduction and main&nbsp;results</h2>
+<h2>Introduction and main&nbsp;results</h2>
 <p>In this post, we consider a topic of high interest to investors and gamblers alike &#8212; the statistics of drawdown. This is the amount of money the investor has lost relative to their maximum held capital to date. <a href="https://efavdb.com/wp-content/uploads/2019/12/dd.png"><img alt="dd" src="https://efavdb.com/wp-content/uploads/2019/12/dd.png"></a></p>
 <p>For example, if an investor once held $100, but now holds only $90, his drawdown is currently $10. We will provide some results that characterize how unlikely it is for the investor to have a large drawdown of $\(k\), given knowledge of the statistics of his&nbsp;bets.</p>
 <p>We will take as our model system a biased random walk. The probability that at step <span class="math">\(t\)</span> the investment goes from <span class="math">\(k^{\prime}\)</span> to <span class="math">\(k\)</span> will be taken to be independent of time and given&nbsp;by
@@ -124,7 +124,7 @@ p(k) \propto \exp\left( - 2 \frac{\mu}{\sigma^2} \vert k \vert \right).
 <p>
 Because it is difficult to find very high drift investments, this simple form should hold for most real world investments (under the assumption of a Markov process). It can be used to give one a sense of how much time they can expect to sit at a particular drawdown, given estimates for <span class="math">\(\mu\)</span> and <span class="math">\(\sigma\)</span>.</p>
 <p>The results (\ref{exponential} - \ref{exponential_universal}) are the main results of this post. These may be new, but could also be well-known to finance theorists &#8212; we are not sure. We illustrate their accuracy in the following section using a numerical example, and provide derivations in an&nbsp;appendix.</p>
-<h2 id="numerical-examples-in-python">Numerical examples in&nbsp;python</h2>
+<h2>Numerical examples in&nbsp;python</h2>
 <p>Here, we will consider two different kinds of random walk &#8212; one where the steps are always the same size, but there is bias in the forward direction, and the other where the steps are taken from a Gaussian or normal distribution. The code below carries out a simulated investing scenario over one million&nbsp;steps.</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -183,7 +183,7 @@ Because it is difficult to find very high drift investments, this simple form sh
 <p>Using the above results, I have plotted the empirical cdfs versus <span class="math">\(k\)</span> for both walk distributions. The values are shown below for <span class="math">\(\mu = 0.1\)</span> (left) and <span class="math">\(\mu = 0.85\)</span> (right). The slopes of the theoretical and numerical results are what should be compared as these give the value of <span class="math">\(\alpha\)</span>. Note that <span class="math">\(\mu = 0.1\)</span> is a small drift relative to the standard deviation (<span class="math">\(\sigma = 1\)</span>, here), but <span class="math">\(\mu = 0.85\)</span> is not. This is why at left the universal form gives us a good fit to the decay rates for both systems, but at right we need our numerical solution to (\ref{dd_decay_eqn}) to get the binary decay&nbsp;rate.</p>
 <p><a href="https://efavdb.com/wp-content/uploads/2019/12/results.png"><img alt="results" src="https://efavdb.com/wp-content/uploads/2019/12/results.png"></a></p>
 <p>In conclusion, we have found that the exponential form of drawdown works quite well in these examples, with the theoretical results (\ref{exponential} - \ref{exponential_universal}) providing methods for identifying the exponents. In particular, the plot at left above illustrates the universality of form (\ref{exponential_universal}) &#8212; it holds for all walks, provided we are in the small bias&nbsp;limit.</p>
-<h2 id="appendix-derivations">Appendix:&nbsp;Derivations</h2>
+<h2>Appendix:&nbsp;Derivations</h2>
 <p>To derive the exponential form, we consider an integral equation for the drawdown probability <span class="math">\(p\)</span>. At equilibrium, we&nbsp;have
 </p>
 <div class="math">\begin{eqnarray}\tag{A1}
@@ -303,7 +303,7 @@ assuming the the jumps are constrained over some length scale proportional to <s
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Universal%20drawdown%20statistics%20in%C2%A0investing&url=https%3A//efavdb.com/universal-drawdown-statistics-in-investing" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/universal-drawdown-statistics-in-investing" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -317,7 +317,7 @@ assuming the the jumps are constrained over some length scale proportional to <s
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -391,7 +391,7 @@ assuming the the jumps are constrained over some length scale proportional to <s
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2019-12-05T15:46:00-08:00">Dec 5, 2019</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

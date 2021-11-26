@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We give a simple class for marking the time at different points in a code block and then printing out the time gaps between adjacent marked points. This is useful for identifying slow spots in&nbsp;code.</p>
-<h2 id="the-timemarker-class">The TimeMarker&nbsp;class</h2>
+<h2>The TimeMarker&nbsp;class</h2>
 <p>In the past, whenever I needed to speed up a block of python code, the first thing I would do was import the time package, then manually insert a set of lines of the form <code>t1 = time.time()</code>, <code>t2 = time.time()</code>, etc. Then at the end, <code>print t2 - t1, t3 -t2, ...</code>, etc. This works reasonably well, but I found it annoying and time consuming to have to save each time point to a different variable name. In particular, this prevented quick copy and paste of the time marker line. I finally thought to fix it this evening: Behold the <code>TimeMarker</code> class, which solves this problem for&nbsp;me:</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 
@@ -135,7 +135,7 @@
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=TimeMarker%20class%20for%C2%A0python&url=https%3A//efavdb.com/timemarker-class-for-python&hashtags=programming,python,tools" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/timemarker-class-for-python" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -149,7 +149,7 @@
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -223,16 +223,16 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2019-09-14T22:31:00-07:00">Sep 14, 2019</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#programming-ref">Programming</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#programming-ref">Programming</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#programming-ref">programming
+                <li><a href="https://efavdb.com/tags.html#programming-ref">programming
                     <span>9</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#python-ref">python
+                <li><a href="https://efavdb.com/tags.html#python-ref">python
                     <span>7</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#tools-ref">tools
+                <li><a href="https://efavdb.com/tags.html#tools-ref">tools
                     <span>5</span>
 </a></li>
             </ul>

@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -97,7 +97,7 @@
             <p>A common task in applied statistics is the pairwise comparison of the responses of <span class="math">\(N\)</span> treatment groups in some statistical test &#8212; the goal being to decide which pairs exhibit differences that are statistically significant. Now, because there is one comparison being made for each pairing, a naive application of the Bonferroni correction analysis suggests that one should set the individual pairwise test sizes to <span class="math">\(\alpha_i \to \alpha_f/{N \choose 2}\)</span> in order to obtain a desired family-wise type 1 error rate of <span class="math">\(\alpha_f\)</span>. Indeed, this solution is suggested by many texts. However, implicit in the Bonferroni analysis is the assumption that the comparisons being made are each mutually independent. This is not the case here, and we show that as a consequence the naive approach often returns type 1 error rates far from those desired. We provide adjusted formulas that allow for error-free Bonferroni-like corrections to be&nbsp;made.</p>
 <p>(edit (7/4/2016): After posting this article, I&#8217;ve since found that the method we suggest here is related to / is a generalization of Tukey&#8217;s range test &#8212; see <a href="https://en.wikipedia.org/wiki/Tukey%27s_range_test">here</a>.)</p>
 <p>(edit (6/11/2018): I&#8217;ve added the notebook used below to our Github, <a href="https://github.com/EFavDB/improved_bonferroni">here</a>)</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>In this post, we consider a particular kind of statistical test where one examines <span class="math">\(N\)</span> different treatment groups, measures some particular response within each, and then decides which of the <span class="math">\({N \choose 2}\)</span> pairs appear to exhibit responses that differ significantly. This is called the pairwise comparison problem (or sometimes &#8220;posthoc analysis&#8221;). It comes up in many contexts, and in general it will be of interest whenever one is carrying out a multiple-treatment&nbsp;test.</p>
 <p>Our specific interest here is in identifying the appropriate individual measurement error bars needed to guarantee a given family-wise type 1 error rate, <span class="math">\(\alpha_f\)</span>. Briefly, <span class="math">\(\alpha_f\)</span> is the probability that we incorrectly make any assertion that two measurements differ significantly when the true effect sizes we&#8217;re trying to measure are actually all the same. This can happen due to the nature of statistical fluctuations. For example, when measuring the heights of <span class="math">\(N\)</span> identical objects, measurement error can cause us to incorrectly think that some pair have slightly different heights, even though that&#8217;s not the case. A classical approach to addressing this problem is given by the Bonferroni approximation: If we consider <span class="math">\(\mathcal{N}\)</span> independent comparisons, and each has an individual type 1 error rate of <span class="math">\(\alpha_i,\)</span> then the family-wise probability of not making any type 1 errors is simply the product of the probabilities that we don&#8217;t make any individual type 1&nbsp;errors,
 </p>
@@ -113,7 +113,7 @@ $$</div>
 <p>
 This is the (naive) Bonferroni approximation &#8212; it states that one should use individual tests of size <span class="math">\(\alpha_f / \mathcal{N}\)</span> in order to obtain a family-wise error rate of <span class="math">\(\alpha_f\)</span>.</p>
 <p>The reason why we refer to (\ref{bon2}) as the naive Bonferroni approximation is that it doesn&#8217;t actually apply to the problem we consider here. The reason why is that <span class="math">\(p_f \not = p_i^{\mathcal{N}}\)</span> in (\ref{bon1}) if the <span class="math">\(\mathcal{N}\)</span> comparisons considered are not independent: This is generally the case for our system of <span class="math">\(\mathcal{N} = {N \choose 2}\)</span> comparisons, since they are based on an underlying set of measurements having only <span class="math">\(N\)</span> degrees of freedom (the object heights, in our example). Despite this obvious issue, the naive approximation is often applied in this context. Here, we explore the nature of the error incurred in such applications, and we find that it is sometimes very significant. We also show that it&#8217;s actually quite simple to apply the principle behind the Bonferroni approximation without error: One need only find a way to evaluate the true <span class="math">\(p_f\)</span> for any particular choice of error bars. Inverting this then allows one to identify the error bars needed to obtain the desired <span class="math">\(p_f\)</span>.</p>
-<h3 id="general-treatment">General&nbsp;treatment</h3>
+<h3>General&nbsp;treatment</h3>
 <p>In this section, we derive a formal expression for the type 1 error rate in the pairwise comparison problem. For simplicity, we will assume 1) that the uncertainty in each of our <span class="math">\(N\)</span> individual measurements is the same (e.g., the variance in the case of Normal variables), and 2) that our pairwise tests assert that two measurements differ statistically if and only if they are more than <span class="math">\(k\)</span> units&nbsp;apart.</p>
 <p>To proceed, we consider the probability that a type 1 error does not occur, <span class="math">\(p_f\)</span>. This requires that all <span class="math">\(N\)</span> measurements sit within <span class="math">\(k\)</span> units of each other. For any set of values satisfying this condition, let the smallest of the set be <span class="math">\(x\)</span>. We have <span class="math">\(N\)</span> choices for which of the treatments sit as this position. The remaining <span class="math">\((N-1)\)</span> values must all be within the region <span class="math">\((x, x+k)\)</span>. Because we&#8217;re considering the type 1 error rate, we can assume that each of the independent measurements takes on the same distribution <span class="math">\(P(x)\)</span>. These considerations&nbsp;imply
 </p>
@@ -122,7 +122,7 @@ p_{f} \equiv 1 - \alpha_{f} = N \int_{-\infty}^{\infty} P(x) \left \{\int_x^{x+k
 $$</div>
 <p>
 Equation (\ref{gen}) is our main result. It is nice for a couple of reasons. First, its form implies that when <span class="math">\(N\)</span> is large it will scale like <span class="math">\(a \times p_{1,eff}^N\)</span>, for some <span class="math">\(k\)</span>-dependent numbers <span class="math">\(a\)</span> and <span class="math">\(p_{1,eff}\)</span>. This is reminiscent of the expression (\ref{bon1}), where <span class="math">\(p_f\)</span> took the form <span class="math">\(p_i^{\mathcal{N}}\)</span>. Here, we see that the correct value actually scales like some number to the <span class="math">\(N\)</span>-th power, not the <span class="math">\(\mathcal{N}\)</span>-th. This reflects the fact that we actually only have <span class="math">\(N\)</span> independent degrees of freedom here, not <span class="math">\({N \choose 2}\)</span>. Second, when the inner integral above can be carried out formally, (\ref{gen}) can be expressed as a single one-dimensional integral. In such cases, the integral can be evaluated numerically for any <span class="math">\(k\)</span>, allowing one to conveniently identify the <span class="math">\(k\)</span> that returns any specific, desired <span class="math">\(p_f\)</span>. We illustrate both points in the next two sections, where we consider Normal and Cauchy variables,&nbsp;respectively.</p>
-<h3 id="normally-distributed-responses">Normally-distributed&nbsp;responses</h3>
+<h3>Normally-distributed&nbsp;responses</h3>
 <p>We now consider the case where the individual statistics are each Normally-distributed about zero, and we reject any pair if they are more than <span class="math">\(k \times \sqrt{2} \sigma\)</span> apart, with <span class="math">\(\sigma^2\)</span> the variance of the individual statistics. In this case, the inner integral of (\ref{gen}) goes&nbsp;to
 </p>
 <div class="math">$$\tag{4} \label{inner_g}
@@ -197,7 +197,7 @@ p_f \sim \left (1 - \alpha_i^{1/2} \right)^N \sim 1 - N \alpha_i^{1/2} \equiv 1 
 $$</div>
 <p>
 Fixing <span class="math">\(\alpha_f\)</span>, this requires that <span class="math">\(\alpha_i\)</span> scale like <span class="math">\(N^{-2}\)</span>, the same scaling with <span class="math">\(N\)</span> as the naive Bonferroni solution. Thus, in the case of Normal variables, the Bonferroni approximation provides an inexact, but reasonable approximation (nevertheless, we suggest going with the exact approach using (\ref{exact_g}), since it&#8217;s just as easy!). We show in the next section that this is not the case for Cauchy&nbsp;variables.</p>
-<h3 id="cauchy-distributed-variables">Cauchy-distributed&nbsp;variables</h3>
+<h3>Cauchy-distributed&nbsp;variables</h3>
 <p>We&#8217;ll now consider the case of <span class="math">\(N\)</span> independent, identically-distributed Cauchy variables having half widths <span class="math">\(a\)</span>,
 </p>
 <div class="math">$$ \tag{9} \label{c_dist}
@@ -279,7 +279,7 @@ p_f \equiv 1 - \alpha_f \sim p_i^N \sim 1 - N \alpha_i.
 $$</div>
 <p>
 Although we&#8217;ve been a bit sloppy with coefficients here, (\ref{asym3_c}) gives the correct leading <span class="math">\(N\)</span>-dependence: <span class="math">\(k_{exact} \sim 1/\alpha_i \propto N\)</span>. We can see this linear scaling in the table above. This explains why <span class="math">\(k_{exact}\)</span> and <span class="math">\(k_{Bon}\)</span> &#8212; which scales like <span class="math">\({N \choose 2} \sim N^2\)</span> &#8212; differ more and more as <span class="math">\(N\)</span> grows. In this case, you should definitely never use the naive approximation, but instead stick to the exact analysis based on&nbsp;(\ref{exact_c}).</p>
-<h3 id="conclusion">Conclusion</h3>
+<h3>Conclusion</h3>
 <p>Some people criticize the Bonferroni correction factor as being too conservative. However, our analysis here suggests that this feeling may be due in part to its occasional improper application. The naive approximation simply does not apply in the case of pairwise comparisons because the <span class="math">\({N \choose 2}\)</span> pairs considered are not independent &#8212; there are only <span class="math">\(N\)</span> independent degrees of freedom in this problem. Although the naive correction does not apply to the problem of pairwise comparisons, we&#8217;ve shown here that it remains a simple matter to correctly apply the principle behind it: One can easily select any desired family-wise type 1 error rate through an appropriate selection of the individual test sizes &#8212; just use&nbsp;(\ref{gen})!</p>
 <p>We hope you enjoyed this post &#8212; we anticipate writing a bit more on hypothesis testing in the near&nbsp;future.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -349,7 +349,7 @@ Although we&#8217;ve been a bit sloppy with coefficients here, (\ref{asym3_c}) g
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Improved%20Bonferroni%20correction%20factors%20for%20multiple%20pairwise%C2%A0comparisons&url=https%3A//efavdb.com/bonferroni-correction-for-multiple-pairwise-comparison-tests" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/bonferroni-correction-for-multiple-pairwise-comparison-tests" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -363,7 +363,7 @@ Although we&#8217;ve been a bit sloppy with coefficients here, (\ref{asym3_c}) g
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -437,7 +437,7 @@ Although we&#8217;ve been a bit sloppy with coefficients here, (\ref{asym3_c}) g
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-04-10T07:58:00-07:00">Apr 10, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#statistics-ref">Statistics</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

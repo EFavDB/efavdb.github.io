@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,12 +95,12 @@
         <div class="span8 offset2 article-content">
             
             <p>Here, we briefly review a subtlety associated with machine-learning model selection: the fact that the optimal hyperparameters for a model can vary with training set size, <span class="math">\(N.\)</span> To illustrate this point, we derive expressions for the optimal strength for both <span class="math">\(L_1\)</span> and <span class="math">\(L_2\)</span> regularization in single-variable models. We find that the optimal <span class="math">\(L_2\)</span> approaches a finite constant as <span class="math">\(N\)</span> increases, but that the optimal <span class="math">\(L_1\)</span> decays exponentially fast with <span class="math">\(N.\)</span> Sensitive dependence on <span class="math">\(N\)</span> such as this should be carefully extrapolated out when optimizing mission-critical&nbsp;models.</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>There are two steps one must carry out to fit a machine-learning model. First, a specific model form and cost function must be selected, and second the model must be fit to the data. The first of these steps is often treated by making use of a training-test data split: One trains a set of candidate models to a fraction of the available data and then validates their performance using a hold-out, test set. The model that performs best on the latter is then selected for&nbsp;production.</p>
 <p>Our purpose here is to highlight a subtlety to watch out for when carrying out an optimization as above: the fact that the optimal model can depend sensitively on training set size <span class="math">\(N\)</span>. This observation suggests that the training-test split paradigm must sometimes be applied with care: Because a subsample is used for training in the first, selection step, the model identified as optimal there may not be best when training on the full data&nbsp;set.</p>
 <p>To illustrate the above points, our main effort here is to present some toy examples where the optimal hyperparameters can be characterized exactly: We derive the optimal <span class="math">\(L_1\)</span> and <span class="math">\(L_2\)</span> regularization strength for models having only a single variable. These examples illustrate two opposite limits: The latter approaches a finite constant as <span class="math">\(N\)</span> increases, but the former varies exponentially with <span class="math">\(N\)</span>. This shows that strong <span class="math">\(N\)</span>-dependence can sometimes occur, but is not necessarily always an issue. In practice, a simple way to check for sensitivity is to vary the size of your training set during model selection: If a strong dependence is observed, care should be taken during the final&nbsp;extrapolation.</p>
 <p>We now walk through our two&nbsp;examples.</p>
-<h3 id="l_2-optimization"><span class="math">\(L_2\)</span>&nbsp;optimization</h3>
+<h3><span class="math">\(L_2\)</span>&nbsp;optimization</h3>
 <p>We start off by positing that we have a method for generating a Bayesian posterior for a parameter <span class="math">\(\theta\)</span> that is a function of a vector of <span class="math">\(N\)</span> random samples <span class="math">\(\textbf{x}\)</span>. To simplify our discussion, we assume that &#8212; given a flat prior &#8212; this is unbiased and normal with variance <span class="math">\(\sigma^2\)</span>. We write <span class="math">\(\theta_0 \equiv \theta_0(\textbf{x})\)</span> for the maximum a posteriori (<span class="caps">MAP</span>) value under the flat prior. With the introduction of an <span class="math">\(L_2\)</span> prior, the posterior for <span class="math">\(\theta\)</span> is&nbsp;then
 </p>
 <div class="math">$$\tag{1}
@@ -134,7 +134,7 @@ a constant, independent of sample size. The mean squared error with this choice 
 $$</div>
 <p>
 Notice that this is strictly less than <span class="math">\(\sigma^2\)</span> &#8212; the variance one would get without regularization &#8212; and that the benefit is largest when <span class="math">\(\sigma^2 \gg \theta_*^2\)</span>. That is, <span class="math">\(L_2\)</span> regularization is most effective when <span class="math">\(\theta_*\)</span> is hard to differentiate from zero &#8212; an intuitive&nbsp;result!</p>
-<h3 id="l_1-optimization"><span class="math">\(L_1\)</span>&nbsp;optimization</h3>
+<h3><span class="math">\(L_1\)</span>&nbsp;optimization</h3>
 <p>The analysis for <span class="math">\(L_1\)</span> optimization is similar to the above, but slightly more involved. We go through it quickly. The posterior with an <span class="math">\(L_1\)</span> prior is given&nbsp;by
 </p>
 <div class="math">$$ \tag{6}
@@ -176,7 +176,7 @@ Solving&nbsp;gives
 \end{eqnarray}</div>
 <p>
 Here, in the last line we have made the <span class="math">\(N\)</span>-dependence explicit, writing <span class="math">\(\sigma^2 = \sigma_1^2 / N\)</span> &#8212; a form that follows when our samples <span class="math">\(\textbf{x}\)</span> are independent. Whereas the optimal <span class="math">\(L_2\)</span> regularization strength approaches a constant, our result here shows that the optimal <span class="math">\(L_1\)</span> strength decays exponentially to zero as <span class="math">\(N\)</span>&nbsp;increases.</p>
-<h3 id="summary">Summary</h3>
+<h3>Summary</h3>
 <p>The subtlety that we have discussed here is likely already familiar to those with significant applied modeling experience: optimal model hyperparameters can vary with training set size. However, the two toy examples we have presented are interesting in that they allow for this <span class="math">\(N\)</span> dependence to be derived explicitly. Interestingly, we have found that the <span class="caps">MSE</span>-minimizing <span class="math">\(L_2\)</span> regularization remains finite, even at large training set size, but the optimal <span class="math">\(L_1\)</span> regularization goes to zero in this same limit. For small and medium <span class="math">\(N\)</span>, this exponential dependence represents a strong sensitivity to <span class="math">\(N\)</span> &#8212; one that must be carefully taken into account when extrapolating to the full training&nbsp;set.</p>
 <p>One can imagine many other situations where hyperparameters vary strongly with <span class="math">\(N\)</span>. For example, very complex systems may allow for ever-increasing model complexity as more data becomes available. Again, in practice, the most straightforward method to check for this is to vary the size of the training set during model selection. If strong dependence is observed, this should be extrapolated out to obtain the truly optimal model for&nbsp;production.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -246,7 +246,7 @@ Here, in the last line we have made the <span class="math">\(N\)</span>-dependen
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Hyperparameter%20sample-size%C2%A0dependence&url=https%3A//efavdb.com/model-selection" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/model-selection" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -260,7 +260,7 @@ Here, in the last line we have made the <span class="math">\(N\)</span>-dependen
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -334,7 +334,7 @@ Here, in the last line we have made the <span class="math">\(N\)</span>-dependen
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-08-21T00:00:00-07:00">Aug 21, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#statistics-ref">Statistics</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#statistics-ref">Statistics</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

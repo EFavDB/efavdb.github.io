@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -96,7 +96,7 @@
             
             <p>Here, I give a quick review of the concept of a Martingale. A Martingale is a sequence of random variables satisfying a specific expectation conservation law. If one can identify a Martingale relating to some other sequence of random variables, its use can sometimes make quick work of certain expectation value&nbsp;evaluations.</p>
 <p>This note is adapted from Chapter 2 of Stochastic Calculus and Financial Applications, by&nbsp;Steele.</p>
-<h3 id="definition">Definition</h3>
+<h3>Definition</h3>
 <p>Often in random processes, one is interested in characterizing a sequence of random variables <span class="math">\(\{X_i\}\)</span>. The example we will keep in mind is a set of variables <span class="math">\(X_i \in \{-1, 1\}\)</span> corresponding to the steps of an unbiased random walk in one-dimension. A Martingale process <span class="math">\(M_i = f(X_1, X_2, \ldots X_i)\)</span> is a derived random variable on top of the <span class="math">\(X_i\)</span> variables satisfying the following conservation&nbsp;law
 </p>
 <div class="math">\begin{align} \tag{1}
@@ -117,7 +117,7 @@ For example, in the unbiased random walk example, if we take <span class="math">
     \end{align}</div>
     Here, <span class="math">\(\lambda\)</span> is a free tuning parameter. If we choose a <span class="math">\(\lambda\)</span> such that <span class="math">\(E(\exp(\lambda X)) = 1\)</span> for our process, we can get a particularly simple&nbsp;form.</li>
 </ol>
-<h3 id="stopped-processes">Stopped&nbsp;processes</h3>
+<h3>Stopped&nbsp;processes</h3>
 <p>In some games, we may want to setup rules that say we will stop the game at time <span class="math">\(\tau\)</span> if some condition is met at index <span class="math">\(\tau\)</span>. For example, we may stop a random walk (initialized at zero) if the walker gets to either position <span class="math">\(A\)</span> or <span class="math">\(-B\)</span> (wins <span class="math">\(A\)</span> or loses <span class="math">\(B\)</span>). This motivates defining the stopped Martingale&nbsp;as,
 </p>
 <div class="math">\begin{align}
@@ -150,9 +150,9 @@ M_{\tau} &amp; \text{else}.
 \end{align}</div>
 <p>
 This is the stopped Martingale &#8212; indeed a Martingale, by the&nbsp;above.</p>
-<h3 id="example-applications">Example&nbsp;applications</h3>
-<h3 id="_1"></h3>
-<h4 id="problem-1">Problem&nbsp;1</h4>
+<h3>Example&nbsp;applications</h3>
+<h3></h3>
+<h4>Problem&nbsp;1</h4>
 <p>Consider an unbiased random walker that takes steps of size <span class="math">\(1\)</span>. If we stop the walk as soon as he reaches either <span class="math">\(A\)</span> or <span class="math">\(-B\)</span>, what is the probability that he is at <span class="math">\(A\)</span> when the game&nbsp;stops?</p>
 <p>Solution: Let <span class="math">\(\tau\)</span> be the stopping time and let <span class="math">\(S_n = \sum_{i=1}^n X_i\)</span> be the walker&#8217;s position at time <span class="math">\(n\)</span>. We know that <span class="math">\(S_n\)</span> is a Martingale. By the above, so then is <span class="math">\(S_{n \wedge \tau}\)</span>, the stopped process Martingale. By the Martingale&nbsp;property
 </p>
@@ -177,9 +177,9 @@ Equating (9) and (10)&nbsp;gives
 <div class="math">\begin{equation} \tag{11}
 P(A) = \frac{B}{A + B}
 \end{equation}</div>
-<h5 id="problem-2">Problem&nbsp;2</h5>
+<h5>Problem&nbsp;2</h5>
 <p>In the game above, what is the expected stopping time? Solution: Use the stopped version of the Martingale <span class="math">\(S_n^2 - n \sigma^2\)</span>.</p>
-<h5 id="problem-3">Problem&nbsp;3</h5>
+<h5>Problem&nbsp;3</h5>
 <p>In a biased version of the random walk game, what is the probability of stopping at <span class="math">\(A\)</span>? Solution: Use the stopped Martingale of form <span class="math">\(P_n = \frac{\exp \left ( \lambda \sum_{i=1}^n X_i\right)}{E(\exp \left ( \lambda X \right))^n}\)</span>, with <span class="math">\(\exp[\lambda] = q/p\)</span>, where <span class="math">\(p = 1-q\)</span> is the probability of step to the&nbsp;right.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -248,7 +248,7 @@ P(A) = \frac{B}{A + B}
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Martingales&url=https%3A//efavdb.com/martingales&hashtags=theory" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/martingales" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -262,7 +262,7 @@ P(A) = \frac{B}{A + B}
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -336,10 +336,10 @@ P(A) = \frac{B}{A + B}
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2017-10-20T07:44:00-07:00">Oct 20, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#theory-ref">theory
+                <li><a href="https://efavdb.com/tags.html#theory-ref">theory
                     <span>5</span>
 </a></li>
             </ul>

@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -105,8 +105,8 @@
 <code>vagrant box add malthejorgensen/caffe-deeplearning</code></p>
 <p>If you don&#8217;t already have VirtualBox and Vagrant installed, you can find instructions online, or look at my <a href="#vagrant_install">dotfiles</a> to get an&nbsp;idea.</p>
 <hr>
-<h2 id="gotchas">Gotchas</h2>
-<h3 id="ssh-authentication-failure"><span class="caps">SSH</span> authentication&nbsp;failure</h3>
+<h2>Gotchas</h2>
+<h3><span class="caps">SSH</span> authentication&nbsp;failure</h3>
 <p>For me, the box had the wrong public key in <code>/home/vagrant/.ssh/authorized_keys file</code>, which gave me “authentication failure” upon starting up the box with <code>vagrant up</code>. This was fixed&nbsp;by:</p>
 <p>Manually ssh into the box: <code>vagrant ssh</code>.</p>
 <p>Then type (key taken from <a href="https://raw.githubusercontent.com/mitchellh/vagrant/master/keys/vagrant.pub">here</a>):</p>
@@ -115,7 +115,7 @@
 
 
 <p>Log out of the box, reload the box with <code>vagrant reload</code>, and hopefully the ssh authentication error is&nbsp;fixed.</p>
-<h3 id="jupyter-notebook-server">Jupyter notebook&nbsp;server</h3>
+<h3>Jupyter notebook&nbsp;server</h3>
 <p>By default, the box has a notebook server on port 8003 that starts up from the /home/vagrant/caffe/examples directory, to be used in conjunction with port forwarding set in the Vagrant file:
 <code>config.vm.network "forwarded_port", guest: 8003, host: 8003</code>
 With the default setup, go to <code>http://localhost:8003</code> in your browser to access&nbsp;/home/vagrant/caffe/examples.</p>
@@ -128,7 +128,7 @@ With the default setup, go to <code>http://localhost:8003</code> in your browser
 </pre></div>
 
 
-<h3 id="vagrantfile">Vagrantfile</h3>
+<h3>Vagrantfile</h3>
 <p>Here&#8217;s the vagrant file that worked for&nbsp;me:</p>
 <hr>
 <ul>
@@ -140,7 +140,7 @@ With the default setup, go to <code>http://localhost:8003</code> in your browser
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Try%20Caffe%20pre-installed%20on%20a%20VirtualBox%C2%A0image&url=https%3A//efavdb.com/caffe-virtualbox&hashtags=caffe,deep-learning,jupyter,cloud" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/caffe-virtualbox" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -228,19 +228,19 @@ With the default setup, go to <code>http://localhost:8003</code> in your browser
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-03-22T15:02:00-07:00">Mar 22, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#tools-ref">Tools</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#tools-ref">Tools</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags#caffe-ref">Caffe
+                <li><a href="https://efavdb.com/tags.html#caffe-ref">Caffe
                     <span>1</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#cloud-ref">cloud
+                <li><a href="https://efavdb.com/tags.html#cloud-ref">cloud
                     <span>3</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#deep-learning-ref">deep learning
+                <li><a href="https://efavdb.com/tags.html#deep-learning-ref">deep learning
                     <span>3</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags#jupyter-ref">Jupyter
+                <li><a href="https://efavdb.com/tags.html#jupyter-ref">Jupyter
                     <span>2</span>
 </a></li>
             </ul>

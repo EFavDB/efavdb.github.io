@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We review the two essentials of principal component analysis (&#8220;<span class="caps">PCA</span>&#8221;): 1) The principal components of a set of data points are the eigenvectors of the correlation matrix of these points in feature space. 2) Projecting the data onto the subspace spanned by the first <span class="math">\(k\)</span> of these &#8212; listed in descending eigenvalue order &#8212; provides the best possible <span class="math">\(k\)</span>-dimensional approximation to the data, in the sense of captured&nbsp;variance.</p>
-<h3 id="introduction">Introduction</h3>
+<h3>Introduction</h3>
 <p>One way to introduce principal component analysis is to consider the problem of least-squares fits: Consider, for example, the figure shown below. To fit a line to this data, one might attempt to minimize the squared <span class="math">\(y\)</span> residuals (actual minus fit <span class="math">\(y\)</span> values). However, if the <span class="math">\(x\)</span> and <span class="math">\(y\)</span> values are considered to be on an equal footing, this <span class="math">\(y\)</span>-centric approach is not quite appropriate. A natural alternative is to attempt instead to find the line that minimizes the <em>total squared projection error</em>: If <span class="math">\((x_i, y_i)\)</span> is a data point, and <span class="math">\((\hat{x}_i, \hat{y}_i)\)</span> is the point closest to it on the regression line (aka, its &#8220;projection&#8221; onto the line), we attempt to&nbsp;minimize
 </p>
 <div class="math">$$\tag{1} \label{score}
@@ -117,7 +117,7 @@ $$</div>
     The term <span class="math">\(\langle v_j \vert \delta f_i \rangle\)</span> above is the coefficient of the vector <span class="math">\(\vert \delta f_i \rangle\)</span> along the <span class="math">\(j\)</span>-th principal component. If we set <span class="math">\(k = N\)</span> above, (\ref{3}) becomes an identity. However, when <span class="math">\(k &lt; N\)</span>, the expression represents an approximation only, with the vector <span class="math">\(\vert \delta f_i \rangle\)</span> approximated by its projection into the subspace spanned by the largest <span class="math">\(k\)</span> principal&nbsp;components.</li>
 </ul>
 <p>The steps above are all that are needed to carry out a <span class="caps">PCA</span> analysis/compression of any dataset. We show in the next section why this solution will indeed provide the <span class="math">\(k\)</span>-dimensional hyperplane resulting in minimal dataset projection&nbsp;error.</p>
-<h3 id="mathematics-of-pca">Mathematics of <span class="caps">PCA</span></h3>
+<h3>Mathematics of <span class="caps">PCA</span></h3>
 <p>To understand <span class="caps">PCA</span>, we proceed in three&nbsp;steps.</p>
 <ol>
 <li>Significance of a partial trace: Let <span class="math">\(\{\textbf{u}_j \}\)</span> be some arbitrary orthonormal basis set that spans our full <span class="math">\(N\)</span>-dimensional space, and consider the sum
@@ -137,7 +137,7 @@ $$</div>
     The last equality here follows from the fact that the <span class="math">\(\{\textbf{v}_i\}\)</span> are the eigenvectors of <span class="math">\(\Sigma^2\)</span> &#8212; we have also used the fact that they are orthonormal, which follows from the fact that <span class="math">\(\Sigma^2\)</span> is a real, symmetric matrix. The sum (\ref{6}) is proportional to a weighted average of the eigenvalues of <span class="math">\(\Sigma^2\)</span>. We have a total mass of <span class="math">\(k\)</span> to spread out amongst the <span class="math">\(N\)</span> eigenvalues. The maximum mass that can sit on any one eigenvalue is one. This follows since <span class="math">\(\sum_{i = 1}^k u_{ij}^2 \leq \sum_{i = 1}^N u_{ij}^2 =1\)</span>, the latter equality following from the fact that <span class="math">\( \sum_{i = 1}^N u_{ij}^2\)</span> is an expression for the squared length of <span class="math">\(\vert v_j\rangle\)</span> in the <span class="math">\(\{u_i\}\)</span> basis. Under these constraints, the maximum possible average one can get in (\ref{6}) occurs when all the mass sits on the largest <span class="math">\(k\)</span> eigenvalues, with each of these eigenvalues weighted with mass one. This condition occurs if and only if the first <span class="math">\(k\)</span> <span class="math">\(\{\textbf{u}_i\}\)</span> span the same space as that spanned by the first <span class="math">\(k\)</span> <span class="math">\(\{\textbf{v}_j\}\)</span> &#8212; those with the <span class="math">\(k\)</span> largest&nbsp;eigenvalues.</li>
 </ol>
 <p>That&#8217;s it for the mathematics of <span class="caps">PCA</span>.</p>
-<h3 id="footnotes">Footnotes</h3>
+<h3>Footnotes</h3>
 <p>[1] <em>Review of bracket notation</em>: <span class="math">\(\vert x \rangle\)</span> represents a regular vector, <span class="math">\(\langle x \vert\)</span> is its transpose, and <span class="math">\(\langle y \vert x \rangle\)</span> represents the dot product of <span class="math">\(x\)</span> and <span class="math">\(y\)</span>. So, for example, when the term in parentheses at the right side of (\ref{2}) acts on the vector <span class="math">\(\vert x_j \rangle\)</span> to its right, you get <span class="math">\( \frac{1}{m} \sum_{k=1}^m \vert \delta f_k \rangle \left (\langle \delta f_k \vert x_j \rangle\right).\)</span> Here, <span class="math">\( \left (\langle \delta f_k \vert x_j \rangle\right)\)</span> is a dot product, a scalar, and <span class="math">\(\vert \delta f_k \rangle\)</span> is a vector. The result is thus a weighted sum of vectors. In other words, the bracketed term (\ref{2}) acts on a vector and returns a linear combination of other vectors. That means it is a matrix, as is any other object of form <span class="math">\(\sum_i \vert a_i \rangle \langle b_i \vert\)</span>. A special, important example is the identity matrix: Given any complete, orthonormal set of vectors <span class="math">\(\{x_j\}\)</span>, the identity matrix <span class="math">\(I\)</span> can be written as <span class="math">\(I = \sum_i \vert x_i \rangle \langle x_i \vert\)</span>. This identity is often used to make a change of&nbsp;basis.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -206,7 +206,7 @@ $$</div>
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Principal%20component%C2%A0analysis&url=https%3A//efavdb.com/principal-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/principal-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -220,7 +220,7 @@ $$</div>
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -294,7 +294,7 @@ $$</div>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-12-05T22:22:00-08:00">Dec 5, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

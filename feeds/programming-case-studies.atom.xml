@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - programming, Case studies</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/programming-case-studies.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2021-11-22T09:24:00-08:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Counting the number of ways to make change for a trillion dollars</title><link href="https://efavdb.com/change" rel="alternate"></link><published>2021-11-22T09:24:00-08:00</published><updated>2021-11-22T09:24:00-08:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2021-11-22:/change</id><summary type="html">&lt;p&gt;There are four ways to make change for &lt;span class="math"&gt;\(N=10\)&lt;/span&gt; cents: &lt;span class="math"&gt;\(\{\)&lt;/span&gt;10 pennies; 1 nickel
+and 5 pennies; 2 nickels; 1 dime&lt;span class="math"&gt;\(\}\)&lt;/span&gt;.  How many ways are there to make change
+for one trillion dollars &amp;#8212; using just pennies, nickels, dimes, and quarters?
+To answer this, we present here a hybrid dynamic …&lt;/p&gt;</summary><content type="html">&lt;p&gt;There are four ways to make change for &lt;span class="math"&gt;\(N=10\)&lt;/span&gt; cents: &lt;span class="math"&gt;\(\{\)&lt;/span&gt;10 pennies; 1 nickel
+and 5 pennies; 2 nickels; 1 dime&lt;span class="math"&gt;\(\}\)&lt;/span&gt;.  How many ways are there to make change
+for one trillion dollars &amp;#8212; using just pennies, nickels, dimes, and quarters?
+To answer this, we present here a hybrid dynamic programming / analytic
+strategy that allows us to count the number of ways &lt;span class="math"&gt;\(\mathbb{Q}(N)\)&lt;/span&gt; to make
+change for any &lt;span class="math"&gt;\(N\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The result for one trillion&amp;nbsp;dollars?&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\mathbb{Q}(10^{14}) = 133333333333423333333333351000000000001\)&lt;/span&gt;.&lt;/p&gt;
+&lt;h4&gt;Dynamic programming&amp;nbsp;solution&lt;/h4&gt;
+&lt;p&gt;We begin by introducing a set of recursion relations that will directly allow
+for a &amp;#8220;pure&amp;#8221; dynamic programming strategy for counting the number of ways to
+make&amp;nbsp;change:&lt;/p&gt;
+&lt;p&gt;Let, &lt;span class="math"&gt;\(\mathbb{Q}(N), \mathbb{D}(N), \mathbb{N}(N)\)&lt;/span&gt; and &lt;span class="math"&gt;\(\mathbb{P}(N)\)&lt;/span&gt; be the
+number of ways to make change for &lt;span class="math"&gt;\(N\)&lt;/span&gt; cents allowing all four denominations,
+allowing only up to dimes (i.e., excluding quarters), only up to nickels, and
+finally only pennies, respectively.  Next, we note&amp;nbsp;that
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\mathbb{Q}(N) &amp;amp;=&amp;amp; \mathbb{D}(N) + \mathbb{D}(N-25) + \mathbb{D}(N - 50) +
+\ldots \\
+&amp;amp;\equiv &amp;amp; \mathbb{D}(N) + \mathbb{Q}(N-25). \tag{1} \label{q_iter}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Here, we have decomposed the number of ways to make change in terms of the
+number of quarters included.  For example, the second term in the first line
+above is the number of ways to make change when we have exactly &lt;span class="math"&gt;\(1\)&lt;/span&gt; quarter:
+The count in this case is simply the number of ways we can make change for
+&lt;span class="math"&gt;\(N-25\)&lt;/span&gt; cents, using only dimes, nickels, and pennies &amp;#8212; i.e.,
+&lt;span class="math"&gt;\(\mathbb{D}(N-25)\)&lt;/span&gt;.&amp;nbsp;Similarly,
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\mathbb{D}(N) &amp;amp;=&amp;amp; \mathbb{N}(N) +\mathbb{N}(N-10) + \mathbb{N}(N-20) + \ldots
+\\
+&amp;amp;\equiv &amp;amp; \mathbb{N}(N) + \mathbb{D}(N-10) \tag{2} \label{d_iter}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+and
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\mathbb{N}(N) &amp;amp;=&amp;amp; \mathbb{P}(N) + \mathbb{P}(N-5) + \mathbb{P}(N-10) + \ldots
+\\
+&amp;amp;\equiv &amp;amp; \mathbb{P}(N) + \mathbb{N}(N-5).  \tag{3}  \label{n_iter} 
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Finally, &lt;span class="math"&gt;\(\mathbb{P}(N) \equiv 1\)&lt;/span&gt; for all natural &lt;span class="math"&gt;\(N\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;It is straightforward to sum the above equations in reverse using dynamic
+programming: We start by using the fact that &lt;span class="math"&gt;\(\mathbb{P}(N) = 1\)&lt;/span&gt; all natural
+&lt;span class="math"&gt;\(N\)&lt;/span&gt;, then evaluate &lt;span class="math"&gt;\([\mathbb{N}(1), \ldots, \mathbb{N}(N)]\)&lt;/span&gt; on a computer using
+the iterative equation (\ref{n_iter}).  Storing these values in memory, we can
+then evaluate &lt;span class="math"&gt;\([\mathbb{D}(1), \ldots, \mathbb{D}(N)]\)&lt;/span&gt; using (\ref{d_iter}),
+and then finally evaluate &lt;span class="math"&gt;\([\mathbb{Q}(1), \ldots, \mathbb{Q}(N)]\)&lt;/span&gt; using
+(\ref{q_iter}).  A python program that carries out this strategy is given
+below.  Using this we are able to evaluate that, e.g., the number of ways to
+make change for one dollar is &lt;span class="math"&gt;\(\mathbb{Q}(100) = 242\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;The program below is sufficient for &amp;#8220;practical&amp;#8221; &lt;span class="math"&gt;\(N\)&lt;/span&gt;, but we need to do better
+to count the number of ways to make change for &lt;em&gt;one trillion dollars&lt;/em&gt;:
+On my laptop, I can evaluate the result for one-hundred thousand dollars in
+about &lt;span class="math"&gt;\(20\)&lt;/span&gt; seconds.  The runtime of our program scales linearly with &lt;span class="math"&gt;\(N\)&lt;/span&gt;
+though, so it would take it about &lt;span class="math"&gt;\(2 \cdot 10^{7}\)&lt;/span&gt; seconds to get our target
+result &amp;#8212; too&amp;nbsp;slow.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;ways_to_make_change&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;denominations_list&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="p"&gt;]):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+&lt;span class="sd"&gt;    This function calculates the number of ways to make change for N cents,&lt;/span&gt;
+&lt;span class="sd"&gt;    using only the denominations included in the passed `denominations_list`.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    parameters&lt;/span&gt;
+&lt;span class="sd"&gt;    ----------&lt;/span&gt;
+&lt;span class="sd"&gt;    N: int&lt;/span&gt;
+&lt;span class="sd"&gt;        The target number of cents we wish to make change for.&lt;/span&gt;
+
+&lt;span class="sd"&gt;    denominations_list: list&lt;/span&gt;
+&lt;span class="sd"&gt;        A list of denominations that we can use to make change.&lt;/span&gt;
+&lt;span class="sd"&gt;    &amp;quot;&amp;quot;&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;denom&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;denominations_list&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;counts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;denom&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;counts_lower_denoms&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;copy&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;denom&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+                &lt;span class="n"&gt;counts&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;counts_lower_denoms&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;denom&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt;
+
+&lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ways_to_make_change&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;100&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;  
+
+&lt;span class="c1"&gt;# output: 242&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h5&gt;Geometric interpretation, large &lt;span class="math"&gt;\(N\)&lt;/span&gt; limiting&amp;nbsp;form&lt;/h5&gt;
+&lt;p&gt;&lt;img alt="![lattice]({static}/images/change_lattice.png)" src="https://efavdb.com/images/change_lattice.png"&gt;&lt;/p&gt;
+&lt;p&gt;In this section, we briefly consider the geometry of our problem. The plot
+above is a 3d visual of all the possible ways to make change for one dollar:
+Each point here has an &lt;span class="math"&gt;\((x,y,z)\)&lt;/span&gt; position that encodes the number of nickels,
+dimes, and quarters, respectively, in a particular change solution.  To get the
+full solution for a particular lattice point, we calculate the sum &lt;span class="math"&gt;\(5 x + 10 y
++ 25 z\)&lt;/span&gt; &amp;#8212; subtracting this from &lt;span class="math"&gt;\(N=100\)&lt;/span&gt; gives the number of pennies that must
+be included in its solution.  In this way, we see that we get a valid solution
+at each non-negative lattice point whose coordinates give a sum that is not
+larger than &lt;span class="math"&gt;\(100\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;For general &lt;span class="math"&gt;\(N\)&lt;/span&gt;, we&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\mathbb{Q}(N) = \text{# of lattice points: } 5 x + 10 y + 25 z \leq N 
+\tag{4} \label{4}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt; 
+where we are again counting all non-negative lattice points on a lattice spaced
+along &lt;span class="math"&gt;\(x\)&lt;/span&gt; with distance &lt;span class="math"&gt;\(5\)&lt;/span&gt;,&amp;nbsp;etc.&lt;/p&gt;
+&lt;p&gt;We note that the inequality (\ref{4}) defines a polytope, and that there is a
+beautiful, pre-existing body of work &amp;#8212; based on the use of generating
+functions &amp;#8212; that allows one to count the number of lattice points within an
+arbitrary polytope &lt;span class="math"&gt;\([1]\)&lt;/span&gt;.  One can look up results from that line of work to
+directly answer the change counting problem we are considering here.  However,
+the hybrid dynamic programming / analytic approach that we present below &amp;#8212;
+based on our recursion relations above &amp;#8212; is more tailored to our problem and
+consequently easier to&amp;nbsp;derive.&lt;/p&gt;
+&lt;p&gt;Before moving on, we point out that we can get a good approximation to the
+number of lattice points at large &lt;span class="math"&gt;\(N\)&lt;/span&gt; by simply considering the volume of the
+polytope:   The idea is to make use of the fact that the lattice points are
+evenly spaced. To the find an approximation to the number that sit inside the
+polytope then, we simply need to divide the polytope&amp;#8217;s volume (&lt;span class="math"&gt;\(\frac{1}{3!}
+N^3\)&lt;/span&gt;) by the volume of each lattice cell (&lt;span class="math"&gt;\(5 \cdot 10 \cdot 25\)&lt;/span&gt;).  This gives&amp;nbsp;[2],
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\mathbb{Q}(N) \sim \frac{1}{7500}N^3.
+\tag{5} \label{5}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Eq. (\ref{5}) is the correct, leading behavior at large &lt;span class="math"&gt;\(N\)&lt;/span&gt;.  However, it&amp;#8217;s not
+exact because of &amp;#8220;discreteness effects&amp;#8221; that occur at the boundary of our
+polytope &amp;#8212; these determine whether specific, individual lattice points lie
+inside the polytope or not.  These effects result in correction terms at
+quadratic and lower powers of &lt;span class="math"&gt;\(N\)&lt;/span&gt;.  Our calculation below provides one method
+for capturing the full set of&amp;nbsp;terms.&lt;/p&gt;
+&lt;h5&gt;Exact&amp;nbsp;solution&lt;/h5&gt;
+&lt;p&gt;To get the exact result for &lt;span class="math"&gt;\(\mathbb{Q}(N)\)&lt;/span&gt;, we will directly sum the
+recursions relations (\ref{q_iter})-(\ref{n_iter}):  Recall from above, that we&amp;nbsp;have
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\mathbb{P}(N) \equiv 1 \tag{6} \label{6}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+for any natural &lt;span class="math"&gt;\(N\)&lt;/span&gt;.  Plugging this into (\ref{n_iter}), we&amp;nbsp;obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{7} \label{7}
+\mathbb{N}(N) =  \lfloor \frac{N}{5} \rfloor + 1
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Notice that if we evaluate this at a series of points separated by &lt;span class="math"&gt;\(\Delta N =
+5\)&lt;/span&gt;, we get back  what looks like a simple linear function of &lt;span class="math"&gt;\(N\)&lt;/span&gt; &amp;#8212; it
+increases by &lt;span class="math"&gt;\(1\)&lt;/span&gt; with each increase of &lt;span class="math"&gt;\(5\)&lt;/span&gt; in &lt;span class="math"&gt;\(N\)&lt;/span&gt;.&lt;/p&gt;
+&lt;p&gt;Now, if we plug our last line into (\ref{d_iter}) we&amp;nbsp;obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\mathbb{D}(N) &amp;amp;=&amp;amp; \left ( \lfloor \frac{N}{5} \rfloor + 1  \right) + \left(
+\lfloor \frac{N  - 10 }{5} \rfloor  + 1\right) + \ldots \\ &amp;amp;=&amp;amp; \left ( \lfloor
+\frac{N}{5}\rfloor  +  1 \right) + \left ( \lfloor \frac{N}{5}\rfloor  -  1
+\right)  + \ldots \tag{8} \label{8}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+This is an arithmetic sequence that depends on &lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor\)&lt;/span&gt;.
+Summing this series, we&amp;nbsp;obtain
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\mathbb{D}(N) =
+\begin{cases}
+\frac{1}{4}  \left (\lfloor \frac{N}{5} \rfloor + 2 \right)^2, &amp;amp; \text{$\lfloor
+\frac{N}{5} \rfloor$ even} \\
+\frac{1}{4} \left (\lfloor \frac{N}{5}\rfloor  + 1 \right)\left (\lfloor
+\frac{N}{5}\rfloor  + 3 \right ), &amp;amp;  \text{$\lfloor \frac{N}{5}\rfloor$ odd}
+\tag{9} \label{9}
+\end{cases}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Notice that in this case, if we evaluate the function at a series of points
+each separated by &lt;span class="math"&gt;\(10\)&lt;/span&gt;, the result will again look like a simple, smooth
+function &amp;#8212; this time a quadratic function of &lt;span class="math"&gt;\(N\)&lt;/span&gt;.  However, the particular
+form of the quadratic depends on whether &lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor\)&lt;/span&gt; is even
+or odd &amp;#8212; that is, the function skips back and forth between two different&amp;nbsp;quadratics.&lt;/p&gt;
+&lt;p&gt;We are now at the point where we can solve for the full number of ways to make
+change, &lt;span class="math"&gt;\(\mathbb{Q}(N)\)&lt;/span&gt;.  In principle, all we need to do is to plug
+(\ref{9}) into (\ref{q_iter}), and sum as above.  This is straightforward
+for a particular &lt;span class="math"&gt;\(N\)&lt;/span&gt;, but we&amp;#8217;d like a general formula.  If we work out a few
+terms for any particular value of &lt;span class="math"&gt;\(N\)&lt;/span&gt;, we see that we will get alternating
+terms:  perhaps starting with a term of the upper type from (\ref{9}), followed
+by a term of the lower type, etc.  The sums of the upper form can be evaluated
+analytically (e.g., by using the pyramid summation method), as can the sum of
+the terms of the bottom form. For any starting point,  the result is a cubic in
+&lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor\)&lt;/span&gt;.  However, a small bit of work shows that the
+precise cubic form that applies depends on the value of &lt;span class="math"&gt;\(\lfloor \frac{N}{5}
+\rfloor (\text{mod } 10)\)&lt;/span&gt;, so we have ten separate cubics to solve&amp;nbsp;for.&lt;/p&gt;
+&lt;p&gt;Rather than laboriously evaluate the sums for each of the ten possible
+remainders of &lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor\)&lt;/span&gt; modulo &lt;span class="math"&gt;\(10\)&lt;/span&gt;, we can simply carry
+out polynomial fits to data that we get from our python implementation of the
+dynamic programming approach.  For example, plugging the first four values of
+&lt;span class="math"&gt;\(N\)&lt;/span&gt; that satisfy &lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor \equiv 0 (\text{mod } 10)\)&lt;/span&gt; into
+our program, we&amp;nbsp;get
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \nonumber
+\mathbb{Q}(1) &amp;amp;=&amp;amp; 1 \\ \nonumber
+\mathbb{Q}(50) &amp;amp;=&amp;amp; 49 \\ \nonumber
+\mathbb{Q}(100) &amp;amp;=&amp;amp; 242 \\
+\mathbb{Q}(150) &amp;amp;=&amp;amp; 680
+\tag{10} \label{10}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Fitting a cubic to this data &amp;#8212; which involves solving a system of linear
+equations for the unknown coefficients of the polynomial &amp;#8212;&amp;nbsp;gives
+&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+\mathbb{Q}(N) = \frac{\lfloor \frac{N}{5}\rfloor ^3}{60}+\frac{9 \lfloor
+\frac{N}{5}\rfloor ^2}{40}+\frac{53 \lfloor \frac{N}{5}\rfloor }{60}+1
+\tag{11} \label{11}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Again, this holds when &lt;span class="math"&gt;\(\lfloor \frac{N}{5}\rfloor \equiv 0 (\text{mod } 10)\)&lt;/span&gt;.
+This is the equation we used to get the result quoted for one trillion dollars
+at the top of our post.  Notice that the leading term here matches what&amp;#8217;s
+required by our asymptotic result,&amp;nbsp;(\ref{5}).&lt;/p&gt;
+&lt;p&gt;It turns out that when we plug in data for each of the other nine possible
+remainders, the cubic fits returned are all the same &amp;#8212; except for their
+constant terms.  Presumably, this is because the coefficients of positive
+powers of &lt;span class="math"&gt;\(N\)&lt;/span&gt; each correspond to some asymptotic, geometric effects that must
+all agree when &lt;span class="math"&gt;\(N\)&lt;/span&gt; is large &amp;#8212; as we discussed above. At any rate, we have
+tabulated the constant terms that apply for each possible remainder below, and
+this completes our&amp;nbsp;solution.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&lt;span class="math"&gt;\(\lfloor \frac{N}{5} \rfloor \mod(10)\)&lt;/span&gt;&lt;/th&gt;
+&lt;th&gt;constant term in &lt;span class="math"&gt;\(\mathbb{Q}(N)\)&lt;/span&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(0\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(1\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(1\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{7}{8}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(2\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{6}{5}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(3\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{7}{8}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(4\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{4}{5}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(5\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{7}{8}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(6\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(1\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(7\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{43}{40}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(8\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(1\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(9\)&lt;/span&gt;&lt;/td&gt;
+&lt;td&gt;&lt;span class="math"&gt;\(\frac{27}{40}\)&lt;/span&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h4&gt;Acknowledgements&lt;/h4&gt;
+&lt;p&gt;This work in this post was done in collaboration with my father, Steven&amp;nbsp;Landy.&lt;/p&gt;
+&lt;h4&gt;References&lt;/h4&gt;
+&lt;p&gt;[1] Beck, Matthias, and Sinai Robins. Computing the continuous discretely. Vol.
+61. Berlin: Springer Science+ Business Media, &lt;span class="caps"&gt;LLC&lt;/span&gt;,&amp;nbsp;2007.&lt;/p&gt;
+&lt;p&gt;[2] One way to derive this volume result is to integrate the recursion
+relations (1)-(3), ignoring discreteness effects &amp;#8212; i.e., integrate assuming
+that each of the variables &lt;span class="math"&gt;\(\mathbb{P}(N), \mathbb{N}(N), \mathbb{D}(N)\)&lt;/span&gt;, and
+&lt;span class="math"&gt;\(\mathbb{Q}(N)\)&lt;/span&gt; are smooth functions of &lt;span class="math"&gt;\(N\)&lt;/span&gt;.  This will hold in the large &lt;span class="math"&gt;\(N\)&lt;/span&gt;
+limit to leading order, so will give us the leading order&amp;nbsp;result.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="programming, Case studies"></category></entry></feed>

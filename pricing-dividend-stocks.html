@@ -66,10 +66,10 @@
                                     >Home</a>
                                 </li>
                                 <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
+                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
+                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We review how one can price a dividend-bearing stock by simply discounting its dividend stream using the value suggested by the Capital Asset Pricing Model (<span class="caps">CAPM</span>).  As an example, we consider the price of <span class="caps">AT</span>&amp;T common stock.  The model result matches the current market price quite well.  Varying inputs to the model also allows us to explore how its price might adjust to changes in company&nbsp;performance.</p>
-<h2 id="discounted-revenue-equations">Discounted revenue&nbsp;equations</h2>
+<h2>Discounted revenue&nbsp;equations</h2>
 <p>In this note, we&#8217;ll consider the value of a stock that generates a discrete set of dividends, with dividend <span class="math">\(D_t\)</span> paid out at time <span class="math">\(t\)</span>, for <span class="math">\(t \in \{1, 2, \ldots\}\)</span>.  To estimate a fair price <span class="math">\(V_0\)</span> for the stock today (assumed to be just after the most recent dividend payout at <span class="math">\(t=0\)</span>), we&#8217;ll consider how the value evolves over time.  If we purchase and hold the stock now, then at period <span class="math">\(1\)</span>, we&#8217;ll still have the stock but also a dividend.  The total expected fair value at that time will then sum&nbsp;to
 </p>
 <div class="math">\begin{eqnarray} \tag{1} \label{ev_step}
@@ -135,7 +135,7 @@ V_0 &amp;=&amp; \sum_{i=1}^{\infty} d^i D_0 g^i \\
 <p>
 Formula (\ref{value_geometric}) is the result that we will use below to approximately price dividend-bearing stocks.  Note that it is a function of only three quantities:  <span class="math">\(D_0\)</span> &#8212; the most recent dividend value, <span class="math">\(g\)</span> &#8212; the assumed growth rate of the dividends, and <span class="math">\(d\)</span> &#8212; the &#8220;discount rate&#8221;, which in principle could vary person to person.  To price a stock, one need only plug in values for these three quantities.  To set <span class="math">\(D_0\)</span>, we can simply look up the value of the most recent dividend. To set <span class="math">\(g\)</span>, we can forecast the business prospects of the company.  To set <span class="math">\(d\)</span>, we should pick a value that reflects both how risk-averse we are and also how much risk the company in question carries:  <span class="math">\(d\)</span> should be set smaller for more risk averse individuals and for companies carrying more&nbsp;risk.</p>
 <p>In the next two sections, we <em>(i)</em> show how one can use the Capital Asset Pricing Model (<span class="caps">CAPM</span>) to estimate the &#8220;market&#8221; value of <span class="math">\(d\)</span>, and <em>(ii)</em> use our results to estimate a fair market price for <span class="caps">AT</span>&amp;T&#8217;s&nbsp;stock.</p>
-<h2 id="capm-discount-rate"><span class="caps">CAPM</span> discount&nbsp;rate</h2>
+<h2><span class="caps">CAPM</span> discount&nbsp;rate</h2>
 <p>The <span class="caps">CAPM</span> provides a method for estimating the return one should expect from a stock.  Combining this with our analysis above, we can get an estimate for discount rate <span class="math">\(d\)</span> the market applies to a stock.  Plugging this into (\ref{value_geometric}) then gives a self-consistent estimate for the stock&#8217;s fair market price.  To make the connection, we first note that (\ref{discount}) implies that the expected return on holding the stock for one period is given&nbsp;by
 </p>
 <div class="math">\begin{eqnarray}
@@ -159,7 +159,7 @@ d_{market} &amp;\approx&amp; \exp \left (-E(r_{stock, capm}) \right) \\
 \end{eqnarray}</div>
 <p>
 These equations give us a reasonable method for setting <span class="math">\(d\)</span>, enabling us to estimate what the market as a whole should think is a fair price for a given stock.  We turn now to our application, the pricing of <span class="caps">AT</span>&amp;T&#8217;s common&nbsp;stock.</p>
-<h1 id="application-att-ticker-t">Application: <span class="caps">AT</span>&amp;T (ticker&nbsp;T)</h1>
+<h1>Application: <span class="caps">AT</span>&amp;T (ticker&nbsp;T)</h1>
 <p>We are now ready to consider the fair market value of <span class="caps">AT</span>&amp;T&#8217;s common stock.  Recall that we need three quantities to price the stock, <span class="math">\(D_0\)</span>, <span class="math">\(d\)</span>, and <span class="math">\(g\)</span>. We consider each of these&nbsp;below.</p>
 <p><em><span class="caps">THE</span> <span class="caps">MOST</span> <span class="caps">RECENT</span> <span class="caps">DIVIDEND</span></em></p>
 <p>A quick online search for the dividend history of <span class="caps">AT</span>&amp;T&#8217;s shows that a <span class="math">\(52\)</span> cent dividend was payed in October 2020 &#8212; <a href="https://www.nasdaq.com/market-activity/stocks/t/dividend-history">link</a>.&nbsp;Therefore,
@@ -238,7 +238,7 @@ d_{beta = 0.9}  &amp;=&amp; 0.978
 </pre></div>
 
 
-<h1 id="footnotes">Footnotes</h1>
+<h1>Footnotes</h1>
 <p>[1]  For a simple derivation of <span class="caps">CAPM</span>&#8217;s main results, see <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=364760">Derman</a>.  As a caveat, we note that one of the primary assumptions of <span class="caps">CAPM</span> is that market prices are set by rational market&nbsp;participants.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -307,7 +307,7 @@ d_{beta = 0.9}  &amp;=&amp; 0.978
              
  
                 <p id="post-share-links">
-    Share this post on:
+    Like this post?  Share on:
     <a href="https://twitter.com/intent/tweet?text=Pricing%20dividend%C2%A0stocks&url=https%3A//efavdb.com/pricing-dividend-stocks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/pricing-dividend-stocks" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
@@ -321,7 +321,7 @@ d_{beta = 0.9}  &amp;=&amp; 0.978
             <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
             <span class="author_name">Jonathan Landy</span>
         </a>
-        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He worked as a data-scientist at Square for four years and is now working on a quantitative investing startup.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -395,7 +395,7 @@ d_{beta = 0.9}  &amp;=&amp; 0.978
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2020-12-20T00:00:00-08:00">Dec 20, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories#finance-ref">Finance</a>
+            <a class="category-link" href="https://efavdb.com/categories.html#finance-ref">Finance</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
