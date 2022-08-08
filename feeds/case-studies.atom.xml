@@ -1,5 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Case studies</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/case-studies.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2020-09-13T09:24:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Utility engines</title><link href="https://efavdb.com/utility-engines" rel="alternate"></link><published>2020-09-13T09:24:00-07:00</published><updated>2020-09-13T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-09-13:/utility-engines</id><summary type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
+<feed xmlns="http://www.w3.org/2005/Atom"><title>EFAVDB - Case studies</title><link href="https://efavdb.com/" rel="alternate"></link><link href="https://efavdb.com/feeds/case-studies.atom.xml" rel="self"></link><id>https://efavdb.com/</id><updated>2022-08-07T00:00:00-07:00</updated><subtitle>Everybody's Favorite Data Blog</subtitle><entry><title>Spaced repetition can allow for infinite recall</title><link href="https://efavdb.com/memory%20recall" rel="alternate"></link><published>2022-08-07T00:00:00-07:00</published><updated>2022-08-07T00:00:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2022-08-07:/memory recall</id><summary type="html">&lt;p align="center"&gt;
+         &lt;img src="images/jeopardy.jpg"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;My friend Andrew is an advocate of the &amp;#8220;spaced repetition&amp;#8221; technique for
+memorization of a great many facts [1].  The ideas behind this are&amp;nbsp;two-fold:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;When one first &amp;#8220;learns&amp;#8221; a new fact, it needs to be reviewed frequently in
+  order to not forget it.  However, with each additional review, the …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p align="center"&gt;
+         &lt;img src="images/jeopardy.jpg"&gt;
+&lt;/p&gt;
+
+&lt;p&gt;My friend Andrew is an advocate of the &amp;#8220;spaced repetition&amp;#8221; technique for
+memorization of a great many facts [1].  The ideas behind this are&amp;nbsp;two-fold:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;When one first &amp;#8220;learns&amp;#8221; a new fact, it needs to be reviewed frequently in
+  order to not forget it.  However, with each additional review, the fact can
+be retained longer before a refresher is needed to maintain it in&amp;nbsp;recall.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Because of this, one can maintain a large, growing body of facts in recall
+  through limited, daily review:  Each day, one need only review for ten
+minutes or so, covering a small number of facts. The facts included should be
+sampled from the full library in a way that prefers newer entries, but that
+also sprinkles in older cards often enough so that none are ever forgotten.
+Apps have been written to intelligently take care of the sampling process for&amp;nbsp;us.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Taking this framework as correct motivates questioning exactly how far it can
+be pushed:  &lt;em&gt;Would an infinitely-long-lived, but forgetful person be able to
+recall an infinite number of facts using this method? &lt;/em&gt;  &lt;span class="math"&gt;\(\ldots\)&lt;/span&gt; Below, we
+show that the answer is: &lt;em&gt;&lt;span class="caps"&gt;YES&lt;/span&gt;!&lt;/em&gt;&lt;/p&gt;
+&lt;h5&gt;Proof:&lt;/h5&gt;
+&lt;p&gt;We first posit that the number of days &lt;span class="math"&gt;\(T\)&lt;/span&gt; that a fact can be retained before
+it needs to be reviewed grows as a power-law in &lt;span class="math"&gt;\(s\)&lt;/span&gt;, the number of times it&amp;#8217;s
+been reviewed so&amp;nbsp;far,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{1}\label{1}
+T(s) \sim s^{\gamma},
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+with &lt;span class="math"&gt;\(\gamma &amp;gt; 0\)&lt;/span&gt;. With this assumption, if &lt;span class="math"&gt;\(N(t)\)&lt;/span&gt; facts are to be recalled
+from &lt;span class="math"&gt;\(t\)&lt;/span&gt; days ago, one can show that the amount of work needed today to retain
+these will go like (see appendix for a proof of this&amp;nbsp;line)&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}\tag{2}\label{2}
+w(t) \sim \frac{N(t)}{t^{\gamma / (\gamma + 1)}}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+The total work needed today is then the sum of work needed for each past day&amp;#8217;s&amp;nbsp;facts,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{3} \label{3}
+W(total) = \int_1^{\infty} \frac{N(t)}{t^{\gamma / (\gamma + 1)}} dt.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Now, each day we only have a finite amount of time to study.  However, the
+above total work integral will diverge at large &lt;span class="math"&gt;\(t\)&lt;/span&gt; unless it decays faster
+than &lt;span class="math"&gt;\(1/t\)&lt;/span&gt;.  To ensure this, we can limit the number of facts retained from
+from &lt;span class="math"&gt;\(t\)&lt;/span&gt; days ago to go&amp;nbsp;as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{4} \label{4}
+N(t) \sim \frac{1}{t^{\epsilon}} \times \frac{1}{t^{1 / (\gamma + 1)}},
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; is some small, positive constant.  Plugging (\ref{4}) into
+(\ref{3}) shows that we are guaranteed a finite required study time each day.
+However, after &lt;span class="math"&gt;\(t\)&lt;/span&gt; days of study, the total number of facts retained scales&amp;nbsp;as&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray}
+N_{total}(t) &amp;amp;\sim &amp;amp; \int_1^{t} N(t) dt \\
+&amp;amp;\sim &amp;amp; \int_0^{\infty}
+\frac{1}{t^{1 / (\gamma + 1)}} \\
+&amp;amp;\sim &amp;amp; t^{ \gamma / (\gamma + 1)}. \tag{5} \label{5}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Because we assume that &lt;span class="math"&gt;\(\gamma &amp;gt; 0\)&lt;/span&gt;, this grows without bound over time,
+eventually allowing for an infinitely large&amp;nbsp;library.&lt;/p&gt;
+&lt;p&gt;We conclude that &amp;#8212; though we can&amp;#8217;t remember a fixed number of facts from each
+day in the past using spaced repetition &amp;#8212; we can ultimately recall an infinite
+number of facts using this method.  To do this only requires that we gradually
+curate our previously-introduced facts so that the scaling (\ref{4}) holds at
+all&amp;nbsp;times.&lt;/p&gt;
+&lt;h3&gt;Appendix: Proof of&amp;nbsp;(2)&lt;/h3&gt;
+&lt;p&gt;Recall that we assume &lt;span class="math"&gt;\(N(s)\)&lt;/span&gt; facts have been reviewed exactly &lt;span class="math"&gt;\(s\)&lt;/span&gt; times.  On a
+given day, the number of these that need to be reviewed then goes&amp;nbsp;like&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A1}\label{A1}
+W(s) \sim \frac{N(s)}{T(s)}.
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+where &lt;span class="math"&gt;\(T(s)\)&lt;/span&gt; is given in (\ref{1}).  This holds because each of the &lt;span class="math"&gt;\(N(s)\)&lt;/span&gt;
+facts that have been studied &lt;span class="math"&gt;\(s\)&lt;/span&gt; times so far must be reviewed within &lt;span class="math"&gt;\(T(s)\)&lt;/span&gt;
+days, or one will be forgotten.  During these &lt;span class="math"&gt;\(T(s)\)&lt;/span&gt; days, each will move to
+having been reviewed &lt;span class="math"&gt;\(s+1\)&lt;/span&gt; times.&amp;nbsp;Therefore,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A2} \label{A2}
+\frac{ds}{dt} &amp;amp;\sim &amp;amp; \frac{1}{T(s)}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;
+Integrating this gives &lt;span class="math"&gt;\(s\)&lt;/span&gt; as a function of &lt;span class="math"&gt;\(t\)&lt;/span&gt;,&lt;/p&gt;
+&lt;div class="math"&gt;\begin{eqnarray} \tag{A3} \label{A3}
+s \sim t^{1 / (\gamma + 1)}
+\end{eqnarray}&lt;/div&gt;
+&lt;p&gt;Plugging this last line and (1) into (A1), we get&amp;nbsp;(2).&lt;/p&gt;
+&lt;h2&gt;References&lt;/h2&gt;
+&lt;p&gt;[1] See Andrew&amp;#8217;s blog post on spaced repetition &lt;a
+href="https://andrewjudson.com/spaced-repitition/2022/06/03/spaced-repitition.html"&gt;
+here&lt;/a&gt;.&lt;/p&gt;
+&lt;script type="text/javascript"&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="Case studies"></category></entry><entry><title>Utility engines</title><link href="https://efavdb.com/utility-engines" rel="alternate"></link><published>2020-09-13T09:24:00-07:00</published><updated>2020-09-13T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2020-09-13:/utility-engines</id><summary type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
 also on the rate of change of their lot.  This is because a person&amp;#8217;s prior
 history informs their expectations.  Here, we build a model that highlights
 this emotional &amp;#8220;path-dependence&amp;#8221; quality of utility.  Interestingly, we …&lt;/p&gt;</summary><content type="html">&lt;p&gt;A person&amp;#8217;s happiness does not depend only on their current lot in life, but
