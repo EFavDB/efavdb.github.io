@@ -22,11 +22,11 @@ be retained longer before a refresher is needed to maintain it in&amp;nbsp;recal
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Because of this, one can maintain a large, growing body of facts in recall
-  through limited, daily review:  Each day, one need only review for ten
-minutes or so, covering a small number of facts. The facts included should be
-sampled from the full library in a way that prefers newer entries, but that
-also sprinkles in older cards often enough so that none are ever forgotten.
-Apps have been written to intelligently take care of the sampling process for&amp;nbsp;us.&lt;/p&gt;
+  through daily review:  Each day, one need only review for ten minutes or so,
+covering a small number of facts. The facts included should be sampled from the
+full library in a way that prefers newer entries, but that also sprinkles in
+older facts often enough so that none are ever forgotten.  Apps have been
+written to intelligently take care of the sampling process for&amp;nbsp;us.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Taking this framework as correct motivates questioning exactly how far it can
@@ -66,8 +66,7 @@ where &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; is some small, positive
 However, after &lt;span class="math"&gt;\(t\)&lt;/span&gt; days of study, the total number of facts retained scales&amp;nbsp;as&lt;/p&gt;
 &lt;div class="math"&gt;\begin{eqnarray}
 N_{total}(t) &amp;amp;\sim &amp;amp; \int_1^{t} N(t) dt \\
-&amp;amp;\sim &amp;amp; \int_0^{\infty}
-\frac{1}{t^{1 / (\gamma + 1)}} \\
+&amp;amp;\sim &amp;amp; \int_0^{t} \frac{1}{t^{1 / (\gamma + 1)}} \\
 &amp;amp;\sim &amp;amp; t^{ \gamma / (\gamma + 1)}. \tag{5} \label{5}
 \end{eqnarray}&lt;/div&gt;
 &lt;p&gt;

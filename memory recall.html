@@ -108,11 +108,11 @@ be retained longer before a refresher is needed to maintain it in&nbsp;recall.</
 </li>
 <li>
 <p>Because of this, one can maintain a large, growing body of facts in recall
-  through limited, daily review:  Each day, one need only review for ten
-minutes or so, covering a small number of facts. The facts included should be
-sampled from the full library in a way that prefers newer entries, but that
-also sprinkles in older cards often enough so that none are ever forgotten.
-Apps have been written to intelligently take care of the sampling process for&nbsp;us.</p>
+  through daily review:  Each day, one need only review for ten minutes or so,
+covering a small number of facts. The facts included should be sampled from the
+full library in a way that prefers newer entries, but that also sprinkles in
+older facts often enough so that none are ever forgotten.  Apps have been
+written to intelligently take care of the sampling process for&nbsp;us.</p>
 </li>
 </ul>
 <p>Taking this framework as correct motivates questioning exactly how far it can
@@ -152,8 +152,7 @@ where <span class="math">\(\epsilon\)</span> is some small, positive constant.  
 However, after <span class="math">\(t\)</span> days of study, the total number of facts retained scales&nbsp;as</p>
 <div class="math">\begin{eqnarray}
 N_{total}(t) &amp;\sim &amp; \int_1^{t} N(t) dt \\
-&amp;\sim &amp; \int_0^{\infty}
-\frac{1}{t^{1 / (\gamma + 1)}} \\
+&amp;\sim &amp; \int_0^{t} \frac{1}{t^{1 / (\gamma + 1)}} \\
 &amp;\sim &amp; t^{ \gamma / (\gamma + 1)}. \tag{5} \label{5}
 \end{eqnarray}</div>
 <p>
