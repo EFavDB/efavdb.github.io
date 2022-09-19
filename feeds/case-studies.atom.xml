@@ -347,8 +347,11 @@ shown in our first figure&amp;nbsp;above. &lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="Case studies"></category></entry><entry><title>Utility functions and immigration</title><link href="https://efavdb.com/utility-functions-and-immigration" rel="alternate"></link><published>2019-06-21T09:24:00-07:00</published><updated>2019-06-21T09:24:00-07:00</updated><author><name>Jonathan Landy</name></author><id>tag:efavdb.com,2019-06-21:/utility-functions-and-immigration</id><summary type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
-&lt;h3&gt;The utility function and benefit per&amp;nbsp;person&lt;/h3&gt;
-&lt;p&gt;In this post, we will consider …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
+&lt;p&gt;Edit 9/2022: The model here can&amp;#8217;t be complete because it doesn …&lt;/p&gt;</summary><content type="html">&lt;p&gt;We consider how the &lt;span class="caps"&gt;GDP&lt;/span&gt; or utility output of a city depends on the number of people living within it. From this, we derive some interesting consequences that can inform both government and individual attitudes towards&amp;nbsp;newcomers.&lt;/p&gt;
+&lt;p&gt;Edit 9/2022: The model here can&amp;#8217;t be complete because it doesn&amp;#8217;t take into account
+city capacity.  The true utility functions should be shaped like &lt;span class="math"&gt;\(S\)&lt;/span&gt;-curves.
+Nevertheless, the arguments here can provide some insight into &amp;#8220;growth&amp;#8221;-phase
+dynamics and&amp;nbsp;preferences.&lt;/p&gt;
 &lt;h3&gt;The utility function and benefit per&amp;nbsp;person&lt;/h3&gt;
 &lt;p&gt;In this post, we will consider an idealized town whose net output &lt;span class="math"&gt;\(U\)&lt;/span&gt; (the &lt;span class="caps"&gt;GDP&lt;/span&gt;) scales as a power law with the number of people &lt;span class="math"&gt;\(N\)&lt;/span&gt; living within it. That is, we&amp;#8217;ll assume,&lt;br&gt;
 &lt;/p&gt;
