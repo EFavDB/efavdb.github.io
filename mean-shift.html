@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="The mean shift clustering algorithm "/>
-<meta property="og:url" content="https://efavdb.com/mean-shift" />
+<meta property="og:url" content="./mean-shift" />
 <meta property="og:description" content="Mean shift clustering Mean shift clustering is a general non-parametric cluster finding procedure — introduced by Fukunaga and Hostetler [1], and popular within the computer vision field. Nicely, and in contrast to the more-well-known K-means clustering algorithm, the output of mean shift does not depend on any explicit assumptions on the …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/mean-shift">
+            <a href="./mean-shift">
                 The mean shift clustering&nbsp;algorithm
             </a>
         </h1>
@@ -100,83 +91,80 @@
 <p>In the next couple of sections, we illustrate application of the algorithm to a couple of problems. We make use of the python package <a href="http://scikit-learn.org/stable/">SkLearn</a>, which contains a mean shift implementation. Following this, we provide a quick discussion and an appendix on technical&nbsp;details.</p>
 <h3>Mean shift clustering in&nbsp;action</h3>
 <p>In today&#8217;s post we will have two examples. First, we will show how to use mean shift clustering to identify clusters of data in a 2D data set. Second, we will use the algorithm to segment a picture based on the colors in the image. To do this we need a handful of libraries from sklearn, numpy, matplotlib, and the Python Imaging Library (<span class="caps">PIL</span>) to handle reading in a jpeg&nbsp;image.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">MeanShift</span><span class="p">,</span> <span class="n">estimate_bandwidth</span>
 <span class="kn">from</span> <span class="nn">sklearn.datasets.samples_generator</span> <span class="kn">import</span> <span class="n">make_blobs</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">cycle</span>
 <span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-</pre></div>
-
+</code></pre></div>
 
 <h4>Finding clusters in a 2D data&nbsp;set</h4>
 <p>This first example is based off of the sklearn <a href="http://scikit-learn.org/stable/auto_examples/cluster/plot_mean_shift.html">tutorial</a> for mean shift clustering: We generate data points centered at 4 locations, making use of sklearn&#8217;s make_blobs library. To apply the clustering algorithm to the points generated, we must first set the attractive interaction length between examples, also know as the algorithm&#8217;s bandwidth. Sklearn&#8217;s implementation contains a built-in function that allows it to automatically estimate a reasonable value for this, based upon the typical distance between examples. We make use of that below, carry out the clustering, and then plot the&nbsp;results.</p>
-<div class="highlight"><pre><span></span><span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="n">Generate</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="k">data</span><span class="w"></span>
-<span class="n">centers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">[1, 1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">-.75, -1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">1, -1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">-3, 2</span><span class="o">]</span><span class="err">]</span><span class="w"></span>
-<span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="n">centers</span><span class="o">=</span><span class="n">centers</span><span class="p">,</span><span class="w"> </span><span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="n">Generate</span><span class="w"> </span><span class="n">sample</span><span class="w"> </span><span class="k">data</span>
+<span class="n">centers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">[1, 1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">-.75, -1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">1, -1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="o">[</span><span class="n">-3, 2</span><span class="o">]</span><span class="err">]</span>
+<span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_blobs</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="n">centers</span><span class="o">=</span><span class="n">centers</span><span class="p">,</span><span class="w"> </span><span class="n">cluster_std</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
 
-<span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="k">Compute</span><span class="w"> </span><span class="n">clustering</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">MeanShift</span><span class="w"></span>
+<span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="k">Compute</span><span class="w"> </span><span class="n">clustering</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">MeanShift</span>
 
-<span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">bandwidth</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">automatically</span><span class="w"> </span><span class="n">estimated</span><span class="w"></span>
-<span class="n">bandwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_bandwidth</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">quantile</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span><span class="w"></span>
-<span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span><span class="w"></span>
-<span class="n">ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MeanShift</span><span class="p">(</span><span class="n">bandwidth</span><span class="o">=</span><span class="n">bandwidth</span><span class="p">,</span><span class="w"> </span><span class="n">bin_seeding</span><span class="o">=</span><span class="k">True</span><span class="p">)</span><span class="w"></span>
-<span class="n">ms</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span><span class="w"></span>
-<span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">labels_</span><span class="w"></span>
-<span class="n">cluster_centers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">cluster_centers_</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">bandwidth</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">automatically</span><span class="w"> </span><span class="n">estimated</span>
+<span class="n">bandwidth</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">estimate_bandwidth</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">quantile</span><span class="o">=</span><span class="mf">.1</span><span class="p">,</span>
+<span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">ms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MeanShift</span><span class="p">(</span><span class="n">bandwidth</span><span class="o">=</span><span class="n">bandwidth</span><span class="p">,</span><span class="w"> </span><span class="n">bin_seeding</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+<span class="n">ms</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">labels_</span>
+<span class="n">cluster_centers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ms</span><span class="p">.</span><span class="n">cluster_centers_</span>
 
-<span class="n">n_clusters_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labels</span><span class="p">.</span><span class="nf">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="w"></span>
+<span class="n">n_clusters_</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labels</span><span class="p">.</span><span class="nf">max</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span>
 
-<span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="n">Plot</span><span class="w"> </span><span class="k">result</span><span class="w"></span>
-<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="p">.</span><span class="n">clf</span><span class="p">()</span><span class="w"></span>
+<span class="err">#</span><span class="o">%%</span><span class="w"> </span><span class="n">Plot</span><span class="w"> </span><span class="k">result</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">clf</span><span class="p">()</span>
 
-<span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">cycle</span><span class="p">(</span><span class="s1">&#39;bgrcmykbgrcmykbgrcmykbgrcmyk&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="k">range</span><span class="p">(</span><span class="n">n_clusters_</span><span class="p">),</span><span class="w"> </span><span class="n">colors</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
-<span class="w">    </span><span class="n">my_members</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span><span class="w"></span>
-<span class="w">    </span><span class="n">cluster_center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cluster_centers</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="w"></span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="o">[</span><span class="n">my_members, 0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">[</span><span class="n">my_members, 1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;.&#39;</span><span class="p">)</span><span class="w"></span>
-<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cluster_center</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">cluster_center</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">markerfacecolor</span><span class="o">=</span><span class="n">col</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Estimated number of clusters: %d&#39;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">n_clusters_</span><span class="p">)</span><span class="w"></span>
-<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span><span class="w"></span>
-</pre></div>
-
+<span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">cycle</span><span class="p">(</span><span class="s1">&#39;bgrcmykbgrcmykbgrcmykbgrcmyk&#39;</span><span class="p">)</span>
+<span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">zip</span><span class="p">(</span><span class="k">range</span><span class="p">(</span><span class="n">n_clusters_</span><span class="p">),</span><span class="w"> </span><span class="n">colors</span><span class="p">)</span><span class="err">:</span>
+<span class="w">    </span><span class="n">my_members</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">k</span>
+<span class="w">    </span><span class="n">cluster_center</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cluster_centers</span><span class="o">[</span><span class="n">k</span><span class="o">]</span>
+<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="o">[</span><span class="n">my_members, 0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">X</span><span class="o">[</span><span class="n">my_members, 1</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">cluster_center</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">cluster_center</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">,</span>
+<span class="w">    </span><span class="s1">&#39;o&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">markerfacecolor</span><span class="o">=</span><span class="n">col</span><span class="p">,</span>
+<span class="w">    </span><span class="n">markeredgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">markersize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Estimated number of clusters: %d&#39;</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">n_clusters_</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
 
 <p>As you can see below, the algorithm has found clusters centered on each of the blobs we&nbsp;generated.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2015/03/plot1.png"><img alt="Plot 1" src="https://efavdb.com/wp-content/uploads/2015/03/plot1.png"></a></p>
+<p><a href="./wp-content/uploads/2015/03/plot1.png"><img alt="Plot 1" src="./wp-content/uploads/2015/03/plot1.png"></a></p>
 <h4>Segmenting a color&nbsp;photo</h4>
 <p>In the first example, we were using mean shift clustering to look for spatial clusters. In our second example, we will instead explore 3D color space, <span class="caps">RGB</span>, by considering pixel values taken from an image of a toy car. The procedure is similar &#8212; here, we cluster points in 3d, but instead of having data(x,y) we have data(r,g,b) taken from the image&#8217;s <span class="caps">RGB</span> pixel values. Clustering these color values in this 3d space returns a series of clusters, where the pixels in those clusters are similar in <span class="caps">RGB</span> space. Recoloring pixels according to their cluster, we obtain a segmentation of the original&nbsp;image.</p>
-<div class="highlight"><pre><span></span><span class="o">#%%</span> <span class="n">Part</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Color</span> <span class="n">image</span> <span class="n">segmentation</span> <span class="k">using</span> <span class="n">mean</span> <span class="n">shift</span>
+<div class="highlight"><pre><span></span><code>#%% Part 2: Color image segmentation using mean shift
 
-<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="p">.</span><span class="k">open</span><span class="p">(</span><span class="s1">&#39;toy.jpg&#39;</span><span class="p">)</span>
-<span class="n">image</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">array</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+image = Image.open(&#39;toy.jpg&#39;)
+image = np.array(image)
 
-<span class="o">#</span><span class="n">Need</span> <span class="k">to</span> <span class="k">convert</span> <span class="n">image</span> <span class="k">into</span> <span class="n">feature</span> <span class="nb">array</span> <span class="n">based</span>
-<span class="o">#</span><span class="k">on</span> <span class="n">rgb</span> <span class="n">intensities</span>
-<span class="n">flat_image</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+#Need to convert image into feature array based
+#on rgb intensities
+flat_image=np.reshape(image, [-1, 3])
 
-<span class="o">#</span><span class="n">Estimate</span> <span class="n">bandwidth</span>
-<span class="n">bandwidth2</span> <span class="o">=</span> <span class="n">estimate_bandwidth</span><span class="p">(</span><span class="n">flat_image</span><span class="p">,</span>
-<span class="n">quantile</span><span class="o">=</span><span class="p">.</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-<span class="n">ms</span> <span class="o">=</span> <span class="n">MeanShift</span><span class="p">(</span><span class="n">bandwidth2</span><span class="p">,</span> <span class="n">bin_seeding</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
-<span class="n">ms</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">flat_image</span><span class="p">)</span>
-<span class="n">labels</span><span class="o">=</span><span class="n">ms</span><span class="p">.</span><span class="n">labels_</span>
+#Estimate bandwidth
+bandwidth2 = estimate_bandwidth(flat_image,
+quantile=.2, n_samples=500)
+ms = MeanShift(bandwidth2, bin_seeding=True)
+ms.fit(flat_image)
+labels=ms.labels_
 
-<span class="o">#</span> <span class="n">Plot</span> <span class="n">image</span> <span class="n">vs</span> <span class="n">segmented</span> <span class="n">image</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="p">[</span><span class="mi">851</span><span class="p">,</span><span class="mi">1280</span><span class="p">]))</span>
-<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-</pre></div>
-
+# Plot image vs segmented image
+plt.figure(2)
+plt.subplot(2, 1, 1)
+plt.imshow(image)
+plt.axis(&#39;off&#39;)
+plt.subplot(2, 1, 2)
+plt.imshow(np.reshape(labels, [851,1280]))
+plt.axis(&#39;off&#39;)
+</code></pre></div>
 
 <p>The bottom image below illustrates that one can effectively use this approach to identify the key shapes within an image, all without doing any image processing to get rid of glare or background &#8212; pretty great!
-<a href="https://efavdb.com/wp-content/uploads/2015/03/test-e1428358370930.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2015/03/test-e1428358370930.png"></a></p>
+<a href="./wp-content/uploads/2015/03/test-e1428358370930.png"><img alt="" src="./wp-content/uploads/2015/03/test-e1428358370930.png"></a></p>
 <h3>Discussion</h3>
 <p>Although mean shift is a reasonably versatile algorithm, it has primarily been applied to problems in computer vision, where it has been used for image segmentation, clustering, and video tracking. Application to big data problems can be challenging due to the fact the algorithm can become relatively slow in this limit. However, research is presently underway to speed up its convergence, which should enable its application to larger data&nbsp;sets.</p>
 <p>Mean shift&nbsp;pros:</p>
@@ -219,7 +207,7 @@ The kernel (smearing) function here is required to satisfy the following two&nbs
 <li>Gaussian = <span class="math">\(K(\textbf{u}) = \frac{1}{\left(2\pi\right)^{d/2}} e^{-\frac{1}{2} \vert \textbf{u}&nbsp;\vert^2}\)</span></li>
 </ol>
 <p>Below we plot an example in 1-d using the gaussian kernel to estimate the density of some population along the x-axis. You can see that each sample point adds a small Gaussian to our estimate, centered about it: The equations above may look a bit intimidating, but the graphic here should clarify that the concept is pretty&nbsp;straightforward.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2015/03/KDE-plot.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2015/03/KDE-plot.png"></a>
+<p><a href="./wp-content/uploads/2015/03/KDE-plot.png"><img alt="" src="./wp-content/uploads/2015/03/KDE-plot.png"></a>
 Example of a kernel density estimation using a gaussian kernel for each data point: Adding up small Gaussians about each example returns our net estimate for the total density, the black&nbsp;curve.</p>
 <h4>Mean shift&nbsp;algorithm</h4>
 <p>Recall that the basic goal of the mean shift algorithm is to move particles in the direction of local increasing density. To obtain an estimate for this direction, a gradient is applied to the kernel density estimate discussed above. Assuming an angularly symmetric kernel function, <span class="math">\(K(\textbf{u}) = K(\vert \textbf{u} \vert)\)</span>, one can show that this gradient takes the&nbsp;form
@@ -311,11 +299,11 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=The%20mean%20shift%20clustering%C2%A0algorithm&url=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=The%20mean%20shift%20clustering%C2%A0algorithm&url=/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=The%20mean%20shift%20clustering%C2%A0algorithm&amp;body=https%3A//efavdb.com/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=The%20mean%20shift%20clustering%C2%A0algorithm&amp;body=/mean-shift" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -334,62 +322,12 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/mean-shift"
-                   href="https://efavdb.com/mean-shift#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/mean-shift';
-    var disqus_url = 'https://efavdb.com/mean-shift';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/nba-week-22-results-nba-season-review-mlb-week-1" title="Previous: NBA week 22 results, NBA season review, MLB week 1">NBA week 22 results, NBA season review, MLB week 1</a></li>
-                <li class="next-article"><a href="https://efavdb.com/mlb-week-2-review-week-3-predictions" title="Next: MLB week 2 review, week 3 predictions">MLB week 2 review, week 3 predictions</a> »</li>
+                <li class="previous-article">« <a href="./nba-week-22-results-nba-season-review-mlb-week-1" title="Previous: NBA week 22 results, NBA season review, MLB week 1">NBA week 22 results, NBA season review, MLB week 1</a></li>
+                <li class="next-article"><a href="./mlb-week-2-review-week-3-predictions" title="Next: MLB week 2 review, week 3 predictions">MLB week 2 review, week 3 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -398,7 +336,7 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-04-21T09:17:00-07:00">Apr 21, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -435,7 +373,7 @@ and <span class="math">\(g(\vert \textbf{u} \vert ) = -K'(\vert \textbf{u} \vert
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

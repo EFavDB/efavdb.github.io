@@ -12,7 +12,7 @@
 <meta name="keywords" content="methods, NBA, NBA prediction project, " />
 
 <meta property="og:title" content="NBA learner: 2013-14 warmup "/>
-<meta property="og:url" content="https://efavdb.com/nba-learner-2013-14-warmup" />
+<meta property="og:url" content="./nba-learner-2013-14-warmup" />
 <meta property="og:description" content="We’ve spent the last couple of evenings training some preliminary algorithms on the NBA 2013-14, regular season data, which we grabbed from basketball-reference.com. Each of the 30 NBA teams play 82 times a season, summing to 1230 games total — a sizable number that we can comfortably attempt to …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Dustin McIntosh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/nba-learner-2013-14-warmup">
+            <a href="./nba-learner-2013-14-warmup">
                 <span class="caps">NBA</span> learner: 2013-14&nbsp;warmup
             </a>
         </h1>
@@ -95,7 +86,7 @@
         <div class="span8 offset2 article-content">
             
             <p>We’ve spent the last couple of evenings training some preliminary algorithms on the <span class="caps">NBA</span> 2013-14, regular season data, which we grabbed from <a href="http://www.basketball-reference.com/">basketball-reference.com</a>.  Each of the 30 <span class="caps">NBA</span> teams play 82 times a season, summing to 1230 games total — a sizable number that we can comfortably attempt to model.  Here, we cover our first pass at the prediction problem, what we’ve learned so far, and challenges we’re looking forward to tackling&nbsp;soon.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2014/10/NBAlearnV0Results.png"><img alt="NBAlearnV0Results" src="https://efavdb.com/wp-content/uploads/2014/10/NBAlearnV0Results.png"></a></p>
+<p><a href="./wp-content/uploads/2014/10/NBAlearnV0Results.png"><img alt="NBAlearnV0Results" src="./wp-content/uploads/2014/10/NBAlearnV0Results.png"></a></p>
 <p>The first algorithm:  As mentioned in the prior post, we decided to initially train only on historical win-loss data triples of the form (home team, away team, y), where the Boolean y equals one if the home team won, zero otherwise.  For prediction, we use logistic classification:  We attempt to identify which teams team <span class="math">\(\alpha\)</span> would likely beat, were they to play them at home.  In order to accomplish this task, our logistic model has at its disposal a set of variable features characterizing each team:  a home feature vector <span class="math">\(\textbf{H}_{\alpha}\)</span> and an away feature vector <span class="math">\(\textbf{A}_{\alpha}\)</span>, each of length 10.  The model predicts a home team <span class="math">\(\alpha\)</span> win over away team <span class="math">\(\beta\)</span> probability of <span class="math">\(h =  1/[1 + \exp(- \textbf{H}_{\alpha} \cdot \textbf{A}_{\beta})]\)</span> <span class="math">\( \in [0,1]\)</span>.  In training, the model is initially fed random feature vectors, which are then relaxed to minimize the logistic cost function, <span class="math">\(J \equiv<div class="math">$$ - \sum_{i = 1}^{m} y_i \log h_i$$</div>+ (1-y_i) \log (1 - h_i) $, where the sum is over all training examples.  The cost function $J\)</span> heavily penalizes large mismatch between the actual outcome <span class="math">\(y\)</span> and the predicted outcome <span class="math">\(h\)</span> for any training example — we also added to this a suppression term that prevents&nbsp;over-fitting.</p>
 <p>Results:  We trained the above model on the first 800 games of the 2013-14 season, and then tested the accuracy of the model on the remaining 430 games it did not train on.  Sample output is shown in the figure.  As you can see in the last line, the algorithm correctly predicted the outcome of 64% of these games.  As a first pass, this compares favorably to, for example, the accuracy of the predictions provided by <a href="http://www.teamrankings.com/nba/betting-models/detailed-splits/">teamrankings.com</a> (about 68% for the 2013-14 season). Further, after implementing a quick improvement to the first model above, basing predictions on prior score-differentials, rather than simply win-loss results, we managed to pop our accuracy up to 69% on the same data&nbsp;set.</p>
 <p>Caveats <span class="amp">&amp;</span> future directions:  Our comparison to teamrankings.com (<span class="caps">TR</span>) above isn’t really a fair one.  The reason is that our analysis was only carried out on the final 2/3rds of the last season, whereas <span class="caps">TR</span>’s average covered its entirety.  Early-season prediction is necessarily less accurate for all bettors, given the paucity of relevant data available at that time.  Nevertheless, we’re encouraged by our first attempts here.  To improve, we aim next to incorporate the information provided by prior seasons.  A closely related challenge will be to figure out how to intelligently weight data according to its age:  We want to be able to capture timely effects, like current momentum and injuries, while retaining all relevant long-term&nbsp;trends.</p>
@@ -167,11 +158,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=NBA%20learner%3A%202013-14%C2%A0warmup&url=https%3A//efavdb.com/nba-learner-2013-14-warmup&hashtags=methods,nba" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=NBA%20learner%3A%202013-14%C2%A0warmup&url=/nba-learner-2013-14-warmup&hashtags=methods,nba" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/nba-learner-2013-14-warmup" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/nba-learner-2013-14-warmup" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=NBA%20learner%3A%202013-14%C2%A0warmup&amp;body=https%3A//efavdb.com/nba-learner-2013-14-warmup" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=NBA%20learner%3A%202013-14%C2%A0warmup&amp;body=/nba-learner-2013-14-warmup" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -190,62 +181,12 @@
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/nba-learner-2013-14-warmup"
-                   href="https://efavdb.com/nba-learner-2013-14-warmup#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/nba-learner-2013-14-warmup';
-    var disqus_url = 'https://efavdb.com/nba-learner-2013-14-warmup';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/announcing-nba-learner-v0-1" title="Previous: Announcing: NBA learner v0.1">Announcing: NBA learner v0.1</a></li>
-                <li class="next-article"><a href="https://efavdb.com/daily-traffic-evolution-and-the-super-bowl" title="Next: Daily traffic evolution and the Super Bowl">Daily traffic evolution and the Super Bowl</a> »</li>
+                <li class="previous-article">« <a href="./announcing-nba-learner-v0-1" title="Previous: Announcing: NBA learner v0.1">Announcing: NBA learner v0.1</a></li>
+                <li class="next-article"><a href="./daily-traffic-evolution-and-the-super-bowl" title="Next: Daily traffic evolution and the Super Bowl">Daily traffic evolution and the Super Bowl</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -254,13 +195,13 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2014-10-30T22:07:00-07:00">Oct 30, 2014</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#nba-prediction-project-ref">NBA prediction project</a>
+            <a class="category-link" href="./categories.html#nba-prediction-project-ref">NBA prediction project</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#methods-ref">methods
+                <li><a href="./tags.html#methods-ref">methods
                     <span>8</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#nba-ref">NBA
+                <li><a href="./tags.html#nba-ref">NBA
                     <span>13</span>
 </a></li>
             </ul>
@@ -300,7 +241,7 @@
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

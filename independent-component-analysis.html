@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Independent component analysis "/>
-<meta property="og:url" content="https://efavdb.com/independent-component-analysis" />
+<meta property="og:url" content="./independent-component-analysis" />
 <meta property="og:description" content="Two microphones are placed in a room where two conversations are taking place simultaneously. Given these two recordings, can one “remix” them in some prescribed way to isolate the individual conversations? Yes! In this post, we review one simple approach to solving this type of problem, Independent Component Analysis (ICA …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/independent-component-analysis">
+            <a href="./independent-component-analysis">
                 Independent component&nbsp;analysis
             </a>
         </h1>
@@ -104,7 +95,7 @@ m_2(t) &amp;= a_3 c_1(t) + a_4 c_2(t). \label{1} \tag{1}
 \end{align}</div>
 <p>
 Here, we stress that the <span class="math">\(a_i\)</span> coefficients in (\ref{1}) are hidden from us: We only have access to the <span class="math">\(m_i\)</span>. Hypothetical illustrations are given in the figure below. Given only these mixed signals, we&#8217;d like to recover the underlying <span class="math">\(c_i\)</span> used to construct them (spoiler: a sine wave and a saw-tooth function were used for this&nbsp;figure).</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/02/mixed2.jpg"><img alt="mixed" src="https://efavdb.com/wp-content/uploads/2016/02/mixed2.jpg"></a></p>
+<p><a href="./wp-content/uploads/2016/02/mixed2.jpg"><img alt="mixed" src="./wp-content/uploads/2016/02/mixed2.jpg"></a></p>
 <p>Amazingly, it turns out that with the introduction of a modest assumption, a simple solution to our problem can be obtained: We need only assume that the desired <span class="math">\(c_i\)</span> are mutually independent<span class="math">\(^1\)</span>. This assumption is helpful because it turns out that when two independent signals are added together, the resulting mixture is always &#8220;more Gaussian&#8221; than either of the individual, independent signals (a la the central limit theorem). Seeking linear combinations of the available <span class="math">\(m_i\)</span> that locally extremize their non-Gaussian character therefore provides a way to identify the pure, unmixed signals. This approach to solving the problem is called &#8220;Independent Component Analysis&#8221;, or <span class="caps">ICA</span>.</p>
 <p>Here, we demonstrate the principle of <span class="caps">ICA</span> through consideration of the audio de-mixing problem. This is a really impressive application. However, one should strive to remember that the algorithm is not a one-trick-pony. <span class="caps">ICA</span> is an unsupervised machine learning algorithm of general applicability &#8212; similar in nature, and complementary to, the more familiar <a href="http://efavdb.github.io/principal-component-analysis"><span class="caps">PCA</span></a> algorithm. Whereas in <span class="caps">PCA</span> we seek the feature-space directions that maximize captured variance, in <span class="caps">ICA</span> we seek those directions that maximize the &#8220;interestingness&#8221; of the distribution &#8212; i.e., the non-Gaussian character of the resulting projections. It can be fruitfully applied in many contexts<span class="math">\(^2\)</span>.</p>
 <p>We turn now to the problem of audio de-mixing via <span class="caps">ICA</span>.</p>
@@ -117,7 +108,7 @@ $$</div>
 <p>
 where brackets represent an average over time (or index). It turns out that the kurtosis is always zero for a Gaussian-distributed signal, so (\ref{2}) is a natural choice of score function for measuring deviation away from Gaussian behavior<span class="math">\(^3\)</span>. Essentially, it&#8217;s a measure of how flat a distribution is &#8212; with numbers greater (smaller) than 0 corresponding to distributions that are more (less) flat than a&nbsp;Gaussian.</p>
 <p>With (\ref{2}) chosen as our score function, we can now jump right into applying <span class="caps">ICA</span>. The code snippet below considers all possible mixtures of two mixed signals <span class="math">\(m_1\)</span> and <span class="math">\(m_2\)</span>, obtains the resulting signal kurtosis values, and plots the&nbsp;result.</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">kurtosis_of_mixture</span><span class="p">(</span><span class="n">c1</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">kurtosis_of_mixture</span><span class="p">(</span><span class="n">c1</span><span class="p">):</span>
     <span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">m1</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">m2</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">s</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -128,19 +119,17 @@ where brackets represent an average over time (or index). It turns out that the 
 <span class="n">k_array</span> <span class="o">=</span> <span class="p">[</span><span class="n">kurtosis_of_mixture</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">c_array</span><span class="p">]</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c_array</span><span class="p">,</span> <span class="n">k_array</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2016/02/k3.jpg"><img alt="k" src="https://efavdb.com/wp-content/uploads/2016/02/k3.jpg"></a></p>
+<p><a href="./wp-content/uploads/2016/02/k3.jpg"><img alt="k" src="./wp-content/uploads/2016/02/k3.jpg"></a></p>
 <p>In line <span class="math">\((3)\)</span> of the code here, we define the &#8220;remixed&#8221; signal <span class="math">\(s\)</span>, which is a linear combination of the two mixed signals <span class="math">\(m_1\)</span> and <span class="math">\(m_2\)</span>. Note that in line <span class="math">\((4)\)</span>, we normalize the signal so that it always has variance <span class="math">\(1\)</span> &#8212; this simply eliminates an arbitrary scale factor from the analysis. Similarly in line <span class="math">\((2)\)</span>, we specify <span class="math">\(c_2\)</span> as a function of <span class="math">\(c_1\)</span>, requiring the sum of their squared values to equal one &#8212; this fixes another arbitrary scale&nbsp;factor.</p>
 <p>When we applied the code above to the two signals shown in the introduction, we obtained the top plot at right. This shows the kurtosis of <span class="math">\(s\)</span> as a function of <span class="math">\(c_1\)</span>, the weight applied to signal <span class="math">\(m_1\)</span>. Notice that there are two internal extrema in this plot: a peak near <span class="math">\(-0.9\)</span> and a local minimum near <span class="math">\(-0.7\)</span>. These are the two <span class="math">\(c_1\)</span> weight choices that <span class="caps">ICA</span> suggests may relate to the pure, underlying signals we seek. To plot each of these signals, we used code similar to the following (the code shown is just for the&nbsp;maximum)</p>
-<div class="highlight"><pre><span></span><span class="n">index1</span> <span class="o">=</span> <span class="n">k_array</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">k_array</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="n">index1</span> <span class="o">=</span> <span class="n">k_array</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">k_array</span><span class="p">))</span>
 <span class="n">c1</span> <span class="o">=</span> <span class="n">c_array</span><span class="p">[</span><span class="n">index1</span><span class="p">]</span>
 <span class="n">c2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">c1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">int16</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">c1</span> <span class="o">*</span> <span class="n">x1</span> <span class="o">+</span> <span class="n">c2</span> <span class="o">*</span> <span class="n">x2</span><span class="p">])</span>
 <span class="n">plot</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This code finds the index where the kurtosis was maximized, generates the corresponding remix, and plots the result. Applying this, the bottom figure at right popped out. It worked! &#8212; and with just a few lines of code, which makes it seem all the more amazing. In summary, we looked for linear combinations of the <span class="math">\(m_i\)</span> shown in the introduction that resulted in a stationary kurtosis &#8212; plotting these combinations, we found that these were precisely the pure signals we sought<span class="math">\(^4\)</span>.</p>
 <p>A second application to actual audio clips is demoed in our youtube video linked below. The full ipython file utilized in the video can be downloaded on our github page, <a href="https://github.com/EFavDB/ICA">here</a><span class="math">\(^5\)</span>.</p>
@@ -222,11 +211,11 @@ where brackets represent an average over time (or index). It turns out that the 
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Independent%20component%C2%A0analysis&url=https%3A//efavdb.com/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Independent%20component%C2%A0analysis&url=/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Independent%20component%C2%A0analysis&amp;body=https%3A//efavdb.com/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Independent%20component%C2%A0analysis&amp;body=/independent-component-analysis" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -245,62 +234,12 @@ where brackets represent an average over time (or index). It turns out that the 
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/independent-component-analysis"
-                   href="https://efavdb.com/independent-component-analysis#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/independent-component-analysis';
-    var disqus_url = 'https://efavdb.com/independent-component-analysis';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/maximum-likelihood-asymptotics" title="Previous: Maximum-likelihood asymptotics">Maximum-likelihood asymptotics</a></li>
-                <li class="next-article"><a href="https://efavdb.com/dotfiles" title="Next: Dotfiles for peace of mind">Dotfiles for peace of mind</a> »</li>
+                <li class="previous-article">« <a href="./maximum-likelihood-asymptotics" title="Previous: Maximum-likelihood asymptotics">Maximum-likelihood asymptotics</a></li>
+                <li class="next-article"><a href="./dotfiles" title="Next: Dotfiles for peace of mind">Dotfiles for peace of mind</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -309,7 +248,7 @@ where brackets represent an average over time (or index). It turns out that the 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-02-14T00:00:00-08:00">Feb 14, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -346,7 +285,7 @@ where brackets represent an average over time (or index). It turns out that the 
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

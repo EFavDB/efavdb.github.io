@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Case studies, " />
 
 <meta property="og:title" content="Measles vaccination rate by USA state and relation to mean outbreak size "/>
-<meta property="og:url" content="https://efavdb.com/vaccination-rates" />
+<meta property="og:url" content="./vaccination-rates" />
 <meta property="og:description" content="In this post, we provide a quick overview of the data and science of measles spread. Making use of python (code provided) we extract from a CDC data set the 2012 youth vaccination rate for each USA state — see figure below. To aid in the interpretation of this data, we …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Damien RJ" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/vaccination-rates">
+            <a href="./vaccination-rates">
                 Measles vaccination rate by <span class="caps">USA</span> state and relation to mean outbreak&nbsp;size
             </a>
         </h1>
@@ -126,7 +117,7 @@
 <p>In this section, we outline our numerical analysis of the <span class="caps">CDC</span> measles vaccination rate data set. To follow along, you must first download the files.  Current data can be found <a href="http://www.cdc.gov/nchs/nis/data_files.htm">here</a>, and data corresponding to years before 2009 <a href="http://www.cdc.gov/nchs/nis/data_files_09_prior.htm">here</a>.  Three files are needed.  The <a href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Datasets/nis/nispuf12.dat">Dataset file</a>, the <a href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NIS/NISPUF12_CODEBOOK.PDF">Codebook</a> that explains how to read the dataset files, and the <a href="ftp://ftp.cdc.gov/pub/Health_Statistics/NCHS/Dataset_Documentation/NIS/NISPUF12_DUG.PDF">Data User’s Guide</a> which provides details about the data, including methodology and statistics&nbsp;descriptions.</p>
 <p>In our analysis, we will make use of a few python packages.  In particular, we will use <a href="http://pandas.pydata.org/">Pandas</a> to construct high performance data structures, called DataFrames. These are easy to use, and they allow for fast, straightforward data manipulation &#8212; both helpful features for data wrangling. We will utilize the groupby DataFrame method, which enables one to easily segment data according to values along different feature directions. To illustrate, we will split our data by state name.  We will then use the <a href="https://plot.ly/">Plot.ly</a> package to generate the interactive plots included&nbsp;above.</p>
 <p>To get a feel for the <span class="caps">CDC</span> data, a good first step is to look at the data in a text editor.  Doing this, we quickly notice multiple rows of characters having no vernacular significance.  The codebook allows one to interpret these characters.  It also explains that each row corresponds to a different child surveyed, and that each row has a fixed number of entries, many corresponding to different vaccines. We will read these rows in one at a time &#8212; making use of a for loop &#8212; to save on memory. As each line is processed, we keep only what we need &#8212; here that info relevant to the <span class="caps">MMR</span>&nbsp;vaccine.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">plotly.plotly</span> <span class="k">as</span> <span class="nn">py</span>
@@ -157,12 +148,11 @@
         <span class="n">weights</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">50</span><span class="p">:</span><span class="mi">69</span><span class="p">])</span>
         <span class="n">weights_v</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">31</span><span class="p">:</span><span class="mi">50</span><span class="p">])</span>
         <span class="n">mmr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">261</span><span class="p">:</span><span class="mi">262</span><span class="p">])</span>
-</pre></div>
-
+</code></pre></div>
 
 <h5><strong>Cleaning&nbsp;data</strong></h5>
 <p>Now that everything is parsed and loaded into arrays, we will insert our data into a dictionary with key given by the column header.  We then convert this into a DataFrame. To streamline the process, we will also replace all the missing values with a <span class="caps">NAN</span>, and also convert all relevant entries from string to number format.  We will also replace the stateID numbers with their written names.  Lastly, we will remove all the incomplete patient&nbsp;files.</p>
-<div class="highlight"><pre><span></span><span class="c1">#Create a dataframe in pandas for data manipulation</span>
+<div class="highlight"><pre><span></span><code><span class="c1">#Create a dataframe in pandas for data manipulation</span>
 <span class="n">d</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;child&#39;</span><span class="p">:</span><span class="n">child_ID</span><span class="p">,</span> <span class="s1">&#39;house&#39;</span><span class="p">:</span><span class="n">house_ID</span><span class="p">,</span> <span class="s1">&#39;state&#39;</span><span class="p">:</span><span class="n">state</span><span class="p">,</span>
     <span class="s1">&#39;patient_data&#39;</span><span class="p">:</span><span class="n">patient_data</span><span class="p">,</span> <span class="s1">&#39;measles&#39;</span><span class="p">:</span><span class="n">measles</span><span class="p">,</span>
     <span class="s1">&#39;MMR&#39;</span><span class="p">:</span><span class="n">mmr</span><span class="p">,</span> <span class="s1">&#39;stratum&#39;</span><span class="p">:</span><span class="n">stratum</span><span class="p">,</span> <span class="s1">&#39;weights&#39;</span><span class="p">:</span><span class="n">weights</span><span class="p">,</span>
@@ -189,22 +179,20 @@
 <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">patient_data</span><span class="o">==</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
 <span class="n">data</span><span class="o">.</span><span class="n">drop</span><span class="p">([</span><span class="s1">&#39;patient_data&#39;</span><span class="p">],</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Below, we provide some examples of our resulting, cleaned data points. The weight columns here are described further below. The first of these is used for analyses including the Virgin Islands, the other when they are&nbsp;not.</p>
-<div class="highlight"><pre><span></span><span class="err">MMR child house measles state stratum weights weights_v</span>
-<span class="err">0 1 11 1 1 Texas 1054 65.155698 120.163273</span>
-<span class="err">1 1 21 2 1 Texas 2055 33.652064 52.360361</span>
-<span class="err">3 1 41 4 1 Massachusetts 1002 216.529889 271.502218</span>
-<span class="err">5 1 61 6 1 Georgia 1025 231.557156 562.130094</span>
-<span class="err">6 1 71 7 1 South Carolina 1030 150.109737 238.018808</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>MMR child house measles state stratum weights weights_v
+0 1 11 1 1 Texas 1054 65.155698 120.163273
+1 1 21 2 1 Texas 2055 33.652064 52.360361
+3 1 41 4 1 Massachusetts 1002 216.529889 271.502218
+5 1 61 6 1 Georgia 1025 231.557156 562.130094
+6 1 71 7 1 South Carolina 1030 150.109737 238.018808
+</code></pre></div>
 
 <h5><strong>Weighting to get averaged&nbsp;statistics</strong></h5>
 <p>We now have our data cleaned and ready to go. However, some additional work needs to be done before we can evaluate various statistics of interest. This is because the <span class="caps">CDC</span> data set is not a random sample, but instead a <a href="http://en.wikipedia.org/wiki/Stratified_sampling">stratified sample</a> &#8212; i.e. one geared towards obtaining reasonable accuracy among many minority groups, and not simply among the averaged population. The weight factors are the key to extracting averaged statistics from this data, as explained in the user guide. For example, the average is essentially just a weighted average, and the standard error can be calculated using a Taylor-Series approach. The easiest way to apply this to our data is to make use of custom functions. Once constructed, these can then be easily applied to different DataFrame&nbsp;groupings.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Lets define a function to caluclate the vaccination rate</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Lets define a function to caluclate the vaccination rate</span>
 <span class="c1"># for the group we are looking at, and the standard error</span>
 <span class="k">def</span> <span class="nf">calculate_rate_and_error</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
     <span class="c1"># The rate is calucated useing a weighted average</span>
@@ -229,18 +217,16 @@
 
     <span class="n">standard_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">var</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">rate</span><span class="p">,</span> <span class="n">standard_error</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If we apply this function to our whole DataFrame, we will get the national <span class="caps">MMR</span> vaccination rate and standard&nbsp;error.</p>
-<div class="highlight"><pre><span></span><span class="err">calculate_rate_and_error(data)</span>
-<span class="err"># output: (0.90767842904073048, 0.0043003916851249895)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>calculate_rate_and_error(data)
+# output: (0.90767842904073048, 0.0043003916851249895)
+</code></pre></div>
 
 <h5><strong>Data segmentation &#8212; stats by&nbsp;group</strong></h5>
 <p>But we can also do more! If we first apply the DateFrame&#8217;s groupby method, we can split the data along any feature of interest. For example, below we split the data along the state column. This generates subgroups for each state. Next, we use the apply method to run our custom function on all the different groups of data. We then clean up the output, unzip the tuple and generate a graph showing the <span class="caps">MMR</span> vaccination rate by state. It should be evident that with only modest effort, one can modify this code to group the data in many varying ways &#8212; all that needs to be done is to adjust the arguments of the groupby&nbsp;command.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Now that we have our function it is easy to calculate values</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Now that we have our function it is easy to calculate values</span>
 <span class="c1"># for any group.</span>
 
 <span class="c1"># To examine rates by state, we will group by state</span>
@@ -282,18 +268,18 @@
     <span class="p">)</span>
 <span class="p">])</span>
 <span class="n">plot_url</span> <span class="o">=</span> <span class="n">py</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="s1">&#39;plot&#39;</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
 
              
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Measles%20vaccination%20rate%20by%20USA%20state%20and%20relation%20to%20mean%20outbreak%C2%A0size&url=https%3A//efavdb.com/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Measles%20vaccination%20rate%20by%20USA%20state%20and%20relation%20to%20mean%20outbreak%C2%A0size&url=/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Measles%20vaccination%20rate%20by%20USA%20state%20and%20relation%20to%20mean%20outbreak%C2%A0size&amp;body=https%3A//efavdb.com/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Measles%20vaccination%20rate%20by%20USA%20state%20and%20relation%20to%20mean%20outbreak%C2%A0size&amp;body=/vaccination-rates" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -312,62 +298,12 @@
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/vaccination-rates"
-                   href="https://efavdb.com/vaccination-rates#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/vaccination-rates';
-    var disqus_url = 'https://efavdb.com/vaccination-rates';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/math-of-measles" title="Previous: Mathematics of measles">Mathematics of measles</a></li>
-                <li class="next-article"><a href="https://efavdb.com/nba-week-15-summary-week-16-predictions" title="Next: NBA week 15 summary, week 16 predictions">NBA week 15 summary, week 16 predictions</a> »</li>
+                <li class="previous-article">« <a href="./math-of-measles" title="Previous: Mathematics of measles">Mathematics of measles</a></li>
+                <li class="next-article"><a href="./nba-week-15-summary-week-16-predictions" title="Next: NBA week 15 summary, week 16 predictions">NBA week 15 summary, week 16 predictions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -376,7 +312,7 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2015-02-25T13:40:00-08:00">Feb 25, 2015</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#case-studies-ref">Case studies</a>
+            <a class="category-link" href="./categories.html#case-studies-ref">Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -413,7 +349,7 @@
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

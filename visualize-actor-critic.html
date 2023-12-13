@@ -12,7 +12,7 @@
 <meta name="keywords" content="programming, tools, python, reinforcement learning, Programming, " />
 
 <meta property="og:title" content="Visualizing an actor critic algorithm in real time "/>
-<meta property="og:url" content="https://efavdb.com/visualize-actor-critic" />
+<meta property="og:url" content="./visualize-actor-critic" />
 <meta property="og:description" content="Deep reinforcement learning algorithms can be hard to debug, so it helps to visualize as much as possible in the absence of a stack trace [1]. How do we know if the learned policy and value functions make sense? Seeing these quantities plotted in real time as an agent is …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/visualize-actor-critic">
+            <a href="./visualize-actor-critic">
                 Visualizing an actor critic algorithm in real&nbsp;time
             </a>
         </h1>
@@ -98,7 +89,7 @@
 <p>Here’s an example of an agent wandering around a custom <a href="https://github.com/frangipane/gym-minigrid">gridworld</a> environment.  When the agent executes the <code>toggle</code> action in front of an unopened red gift, it receives a reward of 1 point, and the gift turns&nbsp;grey/inactive.</p>
 <iframe width="640" height="360" src="https://www.youtube.com/embed/M3PMwPFRoc8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<p>The model is an actor critic, a type of policy gradient algorithm (for a nice introduction, see Jonathan’s <a href="https://efavdb.com/battleship">battleship</a> post or [2]) that uses a neural network to parametrize its policy and value&nbsp;functions.</p>
+<p>The model is an actor critic, a type of policy gradient algorithm (for a nice introduction, see Jonathan’s <a href="./battleship">battleship</a> post or [2]) that uses a neural network to parametrize its policy and value&nbsp;functions.</p>
 <p>This agent barely &#8220;meets expectations&#8221; &#8212; notably getting stuck at an opened gift between frames 5-35 &#8212; but the values and policy mostly make sense.  For example, we tend to see spikes in value when the agent is immediately in front of an unopened gift while the policy simultaneously outputs a much higher probability of taking the appropriate <code>toggle</code> action in front of the unopened gift.  (We&#8217;d achieve better performance by incorporating some memory into the model in the form of an <a href="https://colah.github.io/posts/2015-08-Understanding-LSTMs/"><span class="caps">LSTM</span></a>).</p>
 <p>We’re sharing a little helper code to generate the matplotlib plots of the value and policy functions that are shown in the&nbsp;video.</p>
 <script src="https://gist.github.com/frangipane/4adca6481bf55f2260ff215c5686851b.js"></script>
@@ -119,11 +110,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&url=https%3A//efavdb.com/visualize-actor-critic&hashtags=programming,tools,python,reinforcement-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&url=/visualize-actor-critic&hashtags=programming,tools,python,reinforcement-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&amp;body=https%3A//efavdb.com/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Visualizing%20an%20actor%20critic%20algorithm%20in%20real%C2%A0time&amp;body=/visualize-actor-critic" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -142,62 +133,12 @@
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/visualize-actor-critic"
-                   href="https://efavdb.com/visualize-actor-critic#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/visualize-actor-critic';
-    var disqus_url = 'https://efavdb.com/visualize-actor-critic';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/random-walk-scaling" title="Previous: 2-D random walks are special">2-D random walks are special</a></li>
-                <li class="next-article"><a href="https://efavdb.com/ltca" title="Next: Long term credit assignment with temporal reward transport">Long term credit assignment with temporal reward transport</a> »</li>
+                <li class="previous-article">« <a href="./random-walk-scaling" title="Previous: 2-D random walks are special">2-D random walks are special</a></li>
+                <li class="next-article"><a href="./ltca" title="Next: Long term credit assignment with temporal reward transport">Long term credit assignment with temporal reward transport</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -206,19 +147,19 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2020-05-07T12:00:00-07:00">May 7, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#programming-ref">Programming</a>
+            <a class="category-link" href="./categories.html#programming-ref">Programming</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#programming-ref">programming
+                <li><a href="./tags.html#programming-ref">programming
                     <span>9</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#python-ref">python
+                <li><a href="./tags.html#python-ref">python
                     <span>7</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#reinforcement-learning-ref">reinforcement learning
+                <li><a href="./tags.html#reinforcement-learning-ref">reinforcement learning
                     <span>7</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#tools-ref">tools
+                <li><a href="./tags.html#tools-ref">tools
                     <span>5</span>
 </a></li>
             </ul>
@@ -258,7 +199,7 @@
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

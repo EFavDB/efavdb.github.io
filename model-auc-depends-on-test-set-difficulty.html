@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Model AUC depends on test set difficulty "/>
-<meta property="og:url" content="https://efavdb.com/model-auc-depends-on-test-set-difficulty" />
+<meta property="og:url" content="./model-auc-depends-on-test-set-difficulty" />
 <meta property="og:description" content="The AUC score is a popular summary statistic that is often used to communicate the performance of a classifier. However, we illustrate here that this score depends not only on the quality of the model in question, but also on the difficulty of the test set considered: If samples are …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/model-auc-depends-on-test-set-difficulty">
+            <a href="./model-auc-depends-on-test-set-difficulty">
                 Model <span class="caps">AUC</span> depends on test set&nbsp;difficulty
             </a>
         </h1>
@@ -112,7 +103,7 @@
 \end{eqnarray}</div>
 <p>Here, <span class="math">\(\textbf{x}_i\)</span> is the set of features, or predictor variables, for example <span class="math">\(i\)</span> and <span class="math">\(y_i \in \{0,1 \}\)</span> is the label for example <span class="math">\(i\)</span>. A classifier function <span class="math">\(\hat{p}_1(\textbf{x})\)</span> is one that attempts to guess the value of <span class="math">\(y_i\)</span> given only the feature vector <span class="math">\(\textbf{x}_i\)</span>. In particular, the output of the function <span class="math">\(\hat{p}_1(\textbf{x}_i)\)</span> is an estimate for the probability that the label <span class="math">\(y_i\)</span> is equal to <span class="math">\(1\)</span>. If the algorithm is confident that the class is <span class="math">\(1\)</span> (<span class="math">\(0\)</span>), the probability returned will be large&nbsp;(small).</p>
 <p>To characterize model performance, we can set a threshold value of <span class="math">\(p^*\)</span> and mark all examples in the test set with <span class="math">\(\hat{p}(\textbf{x}_i) &gt; p^*\)</span> as being candidates for class one. The fraction of the truly positive examples in <span class="math">\(\mathcal{S}\)</span> marked in this way is referred to as the true-positive rate (<span class="caps">TPR</span>) at threshold <span class="math">\(p^*\)</span>. Similarly, the fraction of negative examples in <span class="math">\(\mathcal{S}\)</span> marked is referred to as the false-positive rate (<span class="caps">FPR</span>) at threshold <span class="math">\(p^*\)</span>. Plotting the <span class="caps">TPR</span> against the <span class="caps">FPR</span> across all thresholds gives the model&#8217;s so-called receiver operating characteristic (<span class="caps">ROC</span>) curve. A hypothetical example is shown at right in blue. The dashed line is just the <span class="math">\(y=x\)</span> line, which corresponds to the <span class="caps">ROC</span> curve of a random classifier (one returning a uniform random <span class="math">\(p\)</span> value each&nbsp;time).</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2017/03/example.png"><img alt="example" src="https://efavdb.com/wp-content/uploads/2017/03/example.png"></a></p>
+<p><a href="./wp-content/uploads/2017/03/example.png"><img alt="example" src="./wp-content/uploads/2017/03/example.png"></a></p>
 <p>Notice that if the threshold is set to <span class="math">\(p^* = 1\)</span>, no positive or negative examples will typically be marked as candidates, as this would require one-hundred percent confidence of class <span class="math">\(1\)</span>. This means that we can expect an <span class="caps">ROC</span> curve to always go through the point <span class="math">\((0,0)\)</span>. Similarly, with <span class="math">\(p^*\)</span> set to <span class="math">\(0\)</span>, all examples should be marked as candidates for class <span class="math">\(1\)</span> &#8212; and so an <span class="caps">ROC</span> curve should also always go through the point <span class="math">\((1,1)\)</span>. In between, we hope to see a curve that increases in the <span class="caps">TPR</span> direction more quickly than in the <span class="caps">FPR</span> direction &#8212; since this would imply that the examples the model is most confident about tend to actually be class <span class="math">\(1\)</span> examples. In general, the larger the Area Under the (<span class="caps">ROC</span>) Curve &#8212; again, blue at right &#8212; the better. We call this area the &#8220;<span class="caps">AUC</span> score for the model&#8221; &#8212; the topic of this&nbsp;post.</p>
 <h3><span class="caps">AUC</span> sensitivity to test set&nbsp;difficulty</h3>
 <p>To illustrate the sensitivity of the <span class="caps">AUC</span> score to test set difficulty, we now consider a toy classification problem: In particular, we consider a set of unit-variance normal distributions, each having a different mean <span class="math">\(\mu_i\)</span>. From each distribution, we will take a single sample <span class="math">\(x_i\)</span>. From this, we will attempt to estimate whether or not the corresponding mean satisfies <span class="math">\(\mu_i &gt; 0\)</span>. That is, our training set will take the form <span class="math">\(\mathcal{S} = \{(x_i, \mu_i)\}\)</span>, where <span class="math">\(x_i \sim N(\mu_i, 1)\)</span>. For different <span class="math">\(\mathcal{S}\)</span>, we will study the <span class="caps">AUC</span> of the classifier&nbsp;function,</p>
@@ -121,17 +112,17 @@
 \end{eqnarray}</div>
 <p>
 A plot of this function is shown below. You can see that if any test sample <span class="math">\(x_i\)</span> is far to the right (left) of <span class="math">\(x=0\)</span>, the model will classify the sample as positive (negative) with high certainty. At intermediate values near the boundary, the estimated probability of being in the positive class lifts in a reasonable&nbsp;way.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2017/03/classifier-2.png"><img alt="classifier" src="https://efavdb.com/wp-content/uploads/2017/03/classifier-2.png"></a></p>
+<p><a href="./wp-content/uploads/2017/03/classifier-2.png"><img alt="classifier" src="./wp-content/uploads/2017/03/classifier-2.png"></a></p>
 <p>Notice that if a test example has a mean very close to zero, it will be difficult to classify that example as positive or negative. This is because both positive and negative <span class="math">\(x\)</span> samples are equally likely in this case. This means that the model cannot do much better than a random guess for such <span class="math">\(\mu\)</span>. On the other hand, if an example <span class="math">\(\mu\)</span> is selected that is very far from the origin, a single sample <span class="math">\(x\)</span> from <span class="math">\(N(\mu, 1)\)</span> will be sufficient to make a very good guess as to whether <span class="math">\(\mu &gt; 0\)</span>. Such examples are hard to get wrong,&nbsp;soft-balls.</p>
 <p>The impact of adding soft-balls to the test set on the <span class="caps">AUC</span> for model (\ref{classifier}) can be studied by changing the sampling distribution of <span class="math">\(\mathcal{S}\)</span>. The following python snippet takes samples <span class="math">\(\mu_i\)</span> from three distributions &#8212; one tight about <span class="math">\(0\)</span> (resulting in a very difficult test set), one that is very wide containing many soft-balls that are easily classified, and one that is intermediate. The <span class="caps">ROC</span> curves that result from these three cases are shown following the code. The three curves are very different, with the <span class="caps">AUC</span> of the soft-ball set very large and that of the tight set close to that of the random classifier. Yet, in each case the model considered was the same &#8212; (\ref{classifier}). How could the <span class="caps">AUC</span> have&nbsp;improved?!</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">metrics</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mf">3.5</span><span class="p">))</span>
 
 <span class="n">SAMPLES</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="n">means_std</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="k">for</span> <span class="n">means_std</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="o">.</span><span class="mi">001</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">means_std</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">.001</span><span class="p">]:</span>
     <span class="n">means</span> <span class="o">=</span> <span class="n">means_std</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">SAMPLES</span><span class="p">)</span>
     <span class="n">x_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">+</span> <span class="n">means</span>
     <span class="n">predictions</span> <span class="o">=</span> <span class="p">[</span><span class="n">classifier</span><span class="p">(</span><span class="n">item</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">x_set</span><span class="p">]</span>
@@ -143,10 +134,9 @@ A plot of this function is shown below. You can see that if any test sample <spa
 <span class="n">ax2</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;lower right&#39;</span><span class="p">,</span> <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="n">ax1</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;TPR versus FPR -- The ROC curve&#39;</span><span class="p">)</span>
 <span class="n">ax2</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Means sampled for each case&#39;</span><span class="p">)</span>
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2017/03/Examples.png"><img alt="Examples" src="https://efavdb.com/wp-content/uploads/2017/03/Examples.png"></a></p>
+<p><a href="./wp-content/uploads/2017/03/Examples.png"><img alt="Examples" src="./wp-content/uploads/2017/03/Examples.png"></a></p>
 <p>The explanation for the differing <span class="caps">AUC</span> values above is clear: Consider, for example, the effect of adding soft-ball negatives to <span class="math">\(\mathcal{S}\)</span>. In this case, the model (\ref{classifier}) will be able to correctly identify almost all true positive examples at a much higher threshold than that where it begins to mis-classify the introduced negative softballs. This means that the <span class="caps">ROC</span> curve will now hit a <span class="caps">TPR</span> value of <span class="math">\(1\)</span> well-before the <span class="caps">FPR</span> does (which requires all negatives &#8212; including the soft-balls to be mis-classified). Similarly, if many soft-ball positives are added in, these will be easily identified as such well-before any negative examples are mis-classified. This again results in a raising of the <span class="caps">ROC</span> curve, and an increase in <span class="caps">AUC</span> &#8212; all without any improvement in the actual model quality, which we have held&nbsp;fixed.</p>
 <h3>Discussion</h3>
 <p>The toy example considered above illustrates the general point the <span class="caps">AUC</span> of a model is really a function of both the model and the test set it is being applied to. Keeping this in mind will help to prevent incorrect interpretations of the <span class="caps">AUC</span>. A special case to watch out for in practice is the situation where the <span class="caps">AUC</span> changes upon adjustment of the training and testing protocol applied (which can result, for example, from changes to how training examples are collected for the model). If you see such a change occur in your work, be careful to consider whether or not it is possible that the difficulty of the test set has changed in the process. If so, the change in the <span class="caps">AUC</span> may not indicate a change in model&nbsp;quality.</p>
@@ -220,11 +210,11 @@ A plot of this function is shown below. You can see that if any test sample <spa
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Model%20AUC%20depends%20on%20test%20set%C2%A0difficulty&url=https%3A//efavdb.com/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Model%20AUC%20depends%20on%20test%20set%C2%A0difficulty&url=/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Model%20AUC%20depends%20on%20test%20set%C2%A0difficulty&amp;body=https%3A//efavdb.com/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Model%20AUC%20depends%20on%20test%20set%C2%A0difficulty&amp;body=/model-auc-depends-on-test-set-difficulty" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -243,62 +233,12 @@ A plot of this function is shown below. You can see that if any test sample <spa
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/model-auc-depends-on-test-set-difficulty"
-                   href="https://efavdb.com/model-auc-depends-on-test-set-difficulty#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/model-auc-depends-on-test-set-difficulty';
-    var disqus_url = 'https://efavdb.com/model-auc-depends-on-test-set-difficulty';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/simple-python-to-latex-parser" title="Previous: Simple python to LaTeX parser">Simple python to LaTeX parser</a></li>
-                <li class="next-article"><a href="https://efavdb.com/normal-distributions" title="Next: Normal Distributions">Normal Distributions</a> »</li>
+                <li class="previous-article">« <a href="./simple-python-to-latex-parser" title="Previous: Simple python to LaTeX parser">Simple python to LaTeX parser</a></li>
+                <li class="next-article"><a href="./normal-distributions" title="Next: Normal Distributions">Normal Distributions</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -307,7 +247,7 @@ A plot of this function is shown below. You can see that if any test sample <spa
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2017-03-18T22:36:00-07:00">Mar 18, 2017</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -344,7 +284,7 @@ A plot of this function is shown below. You can see that if any test sample <spa
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

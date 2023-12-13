@@ -4,23 +4,23 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="author" content="Dustin McIntosh" />
+        <meta name="author" content="Jonathan Landy" />
 
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="NBA, NBA prediction project, " />
+<meta name="keywords" content=", Statistics, " />
 
-<meta property="og:title" content="NBA week 7 results, week 8 predictions "/>
-<meta property="og:url" content="./nba-week-7-results-week-8-predictions" />
-<meta property="og:description" content="The week that defeated the NBA predictor… \(24/49 = 49.0%\). That’s right, worse than a coin flip. Not exactly the Christmas present we had in mind. We certainly weren’t expecting things to be this bad, but Christmas week is extremely difficult to predict, historically. It’s not …" />
+<meta property="og:title" content="Mathematics of parking tickets "/>
+<meta property="og:url" content="./math-of-parking-tickets" />
+<meta property="og:description" content="I confess I sometimes don’t pay the parking meter when rushed and just need to pop into a store to quickly grab an item. In times like these, the risk of a ticket can feel … worth it — but is it? To decide, we posit that parking enforcement officers random …" />
 <meta property="og:site_name" content="EFAVDB" />
-<meta property="og:article:author" content="Dustin McIntosh" />
-<meta property="og:article:published_time" content="2014-12-25T23:59:00-08:00" />
-<meta name="twitter:title" content="NBA week 7 results, week 8 predictions ">
-<meta name="twitter:description" content="The week that defeated the NBA predictor… \(24/49 = 49.0%\). That’s right, worse than a coin flip. Not exactly the Christmas present we had in mind. We certainly weren’t expecting things to be this bad, but Christmas week is extremely difficult to predict, historically. It’s not …">
+<meta property="og:article:author" content="Jonathan Landy" />
+<meta property="og:article:published_time" content="2023-12-13T06:00:00-08:00" />
+<meta name="twitter:title" content="Mathematics of parking tickets ">
+<meta name="twitter:description" content="I confess I sometimes don’t pay the parking meter when rushed and just need to pop into a store to quickly grab an item. In times like these, the risk of a ticket can feel … worth it — but is it? To decide, we posit that parking enforcement officers random …">
 
-        <title>NBA week 7 results, week 8 predictions  · EFAVDB
+        <title>Mathematics of parking tickets  · EFAVDB
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
@@ -74,8 +74,8 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="./nba-week-7-results-week-8-predictions">
-                <span class="caps">NBA</span> week 7 results, week 8&nbsp;predictions
+            <a href="./math-of-parking-tickets">
+                Mathematics of parking&nbsp;tickets
             </a>
         </h1>
     </header>
@@ -85,9 +85,70 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p><a href="./wp-content/uploads/2014/12/week7Table.png"><img alt="week7Table" src="./wp-content/uploads/2014/12/week7Table.png"></a></p>
-<p>The week that defeated the <span class="caps">NBA</span> predictor&#8230; <span class="math">\(24/49 = 49.0%\)</span>. That&#8217;s right, worse than a coin flip. Not exactly the Christmas present we had in mind. We certainly weren&#8217;t expecting things to be this bad, but Christmas week is extremely difficult to predict, historically. It&#8217;s not like our algorithm went crazy or anything, everything still looks sane, we still put the 76ers at terrible and the Warriors at awesome. Of course, that didn&#8217;t help us much when the former beat the Heat and the latter lost to the Lakers. Utah over Memphis and New Orleans over <span class="caps">OKC</span> are a couple more head-scratchers. I know, I know, more excuses, but seriously, this is well below our estimated range of plausible results (see comments <a href="http://efavdb.github.io/nba-week-5-summary-week-6-predictions">here</a>). This deserves an explanation - we are investigating, more to come on the <span class="caps">NBA</span> grinch that stole our&nbsp;Christmas.</p>
-<p>In the meantime, a hopefully much better set of predictions for week 8 are now&nbsp;up.</p>
+            <p align="center">
+         <img src="images/take_the_ticket.jpg">
+</p>
+
+<p>I confess I sometimes don&#8217;t pay the parking meter when rushed and just need to
+pop into a store to quickly grab an item.  In times like these, the risk of a
+ticket can feel &#8230;  worth it &#8212; but is&nbsp;it?</p>
+<p>To decide, we posit that parking enforcement officers random walk about and
+effectively check a given spot with rate <span class="math">\(\lambda\)</span> (E.g., if they stop by each
+spot on average once every two hours, then <span class="math">\(\lambda = 1 / 2\)</span>, here).  We
+suppose the cost of the ticket is <span class="math">\(C\)</span>.  If we leave our car at a meter for time
+<span class="math">\(t\)</span> without paying for parking, the expected cost in tickets is then (a result
+from Poisson&nbsp;stats)</p>
+<div class="math">\begin{eqnarray} \label{gen} \tag{1}
+E(\text{cost}(t)) = C \left [ 1 - \exp(-\lambda t) \right].
+\end{eqnarray}</div>
+<p>For small times, it&#8217;s interesting to consider the cost per minute.  To that
+end, we write <span class="math">\(t = m / 60\)</span> and expand the above.  This&nbsp;gives
+</p>
+<div class="math">\begin{eqnarray}\tag{2} \label{expand}
+E(\text{cost}(m)) =
+ C \left [ \frac{m \lambda }{60}
+- \frac{1}{2} \left(  \frac{m \lambda }{60}\right)^2 + \ldots \right]
+\end{eqnarray}</div>
+<p>The expected cost per minute then&nbsp;is
+</p>
+<div class="math">\begin{eqnarray}\tag{3} \label{cost_per_min}
+\frac{E(\text{cost}(m))}{m} =
+ C \left [ \frac{\lambda }{60}
+- \frac{m}{2} \left(  \frac{\lambda }{60}\right)^2 + \ldots\right]
+\end{eqnarray}</div>
+<p>Notice that this is a decreasing function of <span class="math">\(m\)</span> &#8212; the longer we leave the
+spot alone, the cheaper it gets per minute to risk a ticket.  This occurs
+because we are guaraneed a ticket at long times, so the cost per ticket at long
+times must approach <span class="math">\(C / m\)</span>, a decreasing function of <span class="math">\(m\)</span> (this assumes we
+can&#8217;t get more than one ticket per day &#8212; perhaps&nbsp;wrong?).</p>
+<p>Data:  Suppose <span class="math">\(C = 100\)</span> and <span class="math">\(\lambda = 1 / 2\)</span>.  Then the expected cost per
+minute to not pay the meter is roughly <span class="math">\(\frac{100}{2 * 60} = 0.83\)</span>.  Very
+sobering: In general, it costs much less to simply pay the meter. Alas, I am a
+weak man. I worry in future I&#8217;ll continue to think it&#8217;s worth a mere <span class="math">\(83\)</span> cents
+a minute of risk while I rush in to grab that needed part from my local Ace
+Hardware.  And if it takes a little longer, &#8230; meh, the price per minute goes
+down over&nbsp;time.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">Lambda</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="mf">2.</span>
+<span class="n">t_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">t_values</span> <span class="o">*</span> <span class="mf">60.</span><span class="p">,</span>
+    <span class="n">c</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">t_values</span> <span class="o">*</span> <span class="n">Lambda</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">60</span> <span class="o">*</span> <span class="n">t_values</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;cost per minute&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;minutes&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;cost [$]&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+</code></pre></div>
+
+<p align="center">
+         <img src="images/parking.png">
+</p>
+
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -156,20 +217,20 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=NBA%20week%207%20results%2C%20week%208%C2%A0predictions&url=/nba-week-7-results-week-8-predictions&hashtags=nba" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Mathematics%20of%20parking%C2%A0tickets&url=/math-of-parking-tickets" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=/nba-week-7-results-week-8-predictions" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/math-of-parking-tickets" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=NBA%20week%207%20results%2C%20week%208%C2%A0predictions&amp;body=/nba-week-7-results-week-8-predictions" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Mathematics%20of%20parking%C2%A0tickets&amp;body=/math-of-parking-tickets" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
     <div class="author_blurb">
         <a href="" target="_blank" rel="nofollow noopener noreferrer">
-            <img src=/wp-content/uploads/2014/12/DustinLinkedIn2.png alt="Dustin McIntosh Avatar" title="Dustin McIntosh">
-            <span class="author_name">Dustin McIntosh</span>
+            <img src=/wp-content/uploads/2014/12/JonathanLinkedIn.jpg alt="Jonathan Landy Avatar" title="Jonathan Landy">
+            <span class="author_name">Jonathan Landy</span>
         </a>
-        Dustin got a B.S in Engineering Physics from the Colorado School of Mines (Golden, CO) before moving to UC Santa Barbara for graduate school. There he became interested in Soft Condensed Matter Physics and Polymer Physics, studying the interaction between single DNA molecules and salt ions. After a brief postdoc at UC San Diego studying the physics of bacterial growth, Dustin decided to move into the data science business for good - he is now a Quantitative Analyst at Google in Mountain View.
+        Jonathan grew up in the midwest and then went to school at Caltech and UCLA. Following this, he did two postdocs, one at UCSB and one at UC Berkeley.  His academic research focused primarily on applications of statistical mechanics, but his professional passion has always been in the mastering, development, and practical application of slick math methods/tools. He currently works as a data-scientist at Stitch Fix.
     </div>
 
             
@@ -183,23 +244,16 @@
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="./methods-regression-without-negative-examples" title="Previous: Machine Learning Methods: Classification without negative examples">Machine Learning Methods: Classification without negative examples</a></li>
-                <li class="next-article"><a href="./an-nba-christmas" title="Next: Quantifying the NBA Christmas week flop: one in ten thousand?">Quantifying the NBA Christmas week flop: one in ten thousand?</a> »</li>
+                <li class="previous-article">« <a href="./memory recall" title="Previous: Spaced repetition can allow for infinite recall">Spaced repetition can allow for infinite recall</a></li>
             </ul>
             </nav>
             </aside>
         </div>
         <section id="article-sidebar" class="span2">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2014-12-25T23:59:00-08:00">Dec 25, 2014</time>
+            <time itemprop="dateCreated" datetime="2023-12-13T06:00:00-08:00">Dec 13, 2023</time>
             <h4>Category</h4>
-            <a class="category-link" href="./categories.html#nba-prediction-project-ref">NBA prediction project</a>
-            <h4>Tags</h4>
-            <ul class="list-of-tags tags-in-article">
-                <li><a href="./tags.html#nba-ref">NBA
-                    <span>13</span>
-</a></li>
-            </ul>
+            <a class="category-link" href="./categories.html#statistics-ref">Statistics</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">

@@ -12,7 +12,7 @@
 <meta name="keywords" content="reinforcement learning, machine learning, Machine learning, " />
 
 <meta property="og:title" content="Multiarmed bandits in the context of reinforcement learning "/>
-<meta property="og:url" content="https://efavdb.com/multiarmed-bandits" />
+<meta property="og:url" content="./multiarmed-bandits" />
 <meta property="og:description" content="Reinforcement Learning: An Introduction by Sutton and Barto[1] is a book that is universally recommended to beginners in their RL studies. The first chapter is an extended text-heavy introduction. The second chapter deals with multiarmed bandits, i.e. slot machines with multiple arms, and is the subject of today …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/multiarmed-bandits">
+            <a href="./multiarmed-bandits">
                 Multiarmed bandits in the context of reinforcement&nbsp;learning
             </a>
         </h1>
@@ -109,14 +100,14 @@
 <p>There <em>are</em> model-based algorithms that attempt to model the environment&#8217;s transition dynamics from data, but many popular algorithms today are model-free because of the difficulty of modeling those&nbsp;dynamics.</p>
 <h4>Learning&nbsp;action-values</h4>
 <p>The bandit problem introduces the idea of estimating the expected value associated with each action, namely the <em>action-value function</em> in <span class="caps">RL</span> terms.  The concept is very intuitive &#8212; as an agent pulls on different bandit arms, it will accumulate rewards associated with each arm.  A simple way to estimate the expected value per arm is just to average the rewards generated by pulling on each slot.  The policy that follows is then implicit, namely, take the action / pull on the arm with the highest estimated&nbsp;action-value!</p>
-<p>Historically, <span class="caps">RL</span> formalism has dealt with estimating value functions and using them to figure out a policy, which includes the Q-Learning (&#8220;Q&#8221; stands for action-value!) approach we mentioned in our earlier <a href="https://efavdb.com/openai-scholars-intro">post</a>.</p>
+<p>Historically, <span class="caps">RL</span> formalism has dealt with estimating value functions and using them to figure out a policy, which includes the Q-Learning (&#8220;Q&#8221; stands for action-value!) approach we mentioned in our earlier <a href="./openai-scholars-intro">post</a>.</p>
 <h4>Learning policies&nbsp;directly</h4>
 <p>[1] also use the bandit problem to introduce a type of algorithm that approaches the problem, not indirectly by learning a value function and deriving the policy from those value functions, but by parameterizing the policy directly and learning the parameters that optimize the rewards.  This class of algorithm is a &#8220;policy gradient method&#8221; and is very popular today for its nice convergence properties.  After the foreshadowing in the bandit problem, policy gradients only reappear very late in [1] &#8212; chapter&nbsp;13!</p>
 <p>We now provide code for&nbsp;concreteness.</p>
 <h1>Ground truth is hidden in our multiarmed&nbsp;bandit</h1>
 <p>The <code>Bandit</code> class initializes a multiarmed bandit. The distribution of rewards per arm follows a Gaussian distribution with some mean dollar&nbsp;amount.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Bandit</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;N-armed bandit with stationary distribution of rewards per arm.</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Bandit</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;N-armed bandit with stationary distribution of rewards per arm.</span>
 <span class="sd">    Each arm (action) is identified by an integer.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_arms</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mu</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
@@ -127,17 +118,16 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_values</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>  <span class="c1"># arms of the bandit</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get reward from bandit for action&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get reward from bandit for action&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">action_values</span><span class="p">[</span><span class="n">action</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Implementation detail: the means per arm, stored in <code>self.action_values</code>, are drawn from a Gaussian distribution upon&nbsp;initialization).</p>
 <p>The agent doesn&#8217;t know the true mean rewards per arm &#8212; it only sees a sample reward when he takes the action of pulling on a particular bandit arm (<code>__call__</code>).</p>
 <h1>Action, reward, update&nbsp;strategy</h1>
 <p>For every action the agent takes, it gets a reward.  With each additional interaction with the bandit, the agent has a new data point it can use to update its strategy (whether indirectly, via an updated action-value estimate, or directly in the policy&nbsp;gradient).</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BaseBanditAlgo</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for algorithms to maximize the rewards </span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">BaseBanditAlgo</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for algorithms to maximize the rewards </span>
 <span class="sd">    for the multiarmed bandit problem&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandit</span><span class="p">:</span> <span class="n">Bandit</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">bandit</span> <span class="o">=</span> <span class="n">bandit</span>
@@ -162,8 +152,7 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_timesteps</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">+=</span> <span class="mi">1</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">())</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2>Two types of strategies: value based and policy&nbsp;based</h2>
 <ol>
@@ -179,8 +168,8 @@
 bandit problem is the <code>EpsilonGreedy</code> approach, which selects the
 action associated with the highest estimated action-value with probability <span class="math">\(1-\epsilon\)</span>, but chooses a random arm
 a fraction <span class="math">\(\epsilon\)</span> of the time as part of its exploration&nbsp;strategy.</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">EpsilonGreedy</span><span class="p">(</span><span class="n">BaseEstimateActionValueAlgo</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Greedy algorithm that explores/samples from the non-greedy action some fraction, </span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">EpsilonGreedy</span><span class="p">(</span><span class="n">BaseEstimateActionValueAlgo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Greedy algorithm that explores/samples from the non-greedy action some fraction, </span>
 <span class="sd">    epsilon, of the time.</span>
 
 <span class="sd">    - For a basic greedy algorithm, set epsilon = 0.</span>
@@ -199,8 +188,7 @@ a fraction <span class="math">\(\epsilon\)</span> of the time as part of its exp
             <span class="c1"># take greedy action</span>
             <span class="n">a</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">est_action_values</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">est_action_values</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">a</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>(See end of post for additional action-value&nbsp;methods.)</p>
 <p>An example of a <strong>policy based</strong> strategy is the <code>GradientBandit</code>
@@ -208,8 +196,8 @@ method, which stores its policy, the probability per action in
 <code>self.preferences</code>.  It learns these preferences by doing stochastic
 gradient ascent along the preferences in the gradient of the expected
 reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivation).</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">GradientBandit</span><span class="p">(</span><span class="n">BaseBanditAlgo</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Algorithm that does not try to estimate action values directly and, instead, tries to learn</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">GradientBandit</span><span class="p">(</span><span class="n">BaseBanditAlgo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Algorithm that does not try to estimate action values directly and, instead, tries to learn</span>
 <span class="sd">    a preference for each action (equivalent to stochastic gradient ascent along gradient in expected</span>
 <span class="sd">    reward over preferences).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -221,7 +209,7 @@ reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivatio
         <span class="bp">self</span><span class="o">.</span><span class="n">_calc_probs_from_preferences</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">_calc_probs_from_preferences</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Probabilities per action follow a Boltzmann distribution over the preferences &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Probabilities per action follow a Boltzmann distribution over the preferences &quot;&quot;&quot;</span>
         <span class="n">exp_preferences_for_action</span> <span class="o">=</span> <span class="p">{</span><span class="n">action</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">preferences</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="n">partition_fxn</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">exp_preferences_for_action</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">({</span><span class="n">action</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="n">partition_fxn</span> <span class="k">for</span> <span class="n">action</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> 
@@ -232,7 +220,7 @@ reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivatio
                                 <span class="n">p</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">probabilities_for_action</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
 
     <span class="k">def</span> <span class="nf">_update_for_action_and_reward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">reward</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Update preferences&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update preferences&quot;&quot;&quot;</span>
         <span class="n">reward_diff</span> <span class="o">=</span> <span class="n">reward</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">reward_baseline_avg</span>
 
         <span class="c1"># can we combine these updates into single expression using kronecker delta?</span>
@@ -245,8 +233,7 @@ reward in <code>_update_for_action_and_reward</code> (see [1] for&nbsp;derivatio
 
         <span class="bp">self</span><span class="o">.</span><span class="n">reward_baseline_avg</span> <span class="o">+=</span> <span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">timestep</span> <span class="o">*</span> <span class="n">reward_diff</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_calc_probs_from_preferences</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <h1>Extra: Total rewards for different bandit&nbsp;algorithms</h1>
 <p>We have discussed a bunch of different bandit algorithms, but haven&#8217;t seen what rewards they yield in&nbsp;practice!</p>
@@ -257,7 +244,7 @@ to compare their cumulative rewards across 1000 timesteps (also
 averaged across many trials of different bandits to smooth things
 out).  In the end, we arrive at a plot of the parameter study, that
 reproduces Figure 2.6 in&nbsp;[1].</p>
-<p><img alt="![parameter study]({static}/images/reproduce_multiarmed_bandit_parameter_study.png)" src="https://efavdb.com/images/reproduce_multiarmed_bandit_parameter_study.png"></p>
+<p><img alt="![parameter study]({static}/images/reproduce_multiarmed_bandit_parameter_study.png)" src="./images/reproduce_multiarmed_bandit_parameter_study.png"></p>
 <h1>References</h1>
 <p>[1] Sutton and Barto - <a href="http://incompleteideas.net/book/RLbook2018.pdf">Reinforcement Learning: An Introduction (2nd&nbsp;Edition)</a></p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -328,11 +315,11 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&url=https%3A//efavdb.com/multiarmed-bandits&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&url=/multiarmed-bandits&hashtags=reinforcement-learning,machine-learning" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&amp;body=https%3A//efavdb.com/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Multiarmed%20bandits%20in%20the%20context%20of%20reinforcement%C2%A0learning&amp;body=/multiarmed-bandits" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -351,62 +338,12 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/multiarmed-bandits"
-                   href="https://efavdb.com/multiarmed-bandits#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/multiarmed-bandits';
-    var disqus_url = 'https://efavdb.com/multiarmed-bandits';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/openai-scholars-intro" title="Previous: Introduction to OpenAI Scholars 2020">Introduction to OpenAI Scholars 2020</a></li>
-                <li class="next-article"><a href="https://efavdb.com/world-wandering-dudes" title="Next: A Framework for Studying Population Dynamics">A Framework for Studying Population Dynamics</a> »</li>
+                <li class="previous-article">« <a href="./openai-scholars-intro" title="Previous: Introduction to OpenAI Scholars 2020">Introduction to OpenAI Scholars 2020</a></li>
+                <li class="next-article"><a href="./world-wandering-dudes" title="Next: A Framework for Studying Population Dynamics">A Framework for Studying Population Dynamics</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -415,13 +352,13 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2020-02-25T12:00:00-08:00">Feb 25, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#machine-learning-ref">Machine learning</a>
+            <a class="category-link" href="./categories.html#machine-learning-ref">Machine learning</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#machine-learning-ref">machine learning
+                <li><a href="./tags.html#machine-learning-ref">machine learning
                     <span>10</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#reinforcement-learning-ref">reinforcement learning
+                <li><a href="./tags.html#reinforcement-learning-ref">reinforcement learning
                     <span>7</span>
 </a></li>
             </ul>
@@ -461,7 +398,7 @@ reproduces Figure 2.6 in&nbsp;[1].</p>
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

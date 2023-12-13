@@ -12,7 +12,7 @@
 <meta name="keywords" content="AWS, bash, cloud, deep learning, Jupyter, Tools, " />
 
 <meta property="og:title" content="Start deep learning with Jupyter notebooks in the cloud "/>
-<meta property="og:url" content="https://efavdb.com/deep-learning-with-jupyter-on-aws" />
+<meta property="og:url" content="./deep-learning-with-jupyter-on-aws" />
 <meta property="og:description" content="Want a quick and easy way to play around with deep learning libraries? Puny GPU got you down? Thanks to Amazon Web Services (AWS) — specifically, AWS Elastic Compute Cloud (EC2) — no data scientist need be left behind. Jupyter/IPython notebooks are indispensable tools for learning and tinkering. This post shows …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/deep-learning-with-jupyter-on-aws">
+            <a href="./deep-learning-with-jupyter-on-aws">
                 Start deep learning with Jupyter notebooks in the&nbsp;cloud
             </a>
         </h1>
@@ -109,13 +100,12 @@
 <p>We&#8217;ve written a little bash script <code>jupyter_userdata.sh</code> to execute Jupyter&#8217;s <a href="http://jupyter-notebook.readthedocs.org/en/latest/public_server.html">instructions</a> for setting up a public notebook server, so you don&#8217;t have to manually configure the notebook server every time you want to spin up a new <span class="caps">AMI</span>&nbsp;instance.</p>
 <p>For the script to work, Jupyter itself should already be installed &#8212; which it is in the CS231n <span class="caps">AMI</span>.</p>
 <p>You just have to edit the password in the script. To generate a hashed password, use&nbsp;IPython:</p>
-<div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">notebook.auth</span> <span class="kn">import</span> <span class="n">passwd</span>
+<div class="highlight"><pre><span></span><code><span class="n">In</span> <span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="kn">from</span> <span class="nn">notebook.auth</span> <span class="kn">import</span> <span class="n">passwd</span>
 <span class="n">In</span> <span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="n">passwd</span><span class="p">()</span>
 <span class="n">Enter</span> <span class="n">password</span><span class="p">:</span>
 <span class="n">Verify</span> <span class="n">password</span><span class="p">:</span>
 <span class="n">Out</span><span class="p">[</span><span class="mi">2</span><span class="p">]:</span> <span class="s1">&#39;sha1:bcd259ccf...&lt;your hashed password here&gt;&#39;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Replace the right hand side of line 24 in the script with the hashed password you just&nbsp;generated.</p>
 <hr>
@@ -126,10 +116,10 @@
 <p>We&#8217;re going to supply the shell script as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">user-data</a>, a way to pass in scripts to automate configurations to your <span class="caps">AMI</span>. Instead of clicking on &#8220;Review and Launch&#8221;, click on the gray button in the lower right &#8220;Next: Configure Instance&nbsp;Details&#8221;.</p>
 <p>In the next page, click on the arrowhead next to &#8220;Advanced Details&#8221; to expand its options. Click on the radio button next to &#8220;As text&#8221;, then copy and paste the text from <code>jupyter_userdata.sh</code> (modified with your password) into the&nbsp;field.</p>
 <p>Warning: if you click on &#8220;As file&#8221; instead and browse to wherever you saved <code>jupyter_userdata.sh</code>, the file must first be <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">base64-encoded</a>.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"></a></p>
+<p><a href="./wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"><img alt="" src="./wp-content/uploads/2016/03/Step3_Configure-Instance-Details.png"></a></p>
 <p><strong>3.</strong> Next, (skipping steps 4. and 5.) click on the link to &#8220;6. Configure Security Group&#8221; near the top of the page. By default, <span class="caps">SSH</span> is enabled, but we need to enable access to the notebook server, whose port we&#8217;ve set as 8888 in the bash&nbsp;script.</p>
 <p>Click on the grey button &#8220;Add Rule&#8221;, then for the new rule, choose Type: Custom <span class="caps">TCP</span> Rule; Protocol: <span class="caps">TCP</span>; Port Range: 8888; Source:&nbsp;Anywhere.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"></a></p>
+<p><a href="./wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"><img alt="" src="./wp-content/uploads/2016/03/Step6_Configure-Security-Group.png"></a></p>
 <p><strong>4.</strong> Now, pick up where you left off in the CS231n tutorial (&#8220;<em>&#8230; click on &#8220;Review and Launch</em>&#8220;.), which takes you to &#8220;Step 7. Review Instance Launch&#8221;. Complete the&nbsp;tutorial.</p>
 <hr>
 <p>Check that the Jupyter notebook server was set up&nbsp;correctly:</p>
@@ -139,7 +129,7 @@
 <li>Start the notebook server using the <code>jupyter notebook</code> command.</li>
 <li>
 <p>In your web browser, access the notebook server with https://PUBLIC_IP:8888, where PUBLIC_IP is the public <span class="caps">IP</span> of your instance, displayed from the instance description on your <span class="caps">AWS</span> dashboard. Your browser will warn that your self-signed certificate is insecure or&nbsp;unrecognized.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2016/03/scary-browser-warning.png"></a></p>
+<p><a href="./wp-content/uploads/2016/03/scary-browser-warning.png"><img alt="" src="./wp-content/uploads/2016/03/scary-browser-warning.png"></a></p>
 <p>That&#8217;s ok &#8212; click past the warnings, and you should get a sign-in page. Type in your&nbsp;password.</p>
 </li>
 <li>
@@ -160,11 +150,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&url=https%3A//efavdb.com/deep-learning-with-jupyter-on-aws&hashtags=aws,bash,cloud,deep-learning,jupyter" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&url=/deep-learning-with-jupyter-on-aws&hashtags=aws,bash,cloud,deep-learning,jupyter" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/deep-learning-with-jupyter-on-aws" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/deep-learning-with-jupyter-on-aws" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&amp;body=https%3A//efavdb.com/deep-learning-with-jupyter-on-aws" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Start%20deep%20learning%20with%20Jupyter%20notebooks%20in%20the%C2%A0cloud&amp;body=/deep-learning-with-jupyter-on-aws" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -183,62 +173,12 @@
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/deep-learning-with-jupyter-on-aws"
-                   href="https://efavdb.com/deep-learning-with-jupyter-on-aws#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/deep-learning-with-jupyter-on-aws';
-    var disqus_url = 'https://efavdb.com/deep-learning-with-jupyter-on-aws';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/dotfiles" title="Previous: Dotfiles for peace of mind">Dotfiles for peace of mind</a></li>
-                <li class="next-article"><a href="https://efavdb.com/caffe-virtualbox" title="Next: Try Caffe pre-installed on a VirtualBox image">Try Caffe pre-installed on a VirtualBox image</a> »</li>
+                <li class="previous-article">« <a href="./dotfiles" title="Previous: Dotfiles for peace of mind">Dotfiles for peace of mind</a></li>
+                <li class="next-article"><a href="./caffe-virtualbox" title="Next: Try Caffe pre-installed on a VirtualBox image">Try Caffe pre-installed on a VirtualBox image</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -247,22 +187,22 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-03-10T20:41:00-08:00">Mar 10, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#tools-ref">Tools</a>
+            <a class="category-link" href="./categories.html#tools-ref">Tools</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#aws-ref">AWS
+                <li><a href="./tags.html#aws-ref">AWS
                     <span>1</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#bash-ref">bash
+                <li><a href="./tags.html#bash-ref">bash
                     <span>2</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#cloud-ref">cloud
+                <li><a href="./tags.html#cloud-ref">cloud
                     <span>3</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#deep-learning-ref">deep learning
+                <li><a href="./tags.html#deep-learning-ref">deep learning
                     <span>3</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#jupyter-ref">Jupyter
+                <li><a href="./tags.html#jupyter-ref">Jupyter
                     <span>2</span>
 </a></li>
             </ul>
@@ -302,7 +242,7 @@
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

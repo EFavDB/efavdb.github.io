@@ -12,7 +12,7 @@
 <meta name="keywords" content="programming, tools, bash, conda, Programming, " />
 
 <meta property="og:title" content="Dotfiles for peace of mind "/>
-<meta property="og:url" content="https://efavdb.com/dotfiles" />
+<meta property="og:url" content="./dotfiles" />
 <meta property="og:description" content="Reinstalling software and configuring settings on a new computer is a pain. After my latest hard drive failure set the stage for yet another round of download-extract-install and configuration file twiddling, it was time to overhaul my approach. “Enough is enough!” This post walks through how to back up and …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/dotfiles">
+            <a href="./dotfiles">
                 Dotfiles for peace of&nbsp;mind
             </a>
         </h1>
@@ -104,30 +95,29 @@
 <hr>
 <p>Dotfiles are named after the configuration files that start with a dot in Unix-based systems. These files are hidden from view in your home directory, but visible with a <code>$ ls -a</code> command. Some examples are <code>.bashrc</code> (for configuring the bash shell), <code>.gitconfig</code> (for configuring git), and <code>.emacs</code> (for configuring the Emacs text&nbsp;editor).</p>
 <p>Let&#8217;s provide a concrete example of a customization: suppose you have a hard time remembering the syntax to extract a file (&#8220;Is it tar -xvf, -jxvf, or -zxvf?&#8221;). If you&#8217;re using a bash shell, you can define a function, <code>extract()</code> in your <code>.bashrc</code> file that makes life a little&nbsp;easier:</p>
-<div class="highlight"><pre><span></span><span class="err">extract() {  </span>
-<span class="err">if [ -f &quot;$1&quot; ]; then  </span>
-<span class="err">case &quot;$1&quot; in  </span>
-<span class="err">*.tar.bz2) tar -jxvf &quot;$1&quot; ;;  </span>
-<span class="err">*.tar.gz) tar -zxvf &quot;$1&quot; ;;  </span>
-<span class="err">*.bz2) bunzip2 &quot;$1&quot; ;;  </span>
-<span class="err">*.dmg) hdiutil mount &quot;$1&quot; ;;  </span>
-<span class="err">*.gz) gunzip &quot;$1&quot; ;;  </span>
-<span class="err">*.tar) tar -xvf &quot;$1&quot; ;;  </span>
-<span class="err">*.tbz2) tar -jxvf &quot;$1&quot; ;;  </span>
-<span class="err">*.tgz) tar -zxvf &quot;$1&quot; ;;  </span>
-<span class="err">*.zip) unzip &quot;$1&quot; ;;  </span>
-<span class="err">*.ZIP) unzip &quot;$1&quot; ;;  </span>
-<span class="err">*.pax) cat &quot;$1&quot; | pax -r ;;  </span>
-<span class="err">*.pax.Z) uncompress &quot;$1&quot; --stdout | pax -r ;;  </span>
-<span class="err">*.Z) uncompress &quot;$1&quot; ;;  </span>
-<span class="err">*) echo &quot;&#39;$1&#39; cannot be extracted/mounted via extract()&quot; ;;  </span>
-<span class="err">esac  </span>
-<span class="err">else  </span>
-<span class="err">echo &quot;&#39;$1&#39; is not a valid file to extract&quot;  </span>
-<span class="err">fi  </span>
-<span class="err">}  </span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="nv">extract</span><span class="ss">()</span><span class="w"> </span>{<span class="w">  </span>
+<span class="k">if</span><span class="w"> </span>[<span class="w"> </span><span class="o">-</span><span class="nv">f</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span>]<span class="c1">; then  </span>
+<span class="nv">case</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="nv">in</span><span class="w">  </span>
+<span class="o">*</span>.<span class="nv">tar</span>.<span class="nv">bz2</span><span class="ss">)</span><span class="w"> </span><span class="nv">tar</span><span class="w"> </span><span class="o">-</span><span class="nv">jxvf</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">tar</span>.<span class="nv">gz</span><span class="ss">)</span><span class="w"> </span><span class="nv">tar</span><span class="w"> </span><span class="o">-</span><span class="nv">zxvf</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">bz2</span><span class="ss">)</span><span class="w"> </span><span class="nv">bunzip2</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">dmg</span><span class="ss">)</span><span class="w"> </span><span class="nv">hdiutil</span><span class="w"> </span><span class="nv">mount</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">gz</span><span class="ss">)</span><span class="w"> </span><span class="nv">gunzip</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">tar</span><span class="ss">)</span><span class="w"> </span><span class="nv">tar</span><span class="w"> </span><span class="o">-</span><span class="nv">xvf</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">tbz2</span><span class="ss">)</span><span class="w"> </span><span class="nv">tar</span><span class="w"> </span><span class="o">-</span><span class="nv">jxvf</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">tgz</span><span class="ss">)</span><span class="w"> </span><span class="nv">tar</span><span class="w"> </span><span class="o">-</span><span class="nv">zxvf</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">zip</span><span class="ss">)</span><span class="w"> </span><span class="nv">unzip</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">ZIP</span><span class="ss">)</span><span class="w"> </span><span class="nv">unzip</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">pax</span><span class="ss">)</span><span class="w"> </span><span class="nv">cat</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">pax</span><span class="w"> </span><span class="o">-</span><span class="nv">r</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">pax</span>.<span class="nv">Z</span><span class="ss">)</span><span class="w"> </span><span class="nv">uncompress</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="o">--</span><span class="nv">stdout</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nv">pax</span><span class="w"> </span><span class="o">-</span><span class="nv">r</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span>.<span class="nv">Z</span><span class="ss">)</span><span class="w"> </span><span class="nv">uncompress</span><span class="w"> </span><span class="s2">&quot;$1&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="o">*</span><span class="ss">)</span><span class="w"> </span><span class="nv">echo</span><span class="w"> </span><span class="s2">&quot;&#39;$1&#39; cannot be extracted/mounted via extract()&quot;</span><span class="w"> </span><span class="c1">;;  </span>
+<span class="nv">esac</span><span class="w">  </span>
+<span class="k">else</span><span class="w">  </span>
+<span class="nv">echo</span><span class="w"> </span><span class="s2">&quot;&#39;$1&#39; is not a valid file to extract&quot;</span><span class="w">  </span>
+<span class="nv">fi</span><span class="w">  </span>
+}<span class="w">  </span>
+</code></pre></div>
 
 <p>So the next time you have to extract a file <code>some_file.tar.bz2</code>, just type <code>extract some_file.tar.bz2</code> in bash. (This example was found in this <a href="https://github.com/webpro/dotfiles/blob/master/system/.function_fs#L23">dotfiles repo</a>.)</p>
 <p>The structure of my dotfiles takes after the <a href="https://github.com/webpro/dotfiles">repo</a> described by Lars Kappert in the article <a href="https://medium.com/@webprolific/getting-started-with-dotfiles-43c3602fd789#.eis4hwbff">&#8220;Getting Started With Dotfiles&#8221;</a>. However, my repo is pared down significantly, with minor modifications for my Linux Mint system (his is <span class="caps">OS</span> X) and a focus on packages for data&nbsp;science.</p>
@@ -150,12 +140,11 @@
 <h3>Workflow</h3>
 <p>My workflow with Conda follows this helpful <a href="http://stiglerdiet.com/blog/2015/Nov/24/my-python-environment-workflow-with-conda/">post</a> by Tim Hopper. Each project gets its own directory and is associated with an environment whose dependencies are specified by an <code>environment.yml</code> file.</p>
 <p>For example, create a folder for a project, my_proj. Within the project folder, create a bare-bones <code>environment.yml</code> file to specify a dependency on python 3 and&nbsp;matplotlib:</p>
-<div class="highlight"><pre><span></span><span class="n">name</span><span class="o">:</span> <span class="n">my_proj</span>
+<div class="highlight"><pre><span></span><code><span class="n">name</span><span class="o">:</span><span class="w"> </span><span class="n">my_proj</span>
 <span class="n">dependencies</span><span class="o">:</span>
-<span class="o">-</span> <span class="n">python</span><span class="o">=</span><span class="mi">3</span>
-<span class="o">-</span> <span class="n">matplotlib</span>
-</pre></div>
-
+<span class="o">-</span><span class="w"> </span><span class="n">python</span><span class="o">=</span><span class="mi">3</span>
+<span class="o">-</span><span class="w"> </span><span class="n">matplotlib</span>
+</code></pre></div>
 
 <p>Then, to create the conda environment named after that directory, run <code>$ conda env create</code> inside the my_proj directory. To activate the virtual environment, run <code>$ source activate my_proj</code>.</p>
 <p>Activating a conda environment can be further automated with <a href="https://github.com/kennethreitz/autoenv">autoenv</a>. Autoenv automatically activates the environment for you when you <code>$ cd</code> into a project directory. You just need to create a <code>.env</code> file that contains the command to activate your environment, e.g. <code>source activate my_proj</code>, under the project&nbsp;directory.</p>
@@ -171,82 +160,76 @@
 <hr>
 <h2>The dotfiles&nbsp;layout</h2>
 <p>Below is the layout of the directories and files (generated by the <code>tree</code> command) in the <a href="https://github.com/EFavDB/dotfiles">dotfiles repo</a>.</p>
-<div class="highlight"><pre><span></span><span class="err">.</span>
-<span class="err">├── install</span>
-<span class="err">│   ├── apt-get.sh</span>
-<span class="err">│   ├── conda.sh</span>
-<span class="err">│   ├── git.sh</span>
-<span class="err">│   ├── install-emacs.sh</span>
-<span class="err">│   └── install-miniconda.sh</span>
-<span class="err">├── install.sh</span>
-<span class="err">├── runcom</span>
-<span class="err">│   ├── .bash_profile</span>
-<span class="err">│   ├── .bashrc</span>
-<span class="err">│   └── .profile</span>
-<span class="err">└── system</span>
-<span class="err">    ├── env</span>
-<span class="err">    ├── functions</span>
-<span class="err">    └── path</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>.
+├── install
+│   ├── apt-get.sh
+│   ├── conda.sh
+│   ├── git.sh
+│   ├── install-emacs.sh
+│   └── install-miniconda.sh
+├── install.sh
+├── runcom
+│   ├── .bash_profile
+│   ├── .bashrc
+│   └── .profile
+└── system
+    ├── env
+    ├── functions
+    └── path
+</code></pre></div>
 
 <h3>Configuration</h3>
 <p>There any number of dotfiles that can be configured (for example, see the collection <a href="http://dotfiles.github.io/">here</a>), but this repo only provides customizations for the dotfiles <code>.profile</code>, <code>.bash_profile</code>, and <code>.bashrc</code> &#8212; located in the directory, <code>runcom</code> (which stands for &#8220;run commands&#8221;) &#8212; that contain commands that are executed at login or during interactive non-login shell sessions. For details about the role of shell initialization dotfiles, see the <a href="#aside">end</a> of this&nbsp;post.</p>
 <p>Instead of putting all our customizations in one long, unwieldy dotfile, it&#8217;s helpful to divide them into chunks, which we keep in the subfolder, <code>system</code>.</p>
 <p>The files <code>env</code>, <code>functions</code>, <code>path</code> are sourced in a loop by the dotfiles in <code>runcom</code>. For example, <code>.bashrc</code> sources <code>functions</code> and <code>env</code>:</p>
-<div class="highlight"><pre><span></span><span class="err">for DOTFILE in &quot;$DOTFILES_DIR&quot;/system/{functions,env}; do  </span>
-<span class="err">[ -f &quot;$DOTFILE&quot; ] &amp;&amp; . &quot;$DOTFILE&quot;  </span>
-<span class="err">done  </span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="nv">DOTFILE</span><span class="w"> </span><span class="nv">in</span><span class="w"> </span><span class="s2">&quot;$DOTFILES_DIR&quot;</span><span class="o">/</span><span class="nv">system</span><span class="o">/</span>{<span class="nv">functions</span>,<span class="nv">env</span>}<span class="c1">; do  </span>
+[<span class="w"> </span><span class="o">-</span><span class="nv">f</span><span class="w"> </span><span class="s2">&quot;$DOTFILE&quot;</span><span class="w"> </span>]<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>.<span class="w"> </span><span class="s2">&quot;$DOTFILE&quot;</span><span class="w">  </span>
+<span class="nv">done</span><span class="w">  </span>
+</code></pre></div>
 
 <p>Let&#8217;s take a look at the configurations in each of these files:<br>
 </p>
 <p><strong>env</strong> - enables autoenv for activating virtual&nbsp;environments</p>
-<div class="highlight"><pre><span></span><span class="err">[ -f /opt/autoenv/activate.sh ] &amp;&amp; . /opt/autoenv/activate.sh</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>[ -f /opt/autoenv/activate.sh ] &amp;&amp; . /opt/autoenv/activate.sh
+</code></pre></div>
 
 <p><strong>functions</strong> - defines a custom function, <code>conda-env-file</code>, that generates an <code>environment.yml</code> that lists the dependencies for a conda virtual environment, and a one-line file <code>.env</code> (not to be confused with <code>env</code> in the previous bullet point) used by autoenv. (In addition to pip and python, I include the dependencies ipython, jedi, and flake8 needed by my Emacs python <span class="caps">IDE</span>&nbsp;setup.)  </p>
-<div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">conda</span><span class="o">-</span><span class="n">env</span><span class="o">-</span><span class="n">file</span> <span class="err">{</span>  
-<span class="o">#</span> <span class="k">Create</span> <span class="n">conda</span> <span class="n">environment</span><span class="p">.</span><span class="n">yml</span> <span class="n">file</span> <span class="k">and</span> <span class="n">autoenv</span> <span class="n">activation</span> <span class="n">file</span>  
-<span class="o">#</span> <span class="n">based</span> <span class="k">on</span> <span class="n">directory</span> <span class="n">name</span><span class="p">.</span>  
-<span class="n">autoenvfilename</span><span class="o">=</span><span class="s1">&#39;.env&#39;</span>  
-<span class="n">condaenvfilename</span><span class="o">=</span><span class="s1">&#39;environment.yml&#39;</span>  
-<span class="n">foldername</span><span class="o">=</span><span class="err">$</span><span class="p">(</span><span class="n">basename</span> <span class="err">$</span><span class="n">PWD</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nt">function</span><span class="w"> </span><span class="nt">conda-env-file</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="err">Create</span><span class="w"> </span><span class="err">conda</span><span class="w"> </span><span class="err">environment.yml</span><span class="w"> </span><span class="err">file</span><span class="w"> </span><span class="err">and</span><span class="w"> </span><span class="err">autoenv</span><span class="w"> </span><span class="err">activation</span><span class="w"> </span><span class="err">file</span><span class="w">  </span>
+<span class="err">#</span><span class="w"> </span><span class="err">based</span><span class="w"> </span><span class="err">on</span><span class="w"> </span><span class="err">directory</span><span class="w"> </span><span class="err">name.</span><span class="w">  </span>
+<span class="err">autoenvfilename=&#39;.env&#39;</span><span class="w">  </span>
+<span class="err">condaenvfilename=&#39;environment.yml&#39;</span><span class="w">  </span>
+<span class="err">foldername=$(basename</span><span class="w"> </span><span class="err">$PWD)</span>
 
-<span class="k">if</span> <span class="p">[</span> <span class="o">!</span> <span class="o">-</span><span class="n">f</span> <span class="err">$</span><span class="n">condaenvfilename</span> <span class="p">];</span> <span class="k">then</span>  
-<span class="n">printf</span> <span class="ss">&quot;name: $foldername\ndependencies:\n- pip\n- python\n- ipython\n- jedi\n- flake8&quot;</span> <span class="o">&gt;</span> <span class="err">$</span><span class="n">condaenvfilename</span>  
-<span class="n">echo</span> <span class="ss">&quot;$condaenvfilename created.&quot;</span>  
-<span class="k">else</span>  
-<span class="n">echo</span> <span class="ss">&quot;$condaenvfilename already exists.&quot;</span>  
-<span class="n">fi</span>
+<span class="err">if</span><span class="w"> </span><span class="cp">[</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="na">-f</span><span class="w"> </span><span class="nv">$condaenvfilename</span><span class="w"> </span><span class="cp">]</span><span class="p">;</span><span class="w"> </span><span class="err">then</span><span class="w">  </span>
+<span class="err">printf</span><span class="w"> </span><span class="err">&quot;</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="err">$</span><span class="n">foldername</span><span class="err">\</span><span class="n">ndependencies</span><span class="o">:</span><span class="err">\</span><span class="n">n-</span><span class="w"> </span><span class="n">pip</span><span class="err">\</span><span class="n">n-</span><span class="w"> </span><span class="n">python</span><span class="err">\</span><span class="n">n-</span><span class="w"> </span><span class="n">ipython</span><span class="err">\</span><span class="n">n-</span><span class="w"> </span><span class="n">jedi</span><span class="err">\</span><span class="n">n-</span><span class="w"> </span><span class="n">flake8</span><span class="s2">&quot; &gt; $condaenvfilename  </span>
+<span class="s2">echo &quot;</span><span class="err">$</span><span class="n">condaenvfilename</span><span class="w"> </span><span class="n">created</span><span class="o">.</span><span class="s2">&quot;  </span>
+<span class="s2">else  </span>
+<span class="s2">echo &quot;</span><span class="err">$</span><span class="n">condaenvfilename</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">exists</span><span class="o">.</span><span class="s2">&quot;  </span>
+<span class="s2">fi</span>
 
-<span class="k">if</span> <span class="p">[</span> <span class="o">!</span> <span class="o">-</span><span class="n">f</span> <span class="err">$</span><span class="n">autoenvfilename</span> <span class="p">];</span> <span class="k">then</span>  
-<span class="n">printf</span> <span class="ss">&quot;source activate $foldername\n&quot;</span> <span class="o">&gt;</span> <span class="err">$</span><span class="n">autoenvfilename</span>  
-<span class="n">echo</span> <span class="ss">&quot;$autoenvfilename created.&quot;</span>  
-<span class="k">else</span>  
-<span class="n">echo</span> <span class="ss">&quot;$autoenvfilename already exists.&quot;</span>  
-<span class="n">fi</span>  
-<span class="err">}</span>  
-</pre></div>
-
+<span class="s2">if </span><span class="cp">[</span><span class="w"> </span><span class="o">!</span><span class="w"> </span><span class="na">-f</span><span class="w"> </span><span class="nv">$autoenvfilename</span><span class="w"> </span><span class="cp">]</span><span class="s2">; then  </span>
+<span class="s2">printf &quot;</span><span class="n">source</span><span class="w"> </span><span class="n">activate</span><span class="w"> </span><span class="err">$</span><span class="n">foldername</span><span class="err">\</span><span class="n">n</span><span class="s2">&quot; &gt; $autoenvfilename  </span>
+<span class="s2">echo &quot;</span><span class="err">$</span><span class="n">autoenvfilename</span><span class="w"> </span><span class="n">created</span><span class="o">.</span><span class="s2">&quot;  </span>
+<span class="s2">else  </span>
+<span class="s2">echo &quot;</span><span class="err">$</span><span class="n">autoenvfilename</span><span class="w"> </span><span class="n">already</span><span class="w"> </span><span class="n">exists</span><span class="o">.</span><span class="err">&quot;</span><span class="w">  </span>
+<span class="n">fi</span><span class="w">  </span>
+<span class="p">}</span><span class="w">  </span>
+</code></pre></div>
 
 <p><strong>path</strong> - prepends the miniconda3 path to the <span class="caps">PATH</span> environment variable. For example, calls to python will default to the Miniconda3 version (3.5.1 in my case) rather than my system version&nbsp;(2.7).</p>
-<div class="highlight"><pre><span></span><span class="err">export PATH=&quot;/home/$USER/miniconda3/bin:$PATH&quot;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="k">export</span><span class="w"> </span><span class="n">PATH</span><span class="o">=</span><span class="s2">&quot;/home/$USER/miniconda3/bin:$PATH&quot;</span>
+</code></pre></div>
 
 <p>Now, we&#8217;re done with configuring the dotfiles in this repo (apart from Emacs, which is treated separately). We just have to create symlinks in our home directory to the dotfiles in <code>runcom</code>, which is performed by the shell script, <code>install.sh</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">##</span> <span class="p">...</span>
+<div class="highlight"><pre><span></span><code>## ...
 
-<span class="n">ln</span> <span class="o">-</span><span class="n">sfv</span> <span class="ss">&quot;$DOTFILES_DIR/runcom/.bash_profile&quot;</span> <span class="o">~</span>  
-<span class="n">ln</span> <span class="o">-</span><span class="n">sfv</span> <span class="ss">&quot;$DOTFILES_DIR/runcom/.profile&quot;</span> <span class="o">~</span>  
-<span class="n">ln</span> <span class="o">-</span><span class="n">sfv</span> <span class="ss">&quot;$DOTFILES_DIR/runcom/.bashrc&quot;</span> <span class="o">~</span>
+ln -sfv &quot;$DOTFILES_DIR/runcom/.bash_profile&quot; ~  
+ln -sfv &quot;$DOTFILES_DIR/runcom/.profile&quot; ~  
+ln -sfv &quot;$DOTFILES_DIR/runcom/.bashrc&quot; ~
 
-<span class="o">##</span> <span class="p">...</span>  
-</pre></div>
-
+## ...  
+</code></pre></div>
 
 <h3>Installation</h3>
 <p>In addition to setting up dotfiles symlinks, <code>install.sh</code> automates the installation of all our data science tools via calls to each of the scripts in the <code>install</code> subfolder. Each script is named after the mechanism of installation (i.e. <code>apt-get</code>, <code>conda</code>, <code>git</code>) or purpose (to install Miniconda and&nbsp;Emacs).</p>
@@ -288,11 +271,11 @@ Definitions of alias, functions, and other settings you&#8217;d want in an inter
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Dotfiles%20for%20peace%20of%C2%A0mind&url=https%3A//efavdb.com/dotfiles&hashtags=programming,tools,bash,conda" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Dotfiles%20for%20peace%20of%C2%A0mind&url=/dotfiles&hashtags=programming,tools,bash,conda" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/dotfiles" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/dotfiles" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Dotfiles%20for%20peace%20of%C2%A0mind&amp;body=https%3A//efavdb.com/dotfiles" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Dotfiles%20for%20peace%20of%C2%A0mind&amp;body=/dotfiles" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -311,62 +294,12 @@ Definitions of alias, functions, and other settings you&#8217;d want in an inter
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/dotfiles"
-                   href="https://efavdb.com/dotfiles#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/dotfiles';
-    var disqus_url = 'https://efavdb.com/dotfiles';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/independent-component-analysis" title="Previous: Independent component analysis">Independent component analysis</a></li>
-                <li class="next-article"><a href="https://efavdb.com/deep-learning-with-jupyter-on-aws" title="Next: Start deep learning with Jupyter notebooks in the cloud">Start deep learning with Jupyter notebooks in the cloud</a> »</li>
+                <li class="previous-article">« <a href="./independent-component-analysis" title="Previous: Independent component analysis">Independent component analysis</a></li>
+                <li class="next-article"><a href="./deep-learning-with-jupyter-on-aws" title="Next: Start deep learning with Jupyter notebooks in the cloud">Start deep learning with Jupyter notebooks in the cloud</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -375,19 +308,19 @@ Definitions of alias, functions, and other settings you&#8217;d want in an inter
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-02-23T12:18:00-08:00">Feb 23, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#programming-ref">Programming</a>
+            <a class="category-link" href="./categories.html#programming-ref">Programming</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#bash-ref">bash
+                <li><a href="./tags.html#bash-ref">bash
                     <span>2</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#conda-ref">conda
+                <li><a href="./tags.html#conda-ref">conda
                     <span>1</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#programming-ref">programming
+                <li><a href="./tags.html#programming-ref">programming
                     <span>9</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#tools-ref">tools
+                <li><a href="./tags.html#tools-ref">tools
                     <span>5</span>
 </a></li>
             </ul>
@@ -427,7 +360,7 @@ Definitions of alias, functions, and other settings you&#8217;d want in an inter
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

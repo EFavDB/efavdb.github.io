@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Theory, " />
 
 <meta property="og:title" content="Deep reinforcement learning, battleship "/>
-<meta property="og:url" content="https://efavdb.com/battleship" />
+<meta property="og:url" content="./battleship" />
 <meta property="og:description" content="Here, we provide a brief introduction to reinforcement learning (RL) — a general technique for training programs to play games efficiently. Our aim is to explain its practical implementation: We cover some basic theory and then walk through a minimal python program that trains a neural network to play the game …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/battleship">
+            <a href="./battleship">
                 Deep reinforcement learning,&nbsp;battleship
             </a>
         </h1>
@@ -118,7 +109,7 @@ x_{0,i} = \begin{cases}
 \end{align}</div>
 <p>
 In our example figure below, we have five input neurons, so the board is of size five. The first three neurons have value <span class="math">\(-1\)</span> implying we have not yet bombed those grid points. Finally, the last two are <span class="math">\(+1\)</span> and <span class="math">\(0\)</span>, respectively, implying that a ship does sit at the fourth site, but not at the&nbsp;fifth.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/10/nn.jpg"><img alt="network" src="https://efavdb.com/wp-content/uploads/2016/10/nn.jpg"></a></p>
+<p><a href="./wp-content/uploads/2016/10/nn.jpg"><img alt="network" src="./wp-content/uploads/2016/10/nn.jpg"></a></p>
 <p>Note that in the output layer of the policy network shown, the first three values are labeled with log probabilities. These values correspond to the probabilities that we should next bomb each of these indices, respectively. We cannot re-bomb the fourth and fifth grid points, so although the network may output some values to these neurons, we&#8217;ll ignore&nbsp;them.</p>
 <p>Before moving on, we note that the reason we use a neural network for our policy is to allow for efficient generalization: For games like Go that have a very large number of states, it is not feasible to collect data on every possible board position. This is exactly the context where <span class="caps">ML</span> algorithms excel &#8212; generalizing from past observations to make good predictions for new situations. In order to keep our focus on <span class="caps">RL</span>, we won&#8217;t review how <span class="caps">ML</span> algorithms work in this post (however, you can check out our <a href="http://efavdb.github.io/archives">archives</a> section for relevant primers). Instead we simply note that &#8212; utilizing these tools &#8212; we can get good performance by training only on a <em>representative subset</em> of games &#8212; allowing us to avoid study of the full set, which can be much&nbsp;larger.</p>
 <h4>The rewards&nbsp;function</h4>
@@ -154,15 +145,14 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 <p>That&#8217;s it for the basics of deep, policy-gradient <span class="caps">RL</span>. We now turn to our python example,&nbsp;battleship.</p>
 <h3>Python code walkthrough &#8212; battleship <span class="caps">RL</span></h3>
 <p>Load the needed&nbsp;packages.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="nn">pylab</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Define our network &#8212; a fully connected, three layer system. The code below is mostly tensorflow boilerplate that can be picked up by going through their first tutorials. The one unusual thing is that we have our learning rate in (26) set to the placeholder value (9). This will allow us to vary our step sizes with observed rewards captured&nbsp;below.</p>
-<div class="highlight"><pre><span></span><span class="n">BOARD_SIZE</span> <span class="o">=</span> <span class="mi">10</span>
+<div class="highlight"><pre><span></span><code><span class="n">BOARD_SIZE</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">SHIP_SIZE</span> <span class="o">=</span> <span class="mi">3</span>
 
 <span class="n">hidden_units</span> <span class="o">=</span> <span class="n">BOARD_SIZE</span>
@@ -191,13 +181,12 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 <span class="c1"># Start TF session</span>
 <span class="n">sess</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">()</span>
 <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">init</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next, we define a method that will allow us to play a game using our network. The <span class="caps">TRAINING</span> variable specifies whether or not to take the optimal moves or to select moves stochastically. Note that the method returns a set of logs that record the game proceedings. These are needed for&nbsp;training.</p>
-<div class="highlight"><pre><span></span><span class="n">TRAINING</span> <span class="o">=</span> <span class="kc">True</span>
+<div class="highlight"><pre><span></span><code><span class="n">TRAINING</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">def</span> <span class="nf">play_game</span><span class="p">(</span><span class="n">training</span><span class="o">=</span><span class="n">TRAINING</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Play game of battleship using network.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Play game of battleship using network.&quot;&quot;&quot;</span>
     <span class="c1"># Select random location for ship</span>
     <span class="n">ship_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">BOARD_SIZE</span> <span class="o">-</span> <span class="n">SHIP_SIZE</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">ship_positions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ship_left</span><span class="p">,</span> <span class="n">ship_left</span> <span class="o">+</span> <span class="n">SHIP_SIZE</span><span class="p">))</span>
@@ -221,21 +210,19 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
         <span class="n">current_board</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">bomb_index</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">bomb_index</span> <span class="ow">in</span> <span class="n">ship_positions</span><span class="p">)</span>
         <span class="n">action_log</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">bomb_index</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">board_position_log</span><span class="p">,</span> <span class="n">action_log</span><span class="p">,</span> <span class="n">hit_log</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Our implementation of the rewards function&nbsp;(\ref{rewards}):</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">rewards_calculator</span><span class="p">(</span><span class="n">hit_log</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Discounted sum of future hits over trajectory&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">rewards_calculator</span><span class="p">(</span><span class="n">hit_log</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Discounted sum of future hits over trajectory&quot;&quot;&quot;</span>
     <span class="n">hit_log_weighted</span> <span class="o">=</span> <span class="p">[(</span><span class="n">item</span> <span class="o">-</span>
     <span class="nb">float</span><span class="p">(</span><span class="n">SHIP_SIZE</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">hit_log</span><span class="p">[:</span><span class="n">index</span><span class="p">]))</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">BOARD_SIZE</span> <span class="o">-</span> <span class="n">index</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span>
         <span class="n">gamma</span> <span class="o">**</span> <span class="n">index</span><span class="p">)</span> <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hit_log</span><span class="p">)]</span>
     <span class="k">return</span> <span class="p">[((</span><span class="n">gamma</span><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="n">i</span><span class="p">))</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">(</span><span class="n">hit_log_weighted</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">hit_log</span><span class="p">))]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, our training loop. Here, we iteratively play through many games, scoring after each game, then adjusting parameters &#8212; setting the placeholder learning rate equal to <span class="caps">ALPHA</span> times the rewards&nbsp;captured.</p>
-<div class="highlight"><pre><span></span><span class="n">game_lengths</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight"><pre><span></span><code><span class="n">game_lengths</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">TRAINING</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># Boolean specifies training mode</span>
 <span class="n">ALPHA</span> <span class="o">=</span> <span class="mf">0.06</span> <span class="c1"># step size</span>
 
@@ -248,11 +235,10 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
         <span class="k">if</span> <span class="n">TRAINING</span><span class="p">:</span>
             <span class="n">sess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="n">train_step</span><span class="p">],</span>
                 <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span><span class="n">input_positions</span><span class="p">:</span><span class="n">current_board</span><span class="p">,</span> <span class="n">labels</span><span class="p">:[</span><span class="n">action</span><span class="p">],</span> <span class="n">learning_rate</span><span class="p">:</span><span class="n">ALPHA</span> <span class="o">*</span> <span class="n">reward</span><span class="p">})</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Running this last cell, we see that the training works! The following is an example trace from the play_game() method, with the variable <span class="caps">TRAINING</span> set to False. This illustrates an intelligent move selection&nbsp;process.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Example game trace output</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Example game trace output</span>
 <span class="p">([[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
 <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
 <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]],</span>
@@ -260,12 +246,11 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 <span class="p">[[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]]],</span>
 <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">],</span>
 <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Here, the first five lines are the board encodings that the network was fed each step &#8212; using (\ref{input}). The second to last row presents the sequential grid selections that were chosen. Finally, the last row is the hit log. Notice that the first two moves nicely sample different regions of the board. After this, a hit was recorded at <span class="math">\(6\)</span>. The algorithm then intelligently selects <span class="math">\(7\)</span> and <span class="math">\(8\)</span>, which it can infer must be the final locations of the&nbsp;ship.</p>
 <p>The plot below provides further characterization of the learning process. This shows the running average game length (steps required to fully bomb ship) versus training epoch. The program learns the basics quite quickly, then continues to gradually improve over time&nbsp;[2].</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2016/10/trace.jpg"><img alt="trace" src="https://efavdb.com/wp-content/uploads/2016/10/trace.jpg"></a></p>
+<p><a href="./wp-content/uploads/2016/10/trace.jpg"><img alt="trace" src="./wp-content/uploads/2016/10/trace.jpg"></a></p>
 <h3>Summary</h3>
 <p>In this post, we have covered a variant of <span class="caps">RL</span> &#8212; namely, the policy-gradient, deep <span class="caps">RL</span> scheme. This is a method that typically defaults to the currently best-known strategy, but occasionally samples from other approaches, ultimately resulting in an iterative improvement in policy. The two main ingredients here are the policy network and the rewards function. Although network architecture design is usually the place where most of the thinking is involved in supervised learning, it is the rewards function that typically requires the most thought in the <span class="caps">RL</span> context. A good choice should be as local in time as possible, so as to facilitate training (distant forecast dependence will result in a slow learning process). However, the rewards function should also directly attack the ultimate end of the process (&#8220;winning&#8221; the game &#8212; encouragement of side quests that aren&#8217;t necessary can often occur if care is not taken). Balancing these two competing demands can be a challenge, and rewards function design is therefore something of an art&nbsp;form.</p>
 <p>Our brief introduction here was intended only to illustrate the gist of how <span class="caps">RL</span> is carried out in practice. For further details, we can recommend two resources: the text book by Sutton and Barto [3] and a recent talk by John Schulman&nbsp;[4].</p>
@@ -342,11 +327,11 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Deep%20reinforcement%20learning%2C%C2%A0battleship&url=https%3A//efavdb.com/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Deep%20reinforcement%20learning%2C%C2%A0battleship&url=/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Deep%20reinforcement%20learning%2C%C2%A0battleship&amp;body=https%3A//efavdb.com/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Deep%20reinforcement%20learning%2C%C2%A0battleship&amp;body=/battleship" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -365,62 +350,12 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/battleship"
-                   href="https://efavdb.com/battleship#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/battleship';
-    var disqus_url = 'https://efavdb.com/battleship';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/gpu-accelerated-theano-keras-with-windows-10" title="Previous: GPU-accelerated Theano &amp; Keras with Windows 10">GPU-accelerated Theano & Keras with Windows 10</a></li>
-                <li class="next-article"><a href="https://efavdb.com/simple-python-to-latex-parser" title="Next: Simple python to LaTeX parser">Simple python to LaTeX parser</a> »</li>
+                <li class="previous-article">« <a href="./gpu-accelerated-theano-keras-with-windows-10" title="Previous: GPU-accelerated Theano &amp; Keras with Windows 10">GPU-accelerated Theano & Keras with Windows 10</a></li>
+                <li class="next-article"><a href="./simple-python-to-latex-parser" title="Next: Simple python to LaTeX parser">Simple python to LaTeX parser</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -429,7 +364,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2016-10-15T13:52:00-07:00">Oct 15, 2016</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#methods-theory-ref">Methods, Theory</a>
+            <a class="category-link" href="./categories.html#methods-theory-ref">Methods, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -466,7 +401,7 @@ Here, <span class="math">\(a_i\)</span> is the action that was taken, <span clas
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

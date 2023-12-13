@@ -12,7 +12,7 @@
 <meta name="keywords" content="linselect, linselect, " />
 
 <meta property="og:title" content="linselect demo: a tech sector stock analysis "/>
-<meta property="og:url" content="https://efavdb.com/linselect-demo" />
+<meta property="og:url" content="./linselect-demo" />
 <meta property="og:description" content="This is a tutorial post relating to our python feature selection package, linselect. The package allows one to easily identify minimal, informative feature subsets within a given data set. Here, we demonstrate linselect‘s basic API by exploring the relationship between the daily percentage lifts of 50 tech stocks over …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/linselect-demo">
+            <a href="./linselect-demo">
                 linselect demo: a tech sector stock&nbsp;analysis
             </a>
         </h1>
@@ -111,7 +102,7 @@
 <p>In this tutorial, we will explore using <code>linselect</code> to carry out various feature selection tasks on a prepared data set of daily percentage lifts for 50 of the largest tech stocks. This covers data from 2017-04-18 to 2018-04-13. In this section, we load the data and take a look at a couple of the stock traces that we will be&nbsp;studying.</p>
 <h3>Load&nbsp;data</h3>
 <p>The code snippet below loads the data and shows a small&nbsp;sample.</p>
-<div class="highlight"><pre><span></span><span class="c1"># load packages  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># load packages  </span>
 <span class="kn">from</span> <span class="nn">linselect</span> <span class="kn">import</span> <span class="n">FwdSelect</span><span class="p">,</span> <span class="n">RevSelect</span><span class="p">,</span> <span class="n">GenSelect</span>  
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
@@ -127,13 +118,12 @@
 <span class="c1"># 1 2017-04-19 -0.003683 0.003158 0.001374 0.017591  </span>
 <span class="c1"># 2 2017-04-20 0.012511 0.009215 0.009503 0.005459  </span>
 <span class="c1"># (248, 51)  </span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The last line here shows that there were 248 trading days in the range&nbsp;considered.</p>
 <h3>Plot some stock&nbsp;traces</h3>
 <p>The plot below shows Apple&#8217;s and Google&#8217;s daily lifts on top of each other, over our full date range (the code for the plot can be found in our notebook). Visually, it&#8217;s clear that the two are highly correlated &#8212; when one goes up or down, the other tends to as well. This suggests that it should be possible to get a good fit to any one of the stocks using the changes in each of the other&nbsp;stocks.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/apple_google.jpg"><img alt="apple_google" src="https://efavdb.com/wp-content/uploads/2018/05/apple_google.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/apple_google.jpg"><img alt="apple_google" src="./wp-content/uploads/2018/05/apple_google.jpg"></a></p>
 <p>In general, a stock&#8217;s daily price change should be a function of the market at large, the behavior of its market segment(s) and sub-segment(s), and some idiosyncratic behavior special to the company in question. Given this intuition, it seems reasonable to expect one to be able to fit a given stock given the lifts from just a small subset of the other stocks &#8212; stocks representative of the sectors relevant to the stock in question. Adding multiple stocks from each segment shouldn&#8217;t provide much additional value since these should be redundant. We&#8217;ll confirm this intuition below and use <code>linselect</code> to identify these optimal&nbsp;subsets.</p>
 <p><strong>Lesson</strong>: The fluctuations of related stocks are often highly correlated. Below, we will be using <code>linselect</code> to find minimal subsets of the 50 stocks that we can use to develop good linear fits to one, multiple, or all of the&nbsp;others.</p>
 <h2>2 - FwdSelect and RevSelect; supervised, single&nbsp;target</h2>
@@ -144,7 +134,7 @@
 </ul>
 <h3>Forward selection applied to <span class="caps">AAPL</span></h3>
 <p>The code snippet below uses our forward selection class, <code>FwdSelect</code> to seek the best feature subsets to fit <span class="caps">AAPL</span>&#8217;s&nbsp;performance.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define X, y variables  </span>
 <span class="k">def</span> <span class="nf">get_feature_tickers</span><span class="p">(</span><span class="n">targets</span><span class="p">):</span>  
     <span class="n">all_tickers</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">columns</span>  
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">all_tickers</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">targets</span><span class="p">)</span>
@@ -165,8 +155,7 @@
 
 <span class="c1"># [25, 7, 41]  </span>
 <span class="c1"># [0.43813848, 0.54534304, 0.58577418]  </span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The last two lines above print out the main outputs of <code>FwdSelect</code>:</p>
 <ul>
@@ -178,13 +167,13 @@
 <li>The <code>ordered_cods</code> list records the coefficient of determination (<span class="caps">COD</span> or R^2) of the fits in question &#8212; the first number gives the <span class="caps">COD</span> obtained with just <span class="caps">MSFT</span>, the second with <span class="caps">MSFT</span> and <span class="caps">AVGO</span>,&nbsp;etc.</li>
 </ul>
 <p>A plot of the values in <code>ordered_cods</code> versus feature count is given below. Here, we have labeled the x-axis with the tickers corresponding to the elements of our <code>selector.ordered_features</code>. We see that the top three features almost fit <span class="caps">AAPL</span>&#8217;s performance as well as the full&nbsp;set!</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/apple.png"><img alt="apple" src="https://efavdb.com/wp-content/uploads/2018/05/apple.png"></a></p>
+<p><a href="./wp-content/uploads/2018/05/apple.png"><img alt="apple" src="./wp-content/uploads/2018/05/apple.png"></a></p>
 <p><strong>Lesson</strong>: We can often use <code>linselect</code> to significantly reduce the dimension of a given feature set, with minimal cost in performance. This can be used to compress a data set and can also improve our understanding of the problem&nbsp;considered.</p>
 <p><strong>Lesson</strong>: To get a feel for the effective number of useful features we have at hand, we can plot the output <code>ordered_cods</code> versus feature&nbsp;count.</p>
 <h3>Compare forward and reverse selection applied to <span class="caps">TSLA</span></h3>
 <p>The code snippet below applies both <code>FwdSelect</code> and <code>RevSelect</code> to seek minimal subsets that fit Tesla&#8217;s daily lifts well. The outputs are plotted below this. This shows that <code>FwdSelect</code> performs slightly better when two or fewer features are included here, but that <code>RevSelect</code> finds better subsets after&nbsp;that.</p>
 <p><strong>Lesson</strong>: In general, we expect forward selection to work better when looking for small subsets and reverse selection to perform better at large&nbsp;subsets.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define X, y variables  </span>
 <span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TSLA&#39;</span><span class="p">]</span>  
 <span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>
 
@@ -198,14 +187,13 @@
 <span class="c1"># Reverse step-wise selection  </span>
 <span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
 <span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/rev2.jpg"><img alt="rev2" src="https://efavdb.com/wp-content/uploads/2018/05/rev2.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/rev2.jpg"><img alt="rev2" src="./wp-content/uploads/2018/05/rev2.jpg"></a></p>
 <h2>3 - FwdSelect and RevSelect; supervised, multiple&nbsp;targets</h2>
 <p>In the code below, we seek feature subsets that perform well when fitting multiple targets&nbsp;simultaneously.</p>
 <p><strong>Lesson</strong>: <code>linselect</code> can be used to find minimal feature subsets useful for fitting multiple targets. The optimal, &#8220;perfect score&#8221; <span class="caps">COD</span> in this case is equal to number of targets (three in our&nbsp;example).</p>
-<div class="highlight"><pre><span></span><span class="c1"># Define X, y variables  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define X, y variables  </span>
 <span class="n">TARGET_TICKERS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;TSLA&#39;</span><span class="p">,</span> <span class="s1">&#39;ADP&#39;</span><span class="p">,</span> <span class="s1">&#39;NFLX&#39;</span><span class="p">]</span>  
 <span class="n">FEATURE_TICKERS</span> <span class="o">=</span> <span class="n">get_feature_tickers</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)</span>
 
@@ -219,16 +207,15 @@
 <span class="c1"># Reverse step-wise selection  </span>
 <span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
 <span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/multiple.jpg"><img alt="multiple" src="https://efavdb.com/wp-content/uploads/2018/05/multiple.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/multiple.jpg"><img alt="multiple" src="./wp-content/uploads/2018/05/multiple.jpg"></a></p>
 <h2>4 - FwdSelect and RevSelect;&nbsp;unsupervised</h2>
 <p>Here, we seek those features that give us a best fit to / linear representation of the whole set. This goal is analogous to that addressed by <span class="caps">PCA</span>, but is a feature selection variant: Whereas <span class="caps">PCA</span> returns a set of linear combinations of the original features, the approach here will return a subset of the original features. This has the benefit of leaving one with a feature subset that is&nbsp;interpretable.</p>
 <p>(Note: See [1] for more examples like this. There, I show that if you try to fit smoothed versions of the stock performances, very good, small subsets can be found. Without smoothing, noise obscures this&nbsp;point).</p>
 <p><strong>Lesson</strong>: Unsupervised selection seeks to find those features that best describe the full data set &#8212; a feature selection analog of <span class="caps">PCA</span>.</p>
 <p><strong>Lesson</strong>: Again, a perfect <span class="caps">COD</span> score is equal to the number of targets. In the unsupervised case, this is also the number of features (50 in our&nbsp;example).</p>
-<div class="highlight"><pre><span></span><span class="c1"># Set X equal to full data set.  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set X equal to full data set.  </span>
 <span class="n">ALL_TICKERS</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>  
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ALL_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
@@ -238,10 +225,9 @@
 
 <span class="n">selector2</span> <span class="o">=</span> <span class="n">RevSelect</span><span class="p">()</span>  
 <span class="n">selector2</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/unsupervised.jpg"><img alt="unsupervised" src="https://efavdb.com/wp-content/uploads/2018/05/unsupervised.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/unsupervised.jpg"><img alt="unsupervised" src="./wp-content/uploads/2018/05/unsupervised.jpg"></a></p>
 <h2>5 -&nbsp;GenSelect</h2>
 <p><code>GenSelect</code><span class="quo">&#8216;</span>s <span class="caps">API</span> is designed to expose the full flexibility of the efficient linear stepwise algorithm. Because of this, its <span class="caps">API</span> is somewhat more complex than that of <code>FwdSelect</code> and <code>RevSelect</code>. Here, our aim is to quickly demo this <span class="caps">API</span>.</p>
 <p>The Essential&nbsp;ingredients:</p>
@@ -262,7 +248,7 @@
 <h3>Use GenSelect to carry out a forward sweep for <span class="caps">TSLA</span></h3>
 <p>The code below carries out a single forward sweep for <span class="caps">TSLA</span>. Note that the <code>protocol</code> argument of <code>search</code> is set to <code>(1, 0)</code>, which gives a forward search (see docstrings). For this reason, our results match those of <code>FwdSelect</code> at this&nbsp;point.</p>
 <p><strong>Lesson</strong>: Setting up a basic <code>GenSelect</code> call requires defining a few input&nbsp;parameters.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Define X  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Define X  </span>
 <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">ALL_TICKERS</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
 
 <span class="c1"># Define targets and mobile Boolean arrays  </span>
@@ -280,13 +266,12 @@
 <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]],</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">]</span>
 
 <span class="c1"># [&#39;ATVI&#39; &#39;AVGO&#39; &#39;CTSH&#39;] 0.225758  </span>
-</pre></div>
-
+</code></pre></div>
 
 <h3>Continue the search&nbsp;above</h3>
 <p>A <code>GenSelect</code> instance always retains a summary of the best results it has seen so far. This means that we can continue a search where we left off after a <code>search</code> call completes. Below, we reposition our search and sweep back and forth to better explore a particular region. Note that this slightly improves our&nbsp;result.</p>
 <p><strong>Lesson</strong>: We can carry out general search protocols using <code>GenSelect</code><span class="quo">&#8216;</span>s <code>position</code> and <code>search</code> methods.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Reposition back to the best fit of size 3 seen above.  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Reposition back to the best fit of size 3 seen above.  </span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
 <span class="n">selector</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
 
@@ -301,13 +286,12 @@
 <span class="nb">print</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ALL_TICKERS</span><span class="p">)[</span><span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]],</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="s1">&#39;cod&#39;</span><span class="p">]</span>
 
 <span class="c1"># [&#39;AMZN&#39; &#39;NVDA&#39; &#39;ZNGA&#39;] 0.229958  </span>
-</pre></div>
-
+</code></pre></div>
 
 <h3>Compare to forward and reverse search&nbsp;results</h3>
 <p>Below, we compare the <span class="caps">COD</span> values of our three&nbsp;classes.</p>
 <p><strong>Lesson</strong>: <code>GenSelect</code> can be used to do a more thorough search than <code>FwdSelect</code> and <code>RevSelect</code>, and so can sometimes find better feature&nbsp;subsets.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Get the best COD values seen for each feature set size from GenSelect search  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Get the best COD values seen for each feature set size from GenSelect search  </span>
 <span class="n">gen_select_cods</span> <span class="o">=</span> <span class="p">[]</span>  
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>  
     <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">:</span>  
@@ -331,14 +315,13 @@
 <span class="n">target</span><span class="o">=</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">TARGET_TICKERS</span><span class="p">)))</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/comparison.jpg"><img alt="comparison" src="https://efavdb.com/wp-content/uploads/2018/05/comparison.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/comparison.jpg"><img alt="comparison" src="./wp-content/uploads/2018/05/comparison.jpg"></a></p>
 <h3>Examine the cost of removing a feature from the predictor&nbsp;set</h3>
 <p>Below, we reposition to the best feature set of size 10 seen so far. We then apply the method <code>reverse_cods</code> to expose the cost of removing each of these individuals from the predictor set at this point. Were we to take a reverse step, the feature with the least cost would be the one taken (looks like <span class="caps">FB</span> from the&nbsp;plot).</p>
 <p><strong>Lesson</strong>: We can easily access the costs associated with removing individual features from our current location. We can also access the <span class="caps">COD</span> gains associated with adding in new features by calling the <code>forward_cods</code> method.</p>
-<div class="highlight"><pre><span></span><span class="c1"># Reposition  </span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Reposition  </span>
 <span class="n">s</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="n">best_results</span><span class="p">[</span><span class="mi">10</span><span class="p">][</span><span class="s1">&#39;s&#39;</span><span class="p">]</span>  
 <span class="n">selector</span><span class="o">.</span><span class="n">position</span><span class="p">(</span><span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">)</span>
 
@@ -352,10 +335,9 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">)</span>  
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">TICKERS</span><span class="p">)</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/05/cost.jpg"><img alt="cost" src="https://efavdb.com/wp-content/uploads/2018/05/cost.jpg"></a></p>
+<p><a href="./wp-content/uploads/2018/05/cost.jpg"><img alt="cost" src="./wp-content/uploads/2018/05/cost.jpg"></a></p>
 <h2>Final&nbsp;comments</h2>
 <p>In this tutorial, we&#8217;ve illustrated many of the basic <span class="caps">API</span> calls available in <code>linselect</code>. In a future tutorial post, we plan to illustrate some interesting use cases of some of these <span class="caps">API</span> calls &#8212; e.g., how to use <code>GenSelect</code><span class="quo">&#8216;</span>s arguments to explore the value of supplemental features, added to an already existing data&nbsp;set.</p>
 <h2>References</h2>
@@ -428,11 +410,11 @@
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=linselect%20demo%3A%20a%20tech%20sector%20stock%C2%A0analysis&url=https%3A//efavdb.com/linselect-demo&hashtags=linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=linselect%20demo%3A%20a%20tech%20sector%20stock%C2%A0analysis&url=/linselect-demo&hashtags=linselect" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/linselect-demo" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/linselect-demo" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=linselect%20demo%3A%20a%20tech%20sector%20stock%C2%A0analysis&amp;body=https%3A//efavdb.com/linselect-demo" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=linselect%20demo%3A%20a%20tech%20sector%20stock%C2%A0analysis&amp;body=/linselect-demo" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -451,62 +433,12 @@
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/linselect-demo"
-                   href="https://efavdb.com/linselect-demo#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/linselect-demo';
-    var disqus_url = 'https://efavdb.com/linselect-demo';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/gans" title="Previous: Making AI Interpretable with Generative Adversarial Networks">Making AI Interpretable with Generative Adversarial Networks</a></li>
-                <li class="next-article"><a href="https://efavdb.com/unsupervised-feature-selection-in-python-with-linselect" title="Next: Linear compression in python: PCA vs unsupervised feature selection">Linear compression in python: PCA vs unsupervised feature selection</a> »</li>
+                <li class="previous-article">« <a href="./gans" title="Previous: Making AI Interpretable with Generative Adversarial Networks">Making AI Interpretable with Generative Adversarial Networks</a></li>
+                <li class="next-article"><a href="./unsupervised-feature-selection-in-python-with-linselect" title="Next: Linear compression in python: PCA vs unsupervised feature selection">Linear compression in python: PCA vs unsupervised feature selection</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -515,10 +447,10 @@
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2018-05-31T14:17:00-07:00">May 31, 2018</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#linselect-ref">linselect</a>
+            <a class="category-link" href="./categories.html#linselect-ref">linselect</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#linselect-ref">linselect
+                <li><a href="./tags.html#linselect-ref">linselect
                     <span>2</span>
 </a></li>
             </ul>
@@ -558,7 +490,7 @@
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

@@ -12,7 +12,7 @@
 <meta name="keywords" content=", Methods, Statistics, Theory, " />
 
 <meta property="og:title" content="Integration method to map model scores to conversion rates from example data "/>
-<meta property="og:url" content="https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" />
+<meta property="og:url" content="./integration-method-to-map-model-scores-to-conversion-rates-from-example-data" />
 <meta property="og:description" content="This note addresses the typical applied problem of estimating from data how a target “conversion rate” function varies with some available scalar score function — e.g., estimating conversion rates from some marketing campaign as a function of a targeting model score. The idea centers around estimating the integral of the …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data">
+            <a href="./integration-method-to-map-model-scores-to-conversion-rates-from-example-data">
                 Integration method to map model scores to conversion rates from example&nbsp;data
             </a>
         </h1>
@@ -99,7 +90,7 @@
 <p>Here, we are interested in estimating a rate function, <span class="math">\(p \equiv p(x)\)</span>, representing the probability of some &#8220;conversion&#8221; event as a function of <span class="math">\(x\)</span>, some scalar model score. To do this, we assume we have access to a finite set of score-outcome data of the form <span class="math">\(\{(x_i, n_i), i= 1, \ldots ,k\}\)</span>. Here, <span class="math">\(x_i\)</span> is the score for example <span class="math">\(i\)</span> and <span class="math">\(n_i \in \{0,1\}\)</span> is its conversion&nbsp;indicator.</p>
 <p>There are a number of standard methods for estimating rate functions. For example, if the score <span class="math">\(x\)</span> is a prior estimate for the conversion rate, a trivial mapping <span class="math">\(p(x) = x\)</span> may work. This won&#8217;t work if the score function in question is not an estimate for <span class="math">\(p\)</span>. A more general approach is to bin together example data points that have similar scores: The observed conversion rate within each bin can then be used as an estimate for the true conversion rate in the bin&#8217;s score range. An example output of this approach is shown in Fig. 1. Another option is to create a moving average, analogous to the binned&nbsp;solution.</p>
 <p>The simple binning approach introduces two inefficiencies: (1) Binning coarsens a data set, resulting in a loss of information. (2) The data in one bin does not affect the data in the other bins, precluding exploitation of any global smoothness constraints that could be placed on <span class="math">\(p\)</span> as a function of <span class="math">\(x\)</span>. The running average approach is also subject to these issues. The method we discuss below alleviates both&nbsp;inefficiencies.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2018/03/image17.png"><img alt="" src="https://efavdb.com/wp-content/uploads/2018/03/image17.png"></a><br>
+<p><a href="./wp-content/uploads/2018/03/image17.png"><img alt="" src="./wp-content/uploads/2018/03/image17.png"></a><br>
 Fig. 1. Binned probability estimate approach: All data with scores in a given range are grouped together, and the outcomes from those data points are used to estimate the conversion rate in each bin. Here, the x-axis represents score range, data was grouped into six bins, and mean and standard deviation of the outcome probabilities were estimated from the observed outcomes within each&nbsp;bin.</p>
 <h3>Efficient estimates by&nbsp;integration</h3>
 <p>It can be difficult to directly fit a rate function p(x) using score-outcome data because data of this type does not lie on a continuous curve (the y-values alternate between 0 and 1, depending on the outcome for each example). However, if we consider the empirical integral of the available data, we obtain a smooth, increasing function that is much easier to&nbsp;fit.</p>
@@ -123,11 +114,11 @@ $$</div>
 <p><br>
 We can think of (\ref{3}) as the number of expected conversions given density-<span class="math">\(1\)</span> sampling over the <span class="math">\(x\)</span> range noted. Taking a fit to the <span class="math">\(\{(x_i, \hat{J}(x_i))\}\)</span> values gives a smooth estimate for (\ref{3}). Differentiating with respect to <span class="math">\(x\)</span> the gives an estimate for <span class="math">\(p(x)\)</span>. Fig. 2 illustrates the approach. Here, I fit the available data to a quadratic, capturing the growth in <span class="math">\(p\)</span> with <span class="math">\(x\)</span>.</p>
 <p>The example in Fig. 2 has no error bar shown. One way to obtain error bars would be to work with a particular fit form. The uncertainty in the fit coefficients could then be used to estimate uncertainties in the values at each&nbsp;point.</p>
-<p><a href="https://efavdb.com/wp-content/uploads/2018/03/image16-1.png"><img alt="image16" src="https://efavdb.com/wp-content/uploads/2018/03/image16-1.png"></a></p>
+<p><a href="./wp-content/uploads/2018/03/image16-1.png"><img alt="image16" src="./wp-content/uploads/2018/03/image16-1.png"></a></p>
 <p>Fig. 2. (Left) A plot of the empirical integral of the data used to generate Fig. 1 is in blue. A quadratic fit is shown in red. (Right) The derivative of the red fit function at left is shown, an estimate for the rate function in question, <span class="math">\(p\equiv p(x)\)</span>.</p>
 <h3>Example python&nbsp;code</h3>
 <p>The code snippet below carries out the procedure described above on a simple example. One example output is shown in Fig. 3 at the bottom of the section. Running the code multiple times gives one a sense of the error that is present in the predictions. In practical applications, this can&#8217;t be done so carrying out the error analysis procedure suggested above should be done to get a better sense of the error&nbsp;involved.</p>
-<div class="highlight"><pre><span></span><span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>  
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">pylab</span> <span class="n">inline</span>  
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>  
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">curve_fit</span>
 
@@ -169,10 +160,9 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="n">p_fit</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;fit to p versus x&#39;</span><span class="p">)</span>  
 <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="s1">&#39;k--&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;actual p versus x&#39;</span><span class="p">)</span>  
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>  
-</pre></div>
+</code></pre></div>
 
-
-<p><a href="https://efavdb.com/wp-content/uploads/2018/03/example_fit.png"><img alt="example_fit" src="https://efavdb.com/wp-content/uploads/2018/03/example_fit.png"></a></p>
+<p><a href="./wp-content/uploads/2018/03/example_fit.png"><img alt="example_fit" src="./wp-content/uploads/2018/03/example_fit.png"></a></p>
 <p>Fig. 3. The result of one run of the algorithm on a data set where <span class="math">\(p(x) \equiv x^2\)</span>, given 200 random samples of <span class="math">\(x \in (0, 1)\)</span>.</p>
 <script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -242,11 +232,11 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Integration%20method%20to%20map%20model%20scores%20to%20conversion%20rates%20from%20example%C2%A0data&url=https%3A//efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Integration%20method%20to%20map%20model%20scores%20to%20conversion%20rates%20from%20example%C2%A0data&url=/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Integration%20method%20to%20map%20model%20scores%20to%20conversion%20rates%20from%20example%C2%A0data&amp;body=https%3A//efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Integration%20method%20to%20map%20model%20scores%20to%20conversion%20rates%20from%20example%C2%A0data&amp;body=/integration-method-to-map-model-scores-to-conversion-rates-from-example-data" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -265,62 +255,12 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data"
-                   href="https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data';
-    var disqus_url = 'https://efavdb.com/integration-method-to-map-model-scores-to-conversion-rates-from-example-data';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/gaussian-processes" title="Previous: Gaussian Processes">Gaussian Processes</a></li>
-                <li class="next-article"><a href="https://efavdb.com/gans" title="Next: Making AI Interpretable with Generative Adversarial Networks">Making AI Interpretable with Generative Adversarial Networks</a> »</li>
+                <li class="previous-article">« <a href="./gaussian-processes" title="Previous: Gaussian Processes">Gaussian Processes</a></li>
+                <li class="next-article"><a href="./gans" title="Next: Making AI Interpretable with Generative Adversarial Networks">Making AI Interpretable with Generative Adversarial Networks</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -329,7 +269,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2018-03-03T17:53:00-08:00">Mar 3, 2018</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
+            <a class="category-link" href="./categories.html#methods-statistics-theory-ref">Methods, Statistics, Theory</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -366,7 +306,7 @@ We can think of (\ref{3}) as the number of expected conversions given density-<s
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

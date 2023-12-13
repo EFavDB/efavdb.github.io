@@ -12,7 +12,7 @@
 <meta name="keywords" content=", programming, Case studies, " />
 
 <meta property="og:title" content="Counting the number of ways to make change for a trillion dollars "/>
-<meta property="og:url" content="https://efavdb.com/change" />
+<meta property="og:url" content="./change" />
 <meta property="og:description" content="There are four ways to make change for \(N=10\) cents: \(\{\)10 pennies; 1 nickel and 5 pennies; 2 nickels; 1 dime\(\}\). How many ways are there to make change for one trillion dollars — using just pennies, nickels, dimes, and quarters? To answer this, we present here a hybrid dynamic …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/change">
+            <a href="./change">
                 Counting the number of ways to make change for a trillion&nbsp;dollars
             </a>
         </h1>
@@ -154,10 +145,10 @@ On my laptop, I can evaluate the result for one-hundred thousand dollars in
 about <span class="math">\(20\)</span> seconds.  The runtime of our program scales linearly with <span class="math">\(N\)</span>
 though, so it would take it about <span class="math">\(2 \cdot 10^{7}\)</span> seconds to get our target
 result &#8212; too&nbsp;slow.</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="k">def</span> <span class="nf">ways_to_make_change</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">denominations_list</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">25</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    This function calculates the number of ways to make change for N cents,</span>
 <span class="sd">    using only the denominations included in the passed `denominations_list`.</span>
 
@@ -181,11 +172,10 @@ result &#8212; too&nbsp;slow.</p>
 <span class="nb">print</span><span class="p">(</span><span class="n">ways_to_make_change</span><span class="p">(</span><span class="mi">100</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>  
 
 <span class="c1"># output: 242</span>
-</pre></div>
-
+</code></pre></div>
 
 <h5>Geometric interpretation, large <span class="math">\(N\)</span> limiting&nbsp;form</h5>
-<p><img alt="![lattice]({static}/images/change_lattice.png)" src="https://efavdb.com/images/change_lattice.png"></p>
+<p><img alt="![lattice]({static}/images/change_lattice.png)" src="./images/change_lattice.png"></p>
 <p>In this section, we briefly consider the geometry of our problem. The plot
 above is a 3d visual of all the possible ways to make change for one dollar:
 Each point here has an <span class="math">\((x,y,z)\)</span> position that encodes the number of nickels,
@@ -450,11 +440,11 @@ limit to leading order, so will give us the leading order&nbsp;result.</p>
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Counting%20the%20number%20of%20ways%20to%20make%20change%20for%20a%20trillion%C2%A0dollars&url=https%3A//efavdb.com/change" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Counting%20the%20number%20of%20ways%20to%20make%20change%20for%20a%20trillion%C2%A0dollars&url=/change" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/change" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/change" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Counting%20the%20number%20of%20ways%20to%20make%20change%20for%20a%20trillion%C2%A0dollars&amp;body=https%3A//efavdb.com/change" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Counting%20the%20number%20of%20ways%20to%20make%20change%20for%20a%20trillion%C2%A0dollars&amp;body=/change" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -473,62 +463,12 @@ limit to leading order, so will give us the leading order&nbsp;result.</p>
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/change"
-                   href="https://efavdb.com/change#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/change';
-    var disqus_url = 'https://efavdb.com/change';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/generalized_dollar_cost_averaging" title="Previous: Generalized Dollar Cost Averaging">Generalized Dollar Cost Averaging</a></li>
-                <li class="next-article"><a href="https://efavdb.com/memory recall" title="Next: Spaced repetition can allow for infinite recall">Spaced repetition can allow for infinite recall</a> »</li>
+                <li class="previous-article">« <a href="./generalized_dollar_cost_averaging" title="Previous: Generalized Dollar Cost Averaging">Generalized Dollar Cost Averaging</a></li>
+                <li class="next-article"><a href="./memory recall" title="Next: Spaced repetition can allow for infinite recall">Spaced repetition can allow for infinite recall</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -537,7 +477,7 @@ limit to leading order, so will give us the leading order&nbsp;result.</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2021-11-22T09:24:00-08:00">Nov 22, 2021</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#programming-case-studies-ref">programming, Case studies</a>
+            <a class="category-link" href="./categories.html#programming-case-studies-ref">programming, Case studies</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -574,7 +514,7 @@ limit to leading order, so will give us the leading order&nbsp;result.</p>
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

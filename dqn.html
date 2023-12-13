@@ -12,7 +12,7 @@
 <meta name="keywords" content="machine learning, reinforcement learning, OpenAI, Machine learning, " />
 
 <meta property="og:title" content="Q-learning and DQN "/>
-<meta property="og:url" content="https://efavdb.com/dqn" />
+<meta property="og:url" content="./dqn" />
 <meta property="og:description" content="[TOC] Q-learning is a reinforcement learning (RL) algorithm that is the basis for deep Q networks (DQN), the algorithm by Google DeepMind that achieved human-level performance for a range of Atari games and kicked off the deep RL revolution starting in 2013-2015. We begin with some historical context, then provide …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Cathy Yeh" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/dqn">
+            <a href="./dqn">
                 Q-learning and <span class="caps">DQN</span>
             </a>
         </h1>
@@ -109,10 +100,11 @@
 <p>Until 2013, most applications of <span class="caps">RL</span> relied on hand engineered inputs for value function and policy representations, which drastically limited the scope of applicability to the real world.  Mnih et. al [1] made use of advances in computational power and neural network (<span class="caps">NN</span>) architectures to use a deep <span class="caps">NN</span> for <em>value function approximation</em>, showing that NNs can learn a useful representation from raw pixel inputs in Atari&nbsp;games.</p>
 <h3>Variations on a theme: vanilla <span class="caps">RL</span> algorithms don’t work well&nbsp;out-of-the-box</h3>
 <p>The basic <span class="caps">RL</span> algorithms that were developed decades ago do not work well in practice without modifications.  For example, <span class="caps">REINFORCE</span> relies on Monte Carlo estimates of the performance gradient; such estimates of the performance gradient are high variance, resulting in unstable or impractically slow learning (poor sample efficiency).  The original Q-learning algorithm also suffers from instability due to correlated sequential training data and parameter updates affecting both the estimator and target, creating a “moving target” and hence&nbsp;divergences.</p>
-<p>We can think of these original <span class="caps">RL</span> algorithms as the Wright Brothers plane.
+<p>We can think of these original <span class="caps">RL</span> algorithms as the Wright Brothers&nbsp;plane.</p>
 <p align="center">
 <img src="images/wright_brothers_plane.png" alt="Wright brothers plane" style="width:500px;">
-</p></p>
+</p>
+
 <p>The foundational shape is there and recognizable in newer models.  However, the enhancements of newer algorithms aren&#8217;t just bells and whistles &#8212; they have enabled the move from toy problems into more functional&nbsp;territory.</p>
 <h2>Q-learning</h2>
 <h3>Background</h3>
@@ -126,7 +118,7 @@ q_*(s, a) &amp;=&amp; \mathbb{E}_{\pi*} [R_{t+1} + \gamma \max_{a'} q_*(S_{t+1}'
           &amp;=&amp; \sum_{s', r} p(s', r | s, a) [r + \gamma \max_{a'} q_*(s', a') ]
 \end{eqnarray}</div>
 <p>where <span class="math">\(0 \leq \gamma \leq 1\)</span> is the <em>discount rate</em> which characterizes how much we weight rewards now vs. later, <span class="math">\(R_{t+1}\)</span> is the reward at timestep <span class="math">\(t+1\)</span>, and <span class="math">\(p(s', r | s, a)\)</span> is the environment transition&nbsp;dynamics.</p>
-<p>Our <a href="https://efavdb.com/intro-rl-toy-example.html">introduction to <span class="caps">RL</span></a> provides more background on the Bellman equations in case (\ref{action-value-bellman-optimality}) looks&nbsp;unfamiliar.</p>
+<p>Our <a href="./intro-rl-toy-example.html">introduction to <span class="caps">RL</span></a> provides more background on the Bellman equations in case (\ref{action-value-bellman-optimality}) looks&nbsp;unfamiliar.</p>
 <h3>The Q-learning approach to solving the Bellman&nbsp;equation</h3>
 <p>We use capitalized <span class="math">\(Q\)</span> to denote an estimate and lowercase <span class="math">\(q\)</span> to denote the real action-value function.  The Q-learning algorithm makes the following&nbsp;update:</p>
 <div class="math">\begin{eqnarray}\label{q-learning} \tag{2}
@@ -135,10 +127,10 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
 <p>The quantity in square brackets in (\ref{q-learning}) is exactly 0 for the optimal action-value, <span class="math">\(q*\)</span>, based on (\ref{action-value-bellman-optimality}).  We can think of it as an error term, “the Bellman error”, that describes how far off the target quantity <span class="math">\(R_{t+1} + \gamma \max_a Q(S_{t+1}, a)\)</span> is from our current estimate <span class="math">\(Q(S_t, A_t)\)</span>.</p>
 <p>The goal with Q-learning is to iteratively calculate (\ref{q-learning}), updating our estimate of <span class="math">\(Q\)</span> to reduce the Bellman error, until we have converged on a&nbsp;solution.</p>
 <p><strong>Q-learning makes two&nbsp;approximations:</strong></p>
-<p>I. It replaces the expectation value in (\ref{action-value-bellman-optimality}) with sampled estimates, similar to Monte Carlo estimates.  Unlike the dynamic programming approach we described in an earlier <a href="https://efavdb.com/dp-in-rl.html">post</a>, sampling is necessary since we don&#8217;t have access to the model of the environment, i.e. the environment transition&nbsp;dynamics.</p>
+<p>I. It replaces the expectation value in (\ref{action-value-bellman-optimality}) with sampled estimates, similar to Monte Carlo estimates.  Unlike the dynamic programming approach we described in an earlier <a href="./dp-in-rl.html">post</a>, sampling is necessary since we don&#8217;t have access to the model of the environment, i.e. the environment transition&nbsp;dynamics.</p>
 <p><span class="caps">II</span>. It replaces the target <span class="math">\(R_{t+1} + \max_a \gamma q_*(s’,a’)\)</span> in (\ref{action-value-bellman-optimality}), which contains the true action-value function <span class="math">\(q_*\)</span>, with the one-step temporal difference, <span class="caps">TD</span>(0), target <span class="math">\(R_{t+1} + \gamma \max_a Q(S_{t+1}, a)\)</span>.  The <span class="caps">TD</span>(0) target is an example of <em>bootstrapping</em> because it makes use of the current estimate of the action-value function, instead of, say the cumulative rewards from an entire episode, which would be a Monte Carlo target.  Temporal difference methods reduce variance that comes from sampling a single trajectory like Monte Carlo at the cost of introducing bias from using an approximate function in the target for&nbsp;updates.</p>
 <p>Figure 8.11 of [7] nicely summarizes the types of approximations and their limits in the following&nbsp;diagram:</p>
-<p><img alt="backup approximations" src="https://efavdb.com/images/backup_limits_diagram_sutton_barto.png"></p>
+<p><img alt="backup approximations" src="./images/backup_limits_diagram_sutton_barto.png"></p>
 <h2>Deep Q-Networks (<span class="caps">DQN</span>)</h2>
 <h3>Key contributions to&nbsp;Q-learning</h3>
 <p>The <span class="caps">DQN</span> authors made two key enhancements to the original Q-learning algorithm to actually make it&nbsp;work:</p>
@@ -156,7 +148,7 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
 <p>We’ve implemented <span class="caps">DQN</span> <a href="https://github.com/frangipane/reinforcement-learning/blob/master/DQN/dqn.py">here</a>, tested for (1) the <a href="https://gym.openai.com/envs/CartPole-v1/">Cartpole</a> toy problem, which uses a multilayer perceptron <code>MLPCritic</code> as the Q-function approximator for non-visual input data, and (2) Atari Breakout, which uses a convolutional neural network <code>CNNCritic</code> as the Q-function approximator for the (visual) Atari pixel&nbsp;data.</p>
 <p>The Cartpole problem is trainable on the average modern laptop <span class="caps">CPU</span>, but we recommend using a beefier setup with GPUs and lots of memory to do Q-learning on Atari.  Thanks to the OpenAI Scholars program and Microsoft, we were able to train <span class="caps">DQN</span> on Breakout using an Azure <a href="https://docs.microsoft.com/en-us/azure/virtual-machines/nc-series">Standard_NC24</a> consisting of 224 GiB <span class="caps">RAM</span> and 2 K80&nbsp;GPUs.</p>
 <p>The values from the <span class="math">\(Q\)</span> estimator and frozen target network are fed into the Huber loss that is used to update the parameters of the Q-function in this code&nbsp;snippet:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">compute_loss_q</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_loss_q</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;obs&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;act&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;rew&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;obs2&#39;</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;done&#39;</span><span class="p">]</span>
 
         <span class="c1"># Pick out q-values associated with / indexed by the action that was taken</span>
@@ -172,12 +164,11 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
         <span class="n">loss_q</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">smooth_l1_loss</span><span class="p">(</span><span class="n">q</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">backup</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="n">loss_q</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The experience replay buffer was taken from OpenAI’s Spinning Up in <span class="caps">RL</span> [6] code tutorials for the&nbsp;problem:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ReplayBuffer</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">ReplayBuffer</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    A simple FIFO experience replay buffer for DDPG agents.</span>
 
 <span class="sd">    Copied from: https://github.com/openai/spinningup/blob/master/spinup/algos/pytorch/ddpg/ddpg.py#L11,</span>
@@ -206,12 +197,11 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;act&#39;</span>
                 <span class="k">else</span> <span class="n">torch</span><span class="o">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span> 
                 <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">batch</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, we used OpenAI’s baselines <a href="https://github.com/openai/baselines/blob/master/baselines/common/atari_wrappers.py">Atari wrappers</a> to handle the rather involved data preprocessing&nbsp;steps.</p>
 <p>You can see logs and plots like this plot of the mean raw returns per step in the environment for the Atari <span class="caps">DQN</span> training run in our <a href="https://app.wandb.ai/frangipane/dqn/runs/30fhfv6y?workspace=user-frangipane">wandb dashboard</a>.</p>
-<p><img alt="training curve" src="https://efavdb.com/images/atari_training_returns.png"></p>
+<p><img alt="training curve" src="./images/atari_training_returns.png"></p>
 <h2>Conclusion</h2>
 <p>From a pedagogical point of view, Q-learning is a good study for someone getting off the ground with <span class="caps">RL</span> since it pulls together many core <span class="caps">RL</span> concepts,&nbsp;namely:</p>
 <ol>
@@ -307,11 +297,11 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Q-learning%20and%20DQN&url=https%3A//efavdb.com/dqn&hashtags=machine-learning,reinforcement-learning,openai" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Q-learning%20and%20DQN&url=/dqn&hashtags=machine-learning,reinforcement-learning,openai" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/dqn" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/dqn" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Q-learning%20and%20DQN&amp;body=https%3A//efavdb.com/dqn" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Q-learning%20and%20DQN&amp;body=/dqn" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -330,62 +320,12 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/dqn"
-                   href="https://efavdb.com/dqn#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/dqn';
-    var disqus_url = 'https://efavdb.com/dqn';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/pooling" title="Previous: Sample pooling to reduce needed disease screening test counts">Sample pooling to reduce needed disease screening test counts</a></li>
-                <li class="next-article"><a href="https://efavdb.com/random-walk-scaling" title="Next: 2-D random walks are special">2-D random walks are special</a> »</li>
+                <li class="previous-article">« <a href="./pooling" title="Previous: Sample pooling to reduce needed disease screening test counts">Sample pooling to reduce needed disease screening test counts</a></li>
+                <li class="next-article"><a href="./random-walk-scaling" title="Next: 2-D random walks are special">2-D random walks are special</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -394,16 +334,16 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2020-04-06T00:00:00-07:00">Apr 6, 2020</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#machine-learning-ref">Machine learning</a>
+            <a class="category-link" href="./categories.html#machine-learning-ref">Machine learning</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
-                <li><a href="https://efavdb.com/tags.html#machine-learning-ref">machine learning
+                <li><a href="./tags.html#machine-learning-ref">machine learning
                     <span>10</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#openai-ref">OpenAI
+                <li><a href="./tags.html#openai-ref">OpenAI
                     <span>4</span>
 </a></li>
-                <li><a href="https://efavdb.com/tags.html#reinforcement-learning-ref">reinforcement learning
+                <li><a href="./tags.html#reinforcement-learning-ref">reinforcement learning
                     <span>7</span>
 </a></li>
             </ul>
@@ -443,7 +383,7 @@ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha [R_{t+1} + \gamma \max_a Q(S_{t+1}, 
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 

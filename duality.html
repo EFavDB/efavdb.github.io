@@ -12,7 +12,7 @@
 <meta name="keywords" content=", optimization, " />
 
 <meta property="og:title" content="Physics-based proof of the duality theorem for linear programs "/>
-<meta property="og:url" content="https://efavdb.com/duality" />
+<meta property="og:url" content="./duality" />
 <meta property="og:description" content="Textbook proofs of the duality theorem often apply abstract arguments that offer little tangible insight into the relationship between a linear program and its dual. Here, we map the general linear program onto a simple mechanics problem. In this context, the significance of the theorem is relatively clear. The general …" />
 <meta property="og:site_name" content="EFAVDB" />
 <meta property="og:article:author" content="Jonathan Landy" />
@@ -25,25 +25,16 @@
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:300,400,700" rel="stylesheet" type='text/css' />
         <link href="https://fonts.googleapis.com/css?family=Cardo:400,700" rel="stylesheet" type='text/css' />        
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/elegant.prod.css" media="screen">
-        <link rel="stylesheet" type="text/css" href="https://efavdb.com/theme/css/custom.css" media="screen">
-
-        <link href="https://efavdb.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="EFAVDB - Full Atom Feed" />
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-     (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-57405119-1', 'auto');
-    ga('send', 'pageview');
-</script>
+        <link rel="stylesheet" type="text/css" href="./theme/css/elegant.prod.css" media="screen">
+        <link rel="stylesheet" type="text/css" href="./theme/css/custom.css" media="screen">
 
 
-        <link rel="apple-touch-icon" sizes="180x180" href="https://efavdb.com/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="https://efavdb.com/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="https://efavdb.com/images/favicon-16x16.png">
-        <link rel="manifest" href="https://efavdb.com/images/site.webmanifest">
-        <link rel="mask-icon" href="https://efavdb.com/images/safari-pinned-tab.svg" color="#5bbad5">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+        <link rel="manifest" href="./images/site.webmanifest">
+        <link rel="mask-icon" href="./images/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
     </head>
@@ -57,19 +48,19 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </a>
-                        <a class="brand" href="https://efavdb.com/"><span class=site-name>EFAVDB</span></a>
+                        <a class="brand" href="./"><span class=site-name>EFAVDB</span></a>
                         <div class="nav-collapse collapse">
                             <ul class="nav pull-right top-menu">
                                 <li >
                                     <a href=
-                                       https://efavdb.com
+                                       .
                                     >Home</a>
                                 </li>
-                                <li ><a href="https://efavdb.com/pages/authors.html">Authors</a></li>
-                                <li ><a href="https://efavdb.com/categories.html">Categories</a></li>
-                                <li ><a href="https://efavdb.com/tags.html">Tags</a></li>
-                                <li ><a href="https://efavdb.com/archives.html">Archives</a></li>
-                                <li><form class="navbar-search" action="https://efavdb.com/search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
+                                <li ><a href="./pages/authors.html">Authors</a></li>
+                                <li ><a href="./categories.html">Categories</a></li>
+                                <li ><a href="./tags.html">Tags</a></li>
+                                <li ><a href="./archives.html">Archives</a></li>
+                                <li><form class="navbar-search" action="./search.html" onsubmit="return validateForm(this.elements['q'].value);"> <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input"></form></li>
                             </ul>
                         </div>
                     </div>
@@ -83,7 +74,7 @@
 <div class="row-fluid">
     <header class="page-header span8 offset2">
         <h1>
-            <a href="https://efavdb.com/duality">
+            <a href="./duality">
                 Physics-based proof of the duality theorem for linear&nbsp;programs
             </a>
         </h1>
@@ -167,10 +158,10 @@ further requires that the long range forces each be either attractive or zero.
 A simple example of the sort of physical system we&#8217;ve described here is shown
 in Fig.&nbsp;1a.</p>
 <hr>
-<p><figure class="image">
+<figure class="image">
   <img src="images/duality.png">
 </figure>
-<b>Fig. 1:</b> An example system:  (a) A particle at <span class="math">\(\textbf{x}_p=\textbf{0}\)</span>
+<p><b>Fig. 1:</b> An example system:  (a) A particle at <span class="math">\(\textbf{x}_p=\textbf{0}\)</span>
 interacts with three walls.  The total long range force on the particle is
 <span class="math">\(\sum_i w_i \hat{\textbf{A}}_i = \textbf{c}\)</span>. (b) The particle sits at its long
 range potential minimum, <span class="math">\(\textbf{x}^*\)</span>, with walls <span class="math">\(2\)</span> and <span class="math">\(3\)</span> <span class="dquo">&#8220;</span>binding&#8221;.
@@ -343,11 +334,11 @@ Press,&nbsp;(2013).</p>
  
                 <p id="post-share-links">
     Like this post?  Share on:
-    <a href="https://twitter.com/intent/tweet?text=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&url=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
+    <a href="https://twitter.com/intent/tweet?text=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&url=/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Twitter">Twitter</a>
     |
-    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
+    <a href="https://www.facebook.com/sharer/sharer.php?u=/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share on Facebook">Facebook</a>
     |
-    <a href="mailto:?subject=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&amp;body=https%3A//efavdb.com/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
+    <a href="mailto:?subject=Physics-based%20proof%20of%20the%20duality%20theorem%20for%20linear%C2%A0programs&amp;body=/duality" target="_blank" rel="nofollow noopener noreferrer" title="Share via Email">Email</a>
     </p>
 
                 <hr />
@@ -366,62 +357,12 @@ Press,&nbsp;(2013).</p>
 
 
 
-<section>
-    <h6 style="display:none;">Comments</h6>
-    <p id="comment-message"> </p>
-
-    <div class="accordion" id="accordion2">
-        <div class="accordion-group">
-            <div class="accordion-heading">
-                <a class="accordion-toggle disqus-comment-count comment-count"
-                   data-toggle="collapse"
-                   data-parent="#accordion2"
-                   data-disqus-identifier="https://efavdb.com/duality"
-                   href="https://efavdb.com/duality#comment_thread"
-                   id="comment-accordion-toggle">
-                    Comments
-                </a>
-            </div>
-            <div id="comment_thread" class="accordion-body collapse">
-                <div class="accordion-inner">
-                    <div class="comments">
-                        <div id="disqus_thread"></div>
-                        <script>
-    var disqus_shortname = 'efavdb2';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-
-    var disqus_identifier = 'https://efavdb.com/duality';
-    var disqus_url = 'https://efavdb.com/duality';
-
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-
-<noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
             <hr/>
             <aside>
             <nav>
             <ul class="articles-timeline">
-                <li class="previous-article">« <a href="https://efavdb.com/to-flourish-or-to-perish" title="Previous: To Flourish or to Perish">To Flourish or to Perish</a></li>
-                <li class="next-article"><a href="https://efavdb.com/generalized_dollar_cost_averaging" title="Next: Generalized Dollar Cost Averaging">Generalized Dollar Cost Averaging</a> »</li>
+                <li class="previous-article">« <a href="./to-flourish-or-to-perish" title="Previous: To Flourish or to Perish">To Flourish or to Perish</a></li>
+                <li class="next-article"><a href="./generalized_dollar_cost_averaging" title="Next: Generalized Dollar Cost Averaging">Generalized Dollar Cost Averaging</a> »</li>
             </ul>
             </nav>
             </aside>
@@ -430,7 +371,7 @@ Press,&nbsp;(2013).</p>
             <h4>Published</h4>
             <time itemprop="dateCreated" datetime="2021-02-14T09:24:00-08:00">Feb 14, 2021</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://efavdb.com/categories.html#optimization-ref">optimization</a>
+            <a class="category-link" href="./categories.html#optimization-ref">optimization</a>
 <h4>Contact</h4>
 <div id="sidebar-social-link">
     <a href="https://twitter.com/efavdb" title="" target="_blank" rel="nofollow noopener noreferrer">
@@ -467,7 +408,7 @@ Press,&nbsp;(2013).</p>
 <footer>
 
     <div>
-        <span class="site-name"><a href= https://efavdb.com>EFAVDB</span> - Everybody's Favorite Data Blog</a>
+        <span class="site-name"><a href= .>EFAVDB</span> - Everybody's Favorite Data Blog</a>
     </div>
 
 
